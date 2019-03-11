@@ -1,1 +1,11 @@
 /* You can add global styles to this file, and also import other style files */
+.erro {
+    background: #F5A9A9 !important;
+    cursor: pointer;
+    font-weight: bold;
+}
+.possivelSolucao {
+    background: #A9F5A9 !important;
+    cursor: pointer;
+    font-weight: bold;
+}
