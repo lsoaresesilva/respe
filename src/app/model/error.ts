@@ -10,6 +10,8 @@ export abstract class Error {
         let consulta = erro.match(padrao);
 
         this.texto = erro;
+
+        console.log(consulta);
         if (consulta != null) {
             this.tipo = consulta[1];
             this.linha = consulta[2];
@@ -17,7 +19,7 @@ export abstract class Error {
 
     }
 
-    identificarTipoErro(mensagemErro) {
+    identificar(mensagemErro) {
         // SE tipo erro for nameError
         let padrao = /"([a-zA-Z]+): /;
         var consulta = mensagemErro.match(padrao);
@@ -40,7 +42,7 @@ export abstract class Error {
         }
     }
 
-    abstract mensagemErro();
+    abstract mensagem();
 
     /*obterLinhaComErro(erro) {
     //var padrao = new RegExp("([a-zA-Z]+): name \'([a-zA-Z]+)\' is not defined on line ([0-9]+)");

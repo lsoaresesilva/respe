@@ -8,18 +8,28 @@ import { EditorComponent } from './editor/editor.component';
 
 import {ButtonModule} from 'primeng/button';
 
+import { AngularFireModule } from '@angular/fire';
+import { AngularFirestoreModule } from '@angular/fire/firestore';
+
+import { FirebaseConfiguracao } from 'src/environments/firebase';
+import { LoginComponent } from './login/login.component';
+import { LoginService } from './login.service';
+
 @NgModule({
   declarations: [
     AppComponent,
-    EditorComponent
+    EditorComponent,
+    LoginComponent
   ],
   imports: [
     BrowserModule,
     AppRoutingModule,
     FormsModule,
-    ButtonModule
+    ButtonModule,
+    AngularFireModule.initializeApp(FirebaseConfiguracao),
+    AngularFirestoreModule
   ],
-  providers: [],
+  providers: [LoginService],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

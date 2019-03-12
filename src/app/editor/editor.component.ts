@@ -27,7 +27,7 @@ export class EditorComponent implements OnInit {
   }
 
   ngOnInit() {
-    this.editorCodigo = new Editor();
+    this.editorCodigo = Editor.getInstance();
   }
 
   
@@ -44,7 +44,7 @@ export class EditorComponent implements OnInit {
   // call Sk.importMainWithBody()
   runit() {
     
-    this.editorCodigo.algoritmo.setAlgoritmo(editor.getValue()); // TODO: mudar para o onkeypress
+    this.editorCodigo.codigo.setAlgoritmo(editor.getValue()); // TODO: mudar para o onkeypress
     
 
     Sk.pre = "output";
@@ -68,7 +68,7 @@ export class EditorComponent implements OnInit {
       function (err) {
         console.log(err.toString());
         _this.editorCodigo.prepararStatus(false);
-        _this.editorCodigo.prepararSaidaErro(err);
+        _this.editorCodigo.prepararSaidaErro(err.toString());
 
         // destacar a possivel solução
           // encontrar a solução

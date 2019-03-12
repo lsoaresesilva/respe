@@ -1,5 +1,3 @@
-import { Error } from './error';
-import Solucao from './solucaoFactory';
 import Codigo from './codigo';
 import ErroFactory from './erroFactory';
 import SolucaoFactory from './solucaoFactory';
@@ -9,43 +7,56 @@ declare var editor: any;
 export default class Editor {
 
     saida: string;
-    statusExecucao:string;
-    algoritmo;
+    statusExecucao: string;
+    codigo;
     decorations = [];
 
-    constructor(){
+    static instance;
+
+    private constructor() {
         //this.editor = editor;
-        this.algoritmo = new Codigo();
+        this.codigo = new Codigo();
         this.statusExecucao = "";
     }
 
+    static getInstance(){
+        if(this.instance == null){
+            this.instance = new Editor();
+        }
+
+        return this.instance;
+    }
+
     destacarLinha(linha, status) {
-        const lineLength = editor.getModel().getLineLength(linha);
-        linha = parseInt(linha);
-    
-        this.decorations.push({ range: new monaco.Range(linha, 1, linha, lineLength), options: { isWholeLine:true, inlineClassName: (status == "erro"?'erro':"possivelSolucao") }});
-        /*this.decorations = this.editor.deltaDecorations([], [
-          { range: new monaco.Range(linha, 1, linha, lineLength), options: { isWholeLine:true, inlineClassName: (status == "erro"?'erro':"possivelSolucao") } },
-        ]);*/
-        editor.deltaDecorations([], this.decorations);
+        if (linha != NaN && linha != 0 && linha != undefined) {
+            linha = parseInt(linha);
+            const lineLength = editor.getModel().getLineLength(linha);
+
+            this.decorations.push({ range: new monaco.Range(linha, 1, linha, lineLength), options: { isWholeLine: true, inlineClassName: (status == "erro" ? 'erro' : "possivelSolucao") } });
+            /*this.decorations = this.editor.deltaDecorations([], [
+              { range: new monaco.Range(linha, 1, linha, lineLength), options: { isWholeLine:true, inlineClassName: (status == "erro"?'erro':"possivelSolucao") } },
+            ]);*/
+            editor.deltaDecorations([], this.decorations);
+        }
+
     }
 
-    prepararSaidaErro(err){
-        let erro = ErroFactory.create(err.toString());
-        let s = SolucaoFactory.check(this.algoritmo, erro);
-        this.saida = erro.mensagemErro();
+    prepararSaidaErro(err) {
+        let erro = ErroFactory.create(err);
+        let solucao = SolucaoFactory.check(erro);
+        this.saida = erro.mensagem();
         this.saida += "<br/><br/>";
-        this.saida += s.formatarMensagem();
+        this.saida += solucao.mensagem();
         this.destacarLinha(erro.linha, "erro");
-        this.destacarLinha(s.linha, "sucesso");
+        this.destacarLinha(solucao.linha, "sucesso");
     }
 
-    prepararStatus(status){
-        if(!status)
+    prepararStatus(status) {
+        if (!status)
             this.statusExecucao = "<span class='statusErro'>Erro</span>";
         else
             this.statusExecucao = "<span class='statusSucesso'>Sucesso</span>";
     }
 
-   
+
 }

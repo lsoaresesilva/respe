@@ -15,7 +15,7 @@ export class NameError extends Error{
         
     }
 
-    mensagemErro(){
+    mensagem(){
         return "A função ou variável: <b>'" + this.nome + "'</b> que você tentou utilizar na linha <b>"+this.linha+"</b> não existe. Observe se você escreveu o nome corretamente ou se esqueceu de declará-la."
     }
 

@@ -19,7 +19,8 @@
             
             //var appRoot = document.createElement("app-root"); 
             //document.getElementById("body").appendChild(appRoot);
-            editor = monaco.editor.create(document.getElementById('container'), {
+            if(document.getElementById('container') != undefined){
+                editor = monaco.editor.create(document.getElementById('container'), {
                 value: [
                     'z = 3',
                     'print(x)',
@@ -27,6 +28,8 @@
                 language: 'python'
 
             });
+            }
+            
             //
             //
         });

@@ -1,17 +1,15 @@
 import Codigo from './codigo';
 
 export default abstract class Solucao{
-    codigo:Codigo;
     erro;
     linha;
     trecho;
 
-    constructor(codigo, erro){
-        this.codigo = codigo;
+    constructor(erro){
         this.erro = erro;
-        this.localizarSolucao();
+        this.localizar();
     }
     
-    abstract formatarMensagem();
-    abstract localizarSolucao();
+    abstract mensagem();
+    abstract localizar();
 }
