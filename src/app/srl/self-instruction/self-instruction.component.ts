@@ -1,5 +1,5 @@
 import { Component, OnInit, Input } from '@angular/core';
-import { Questao } from 'src/app/geral-module/model/questao';
+import { Questao } from 'src/app/model/questao';
 
 @Component({
   selector: 'app-self-instruction',

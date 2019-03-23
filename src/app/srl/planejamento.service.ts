@@ -1,7 +1,6 @@
 import { Injectable } from '@angular/core';
-import { Planejamento } from './model/planejamento';
-import { Assunto } from '../geral-module/model/assunto';
-import Usuario from '../login-module/model/usuario';
+import { Planejamento } from '../model/planejamento';
+import Usuario from '../model/usuario';
 
 @Injectable({
   providedIn: 'root'
