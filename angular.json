@@ -26,13 +26,14 @@
               "src/styles.css",
               "node_modules/primeflex/primeflex.css",
               "node_modules/primeicons/primeicons.css",
-  "node_modules/primeng/resources/themes/nova-light/theme.css",
-  "node_modules/primeng/resources/primeng.min.css"
+              "node_modules/primeng/resources/themes/nova-light/theme.css",
+              "node_modules/primeng/resources/primeng.min.css"
             ],
             "scripts": [
               "src/js/skulpt.min.js",
-              "src/js/skulpt-stdlib.js"
-              
+              "src/js/skulpt-stdlib.js",
+              "src/js/ide.js",
+              "./node_modules/chart.js/dist/Chart.js"
             ]
           },
           "configurations": {

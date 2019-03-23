@@ -12,7 +12,7 @@ export class NameError extends Error{
             this.nome = consulta[1];
         }
 
-        
+        this.tipo = "NameError";
     }
 
     mensagem(){

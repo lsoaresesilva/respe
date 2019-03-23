@@ -5,8 +5,8 @@ import { TypeError } from './typeError';
 
 export default class ErroFactory{
 
-
-    static create(erro) {
+ 
+    static create(erro):Error {
         let e;
         let tipoErro = Error.getTipoErro(erro);
         if(tipoErro == "NameError"){

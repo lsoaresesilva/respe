@@ -1,23 +1,23 @@
 import { Injectable } from '@angular/core';
 import { AngularFirestoreCollection, AngularFirestore } from '@angular/fire/firestore';
-import Login from './model/login';
+import Usuario from '../model/usuario';
 import { Observable } from 'rxjs';
-import { map } from 'rxjs/operators';
+import { LoginNotFoundError } from '../model/errors/loginNotFound';
 
 @Injectable({
   providedIn: 'root'
 })
-export class LoginService {
+export class UsuarioService {
 
-  private loginCollection: AngularFirestoreCollection<Login>;
+  private loginCollection: AngularFirestoreCollection<Usuario>;
   
   constructor(private db: AngularFirestore) { 
-    this.loginCollection = this.db.collection<Login>("login");
+    this.loginCollection = this.db.collection<Usuario>("login");
 
   }
 
-  acessar(login:Login){
-    return new Observable<Login>(observer => {
+  acessar(login:Usuario){
+    return new Observable<Usuario>(observer => {
       
       /*this.db.collection("login", ref => {
         ref.where('usuario', '==', login.usuario).where('senha', '==', login.senha)
@@ -25,25 +25,20 @@ export class LoginService {
       let query = this.loginCollection.ref.where('usuario', '==', login.usuario).where('senha', '==', login.senha);
       query.get().then(resultado=>{
         if(!resultado.empty){
-          const data = resultado.docs[0].data() as Login;
+          const data = resultado.docs[0].data() as Usuario;
           const id = resultado.docs[0].id;
-          let login = new Login();
+          let login = new Usuario();
           login.usuario = data.usuario;
           login.senha = data.senha;
           login.id = id;
 
           observer.next(login);
           observer.complete();
+        }else{
+          observer.error(new LoginNotFoundError());
         }
       })
-      /*.snapshotChanges().subscribe(resultado=>{
-        if(resultado.length > 0){
-          const data = resultado[0].payload.doc.data() as Login;
-          const id = resultado[0].payload.doc.id;
-
-          return { id, ...data } as Login;
-        }
-      });*/
+      
         
     });
  

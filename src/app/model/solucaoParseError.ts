@@ -2,8 +2,8 @@ import Solucao from './solucao';
 
 export default class SolucaoParseError extends Solucao {
 
-    constructor(erro){
-        super(erro);
+    constructor(erro, codigo){
+        super(erro, codigo);
     }
 
     

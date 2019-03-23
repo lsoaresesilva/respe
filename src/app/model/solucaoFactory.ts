@@ -1,6 +1,5 @@
 import { Error } from './error';
 import Codigo from './codigo';
-import StringSimilarity from '../util/stringSimilarity';
 import Solucao from './solucao';
 import SolucaoNameError from './solucaoNameError';
 import SolucaoParseError from './solucaoParseError';
@@ -14,11 +13,11 @@ export default class SolucaoFactory{
         
     }
 
-    static check(erro:Error):Solucao{
+    static check(erro:Error, codigo:Codigo):Solucao{
         if(erro.tipo == "NameError"){
-            return new SolucaoNameError(erro);
+            return new SolucaoNameError(erro, codigo);
         }else if(erro.tipo == "ParseError"){
-            return new SolucaoParseError(erro);
+            return new SolucaoParseError(erro, codigo);
         }
     }
 

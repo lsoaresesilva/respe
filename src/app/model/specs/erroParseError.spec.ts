@@ -1,5 +1,6 @@
 import Codigo from "../codigo";
 import { ParseError } from '../parseError';
+import Editor from '../editor';
 
 describe("Testes do algoritmo que identifica uma possível solução para o problema ParseError do algoritmo", () => {
 
@@ -16,43 +17,28 @@ describe("Testes do algoritmo que identifica uma possível solução para o prob
         let codigoComErro = new Codigo();
         
         let erro = new ParseError("ParseError: bad input on line 4");
-        let solucao = new ParseError(erro);
         //expect(solucao.faltaParentese()).toEqual([{linha:1, trecho:"current_time_str = input('What is the current time (in hours 0-23)?'"}, {linha:3, trecho:"current_time_int = int(current_time_str"}]);
         expect(ParseError.faltaParentese("current_time_str = input('What is the current time (in hours 0-23)?'")).toBeTruthy();
     })
 
     it("Se a quantidade de parênteses estiver correta deve retornar false", () => {
-        let codigoComErro = new Codigo();
-        
-        let erro = new ParseError("ParseError: bad input on line 4");
-        let solucao = new ParseError(erro);
+   
         //expect(solucao.faltaParentese()).toEqual([{linha:1, trecho:"current_time_str = input('What is the current time (in hours 0-23)?'"}, {linha:3, trecho:"current_time_int = int(current_time_str"}]);
         expect(ParseError.faltaParentese("current_time_str = input('What is the current time (in hours 0-23)?')")).toBeFalsy();
     })
 
     it("Se houver falta de dois pontos deve retornar true", () => {
-        let codigoComErro = new Codigo();
-        
-        let erro = new ParseError("ParseError: bad input on line 4");
-        let solucao = new ParseError(erro);
         
         expect(ParseError.faltaDoisPontos("for x in 2")).toBeTruthy();
     })
 
     it("Se tiver dois pontos deve retornar true", () => {
-        let codigoComErro = new Codigo();
-        
-        let erro = new ParseError("ParseError: bad input on line 4");
-        let solucao = new ParseError(erro);
-        
+       
         expect(ParseError.faltaDoisPontos("for x in 2:")).toBeFalsy();
     })
 
     it("Se tiver faltando virgula deve retornar true", ()=>{
-        let codigoComErro = new Codigo();
         
-        let erro = new ParseError("ParseError: bad input on line 4");
-        let solucao = new ParseError(erro);
         expect(ParseError.faltaVirgula("def bla(a_a b c):")).toBeTruthy();
 
         expect(ParseError.faltaVirgula("def bla(a_a b, c):")).toBeTruthy();
@@ -60,10 +46,7 @@ describe("Testes do algoritmo que identifica uma possível solução para o prob
     })
 
     it("Se tiver o quantitativo de virgulas corretos deve retornar false", ()=>{
-        let codigoComErro = new Codigo();
         
-        let erro = new ParseError("ParseError: bad input on line 4");
-        let solucao = new ParseError(erro);
         expect(ParseError.faltaVirgula("def bla(a_a, b, c):")).toBeFalsy();
         expect(ParseError.faltaVirgula("def bla(a_a,b,c):")).toBeFalsy();
         

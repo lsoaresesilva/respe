@@ -7,7 +7,7 @@ describe("Testes do algoritmo que identifica uma possível solução para o prob
         let codigoComErro = new Codigo();
         codigoComErro.algoritmo = "casa = 2\nprint(caza)";
         let erro = new NameError("NameError: name 'caza' is not defined on line 2");
-        let solucao = new SolucaoNameError(erro);
+        let solucao = new SolucaoNameError(erro, codigoComErro);
         expect(solucao.linha).toEqual(1);
         expect(solucao.trecho).toEqual("casa = 2");
     })
@@ -16,7 +16,7 @@ describe("Testes do algoritmo que identifica uma possível solução para o prob
        let codigoComErro = new Codigo();
        codigoComErro.algoritmo = "casa = 2\nprint(caza)";
        let erro = new NameError("NameError: name 'caza' is not defined on line 2");
-       let solucao = new SolucaoNameError(erro);
+       let solucao = new SolucaoNameError(erro, codigoComErro);
        expect(solucao.linha).toEqual(1);
        
     })
@@ -25,7 +25,7 @@ describe("Testes do algoritmo que identifica uma possível solução para o prob
         let codigoComErro = new Codigo();
         codigoComErro.algoritmo = "casa = 2\nnome = 'leonardo'\nprint(caza)"
         let erro = new NameError("NameError: name 'caza' is not defined on line 2");
-        let solucao = new SolucaoNameError(erro);
+        let solucao = new SolucaoNameError(erro, codigoComErro);
         let solucaoVariavel = solucao.verificarSimilaridade(codigoComErro.identificarVariaveis());  
         expect(solucaoVariavel).toEqual({nome:"casa", similaridade:0.75});
     })
@@ -35,7 +35,7 @@ describe("Testes do algoritmo que identifica uma possível solução para o prob
         let codigoComErro = new Codigo();
         codigoComErro.algoritmo = "casa = 2\nnome = 'leonardo'\nprint(caza)";
         let erro = new NameError("NameError: name 'caza' is not defined on line 2");
-        let solucao = new SolucaoNameError(erro);
+        let solucao = new SolucaoNameError(erro, codigoComErro);
         let solucaoVariavel = solucao.verificarSimilaridade([]);  
         expect(solucaoVariavel).toEqual({});
     })
@@ -44,7 +44,7 @@ describe("Testes do algoritmo que identifica uma possível solução para o prob
         let codigoComErro = new Codigo();
         codigoComErro.algoritmo = "casa = 2\nnome = 'leonardo'\nprint(caza)\ndef calcular()\n\tx =3";
         let erro = new NameError("NameError: name 'caza' is not defined on line 2");
-        let solucao = new SolucaoNameError(erro);
+        let solucao = new SolucaoNameError(erro, codigoComErro);
         let solucaoVariavel = solucao.solucaoNameError();  
         expect(solucaoVariavel).toEqual("casa = ");
     })

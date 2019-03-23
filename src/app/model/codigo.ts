@@ -4,7 +4,7 @@ export default class Codigo {
     
 
     constructor() {
-       
+       this.algoritmo = "";
     }
 
     setAlgoritmo(algoritmo){
@@ -63,6 +63,13 @@ export default class Codigo {
       }
 
       linhasAlgoritmo(){
-        return this.algoritmo.split("\n");
+        if(this.algoritmo != undefined)
+          return this.algoritmo.split("\n");
+        
+        return [];
+      }
+
+      paraJson(){
+        return JSON.stringify(this);
       }
 }

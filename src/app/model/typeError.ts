@@ -6,10 +6,11 @@ export class TypeError extends Error{
 
     constructor(erro){
         super(erro);
+        this.tipo = "TypeError";
     }
 
     mensagem() {
-        return "Você tentou realizar uma operação matemática em duas variáveis incompatíveis, na linha "+this.linha;
+        return "Você tentou realizar uma operação matemática em duas variáveis de tipos diferentes, na linha "+this.linha;
     }
 
     

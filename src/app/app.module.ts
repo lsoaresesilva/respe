@@ -4,32 +4,45 @@ import { FormsModule } from '@angular/forms';
 
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
-import { EditorComponent } from './editor/editor.component';
 
-import {ButtonModule} from 'primeng/button';
+import {InputTextModule} from 'primeng/inputtext';
+import {MenubarModule} from 'primeng/menubar';
 
 import { AngularFireModule } from '@angular/fire';
 import { AngularFirestoreModule } from '@angular/fire/firestore';
 
 import { FirebaseConfiguracao } from 'src/environments/firebase';
-import { LoginComponent } from './login/login.component';
-import { LoginService } from './login.service';
+import { LoginModule } from './login-module/login.module';
+import { SubmissoesService } from './analytics-module/submissoes.service';
+import { MainComponent } from './geral-module/main/main.component';
+import { AnalyticsModule } from './analytics-module/analytics.module';
+import { EditorModule } from './editor-module/editor.module';
+import { GeralModuleModule } from './geral-module/geral-module.module';
+
+
 
 @NgModule({
   declarations: [
     AppComponent,
-    EditorComponent,
-    LoginComponent
+    MainComponent,
+    
   ],
   imports: [
+    GeralModuleModule,
+    EditorModule,
+    AnalyticsModule,
+    LoginModule,
     BrowserModule,
     AppRoutingModule,
     FormsModule,
-    ButtonModule,
+    
     AngularFireModule.initializeApp(FirebaseConfiguracao),
-    AngularFirestoreModule
+    AngularFirestoreModule,
+    InputTextModule,
+    MenubarModule,
+    
   ],
-  providers: [LoginService],
+  providers: [SubmissoesService],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

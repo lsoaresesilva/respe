@@ -1,8 +1,10 @@
 import { NameError } from './nameErro';
+import Editor from './editor';
 
 export abstract class Error {
+    
     tipo;
-    texto;
+    texto; // texto do erro
     linha;
 
     protected constructor(erro) {
@@ -10,8 +12,8 @@ export abstract class Error {
         let consulta = erro.match(padrao);
 
         this.texto = erro;
+        this.tipo = "";
 
-        console.log(consulta);
         if (consulta != null) {
             this.tipo = consulta[1];
             this.linha = consulta[2];
@@ -19,18 +21,8 @@ export abstract class Error {
 
     }
 
-    identificar(mensagemErro) {
-        // SE tipo erro for nameError
-        let padrao = /"([a-zA-Z]+): /;
-        var consulta = mensagemErro.match(padrao);
-        if (consulta != null && consulta[0] == "NameError") {
-            // verificar qual a funcao ou variável que apresenta nome próximo
-            // identificar todas as funcoes
-            // identificar todas as variaveis
-            // comparar o nome escrito pelo usuário com os nomes encontrados e ver qual apresenta maior similaridade
-        }
-
-
+    toFireStore(){
+        return {tipo:this.tipo, linha:this.linha, texto:this.texto}
     }
 
     static getTipoErro(erro){

@@ -1,0 +1,21 @@
+
+<div class="p-grid" style="position:relative;
+height: 100px;
+margin:0 auto;
+padding: 10% 0;">
+  <div class="p-col-5"></div>
+  <div class="p-col-5" p-col-align-center >
+
+    <div class="ui-inputgroup" style="margin-bottom:20px;">
+      <span class="ui-inputgroup-addon"><i class="fa fa-user"></i>Usuário</span>
+      <input type="text" pInputText [(ngModel)]="login.usuario">
+    </div>
+    <div class="ui-inputgroup" style="margin-bottom:20px;">
+      <span class="ui-inputgroup-addon"><i class="fa fa-user"></i>Senha</span>
+      <input type="text" type="password" pPassword [(ngModel)]="login.senha">
+    </div>
+    <p-button label="Entrar" (click)="acessar()"></p-button>
+
+  </div>
+  <div class="p-col-2"></div>
+</div>

@@ -1,5 +1,6 @@
 import { Error } from './error';
 import Editor from './editor';
+import Codigo from './codigo';
 
 export class ParseError extends Error{
     
@@ -9,6 +10,7 @@ export class ParseError extends Error{
         super(erro);
         this.erros = ParseError.localizar(Editor.getInstance().codigo);
         this.linha = (this.erros.length > 0?this.erros[0].linha:1);
+        this.tipo = "ParseError";
     }
     
 
@@ -29,7 +31,7 @@ export class ParseError extends Error{
         return mensagem;
     }
 
-    static localizar(codigo) {
+    static localizar(codigo:Codigo) {
         // localizar abertura de parênteses e falta de fechamento
         /*this.codigo.linhasAlgoritmo().forEach(linha => {
             linha.

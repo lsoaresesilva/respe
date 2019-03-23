@@ -1,11 +1,16 @@
 import { NgModule } from '@angular/core';
 import { Routes, RouterModule } from '@angular/router';
-import { EditorComponent } from './editor/editor.component';
-import { LoginComponent } from './login/login.component';
+import { EditorComponent } from './editor-module/editor/editor.component';
+import { LoginComponent } from './login-module/login/login.component';
+import { MainComponent } from './geral-module/main/main.component';
+import { ProgressoComponent } from './analytics-module/progresso/progresso.component';
 
 const routes: Routes = [
-  {path:"editor", component:EditorComponent},
-  {path:"login", component:LoginComponent}  
+  {path:"", component:LoginComponent},
+  {path:"main", component:MainComponent, children: [
+    {path:"progresso", component:ProgressoComponent, outlet:"principal"},
+    {path:"editor", component:EditorComponent, outlet:"principal"},
+  ]}
 ];
 
 @NgModule({
