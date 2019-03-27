@@ -1,5 +1,6 @@
 import random
 import string
+import os
 
 class ArquivoSubmissao():
 
@@ -9,7 +10,7 @@ class ArquivoSubmissao():
 
     def criarArquivo(self):
         nomeArquivo = self.gerarNomeArquivo()
-
+        print(nomeArquivo)
         arquivo = open(nomeArquivo,"w+")
 
         return arquivo
@@ -18,8 +19,16 @@ class ArquivoSubmissao():
         return self.arquivo.name
 
     def apagarArquivo(self):
-        
+        #TODO: verificar se o arquivo existe
         self.arquivo.close()
+        try:
+            print(os.path.realpath(self.arquivo.name))
+            os.remove(os.path.realpath(self.arquivo.name))
+        except OSError:
+            print("maoe")
+        
+        
+        
 
     def escreverCodigoNoArquivo(self, codigo):
         codigo = codigo.split("\n")
