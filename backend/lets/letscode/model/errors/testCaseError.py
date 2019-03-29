@@ -1,0 +1,2 @@
+class TestCaseError(Exception):
+    pass
