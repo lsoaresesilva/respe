@@ -1,7 +1,9 @@
-from letscode.model.document import Document
+from letscode.model.firestore.document import Document
 
 from letscode.model.errors.testCaseError import TestCaseError
+from letscode.model.firestore.document import Collection
 
+@Collection("testsCases")
 class TestCase(Document):
 
     def __init__(self, id, document):

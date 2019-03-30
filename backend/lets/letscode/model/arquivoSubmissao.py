@@ -43,8 +43,11 @@ class ArquivoSubmissao():
             self.arquivo.write(linha+"\n")
 
         self.arquivo.flush()
-
-        print(self.arquivo.read())
+        os.fsync(self.arquivo.fileno())
+        self.arquivo.close()
+        
+        # necessário, pois o flush do python não estava escrevendo no arquivo a tempo
+        self.arquivo = open(self.arquivo.name,"r")
         
 
         return True

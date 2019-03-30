@@ -20,39 +20,35 @@ class Juiz():
             for teste in self.testsCases:
             # TODO: verificar se o arquivo existe
                 if self.arquivo.is_arquivo_valido():
-                    child = pexpect.spawn('python3 '+self.arquivo.nome())
-                    print("arquivo")
-                    print(self.arquivo.arquivo.read())
-                    print(self.arquivo.nome())
-                    for entradas in teste.entradas:
-                        print(entradas)
-                        try:
-                            child.expect(".*")
-                            print("enviou")
-                            child.sendline(entradas)
-
-                        except OSError:
-                            # interromper, pois não há suporte para a quantidade de saídas definidas
-                            # TODO: retornar um erro indicando a falha
-                            print("erro")
+                    if self.matchInputCodigo(teste.entradas):
                     
-                    child.expect(pexpect.EOF)
-                    resultadoTeste = self.testarSaida(child.before, teste.saida)
-                    child.close()
+                        child = pexpect.spawn('python3 '+self.arquivo.nome())
+                
+                        try:
+                            for entradas in teste.entradas:
+                                
+                                child.expect(".*")
+                                child.sendline(entradas)
+                                
+                            child.expect(pexpect.EOF)
+                            resultadoTeste = self.testarSaida(child.before, teste.saida)
+                            child.close()
+                        except OSError:
+                                resultadoTeste = False
+                        
+                    else:
+                        resultadoTeste = False
                     resultados.append({"id":teste.id, "status":resultadoTeste})    
                 else:
                     raise JuizError("O arquivo de código não foi encontrado.")
         else:
             raise JuizError("O conjunto de test case não é válido.")
 
-        #todo: criar o próprio
-        
         return resultados
 
     def testarSaida(self, resultadoAlgoritmo, resultadoEsperado):
-        #print(resultadoAlgoritmo)
         algoritmoCorreto = False
-
+        
         saidas = re.split("\\r\\n(.*)\\r\\n", resultadoAlgoritmo.decode("utf-8"))
         for texto in saidas:
             if texto == resultadoEsperado:
@@ -60,6 +56,13 @@ class Juiz():
                 break
 
         return algoritmoCorreto
-                    
+    
+    # Verifica se o código dispõe do quantitativo de inputs necessários para a quantidade de entradas
+    def matchInputCodigo(self, entradas):
+        totalInputs = re.findall("input", self.codigo)
+        if len(entradas) == len(totalInputs):
+            return True
+        return False
+
 
     
