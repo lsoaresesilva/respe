@@ -18,6 +18,7 @@ import { MainComponent } from './geral-module/main/main.component';
 import { AnalyticsModule } from './analytics-module/analytics.module';
 import { EditorModule } from './editor-module/editor.module';
 import { GeralModuleModule } from './geral-module/geral-module.module';
+import { JuizModule } from './juiz/juiz.module';
 
 
 
@@ -28,6 +29,7 @@ import { GeralModuleModule } from './geral-module/geral-module.module';
     
   ],
   imports: [
+    JuizModule,
     GeralModuleModule,
     EditorModule,
     AnalyticsModule,
