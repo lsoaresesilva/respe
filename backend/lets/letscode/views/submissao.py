@@ -26,10 +26,10 @@ class SubmissaoView(APIView):
         testes = TestCase.listAllByQuery(Query("questaoId", "==", "Ozwt1Hrmz7b8tlFwjDVW"))
         # TODO: o que fazer se testes for vazio?
         juiz = Juiz(request.data["algoritmo"], testes)
-        print(juiz.executarTestes())
-
+        resultado = juiz.executarTestes()
         # TODO: enviar um objeto submissão para o BD
-        
+        print(resultado)
+        resultado[0].objectToDocument()
         
         # Receber um json com o código, id do usuário e id da questão
 

@@ -5,6 +5,7 @@ import os
 from letscode.model.arquivoSubmissao import ArquivoSubmissao
 from letscode.model.errors.juizError import JuizError
 from letscode.model.testCase import TestCase
+from letscode.model.resultadoTestCase import ResultadoTestCase
 
 class Juiz():
 
@@ -38,7 +39,10 @@ class Juiz():
                         
                     else:
                         resultadoTeste = False
-                    resultados.append({"id":teste.id, "status":resultadoTeste})    
+                    
+                    resultado = ResultadoTestCase(teste, resultadoTeste)
+                    
+                    resultados.append(resultado)    
                 else:
                     raise JuizError("O arquivo de código não foi encontrado.")
         else:
