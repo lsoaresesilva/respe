@@ -2,12 +2,18 @@ import random
 import string
 import os
 
+from letscode.model.errors.arquivoSubmissaoError import ArquivoSubmissaoError
+
 
 class ArquivoSubmissao():
 
     def __init__(self, codigo):
-        self.arquivo = self.criarArquivo()
-        self.escreverCodigoNoArquivo(codigo)
+        
+        if type(codigo) == str and codigo != "":
+            self.arquivo = self.criarArquivo()
+            self.escreverCodigoNoArquivo(codigo)
+        else:
+            raise ValueError("Código precisa ser informado.")
 
     def criarArquivo(self):
         nomeArquivo = self.gerarNomeArquivo()
@@ -29,12 +35,14 @@ class ArquivoSubmissao():
                 print("disparou")
 
     def is_arquivo_valido(self):
+        # TODO: verificar se o arquivo existe
         if self.arquivo == None:
             return False
 
         return True
     
     def escreverCodigoNoArquivo(self, codigo):
+
         codigo = codigo.split("\n")
 
         for linha in codigo:

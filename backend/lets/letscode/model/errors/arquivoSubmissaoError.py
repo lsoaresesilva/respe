@@ -1,0 +1,2 @@
+class ArquivoSubmissaoError(Exception):
+    pass

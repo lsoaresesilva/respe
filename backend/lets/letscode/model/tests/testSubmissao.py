@@ -1,0 +1,23 @@
+
+from letscode.model.submissao import Submissao
+from letscode.model.resultadoTestCase import ResultadoTestCase
+from letscode.model.testCase import TestCase
+
+import unittest
+
+class TestSubmissao(unittest.TestCase):
+
+    def test_deve_gerar_json(self):
+        s = Submissao(None, None, None)
+        r1 = ResultadoTestCase(s, TestCase("2", [2], 2), True)
+        r1.id = "1"
+        r2 = ResultadoTestCase(s, TestCase("1", [2], 2), False)
+        r2.id = "2"
+        resultados = [r1, r2]
+        s.resultadosTestsCases = resultados
+        json = {
+            "id":s.id,
+            "resultados":[{"idTestCase":"2", "status":True}, {"idTestCase":"1", "status":False}]
+        }
+
+        self.assertDictEqual(json, s.toJson())
