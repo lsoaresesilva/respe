@@ -9,16 +9,18 @@ from letscode.model.arquivoSubmissao import ArquivoSubmissao
 
 from letscode.model.submissao import Submissao
 
+def stub_save(self):
+    pass
+
 class TestJuiz(unittest.TestCase):
 
-    def stub_save():
-        pass
+
 
     
     def test_saida_valida(self):
         submissao = Submissao("x = 2", None, None)
         j = Juiz(submissao)
-        self.assertTrue(j.compararSaidaEsperadaComSaidaAlgoritmo("2".encode(), "2"))
+        self.assertTrue(j.compararSaidaEsperadaComSaidaAlgoritmo("2", "2"))
         arquivo = ArquivoSubmissao(submissao.codigo)
         arquivo.apagarArquivo()
 
@@ -46,7 +48,21 @@ class TestJuiz(unittest.TestCase):
         arquivo = ArquivoSubmissao(submissao.codigo)
         j = Juiz(submissao)
         j.salvarResultados = stub_save
-        self.assertListEqual([ResultadoTestCase(submissao, testsCases[0], False)], j.executarTestes(arquivo))
+       
+        with self.assertRaises(JuizError):
+            j.executarTestes(arquivo)
+        arquivo.apagarArquivo()
+
+        codigo = "x = 2\nz = input('ble')\nprint(y)"
+        testsCases = [TestCase("1", ["2"], "2")]
+        questao = Questao("", testsCases)
+        submissao = Submissao(codigo, None, questao)
+        arquivo = ArquivoSubmissao(submissao.codigo)
+        j = Juiz(submissao)
+        j.salvarResultados = stub_save
+
+        with self.assertRaisesRegex(JuizError, "O código apresentou o seguinte erro 'NameError' na linha 3"):
+            j.executarTestes(arquivo)
         arquivo.apagarArquivo()
         
     #@unittest.skip
@@ -70,7 +86,7 @@ class TestJuiz(unittest.TestCase):
         arquivo = ArquivoSubmissao(submissao.codigo)
         j = Juiz(submissao)
         j.salvarResultados = stub_save
-        self.assertListEqual([ResultadoTestCase(submissao, testsCases[0], True)], j.executarTestes(arquivo))
+        self.assertListEqual([ResultadoTestCase(submissao, testsCases[0], ["2"], True)], j.executarTestes(arquivo))
         arquivo.apagarArquivo()
 
     #@unittest.skip
@@ -82,7 +98,8 @@ class TestJuiz(unittest.TestCase):
         arquivo = ArquivoSubmissao(submissao.codigo)
         j = Juiz(submissao)
         j.salvarResultados = stub_save
-        self.assertListEqual([ResultadoTestCase(submissao, testsCases[0], False)], j.executarTestes(arquivo))
+        with self.assertRaises(JuizError):
+            j.executarTestes(arquivo)
         arquivo.apagarArquivo()
 
     #@unittest.skip
@@ -111,6 +128,23 @@ class TestJuiz(unittest.TestCase):
         submissao = Submissao(codigo, None, questao)
         j = Juiz(submissao)
         self.assertFalse(j.matchInputCodigo(testsCases[0].entradas))
+    
+    def test_capturar_mensagem_algoritmo(self):
+        codigo = "x = input('bla')\nprint(x)"
+        testsCases = [TestCase("1", ["2"], "2")]
+        questao = Questao("", testsCases)
+        submissao = Submissao(codigo, None, questao)
+        j = Juiz(submissao)
+        self.assertEqual(["2"], j.respostaAlgoritmo("bla2\n2"))
+
+    def test_capturar_textos_input(self):
+        codigo = "x = input('blableble')\nprint(x)"
+        
+        testsCases = [TestCase("1", ["2", "3"], "2")]
+        questao = Questao("", testsCases)
+        submissao = Submissao(codigo, None, questao)
+        j = Juiz(submissao)
+        self.assertListEqual(["blableble"], j.obterTextosInput())
         
         
     

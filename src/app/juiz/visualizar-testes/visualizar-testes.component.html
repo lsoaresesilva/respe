@@ -10,7 +10,10 @@
   <ng-template pTemplate="body" let-resultadoTestCase let-i="rowIndex">
       <tr>
           <td>{{i+1}}</td>
-          <td>{{resultadoTestCase.status == true?"Sucesso":"Falha"}}</td>
+          <td><span [ngClass]="{
+            'statusSucesso': resultadoTestCase.status,
+            'statusErro': !resultadoTestCase.status
+          }">{{resultadoTestCase.status == true?"Sucesso":"Falha"}}</span></td>
           <td>{{resultadoTestCase.testCase.entradas}}</td>
           <td>{{resultadoTestCase.testCase.saida}}</td>
       </tr>

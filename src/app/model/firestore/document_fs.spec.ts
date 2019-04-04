@@ -9,7 +9,7 @@ import { FireStoreDocument } from './firestoreDocument';
 import { Person } from './models';
 import { forkJoin } from 'rxjs';
 
-describe("Document testing", () => {
+xdescribe("Document testing", () => {
 
   let app: firebase.app.App;
   let afs: AngularFirestore;

@@ -13,7 +13,6 @@ import { AngularFirestoreModule } from '@angular/fire/firestore';
 
 import { FirebaseConfiguracao } from 'src/environments/firebase';
 import { LoginModule } from './login-module/login.module';
-import { SubmissoesService } from './analytics-module/submissoes.service';
 import { MainComponent } from './geral-module/main/main.component';
 import { AnalyticsModule } from './analytics-module/analytics.module';
 import { EditorModule } from './editor-module/editor.module';
@@ -30,6 +29,7 @@ import { DocumentModule } from './model/firestore/document.module';
     
   ],
   imports: [
+    DocumentModule,
     GeralModuleModule,
     EditorModule,
     AnalyticsModule,
@@ -37,14 +37,14 @@ import { DocumentModule } from './model/firestore/document.module';
     BrowserModule,
     AppRoutingModule,
     FormsModule,
-    DocumentModule,
+    
     AngularFireModule.initializeApp(FirebaseConfiguracao),
     AngularFirestoreModule,
     InputTextModule,
     MenubarModule,
     
   ],
-  providers: [SubmissoesService],
+  providers: [],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

@@ -7,7 +7,8 @@ from letscode.model.testCase import TestCase
 from letscode.model.resultadoTestCase import ResultadoTestCase
 from letscode.model.questao import Questao
 from letscode.model.submissao import Submissao
-
+from letscode.model.erroProgramacao import ErroProgramacao
+from letscode.model.errors.erroProgramacaoError import ErroProgramacaoError
 
 
 
@@ -19,7 +20,7 @@ class Juiz():
             
 
     # TODO: deve impedir que código maliciosos possam ser executados. desabilitar o uso de import os e outros.
-    def validarCodigoMalicioso():
+    def validarCodigoMalicioso(self):
         pass
 
     def executarTestes(self, arquivo):
@@ -34,24 +35,31 @@ class Juiz():
                 if self.matchInputCodigo(teste.entradas):
                 
                     child = pexpect.spawn('python3 '+arquivo.nome())
-            
+
                     try:
                         
                         for entradas in teste.entradas:
-                            
                             child.expect(".*")
                             child.sendline(entradas)
                             
                         child.expect(pexpect.EOF)
-                        resultadoTeste = self.compararSaidaEsperadaComSaidaAlgoritmo(child.before, teste.saida)
-                        child.close()
+                        msgRetornoAlgoritmo = child.before.decode("utf-8")
+                        # TODO: verificar se há erro no código
+                        try:
+                            erro = ErroProgramacao(msgRetornoAlgoritmo)
+                            raise JuizError("O código apresentou o seguinte erro '"+erro.tipo+"' na linha "+erro.linha)
+                        except ErroProgramacaoError: # Não há erro, verificar o resultado test de testcase normalmente
+                            resultadoTeste = self.compararSaidaEsperadaComSaidaAlgoritmo(msgRetornoAlgoritmo, teste.saida)
+                        finally:
+                            child.close()
                     except OSError:
                             resultadoTeste = False
+
                     
                 else:
-                    resultadoTeste = False
+                    raise JuizError("A quantidade de inputs em seu código é menor que a quantidade de entradas")
                 
-                resultado = ResultadoTestCase(self.submissao, teste, resultadoTeste)
+                resultado = ResultadoTestCase(self.submissao, teste, self.respostaAlgoritmo(msgRetornoAlgoritmo), resultadoTeste)
                 
                 resultados.append(resultado)    
             else:
@@ -67,10 +75,50 @@ class Juiz():
         for resultado in resultados:
             resultado.save()
     
+    def obterTextosInput(self):
+        
+        textosInput = []
+        inputs = re.findall("input\((.*)\)", self.submissao.codigo)
+        if inputs and len(inputs) >0:
+            for textoInput in inputs:
+
+                textoInput = textoInput.replace("'", "")
+                textoInput= textoInput.replace('"', "")
+            
+                textosInput.append(textoInput)
+
+                
+        return textosInput
+
+    def respostaAlgoritmo(self, resultadoAlgoritmo):
+        
+        
+        textosInput = self.obterTextosInput()
+
+        #saidas = re.split("\\n(.*)\\r\\n", resultadoAlgoritmo)
+        saidas = resultadoAlgoritmo.splitlines()
+        resultadoAlgoritmo = []
+        for saida in saidas:
+            saidaInput = False
+            for textoInput in textosInput:
+                if textoInput in saida:
+                    saidaInput = True
+                    break
+
+            if not saidaInput:
+                resultadoAlgoritmo.append(saida)
+
+                
+
+        return resultadoAlgoritmo
+
+        
+
     def compararSaidaEsperadaComSaidaAlgoritmo(self, resultadoAlgoritmo, resultadoEsperado):
         algoritmoCorreto = False
         
-        saidas = re.split("\\r\\n(.*)\\r\\n", resultadoAlgoritmo.decode("utf-8"))
+        #saidas = re.split("\\r\\n(.*)\\r\\n", resultadoAlgoritmo)
+        saidas = resultadoAlgoritmo.splitlines()
         for texto in saidas:
             if texto == resultadoEsperado:
                 algoritmoCorreto = True

@@ -28,3 +28,5 @@ class Submissao(Document):
             "id":self.id,
             "resultados":resultados
         }
+
+        

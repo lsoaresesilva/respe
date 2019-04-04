@@ -29,7 +29,6 @@ class SubmissaoView(APIView):
     def post(self, request, format=None):
         
 
-        
         try:
             # TODO: verificações para ver se o JSON é válido
             if self.submissaoRequestValid(request):
@@ -51,6 +50,7 @@ class SubmissaoView(APIView):
             return JsonResponse({"erro":str(exception)}, safe=False, status=status.HTTP_500_INTERNAL_SERVER_ERROR)    
         return Response(status=status.HTTP_201_CREATED)
 
+    # TODO: deslocar isto para um model.
     def submissaoRequestValid(self, request):
         if request.data["questaoId"] != None and request.data["questaoId"] != "" and request.data["algoritmo"] != None and request.data["algoritmo"] != "" and request.data["estudanteId"] != None and request.data["estudanteId"] != "":
             return True

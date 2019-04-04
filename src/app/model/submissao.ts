@@ -15,6 +15,6 @@ export default class Submissao{
     }
 
     objectToDocument(){
-        return {algoritmo:this.codigo.algoritmo, estudanteId:this.estudante.id, questaoId:this.questao.id}
+        return {algoritmo:this.codigo.algoritmo, estudanteId:this.estudante.pk(), questaoId:this.questao.pk()}
     }
 }

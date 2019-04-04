@@ -1,12 +1,10 @@
 import { Component, OnInit, ViewEncapsulation, ViewChild, ElementRef } from '@angular/core';
 import Editor from '../../model/editor';
-import { SubmissoesService } from 'src/app/analytics-module/submissoes.service';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import Submissao from 'src/app/model/submissao';
 import Estudante from 'src/app/model/estudante';
 import { Questao } from 'src/app/model/questao';
 import ResultadoTestCase from 'src/app/model/resultadoTestCase';
-import { AngularFirestore } from '@angular/fire/firestore';
 import { forkJoin } from 'rxjs';
 
 
@@ -29,7 +27,7 @@ export class EditorComponent implements OnInit {
   erroSimplificado;
   resultadosTestsCases;
 
-  constructor(private envioCodigoService: SubmissoesService, private http: HttpClient, private db:AngularFirestore) {
+  constructor(private http: HttpClient) {
     this.statusExecucao = "";
   }
 
@@ -48,12 +46,11 @@ export class EditorComponent implements OnInit {
     this.editorCodigo.codigo.setAlgoritmo(editor.getValue());
     //console.log(this.editorCodigo.codigo.paraJson())
 
-    let estudante = new Estudante();
     // TODO: pegar usuário logado
-    estudante.id = "12345"
+    let estudante = new Estudante("12345");
+    
     // TODO: pegar questão pela rota
-    let questao = new Questao();
-    questao.id = "Ozwt1Hrmz7b8tlFwjDVW";
+    let questao = new Questao("Ozwt1Hrmz7b8tlFwjDVW", null, null, null, null, null, null);
     let submissao = new Submissao(this.editorCodigo.codigo, estudante, questao);
 
     
@@ -74,6 +71,8 @@ export class EditorComponent implements OnInit {
             this.resultadosTestsCases.push(resultados[i]);
         }
       })
+    }, err=>{
+      this.erroSimplificado = err.error.erro;
     })
     
     /*this.editorCodigo.runit().subscribe(codigoEnviado => {

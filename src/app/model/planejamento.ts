@@ -10,7 +10,7 @@ export class Planejamento{
     planoExecucao;
 
     toFirebase(){
-        return {loginId:this.usuario.id,assuntoId:this.assunto.id,tempoEstudo:this.tempoEstudo,importancia:this.importancia,nivelDificuldade:this.nivelDificuldade,planoExecucao:this.planoExecucao};
+        return {loginId:this.usuario.id,assuntoId:this.assunto.pk(),tempoEstudo:this.tempoEstudo,importancia:this.importancia,nivelDificuldade:this.nivelDificuldade,planoExecucao:this.planoExecucao};
     }
 
 }

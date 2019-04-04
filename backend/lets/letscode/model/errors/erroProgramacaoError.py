@@ -1,0 +1,2 @@
+class ErroProgramacaoError(Exception):
+    pass

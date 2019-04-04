@@ -1,5 +1,4 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
-import { SubmissoesService } from '../submissoes.service';
 import { UIChart } from 'primeng/chart';
 import Usuario from 'src/app/model/usuario';
 import { Estatistica } from 'src/app/model/estatistica';
@@ -16,7 +15,7 @@ export class ProgressoComponent implements OnInit {
   grafico;
   dados;
 
-  constructor(private envioCodigoService: SubmissoesService) {
+  constructor() {
     this.grafico = {};
     this.dados = [0, 0, 0]
 
@@ -30,8 +29,7 @@ export class ProgressoComponent implements OnInit {
     });*/
 
 
-    this.envioCodigoService.listarPorLogin(Usuario.getUsuarioLogado()).subscribe(resultados => {
-
+      let resultados = [];
       this.dados = this.prepararParaChart(new Estatistica(resultados).calcularPorTipoErro())
       let x = {
         data: this.dados,
@@ -51,11 +49,6 @@ export class ProgressoComponent implements OnInit {
             ]
           }]
       };
-
-      this.grafico = Object.assign({}, x);
-    }, err => {
-      console.log(err);
-    })
   }
 
   prepararParaChart(resultadosEstatisticos) {
