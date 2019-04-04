@@ -1,11 +1,13 @@
 import { Injectable } from '@angular/core';
 import { AngularFirestore, AngularFirestoreCollection } from '@angular/fire/firestore';
-import Submissao from './model/submissao';
 import { Observable } from 'rxjs';
 import { CodigoInvalidoErro } from '../model/errors/codigoInvalidoErro';
 import { map } from 'rxjs/operators';
 import Usuario from '../model/usuario';
 import ErroFactory from '../model/erroFactory';
+import Submissao from '../model/submissao';
+import Estudante from '../model/estudante';
+import { Questao } from '../model/questao';
 
 @Injectable({
   providedIn: 'root'
@@ -21,7 +23,7 @@ export class SubmissoesService {
   }
 
   salvar(envioCodigo: Submissao) {
-    return new Observable(observer => {
+    /*return new Observable(observer => {
       this.envioCodigoCollection.add(envioCodigo.toFireBase()).then(resultado => {
         envioCodigo.id = resultado.id;
         observer.next();
@@ -29,7 +31,7 @@ export class SubmissoesService {
       }).catch(() => {
         observer.error(new CodigoInvalidoErro());
       })
-    });
+    });*/
 
   }
 
@@ -63,8 +65,9 @@ export class SubmissoesService {
             let login = new Usuario();
             login.id = data.loginId;
 
-            let codigoEnviado = new Submissao(login, data.codigo, data.status);
-            codigoEnviado.erro = ErroFactory.create(data.erro.texto);
+            // TODO: pegar o objeto estudante pelo id dele
+            let codigoEnviado = new Submissao(data.codigo, new Estudante(), new Questao());
+            //codigoEnviado.erro = ErroFactory.create(data.erro.texto);
             codigosEnviados.push(codigoEnviado);
           })
           

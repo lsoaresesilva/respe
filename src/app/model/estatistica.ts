@@ -1,5 +1,3 @@
-import Submissao from './submissao';
-
 export class Estatistica{
 
     dados;

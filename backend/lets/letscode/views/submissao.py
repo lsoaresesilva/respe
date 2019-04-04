@@ -42,8 +42,9 @@ class SubmissaoView(APIView):
                 if submissao.save():
                     
                     juiz = Juiz(submissao)
-                    submissao.resultadosTestsCases = juiz.executarTestes(ArquivoSubmissao(submissao.codigo))
-
+                    arquivo = ArquivoSubmissao(submissao.codigo)
+                    submissao.resultadosTestsCases = juiz.executarTestes(arquivo)
+                    arquivo.apagarArquivo()
                     return JsonResponse(submissao.toJson(), safe=False, status=status.HTTP_201_CREATED)
             
         except Exception as exception:

@@ -1,8 +1,6 @@
 import { TestBed } from '@angular/core/testing';
 
 import { SubmissoesService } from './submissoes.service';
-import Submissao from './model/submissao';
-import { CodigoInvalidoErro } from './model/erros/codigoInvalidoErro';
 /*
 describe('EnvioCodigoService', () => {
   beforeEach(() => TestBed.configureTestingModule({}));
