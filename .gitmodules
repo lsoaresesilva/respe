@@ -1,0 +1,3 @@
+[submodule "src/app/firebase-odm"]
+	path = src/app/firebase-odm
+	url = https://github.com/lsoaresesilva/firebase-odm.git

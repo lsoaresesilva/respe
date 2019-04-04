@@ -68,8 +68,4 @@ export default class Codigo {
         
         return [];
       }
-
-      paraJson(){
-        return JSON.stringify(this);
-      }
 }

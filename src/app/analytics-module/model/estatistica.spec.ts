@@ -1,9 +1,10 @@
-import { Estatistica } from "./estatistica";
-import Submissao from './submissao';
+import { Estatistica } from "../../model/estatistica";
 import { NameError } from '../../model/nameErro';
+import Submissao from 'src/app/model/submissao';
 
 describe("Testes da estatística por tipo de erro", ()=>{
 
+    /*
     it("Deve retornar um array vazio se não forem passados dados", ()=>{
         let dados = [];
         let estatistica = new Estatistica(dados);
@@ -18,6 +19,7 @@ describe("Testes da estatística por tipo de erro", ()=>{
         expect(estatistica.calcularPorTipoErro()[0].nameError).toEqual(0);
     });
 
+    /*
     it("Deve retornar a frequência de tipos de erros", ()=>{
         let dados = [];
         let erro01 = new NameError("NameError: name 'x' is not defined");
@@ -36,5 +38,5 @@ describe("Testes da estatística por tipo de erro", ()=>{
 
         expect(estatistica.calcularPorTipoErro().length).toEqual(1);
     })
-
+    */
 });

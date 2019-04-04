@@ -11,7 +11,6 @@ import os
 
 
 
-
 def Collection(collectionName):
   def deco(cls):
     cls.collectionName = collectionName

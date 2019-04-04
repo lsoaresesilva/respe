@@ -2,9 +2,11 @@ import Codigo from './codigo';
 import ErroFactory from './erroFactory';
 import SolucaoFactory from './solucaoFactory';
 import { Observable } from 'rxjs';
-import Submissao from '../analytics-module/model/submissao';
 import ConfiguracaoEditor from './configuracaoEditor';
 import Usuario from './usuario';
+import Submissao from './submissao';
+import Estudante from './estudante';
+import { Questao } from './questao';
 declare var monaco: any;
 declare var editor: any;
 declare var Sk: any;
@@ -41,7 +43,8 @@ export default class Editor {
     }
 
     prepararEnvioCodigo() {
-        let envioCodigo = new Submissao(Usuario.getUsuarioLogado(), this.codigo.algoritmo);
+        // TODO: pegar o estudante logado.
+        let envioCodigo = new Submissao(this.codigo.algoritmo, new Estudante(), new Questao());
 
         // transformar o código de input em outra coisa
 
@@ -74,7 +77,7 @@ export default class Editor {
             });
 
             myPromise.then(function (mod) {
-                envioCodigo.status = true;
+                //envioCodigo.status = true;
 
                 observer.next(envioCodigo);
                 observer.complete();
@@ -82,8 +85,8 @@ export default class Editor {
             }, function (err) {
                 let erro = ErroFactory.create(err.toString());
 
-                envioCodigo.status = false;
-                envioCodigo.erro = erro.toFireStore();
+                //envioCodigo.status = false;
+                //envioCodigo.erro = erro.toFireStore();
 
                 _this.prepararSaidaErro(erro);
 

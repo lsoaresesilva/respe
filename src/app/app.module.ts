@@ -19,6 +19,7 @@ import { AnalyticsModule } from './analytics-module/analytics.module';
 import { EditorModule } from './editor-module/editor.module';
 import { GeralModuleModule } from './geral-module/geral-module.module';
 import { JuizModule } from './juiz/juiz.module';
+import { DocumentModule } from './model/firestore/document.module';
 
 
 
@@ -29,7 +30,6 @@ import { JuizModule } from './juiz/juiz.module';
     
   ],
   imports: [
-    JuizModule,
     GeralModuleModule,
     EditorModule,
     AnalyticsModule,
@@ -37,7 +37,7 @@ import { JuizModule } from './juiz/juiz.module';
     BrowserModule,
     AppRoutingModule,
     FormsModule,
-    
+    DocumentModule,
     AngularFireModule.initializeApp(FirebaseConfiguracao),
     AngularFirestoreModule,
     InputTextModule,

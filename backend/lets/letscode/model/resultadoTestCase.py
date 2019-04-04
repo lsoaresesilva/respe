@@ -20,6 +20,7 @@ class ResultadoTestCase(Document):
 
     def toJson(self):
         return {
-            "idTestCase":self.testCase.id,
+            "id":self.id,
+            "TestCase":self.testCase.id,
             "status":self.status
         }

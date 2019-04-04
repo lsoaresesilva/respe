@@ -1,8 +1,8 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
 import { SubmissoesService } from '../submissoes.service';
-import { Estatistica } from '../model/estatistica';
 import { UIChart } from 'primeng/chart';
 import Usuario from 'src/app/model/usuario';
+import { Estatistica } from 'src/app/model/estatistica';
 
 @Component({
   selector: 'app-progresso',
