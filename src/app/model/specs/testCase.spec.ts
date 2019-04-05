@@ -6,7 +6,7 @@ import { FirebaseConfiguracao } from 'src/environments/firebase';
 import TestCase from '../testCase';
 import Query from '../firestore/query';
 
-describe("Testes de questão", ()=>{
+describe("Testes de testcase", ()=>{
 
     let app: firebase.app.App;
   let afs: AngularFirestore;
