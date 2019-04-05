@@ -8,8 +8,9 @@ import { DocumentModule } from './document.module';
 import { FireStoreDocument } from './firestoreDocument';
 import { Person } from './models';
 import { forkJoin } from 'rxjs';
+import Query from './query';
 
-xdescribe("Document testing", () => {
+describe("Document testing", () => {
 
   let app: firebase.app.App;
   let afs: AngularFirestore;
@@ -109,6 +110,8 @@ xdescribe("Document testing", () => {
 
   })
 
+  
+
   it("deve falhar ao carregar um documento sem informar o id", () => {
 
     expect(function () {
@@ -196,6 +199,21 @@ xdescribe("Document testing", () => {
       })
       
     })
+
+    it("deve carregar todos documents corretamente a partir de uma query", (done) => {
+
+      let p = new Person(null);
+      p.name = "Apu";
+      p.save().subscribe(resultado=>{
+        Person.getAll(new Query("name", "==", "Apu")).subscribe(resultado => {
+          expect(resultado.length).toBe(1);
+          done();
+        })
+      })
+      
+      
+    })
+      
 
     // Testes de delete
 
@@ -332,7 +350,7 @@ xdescribe("Document testing", () => {
   
   it("deve validar true para um firestore document válido", (done) => {
     try{
-      let document: any = afs.doc<any>("ClassRoom/1bkdmrrH6mOzChadK6qk");
+      let document: any = afs.doc<any>("assunto/dFfoRKSwBjEN1aJWVkgr");
       document.get({ source: "server" }).subscribe(result => {
         let f = new FireStoreDocument(result);
         expect(f.validate(result)).toBeTruthy();

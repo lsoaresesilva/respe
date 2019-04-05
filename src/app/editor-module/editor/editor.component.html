@@ -26,10 +26,7 @@
           <p><span [innerHTML]="erroLinguagemProgramacao" style="padding:20px;"></span></p>
       </div>
       <div style="background-color:#F5F6CE;">
-          <p><span *ngIf="editorCodigo?.configuracao.errosSimplificados == true" [innerHTML]="erroSimplificado" style="padding:20px;" [ngClass]="{
-            'statusSucesso': status,
-            'statusErro': !status
-          }"></span></p>
+          <p><span *ngIf="editorCodigo?.configuracao.errosSimplificados == true" [innerHTML]="erroSimplificado" style="padding:20px;" ></span></p>
       </div>
       <p [innerHTML]="editorCodigo?.saida" #output style="padding:20px;"></p>
     </div>
