@@ -1,7 +1,7 @@
 import { Document, Collection } from './firestore/document';
 
-@Collection("questoesAssuntos")
-export default class QuestaoAssunto extends Document{
+@Collection("assuntosQuestoes")
+export default class AssuntoQuestao extends Document{
 
     idQuestao;
     idAssunto;

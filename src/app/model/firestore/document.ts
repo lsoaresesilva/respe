@@ -4,6 +4,7 @@ import { Observable } from 'rxjs';
 
 import {AppInjector} from './app-injector';
 import { FireStoreDocument } from './firestoreDocument';
+import Query from './query';
 
 export function Collection(nome){
     return function(target){
@@ -77,15 +78,30 @@ export class Document{
         })
     }
 
-    static getAll():Observable<any[]>{
+    static buildCollection(db, collectionName, query:Query){
+        
+        let collection: any = db.collection(collectionName);
+        
+        if(query != null){
+            collection = db.collection(collectionName, ref=>ref.where(query.column, query.operator, query.value));
+            
+        }
+
+        return collection;
+    }
+
+    static getAll(query:Query=null):Observable<any[]>{
         let db = this.getAngularFirestore();
         let objetos = []
         Document.prerequisitos(this["__name"], db);
 
         // TODO: migrar os códigos acima para dentro do observable, em um try/catch e no catch, em caso de erro, lançar um observer.error
         return new Observable(observer=>{
-            let collection: any = db.collection<any>(this["__name"]);
-        
+            
+            //let collection: any = this.buildCollection(db, this["__name"], null);
+            let collection = this.buildCollection(db, this["__name"], query)
+
+
             collection.get({ source: "server" }).subscribe(resultados => {
                 resultados.docs.forEach(document => {
                     objetos.push(new FireStoreDocument(document).toObject(this["prototype"]));

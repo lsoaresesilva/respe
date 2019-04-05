@@ -6,6 +6,8 @@ import { FirebaseConfiguracao } from 'src/environments/firebase';
 import { AngularFireModule, FirebaseApp } from '@angular/fire';
 import { Dificuldade } from '../dificuldade';
 import { Assunto } from '../assunto';
+import AssuntoQuestao from '../assuntoQuestao';
+import Query from '../firestore/query';
 
 describe("Testes de questão", ()=>{
 
@@ -42,12 +44,50 @@ describe("Testes de questão", ()=>{
         expect(q.validar()).toBeTruthy();
     })
 
-    it("deve salvar uma questão corretamente", (done)=>{
+
+    /*it("deve salvar uma questão corretamente", (done)=>{
         let q = new Questao(null, "nome", "enunciado", Dificuldade.facil, 1, new Assunto("12345"), [new Assunto("12345"), new Assunto("54321")]);
         q.save().subscribe(resultado=>{
             expect(resultado).toBeDefined();
-            done();
+            Questao.deleteAll().subscribe(resultado=>{
+              done();
+            })
+            
         })
         
+    })*/
+
+    it("deve carregar assuntosQuestao pelo id de questao", (done)=>{
+      AssuntoQuestao.getAll(new Query("idQuestao", "==", "LwC2ItAVtfkDhcE9jvpT")).subscribe(assuntosQuestao=>{
+        expect(assuntosQuestao.length).toBe(2);
+        done();
+      })
     })
+
+    it("deve carregar Assunto pelo id de questao", (done)=>{
+      Assunto.getAll().subscribe(resultado=>{
+        expect(resultado.length).toBe(2);
+        Assunto.get("dFfoRKSwBjEN1aJWVkgr").subscribe(assunto=>{
+          expect(assunto["nome"]).toBe("Condições")
+          done();
+        },err=>{
+          fail();
+          done();
+        })
+      })
+      
+    })
+
+    it("deve carregar uma questão com seus assuntos", (done)=>{
+      Questao.getAll().subscribe(questoes=>{
+        expect(questoes.length).toBeGreaterThan(0);
+        expect(questoes[0].id).toBe("LwC2ItAVtfkDhcE9jvpT");
+        expect(questoes[0].assuntoPrincipal.id).toBe("pVH6LewMxIKM73ep2n1N");
+        expect(questoes[0].assuntos.length).toBe(2);
+        done();
+      }, err=>{
+        fail();
+        done();
+      })
+    });
 })
