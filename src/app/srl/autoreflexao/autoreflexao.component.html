@@ -1,0 +1,40 @@
+<div class="p-grid">
+    <div class="p-col-1"></div>
+    <div class="p-col-4">
+    </div>
+    <div class="p-col-3">
+        <div>
+            <h3>Avalie o seu desempenho</h3>
+        </div>
+    </div>
+    <div class="p-col-2"></div>
+</div>
+
+<div class="p-grid">
+    <div class="p-col-1"></div>
+    <div class="p-col">
+        <h4>Quais ações contribuíram para a sua aprendizagem?</h4>
+        <input class="InputRespostaUm" type="text" style="padding-block-end: 200px" size="50" pInputText 
+        [(ngModel)]="respostaUm" required/>
+    </div>
+
+    <div class="p-col">
+        <h4>O que faltou para que você chegasse ao seu objetivo?</h4>
+        <input class="InputResposta" type="text" style="padding-block-end: 200px" size="50" pInputText 
+        [(ngModel)]="respostaDois"/>
+        <br>
+        <br>
+        
+    </div>
+</div>
+
+<div class="p-grid">
+    <div class="p-col-1"></div>
+    <div class="p-col-8">
+    </div>
+    <div class="p-col">
+            <p-button label="Enviar Respostas" (click)="salvarResposta()" styleClass="ui-button-info"></p-button>
+    </div>
+    <div class="p-col-2">
+        </div>
+    

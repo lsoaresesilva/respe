@@ -1,0 +1,2 @@
+class JuizError(Exception):
+    pass
