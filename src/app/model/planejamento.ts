@@ -1,16 +1,33 @@
 import Usuario from './usuario';
 import { Assunto } from './assunto';
+import Estudante from './estudante';
+import { Document, Collection } from './firestore/document';
+import { Dificuldade } from './dificuldade';
 
-export class Planejamento{
-    usuario:Usuario;
+@Collection("planejamento")
+export class Planejamento extends Document{
+    estudante:Estudante;
     assunto:Assunto;
     tempoEstudo;
-    importancia;
-    nivelDificuldade;
-    planoExecucao;
+    importanciaAssunto;
+    dificuldadeConteudo:Dificuldade;
+    estrategiaRealizacaoEstudo;
 
-    toFirebase(){
-        return {loginId:this.usuario.id,assuntoId:this.assunto.pk(),tempoEstudo:this.tempoEstudo,importancia:this.importancia,nivelDificuldade:this.nivelDificuldade,planoExecucao:this.planoExecucao};
+    constructor(id, estudante, assunto, tempoEstudo, importanciaAssunto, dificuldadeConteudo, estrategiaRealizacaoEstudo){
+        super(id);
+        this.estudante = estudante;
+        this.assunto = assunto;
+        this.tempoEstudo = tempoEstudo;
+        this.importanciaAssunto = importanciaAssunto;
+        this.dificuldadeConteudo = dificuldadeConteudo;
+        this.estrategiaRealizacaoEstudo = estrategiaRealizacaoEstudo;
+    }
+
+    objectToDocument(){
+        let document = super.objectToDocument()
+        document["estudanteId"] = this.estudante.pk();
+        document["assuntoId"] = this.assunto.pk();
+        return document;
     }
 
 }
