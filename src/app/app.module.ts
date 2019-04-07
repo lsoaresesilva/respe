@@ -24,20 +24,18 @@ import { EditorModule } from './editor-module/editor.module';
 import { GeralModuleModule } from './geral-module/geral-module.module';
 import { JuizModule } from './juiz/juiz.module';
 import { DocumentModule } from './model/firestore/document.module';
-import { SelecionarPlanejamentoComponent } from './planejamento-module/selecionar-planejamento/selecionar-planejamento.component';
-import { CadastroPlanejamentoComponent } from './planejamento-module/cadastro-planejamento/cadastro-planejamento.component';
+import { SrlModule } from './srl/srl.module';
 
 
 
 @NgModule({
   declarations: [
     AppComponent,
-    MainComponent,
-    SelecionarPlanejamentoComponent,
-    CadastroPlanejamentoComponent,
+    MainComponent
 
   ],
   imports: [
+    SrlModule,
     DocumentModule,
     GeralModuleModule,
     EditorModule,
@@ -45,17 +43,10 @@ import { CadastroPlanejamentoComponent } from './planejamento-module/cadastro-pl
     LoginModule,
     BrowserModule,
     AppRoutingModule,
-    FormsModule,
-    InputTextareaModule,
-    DropdownModule,
-
     AngularFireModule.initializeApp(FirebaseConfiguracao),
     AngularFirestoreModule,
     InputTextModule,
     MenubarModule,
-    TableModule,
-    SliderModule,
-
   ],
   providers: [],
   bootstrap: [AppComponent]

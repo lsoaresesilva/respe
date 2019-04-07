@@ -4,8 +4,8 @@ import { EditorComponent } from './editor-module/editor/editor.component';
 import { LoginComponent } from './login-module/login/login.component';
 import { MainComponent } from './geral-module/main/main.component';
 import { ProgressoComponent } from './analytics-module/progresso/progresso.component';
-import { SelecionarPlanejamentoComponent } from './planejamento-module/selecionar-planejamento/selecionar-planejamento.component';
-import { CadastroPlanejamentoComponent } from './planejamento-module/cadastro-planejamento/cadastro-planejamento.component';
+import { SelecionarPlanejamentoComponent } from './srl/selecionar-planejamento/selecionar-planejamento.component';
+import { CadastroPlanejamentoComponent } from './srl/cadastro-planejamento/cadastro-planejamento.component';
 
 const routes: Routes = [
   {path:"", component:LoginComponent},
