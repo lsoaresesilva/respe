@@ -9,9 +9,9 @@ export class VisualizarTestesComponent implements OnInit {
 
   @Input() resultados;
 
-  constructor() { 
-    
-    
+  constructor() {
+
+
   }
 
   ngOnInit() {

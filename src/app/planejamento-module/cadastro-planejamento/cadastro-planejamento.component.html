@@ -1,0 +1,17 @@
+<div style="margin-left: auto;margin-right: auto;width: 30em">
+
+  <table>
+    <tr>
+      <td><p >Tempo de estudo semanal(horas): {{horas}} &nbsp;</p></td>
+      <td><p-slider [(ngModel)]="horas" [min]="1" [max]="10" [style]="{'width':'12em'}"></p-slider></td>
+    </tr>
+  </table>
+
+  <p>Por que você considera esse assunto importante no aprendizado de programação?</p>
+
+  <textarea [rows]="5" [cols]="50" pInputTextarea autoResize="autoResize" [(ngModel)]="importancia" ></textarea>
+  
+  <p>Como você avalia a dificuldade desse assunto?</p>
+
+  <p-dropdown [options]="dificuldades" [(ngModel)]="dificuldade" ></p-dropdown>
+</div>
