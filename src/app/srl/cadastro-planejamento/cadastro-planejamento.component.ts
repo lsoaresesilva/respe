@@ -37,13 +37,13 @@ export class CadastroPlanejamentoComponent implements OnInit {
   }
 
   cadastrarPlanejamento(){
-   /* let p = new Planejamento()
-p.save().subscribe(resultado=>{
-// salvou com sucesso
-}, err=>{
-// erro no save
-});
-*/
+    let p = new Planejamento(null,null,this.assunto,this.tempo,this.importancia,this.dificuldade,this.planejamento);
+    p.save().subscribe(resultado=>{
+      // salvou com sucesso
+    }, err=>{
+      // erro no save
+  });
+
   }
 
   mostrarProximo(assunto){
