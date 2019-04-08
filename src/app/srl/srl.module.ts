@@ -11,6 +11,8 @@ import { InputTextareaModule } from 'primeng/inputtextarea';
 import { DropdownModule } from 'primeng/dropdown';
 import { TableModule } from 'primeng/table';
 import { SliderModule } from 'primeng/slider';
+import {TabViewModule} from 'primeng/tabview';
+import {ButtonModule} from 'primeng/button';
 
 @NgModule({
   declarations: [
@@ -29,6 +31,8 @@ import { SliderModule } from 'primeng/slider';
 
     TableModule,
     SliderModule,
+    TabViewModule,
+    ButtonModule,
   ],
   providers:[PlanejamentoService]
 
