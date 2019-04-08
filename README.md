@@ -15,3 +15,7 @@ Em sprints e cada membro do projeto receberá uma Issue para desenvolver. O flux
 
 # Diagramas
 O diagrama de classes está neste link: https://www.lucidchart.com/invitations/accept/a6736d47-c33f-4f8a-bf67-03510629591b
+
+# Fluxo de telas
+
+https://www.lucidchart.com/invitations/accept/c08e9d10-8fa1-41e7-a148-c1b70f3cb0ed

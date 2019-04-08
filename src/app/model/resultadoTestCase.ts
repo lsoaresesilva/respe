@@ -6,7 +6,9 @@ import TestCase from './testCase';
 @Collection("resultadoTestCase")
 export default class ResultadoTestCase extends Document{
 
+    estudante;
     status;
+    respostaAlgoritmo;
     testCase;
 
     constructor(id, status, testCase){

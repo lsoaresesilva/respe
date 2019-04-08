@@ -26,9 +26,17 @@ export class EditorComponent implements OnInit {
   statusExecucao;
   erroSimplificado;
   resultadosTestsCases;
+  questao;
+
+  uploadSubmissao;
 
   constructor(private http: HttpClient) {
     this.statusExecucao = "";
+    Questao.get("LwC2ItAVtfkDhcE9jvpT").subscribe(questao=>{
+      this.questao = questao;
+    })
+
+    this.uploadSubmissao = false;
   }
 
   ngOnInit() {
@@ -44,19 +52,20 @@ export class EditorComponent implements OnInit {
       })
     } 
     this.editorCodigo.codigo.setAlgoritmo(editor.getValue());
-    //console.log(this.editorCodigo.codigo.paraJson())
+    this.uploadSubmissao = true;
 
     // TODO: pegar usuário logado
     let estudante = new Estudante("12345");
     
-    // TODO: pegar questão pela rota
-    let questao = new Questao("Ozwt1Hrmz7b8tlFwjDVW", null, null, null, null, null, null);
-    let submissao = new Submissao(this.editorCodigo.codigo, estudante, questao);
+   
+    let submissao = new Submissao(this.editorCodigo.codigo, estudante, this.questao);
 
-    
+    // TODO: definir um timedout
 
     this.http.post<any>("http://127.0.0.1:8000/codigo/", submissao.objectToDocument(), httpOptions).subscribe(resposta=>{
       
+      
+
       let consultas = []
       this.resultadosTestsCases = []
       for(let i = 0; i < resposta.resultados.length; i++){
@@ -73,12 +82,11 @@ export class EditorComponent implements OnInit {
       })
     }, err=>{
       this.erroSimplificado = err.error.erro;
+    }, ()=>{
+      this.uploadSubmissao = false;
     })
     
-    /*this.editorCodigo.runit().subscribe(codigoEnviado => {
-      this.prepararStatus(codigoEnviado.status);
-      //this.envioCodigoService.salvar(codigoEnviado).subscribe();
-    })*/
+
 
   }
 

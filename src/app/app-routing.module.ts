@@ -1,6 +1,6 @@
 import { NgModule } from '@angular/core';
 import { Routes, RouterModule } from '@angular/router';
-import { EditorComponent } from './editor-module/editor/editor.component';
+import { EditorComponent } from './juiz/editor/editor.component';
 import { LoginComponent } from './login-module/login/login.component';
 import { MainComponent } from './geral-module/main/main.component';
 import { ProgressoComponent } from './analytics-module/progresso/progresso.component';

@@ -1,10 +1,11 @@
 <p-table [value]="resultados" >
   <ng-template pTemplate="header">
       <tr>
-          <th>Nome</th>
+          <th>#</th>
           <th>Resultado</th>
           <th>Entradas</th>
-          <th>Saída</th>
+          <th>Saída esperada</th>
+          <th>Resposta do algoritmo</th>
       </tr>
   </ng-template>
   <ng-template pTemplate="body" let-resultadoTestCase let-i="rowIndex">
@@ -16,6 +17,7 @@
           }">{{resultadoTestCase.status == true?"Sucesso":"Falha"}}</span></td>
           <td>{{resultadoTestCase.testCase.entradas}}</td>
           <td>{{resultadoTestCase.testCase.saida}}</td>
+          <td>{{resultadoTestCase.respostaAlgoritmo}}</td>
       </tr>
   </ng-template>
 </p-table>
