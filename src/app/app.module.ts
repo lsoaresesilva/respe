@@ -20,7 +20,6 @@ import { FirebaseConfiguracao } from 'src/environments/firebase';
 import { LoginModule } from './login-module/login.module';
 import { MainComponent } from './geral-module/main/main.component';
 import { AnalyticsModule } from './analytics-module/analytics.module';
-import { EditorModule } from './editor-module/editor.module';
 import { GeralModuleModule } from './geral-module/geral-module.module';
 import { JuizModule } from './juiz/juiz.module';
 import { DocumentModule } from './model/firestore/document.module';
@@ -38,7 +37,7 @@ import { SrlModule } from './srl/srl.module';
     SrlModule,
     DocumentModule,
     GeralModuleModule,
-    EditorModule,
+    JuizModule,
     AnalyticsModule,
     LoginModule,
     BrowserModule,
