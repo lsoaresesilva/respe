@@ -2,7 +2,8 @@ import { Component, OnInit } from '@angular/core';
 import { SelectItem } from 'primeng/components/common/selectitem';
 import { Assunto } from '../../model/assunto';
 import { Planejamento } from '../../model/planejamento';
-
+import Estudante from '../../model/estudante';
+import { Dificuldade } from '../../model/dificuldade';
 @Component({
   selector: 'app-cadastro-planejamento',
   templateUrl: './cadastro-planejamento.component.html',
@@ -22,7 +23,10 @@ export class CadastroPlanejamentoComponent implements OnInit {
   
 
 
-  constructor() { }
+  constructor() { 
+
+    this.planejamento = new Planejamento(null,new Estudante(1),null,"","",0,"");
+  }
 
   ngOnInit() {
     
@@ -30,24 +34,27 @@ export class CadastroPlanejamentoComponent implements OnInit {
 
     this.dificuldades=[
       {label:'Selecione uma dificuldade', value:null},
-      {label:'Difícil', value:{id:1, nome: 'Difícil'}},
-      {label:'Normal', value:{id:2, nome: 'Normal'}},
-      {label:'Facíl', value:{id:3, nome: 'Facíl',}},
+      {label:'Difícil', value: Dificuldade.dificil},
+      {label:'Normal', value: Dificuldade.medio},
+      {label:'Facíl', value:Dificuldade.facil},
     ];
   }
 
   cadastrarPlanejamento(){
-    let p = new Planejamento(null,null,this.assunto,this.tempo,this.importancia,this.dificuldade,this.planejamento);
-    p.save().subscribe(resultado=>{
-      // salvou com sucesso
-    }, err=>{
-      // erro no save
-  });
-
+    if(this.planejamento){
+      this.planejamento.save().subscribe(resultado=>{
+        alert("tudo certo");
+      }, err=>{
+        console.log(err);
+      });
+    }else{
+      alert("preencha todos os campos!");
+    }
   }
 
   mostrarProximo(assunto){
-    this.assunto = assunto;
+    this.planejamento.assunto = assunto;
     this.index = (this.index === 2) ? 0 : this.index + 1;
   }
+
 }

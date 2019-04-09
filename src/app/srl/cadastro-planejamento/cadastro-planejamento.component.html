@@ -27,30 +27,30 @@
 
       <table>
         <tr>
-          <td><p ><b>Tempo de estudo semanal(horas): {{tempo}}</b> &nbsp;</p></td>
-          <td><p-slider [(ngModel)]="tempo" [min]="1" [max]="10" [style]="{'width':'12em'}"></p-slider></td>
+          <td><p ><b>Tempo de estudo semanal(horas): {{planejamento.tempoEstudo}}</b> &nbsp;</p></td>
+          <td><p-slider [(ngModel)]="planejamento.tempoEstudo" [min]="1" [max]="10" [style]="{'width':'12em'}"></p-slider></td>
         </tr>
       </table>
       <br><br>
     
       <p><b>Por que você considera esse assunto importante no aprendizado de programação?</b></p>
     
-      <textarea [rows]="5" [cols]="50" pInputTextarea autoResize="autoResize" [(ngModel)]="importancia" ></textarea>
+      <textarea [rows]="5" [cols]="50" pInputTextarea autoResize="autoResize" [(ngModel)]="planejamento.importanciaAssunto" ></textarea>
       <br><br>
 
       <p><b>Como você avalia a dificuldade desse assunto?</b></p>
     
-      <p-dropdown [options]="dificuldades" [(ngModel)]="dificuldade" ></p-dropdown>
+      <p-dropdown [options]="dificuldades" [(ngModel)]="planejamento.dificuldadeConteudo" ></p-dropdown>
 
       <p><b>O que meus colegas acham?</b> % dos estudantes consideram esse tema difícil; % consideram normal e % consideram facíl.</p>
       <br><br>
 
       <p><b>Como você planeja realizar esse estudo?</b></p>
     
-      <textarea [rows]="5" [cols]="50" pInputTextarea autoResize="autoResize" [(ngModel)]="planoExecucao" ></textarea>
+      <textarea [rows]="5" [cols]="50" pInputTextarea autoResize="autoResize" [(ngModel)]="planejamento.estrategiaRealizacaoEstudo" ></textarea>
       <br><br>
 
-      <button pButton type="button" class="ui-button-info" (click)="cadastrarPlanejamento()">Cadastrar</button>
+      <button pButton type="button" class="ui-button-info" (click)="cadastrarPlanejamento()" style="left: 75%;">Cadastrar</button>
 
     </div>
 
