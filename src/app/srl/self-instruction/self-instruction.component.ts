@@ -1,6 +1,8 @@
 import { Component, OnInit, Input } from '@angular/core';
 import { Questao } from 'src/app/model/questao';
 import {MessageService} from 'primeng/api';
+import { Router } from '@angular/router';
+
 
 @Component({
   selector: 'app-self-instruction',
@@ -10,13 +12,13 @@ import {MessageService} from 'primeng/api';
 export class SelfInstructionComponent implements OnInit {
 
   @Input() questao: Questao;
-  index: number = -1;
 
-  constructor(private messageService: MessageService) { }
+  constructor(private messageService: MessageService, private router:Router) { }
 
   botao(){
-   // routerLink = "/home"
+    this.router.navigate(["main", { outlets: { principal: ['editor'] } }])
   }
+
   ngOnInit() {
   }
 
