@@ -4,6 +4,7 @@ import Estudante from 'src/app/model/estudante';
 import { Message } from 'primeng/components/common/message';
 import { AngularFirestoreCollection } from '@angular/fire/firestore';
 import { error } from '@angular/compiler/src/util';
+import { Assunto } from 'src/app/model/assunto';
 
 @Component({
   selector: 'app-auto-reflexao',
@@ -13,12 +14,15 @@ import { error } from '@angular/compiler/src/util';
 export class AutoReflexaoComponent implements OnInit {
 
   autoReflexao: AutoReflexao;
+  assunto: Assunto;
   msgs: Message[];
+  id: "12345";
   private autoreflexao_srl: AngularFirestoreCollection<any>;
 
 
   constructor() {
-    this.autoReflexao = new AutoReflexao(null, new Estudante("12345"), " ", " ", " ");
+    this.assunto = new Assunto("12345");
+    this.autoReflexao = new AutoReflexao(this.assunto, new Estudante("12345"), " ", " ", " ");
   }
 
   ngOnInit() {
@@ -28,10 +32,9 @@ export class AutoReflexaoComponent implements OnInit {
     if (this.autoReflexao.acoesSucesso == "" || this.autoReflexao.acoesFracasso == "") {
       this.showError();
     } else {
-      this.autoReflexao.save().subscribe(resultado => {
-        this.autoreflexao_srl.add(this.autoReflexao.objectToDocument()).then(resultado => {
+      this.autoReflexao.save().subscribe(_resultado => {
+        this.autoreflexao_srl.add(this.autoReflexao.objectToDocument()).then(_resultado => {
           this.showSuccess();
-
         }).catch(error)
 
       })
