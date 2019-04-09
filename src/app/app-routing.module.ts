@@ -6,6 +6,7 @@ import { MainComponent } from './geral-module/main/main.component';
 import { ProgressoComponent } from './analytics-module/progresso/progresso.component';
 import { SelecionarPlanejamentoComponent } from './srl/selecionar-planejamento/selecionar-planejamento.component';
 import { CadastroPlanejamentoComponent } from './srl/cadastro-planejamento/cadastro-planejamento.component';
+import { SelfInstructionComponent } from './srl/self-instruction/self-instruction.component';
 
 const routes: Routes = [
   {path:"", component:LoginComponent},
@@ -15,6 +16,8 @@ const routes: Routes = [
   ]},
   {path:"cadastro", component:CadastroPlanejamentoComponent},
   {path:"selecionar", component:SelecionarPlanejamentoComponent},
+  {path:"selfInstruction", component:SelfInstructionComponent},
+
 ];
 
 @NgModule({

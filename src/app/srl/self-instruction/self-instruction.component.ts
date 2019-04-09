@@ -1,5 +1,6 @@
 import { Component, OnInit, Input } from '@angular/core';
 import { Questao } from 'src/app/model/questao';
+import {MessageService} from 'primeng/api';
 
 @Component({
   selector: 'app-self-instruction',
@@ -9,8 +10,9 @@ import { Questao } from 'src/app/model/questao';
 export class SelfInstructionComponent implements OnInit {
 
   @Input() questao: Questao;
+  index: number = -1;
 
-  constructor() { }
+  constructor(private messageService: MessageService) { }
 
   ngOnInit() {
   }
