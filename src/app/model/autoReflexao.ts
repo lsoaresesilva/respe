@@ -22,7 +22,7 @@ export default class AutoReflexao extends Document{
     objectToDocument(){
         let document = super.objectToDocument()
         document["estudanteId"] = this.estudante.pk();
-        document["assuntoId"] = this.assunto.pk();
+        //document["assuntoId"] = this.assunto.pk();
         return document;
     }
 

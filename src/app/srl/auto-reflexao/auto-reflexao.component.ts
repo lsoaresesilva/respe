@@ -5,6 +5,7 @@ import { Message } from 'primeng/components/common/message';
 import { AngularFirestoreCollection } from '@angular/fire/firestore';
 import { error } from '@angular/compiler/src/util';
 import { Assunto } from 'src/app/model/assunto';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-auto-reflexao',
@@ -17,11 +18,10 @@ export class AutoReflexaoComponent implements OnInit {
   assunto: Assunto;
   msgs: Message[];
   id: "12345";
-  private autoreflexao_srl: AngularFirestoreCollection<any>;
 
 
-  constructor() {
-    this.assunto = new Assunto("12345");
+  constructor(private router: Router) {
+    this.assunto = new Assunto("pVH6LewMxIKM73ep2n1N");
     this.autoReflexao = new AutoReflexao(this.assunto, new Estudante("12345"), " ", " ", " ");
   }
 
@@ -32,11 +32,10 @@ export class AutoReflexaoComponent implements OnInit {
     if (this.autoReflexao.acoesSucesso == "" || this.autoReflexao.acoesFracasso == "") {
       this.showError();
     } else {
-      this.autoReflexao.save().subscribe(_resultado => {
-        this.autoreflexao_srl.add(this.autoReflexao.objectToDocument()).then(_resultado => {
+      this.autoReflexao.save().subscribe(resultado => {
+        this.autoReflexao.pk = resultado.id;        
           this.showSuccess();
-        }).catch(error)
-
+          // rota para listagem de planejamentos
       })
     }
   }
@@ -46,7 +45,7 @@ export class AutoReflexaoComponent implements OnInit {
   }
   showSuccess() {
     this.msgs = [];
-    this.msgs.push({ severity: 'success', summary: 'Formulário respondido com sucesso!' });
+    this.msgs.push({ severity: 'success', summary: 'Formulário enviado com sucesso!' });
   }
 
 }
