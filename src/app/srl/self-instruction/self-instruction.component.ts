@@ -14,6 +14,9 @@ export class SelfInstructionComponent implements OnInit {
 
   constructor(private messageService: MessageService) { }
 
+  botao(){
+   // routerLink = "/home"
+  }
   ngOnInit() {
   }
 

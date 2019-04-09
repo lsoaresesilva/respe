@@ -8,6 +8,7 @@ import { SliderModule } from 'primeng/slider';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { BrowserModule } from '@angular/platform-browser';
 import { AccordionModule } from 'primeng/accordion';
+import { ButtonModule } from 'primeng/button';
 
 import { SelfInstructionComponent } from './self-instruction/self-instruction.component';
 import { SelecionarPlanejamentoComponent } from './selecionar-planejamento/selecionar-planejamento.component';
@@ -35,6 +36,7 @@ import { MessageService } from 'primeng/api';
     TableModule,
     SliderModule,
     AccordionModule,
+    ButtonModule,
   ],
   providers:[PlanejamentoService, MessageService]
 
