@@ -32,7 +32,7 @@ class SubmissaoView(APIView):
         try:
             # TODO: verificações para ver se o JSON é válido
             if self.submissaoRequestValid(request):
-                testsCases = TestCase.listAllByQuery(Query("idQuestao", "==", request.data["questaoId"]))
+                testsCases = TestCase.listAllByQuery(Query("questaoId", "==", request.data["questaoId"]))
                 
                 questao = Questao(request.data["questaoId"], testsCases)
                 submissao = Submissao(request.data["algoritmo"], Estudante(request.data["estudanteId"], None), questao)

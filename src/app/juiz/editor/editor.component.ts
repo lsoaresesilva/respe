@@ -6,6 +6,8 @@ import Estudante from 'src/app/model/estudante';
 import { Questao } from 'src/app/model/questao';
 import ResultadoTestCase from 'src/app/model/resultadoTestCase';
 import { forkJoin } from 'rxjs';
+import PythonInterpreter from 'src/app/model/pythonInterpreter';
+import { ParseError } from 'src/app/model/parseError';
 
 
 declare var editor: any;
@@ -32,7 +34,7 @@ export class EditorComponent implements OnInit {
 
   constructor(private http: HttpClient) {
     this.statusExecucao = "";
-    Questao.get("LwC2ItAVtfkDhcE9jvpT").subscribe(questao=>{
+    Questao.get("LwC2ItAVtfkDhcE9jvpT").subscribe(questao => {
       this.questao = questao;
     })
 
@@ -41,7 +43,7 @@ export class EditorComponent implements OnInit {
 
   ngOnInit() {
     this.editorCodigo = Editor.getInstance();
-    
+
     carregarIde();
   }
 
@@ -50,42 +52,51 @@ export class EditorComponent implements OnInit {
       headers: new HttpHeaders({
         'Content-Type': 'application/json'
       })
-    } 
+    }
     this.editorCodigo.codigo.setAlgoritmo(editor.getValue());
     this.uploadSubmissao = true;
 
     // TODO: pegar usuário logado
     let estudante = new Estudante("12345");
-    
-   
+
+
     let submissao = new Submissao(this.editorCodigo.codigo, estudante, this.questao);
 
     // TODO: definir um timedout
 
-    this.http.post<any>("http://127.0.0.1:8000/codigo/", submissao.objectToDocument(), httpOptions).subscribe(resposta=>{
-      
-      
+    ParseError.variavelNaoDeclarada(this.editorCodigo.codigo);
 
-      let consultas = []
-      this.resultadosTestsCases = []
-      for(let i = 0; i < resposta.resultados.length; i++){
-        let consulta = ResultadoTestCase.get(resposta.resultados[i].id);
-        consultas.push(consulta);
-        
-      }
+    let p: ParseError = new ParseError(this.editorCodigo.codigo);
+    if (p.hasError()) {
+      console.log(p.mensagem());
+    } else {
+      this.http.post<any>("http://127.0.0.1:8000/codigo/", submissao.objectToDocument(), httpOptions).subscribe(resposta => {
 
-      forkJoin(consultas).subscribe(resultados=>{
-        
-        for(let i = 0; i < resultados.length; i++){
-            this.resultadosTestsCases.push(resultados[i]);
+
+
+        let consultas = []
+        this.resultadosTestsCases = []
+        for (let i = 0; i < resposta.resultados.length; i++) {
+          let consulta = ResultadoTestCase.get(resposta.resultados[i].id);
+          consultas.push(consulta);
+
         }
+
+        forkJoin(consultas).subscribe(resultados => {
+
+          for (let i = 0; i < resultados.length; i++) {
+            this.resultadosTestsCases.push(resultados[i]);
+          }
+        })
+      }, err => {
+        this.erroSimplificado = err.error.erro;
+      }, () => {
+        this.uploadSubmissao = false;
       })
-    }, err=>{
-      this.erroSimplificado = err.error.erro;
-    }, ()=>{
-      this.uploadSubmissao = false;
-    })
-    
+    }
+
+
+
 
 
   }
@@ -93,12 +104,12 @@ export class EditorComponent implements OnInit {
   prepararStatus(status) {
     let textoStatus = "<span class='textoStatus'>Status</span> "
     if (!status)
-      this.statusExecucao = textoStatus+"<span class='statusErro'>Erro</span>";
+      this.statusExecucao = textoStatus + "<span class='statusErro'>Erro</span>";
     else
-      this.statusExecucao = textoStatus+"<span class='statusSucesso'>Sucesso</span>";
+      this.statusExecucao = textoStatus + "<span class='statusSucesso'>Sucesso</span>";
   }
 
-  
+
 
 
 

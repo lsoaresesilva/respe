@@ -59,7 +59,7 @@ class Juiz():
                 else:
                     raise JuizError("A quantidade de inputs em seu código é menor que a quantidade de entradas")
                 
-                resultado = ResultadoTestCase(self.submissao, teste, self.respostaAlgoritmo(msgRetornoAlgoritmo), resultadoTeste)
+                resultado = ResultadoTestCase(self.submissao, teste, self.respostaAlgoritmo(msgRetornoAlgoritmo, teste.entradas), resultadoTeste)
                 
                 resultados.append(resultado)    
             else:
@@ -90,7 +90,7 @@ class Juiz():
                 
         return textosInput
 
-    def respostaAlgoritmo(self, resultadoAlgoritmo):
+    def respostaAlgoritmo(self, resultadoAlgoritmo, entradas):
         
         
         textosInput = self.obterTextosInput()
@@ -99,18 +99,24 @@ class Juiz():
         saidas = resultadoAlgoritmo.splitlines()
         resultadoAlgoritmo = []
         for saida in saidas:
-            saidaInput = False
-            for textoInput in textosInput:
+            textoEntradaInput = False # Se for um texto que apareceu em razão da entrada do test case ou do input do algoritmo, deve ignorar
+            for textoInput in textosInput: # OU se for uma das entradas do testcase, também ignorar
                 if textoInput in saida:
-                    saidaInput = True
+                    textoEntradaInput = True
                     break
+            for textoEntrada in entradas: # OU se for uma das entradas do testcase, também ignorar
+                if textoEntrada == saida:
+                    textoEntradaInput = True
+                    break
+            
 
-            if not saidaInput:
+            if not textoEntradaInput:
                 resultadoAlgoritmo.append(saida)
 
-                
-
-        return resultadoAlgoritmo
+        if len(resultadoAlgoritmo)>0:
+            return resultadoAlgoritmo[0]
+        else: 
+            return resultadoAlgoritmo
 
         
 
