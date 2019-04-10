@@ -8,7 +8,6 @@ export default class ErroSintaxeVariavel extends ErroSintaxe{
     static erros(codigo:Codigo):Erro[]{
         let erros:Erro[] = [];
         let linhasCodigo = codigo.linhasAlgoritmo();
-        let tipoErro = TipoErro.variavel;
         
         for (let i = 0; i < linhasCodigo.length; i++) {
             let numeroLinha = i+1;
@@ -17,21 +16,21 @@ export default class ErroSintaxeVariavel extends ErroSintaxe{
             
 
             if(ErroSintaxeVariavel.numeroDecimalComVirgula(linhaCodigo)){
-                erros.push(new Erro(numeroLinha, "Você declarou uma variável com número decimal e utilizou , (vírgula) quando deveria ter usado . (ponto). Erro na linha: "+numeroLinha, tipoErro));
+                erros.push(new Erro(numeroLinha, "Você declarou uma variável com número decimal e utilizou , (vírgula) quando deveria ter usado . (ponto). Erro na linha: "+numeroLinha, TipoErro.numeroDecimalComVirgula));
             }
 
             if(ErroSintaxeVariavel.variavelDeclaradaComDoisIguais(linhaCodigo)){
-                erros.push(new Erro(numeroLinha, "Você declarou uma variável com dois == (igualdades) quando deveria ter usado apenas um =. Erro na linha: "+numeroLinha, tipoErro));
+                erros.push(new Erro(numeroLinha, "Você declarou uma variável com dois == (igualdades) quando deveria ter usado apenas um =. Erro na linha: "+numeroLinha, TipoErro.declaracaoVariavelComDoisIguals));
             }
 
             if(ErroSintaxeVariavel.nomeVariavelComEspaco(linhaCodigo)){
-                erros.push(new Erro(numeroLinha, "Você utilizou espaço no nome de uma variável e isso não é permitido. Erro na linha: "+numeroLinha, tipoErro));
+                erros.push(new Erro(numeroLinha, "Você utilizou espaço no nome de uma variável e isso não é permitido. Erro na linha: "+numeroLinha, TipoErro.espacoNoNomeVariavel));
             }
         }
 
         let variaveisNaoDeclaradas = ErroSintaxeVariavel.variaveisNaoDeclaradas(codigo);
         variaveisNaoDeclaradas.forEach(variavel=>{
-            erros.push(new Erro(variavel.linha, "Você tentou utilizar a variável: '"+variavel.nome+"' que não foi criada. Erro na linha: "+variavel.linha, tipoErro));
+            erros.push(new Erro(variavel.linha, "Você tentou utilizar a variável: '"+variavel.nome+"' que não foi criada. Erro na linha: "+variavel.linha, TipoErro.variavelNaoDeclarada));
         })
 
 

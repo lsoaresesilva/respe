@@ -12,20 +12,34 @@ export default class ErroSintaxeFuncao extends ErroSintaxe{
         for (let i = 0; i < linhasCodigo.length; i++) {
             let numeroLinha = i+1;
             let linhaCodigo = linhasCodigo[i];
-            let tipoErro = TipoErro.funcao;
+            
 
             if( ErroSintaxeFuncao.faltaParentese(linhaCodigo)){
-                erros.push(new Erro(numeroLinha, "Você esqueceu de um parêntesis na declaração/uso de uma função. Erro na linha: "+numeroLinha, tipoErro));
+                erros.push(new Erro(numeroLinha, "Você esqueceu de um parêntesis na declaração/uso de uma função. Erro na linha: "+numeroLinha, TipoErro.faltaParentesis));
             }
 
             if( ErroSintaxeFuncao.faltaVirgula(linhaCodigo)){
-                erros.push(new Erro(numeroLinha, "Você esqueceu de uma , (vírgula) para separar os parâmetros de uma função. Erro na linha: "+numeroLinha, tipoErro));
+                erros.push(new Erro(numeroLinha, "Você esqueceu de uma , (vírgula) para separar os parâmetros de uma função. Erro na linha: "+numeroLinha, TipoErro.faltaVirgulaParametros));
+            }
+
+            if( ErroSintaxeFuncao.ausenciaDeDoisPontos(linhaCodigo)){
+                erros.push(new Erro(numeroLinha, "Ao criar uma função é preciso incluir : (dois pontos) ao término da instrução. Por exemplo: def nome-funcao(): . Erro na linha: "+numeroLinha, TipoErro.faltaDoisPontosFuncao));
             }
 
             
         }
 
         return erros;
+    }
+
+    static ausenciaDeDoisPontos(linha){
+        if (ErroSintaxe.isLinhaProgramacaoValida(linha)) {
+            if(ErroSintaxe.isFunction(linha)){
+                return ErroSintaxe.faltaDoisPontos(linha);
+            }
+        }
+
+        return false;
     }
 
     static faltaParentese(linha) {

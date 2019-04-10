@@ -22,6 +22,11 @@ describe("Testes de análise de sintaxe para variáveis", ()=>{
         c.setAlgoritmo(algoritmo);
         variaveisNaoDeclaradas = ErroSintaxeVariavel.variaveisNaoDeclaradas(c);
         expect(variaveisNaoDeclaradas.length).toBe(0);
+
+        algoritmo = "nota3 = 2\n x = nota3" // PROBLEMA está nesse 2,5. ele está identificando 2 como sendo uma variável que foi utilizada
+        c.setAlgoritmo(algoritmo);
+        variaveisNaoDeclaradas = ErroSintaxeVariavel.variaveisNaoDeclaradas(c);
+        expect(variaveisNaoDeclaradas.length).toBe(0);
         
     })
 

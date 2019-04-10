@@ -8,6 +8,7 @@ import ResultadoTestCase from 'src/app/model/resultadoTestCase';
 import { forkJoin } from 'rxjs';
 import PythonInterpreter from 'src/app/model/pythonInterpreter';
 import { ParseError } from 'src/app/model/parseError';
+import { Tutor } from 'src/app/model/tutor';
 
 
 declare var editor: any;
@@ -28,17 +29,18 @@ export class EditorComponent implements OnInit {
   statusExecucao;
   erroSimplificado;
   resultadosTestsCases;
+  erroLinguagemProgramacao;
   questao;
-
-  uploadSubmissao;
+  uploadCodigo;
 
   constructor(private http: HttpClient) {
+    this.erroLinguagemProgramacao = ""
     this.statusExecucao = "";
     Questao.get("LwC2ItAVtfkDhcE9jvpT").subscribe(questao => {
       this.questao = questao;
     })
 
-    this.uploadSubmissao = false;
+    this.uploadCodigo = false;
   }
 
   ngOnInit() {
@@ -47,29 +49,50 @@ export class EditorComponent implements OnInit {
     carregarIde();
   }
 
-  executar() {
-    let httpOptions = {
-      headers: new HttpHeaders({
-        'Content-Type': 'application/json'
-      })
+  prepararMensagemErros(erros){
+    this.erroLinguagemProgramacao = ""
+    this.editorCodigo.limparCores();
+    if(erros != undefined && erros.length > 0){
+      erros.forEach(erro=>{
+        this.erroLinguagemProgramacao += erro.mensagem+"<br>";
+        this.editorCodigo.destacarLinha(erro.linha, "erro");
+      });
     }
+  }
+
+
+
+  executar() {
+    
     this.editorCodigo.codigo.setAlgoritmo(editor.getValue());
-    this.uploadSubmissao = true;
+    this.uploadCodigo = true;
 
-    // TODO: pegar usuário logado
-    let estudante = new Estudante("12345");
-
-
-    let submissao = new Submissao(this.editorCodigo.codigo, estudante, this.questao);
-
-    // TODO: definir um timedout
-
-    ParseError.variavelNaoDeclarada(this.editorCodigo.codigo);
-
-    let p: ParseError = new ParseError(this.editorCodigo.codigo);
-    if (p.hasError()) {
-      console.log(p.mensagem());
+    let tutor = new Tutor(this.editorCodigo.codigo)
+    tutor.analisar();
+    if (tutor.hasErrors()) {
+      this.prepararMensagemErros(tutor.erros);
+      this.uploadCodigo = false;
     } else {
+
+      let _this = this;
+
+      setTimeout(function(){
+        _this.uploadCodigo = false;
+      }, 10000)
+
+      let httpOptions = {
+        headers: new HttpHeaders({
+          'Content-Type': 'application/json'
+        })
+      }
+
+      // TODO: pegar usuário logado
+      let estudante = new Estudante("12345");
+      let submissao = new Submissao(this.editorCodigo.codigo, estudante, this.questao);
+
+      
+      // TODO: definir um timedout
+
       this.http.post<any>("http://127.0.0.1:8000/codigo/", submissao.objectToDocument(), httpOptions).subscribe(resposta => {
 
 
@@ -89,9 +112,9 @@ export class EditorComponent implements OnInit {
           }
         })
       }, err => {
-        this.erroSimplificado = err.error.erro;
+        console.log(err); // TODO jogar em variável
       }, () => {
-        this.uploadSubmissao = false;
+        _this.uploadCodigo = false;
       })
     }
 
