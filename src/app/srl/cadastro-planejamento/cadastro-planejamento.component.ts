@@ -4,6 +4,8 @@ import { Assunto } from '../../model/assunto';
 import { Planejamento } from '../../model/planejamento';
 import Estudante from '../../model/estudante';
 import { Dificuldade } from '../../model/dificuldade';
+import { Router } from '@angular/router';
+//import {MessageService} from 'primeng/api';
 @Component({
   selector: 'app-cadastro-planejamento',
   templateUrl: './cadastro-planejamento.component.html',
@@ -11,19 +13,17 @@ import { Dificuldade } from '../../model/dificuldade';
 })
 export class CadastroPlanejamentoComponent implements OnInit {
 
-  tempo = 1;
-  importancia;
-  dificuldade;
   dificuldades: SelectItem[];
-  assunto;
   assuntos;
   index: number = 0;
-  planoExecucao;
   planejamento: Planejamento;
   
 
 
-  constructor() { 
+  constructor(
+    // private messageService: MessageService,
+    private router: Router,
+  ) { 
 
     this.planejamento = new Planejamento(null,new Estudante(1),null,"","",0,"");
   }
@@ -43,12 +43,13 @@ export class CadastroPlanejamentoComponent implements OnInit {
   cadastrarPlanejamento(){
     if(this.planejamento){
       this.planejamento.save().subscribe(resultado=>{
-        alert("tudo certo");
-      }, err=>{
-        console.log(err);
+      // this.messageService.add({severity:'Sucesso', summary: 'Success Message', detail:'Planejamento salvo com sucesso!'});
+      //  this.router.navigate(['planejamentos/listar']);
+    }, err=>{
+      // this.messageService.add({severity:'Erro', summary: 'Error Message', detail:'Algo inesperado aconteceu, tente novamente mais tarde.'});
       });
     }else{
-      alert("preencha todos os campos!");
+      // this.messageService.add({severity:'Campos Vazios', summary: 'Warn Message', detail:'Preencha todos os campos se quiser realizar salvar o planejamento'});
     }
   }
 

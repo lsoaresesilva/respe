@@ -13,6 +13,7 @@ import { TableModule } from 'primeng/table';
 import { SliderModule } from 'primeng/slider';
 import {TabViewModule} from 'primeng/tabview';
 import {ButtonModule} from 'primeng/button';
+import {ToastModule} from 'primeng/toast';
 
 @NgModule({
   declarations: [
@@ -33,6 +34,7 @@ import {ButtonModule} from 'primeng/button';
     SliderModule,
     TabViewModule,
     ButtonModule,
+    ToastModule,
   ],
   providers:[PlanejamentoService]
 
