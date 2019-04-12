@@ -9,6 +9,7 @@ import { HttpClientModule } from '@angular/common/http';
 import { EditorComponent } from './editor/editor.component';
 
 import {ProgressSpinnerModule} from 'primeng/progressspinner';
+import { AnalyticsModule } from '../analytics-module/analytics.module';
 
 @NgModule({
   declarations: [VisualizarTestesComponent, DadosQuestaoComponent, EditorComponent],
@@ -18,7 +19,8 @@ import {ProgressSpinnerModule} from 'primeng/progressspinner';
     CommonModule,
     ButtonModule,
     HttpClientModule,
-    ProgressSpinnerModule
+    ProgressSpinnerModule,
+    AnalyticsModule
   ],
   exports:[
     VisualizarTestesComponent,

@@ -2,10 +2,11 @@ import ErroSintaxe from './erroSintaxe';
 import Erro from './erro';
 import Codigo from './codigo';
 import { TipoErro } from './tipoErro';
+import Estudante from './estudante';
 
 export default class ErroSintaxeVariavel extends ErroSintaxe{
 
-    static erros(codigo:Codigo):Erro[]{
+    static erros(codigo:Codigo, estudante:Estudante):Erro[]{
         let erros:Erro[] = [];
         let linhasCodigo = codigo.linhasAlgoritmo();
         
@@ -16,21 +17,21 @@ export default class ErroSintaxeVariavel extends ErroSintaxe{
             
 
             if(ErroSintaxeVariavel.numeroDecimalComVirgula(linhaCodigo)){
-                erros.push(new Erro(numeroLinha, "Você declarou uma variável com número decimal e utilizou , (vírgula) quando deveria ter usado . (ponto). Erro na linha: "+numeroLinha, TipoErro.numeroDecimalComVirgula));
+                erros.push(new Erro(null, numeroLinha, "Você declarou uma variável com número decimal e utilizou , (vírgula) quando deveria ter usado . (ponto). Erro na linha: "+numeroLinha, TipoErro.numeroDecimalComVirgula, estudante));
             }
 
             if(ErroSintaxeVariavel.variavelDeclaradaComDoisIguais(linhaCodigo)){
-                erros.push(new Erro(numeroLinha, "Você declarou uma variável com dois == (igualdades) quando deveria ter usado apenas um =. Erro na linha: "+numeroLinha, TipoErro.declaracaoVariavelComDoisIguals));
+                erros.push(new Erro(null, numeroLinha, "Você declarou uma variável com dois == (igualdades) quando deveria ter usado apenas um =. Erro na linha: "+numeroLinha, TipoErro.declaracaoVariavelComDoisIguais, estudante));
             }
 
             if(ErroSintaxeVariavel.nomeVariavelComEspaco(linhaCodigo)){
-                erros.push(new Erro(numeroLinha, "Você utilizou espaço no nome de uma variável e isso não é permitido. Erro na linha: "+numeroLinha, TipoErro.espacoNoNomeVariavel));
+                erros.push(new Erro(null, numeroLinha, "Você utilizou espaço no nome de uma variável e isso não é permitido. Erro na linha: "+numeroLinha, TipoErro.espacoNoNomeVariavel, estudante));
             }
         }
 
         let variaveisNaoDeclaradas = ErroSintaxeVariavel.variaveisNaoDeclaradas(codigo);
         variaveisNaoDeclaradas.forEach(variavel=>{
-            erros.push(new Erro(variavel.linha, "Você tentou utilizar a variável: '"+variavel.nome+"' que não foi criada. Erro na linha: "+variavel.linha, TipoErro.variavelNaoDeclarada));
+            erros.push(new Erro(null, variavel.linha, "Você tentou utilizar a variável: '"+variavel.nome+"' que não foi criada. Erro na linha: "+variavel.linha, TipoErro.variavelNaoDeclarada, estudante));
         })
 
 
