@@ -7,17 +7,11 @@ import { Assunto } from '../../model/assunto';
   styleUrls: ['./selecionar-planejamento.component.css']
 })
 export class SelecionarPlanejamentoComponent implements OnInit {
-
-  assuntos;
-
+  
   constructor() { }
 
   ngOnInit() {
-    Assunto.getAll().subscribe(assuntos=>{this.assuntos= assuntos});
-  }
-
-  cadastrarPlanejamento(nome){
-    //cadastrar
+    
   }
 
 }
