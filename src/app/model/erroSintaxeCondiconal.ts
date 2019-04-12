@@ -2,10 +2,11 @@ import ErroSintaxe from './erroSintaxe';
 import Codigo from './codigo';
 import Erro from './erro';
 import { TipoErro } from './tipoErro';
+import Estudante from './estudante';
 
 export default class ErroSintaxeCondicional extends ErroSintaxe{
 
-    static erros(codigo:Codigo):Erro[]{
+    static erros(codigo:Codigo, estudante:Estudante):Erro[]{
         let erros:Erro[] = [];
         let linhasCodigo = codigo.linhasAlgoritmo();
 
@@ -14,15 +15,15 @@ export default class ErroSintaxeCondicional extends ErroSintaxe{
             let linhaCodigo = linhasCodigo[i];
 
             if( ErroSintaxeCondicional.apenasUmaComparacao(linhaCodigo)){
-                erros.push(new Erro(numeroLinha, "Em uma condição é preciso comparar um par de informações, mas você escreveu apenas um dado. Erro na linha: "+numeroLinha, TipoErro.parDadosComparacao));
+                erros.push(new Erro(null, numeroLinha, "Em uma condição é preciso comparar um par de informações, mas você escreveu apenas um dado. Erro na linha: "+numeroLinha, TipoErro.parDadosComparacao, estudante));
             }
 
             if(ErroSintaxeCondicional.comparacaoCondicaoApenasUmaIgualdade(linhaCodigo)){
-                erros.push(new Erro(numeroLinha, "A comparação de uma condição deve ser feita com dois sinais de == (igualdade), mas você utilizou apenas um =. Erro na linha: "+numeroLinha, TipoErro.comparacaoApenasUmaIgualdade));
+                erros.push(new Erro(null, numeroLinha, "A comparação de uma condição deve ser feita com dois sinais de == (igualdade), mas você utilizou apenas um =. Erro na linha: "+numeroLinha, TipoErro.comparacaoApenasUmaIgualdade, estudante));
             }
 
             if(ErroSintaxeCondicional.ausenciaDeDoisPontos(linhaCodigo)){
-                erros.push(new Erro(numeroLinha, "Em uma condição é preciso incluir : (dois pontos) ao término da instrução. Por exemplo: if idade > 18: . Erro na linha: "+numeroLinha, TipoErro.faltaDoisPontosCondicao));
+                erros.push(new Erro(null, numeroLinha, "Em uma condição é preciso incluir : (dois pontos) ao término da instrução. Por exemplo: if idade > 18: . Erro na linha: "+numeroLinha, TipoErro.faltaDoisPontosCondicao, estudante));
             }
         }
 

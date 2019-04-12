@@ -67,8 +67,16 @@ export class EditorComponent implements OnInit {
     this.editorCodigo.codigo.setAlgoritmo(editor.getValue());
     this.uploadCodigo = true;
 
-    let tutor = new Tutor(this.editorCodigo.codigo)
+    let estudante = new Estudante("12345");
+    let tutor = new Tutor(this.editorCodigo.codigo, estudante);
     tutor.analisar();
+    
+    tutor.salvarErros().subscribe(resultados=>{
+
+    })
+
+    // TODO: salvar o objeto de submissão e usar o id de submissão no erro, ao invés de estudante id
+
     if (tutor.hasErrors()) {
       this.prepararMensagemErros(tutor.erros);
       this.uploadCodigo = false;
@@ -87,7 +95,7 @@ export class EditorComponent implements OnInit {
       }
 
       // TODO: pegar usuário logado
-      let estudante = new Estudante("12345");
+      
       let submissao = new Submissao(this.editorCodigo.codigo, estudante, this.questao);
 
       

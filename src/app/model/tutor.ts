@@ -2,20 +2,43 @@ import ErroSintaxeVariavel from './erroSintaxeVariavel';
 import Codigo from './codigo';
 import ErroSintaxeCondicional from './erroSintaxeCondiconal';
 import ErroSintaxeFuncao from './erroSintaxeFuncao';
+import Estudante from './estudante';
+import Erro from './erro';
+import { Observable, forkJoin } from 'rxjs';
 
 export class Tutor{
 
-    erros;
+    erros:Erro[];
 
-    constructor(private codigo:Codigo){
-        this.erros = [];
+    constructor(private codigo:Codigo, private estudante:Estudante){
+        this.erros = []
     }
 
     analisar(){
         
-        this.erros = this.erros.concat(ErroSintaxeVariavel.erros(this.codigo));
-        this.erros = this.erros.concat(ErroSintaxeCondicional.erros(this.codigo));
-        this.erros = this.erros.concat(ErroSintaxeFuncao.erros(this.codigo));
+        this.erros = this.erros.concat(ErroSintaxeVariavel.erros(this.codigo, this.estudante));
+        this.erros = this.erros.concat(ErroSintaxeCondicional.erros(this.codigo, this.estudante));
+        this.erros = this.erros.concat(ErroSintaxeFuncao.erros(this.codigo, this.estudante));
+
+    }
+
+
+    salvarErros(){
+        return new Observable(observer=>{
+            let operacoesSalvar = []
+            this.erros.forEach(erro=>{
+                operacoesSalvar.push(erro.save())
+            })
+
+            forkJoin(operacoesSalvar).subscribe(resultados=>{
+                observer.next(resultados);
+                observer.complete();
+            }, err=>{
+                observer.error(err);
+            })
+        })
+        
+
 
     }
 

@@ -2,10 +2,11 @@ import ErroSintaxe from './erroSintaxe';
 import Codigo from './codigo';
 import Erro from './erro';
 import { TipoErro } from './tipoErro';
+import Estudante from './estudante';
 
 export default class ErroSintaxeFuncao extends ErroSintaxe{
 
-    static erros(codigo:Codigo):Erro[]{
+    static erros(codigo:Codigo, estudante:Estudante):Erro[]{
         let erros:Erro[] = [];
         let linhasCodigo = codigo.linhasAlgoritmo();
 
@@ -15,15 +16,15 @@ export default class ErroSintaxeFuncao extends ErroSintaxe{
             
 
             if( ErroSintaxeFuncao.faltaParentese(linhaCodigo)){
-                erros.push(new Erro(numeroLinha, "Você esqueceu de um parêntesis na declaração/uso de uma função. Erro na linha: "+numeroLinha, TipoErro.faltaParentesis));
+                erros.push(new Erro(null, numeroLinha, "Você esqueceu de um parêntesis na declaração/uso de uma função. Erro na linha: "+numeroLinha, TipoErro.faltaParentesis, estudante));
             }
 
             if( ErroSintaxeFuncao.faltaVirgula(linhaCodigo)){
-                erros.push(new Erro(numeroLinha, "Você esqueceu de uma , (vírgula) para separar os parâmetros de uma função. Erro na linha: "+numeroLinha, TipoErro.faltaVirgulaParametros));
+                erros.push(new Erro(null, numeroLinha, "Você esqueceu de uma , (vírgula) para separar os parâmetros de uma função. Erro na linha: "+numeroLinha, TipoErro.faltaVirgulaParametros, estudante));
             }
 
             if( ErroSintaxeFuncao.ausenciaDeDoisPontos(linhaCodigo)){
-                erros.push(new Erro(numeroLinha, "Ao criar uma função é preciso incluir : (dois pontos) ao término da instrução. Por exemplo: def nome-funcao(): . Erro na linha: "+numeroLinha, TipoErro.faltaDoisPontosFuncao));
+                erros.push(new Erro(null, numeroLinha, "Ao criar uma função é preciso incluir : (dois pontos) ao término da instrução. Por exemplo: def nome-funcao(): . Erro na linha: "+numeroLinha, TipoErro.faltaDoisPontosFuncao, estudante));
             }
 
             
