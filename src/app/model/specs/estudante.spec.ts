@@ -30,28 +30,5 @@ describe("Testes de estudante", () => {
 
     });
 
-    it("Deve calcular como média 0.75 para os tests cases respondidos", (done) => {
-        let r = new ResultadoTestCase(null, false, null, new Estudante("12345"));
-        let r1 = new ResultadoTestCase(null, true, null, new Estudante("12345"));
-        let r2 = new ResultadoTestCase(null, true, null, new Estudante("12345"));
-        let r3 = new ResultadoTestCase(null, true, null, new Estudante("12345"));
-
-        let salvamentos = [];
-        salvamentos.push(r.save())
-        salvamentos.push(r1.save())
-        salvamentos.push(r2.save())
-        salvamentos.push(r3.save())
-
-        forkJoin(salvamentos).subscribe(resultados => {
-            Estudante.mediaTestsCases(new Estudante("12345")).subscribe(media => {
-                expect(media).toBe(0.75);
-
-                ResultadoTestCase.deleteAll().subscribe(resultado => {
-                    done();
-                })
-            })
-        })
-
-
-    })
+    
 })

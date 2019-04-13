@@ -6,8 +6,6 @@ import Submissao from './submissao';
 @Collection("errosEstudantes")
 export default class Erro extends Document{
 
-    @date()
-    data;
     linha;
     @ignore()
     mensagem
@@ -21,9 +19,31 @@ export default class Erro extends Document{
 
     objectToDocument(){
         let document = super.objectToDocument();
-        document["estudanteId"] = this.submissao.estudante.pk();
         document["submissaoId"] = this.submissao.pk();
         return document;
+    }
+
+    /**
+     * A análise dos erros identificará uma lista de falhas no código.
+     * Este método irá retornar o primeiro erro ocorrido, a partir do erro que tem a linha mais próxima à 1.
+     * @param erros 
+     */
+    static obterPrimeiroErro(erros:Erro[]){
+        let primeiroErro = null;
+
+        if(erros != undefined && erros.length > 0){
+            
+            erros.forEach(erro=>{
+                if( primeiroErro == null )
+                    primeiroErro = erro;
+                else{
+                    if(erro.linha < primeiroErro.linha)
+                        primeiroErro = erro
+                }
+            })
+        }
+
+        return primeiroErro;
     }
 
     static atualizarRank(ranking, top, erro){
