@@ -1,14 +1,17 @@
 import Estudante from './estudante';
 import { Questao } from './questao';
 import Codigo from './codigo';
+import { Document, Collection } from './firestore/document';
 
-export default class Submissao{
-    id;
+@Collection("submissoes")
+export default class Submissao extends Document{
+
     codigo:Codigo;
     estudante:Estudante;
     questao:Questao;
 
-    constructor(codigo, estudante, questao){
+    constructor(id, codigo, estudante, questao){
+        super(id);
         this.codigo = codigo;
         this.estudante = estudante;
         this.questao = questao;

@@ -3,12 +3,13 @@ import Codigo from './codigo';
 import Erro from './erro';
 import { TipoErro } from './tipoErro';
 import Estudante from './estudante';
+import Submissao from './submissao';
 
 export default class ErroSintaxeFuncao extends ErroSintaxe{
 
-    static erros(codigo:Codigo, estudante:Estudante):Erro[]{
+    static erros(submissao:Submissao):Erro[]{
         let erros:Erro[] = [];
-        let linhasCodigo = codigo.linhasAlgoritmo();
+        let linhasCodigo = submissao.codigo.linhasAlgoritmo();
 
         for (let i = 0; i < linhasCodigo.length; i++) {
             let numeroLinha = i+1;
@@ -16,15 +17,15 @@ export default class ErroSintaxeFuncao extends ErroSintaxe{
             
 
             if( ErroSintaxeFuncao.faltaParentese(linhaCodigo)){
-                erros.push(new Erro(null, numeroLinha, "Você esqueceu de um parêntesis na declaração/uso de uma função. Erro na linha: "+numeroLinha, TipoErro.faltaParentesis, estudante));
+                erros.push(new Erro(null, numeroLinha, "Você esqueceu de um parêntesis na declaração/uso de uma função. Erro na linha: "+numeroLinha, TipoErro.faltaParentesis, submissao));
             }
 
             if( ErroSintaxeFuncao.faltaVirgula(linhaCodigo)){
-                erros.push(new Erro(null, numeroLinha, "Você esqueceu de uma , (vírgula) para separar os parâmetros de uma função. Erro na linha: "+numeroLinha, TipoErro.faltaVirgulaParametros, estudante));
+                erros.push(new Erro(null, numeroLinha, "Você esqueceu de uma , (vírgula) para separar os parâmetros de uma função. Erro na linha: "+numeroLinha, TipoErro.faltaVirgulaParametros, submissao));
             }
 
             if( ErroSintaxeFuncao.ausenciaDeDoisPontos(linhaCodigo)){
-                erros.push(new Erro(null, numeroLinha, "Ao criar uma função é preciso incluir : (dois pontos) ao término da instrução. Por exemplo: def nome-funcao(): . Erro na linha: "+numeroLinha, TipoErro.faltaDoisPontosFuncao, estudante));
+                erros.push(new Erro(null, numeroLinha, "Ao criar uma função é preciso incluir : (dois pontos) ao término da instrução. Por exemplo: def nome-funcao(): . Erro na linha: "+numeroLinha, TipoErro.faltaDoisPontosFuncao, submissao));
             }
 
             

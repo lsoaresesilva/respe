@@ -17,7 +17,7 @@ class TestSubmissao(unittest.TestCase):
         s.resultadosTestsCases = resultados
         json = {
             "id":s.id,
-            "resultados":[{"id":"1", "idTestCase":"2", "respostaAlgoritmo":"3", "status":True}, {"id":"2", "idTestCase":"1", "respostaAlgoritmo":"3", "status":False}]
+            "resultados":[{"id":"1", "testCaseId":"2", "respostaAlgoritmo":"3", "status":True}, {"id":"2", "testCaseId":"1", "respostaAlgoritmo":"3", "status":False}]
         }
 
         self.assertDictEqual(json, s.toJson())

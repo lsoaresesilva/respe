@@ -40,7 +40,7 @@ export default class Editor {
 
     prepararEnvioCodigo() {
         // TODO: pegar o estudante logado.
-        let envioCodigo = new Submissao(this.codigo.algoritmo, new Estudante(null), new Questao(null, null, null, null, null, null, null));
+        let envioCodigo = new Submissao(null, this.codigo.algoritmo, new Estudante(null), new Questao(null, null, null, null, null, null, null));
 
         // transformar o código de input em outra coisa
 

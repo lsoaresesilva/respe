@@ -6,7 +6,7 @@ from firebase_admin import firestore
 import firebase_admin
 
 from google.cloud.firestore_v1beta1.document import DocumentReference
-
+from google.cloud.exceptions import NotFound
 import os
 
 
@@ -48,7 +48,7 @@ class Document(object):
         
         for atributo in atributos:
             if "__" not in atributo[0]:
-                if type(atributo[1]) in (int, str, bool, float) and atributo[0] != "collectionName":
+                if type(atributo[1]) in (int, str, bool, float) and atributo[0] != "collectionName" and atributo[0] != "id":
                     document[atributo[0]] = atributo[1]
     
         return document
@@ -66,19 +66,58 @@ class Document(object):
 
 
     def save(self):
+        
         Document.startFireStore()
         db = firestore.client()
         collection = db.collection(self.collectionName)
-        
-        
-        resultado = collection.add(self.objectToDocument())
-        if isinstance(resultado[1], DocumentReference):
-            self.id = resultado[1].id
-            return True
+        if self.id == None: #document does not exists, save it.
+            
+            resultado = collection.add(self.objectToDocument())
+            if isinstance(resultado[1], DocumentReference):
+                self.id = resultado[1].id
+                return True
+            else:
+                # TODO: significa que o objeto não foi salvo, disparar erro
+                return False
+            
         else:
-            # TODO: significa que o objeto não foi salvo, disparar erro
-            return False
+            resultado = collection.document(self.id).set(self.objectToDocument())
         
+        return True
+        
+
+    
+    # Throws a google.cloud.exceptions.NotFound if document not found
+    @classmethod
+    def get(cls, id):
+        
+        cls.startFireStore()
+        db = firestore.client()
+        '''
+        collection = db.collection(cls.collectionName)
+        collectionQuery = collection.where(query.column, query.operator, query.value).get()
+
+        
+        for document in collectionQuery:
+            instance = Document(document.id)
+            instance.__class__ = cls
+            instance.documentToObject(document.to_dict())
+            return instance
+        
+        #raise NotFound("")
+        '''
+        doc_ref = db.collection(cls.collectionName).document(id)
+        doc = doc_ref.get()
+        if doc.exists:
+            instance = Document(doc.id)
+            instance.__class__ = cls
+            instance.documentToObject(doc.to_dict())
+            return instance
+        else:
+            raise NotFound("")
+        #instance = Document(document.id)
+        #instance.__class__ = cls
+        #instance.documentToObject(document.to_dict())
 
     @classmethod
     def listAllByQuery(cls, query):

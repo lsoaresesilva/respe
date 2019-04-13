@@ -1,10 +1,11 @@
 import Erro from './erro';
 import Codigo from './codigo';
 import Estudante from './estudante';
+import Submissao from './submissao';
 
 export default abstract class ErroSintaxe{
 
-    static erros(codigo:Codigo, estudante:Estudante):Erro[]{
+    static erros(submissao:Submissao):Erro[]{
         return [];
     }
 

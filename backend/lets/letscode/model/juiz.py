@@ -59,7 +59,7 @@ class Juiz():
                 else:
                     raise JuizError("A quantidade de inputs em seu código é menor que a quantidade de entradas")
                 
-                resultado = ResultadoTestCase(self.submissao, teste, self.respostaAlgoritmo(msgRetornoAlgoritmo, teste.entradas), resultadoTeste)
+                resultado = ResultadoTestCase(None, self.submissao, teste, self.respostaAlgoritmo(msgRetornoAlgoritmo, teste.entradas), resultadoTeste)
                 
                 resultados.append(resultado)    
             else:

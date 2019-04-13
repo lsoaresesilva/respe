@@ -5,20 +5,21 @@ import ErroSintaxeFuncao from './erroSintaxeFuncao';
 import Estudante from './estudante';
 import Erro from './erro';
 import { Observable, forkJoin } from 'rxjs';
+import Submissao from './submissao';
 
 export class Tutor{
 
     erros:Erro[];
 
-    constructor(private codigo:Codigo, private estudante:Estudante){
+    constructor(private submissao:Submissao){
         this.erros = []
     }
 
     analisar(){
         
-        this.erros = this.erros.concat(ErroSintaxeVariavel.erros(this.codigo, this.estudante));
-        this.erros = this.erros.concat(ErroSintaxeCondicional.erros(this.codigo, this.estudante));
-        this.erros = this.erros.concat(ErroSintaxeFuncao.erros(this.codigo, this.estudante));
+        this.erros = this.erros.concat(ErroSintaxeVariavel.erros(this.submissao));
+        this.erros = this.erros.concat(ErroSintaxeCondicional.erros(this.submissao));
+        this.erros = this.erros.concat(ErroSintaxeFuncao.erros(this.submissao));
 
     }
 

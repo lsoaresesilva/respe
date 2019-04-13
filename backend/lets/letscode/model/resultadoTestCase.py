@@ -1,10 +1,12 @@
 from letscode.model.firestore.document import Document
 from letscode.model.firestore.document import Collection
+from letscode.model.firestore.query import Query
 
 @Collection("resultadoTestCase")
 class ResultadoTestCase(Document):
 
-    def __init__(self, submissao, testCase, respostaAlgoritmo, status):
+    def __init__(self, id, submissao, testCase, respostaAlgoritmo, status):
+        super().__init__(id)
         self.submissao = submissao
         self.testCase = testCase
         self.status = status
@@ -12,8 +14,8 @@ class ResultadoTestCase(Document):
 
     def objectToDocument(self):
         document = super().objectToDocument()
-        document["idTestCase"] = self.testCase.id
-        document["idSubmissao"] = self.submissao.id
+        document["testCaseId"] = self.testCase.id
+        document["submissaoId"] = self.submissao.id
         document["respostaAlgoritmo"] = self.respostaAlgoritmo
         return document
 
@@ -23,7 +25,19 @@ class ResultadoTestCase(Document):
     def toJson(self):
         return {
             "id":self.id,
-            "idTestCase":self.testCase.id,
+            "testCaseId":self.testCase.id,
             "respostaAlgoritmo":self.respostaAlgoritmo,
             "status":self.status
         }
+
+    
+    def save(self):
+        # verificar se já existe um resultadoTestCase com esse id
+        resultadoTestCase = ResultadoTestCase.listAllByQuery(Query("testCaseId", "==", self.testCase.id))
+        if len(resultadoTestCase) > 0:
+            self.id = resultadoTestCase[0].id
+        
+        super().save()
+        
+        # se já existir, então usa esse id no objeto que será salvo
+        # se não existir, salva um novo

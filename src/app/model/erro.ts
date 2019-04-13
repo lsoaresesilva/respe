@@ -1,5 +1,6 @@
 import { TipoErro } from './tipoErro';
 import { Document, Collection, ignore, date } from './firestore/document';
+import Submissao from './submissao';
 
 
 @Collection("errosEstudantes")
@@ -11,7 +12,7 @@ export default class Erro extends Document{
     @ignore()
     mensagem
 
-    constructor(id, linha, mensagem, public tipo:TipoErro, public estudante){
+    constructor(id, linha, mensagem, public tipo:TipoErro, public submissao:Submissao){
         super(id);
         this.linha = linha;
         this.mensagem = mensagem;
@@ -20,7 +21,8 @@ export default class Erro extends Document{
 
     objectToDocument(){
         let document = super.objectToDocument();
-        document["estudanteId"] = this.estudante.id;
+        document["estudanteId"] = this.submissao.estudante.pk();
+        document["submissaoId"] = this.submissao.pk();
         return document;
     }
 

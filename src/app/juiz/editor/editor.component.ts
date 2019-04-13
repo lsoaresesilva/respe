@@ -68,7 +68,8 @@ export class EditorComponent implements OnInit {
     this.uploadCodigo = true;
 
     let estudante = new Estudante("12345");
-    let tutor = new Tutor(this.editorCodigo.codigo, estudante);
+    let submissao = new Submissao(null, this.editorCodigo.codigo, estudante, null)
+    let tutor = new Tutor(submissao);
     tutor.analisar();
     
     tutor.salvarErros().subscribe(resultados=>{
@@ -95,8 +96,7 @@ export class EditorComponent implements OnInit {
       }
 
       // TODO: pegar usuário logado
-      
-      let submissao = new Submissao(this.editorCodigo.codigo, estudante, this.questao);
+    
 
       
       // TODO: definir um timedout

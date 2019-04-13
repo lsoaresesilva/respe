@@ -16,33 +16,7 @@ export class UsuarioService {
 
   }
 
-  acessar(login:Usuario){
-    return new Observable<Usuario>(observer => {
-      
-      /*this.db.collection("login", ref => {
-        ref.where('usuario', '==', login.usuario).where('senha', '==', login.senha)
-      }).valueChanges();*/
-      let query = this.loginCollection.ref.where('usuario', '==', login.usuario).where('senha', '==', login.senha);
-      query.get().then(resultado=>{
-        if(!resultado.empty){
-          const data = resultado.docs[0].data() as Usuario;
-          const id = resultado.docs[0].id;
-          let login = new Usuario();
-          login.usuario = data.usuario;
-          login.senha = data.senha;
-          login.id = id;
-
-          observer.next(login);
-          observer.complete();
-        }else{
-          observer.error(new LoginNotFoundError());
-        }
-      })
-      
-        
-    });
- 
-  }
+  
 
 
   
