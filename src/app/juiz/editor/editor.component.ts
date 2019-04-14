@@ -49,12 +49,12 @@ export class EditorComponent implements OnInit {
     carregarIde();
   }
 
-  prepararMensagemErros(erros){
+  prepararMensagemErros(erros) {
     this.erroLinguagemProgramacao = ""
     this.editorCodigo.limparCores();
-    if(erros != undefined && erros.length > 0){
-      erros.forEach(erro=>{
-        this.erroLinguagemProgramacao += erro.mensagem+"<br>";
+    if (erros != undefined && erros.length > 0) {
+      erros.forEach(erro => {
+        this.erroLinguagemProgramacao += erro.mensagem + "<br>";
         this.editorCodigo.destacarLinha(erro.linha, "erro");
       });
     }
@@ -63,68 +63,72 @@ export class EditorComponent implements OnInit {
 
 
   executar() {
-    
+
     this.editorCodigo.codigo.setAlgoritmo(editor.getValue());
     this.uploadCodigo = true;
 
-    let estudante = new Estudante("12345");
-    let submissao = new Submissao(null, this.editorCodigo.codigo, estudante, null)
+    let estudante = new Estudante("12345"); // TODO: pegar do login
+    let questao = new Questao("LwC2ItAVtfkDhcE9jvpT", null, null, null, null, null, null);
+    let submissao = new Submissao(null, this.editorCodigo.codigo, estudante, questao)
     let tutor = new Tutor(submissao);
-    tutor.analisar();
-    
-    tutor.salvarErros().subscribe(resultados=>{
+    submissao.save().subscribe(resultado => {
+      tutor.analisar();
 
+      tutor.salvarErros().subscribe(resultados => {
+        // TODO: salvar o objeto de submissão e usar o id de submissão no erro, ao invés de estudante id
+
+        if (tutor.hasErrors()) {
+          this.prepararMensagemErros(tutor.erros);
+          this.uploadCodigo = false;
+        } else {
+
+          let _this = this;
+
+          setTimeout(function () {
+            _this.uploadCodigo = false;
+          }, 10000)
+
+          let httpOptions = {
+            headers: new HttpHeaders({
+              'Content-Type': 'application/json'
+            })
+          }
+
+          // TODO: pegar usuário logado
+
+
+
+          // TODO: definir um timedout
+
+          this.http.post<any>("http://127.0.0.1:8000/codigo/", submissao.objectToDocument(), httpOptions).subscribe(resposta => {
+
+
+
+            let consultas = []
+            this.resultadosTestsCases = []
+            for (let i = 0; i < resposta.resultados.length; i++) {
+              let consulta = ResultadoTestCase.get(resposta.resultados[i].id);
+              consultas.push(consulta);
+
+            }
+
+            forkJoin(consultas).subscribe(resultados => {
+
+              for (let i = 0; i < resultados.length; i++) {
+                this.resultadosTestsCases.push(resultados[i]);
+              }
+            })
+          }, err => {
+            console.log(err); // TODO jogar em variável
+          }, () => {
+            _this.uploadCodigo = false;
+          })
+        }
+      })
     })
 
-    // TODO: salvar o objeto de submissão e usar o id de submissão no erro, ao invés de estudante id
-
-    if (tutor.hasErrors()) {
-      this.prepararMensagemErros(tutor.erros);
-      this.uploadCodigo = false;
-    } else {
-
-      let _this = this;
-
-      setTimeout(function(){
-        _this.uploadCodigo = false;
-      }, 10000)
-
-      let httpOptions = {
-        headers: new HttpHeaders({
-          'Content-Type': 'application/json'
-        })
-      }
-
-      // TODO: pegar usuário logado
-    
-
-      
-      // TODO: definir um timedout
-
-      this.http.post<any>("http://127.0.0.1:8000/codigo/", submissao.objectToDocument(), httpOptions).subscribe(resposta => {
 
 
-
-        let consultas = []
-        this.resultadosTestsCases = []
-        for (let i = 0; i < resposta.resultados.length; i++) {
-          let consulta = ResultadoTestCase.get(resposta.resultados[i].id);
-          consultas.push(consulta);
-
-        }
-
-        forkJoin(consultas).subscribe(resultados => {
-
-          for (let i = 0; i < resultados.length; i++) {
-            this.resultadosTestsCases.push(resultados[i]);
-          }
-        })
-      }, err => {
-        console.log(err); // TODO jogar em variável
-      }, () => {
-        _this.uploadCodigo = false;
-      })
-    }
 
 
 

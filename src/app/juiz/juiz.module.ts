@@ -10,6 +10,7 @@ import { EditorComponent } from './editor/editor.component';
 
 import {ProgressSpinnerModule} from 'primeng/progressspinner';
 import { AnalyticsModule } from '../analytics-module/analytics.module';
+import { SrlModule } from '../srl/srl.module';
 
 @NgModule({
   declarations: [VisualizarTestesComponent, DadosQuestaoComponent, EditorComponent],
@@ -20,7 +21,8 @@ import { AnalyticsModule } from '../analytics-module/analytics.module';
     ButtonModule,
     HttpClientModule,
     ProgressSpinnerModule,
-    AnalyticsModule
+    AnalyticsModule,
+    SrlModule
   ],
   exports:[
     VisualizarTestesComponent,
