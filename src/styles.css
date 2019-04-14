@@ -16,3 +16,7 @@
     height: 100%;
     
 }
+
+.ui-progressbar-value{
+    background-image: linear-gradient(to right, green , red); /* Standard syntax (must be last) */
+}

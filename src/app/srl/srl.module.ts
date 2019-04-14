@@ -14,19 +14,22 @@ import { SliderModule } from 'primeng/slider';
 import {TabViewModule} from 'primeng/tabview';
 import {ButtonModule} from 'primeng/button';
 import {ToastModule} from 'primeng/toast';
+import { RiscoEstudanteComponent } from './risco-estudante/risco-estudante.component';
+import {ProgressBarModule} from 'primeng/progressbar';
 
 @NgModule({
   declarations: [
     SelfInstructionComponent,
     SelecionarPlanejamentoComponent,
-    CadastroPlanejamentoComponent
+    CadastroPlanejamentoComponent,
+    RiscoEstudanteComponent
   ],
   imports: [
     CommonModule,
     BrowserModule,
     BrowserAnimationsModule,
     FormsModule,
-
+    ProgressBarModule,
     InputTextareaModule,
     DropdownModule,
 
@@ -36,7 +39,8 @@ import {ToastModule} from 'primeng/toast';
     ButtonModule,
     ToastModule,
   ],
-  providers:[PlanejamentoService]
+  providers:[PlanejamentoService],
+  exports:[RiscoEstudanteComponent]
 
 })
 export class SrlModule { }

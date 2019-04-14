@@ -41,11 +41,13 @@ describe("Testes de TUTOR", ()=>{
         let estudante = new Estudante("CvsVQsPKIExzNWFh2TWW");
         let questao = new Questao("LwC2ItAVtfkDhcE9jvpT", null, null, null, null, null, null);
         let submissao = new Submissao(null, algoritmo, estudante, questao);
+        let x = submissao.erros;
         submissao.save().subscribe(resultado=>{
             let erro = new Erro(null, 2, null, TipoErro.variavelNaoDeclarada, resultado);
             erro.save().subscribe(erroCadastrado=>{
                 Submissao.get(resultado.id).subscribe(resultadoSubmissao=>{
-                    expect(resultadoSubmissao["erro"].length).toBe(1);
+                    let x = resultadoSubmissao["erro"];
+                    expect(resultadoSubmissao["erro"]).toBeDefined();
                     done();
                 });
             })
