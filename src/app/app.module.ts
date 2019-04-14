@@ -24,6 +24,7 @@ import { GeralModuleModule } from './geral-module/geral-module.module';
 import { JuizModule } from './juiz/juiz.module';
 import { DocumentModule } from './model/firestore/document.module';
 import { SrlModule } from './srl/srl.module';
+import { AuthGuard } from './guards/auth.guard';
 
 
 
@@ -47,7 +48,7 @@ import { SrlModule } from './srl/srl.module';
     InputTextModule,
     MenubarModule,
   ],
-  providers: [],
+  providers: [AuthGuard],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

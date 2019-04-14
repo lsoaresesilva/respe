@@ -14,12 +14,14 @@ import { SliderModule } from 'primeng/slider';
 import {TabViewModule} from 'primeng/tabview';
 import {ButtonModule} from 'primeng/button';
 import {ToastModule} from 'primeng/toast';
+import { PaginaNaoEncontradaComponent } from './pagina-nao-encontrada/pagina-nao-encontrada.component';
 
 @NgModule({
   declarations: [
     SelfInstructionComponent,
     SelecionarPlanejamentoComponent,
-    CadastroPlanejamentoComponent
+    CadastroPlanejamentoComponent,
+    PaginaNaoEncontradaComponent
   ],
   imports: [
     CommonModule,
