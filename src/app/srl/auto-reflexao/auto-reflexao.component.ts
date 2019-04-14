@@ -29,13 +29,13 @@ export class AutoReflexaoComponent implements OnInit {
   }
 
   salvar() {
-    if (this.autoReflexao.acoesSucesso == "" || this.autoReflexao.acoesFracasso == "") {
+    if (this.autoReflexao.isValido = false) {
       this.showError();
     } else {
       this.autoReflexao.save().subscribe(resultado => {
-        this.autoReflexao.pk = resultado.id;        
-          this.showSuccess();
-          // rota para listagem de planejamentos
+        this.autoReflexao.pk = resultado.id;
+        this.showSuccess();
+        this.router.navigate(['planejamento/listar']);
       })
     }
   }
