@@ -18,7 +18,7 @@ export class VisualizarConteudoComponent implements OnInit {
   }
 
   abrirOpcoesAnotacao(texto, instance, event){
-    instance.boxOpcoesAnotacao.toggle(event);
+    instance.boxOpcoesAnotacao.toggle(event, event.target);
   }
 
 
