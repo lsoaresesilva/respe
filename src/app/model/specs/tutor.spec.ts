@@ -104,24 +104,24 @@ describe("Testes de TUTOR", ()=>{
         let e2 = new Erro(null, 1, null, null, null);
         s2.erros = [e2];
 
-        expect(Tutor.score(s, s2)).toBe(1);
+        expect(Tutor.errorQuotient(s, s2)).toBe(1);
     })
 
     it("Deve calcular um error quotient de 0", ()=>{
         let s = new Submissao(null, null, null, null);
         let s2 = new Submissao(null, null, null, null);
-        expect(Tutor.score(s, s2)).toBe(0);
+        expect(Tutor.errorQuotient(s, s2)).toBe(0);
 
         s = new Submissao(null, null, null, null);
         let e = new Erro(null, 1, null, null, null);
         s.erros = [e];
         s2 = new Submissao(null, null, null, null);
-        expect(Tutor.score(s, s2)).toBe(0);
+        expect(Tutor.errorQuotient(s, s2)).toBe(0);
     })
 
     it("Deve retornar undefined quando não existir um par de submissões", ()=>{
         let s = new Submissao(null, null, null, null);
-        expect(Tutor.score(s, null)).toBeNull();
+        expect(Tutor.errorQuotient(s, null)).toBeNull();
     })
 
     it("Deve calcular um error quotient de 0.5", ()=>{

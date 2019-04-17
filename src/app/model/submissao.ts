@@ -1,7 +1,7 @@
 import Estudante from './estudante';
 import { Questao } from './questao';
 import Codigo from './codigo';
-import { Document, Collection, date, lazy } from './firestore/document';
+import { Document, Collection, date } from './firestore/document';
 import Erro from './erro';
 import { Observable, forkJoin } from 'rxjs';
 import Query from './firestore/query';

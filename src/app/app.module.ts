@@ -24,6 +24,7 @@ import { GeralModuleModule } from './geral-module/geral-module.module';
 import { JuizModule } from './juiz/juiz.module';
 import { DocumentModule } from './model/firestore/document.module';
 import { SrlModule } from './srl/srl.module';
+import { CsclModule } from './cscl/cscl.module';
 
 
 
@@ -35,6 +36,7 @@ import { SrlModule } from './srl/srl.module';
   ],
   imports: [
     SrlModule,
+    CsclModule,
     DocumentModule,
     GeralModuleModule,
     JuizModule,

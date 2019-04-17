@@ -1,52 +1,59 @@
-import { Component, OnInit, ViewEncapsulation, ViewChild, ElementRef } from '@angular/core';
-import Editor from '../../model/editor';
-import { HttpClient, HttpHeaders } from '@angular/common/http';
-import Submissao from 'src/app/model/submissao';
+import { Component, OnInit } from '@angular/core';
+import Editor from 'src/app/model/editor';
 import Estudante from 'src/app/model/estudante';
 import { Questao } from 'src/app/model/questao';
+import Submissao from 'src/app/model/submissao';
+import { Tutor } from 'src/app/model/tutor';
+import { HttpHeaders, HttpClient } from '@angular/common/http';
 import ResultadoTestCase from 'src/app/model/resultadoTestCase';
 import { forkJoin } from 'rxjs';
-import PythonInterpreter from 'src/app/model/pythonInterpreter';
-import { ParseError } from 'src/app/model/parseError';
-import { Tutor } from 'src/app/model/tutor';
-
 
 declare var editor: any;
-declare function carregarIde(): any;
-
+declare function carregarIde(readOnly): any;
 
 @Component({
-  selector: 'app-editor',
-  templateUrl: './editor.component.html',
-  styleUrls: ['./editor.component.css'],
-  encapsulation: ViewEncapsulation.None,
+  selector: 'editor-programacao',
+  templateUrl: './editor-programacao.component.html',
+  styleUrls: ['./editor-programacao.component.css']
 })
-export class EditorComponent implements OnInit {
-
-  @ViewChild('output') myDiv: ElementRef;
+export class EditorProgramacaoComponent implements OnInit {
 
   editorCodigo?: Editor;
-  statusExecucao;
-  erroSimplificado;
-  resultadosTestsCases;
+  uploadCodigo;
   erroLinguagemProgramacao;
   questao;
-  uploadCodigo;
+  statusExecucao;
+  resultadosTestsCases;
 
-  constructor(private http: HttpClient) {
-    this.erroLinguagemProgramacao = ""
+
+
+  constructor(private http: HttpClient) { 
+    this.erroLinguagemProgramacao = "";
     this.statusExecucao = "";
     Questao.get("LwC2ItAVtfkDhcE9jvpT").subscribe(questao => {
       this.questao = questao;
     })
 
     this.uploadCodigo = false;
+
   }
 
   ngOnInit() {
+
     this.editorCodigo = Editor.getInstance();
 
-    carregarIde();
+    carregarIde(false);
+  }
+
+  
+
+  mouseMove(event){
+    
+    
+    //let linha = event.target.position.linha;
+    // SE mouse estiver na área do editor mostrar div;
+    // Mo Y do div a partir da linha
+
   }
 
   prepararMensagemErros(erros) {
@@ -59,8 +66,6 @@ export class EditorComponent implements OnInit {
       });
     }
   }
-
-
 
   executar() {
 
@@ -126,15 +131,8 @@ export class EditorComponent implements OnInit {
         }
       })
     })
-
-
-
-
-
-
-
-
   }
+
 
   prepararStatus(status) {
     let textoStatus = "<span class='textoStatus'>Status</span> "
@@ -143,20 +141,5 @@ export class EditorComponent implements OnInit {
     else
       this.statusExecucao = textoStatus + "<span class='statusSucesso'>Sucesso</span>";
   }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 }
