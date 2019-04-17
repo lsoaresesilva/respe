@@ -1,0 +1,12 @@
+#iconeNovoComentario {
+    height: 18px;
+    width: 18px;
+    position: absolute;
+    top: 0;
+    left: 0;
+    color:#2E9AFE;
+    background-color: white;
+    z-index: 2;
+    cursor:pointer;
+}
+

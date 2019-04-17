@@ -1,0 +1,13 @@
+<div #icone id="icone" (click)="op.toggle($event)"><i class="pi pi-comments"></i></div>
+
+<p-overlayPanel #op>
+  <p-accordion>
+    <p-accordionTab *ngFor="let comentario of comentarios" header="{{comentario.usuario.usuario}}">
+      <div class="p-grid" style="width:300px">
+        <div class="p-col-10">{{comentario.texto}}</div>
+        <div class="p-col-2"><i class="pi pi-trash" style="font-size: 2em; cursor: pointer" (click)="apagar(comentario)"></i></div>
+      </div> 
+    </p-accordionTab>
+</p-accordion>
+
+</p-overlayPanel>

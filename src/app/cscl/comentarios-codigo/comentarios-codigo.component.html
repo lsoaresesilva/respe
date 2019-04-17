@@ -1,0 +1,29 @@
+
+
+<box-comentario *ngFor="let comentario of comentarios" [comentarios]="comentario"></box-comentario>
+
+<div id="iconeNovoComentario" (click)="exibirBoxNovoComentario($event)"><i  class="pi pi-plus-circle" style="font-size: 1.3em"></i></div>
+
+<box-novo-comentario [visibilidade]="visibilidade" (comentario)="salvarComentario($event)" (statusDialog)="gerenciarDialog($event)"></box-novo-comentario>
+
+<div >
+  <div class="p-grid">
+    <div class="p-col-3" >
+      <h3>Questão</h3>
+    </div>
+    <div class="p-col-9">
+      <h3>Algoritmo</h3>
+    </div>
+
+  </div>
+
+  <div class="p-grid">
+    <div class="p-col-3" style="background-color:#ffffe6">
+      <dados-questao [questao]="questao"></dados-questao>
+    </div>
+    <div class="p-col-9">
+      <div id="container" style="height:600px;border:1px solid grey; position:relative;"></div>
+    </div>
+
+  </div>
+</div>
