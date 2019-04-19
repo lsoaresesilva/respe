@@ -3,6 +3,7 @@ import { CanActivate } from '@angular/router/src/utils/preactivation';
 import { ActivatedRouteSnapshot, RouterStateSnapshot, Router, CanLoad, Route } from '@angular/router';
 import { Observable } from 'rxjs';
 import Usuario from '../model/usuario';
+import { containsElement } from '@angular/animations/browser/src/render/shared';
 
 
 @Injectable({
@@ -18,10 +19,14 @@ export class AuthGuard implements CanActivate, CanLoad {
     private router: Router
   ) { }
 
+
   canActivate(
     route: ActivatedRouteSnapshot,
     state: RouterStateSnapshot
   ) : Observable<boolean> | boolean{
+
+    console.log("acesso");
+    console.log(this.router.url);
     return this.verificarAcesso();
   }
 
@@ -31,13 +36,11 @@ export class AuthGuard implements CanActivate, CanLoad {
   }
 
   verificarAcesso() {
-
     if (Usuario.isUsuarioLogado()) {
-      console.log("usuário logado");
       return true;
     }
-    this.router.navigate([""]);
-    return false;
+      this.router.navigate([""]);
+      return false;
   }
 
 }

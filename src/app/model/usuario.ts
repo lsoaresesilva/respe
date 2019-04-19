@@ -43,7 +43,7 @@ export default class Usuario extends Document{
         return localStorage.getItem("usuarioId") != undefined ? true : false;
     }
 
-    static isUsuarioDeslogado(){
+    static logout(){
         localStorage.removeItem("usuarioId");
         return true;
     }
