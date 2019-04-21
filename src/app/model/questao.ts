@@ -137,6 +137,8 @@ export class Questao extends Document {
     return true;
   }
 
+  is
+
 
 
 

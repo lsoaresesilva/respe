@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { MenuItem } from 'primeng/components/common/menuitem';
 import { Router } from '@angular/router';
+import Usuario from 'src/app/model/usuario';
 
 @Component({
   selector: 'app-main',
@@ -29,8 +30,19 @@ export class MainComponent implements OnInit {
       {
         label: 'Progresso da turma',
         command: () => { this.router.navigate(["main", { outlets: { principal: ['progressoTurma'] } }]) }
+      },
+      {
+        label: 'Logout',
+        command: () => {this.logout()}
       }
     ];
+
+  }
+
+  private logout() {
+    if(Usuario.logout()){
+      return this.router.navigate([""])
+    }
   }
 
 
