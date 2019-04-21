@@ -14,21 +14,30 @@ import { SliderModule } from 'primeng/slider';
 import {TabViewModule} from 'primeng/tabview';
 import {ButtonModule} from 'primeng/button';
 import {ToastModule} from 'primeng/toast';
+<<<<<<< HEAD
 import { PaginaNaoEncontradaComponent } from './pagina-nao-encontrada/pagina-nao-encontrada.component';
+=======
+import { RiscoEstudanteComponent } from './risco-estudante/risco-estudante.component';
+import {ProgressBarModule} from 'primeng/progressbar';
+>>>>>>> master
 
 @NgModule({
   declarations: [
     SelfInstructionComponent,
     SelecionarPlanejamentoComponent,
     CadastroPlanejamentoComponent,
+<<<<<<< HEAD
     PaginaNaoEncontradaComponent
+=======
+    RiscoEstudanteComponent
+>>>>>>> master
   ],
   imports: [
     CommonModule,
     BrowserModule,
     BrowserAnimationsModule,
     FormsModule,
-
+    ProgressBarModule,
     InputTextareaModule,
     DropdownModule,
 
@@ -38,7 +47,8 @@ import { PaginaNaoEncontradaComponent } from './pagina-nao-encontrada/pagina-nao
     ButtonModule,
     ToastModule,
   ],
-  providers:[PlanejamentoService]
+  providers:[PlanejamentoService],
+  exports:[RiscoEstudanteComponent]
 
 })
 export class SrlModule { }

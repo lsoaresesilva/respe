@@ -40,7 +40,7 @@ describe("Testes de questão", ()=>{
     })
 
     it("deve validar true para uma questão válida", ()=>{
-        let q = new Questao(null, "algo", "enunciado", Dificuldade.facil, 1, new Assunto(null), [new Assunto(null)]);
+        let q = new Questao(null, "algo", "enunciado", Dificuldade.facil, 1, new Assunto(null, null, null, null), [new Assunto(null, null, null, null)]);
         expect(q.validar()).toBeTruthy();
     })
 

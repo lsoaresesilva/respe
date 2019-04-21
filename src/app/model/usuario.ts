@@ -2,11 +2,13 @@ import { Document, Collection } from './firestore/document';
 import { Observable } from 'rxjs';
 import Query from './firestore/query';
 import { sha256 } from 'js-sha256';
+import { PerfilUsuario } from './perfilUsuario';
 
 
 @Collection("usuarios")
 export default class Usuario extends Document{
 
+    perfil:PerfilUsuario;
 
     constructor(id, private login, private senha) {
         super(id);

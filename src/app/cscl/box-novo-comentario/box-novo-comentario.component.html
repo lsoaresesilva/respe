@@ -1,0 +1,7 @@
+<p-dialog header="Criar comentário" [(visible)]="visibilidade" (onHide)="fecharDialog()">
+  <textarea pInputTextarea [(ngModel)]="comentario.texto"></textarea>
+  <p-footer>
+      <p-button label="Salvar" (click)="salvar()"></p-button>
+  </p-footer>
+  
+</p-dialog>

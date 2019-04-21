@@ -35,18 +35,6 @@ export default class Editor {
 
         return this.instance;
     }
-
-    
-
-    prepararEnvioCodigo() {
-        // TODO: pegar o estudante logado.
-        let envioCodigo = new Submissao(null, this.codigo.algoritmo, new Estudante(null), new Questao(null, null, null, null, null, null, null));
-
-        // transformar o código de input em outra coisa
-
-        return envioCodigo;
-    }
-
     
 
     destacarLinha(linha, status) {

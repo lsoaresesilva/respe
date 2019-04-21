@@ -1,0 +1,61 @@
+
+
+<div style="width:300px;margin:10px 10px 10px 10px; color: white">
+    <risco-estudante></risco-estudante>
+  </div>
+  
+
+  <div >
+    <div class="p-grid">
+      <div class="p-col-3" >
+        <h3>Questão</h3>
+      </div>
+      <div class="p-col-6">
+        <h3>Algoritmo</h3>
+      </div>
+      <div class="p-col-3">
+        <div>
+          <h3>Execução</h3>
+        </div>
+      </div>
+    </div>
+  
+    <div class="p-grid">
+      <div class="p-col-3" style="background-color:#ffffe6">
+        <dados-questao [questao]="questao"></dados-questao>
+      </div>
+      <div class="p-col-6">
+        <div id="container" style="height:600px;border:1px solid grey; position:relative;"></div>
+      </div>
+      <div class="p-col-3">
+        <div class="saida" style="min-height:100%;">
+          <div style="background-color:#F8E6E0;">
+            <span [innerHTML]="erroLinguagemProgramacao" style="padding:20px;"></span>
+          </div>
+        </div>
+      </div>
+    </div>
+  
+  
+    <div class="p-grid">
+      <div class="p-col-3"></div>
+      <div class="p-col-6">
+        <button type="button" (click)="executar()" pButton label="Executar"></button>
+      </div>
+      <div class="p-col-3">
+  
+      </div>
+    </div>
+    <div class="p-grid">
+      <div class="p-col-3">
+  
+      </div>
+      <div class="p-col-6">
+        <app-visualizar-testes [resultados]="resultadosTestsCases"></app-visualizar-testes>
+      </div>
+      <div class="p-col-3">
+  
+      </div>
+    </div>
+  
+  </div>
