@@ -1,0 +1,44 @@
+<div style="margin-left: auto;margin-right: auto;width: 30em">
+
+
+  <div *ngIf="ehPraAlterar">
+    <h1 class="first">Cadastro de questao</h1>
+  </div>
+  <ng-template #other_content> <h1 class="first">alterar questao</h1></ng-template>
+  
+
+  <h3 class="first">Nome(curto)</h3>
+  <input id ="nomeCurto" type="text" [(ngModel)]="questao.nomeCurto" /> 
+  
+
+  <h3 class="first">Enunciado</h3> 
+  <textarea [rows]="6" [cols]="60" pInputTextarea autoResize="autoResize" [(ngModel)]="questao.enunciado" ></textarea>
+
+  <h3 class="first">Assunto Principal</h3> 
+  <p-dropdown [options]="assuntos" optionLabel="nome" [(ngModel)]="questao.assuntoPrincipal" ></p-dropdown> 
+
+  <h3 class="first">Assuntos</h3>
+  <p-checkbox  *ngFor="let assunto of assuntos" name= "assuntosQuestao" value = {{assunto}} [(ngModel)]="questao.assuntos" label ={{assunto.nome}}  inputId = {{assunto.id}} ></p-checkbox>  
+  <span *ngFor="let assunto of questao.assuntos" style="margin-right:10px">{{assunto.id}}</span>
+
+  <h3 class="first">Sequência</h3>
+  <p-spinner size="15"  [min]="0" [(ngModel)]="questao.sequencia"></p-spinner> 
+
+  <h3 class="first">Dificuldade</h3>
+  <p-dropdown [options]="dificuldades" [(ngModel)]="questao.dificuldade" ></p-dropdown> 
+
+  <br/>
+  <br/>
+  <button pButton type="button" label="cadastrar questão" (click)="cadastrarQuestao()" ></button>
+
+  <br/>
+  <br/>
+
+  <app-cadastrar-teste-case></app-cadastrar-teste-case>
+  
+</div>
+
+
+
+
+

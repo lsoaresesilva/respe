@@ -47,6 +47,7 @@ import { SrlModule } from './srl/srl.module';
     AngularFirestoreModule,
     InputTextModule,
     MenubarModule,
+    JuizModule,
   ],
   providers: [],
   bootstrap: [AppComponent]

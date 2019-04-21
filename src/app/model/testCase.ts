@@ -2,8 +2,8 @@ import {Document, Collection} from './firestore/document'
 
 @Collection("testsCases")
 export default class TestCase extends Document{
-    entradas;
-    saida;
+    entradas:String [];
+    saida:String;
 
     constructor(id, entradas, saida){
         super(id);
