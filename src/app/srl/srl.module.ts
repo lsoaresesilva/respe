@@ -11,26 +11,26 @@ import { InputTextareaModule } from 'primeng/inputtextarea';
 import { DropdownModule } from 'primeng/dropdown';
 import { TableModule } from 'primeng/table';
 import { SliderModule } from 'primeng/slider';
+
+import { AutoReflexaoComponent } from './auto-reflexao/auto-reflexao.component';
+import { ButtonModule } from 'primeng/button';
+import {ToastModule} from 'primeng/toast';
 import {TabViewModule} from 'primeng/tabview';
 import {ButtonModule} from 'primeng/button';
 import {ToastModule} from 'primeng/toast';
-<<<<<<< HEAD
+
 import { PaginaNaoEncontradaComponent } from './pagina-nao-encontrada/pagina-nao-encontrada.component';
-=======
 import { RiscoEstudanteComponent } from './risco-estudante/risco-estudante.component';
 import {ProgressBarModule} from 'primeng/progressbar';
->>>>>>> master
 
 @NgModule({
   declarations: [
     SelfInstructionComponent,
     SelecionarPlanejamentoComponent,
     CadastroPlanejamentoComponent,
-<<<<<<< HEAD
+    AutoReflexaoComponent,
     PaginaNaoEncontradaComponent
-=======
     RiscoEstudanteComponent
->>>>>>> master
   ],
   imports: [
     CommonModule,
@@ -40,8 +40,9 @@ import {ProgressBarModule} from 'primeng/progressbar';
     ProgressBarModule,
     InputTextareaModule,
     DropdownModule,
-
+    ButtonModule,
     TableModule,
+    ToastModule,
     SliderModule,
     TabViewModule,
     ButtonModule,

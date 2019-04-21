@@ -5,6 +5,8 @@ import { MainComponent } from './geral-module/main/main.component';
 import { ProgressoComponent } from './analytics-module/progresso/progresso.component';
 import { SelecionarPlanejamentoComponent } from './srl/selecionar-planejamento/selecionar-planejamento.component';
 import { CadastroPlanejamentoComponent } from './srl/cadastro-planejamento/cadastro-planejamento.component';
+import { AutoReflexaoComponent } from './srl/auto-reflexao/auto-reflexao.component';
+
 import { AuthGuard } from './guards/auth.guard';
 import { PaginaNaoEncontradaComponent } from './srl/pagina-nao-encontrada/pagina-nao-encontrada.component';
 import { EditorProgramacaoComponent } from './juiz/editor-programacao/editor-programacao.component';
@@ -21,6 +23,7 @@ const routes: Routes = [
   {path:"cadastro", component:CadastroPlanejamentoComponent, canActivate: [AuthGuard], canLoad: [AuthGuard]},
   {path:"selecionar", component:SelecionarPlanejamentoComponent, canActivate: [AuthGuard], canLoad: [AuthGuard]},
   {path:"", component:LoginComponent},
+  {path:"autoreflexao", component:AutoReflexaoComponent},
   {path:"**", component:PaginaNaoEncontradaComponent}
 ];
 
