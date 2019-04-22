@@ -1,17 +1,11 @@
-/ import { BrowserModule } from '@angular/platform-browser';
+
 import { NgModule } from '@angular/core';
-import { FormsModule } from '@angular/forms';
-import {BrowserAnimationsModule} from '@angular/platform-browser/animations';
 
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 
 import {InputTextModule} from 'primeng/inputtext';
 import {MenubarModule} from 'primeng/menubar';
-import {TableModule} from 'primeng/table';
-import {SliderModule} from 'primeng/slider';
-import {InputTextareaModule} from 'primeng/inputtextarea';
-import {DropdownModule} from 'primeng/dropdown';
 
 import { AngularFireModule } from '@angular/fire';
 import { AngularFirestoreModule } from '@angular/fire/firestore';
@@ -26,6 +20,7 @@ import { SrlModule } from './srl/srl.module';
 import { AuthGuard } from './guards/auth.guard';
 import { CsclModule } from './cscl/cscl.module';
 import { BrowserModule } from '@angular/platform-browser';
+import { DocumentModule } from './model/firestore/document.module';
 
 
 
@@ -48,8 +43,8 @@ import { BrowserModule } from '@angular/platform-browser';
     AngularFireModule.initializeApp(FirebaseConfiguracao),
     AngularFirestoreModule,
     InputTextModule,
-    MenubarModule,
-    JuizModule,
+    MenubarModule,//  
+    JuizModule
   ],
   providers: [AuthGuard],
   bootstrap: [AppComponent]

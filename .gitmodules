@@ -4,3 +4,6 @@
 [submodule "src/app/model/firestore"]
 	path = src/app/model/firestore
 	url = https://github.com/lsoaresesilva/angularfire-document-mapper.git
+[submodule "src/app/model/angularfire-document-mapper"]
+	path = src/app/model/angularfire-document-mapper
+	url = https://github.com/lsoaresesilva/angularfire-document-mapper.git

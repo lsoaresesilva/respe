@@ -4,6 +4,7 @@ import { Observable, forkJoin } from 'rxjs';
 import { Dificuldade } from "./dificuldade"
 import Query from './firestore/query';
 import AssuntoQuestao from './assuntoQuestao';
+import TestCase from './testCase';
 
 @Collection("questoes")
 export class Questao extends Document {
@@ -14,8 +15,9 @@ export class Questao extends Document {
   assuntos: Assunto[];
   assuntoPrincipal: Assunto;
   sequencia: number;
+  testsCases:TestCase[];
 
-  constructor(id, nomeCurto, enunciado, dificuldade, sequencia, assuntoPrincipal, assuntos) {
+  constructor(id, nomeCurto, enunciado, dificuldade, sequencia, assuntoPrincipal, assuntos, testsCases) {
     super(id);
     this.nomeCurto = nomeCurto;
     this.enunciado = enunciado;
@@ -23,6 +25,15 @@ export class Questao extends Document {
     this.sequencia = sequencia;
     this.assuntos = assuntos;
     this.assuntoPrincipal = assuntoPrincipal;
+    this.testsCases = testsCases;
+  }
+
+  objectToDocument(){
+    let document = super.objectToDocument();
+    if(this.assuntoPrincipal != null && typeof this.assuntoPrincipal.pk === "function")
+      document["assuntoPrincipalId"] = this.assuntoPrincipal.pk();
+    
+    return document;
   }
 
   save() {
@@ -31,14 +42,21 @@ export class Questao extends Document {
       if (this.validar()) {
         super.save().subscribe(questao => {
 
-          let saveQuestaoAssuntos = []
+          let operacoesFirestore = [];
 
           this.assuntos.forEach(assunto => {
-            let operacaoSave = new AssuntoQuestao(null, questao.id, assunto.pk()).save();
-            saveQuestaoAssuntos.push(operacaoSave);
+            let operacaoSave = new AssuntoQuestao(null, questao.id, assunto).save();
+            operacoesFirestore.push(operacaoSave);
           })
 
-          forkJoin(saveQuestaoAssuntos).subscribe(resultados => {
+          this.testsCases.forEach(testCase => {
+            
+            operacoesFirestore.push(testCase.save());
+          })
+
+          
+
+          forkJoin(operacoesFirestore).subscribe(resultados => {
             observer.next(questao)
             observer.complete();
           }, err => {
@@ -55,6 +73,21 @@ export class Questao extends Document {
 
   }
 
+  /*static get(id){
+    return new Observable(observer => {
+      super.get(id).subscribe(questao=>{
+        let assuntosQuestoes = []
+        let assuntoPrincipal = [];
+        if (assuntosQuestoes.length > 0) {
+          forkJoin(assuntosQuestoes).subscribe(aQuestoes => {
+            for (let i = 0; i < aQuestoes.length; i++) {
+              //questoes[i].assuntos = aQuestoes[i];
+            }
+        }
+      })
+    });
+  }*/
+
   static getAll(query: Query = null): Observable<any[]> {
     return new Observable(observer => {
       super.getAll(query).subscribe(questoes => {
@@ -67,7 +100,9 @@ export class Questao extends Document {
         if (assuntosQuestoes.length > 0) {
           forkJoin(assuntosQuestoes).subscribe(aQuestoes => {
             for (let i = 0; i < aQuestoes.length; i++) {
-              questoes[i].assuntos = aQuestoes[i];
+              if(questoes[i].assuntos == null)
+                questoes[i].assuntos = []
+              questoes[i].assuntos.push(aQuestoes[i]);
             }
             if (assuntosQuestoes.length > 0) {
               forkJoin(assuntosPrincipais).subscribe(aPrincipal=>{

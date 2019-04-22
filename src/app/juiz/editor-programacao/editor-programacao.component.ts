@@ -73,7 +73,7 @@ export class EditorProgramacaoComponent implements OnInit {
     this.uploadCodigo = true;
 
     let estudante = new Estudante("12345"); // TODO: pegar do login
-    let questao = new Questao("LwC2ItAVtfkDhcE9jvpT", null, null, null, null, null, null);
+    let questao = new Questao("LwC2ItAVtfkDhcE9jvpT", null, null, null, null, null, null, null);
     let submissao = new Submissao(null, this.editorCodigo.codigo, estudante, questao)
     let tutor = new Tutor(submissao);
     submissao.save().subscribe(resultado => {

@@ -16,8 +16,6 @@ import { AutoReflexaoComponent } from './auto-reflexao/auto-reflexao.component';
 import { ButtonModule } from 'primeng/button';
 import {ToastModule} from 'primeng/toast';
 import {TabViewModule} from 'primeng/tabview';
-import {ButtonModule} from 'primeng/button';
-import {ToastModule} from 'primeng/toast';
 
 import { PaginaNaoEncontradaComponent } from './pagina-nao-encontrada/pagina-nao-encontrada.component';
 import { RiscoEstudanteComponent } from './risco-estudante/risco-estudante.component';
@@ -29,7 +27,7 @@ import {ProgressBarModule} from 'primeng/progressbar';
     SelecionarPlanejamentoComponent,
     CadastroPlanejamentoComponent,
     AutoReflexaoComponent,
-    PaginaNaoEncontradaComponent
+    PaginaNaoEncontradaComponent,
     RiscoEstudanteComponent
   ],
   imports: [

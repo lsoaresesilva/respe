@@ -18,8 +18,7 @@
   <p-dropdown [options]="assuntos" optionLabel="nome" [(ngModel)]="questao.assuntoPrincipal" ></p-dropdown> 
 
   <h3 class="first">Assuntos</h3>
-  <p-checkbox  *ngFor="let assunto of assuntos" name= "assuntosQuestao" value = {{assunto}} [(ngModel)]="questao.assuntos" label ={{assunto.nome}}  inputId = {{assunto.id}} ></p-checkbox>  
-  <span *ngFor="let assunto of questao.assuntos" style="margin-right:10px">{{assunto.id}}</span>
+  <p-checkbox  *ngFor="let assunto of assuntos" name= "assuntosQuestao" value = "{{assunto.id}}" [(ngModel)]="questao.assuntos" label ="{{assunto.nome}}"  inputId = "{{assunto.id}}" ></p-checkbox>  
 
   <h3 class="first">Sequência</h3>
   <p-spinner size="15"  [min]="0" [(ngModel)]="questao.sequencia"></p-spinner> 
@@ -29,13 +28,13 @@
 
   <br/>
   <br/>
-  <button pButton type="button" label="cadastrar questão" (click)="cadastrarQuestao()" ></button>
-
-  <br/>
-  <br/>
-
-  <app-cadastrar-teste-case></app-cadastrar-teste-case>
   
+
+  <br/>
+  <br/>
+  <p-button label="Adicionar TestCase" (click)="adicionarTestCase()"></p-button>
+  <app-cadastrar-teste-case *ngFor="let testCase of questao.testsCases" [testCase]="testCase"></app-cadastrar-teste-case>
+  <button pButton type="button" label="cadastrar questão" (click)="cadastrarQuestao()" ></button>
 </div>
 
 

@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, Input } from '@angular/core';
 import TestCase from 'src/app/model/testCase';
 import { TestesCasesService } from '../testes-cases.service';
 
@@ -8,13 +8,17 @@ import { TestesCasesService } from '../testes-cases.service';
   styleUrls: ['./cadastrar-teste-case.component.css']
 })
 export class CadastrarTesteCaseComponent implements OnInit {
+  @Input("testCase")
   testeCase:TestCase;
   temTesteCase=false;
   entrada:string ="";
+
+
+
   constructor() { }
 
   ngOnInit() {
-    this.testeCase = new TestCase(null,[],null);
+    //this.testeCase = new TestCase(null,[],null, );
   }
    
   addMaisTesteCase(){
