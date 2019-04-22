@@ -15,8 +15,13 @@ import {MessageService} from 'primeng/api';
 import { ContextMenuModule, ContextMenu, MenuItem, MenuModule } from 'primeng/primeng';
 import { HttpClientModule } from '@angular/common/http';
 import { CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
+import {ProgressSpinnerModule} from 'primeng/progressspinner';
+import { AnalyticsModule } from '../analytics-module/analytics.module';
+import { SrlModule } from '../srl/srl.module';
+import { EditorProgramacaoComponent } from './editor-programacao/editor-programacao.component';
+import { DadosQuestaoComponent } from './dados-questao/dados-questao.component';
 @NgModule({
-  declarations: [VisualizarTestesComponent, CadastrarQuestoesComponent, CadastrarTesteCaseComponent, ListarQuestoesComponent],
+  declarations: [VisualizarTestesComponent, CadastrarQuestoesComponent, CadastrarTesteCaseComponent, ListarQuestoesComponent, DadosQuestaoComponent, EditorProgramacaoComponent, EditorProgramacaoComponent],
   imports: [
     CommonModule,
     TableModule,
@@ -29,12 +34,19 @@ import { CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
     CheckboxModule,
     ContextMenuModule,
     HttpClientModule,
+    ProgressSpinnerModule,
+    AnalyticsModule,
+    SrlModule
     
     
     
   ],
   exports:[
     VisualizarTestesComponent,
+    DadosQuestaoComponent,
+    CadastrarQuestoesComponent,
+    ListarQuestoesComponent,
+    CadastrarTesteCaseComponent
    
   ],
 
@@ -42,5 +54,6 @@ import { CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
   schemas: [
     CUSTOM_ELEMENTS_SCHEMA
 ],
+
 })
 export class JuizModule { }

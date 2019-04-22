@@ -29,26 +29,6 @@ export class ProgressoComponent implements OnInit {
     });*/
 
 
-      let resultados = [];
-      this.dados = this.prepararParaChart(new Estatistica(resultados).calcularPorTipoErro())
-      let x = {
-        data: this.dados,
-        labels: ['NameError', 'ParseError', 'TypeError'],
-        datasets: [
-          {
-            data: this.dados,
-            backgroundColor: [
-              "#FF6384",
-              "#36A2EB",
-              "#FFCE56"
-            ],
-            hoverBackgroundColor: [
-              "#FF6384",
-              "#36A2EB",
-              "#FFCE56"
-            ]
-          }]
-      };
   }
 
   prepararParaChart(resultadosEstatisticos) {

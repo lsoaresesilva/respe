@@ -30,4 +30,14 @@ export class Planejamento extends Document{
         return document;
     }
 
+    isValid(){
+        if(this.assunto==null||this.dificuldadeConteudo==0||this.estrategiaRealizacaoEstudo==""||this.importanciaAssunto==""){
+    
+          return false;
+    
+        }else{
+          return true;
+        }
+      }
+
 }

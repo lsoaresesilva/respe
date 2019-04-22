@@ -2,9 +2,9 @@ import { Document, Collection } from './firestore/document';
 
 @Collection("assuntos")
 export class Assunto extends Document{
-    nome;
+ 
 
-    constructor(id){
+    constructor(id, private nome, private preRequisitos:Assunto[], private objetivosEducacionais){
         super(id);
     }
 }

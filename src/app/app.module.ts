@@ -1,4 +1,4 @@
-import { BrowserModule } from '@angular/platform-browser';
+/ import { BrowserModule } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import {BrowserAnimationsModule} from '@angular/platform-browser/animations';
@@ -20,11 +20,12 @@ import { FirebaseConfiguracao } from 'src/environments/firebase';
 import { LoginModule } from './login-module/login.module';
 import { MainComponent } from './geral-module/main/main.component';
 import { AnalyticsModule } from './analytics-module/analytics.module';
-import { EditorModule } from './editor-module/editor.module';
 import { GeralModuleModule } from './geral-module/geral-module.module';
 import { JuizModule } from './juiz/juiz.module';
-import { DocumentModule } from './model/firestore/document.module';
 import { SrlModule } from './srl/srl.module';
+import { AuthGuard } from './guards/auth.guard';
+import { CsclModule } from './cscl/cscl.module';
+import { BrowserModule } from '@angular/platform-browser';
 
 
 
@@ -36,9 +37,10 @@ import { SrlModule } from './srl/srl.module';
   ],
   imports: [
     SrlModule,
+    CsclModule,
     DocumentModule,
     GeralModuleModule,
-    EditorModule,
+    JuizModule,
     AnalyticsModule,
     LoginModule,
     BrowserModule,
@@ -49,7 +51,7 @@ import { SrlModule } from './srl/srl.module';
     MenubarModule,
     JuizModule,
   ],
-  providers: [],
+  providers: [AuthGuard],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

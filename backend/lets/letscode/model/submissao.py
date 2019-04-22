@@ -4,8 +4,8 @@ from letscode.model.firestore.document import Collection
 @Collection("submissao")
 class Submissao(Document):
 
-    def __init__(self, codigo, estudante, questao):
-        self.id = ""
+    def __init__(self, id, codigo, estudante, questao):
+        super().__init__(id)
         self.codigo = codigo
         self.estudante = estudante
         self.questao = questao

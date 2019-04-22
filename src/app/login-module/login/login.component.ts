@@ -11,10 +11,11 @@ import { Router } from '@angular/router';
 export class LoginComponent implements OnInit {
 
   login;
+  senha;
 
   constructor(private loginService:UsuarioService, private router:Router) { 
 
-    this.login = new Usuario();
+    
     
     
   }
@@ -23,12 +24,10 @@ export class LoginComponent implements OnInit {
   }
 
   acessar(){
-    this.loginService.acessar(this.login).subscribe(usuarioLogado=>{
-        localStorage.setItem('usuarioLogado', usuarioLogado.id);
+    Usuario.logar(new Usuario(null, this.login, this.senha)).subscribe(resultado=>{
+      if( resultado )
         this.router.navigateByUrl("/main");
-    }, err=>{
-      console.log(err);
-    });
+    })
   }
 
 }
