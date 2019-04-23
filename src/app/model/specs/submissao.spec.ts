@@ -39,7 +39,7 @@ describe("Testes de TUTOR", ()=>{
     it("Deve carregar uma submissão com erro", (done)=>{
         let algoritmo = "x = 2\ny = c";
         let estudante = new Estudante("CvsVQsPKIExzNWFh2TWW");
-        let questao = new Questao("LwC2ItAVtfkDhcE9jvpT", null, null, null, null, null, null);
+        let questao = new Questao("LwC2ItAVtfkDhcE9jvpT", null, null, null, null, null, null, []);
         let submissao = new Submissao(null, algoritmo, estudante, questao);
         let x = submissao.erros;
         submissao.save().subscribe(resultado=>{
