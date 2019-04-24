@@ -9,6 +9,7 @@ import { Assunto } from '../assunto';
 import AssuntoQuestao from '../assuntoQuestao';
 import Query from '../firestore/query';
 import TestCase from '../testCase';
+import { forkJoin } from 'rxjs';
 
 describe("Testes de questão", () => {
 
@@ -47,31 +48,38 @@ describe("Testes de questão", () => {
 
 
   it("deve salvar uma questão corretamente", (done) => {
-    let q = new Questao(null, "nome", "enunciado", Dificuldade.facil, 1, new Assunto("12345", null, null, null), [new Assunto("12345", null, null, null), new Assunto("54321", null, null, null)], []);
+    let a = new Assunto(null, "umAssunto", null, null);
+    a.save().subscribe(resultado=>{
+      let q = new Questao(null, "nome", "enunciado", Dificuldade.facil, 1, a, [a], []);
 
-    let t = new TestCase(null, ["a", "b"], "c", q)
-    let t1 = new TestCase(null, ["d", "e"], "a", q)
-    let testsCases = [t, t1]
-    Questao.deleteAll().subscribe(deleteQuestao => {
-      TestCase.deleteAll().subscribe(deleteTestCase=>{
-        q.testsCases = testsCases;
-        q.save().subscribe(resultado => {
-          expect(resultado["pk"]()).toBeDefined();
-          TestCase.getAll().subscribe(totalTestsCases=>{
-            expect(totalTestsCases.length).toBe(2)
-            Questao.deleteAll().subscribe(resultado => {
-              TestCase.deleteAll().subscribe(deleteTestCase=>{
-                done();
+      let t = new TestCase(null, ["a", "b"], "c", q)
+      let t1 = new TestCase(null, ["d", "e"], "a", q)
+      let testsCases = [t, t1]
+      Questao.deleteAll().subscribe(deleteQuestao => {
+        TestCase.deleteAll().subscribe(deleteTestCase=>{
+          q.testsCases = testsCases;
+          q.save().subscribe(resultado => {
+            expect(resultado["pk"]()).toBeDefined();
+            TestCase.get(t.pk()).subscribe(testCase=>{
+              expect(testCase).toBeDefined();
+              Questao.delete(q.pk()).subscribe(resultado => {
+                forkJoin([TestCase.delete(t.pk()), TestCase.delete(t1.pk())]).subscribe(deleteTestCase=>{
+                  Assunto.delete(a.pk()).subscribe(deleteAssunto=>{
+                    done();
+                  })
+                  
+                })
+                
               })
-              
             })
+            
+    
           })
-          
-  
         })
-      })
-     
-    });
+      
+      });
+    })
+    
 
   })
 /*

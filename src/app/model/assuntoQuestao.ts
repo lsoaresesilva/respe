@@ -1,15 +1,16 @@
 import { Document, Collection } from './firestore/document';
+import { Questao } from './questao';
 
 @Collection("assuntosQuestoes")
 export default class AssuntoQuestao extends Document{
 
-    idQuestao;
-    idAssunto;
 
-
-    constructor(id, idQuestao, idAssunto){
+    constructor(id, private questao, private assunto){
         super(id);
-        this.idQuestao = idQuestao;
-        this.idAssunto = idAssunto;
+    }
+
+    objectToDocument(){
+        let document = {questaoId:this.questao.pk(), assuntoId: this.assunto.pk()};
+        return document;
     }
 }
