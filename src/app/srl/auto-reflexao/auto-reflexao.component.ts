@@ -22,7 +22,8 @@ export class AutoReflexaoComponent implements OnInit {
 
   constructor(private router: Router) {
     this.assunto = new Assunto("pVH6LewMxIKM73ep2n1N", null, null, null);
-    this.autoReflexao = new AutoReflexao(this.assunto, new Estudante("12345"), " ", " ", " ");
+    // TODO: carregar do login
+    this.autoReflexao = new AutoReflexao(this.assunto, new Estudante("12345", null), " ", " ", " ");
   }
 
   ngOnInit() {

@@ -1,7 +1,17 @@
+<box-novo-comentario [visibilidade]="visibilidadeDialogComentario" (comentario)="salvarComentario($event)" (statusDialog)="gerenciarDialog($event)"></box-novo-comentario>
+<p-overlayPanel #panelApagarDestaque>
+    <p-button icon="pi pi-trash"  #btnApagarDestaque></p-button>
+</p-overlayPanel>
+
 <div id="cal1">&nbsp;</div>
 <div id="cal2">&nbsp;</div>
-<div id="tooltip"><p-button icon="pi pi-pencil" style="font-size: 2em;cursor: pointer" (click)="criarHighlight()"></p-button> <p-button icon="pi pi-comment" style="font-size: 2em"></p-button></div>
-<p>
+<div id="tooltip"><i class="pi pi-pencil" style="font-size: 2em;cursor: pointer" (click)="criarHighlight()"></i> <i class="pi pi-comment" style="font-size: 2em; cursor:pointer" (click)="abrirDialogNovoComentario()"></i></div>
+
+<div [innerHTML]="conteudoProgramacao" #divConteudoProgramacao></div>
+
+<p id="conteudo">
         
-Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages, and more recently with desktop publishing software like Aldus PageMaker including versions of Lorem Ipsum.
+
 </p>
+
+<span (click)="apagarAnotacao()">oiis</span>

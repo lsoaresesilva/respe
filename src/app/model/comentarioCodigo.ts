@@ -19,6 +19,10 @@ export default class ComentarioCodigo extends Document{
 
 
 
+    /**
+     * Agrupa os comentários que foram realizados em uma mesma linha
+     * @param comentarios 
+     */
     static agrupar(comentarios:ComentarioCodigo[]){
         // criar posições por linha
         if(comentarios != undefined && comentarios != null){

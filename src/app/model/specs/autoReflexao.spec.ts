@@ -29,7 +29,7 @@ describe("Testes de autoreflexão", ()=>{
           afs = _afs;
         })();
         
-        let e = new Estudante("12345");
+        let e = new Estudante("12345", null);
         let a = new Assunto("123456", null, null, null)
         areflexao = new AutoReflexao(null, e, a, "fiz certo", "fiz errado");
       });
@@ -45,7 +45,7 @@ describe("Testes de autoreflexão", ()=>{
     })
 
     it("Deve gerar um document a partir de um objeto", ()=>{
-        let e = new Estudante("12345");
+        let e = new Estudante("12345", null);
         let a = new Assunto("123456", null, null, null)
         areflexao = new AutoReflexao(null, e, a, "fiz certo", "fiz errado");
         expect(areflexao.objectToDocument()).toEqual({estudanteId:"12345", assuntoId:"123456", acoesSucesso:"fiz certo", acoesFracasso:"fiz errado"})

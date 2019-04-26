@@ -22,3 +22,7 @@
     overflow:none;
     z-index:-100;
 }
+
+.highlight{
+    background-color: #FFFF00;
+}

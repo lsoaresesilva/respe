@@ -5,7 +5,7 @@ import Estudante from './estudante';
 export default class TextoHighlight extends Document{
 
 
-    constructor(id, private estudante:Estudante, private texto:string){
+    constructor(id, private estudante:Estudante, public document, private texto:string){
         super(id);
     }
 }
