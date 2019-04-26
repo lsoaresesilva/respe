@@ -1,6 +1,11 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
 
-declare function ativarVisualizacao(callback, instance): any;
+/**
+ * Estão declaradas no arquivo visualizarConteudo.js. A função é usada para iniciar o listener do mouse para capturar quando um texto for selecionado. A variável armazena o texto selecionado.
+ */
+declare function ativarVisualizacao(): any;
+declare var textoSelecionado:string;
+declare var callbackAtivo:any;
 
 @Component({
   selector: 'app-visualizar-conteudo',
@@ -14,11 +19,16 @@ export class VisualizarConteudoComponent implements OnInit {
   constructor() { }
 
   ngOnInit() {
-    ativarVisualizacao(this.abrirOpcoesAnotacao, this);
+    ativarVisualizacao();
   }
 
-  abrirOpcoesAnotacao(texto, instance, event){
-    instance.boxOpcoesAnotacao.toggle(event, event.target);
+  criarHighlight(){
+    callbackAtivo = true;
+    if( textoSelecionado != ""){
+
+    }
+    console.log("maoe");
+    console.log(textoSelecionado);
   }
 
 
