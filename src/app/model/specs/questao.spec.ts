@@ -49,47 +49,86 @@ describe("Testes de questão", () => {
 
   it("deve salvar uma questão corretamente", (done) => {
     let a = new Assunto(null, "umAssunto", null, null);
-    a.save().subscribe(resultado=>{
+    a.save().subscribe(resultado => {
       let q = new Questao(null, "nome", "enunciado", Dificuldade.facil, 1, a, [a], []);
 
       let t = new TestCase(null, ["a", "b"], "c", q)
       let t1 = new TestCase(null, ["d", "e"], "a", q)
       let testsCases = [t, t1]
       Questao.deleteAll().subscribe(deleteQuestao => {
-        TestCase.deleteAll().subscribe(deleteTestCase=>{
+        TestCase.deleteAll().subscribe(deleteTestCase => {
           q.testsCases = testsCases;
           q.save().subscribe(resultado => {
             expect(resultado["pk"]()).toBeDefined();
-            TestCase.get(t.pk()).subscribe(testCase=>{
+            TestCase.get(t.pk()).subscribe(testCase => {
               expect(testCase).toBeDefined();
               Questao.delete(q.pk()).subscribe(resultado => {
-                forkJoin([TestCase.delete(t.pk()), TestCase.delete(t1.pk())]).subscribe(deleteTestCase=>{
-                  Assunto.delete(a.pk()).subscribe(deleteAssunto=>{
+                forkJoin([TestCase.delete(t.pk()), TestCase.delete(t1.pk())]).subscribe(deleteTestCase => {
+                  Assunto.delete(a.pk()).subscribe(deleteAssunto => {
                     done();
                   })
-                  
+
                 })
-                
+
               })
             })
-            
-    
+
+
           })
         })
-      
+
       });
     })
-    
+
 
   })
-/*
+
   it("deve carregar assuntosQuestao pelo id de questao", (done) => {
-    AssuntoQuestao.getAll(new Query("idQuestao", "==", "LwC2ItAVtfkDhcE9jvpT")).subscribe(assuntosQuestao => {
-      expect(assuntosQuestao.length).toBe(2);
-      done();
-    })
-  })
 
+    let a = new Assunto(null, "umAssunto", null, null);
+    a.save().subscribe(resultado => {
+      let q = new Questao(null, "nome", "enunciado", Dificuldade.facil, 1, a, [a], []);
+
+      let t = new TestCase(null, ["a", "b"], "c", q)
+      let t1 = new TestCase(null, ["d", "e"], "a", q)
+      let testsCases = [t, t1]
+
+      q.testsCases = testsCases;
+      q.save().subscribe(resultado => {
+
+        TestCase.get(t.pk()).subscribe(testCase => {
+
+          Questao.get(q.pk()).subscribe(resultadoQuestao => {
+            expect(resultadoQuestao["assuntoPrincipal"]).toBeDefined();
+            expect(resultadoQuestao["assuntoPrincipal"]["nome"]).toEqual("umAssunto");
+            expect(resultadoQuestao["assuntos"].length).toBe(1);
+            expect(resultadoQuestao["assuntos"][0]["nome"]).toEqual("umAssunto");
+            expect(resultadoQuestao["testsCases"].length).toBe(2);
+            expect(resultadoQuestao["testsCases"][0]["saida"]).toEqual("a");
+            Questao.delete(q.pk()).subscribe(resultado => {
+              forkJoin([TestCase.delete(t.pk()), TestCase.delete(t1.pk())]).subscribe(deleteTestCase => {
+                Assunto.delete(a.pk()).subscribe(deleteAssunto => {
+                  done();
+                })
+
+              })
+
+            })
+          })
+
+
+
+
+        })
+
+
+      })
+
+
+    })
+  });
+
+  /*
   it("deve carregar Assunto pelo id de questao", (done) => {
     Assunto.getAll().subscribe(resultado => {
       expect(resultado.length).toBe(2);
