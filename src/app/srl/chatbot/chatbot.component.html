@@ -1,0 +1,16 @@
+<div>
+<p-dialog header="Chat" [(visible)]="display" [style]="{width: '300px', height: '200px'}">    
+    <form class="form-container">
+        <br>
+    
+        <textarea pInputTextarea placeholder="Digite a sua mensagem..." name="msg" required></textarea>
+        <br>
+        <button pButton type="button" label="Enviar" class="btn ui-button-success"></button>
+        <br>
+        <button pButton type="button" label="Cancelar" class="btn ui-button-danger"></button>
+
+      </form>
+</p-dialog>
+
+<button type="button" (click)="showDialog()" pButton icon="pi pi-comments" label="Chat"></button>
+</div>

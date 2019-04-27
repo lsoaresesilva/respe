@@ -16,24 +16,28 @@ import { AutoReflexaoComponent } from './auto-reflexao/auto-reflexao.component';
 import { ButtonModule } from 'primeng/button';
 import {ToastModule} from 'primeng/toast';
 import {TabViewModule} from 'primeng/tabview';
+import {DialogModule} from 'primeng/dialog';
 
 import { PaginaNaoEncontradaComponent } from './pagina-nao-encontrada/pagina-nao-encontrada.component';
 import { RiscoEstudanteComponent } from './risco-estudante/risco-estudante.component';
 import {ProgressBarModule} from 'primeng/progressbar';
+import { ChatbotComponent } from './chatbot/chatbot.component';
 
 @NgModule({
   declarations: [
-    SelfInstructionComponent,
-    SelecionarPlanejamentoComponent,
-    CadastroPlanejamentoComponent,
     AutoReflexaoComponent,
+    CadastroPlanejamentoComponent,
+    ChatbotComponent,
+    RiscoEstudanteComponent,
+    SelecionarPlanejamentoComponent,
+    SelfInstructionComponent,
     PaginaNaoEncontradaComponent,
-    RiscoEstudanteComponent
   ],
   imports: [
     CommonModule,
     BrowserModule,
     BrowserAnimationsModule,
+    DialogModule,
     FormsModule,
     ProgressBarModule,
     InputTextareaModule,

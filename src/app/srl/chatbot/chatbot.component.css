@@ -1,0 +1,17 @@
+
+  .form-container textarea {
+    width: 100%;
+    padding: 25px;
+    margin: 5px 0 22px 0;
+    resize: none;
+    min-height: 200px;
+  }
+  
+  .form-container .btn {
+    padding: 10px 10px;
+    border: none;
+    cursor: pointer;
+    width: 100%;
+    margin-bottom:10px;
+    opacity: 0.8;
+  }
