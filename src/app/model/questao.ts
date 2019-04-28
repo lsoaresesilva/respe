@@ -15,7 +15,7 @@ export class Questao extends Document {
   assuntos: Assunto[];
   assuntoPrincipal: Assunto;
   sequencia: number;
-  testsCases:TestCase[];
+  testsCases: TestCase[];
 
   constructor(id, nomeCurto, enunciado, dificuldade, sequencia, assuntoPrincipal, assuntos, testsCases) {
     super(id);
@@ -28,11 +28,11 @@ export class Questao extends Document {
     this.testsCases = testsCases;
   }
 
-  objectToDocument(){
+  objectToDocument() {
     let document = super.objectToDocument();
-    if(this.assuntoPrincipal != null && typeof this.assuntoPrincipal.pk === "function")
+    if (this.assuntoPrincipal != null && typeof this.assuntoPrincipal.pk === "function")
       document["assuntoPrincipalId"] = this.assuntoPrincipal.pk();
-    
+
     return document;
   }
 
@@ -45,16 +45,16 @@ export class Questao extends Document {
           let operacoesFirestore = [];
 
           this.assuntos.forEach(assunto => {
-            let operacaoSave = new AssuntoQuestao(null, questao.id, assunto).save();
+            let operacaoSave = new AssuntoQuestao(null, questao, assunto).save();
             operacoesFirestore.push(operacaoSave);
           })
 
           this.testsCases.forEach(testCase => {
-            
+
             operacoesFirestore.push(testCase.save());
           })
 
-          
+
 
           forkJoin(operacoesFirestore).subscribe(resultados => {
             observer.next(questao)
@@ -73,89 +73,124 @@ export class Questao extends Document {
 
   }
 
-  /*static get(id){
+  static get(id) {
     return new Observable(observer => {
-      super.get(id).subscribe(questao=>{
-        let assuntosQuestoes = []
-        let assuntoPrincipal = [];
-        if (assuntosQuestoes.length > 0) {
-          forkJoin(assuntosQuestoes).subscribe(aQuestoes => {
-            for (let i = 0; i < aQuestoes.length; i++) {
-              //questoes[i].assuntos = aQuestoes[i];
-            }
+      super.get(id).subscribe(questao => {
+        let consultas = {}
+        let questaoId = questao["id"];
+        consultas["assuntosQuestao_" + questaoId] = this.getAssuntos(questao);
+        consultas["testsCases_" + questaoId] = this.getTestsCases(questao);
+        if (questao["assuntoPrincipalId"] != null && questao["assuntoPrincipalId"] != "")
+          consultas["assuntoPrincipal_" + questaoId] = Assunto.get(questao["assuntoPrincipalId"]);
+
+        if (Object.entries(consultas).length === 0 && consultas.constructor === Object) {
+          observer.next(questao);
+          observer.complete();
+
+        } else {
+          forkJoin(consultas).subscribe(resultados => {
+
+
+            let assuntosQuestaoKey = "assuntosQuestao_" + questaoId;
+            let assuntoPrincipalKey = "assuntoPrincipal_" + questaoId;
+            let testsCasesKey = "testsCases_" + questaoId;
+            questao["assuntos"] = resultados[assuntosQuestaoKey]
+            questao["assuntoPrincipal"] = resultados[assuntoPrincipalKey]
+            questao["testsCases"] = resultados[testsCasesKey]
+
+
+          }, err => {
+            observer.error(err);
+          }, () => {
+            observer.next(questao);
+            observer.complete();
+          })
         }
-      })
+      });
     });
-  }*/
+  }
 
   static getAll(query: Query = null): Observable<any[]> {
     return new Observable(observer => {
       super.getAll(query).subscribe(questoes => {
-        let assuntosQuestoes = []
-        let assuntosPrincipais = [];
+        /*let assuntosQuestoes = {}
+        let assuntosPrincipais = {};*/
+        let consultas = {}
+        let counter = 0;
         questoes.forEach(questao => {
-          assuntosQuestoes.push(this.getAssuntos(questao))
-          assuntosPrincipais.push(Assunto.get(questao.idAssuntoPrincipal))
+          counter++;
+          let questaoId = questao.id;
+          consultas["assuntosQuestao_" + questaoId] = this.getAssuntos(questao);
+          if (questao.assuntoPrincipalId != null && questao.assuntoPrincipalId != "")
+            consultas["assuntoPrincipal_" + questaoId] = Assunto.get(questao.assuntoPrincipalId);
         })
-        if (assuntosQuestoes.length > 0) {
-          forkJoin(assuntosQuestoes).subscribe(aQuestoes => {
-            for (let i = 0; i < aQuestoes.length; i++) {
-              if(questoes[i].assuntos == null)
-                questoes[i].assuntos = []
-              questoes[i].assuntos.push(aQuestoes[i]);
-            }
-            if (assuntosQuestoes.length > 0) {
-              forkJoin(assuntosPrincipais).subscribe(aPrincipal=>{
-                for (let i = 0; i < aPrincipal.length; i++) {
-                  questoes[i].assuntoPrincipal = aPrincipal[i];
-                }
 
-                observer.next(questoes);
-                observer.complete();
-              }, err=>{
-                observer.error(err);
-              })
-            }else{
-              observer.next(questoes);
-              observer.complete();
-            }
-            
-          }, err=>{
+
+        if (counter > 0)
+          forkJoin(consultas).subscribe(resultados => {
+
+            questoes.forEach(questao => {
+              let assuntosQuestaoKey = "assuntosQuestao_" + questao.id;
+              let assuntoPrincipalKey = "assuntoPrincipal_" + questao.id;
+              questao.assuntos = resultados[assuntosQuestaoKey]
+              questao.assuntoPrincipal = resultados[assuntoPrincipalKey]
+
+            });
+
+
+          }, err => {
             observer.error(err);
+          }, () => {
+            observer.next(questoes);
+            observer.complete();
           })
-        }else{
+        else {
           observer.next(questoes);
           observer.complete();
         }
+      })
 
+    });
+  }
 
+  private static getTestsCases(questao){
+    return new Observable(observer => {
+      TestCase.getAll(new Query("questaoId", "==", questao.id)).subscribe(testsCases => {
+        
+          observer.next(testsCases);
+          observer.complete();
+      }, err=>{
+        observer.error(err);
       })
     })
-
   }
 
   private static getAssuntos(questao) {
     return new Observable(observer => {
       let assuntos = []
-      AssuntoQuestao.getAll(new Query("idQuestao", "==", questao.id)).subscribe(assuntosQuestao => {
+      AssuntoQuestao.getAll(new Query("questaoId", "==", questao.id)).subscribe(assuntosQuestao => {
         let consultaAssuntos = [];
-        assuntosQuestao.forEach(assuntoQuestao => {
-
-          consultaAssuntos.push(Assunto.get(assuntoQuestao.idAssunto));
-        })
-
-        if (consultaAssuntos.length > 0) {
-          forkJoin(consultaAssuntos).subscribe(assuntosLocalizados => {
-            assuntos = assuntosLocalizados;
+        try{
+          assuntosQuestao.forEach(assuntoQuestao => {
+            consultaAssuntos.push(Assunto.get(assuntoQuestao.assuntoId));
+          })
+  
+          if (consultaAssuntos.length > 0) {
+            forkJoin(consultaAssuntos).subscribe(assuntosLocalizados => {
+              assuntos = assuntosLocalizados;
+              observer.next(assuntos);
+              observer.complete();
+            }, err => {
+              observer.error(err);
+            })
+          } else {
             observer.next(assuntos);
             observer.complete();
-          }, err=>{
-            observer.error(err);
-          })
-        } else {
-          observer.next(assuntos);
-          observer.complete();
+          }
+        }catch(e){
+          observer.error(e);
         }
+        
 
       })
     })
@@ -172,7 +207,7 @@ export class Questao extends Document {
     return true;
   }
 
-  is
+  // TODO: fazer deletar para apagar os testscases
 
 
 

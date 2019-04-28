@@ -4,4 +4,5 @@ export class MaterialEstudo{
     assunto:Assunto;
     nome;
     link;
+    idConteudo;
 }

@@ -1,9 +1,7 @@
 import { Component, OnInit } from '@angular/core';
-import { Assunto } from 'src/app/model/assunto';
 import { MenuItem } from 'primeng/components/common/menuitem';
 import { MessageService } from 'primeng/api';
 import { Questao } from 'src/app/model/questao';
-import TestCase from 'src/app/model/testCase';
 import { Router } from '@angular/router';
 
 @Component({
@@ -13,41 +11,41 @@ import { Router } from '@angular/router';
 })
 export class ListarQuestoesComponent implements OnInit  {
 
-  
   questoes;
   selectedQuestao: Questao;
-  selectQuestoes: Questao[];
   items: MenuItem[];
-  minhasQuestions;
-  constructor(private messageService: MessageService,private rotas:Router) { 
-    
-  }
+  
+  constructor(private messageService: MessageService,private router:Router) { }
 
   ngOnInit() {
-   
-    Questao.getAll().subscribe(questoes=>{this.questoes= questoes});
+     Questao.getAll().subscribe(questoes=>{this.questoes= questoes});
+    //  console.log("esse é o nome = " + this.questoes.nomeCurto);
+    // console.log("esse é o enunciado = " + this.questoes.enunciado);
+    // console.log("esse é o assuntoPrincipal = " + this.questoes.assuntoPrincipal);
+    // console.log("esse é a dificuldade = " + this.questoes.dificuldade);
+    // console.log("esse são os assuntos = " + this.questoes.assuntos);
+    // console.log("esse é a sequencia = " + this.questoes.sequencia);
+    // console.log("esse é o id = " + this.questoes.pk());
 
     this.items = [
-    { label: 'modifique', icon: 'fa fa-check', command: (event) => this.alterarQuestao(this.selectedQuestao) },
-    { label: 'Delete', icon: 'pi pi-times', command: (event) => this.deleteQuestao(this.selectedQuestao) }
+    { label: 'Update', icon: 'pi pi-check', command: (event) => this.updateQuestao(this.selectedQuestao) },
+    { label: 'Delete', icon: 'pi pi-times', command: (event) => this.deleteQuestao(this.selectedQuestao) },
+    { label: 'View', icon:  'pi pi-search', command: (event) => this.viewQuestao(this.selectedQuestao) }
     ];
 
   }
 
-
-
-  alterarQuestao(questao: Questao) {
-    // this.messageService.add({ severity: 'info', summary: 'questao Selected', detail: questao.nomeCurto + ' - ' + questao.assuntoPrincipal });
-    this.rotas.navigate(['/']);
-    console.log("foi");
-   console.log(sessionStorage.setItem('ehPraAlterar','true'));
+  updateQuestao(questao: Questao) {
+    this.router.navigate(['/questao', questao.pk()]);
+    
   }
 
   deleteQuestao(questao:Questao) {
-     Questao.delete(questao.pk()).subscribe(resultado=>{
-       console.log(questao.pk());
+    Questao.delete(questao.pk()).subscribe(resultado=>{
+      console.log(questao.pk());
+      this.messageDelete();
 
-       for(let i =0;i<this.questoes.length;i++){
+      for(let i =0;i<this.questoes.length;i++){
         if(this.questoes[i].id== questao.pk()){
           this.questoes.splice(i,1)
           console.log(i);
@@ -55,6 +53,17 @@ export class ListarQuestoesComponent implements OnInit  {
       }
     });
   }
-  
-  
+                        
+  messageDelete() {
+    this.messageService.add({severity:'error', summary:'Deletado!', detail:" foi excluido do banco de questões"});
+  }
+  messageView(){
+    this.messageService.add({severity:'info', summary:'Questão visualizada', detail:'informações sobre a questão'});
+  }
+
+  viewQuestao(questao:Questao) {
+    this.messageView();
+    this.router.navigate(['/Visualizar/Questao', questao.pk()]);
+  }
+ 
 }

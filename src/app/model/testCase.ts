@@ -11,7 +11,7 @@ export default class TestCase extends Document{
         super(id);
         this.entradas = entradas;
         this.saida = saida;
-        this.questao = questao;
+        //this.questao = questao;
     }
 
     objectToDocument(){

@@ -15,6 +15,7 @@ import { VisualizarConteudoComponent } from './cscl/visualizar-conteudo/visualiz
 import { CadastrarQuestoesComponent } from './juiz/cadastrar-questoes/cadastrar-questoes.component';
 import { CadastrarTesteCaseComponent } from './juiz/cadastrar-teste-case/cadastrar-teste-case.component';
 import { ListarQuestoesComponent } from './juiz/listar-questoes/listar-questoes.component';
+import { VisualizarQuestaoComponent } from './juiz/visualizar-questao/visualizar-questao.component';
 
 const routes: Routes = [
   {path:"main", component:MainComponent, canActivate: [AuthGuard], canLoad: [AuthGuard], children: [
@@ -27,12 +28,14 @@ const routes: Routes = [
   {path:"selecionar", component:SelecionarPlanejamentoComponent, canActivate: [AuthGuard], canLoad: [AuthGuard]},
   {path:"", component:LoginComponent},
   {path:"autoreflexao", component:AutoReflexaoComponent},
- 
+  {path:"questao/:id", component:CadastrarQuestoesComponent},
   {path:"questao", component:CadastrarQuestoesComponent},
-  {path:"cadastrar/testeCase", component:CadastrarTesteCaseComponent},
+  {path:"testCase", component:CadastrarTesteCaseComponent},
   {path:"Listar/Questoes", component:ListarQuestoesComponent},
+  {path:"Visualizar/Questao/:id", component:VisualizarQuestaoComponent},
   {path:"**", component:PaginaNaoEncontradaComponent}
 ];
+
 
 @NgModule({  
   imports: [RouterModule.forRoot(routes)],

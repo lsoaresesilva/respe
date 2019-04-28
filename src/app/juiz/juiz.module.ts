@@ -20,8 +20,11 @@ import { AnalyticsModule } from '../analytics-module/analytics.module';
 import { SrlModule } from '../srl/srl.module';
 import { EditorProgramacaoComponent } from './editor-programacao/editor-programacao.component';
 import { DadosQuestaoComponent } from './dados-questao/dados-questao.component';
+import { VisualizarQuestaoComponent } from './visualizar-questao/visualizar-questao.component';
+import {DocumentModule} from '../model/firestore/document.module'
+import {ToastModule} from 'primeng/toast';
 @NgModule({
-  declarations: [VisualizarTestesComponent, CadastrarQuestoesComponent, CadastrarTesteCaseComponent, ListarQuestoesComponent, DadosQuestaoComponent, EditorProgramacaoComponent, EditorProgramacaoComponent],
+  declarations: [VisualizarTestesComponent, CadastrarQuestoesComponent, CadastrarTesteCaseComponent, ListarQuestoesComponent, DadosQuestaoComponent, EditorProgramacaoComponent, EditorProgramacaoComponent, VisualizarQuestaoComponent],
   imports: [
     CommonModule,
     TableModule,
@@ -36,8 +39,9 @@ import { DadosQuestaoComponent } from './dados-questao/dados-questao.component';
     HttpClientModule,
     ProgressSpinnerModule,
     AnalyticsModule,
-    SrlModule
-    
+    SrlModule,
+    DocumentModule,
+    ToastModule
     
     
   ],
