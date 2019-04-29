@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, Input } from '@angular/core';
 
 @Component({
   selector: 'app-conteudo-programacao',
@@ -6,6 +6,9 @@ import { Component, OnInit } from '@angular/core';
   styleUrls: ['./conteudo-programacao.component.css']
 })
 export class ConteudoProgramacaoComponent implements OnInit {
+
+  @Input("conteudoProgramacao")
+  conteudo;
 
   constructor() { }
 
