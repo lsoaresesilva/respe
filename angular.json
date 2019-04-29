@@ -33,6 +33,7 @@
               "src/js/skulpt.min.js",
               "src/js/skulpt-stdlib.js",
               "src/js/ide.js",
+              "src/js/visualizacaoConteudo.js",
               "./node_modules/chart.js/dist/Chart.js"
             ]
           },

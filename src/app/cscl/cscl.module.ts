@@ -12,9 +12,13 @@ import { FormsModule } from '@angular/forms';
 import { BoxComentarioComponent } from './box-comentario/box-comentario.component';
 import { BoxNovoComentarioComponent } from './box-novo-comentario/box-novo-comentario.component';
 import { ComentariosCodigoComponent } from './comentarios-codigo/comentarios-codigo';
+import { VisualizarConteudoComponent } from './visualizar-conteudo/visualizar-conteudo.component';
+import { EscapeHtmlPipe } from '../pipes/keep-html.pipe';
+import { ConteudoProgramacaoComponent } from './conteudo-programacao/conteudo-programacao.component';
+import { SanitizeHtmlDirective } from '../pipes/sanitize.directive';
 
 @NgModule({
-  declarations: [ComentariosCodigoComponent, BoxComentarioComponent, BoxNovoComentarioComponent],
+  declarations: [ComentariosCodigoComponent, BoxComentarioComponent, BoxNovoComentarioComponent, VisualizarConteudoComponent, EscapeHtmlPipe, SanitizeHtmlDirective, ConteudoProgramacaoComponent],
   imports: [
     CommonModule,
     InputTextareaModule,
@@ -25,6 +29,7 @@ import { ComentariosCodigoComponent } from './comentarios-codigo/comentarios-cod
     OverlayPanelModule,
     AccordionModule
   ],
-  exports:[ComentariosCodigoComponent]
+
+  exports:[ComentariosCodigoComponent, VisualizarConteudoComponent]
 })
 export class CsclModule { }

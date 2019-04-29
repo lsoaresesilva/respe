@@ -8,6 +8,7 @@ import { Observable, forkJoin } from 'rxjs';
 import Submissao from './submissao';
 import ResultadoTestCase from './resultadoTestCase';
 import Query from './firestore/query';
+import { Assunto } from './assunto';
 
 export class Tutor{
 
@@ -104,7 +105,7 @@ export class Tutor{
 
             for(let i = 0; i < submissoes.length; i++){
                 if( i % 2 == 0){
-                    let score = this.score(submissoes[i], submissoes[i+1]);
+                    let score = this.errorQuotient(submissoes[i], submissoes[i+1]);
                     if(score != null)
                         scores.push(score);
                     
@@ -125,7 +126,7 @@ export class Tutor{
                 
     }
 
-    static score(submissaoUm, submissaoDois){
+    static errorQuotient(submissaoUm, submissaoDois){
         
         if(submissaoUm == undefined || submissaoDois == undefined || submissaoDois == null || submissaoUm == null)
             return null;
@@ -151,6 +152,10 @@ export class Tutor{
         }
 
         return score/11;
+    }
+
+    static calcularPercentualQuestoes(assunto:Assunto){
+
     }
     
 

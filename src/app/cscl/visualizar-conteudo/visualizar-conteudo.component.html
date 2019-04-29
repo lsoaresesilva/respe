@@ -1,0 +1,17 @@
+<box-novo-comentario [visibilidade]="visibilidadeDialogComentario" (comentario)="salvarComentario($event)" (statusDialog)="gerenciarDialog($event)"></box-novo-comentario>
+<p-overlayPanel #panelApagarDestaque>
+    <p-button icon="pi pi-trash"  #btnApagarDestaque></p-button>
+</p-overlayPanel>
+
+<div id="cal1">&nbsp;</div>
+<div id="cal2">&nbsp;</div>
+<div id="tooltip"><i class="pi pi-pencil" style="font-size: 2em;cursor: pointer" (click)="criarHighlight()"></i> <i class="pi pi-comment" style="font-size: 2em; cursor:pointer" (click)="abrirDialogNovoComentario()"></i></div>
+
+<div [innerHTML]="conteudoProgramacao" #divConteudoProgramacao></div>
+
+<p id="conteudo">
+        
+
+</p>
+
+<span (click)="apagarAnotacao()">oiis</span>

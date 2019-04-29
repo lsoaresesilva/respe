@@ -1,6 +1,8 @@
 import { Component, OnInit, Input } from '@angular/core';
 import ComentarioCodigo from 'src/app/model/comentarioCodigo';
 import Query from 'src/app/model/firestore/query';
+import Usuario from 'src/app/model/usuario';
+import Submissao from 'src/app/model/submissao';
 
 declare var dialogEmExibicao: any;
 declare function obterPosicoesBotaoCriarComentario(): any;
@@ -71,8 +73,9 @@ export class ComentariosCodigoComponent implements OnInit {
     dialogEmExibicao = e;
   }
 
-  salvarComentario(comentario){
-    comentario.linha = this.linhaComentario;
+  salvarComentario(texto){
+    // TODO: pegar a submissao e estudante
+    let comentario = new ComentarioCodigo(null, Usuario.getUsuarioLogado(), new Submissao("Fz0penFp04A3z5xus6qF", null, null, null), texto, this.linhaComentario);
     comentario.save().subscribe(resultado=>{
       this.visibilidade = false;
       dialogEmExibicao = false;

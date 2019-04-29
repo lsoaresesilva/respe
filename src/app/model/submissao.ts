@@ -1,7 +1,7 @@
 import Estudante from './estudante';
 import { Questao } from './questao';
 import Codigo from './codigo';
-import { Document, Collection, date, lazy } from './firestore/document';
+import { Document, Collection, date } from './firestore/document';
 import Erro from './erro';
 import { Observable, forkJoin } from 'rxjs';
 import Query from './firestore/query';
@@ -65,7 +65,7 @@ export default class Submissao extends Document{
     static getAll(queries?){
         return new Observable<any[]>(observer=>{
             super.getAll(queries).subscribe(submissoes=>{
-                let erros = [];
+                let erros:any[] = [];
                 submissoes.forEach(submissao=>{
                     erros.push(Erro.getAll(new Query("submissaoId", "==", submissao["id"])));
 
@@ -74,9 +74,10 @@ export default class Submissao extends Document{
                 
                 if(erros.length > 0){
                     forkJoin(erros).subscribe(erros=>{
-
+                        
                         erros.forEach(erro=>{
-                            erro.forEach(e=>{
+                            console.log(erro);
+                            /*erro.forEach(e=>{
                                 for(let i = 0; i < submissoes.length; i++){
                                     if( e.submissaoId == submissoes[i].id){
                                         submissoes[i].erros.push(e);
@@ -84,7 +85,7 @@ export default class Submissao extends Document{
                                     }
                                     
                                 }
-                            })
+                            })*/
                             
                         });
                         

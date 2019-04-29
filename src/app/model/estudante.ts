@@ -7,8 +7,9 @@ import { Observable } from 'rxjs';
 export default class Estudante extends Document{
     nome;
 
-    constructor(id){
+    constructor(id, nome){
         super(id);
+        this.nome = nome;
     }
 
     
