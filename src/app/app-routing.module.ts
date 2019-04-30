@@ -21,9 +21,10 @@ const routes: Routes = [
     {path:"progresso", component:ProgressoComponent, outlet:"principal"},
     {path:"editor", component:EditorProgramacaoComponent, outlet:"principal"},
     {path:"anotar", component:ComentariosCodigoComponent, outlet:"principal"},
-    {path:"visualizarConteudo", component:VisualizarConteudoComponent, outlet:"principal"}
+    {path:"visualizarConteudo", component:VisualizarConteudoComponent, outlet:"principal"},
+    {path:"cadastro-planejamento", component:CadastroPlanejamentoComponent, canActivate: [AuthGuard], canLoad: [AuthGuard], outlet:"principal"},
   ]},
-  {path:"cadastro", component:CadastroPlanejamentoComponent, canActivate: [AuthGuard], canLoad: [AuthGuard]},
+  
   {path:"selecionar", component:SelecionarPlanejamentoComponent, canActivate: [AuthGuard], canLoad: [AuthGuard]},
   {path:"", component:LoginComponent},
   {path:"autoreflexao", component:AutoReflexaoComponent},
