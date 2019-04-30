@@ -4,7 +4,7 @@ import Estudante from './estudante';
 import { Document, Collection } from './firestore/document';
 import { Dificuldade } from './dificuldade';
 
-@Collection("planejamento")
+@Collection("planejamentos")
 export class Planejamento extends Document{
     estudante:Estudante;
     assunto:Assunto;

@@ -1,8 +1,8 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
 import TextoHighlight from 'src/app/model/textoHighlight';
-import ComentarioConteudo from 'src/app/model/comentarioConteudo';
 import Usuario from 'src/app/model/usuario';
 import { DomSanitizer } from '@angular/platform-browser';
+import ComentarioEstudo from 'src/app/model/comentarioEstudo';
 
 /**
  * Estão declaradas no arquivo visualizarConteudo.js. A função é usada para iniciar o listener do mouse para capturar quando um texto for selecionado. A variável armazena o texto selecionado.
@@ -54,7 +54,7 @@ export class VisualizarConteudoComponent implements OnInit {
       this.destacarTexto(this.textosHighlighted, TipoDestaque.highlight);
     })
 
-    ComentarioConteudo.getAll().subscribe(textos => {
+    ComentarioEstudo.getAll().subscribe(textos => {
       this.textosAnotados = textos
       this.destacarTexto(this.textosAnotados, TipoDestaque.anotacao);
     })
@@ -67,7 +67,7 @@ export class VisualizarConteudoComponent implements OnInit {
 
   salvarComentario(comentario) {
     // TODO: pegar a submissao que vem pela rota
-    let comentarioEstudante = new ComentarioConteudo(null, Usuario.getUsuarioLogado(), comentario, textoSelecionado);
+    let comentarioEstudante = new ComentarioEstudo(null, Usuario.getUsuarioLogado(), comentario, textoSelecionado);
     comentarioEstudante.save().subscribe(resultado => {
       this.visibilidadeDialogComentario = false;
       this.inicializarTexto();
@@ -162,7 +162,7 @@ export class VisualizarConteudoComponent implements OnInit {
     this.anotacao = this.textosAnotados[i];
     this.btnApagarDestaque.onClick.emit = function(){
       if (_this.textosAnotados[i] != null && typeof _this.textosAnotados[i].pk === "function") {
-        ComentarioConteudo.delete(_this.textosAnotados[i].pk()).subscribe(resultado => {
+        ComentarioEstudo.delete(_this.textosAnotados[i].pk()).subscribe(resultado => {
           if (resultado) {
             _this.anotacao = undefined;
             _this.inicializarTexto();

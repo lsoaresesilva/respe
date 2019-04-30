@@ -42,13 +42,13 @@ describe("Testes de questão", () => {
   })
 
   it("deve validar true para uma questão válida", () => {
-    let q = new Questao(null, "algo", "enunciado", Dificuldade.facil, 1, new Assunto(null, null, null, null), [new Assunto(null, null, null, null)], []);
+    let q = new Questao(null, "algo", "enunciado", Dificuldade.facil, 1, new Assunto(null, null, null, null, null), [new Assunto(null, null, null, null, null)], []);
     expect(q.validar()).toBeTruthy();
   })
 
 
   it("deve salvar uma questão corretamente", (done) => {
-    let a = new Assunto(null, "umAssunto", null, null);
+    let a = new Assunto(null, "umAssunto", null, null, null);
     a.save().subscribe(resultado => {
       let q = new Questao(null, "nome", "enunciado", Dificuldade.facil, 1, a, [a], []);
 
@@ -85,7 +85,7 @@ describe("Testes de questão", () => {
 
   it("deve carregar assuntosQuestao pelo id de questao", (done) => {
 
-    let a = new Assunto(null, "umAssunto", null, null);
+    let a = new Assunto(null, "umAssunto", null, null, null);
     a.save().subscribe(resultado => {
       let q = new Questao(null, "nome", "enunciado", Dificuldade.facil, 1, a, [a], []);
 
@@ -127,6 +127,8 @@ describe("Testes de questão", () => {
 
     })
   });
+
+  
 
   /*
   it("deve carregar Assunto pelo id de questao", (done) => {
