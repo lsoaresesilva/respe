@@ -27,20 +27,44 @@
       <div class="p-col-6">
         <div id="container" style="height:600px;border:1px solid grey; position:relative;"></div>
       </div>
-      <div class="p-col-3">
+      <div class="p-col-3" *ngIf="modoVisualizacao==false">
         <div class="saida" style="min-height:100%;">
           <div style="background-color:#F8E6E0;">
             <span [innerHTML]="erroLinguagemProgramacao" style="padding:20px;"></span>
           </div>
         </div>
       </div>
+      
+      <div class="p-col-3" *ngIf="modoVisualizacao">
+        <p-table [value]="linha">
+          <ng-template pTemplate="header">
+            <tr>
+              <th style="width: 100%">Representação</th>
+            </tr>
+          </ng-template>
+          <ng-template pTemplate="body" let-linha>
+            <tr>
+              <td>
+                <p-card *ngFor="let variavel of linha.ordered_globals, let i = index; let valor of linha.globals">
+                  {{variavel}} = {{linha.globals[valor]}}
+                </p-card>
+              </td>
+            </tr>
+          </ng-template>
+        </p-table>
+      </div>
     </div>
-  
   
     <div class="p-grid">
       <div class="p-col-3"></div>
       <div class="p-col-6">
-        <button type="button" (click)="executar()" pButton label="Executar"></button>
+        <button type="button" (click)="executar()" pButton label="Executar" *ngIf="modoVisualizacao==false"></button>
+        <button type="button" (click)="voltarParaModoExecucao()" pButton label="Voltar ao Modo Execução" *ngIf="modoVisualizacao"></button>
+        <button type="button" (click)="vizualizarExecucao()" pButton label="vizualizar Execução" *ngIf="modoVisualizacao==false"></button>
+      </div>
+      <div *ngIf="modoVisualizacao">
+        <button pButton type="button" label="Voltar" (click)="voltar()" [disabled]="linhaAtual==0"></button>
+        <button pButton type="button" label="Avançar" (click)="avancar()" [disabled]="linhaAtual==traceExecucao.trace.length-1"></button>
       </div>
       <div class="p-col-3">
   
@@ -50,9 +74,10 @@
       <div class="p-col-3">
   
       </div>
-      <div class="p-col-6">
+      <div class="p-col-6" *ngIf="modoVisualizacao==false">
         <app-visualizar-testes [resultados]="resultadosTestsCases"></app-visualizar-testes>
       </div>
+      
       <div class="p-col-3">
   
       </div>

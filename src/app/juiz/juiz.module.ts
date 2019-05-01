@@ -9,6 +9,7 @@ import { ReactiveFormsModule, FormsModule } from '@angular/forms';
 import {SpinnerModule} from 'primeng/spinner';
 import { CadastrarTesteCaseComponent } from './cadastrar-teste-case/cadastrar-teste-case.component';
 import { InputTextareaModule } from 'primeng/inputtextarea';
+import {CardModule} from 'primeng/card';
 import {CheckboxModule} from 'primeng/checkbox';
 import { ListarQuestoesComponent } from './listar-questoes/listar-questoes.component';
 import {MessageService} from 'primeng/api';
@@ -20,8 +21,9 @@ import { AnalyticsModule } from '../analytics-module/analytics.module';
 import { SrlModule } from '../srl/srl.module';
 import { EditorProgramacaoComponent } from './editor-programacao/editor-programacao.component';
 import { DadosQuestaoComponent } from './dados-questao/dados-questao.component';
+import { VizualizarExecucaoComponent } from './vizualizar-execucao/vizualizar-execucao.component';
 @NgModule({
-  declarations: [VisualizarTestesComponent, CadastrarQuestoesComponent, CadastrarTesteCaseComponent, ListarQuestoesComponent, DadosQuestaoComponent, EditorProgramacaoComponent, EditorProgramacaoComponent],
+  declarations: [VisualizarTestesComponent, CadastrarQuestoesComponent, CadastrarTesteCaseComponent, ListarQuestoesComponent, DadosQuestaoComponent, EditorProgramacaoComponent, EditorProgramacaoComponent, VizualizarExecucaoComponent],
   imports: [
     CommonModule,
     TableModule,
@@ -36,7 +38,8 @@ import { DadosQuestaoComponent } from './dados-questao/dados-questao.component';
     HttpClientModule,
     ProgressSpinnerModule,
     AnalyticsModule,
-    SrlModule
+    SrlModule,
+    CardModule
     
     
     
