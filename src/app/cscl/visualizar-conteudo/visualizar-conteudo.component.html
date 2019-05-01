@@ -1,5 +1,6 @@
 <box-novo-comentario [visibilidade]="visibilidadeDialogComentario" (comentario)="salvarComentario($event)" (statusDialog)="gerenciarDialog($event)"></box-novo-comentario>
 <p-overlayPanel #panelApagarDestaque>
+    <div *ngIf="anotacao != undefined">{{anotacao.comentario}}</div>
     <p-button icon="pi pi-trash"  #btnApagarDestaque></p-button>
 </p-overlayPanel>
 
@@ -13,5 +14,3 @@
         
 
 </p>
-
-<span (click)="apagarAnotacao()">oiis</span>

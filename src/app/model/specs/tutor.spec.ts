@@ -49,10 +49,10 @@ describe("Testes de TUTOR", ()=>{
       })
 
     it("Deve calcular como média 0.75 para os tests cases respondidos", (done) => {
-        let r = new ResultadoTestCase(null, false, null, new Estudante("12345"));
-        let r1 = new ResultadoTestCase(null, true, null, new Estudante("12345"));
-        let r2 = new ResultadoTestCase(null, true, null, new Estudante("12345"));
-        let r3 = new ResultadoTestCase(null, true, null, new Estudante("12345"));
+        let r = new ResultadoTestCase(null, false, null, new Estudante("12345", null));
+        let r1 = new ResultadoTestCase(null, true, null, new Estudante("12345", null));
+        let r2 = new ResultadoTestCase(null, true, null, new Estudante("12345", null));
+        let r3 = new ResultadoTestCase(null, true, null, new Estudante("12345", null));
 
         let salvamentos = [];
         salvamentos.push(r.save())
@@ -61,7 +61,7 @@ describe("Testes de TUTOR", ()=>{
         salvamentos.push(r3.save())
 
         forkJoin(salvamentos).subscribe(resultados => {
-            Tutor.mediaTestsCases(new Estudante("12345")).subscribe(media => {
+            Tutor.mediaTestsCases(new Estudante("12345", null)).subscribe(media => {
                 expect(media).toBe(0.75);
 
                
@@ -77,7 +77,7 @@ describe("Testes de TUTOR", ()=>{
         let c = new Codigo();
         let algoritmo = "x = 'leonardo'\ny = x\nz = a\nx = 'leonardo'\ny = 2,5\nx == 'leonardo'\nnome do leonardo = 'leo'\nif idade >:\nif idade > 18\ncurrent_time_str = input('What is the current time (in hours 0-23)?'\ndef bla(a_a b c):"
         c.setAlgoritmo(algoritmo);
-        let e = new Estudante("12345");
+        let e = new Estudante("12345", null);
         let s = new Submissao(null, c, e, null)
         let t = new Tutor(s);
         t.analisar();
@@ -89,7 +89,7 @@ describe("Testes de TUTOR", ()=>{
         let c = new Codigo();
         let algoritmo = "notaUm = 2\nnotaDois = 3\nmedia = (notaUm+notaDois)/2"
         c.setAlgoritmo(algoritmo);
-        let e = new Estudante("12345");
+        let e = new Estudante("12345", null);
         let s = new Submissao(null, c, e, null)
         let t = new Tutor(s);
         t.analisar();

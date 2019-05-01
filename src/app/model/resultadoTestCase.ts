@@ -1,4 +1,4 @@
-import { Collection, Document } from './firestore/document';
+import { Collection, Document, date } from './firestore/document';
 import { Observable } from 'rxjs';
 import TestCase from './testCase';
 import Estudante from './estudante';
@@ -11,6 +11,8 @@ export default class ResultadoTestCase extends Document{
     status;
     respostaAlgoritmo;
     testCase;
+    @date()
+    data;
 
     constructor(id, status, testCase:TestCase, estudante:Estudante){
         super(id);
@@ -22,7 +24,7 @@ export default class ResultadoTestCase extends Document{
     objectToDocument(){
         let document = super.objectToDocument();
         document["estudanteId"] = this.estudante.id;
-        //document["testCaseId"] = this.testCase.id; // TODO: fazer uma verificação no construtor para não permitir estudante e testcase null
+        document["testCaseId"] = this.testCase.id; // TODO: fazer uma verificação no construtor para não permitir estudante e testcase null
         return document;
     }
 

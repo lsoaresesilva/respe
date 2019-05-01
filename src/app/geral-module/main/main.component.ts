@@ -19,17 +19,9 @@ export class MainComponent implements OnInit {
 
     this.itens = [
       {
-        label: 'Novo',
-        command: () => { this.router.navigate(["main", { outlets: { principal: ['editor'] } }]) }
+        label: 'Planejamento',
+        command: () => { this.router.navigate(["main", { outlets: { principal: ['cadastro-planejamento'] } }]) }
 
-      },
-      {
-        label: 'Meu progresso',
-        command: () => { this.router.navigate(["main", { outlets: { principal: ['progresso'] } }]) }
-      },
-      {
-        label: 'Progresso da turma',
-        command: () => { this.router.navigate(["main", { outlets: { principal: ['progressoTurma'] } }]) }
       },
       {
         label: 'Logout',

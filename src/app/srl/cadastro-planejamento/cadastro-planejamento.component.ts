@@ -25,7 +25,7 @@ export class CadastroPlanejamentoComponent implements OnInit {
     private router: Router,
   ) { 
     // TODO: carregar do login
-    this.planejamento = new Planejamento(null,new Estudante(1, null),null,"","",0,"");
+    this.planejamento = new Planejamento(null,new Estudante(1, null),null,0,"",0,"");
   }
 
   ngOnInit() {
@@ -43,6 +43,8 @@ export class CadastroPlanejamentoComponent implements OnInit {
   cadastrarPlanejamento(){
     if(this.planejamento){
       this.planejamento.save().subscribe(resultado=>{
+
+        this.router.navigate(["main", { outlets: { principal: ['listagem-planejamento'] } }])
       // this.messageService.add({severity:'Sucesso', summary: 'Success Message', detail:'Planejamento salvo com sucesso!'});
       //  this.router.navigate(['planejamentos/listar']);
     }, err=>{
@@ -53,9 +55,6 @@ export class CadastroPlanejamentoComponent implements OnInit {
     }
   }
 
-  mostrarProximo(assunto){
-    this.planejamento.assunto = assunto;
-    this.index = (this.index === 2) ? 0 : this.index + 1;
-  }
+
 
 }

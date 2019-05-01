@@ -1,59 +1,67 @@
-
-<p-tabView [activeIndex]="index">
-  <p-tabPanel header="Assunto">
-     
+<div class="p-grid">
+  <div class="p-col-1"></div>
+  <div class="p-col-2">
     <h2>Planeje O Seu Estudo</h2>
+  </div>
+  <div class="p-col-6"></div>
+</div>
 
-    <p>Escolha abaixo o assunto que pretende estudar.</p>
-    <p>Clique duas vezes sobre ele para criar um novo plano</p>
+<div class="p-grid">
+  <div class="p-col-1"></div>
+  <div class="p-col-2">
+    Escolha abaixo o assunto que pretende estudar.
+  </div>
+  <div class="p-col-6">
+    <p-dropdown [options]="assuntos" [(ngModel)]="planejamento.assunto" optionLabel="nome"></p-dropdown>
+  </div>
+</div>
 
-    <p-table [value]="assuntos">
-      <ng-template pTemplate="header">
-        <tr>
-          <th>Assunto</th>
-        </tr>
-      </ng-template>
-      <ng-template pTemplate="body" let-assunto>
-        <tr>
-          <button pButton type="button" class="ui-button-secondary" (click)="mostrarProximo(assunto)" style="width: 100%;"><td>{{assunto.nome}}</td></button>
-        </tr>
-      </ng-template>
-    </p-table>
+<div class="p-grid">
+  <div class="p-col-1"></div>
+  <div class="p-col-2">
+    Quanto tempo (em horas) semanalmente você irá dedicar ao estudo?
+  </div>
+  <div class="p-col-1">
+    <p-slider [(ngModel)]="planejamento.tempoEstudo" [min]="1" [max]="20" ></p-slider>
+  </div>
+  <div class="p-col-2">
+    {{planejamento.tempoEstudo}} horas
+  </div>
+</div>
 
-  </p-tabPanel>
-  <p-tabPanel header="Dados do Auto Regulamento">
-      
-    <div style="margin-left: auto;margin-right: auto;width: 30em">
 
-      <table>
-        <tr>
-          <td><p ><b>Tempo de estudo semanal(horas): {{planejamento.tempoEstudo}}</b> &nbsp;</p></td>
-          <td><p-slider [(ngModel)]="planejamento.tempoEstudo" [min]="1" [max]="10" [style]="{'width':'12em'}"></p-slider></td>
-        </tr>
-      </table>
-      <br><br>
-    
-      <p><b>Por que você considera esse assunto importante no aprendizado de programação?</b></p>
-    
-      <textarea [rows]="5" [cols]="50" pInputTextarea autoResize="autoResize" [(ngModel)]="planejamento.importanciaAssunto" ></textarea>
-      <br><br>
+<div class="p-grid">
+  <div class="p-col-1"></div>
+  <div class="p-col-2">
+    Por que você considera esse assunto importante no aprendizado de programação?
+  </div>
+  <div class="p-col-6"> <textarea [rows]="5" [cols]="50" pInputTextarea autoResize="autoResize"
+      [(ngModel)]="planejamento.importanciaAssunto"></textarea></div>
+</div>
 
-      <p><b>Como você avalia a dificuldade desse assunto?</b></p>
-    
-      <p-dropdown [options]="dificuldades" [(ngModel)]="planejamento.dificuldadeConteudo" ></p-dropdown>
+<div class="p-grid">
+  <div class="p-col-1"></div>
+  <div class="p-col-2">
+    Como você avalia a dificuldade desse assunto?
+  </div>
+  <div class="p-col-6"><p-dropdown [options]="dificuldades" [(ngModel)]="planejamento.dificuldadeConteudo"></p-dropdown></div>
+</div>
 
-      <p><b>O que meus colegas acham?</b> % dos estudantes consideram esse tema difícil; % consideram normal e % consideram facíl.</p>
-      <br><br>
 
-      <p><b>Como você planeja realizar esse estudo?</b></p>
-    
-      <textarea [rows]="5" [cols]="50" pInputTextarea autoResize="autoResize" [(ngModel)]="planejamento.estrategiaRealizacaoEstudo" ></textarea>
-      <br><br>
+<div class="p-grid">
+  <div class="p-col-1"></div>
+  <div class="p-col-2">
+    Como você pretende estudar?
+  </div>
+  <div class="p-col-6"><textarea [rows]="5" [cols]="50" pInputTextarea autoResize="autoResize"
+    [(ngModel)]="planejamento.estrategiaRealizacaoEstudo"></textarea></div>
+</div>
 
-      <button pButton type="button" class="ui-button-info" (click)="cadastrarPlanejamento()" style="left: 75%;">Cadastrar</button>
 
-    </div>
-
-  </p-tabPanel>
-</p-tabView>
-
+<div class="p-grid">
+  <div class="p-col-1"></div>
+  <div class="p-col-2">
+    <button pButton type="button" (click)="cadastrarPlanejamento()" label="Salvar"></button>
+  </div>
+  <div class="p-col-6"></div>
+</div>

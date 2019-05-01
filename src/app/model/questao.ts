@@ -5,6 +5,7 @@ import { Dificuldade } from "./dificuldade"
 import Query from './firestore/query';
 import AssuntoQuestao from './assuntoQuestao';
 import TestCase from './testCase';
+import ResultadoTestCase from './resultadoTestCase';
 
 @Collection("questoes")
 export class Questao extends Document {
@@ -121,6 +122,7 @@ export class Questao extends Document {
           counter++;
           let questaoId = questao.id;
           consultas["assuntosQuestao_" + questaoId] = this.getAssuntos(questao);
+          consultas["testsCases_" + questaoId] = this.getTestsCases(questao);
           if (questao.assuntoPrincipalId != null && questao.assuntoPrincipalId != "")
             consultas["assuntoPrincipal_" + questaoId] = Assunto.get(questao.assuntoPrincipalId);
         })
@@ -130,11 +132,12 @@ export class Questao extends Document {
           forkJoin(consultas).subscribe(resultados => {
 
             questoes.forEach(questao => {
-              let assuntosQuestaoKey = "assuntosQuestao_" + questao.id;
-              let assuntoPrincipalKey = "assuntoPrincipal_" + questao.id;
+              let assuntosQuestaoKey = "assuntosQuestao_" + questao.pk();
+              let assuntoPrincipalKey = "assuntoPrincipal_" + questao.pk();
+              let testsCasesKey = "testsCases_" + questao.pk();
               questao.assuntos = resultados[assuntosQuestaoKey]
               questao.assuntoPrincipal = resultados[assuntoPrincipalKey]
-
+              questao["testsCases"] = resultados[testsCasesKey]
             });
 
 
@@ -153,13 +156,13 @@ export class Questao extends Document {
     });
   }
 
-  private static getTestsCases(questao){
+  private static getTestsCases(questao) {
     return new Observable(observer => {
       TestCase.getAll(new Query("questaoId", "==", questao.id)).subscribe(testsCases => {
-        
-          observer.next(testsCases);
-          observer.complete();
-      }, err=>{
+
+        observer.next(testsCases);
+        observer.complete();
+      }, err => {
         observer.error(err);
       })
     })
@@ -170,11 +173,11 @@ export class Questao extends Document {
       let assuntos = []
       AssuntoQuestao.getAll(new Query("questaoId", "==", questao.id)).subscribe(assuntosQuestao => {
         let consultaAssuntos = [];
-        try{
+        try {
           assuntosQuestao.forEach(assuntoQuestao => {
             consultaAssuntos.push(Assunto.get(assuntoQuestao.assuntoId));
           })
-  
+
           if (consultaAssuntos.length > 0) {
             forkJoin(consultaAssuntos).subscribe(assuntosLocalizados => {
               assuntos = assuntosLocalizados;
@@ -187,10 +190,10 @@ export class Questao extends Document {
             observer.next(assuntos);
             observer.complete();
           }
-        }catch(e){
+        } catch (e) {
           observer.error(e);
         }
-        
+
 
       })
     })
@@ -206,6 +209,8 @@ export class Questao extends Document {
 
     return true;
   }
+
+  
 
   // TODO: fazer deletar para apagar os testscases
 

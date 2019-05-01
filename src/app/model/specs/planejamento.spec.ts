@@ -35,8 +35,8 @@ describe("Testes de autoreflexão", () => {
   });
 
   it("deve salvar uma autoreflexao", (done)=>{
-    let e = new Estudante("12345");
-    let a = new Assunto("123456", null, null, null)
+    let e = new Estudante("12345", null);
+    let a = new Assunto("123456", null, null, null, null)
     let planejamento = new Planejamento(null, e, a, 120, "muito", Dificuldade.medio, "estrategia")
     planejamento.save().subscribe(resposta => {
     
@@ -48,8 +48,8 @@ describe("Testes de autoreflexão", () => {
   })
 
 it("Deve gerar um document a partir de um objeto", () => {
-  let e = new Estudante("12345");
-  let a = new Assunto("123456", null, null, null)
+  let e = new Estudante("12345", null);
+  let a = new Assunto("123456", null, null, null, null)
   let planejamento = new Planejamento(null, e, a, 120, "muito", Dificuldade.medio, "estrategia")
   expect(planejamento.objectToDocument()).toEqual({ estudanteId: "12345", assuntoId: "123456", tempoEstudo: 120, importanciaAssunto: "muito", dificuldadeConteudo:Dificuldade.medio, estrategiaRealizacaoEstudo:"estrategia" })
 })
