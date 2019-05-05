@@ -1,8 +1,9 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
+import { MenuEstudanteComponent } from './menu-estudante/menu-estudante.component';
 
 @NgModule({
-  declarations: [],
+  declarations: [MenuEstudanteComponent],
   imports: [
     CommonModule
   ],

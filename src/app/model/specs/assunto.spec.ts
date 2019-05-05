@@ -18,6 +18,7 @@ import TestCase from "../testCase";
 import ResultadoTestCase from '../resultadoTestCase';
 import { forkJoin } from 'rxjs';
 import Estudante from '../estudante';
+import Usuario from '../usuario';
 
 describe("Testes de questão", () => {
 
@@ -55,7 +56,9 @@ describe("Testes de questão", () => {
             q.save().subscribe(resultado => {
                 let rt = new ResultadoTestCase(null, true, t, new Estudante("123", "oi")).save();
                 let rt2 = new ResultadoTestCase(null, true, t1, new Estudante("123", "oi")).save();
-
+                Usuario.getUsuarioLogado = () =>{
+                    return new Usuario("123", "oi", "");
+                }
                 forkJoin([rt, rt2]).subscribe(resultadoSalvarTestCases => {
                     Assunto.isFinalizado(a).subscribe(resultado => {
                         expect(resultado).toBeTruthy();
@@ -90,6 +93,10 @@ describe("Testes de questão", () => {
                 let rt = new ResultadoTestCase(null, true, t, new Estudante("123", "oi")).save();
                 let rt2 = new ResultadoTestCase(null, false, t, new Estudante("123", "oi")).save();
                 let rt3 = new ResultadoTestCase(null, true, t1, new Estudante("123", "oi")).save();
+
+                Usuario.getUsuarioLogado = () =>{
+                    return new Usuario("123", "oi", "");
+                }
 
                 forkJoin([rt, rt2, rt3]).subscribe(resultadoSalvarTestCases => {
                     Assunto.isFinalizado(a).subscribe(resultado => {
