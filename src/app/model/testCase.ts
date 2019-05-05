@@ -11,7 +11,7 @@ export default class TestCase extends Document{
         super(id);
         this.entradas = entradas;
         this.saida = saida;
-        //this.questao = questao;
+        this.questao = questao;
     }
 
     objectToDocument(){
@@ -24,4 +24,13 @@ export default class TestCase extends Document{
 
         return document;
     }
+
+    // validar() {
+    //     if (this.entradas == undefined || this.entradas == [null] || this.entradas == null ) {
+    //       return false;
+    //     }
+    
+    //     return true;
+    //   }
+    
 }

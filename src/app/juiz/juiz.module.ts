@@ -23,8 +23,13 @@ import { DadosQuestaoComponent } from './dados-questao/dados-questao.component';
 import { VisualizarQuestaoComponent } from './visualizar-questao/visualizar-questao.component';
 import {DocumentModule} from '../model/firestore/document.module'
 import {ToastModule} from 'primeng/toast';
+import { CadastrarAssuntoComponent } from './cadastrar-assunto/cadastrar-assunto.component';
+import { ListarAssuntosComponent } from './listar-assuntos/listar-assuntos.component';
+import { VisualizarAssuntoComponent } from './visualizar-assunto/visualizar-assunto.component';
+
+
 @NgModule({
-  declarations: [VisualizarTestesComponent, CadastrarQuestoesComponent, CadastrarTesteCaseComponent, ListarQuestoesComponent, DadosQuestaoComponent, EditorProgramacaoComponent, EditorProgramacaoComponent, VisualizarQuestaoComponent],
+  declarations: [VisualizarTestesComponent, CadastrarQuestoesComponent, CadastrarTesteCaseComponent, ListarQuestoesComponent, DadosQuestaoComponent, EditorProgramacaoComponent, EditorProgramacaoComponent, VisualizarQuestaoComponent, CadastrarAssuntoComponent, ListarAssuntosComponent, VisualizarAssuntoComponent],
   imports: [
     CommonModule,
     TableModule,

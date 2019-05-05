@@ -7,7 +7,9 @@ import Query from './firestore/query';
 export class Assunto extends Document{
  
 
-    constructor(id, public nome, public preRequisitos:Assunto[], public objetivosEducacionais){
+    constructor(id, public nome,
+       //  public preRequisitos:Assunto[], public objetivosEducacionais
+         ){
         super(id);
     }
 

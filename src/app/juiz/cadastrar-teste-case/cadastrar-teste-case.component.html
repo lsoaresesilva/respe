@@ -4,15 +4,38 @@
   <h1 class="first">Teste Case</h1> <br/> <br/>   
 
   <h3 class="first">Entrada</h3>
-  <input id ="nomeCurto" type="text" [(ngModel)]="entrada" /> <br>
+  <input id ="Entrada" type="text" [(ngModel)]="entrada" /> <br>
   <button pButton type="button" label="+ entradas" (click) = 'addMaisTesteCase()' ></button> <br/><br/>
 
-  <div *ngIf="temTesteCase">
-    <h4>entradas atribuídas:</h4> 
-    <div *ngFor="let entrada of testeCase.entradas">{{entrada}}</div> 
-  </div>
+  <!-- <div *ngIf="temTesteCase"> -->
+    <!-- <h4>entradas atribuídas:</h4> 
+    <div *ngFor="let entrada of testeCase.entradas">{{entrada}}</div>  -->
+
+    <p-table [value]="testeCase.entradas">
+      <ng-template pTemplate="header">
+          <tr>
+              <th>Entradas cadastradas para esse TestCase</th>
+          </tr>
+      </ng-template>
+      <ng-template pTemplate="body" let-entrada>
+          <tr>
+              <td>{{entrada}}</td>
+          </tr>
+      </ng-template>
+  </p-table>
+  <!-- </div> -->
 
   <h3 class="first">Saída</h3>
+  <p-table>
+    <tr>
+        <th>saida</th>
+    </tr>
+    <tr>
+        <td>{{testeCase.id}}</td>
+    </tr>
+  </p-table>
+
+
   <input id ="nomeCurto" type="text" [(ngModel)]="testeCase.saida" />   
   <br> <br> <br>
 </div>     

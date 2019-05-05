@@ -24,7 +24,6 @@ export class CadastrarQuestoesComponent implements OnInit {
 
   constructor(private router: Router, private route: ActivatedRoute, private messageService: MessageService) {
     
-
   }
 
   ngOnInit() {
@@ -39,9 +38,9 @@ export class CadastrarQuestoesComponent implements OnInit {
     ];
 
     
-    this.assuntos = [
-      { label: 'selecione o assunto principal', value: null }
-    ]
+    // this.assuntos = [
+    //   { label:'selecione o assunto principal', value: null }
+    // ]
 
    
     this.route.params.subscribe(params=> {this.id = params["id"];
@@ -62,35 +61,24 @@ export class CadastrarQuestoesComponent implements OnInit {
   adicionarTestCase() {
     this.questao.testsCases.push(new TestCase(null, [], "", this.questao))
   }
-  
 
   cadastrarQuestao() {
-    // console.log("esse é o nome = " + this.questao.nomeCurto);
-    // console.log("esse é o enunciado = " + this.questao.enunciado);
-    // console.log("esse é o assuntoPrincipal = " + this.questao.assuntoPrincipal);
-    // console.log("esse é a dificuldade = " + this.questao.dificuldade);
-    // console.log("esse são os assuntos = " + this.questao.assuntos);
-    // console.log("esse é a sequencia = " + this.questao.sequencia);
-    // console.log("esse é o id = " + this.questao.pk());
-    // console.log("esse é o testsCases = " + this.questao.testsCases);
-
     if (this.questao) {
       this.questao.save().subscribe(resultado => {
-        this.router.navigate(['/Listar/Questoes']);
-        if(this.ehAlterar!= true){
-          this.router.navigate(['/Listar/Questoes']);
-          this.messageCadastro();
-           
-        
+      this.router.navigate(['/Listar/Questoes']);
 
+        if(this.ehAlterar!= true){
+          // this.router.navigate(['/Listar/Questoes']);
+          this.messageCadastro();
 
         }else{
           console.log("alterado");
           this.messageUpdate();
-          this.router.navigate(['/Listar/Questoes']);
+          // this.router.navigate(['/Listar/Questoes']);
         }
       }, err => {
         console.log("deu erro")
+        console.log(this.questao);
 
       });
     } else {

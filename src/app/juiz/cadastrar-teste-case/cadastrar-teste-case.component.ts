@@ -1,6 +1,7 @@
 import { Component, OnInit, Input } from '@angular/core';
 import TestCase from 'src/app/model/testCase';
 import { TestesCasesService } from '../testes-cases.service';
+import { MessageService } from 'primeng/api';
 
 @Component({
   selector: 'app-cadastrar-teste-case',
@@ -10,24 +11,21 @@ import { TestesCasesService } from '../testes-cases.service';
 export class CadastrarTesteCaseComponent implements OnInit {
   @Input("testCase")
   testeCase:TestCase;
-  temTesteCase=false;
-  entrada:string ="";
+  entrada=null;
 
 
 
-  constructor() { }
+  constructor(private messageService: MessageService) { }
 
   ngOnInit() {
     //this.testeCase = new TestCase(null,[],null, );
   }
    
   addMaisTesteCase(){
-    this.temTesteCase=true;
+    if (this.testeCase){
     this.testeCase.entradas.push(this.entrada);
-    for(let i=0;i<this.testeCase.entradas.length;i++)
-    {console.log("na posição " +i+ "o elemento é = "+ this.testeCase.entradas[i]);
+    this.entrada=null;
     }
-    this.entrada="";
   }
 
   cadastrarTesteCase(){

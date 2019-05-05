@@ -34,7 +34,8 @@
         <tr>
             <td><b>TestCases</b></td>
             <td *ngFor="let testCase of  questao.testsCases">
-                {{testCase}}
+             <b>Entradas:</b>  {{testCase.entradas}} <br>
+             <b>Saída:</b>  {{testCase.saida}}
             </td>
         </tr>
     </ng-template>

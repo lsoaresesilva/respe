@@ -16,6 +16,10 @@ import { CadastrarQuestoesComponent } from './juiz/cadastrar-questoes/cadastrar-
 import { CadastrarTesteCaseComponent } from './juiz/cadastrar-teste-case/cadastrar-teste-case.component';
 import { ListarQuestoesComponent } from './juiz/listar-questoes/listar-questoes.component';
 import { VisualizarQuestaoComponent } from './juiz/visualizar-questao/visualizar-questao.component';
+import { CadastrarAssuntoComponent } from './juiz/cadastrar-assunto/cadastrar-assunto.component';
+import { ListarAssuntosComponent } from './juiz/listar-assuntos/listar-assuntos.component';
+import { VisualizarAssuntoComponent } from './juiz/visualizar-assunto/visualizar-assunto.component';
+
 
 const routes: Routes = [
   {path:"main", component:MainComponent, canActivate: [AuthGuard], canLoad: [AuthGuard], children: [
@@ -29,10 +33,14 @@ const routes: Routes = [
   {path:"", component:LoginComponent},
   {path:"autoreflexao", component:AutoReflexaoComponent},
   {path:"questao/:id", component:CadastrarQuestoesComponent},
+  {path:"assunto", component:CadastrarAssuntoComponent},
+  {path:"assunto/:id", component:CadastrarAssuntoComponent},
   {path:"questao", component:CadastrarQuestoesComponent},
   {path:"testCase", component:CadastrarTesteCaseComponent},
   {path:"Listar/Questoes", component:ListarQuestoesComponent},
+  {path:"Listar/Assuntos", component:ListarAssuntosComponent},
   {path:"Visualizar/Questao/:id", component:VisualizarQuestaoComponent},
+  {path:"Visualizar/Assunto/:id", component:VisualizarAssuntoComponent},
   {path:"**", component:PaginaNaoEncontradaComponent}
 ];
 

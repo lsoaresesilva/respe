@@ -18,14 +18,7 @@ export class ListarQuestoesComponent implements OnInit  {
   constructor(private messageService: MessageService,private router:Router) { }
 
   ngOnInit() {
-     Questao.getAll().subscribe(questoes=>{this.questoes= questoes});
-    //  console.log("esse é o nome = " + this.questoes.nomeCurto);
-    // console.log("esse é o enunciado = " + this.questoes.enunciado);
-    // console.log("esse é o assuntoPrincipal = " + this.questoes.assuntoPrincipal);
-    // console.log("esse é a dificuldade = " + this.questoes.dificuldade);
-    // console.log("esse são os assuntos = " + this.questoes.assuntos);
-    // console.log("esse é a sequencia = " + this.questoes.sequencia);
-    // console.log("esse é o id = " + this.questoes.pk());
+    Questao.getAll().subscribe(questoes=>{this.questoes= questoes});
 
     this.items = [
     { label: 'Update', icon: 'pi pi-check', command: (event) => this.updateQuestao(this.selectedQuestao) },

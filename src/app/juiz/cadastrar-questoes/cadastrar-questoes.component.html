@@ -21,7 +21,8 @@
   <p-dropdown [options]="assuntos" optionLabel="nome" [(ngModel)]="questao.assuntoPrincipal" ></p-dropdown> 
 
   <h3 class="first">Assuntos</h3>
-  <p-checkbox  *ngFor="let assunto of assuntos" name= "assuntosQuestao" value = "{{assunto.id}}" [(ngModel)]="questao.assuntos" label ="{{assunto.nome}}"  inputId = "{{assunto.id}}" ></p-checkbox>  
+  <p-checkbox  *ngFor="let assunto of assuntos" name= "assuntosQuestao" value = "{{assunto.id}}" [(ngModel)]="questao.assuntos" label ="{{assunto.nome}}"  inputId = "{{assunto.id}}" ></p-checkbox>   
+  
 
   <h3 class="first">Sequência</h3>
   <p-spinner size="15"  [min]="0" [(ngModel)]="questao.sequencia"></p-spinner> 
@@ -32,7 +33,6 @@
   <br/>
   <br/>
   
-
   <br/>
   <br/>
   
