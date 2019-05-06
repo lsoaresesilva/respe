@@ -18,6 +18,9 @@ export default class TestCase extends Document{
         let document = super.objectToDocument();
         if(this.questao != null && typeof this.questao.pk === "function")
             document["questaoId"] = this.questao.pk();
+        else if(this["questaoId"] != undefined){
+            document["questaoId"] = this["questaoId"];
+        }
 
         if(this.entradas != null && this.entradas.length > 0)
             document["entradas"] = this.entradas;

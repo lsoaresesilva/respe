@@ -16,20 +16,31 @@ import TestCase from 'src/app/model/testCase';
 })
 export class CadastrarQuestoesComponent implements OnInit {
 
-  questao: Questao;
+  questao;
   dificuldades: SelectItem[];
   assuntos;
 
 
-  constructor(private router: Router, private route: ActivatedRoute) {
+  constructor(private router: Router, private activatedRoute: ActivatedRoute) {
     // private messageService: MessageService,
 
   }
 
   ngOnInit() {
 
-
     this.questao = new Questao(null, null, null, null, null, [], null, []);
+
+    this.activatedRoute.params
+      .subscribe(params => {
+        if (params["id"] != undefined) {
+          Questao.get(params["id"]).subscribe(questao => {
+            this.questao = questao;
+          })
+        }
+
+      });
+
+
     Assunto.getAll().subscribe(assuntos => { this.assuntos = assuntos });
 
 
@@ -44,6 +55,8 @@ export class CadastrarQuestoesComponent implements OnInit {
     ]
 
 
+
+
   }
 
   adicionarTestCase() {
@@ -52,27 +65,32 @@ export class CadastrarQuestoesComponent implements OnInit {
 
 
   cadastrarQuestao() {
-    console.log("esse é o nome = " + this.questao.nomeCurto);
-    console.log("esse é o enunciado = " + this.questao.enunciado);
-    console.log("esse é o assuntoPrincipal = " + this.questao.assuntoPrincipal);
-    console.log("esse é a dificuldade = " + this.questao.dificuldade);
-    console.log("esse são os assuntos = " + this.questao.assuntos);
-    console.log("esse é a sequencia = " + this.questao.sequencia);
-    console.log("esse é a sequencia = " + this.questao.pk());
 
-    if (this.questao) {
+    if (this.questao.validar()) {
+
+    
+      this.questao.assuntos = this.questao.assuntos.map(assunto =>{
+        if(typeof assunto === "string")
+          return new Assunto(assunto, null, null, null, null)
+        return assunto;
+      } )
+
       this.questao.save().subscribe(resultado => {
-        console.log("cadastrado");
+        this.router.navigate(["main", { outlets: { principal: ['listagem-questao'] } }]);
 
       }, err => {
-        console.log("deu erro")
+       alert("Falha ao cadastrar questão: "+err.toString())
 
       });
     } else {
-      console.log("vazio")
-
+      // TODO: mudar para o message service
+      alert("É preciso informar todos os campos do formulário");
     }
+
+
+
   }
+
 
 
 

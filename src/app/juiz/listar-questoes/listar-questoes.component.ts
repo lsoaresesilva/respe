@@ -19,7 +19,7 @@ export class ListarQuestoesComponent implements OnInit  {
   selectQuestoes: Questao[];
   items: MenuItem[];
   minhasQuestions;
-  constructor(private messageService: MessageService,private rotas:Router) { 
+  constructor(private messageService: MessageService,private router:Router) { 
     
   }
 
@@ -34,23 +34,22 @@ export class ListarQuestoesComponent implements OnInit  {
 
   }
 
-
+  cadastrar(){
+    this.router.navigate(["main", { outlets: { principal: ['cadastro-questao'] } }]);
+  }
 
   alterarQuestao(questao: Questao) {
-    // this.messageService.add({ severity: 'info', summary: 'questao Selected', detail: questao.nomeCurto + ' - ' + questao.assuntoPrincipal });
-    this.rotas.navigate(['/']);
+    if(questao != undefined){
+      this.router.navigate(["main", { outlets: { principal: ['atualizacao-questao', questao.pk()] } } ] );
+    }
+    
   }
 
   deleteQuestao(questao:Questao) {
      Questao.delete(questao.pk()).subscribe(resultado=>{
-       console.log(questao.pk());
-
-       for(let i =0;i<this.questoes.length;i++){
-        if(this.questoes[i].id== questao.pk()){
-          this.questoes.splice(i,1)
-          console.log(i);
-        } 
-      }
+      
+      Questao.getAll().subscribe(questoes=>{this.questoes= questoes});
+       
     });
   }
   

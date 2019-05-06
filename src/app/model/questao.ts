@@ -61,7 +61,7 @@ export class Questao extends Document {
             observer.next(questao)
             observer.complete();
           }, err => {
-            observer.error(new Error("Falha ao salvar os assuntos de uma questão."));
+            observer.error(new Error("Falha ao salvar os assuntos/testscases de uma questão.: "+err));
           })
 
         })
@@ -203,7 +203,7 @@ export class Questao extends Document {
   validar() {
     if (this.assuntos == undefined || this.assuntos == null || this.assuntoPrincipal == null || this.assuntoPrincipal == undefined ||
       this.assuntos.length == 0 || this.nomeCurto == null || this.nomeCurto == "" ||
-      this.enunciado == null || this.enunciado == "" || this.dificuldade == null || this.sequencia == null || this.sequencia < 1) {
+      this.enunciado == null || this.enunciado == "" || this.dificuldade == null || this.sequencia == null || this.sequencia < 1 || this.testsCases == undefined || this.testsCases.length == 0) {
       return false;
     }
 

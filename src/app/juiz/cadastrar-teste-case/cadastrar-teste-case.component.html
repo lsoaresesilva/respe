@@ -1,19 +1,14 @@
-<div style="margin-left: auto;margin-right: auto;width: 30em">
-     
-  <h1 class="first">Teste Case</h1> <br/> <br/>   
+<h1 class="first">Teste Case</h1> <br /> <br />
 
-  <h3 class="first">Entrada</h3>
-  <input id ="nomeCurto" type="text" [(ngModel)]="entrada" /> <br>
-  <button pButton type="button" label="+ entradas" (click) = 'addMaisTesteCase()' ></button> <br/><br/>
+<h3 class="first">Entrada</h3>
+<input id="nomeCurto" type="text" [(ngModel)]="entrada" /> <br>
+<button pButton type="button" label="Adicionar" (click)='addMaisTesteCase()'></button> <br /><br />
 
-  <div *ngIf="temTesteCase">
-    <h4>entradas atribuídas:</h4> 
-    <div *ngFor="let entrada of testeCase.entradas">{{entrada}}</div> 
-  </div>
+<div *ngIf="temTesteCase">
+  <h4>Entradas atribuídas:</h4>
+  <div *ngFor="let entrada of testeCase.entradas">{{entrada}}</div>
+</div>
 
-  <h3 class="first">Saída</h3>
-  <input id ="nomeCurto" type="text" [(ngModel)]="testeCase.saida" />   
-  <br> <br> <br>
-</div>     
- 
- 
+<h3 class="first">Saída</h3>
+<input id="nomeCurto" type="text" [(ngModel)]="testeCase.saida" />
+<br> <br> <br>
