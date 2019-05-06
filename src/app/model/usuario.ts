@@ -8,9 +8,7 @@ import { PerfilUsuario } from './perfilUsuario';
 @Collection("usuarios")
 export default class Usuario extends Document{
 
-    perfil:PerfilUsuario;
-
-    constructor(id, private login, private senha) {
+    constructor(id, private login, private senha, public perfil:PerfilUsuario) {
         super(id);
         if(senha != null)
             this.senha = sha256(senha);
@@ -18,8 +16,14 @@ export default class Usuario extends Document{
 
     static getUsuarioLogado() {
         if( Usuario.isUsuarioLogado() ){
-            let usuario = new Usuario(localStorage.getItem("usuarioId"), null, null);
-            return usuario;
+            let json = JSON.parse(localStorage.getItem("usuario"));
+            if(json.id != undefined && json.perfil != undefined){
+                let usuario = new Usuario(json.id, null, null, json.perfil);
+                return usuario;
+            }else{
+                throw new Error("Usuário não foi logado corretamente, não há id e/ou perfil informados.");
+            }
+            
         }
         
         return null;
@@ -30,7 +34,7 @@ export default class Usuario extends Document{
         return new Observable(observer=>{
                 Usuario.getAll([new Query("usuario", "==", usuario.login), new Query("senha", "==", usuario.senha)]).subscribe(resultado=>{
                     if(resultado.length > 0){
-                        localStorage.setItem('usuarioId', resultado[0].id);
+                        localStorage.setItem('usuario', JSON.stringify({id:resultado[0].id, perfil:resultado[0].perfil}));
                         observer.next(true);
                         observer.complete();
                     }else{
@@ -42,11 +46,11 @@ export default class Usuario extends Document{
     }
 
     static isUsuarioLogado() {
-        return localStorage.getItem("usuarioId") != undefined ? true : false;
+        return localStorage.getItem("usuario") != undefined ? true : false;
     }
 
     static logout(){
-        localStorage.removeItem("usuarioId");
+        localStorage.removeItem("usuario");
         return true;
     }
 

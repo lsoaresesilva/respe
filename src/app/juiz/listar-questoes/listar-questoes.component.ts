@@ -28,8 +28,8 @@ export class ListarQuestoesComponent implements OnInit  {
     Questao.getAll().subscribe(questoes=>{this.questoes= questoes});
 
     this.items = [
-    { label: 'modifique', icon: 'fa fa-check', command: (event) => this.alterarQuestao(this.selectedQuestao) },
-    { label: 'Delete', icon: 'pi pi-times', command: (event) => this.deleteQuestao(this.selectedQuestao) }
+    { label: 'Alterar', icon: 'fa fa-check', command: (event) => this.alterarQuestao(this.selectedQuestao) },
+    { label: 'Apagar', icon: 'pi pi-times', command: (event) => this.deleteQuestao(this.selectedQuestao) }
     ];
 
   }
@@ -39,8 +39,6 @@ export class ListarQuestoesComponent implements OnInit  {
   alterarQuestao(questao: Questao) {
     // this.messageService.add({ severity: 'info', summary: 'questao Selected', detail: questao.nomeCurto + ' - ' + questao.assuntoPrincipal });
     this.rotas.navigate(['/']);
-    console.log("foi");
-   console.log(sessionStorage.setItem('ehPraAlterar','true'));
   }
 
   deleteQuestao(questao:Questao) {
