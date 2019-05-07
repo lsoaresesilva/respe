@@ -2,7 +2,6 @@ import { NgModule } from '@angular/core';
 import { Routes, RouterModule } from '@angular/router';
 import { LoginComponent } from './login-module/login/login.component';
 import { MainComponent } from './geral-module/main/main.component';
-import { SelecionarPlanejamentoComponent } from './srl/selecionar-planejamento/selecionar-planejamento.component';
 import { CadastroPlanejamentoComponent } from './srl/cadastro-planejamento/cadastro-planejamento.component';
 import { AutoReflexaoComponent } from './srl/auto-reflexao/auto-reflexao.component';
 
