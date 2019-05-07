@@ -18,7 +18,7 @@ import {ToastModule} from 'primeng/toast';
 import {TabViewModule} from 'primeng/tabview';
 
 import { PaginaNaoEncontradaComponent } from './pagina-nao-encontrada/pagina-nao-encontrada.component';
-import { RiscoEstudanteComponent } from './risco-estudante/risco-estudante.component';
+import { RiscoEstudanteComponent } from '../analytics-module/risco-estudante/risco-estudante.component';
 import {ProgressBarModule} from 'primeng/progressbar';
 
 @NgModule({

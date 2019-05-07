@@ -1,35 +1,31 @@
 import { Document, Collection } from './firestore/document';
 import { Assunto } from './assunto';
-import Estudante from './estudante';
+import Usuario from './usuario';
+import { NivelConfianca } from './nivelConfianca';
 
 @Collection("autoReflexoes")
 export default class AutoReflexao extends Document {
 
-    estudante: Estudante;
-    assunto: Assunto;
-    acoesSucesso: string;
-    acoesFracasso: string;
-    isValido: boolean = false;
+    estudante: Usuario;
+    nivelConfianca:NivelConfianca;
 
-    constructor(id, estudante, assunto, acoesSucesso, acoesFracasso) {
+    constructor(id, public assunto, nivelConfianca, public dificuldades, public acoesSucesso, public acoesFracasso) {
         super(id);
-        this.estudante = estudante;
-        this.assunto = assunto;
-        this.acoesSucesso = acoesSucesso;
-        this.acoesFracasso = acoesFracasso;
+        this.estudante = Usuario.getUsuarioLogado();
+        this.nivelConfianca = nivelConfianca;
     }
 
     objectToDocument() {
         let document = super.objectToDocument()
         document["estudanteId"] = this.estudante.pk();
-        //document["assuntoId"] = this.assunto.pk();
+        document["assuntoId"] = this.assunto.pk();
         return document;
     }
     validar() {
-        if (this.acoesSucesso != "" || this.acoesFracasso != "") {
-            this.isValido = true;
+        if (this.acoesSucesso != "" || this.acoesFracasso != "" || this.dificuldades != "" || this.nivelConfianca > 0) {
+            return true;
         } else {
-            this.isValido = false;
+            return false;
         }
     }
 }

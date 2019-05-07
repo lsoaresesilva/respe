@@ -5,7 +5,9 @@ import { Message } from 'primeng/components/common/message';
 import { AngularFirestoreCollection } from '@angular/fire/firestore';
 import { error } from '@angular/compiler/src/util';
 import { Assunto } from 'src/app/model/assunto';
-import { Router } from '@angular/router';
+import { Router, ActivatedRoute } from '@angular/router';
+import { SelectItem } from 'primeng/api';
+import { NivelConfianca } from 'src/app/model/nivelConfianca';
 
 @Component({
   selector: 'app-auto-reflexao',
@@ -17,37 +19,57 @@ export class AutoReflexaoComponent implements OnInit {
   autoReflexao: AutoReflexao;
   assunto: Assunto;
   msgs: Message[];
-  id: "12345";
+  niveisConfianca: SelectItem[];
 
 
-  constructor(private router: Router) {
+  constructor(private router: Router, private route:ActivatedRoute) {
     // TODO: carregar assunto via router
-    this.assunto = new Assunto("pVH6LewMxIKM73ep2n1N", null, null, null, null);
+    this.route.params.subscribe(params=>{
+      if(params["id"] != undefined){
+        
+        this.assunto = new Assunto(params["id"], null, null, null, null);
+      }else{
+        this.msgs.push({ severity: 'error', summary: 'Erro', detail: 'Não é possível iniciar uma autoreflexão sem informar um assunto.' });
+      }
+    })
+
+    
     // TODO: carregar do login
-    this.autoReflexao = new AutoReflexao(this.assunto, new Estudante("12345", null), " ", " ", " ");
+    this.autoReflexao = new AutoReflexao(null, this.assunto, 0, "", "", "");
   }
 
   ngOnInit() {
+
+    this.msgs = [];
+
+    this.niveisConfianca=[
+      {label:'Selecione um nível de confiança', value:null},
+      {label:'Pouco confiante', value: NivelConfianca.pouco},
+      {label:'Confiante', value: NivelConfianca.normal},
+      {label:'Muito confiante', value:NivelConfianca.alto},
+    ];
   }
 
   salvar() {
-    if (this.autoReflexao.isValido = false) {
-      this.showError();
+    if(this.autoReflexao.validar()){
+      
+      this.autoReflexao.save().subscribe(resultado => {
+        this.autoReflexao.pk = resultado.id;
+        this.msgs.push({ severity: 'success', summary: 'Dados salvos com sucesso.' });
+        this.router.navigate(["main", { outlets: { principal: ['srl-listagem-planejamento'] } }])
+      })
+    }else{
+      this.msgs.push({ severity: 'error', summary: 'Erro', detail: 'Preencha os dados corretamente.' });
+    }
+    /*if (this.autoReflexao.isValido = false) {
+      
     } else {
       this.autoReflexao.save().subscribe(resultado => {
         this.autoReflexao.pk = resultado.id;
         this.showSuccess();
         this.router.navigate(['planejamento/listar']);
       })
-    }
+    }*/
   }
-  showError() {
-    this.msgs = [];
-    this.msgs.push({ severity: 'error', summary: 'Erro', detail: 'Preencha os dados corretamente.' });
-  }
-  showSuccess() {
-    this.msgs = [];
-    this.msgs.push({ severity: 'success', summary: 'Formulário enviado com sucesso!' });
-  }
-
+  
 }
