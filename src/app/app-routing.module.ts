@@ -3,7 +3,6 @@ import { Routes, RouterModule } from '@angular/router';
 import { LoginComponent } from './login-module/login/login.component';
 import { MainComponent } from './geral-module/main/main.component';
 import { ProgressoComponent } from './analytics-module/progresso/progresso.component';
-import { SelecionarPlanejamentoComponent } from './srl/selecionar-planejamento/selecionar-planejamento.component';
 import { CadastroPlanejamentoComponent } from './srl/cadastro-planejamento/cadastro-planejamento.component';
 import { AutoReflexaoComponent } from './srl/auto-reflexao/auto-reflexao.component';
 
@@ -15,6 +14,7 @@ import { VisualizarConteudoComponent } from './cscl/visualizar-conteudo/visualiz
 import { CadastrarQuestoesComponent } from './juiz/cadastrar-questoes/cadastrar-questoes.component';
 import { CadastrarTesteCaseComponent } from './juiz/cadastrar-teste-case/cadastrar-teste-case.component';
 import { ListarQuestoesComponent } from './juiz/listar-questoes/listar-questoes.component';
+import { VizualizarExecucaoComponent } from './juiz/vizualizar-execucao/vizualizar-execucao.component';
 
 const routes: Routes = [
   {path:"main", component:MainComponent, canActivate: [AuthGuard], canLoad: [AuthGuard], children: [
@@ -27,10 +27,9 @@ const routes: Routes = [
     {path:"atualizacao-questao/:id", component:CadastrarQuestoesComponent, canActivate: [AuthGuard], canLoad: [AuthGuard], outlet:"principal"},
     {path:"listagem-questoes", component:ListarQuestoesComponent, canActivate: [AuthGuard], canLoad: [AuthGuard], outlet:"principal"},
   ]},
-  
-  {path:"selecionar", component:SelecionarPlanejamentoComponent, canActivate: [AuthGuard], canLoad: [AuthGuard]},
   {path:"", component:LoginComponent},
   {path:"autoreflexao", component:AutoReflexaoComponent},
+  {path:"visualizarexecucao", component:VizualizarExecucaoComponent},
  
   {path:"cadastrar/testeCase", component:CadastrarTesteCaseComponent},
   
