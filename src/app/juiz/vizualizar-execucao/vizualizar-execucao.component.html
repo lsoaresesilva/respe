@@ -1,0 +1,21 @@
+<p-table [value]="linha">
+  <ng-template pTemplate="header">
+    <tr>
+      <th style="width: 70%">Representação</th>
+      <th>Opções</th>
+    </tr>
+  </ng-template>
+  <ng-template pTemplate="body" let-linha>
+    <tr>
+      <td>
+        <p-card *ngFor="let variavel of linha.ordered_globals, let i = index; let valor of linha.globals">
+          {{variavel}} = {{linha.globals[valor]}}
+        </p-card>
+      </td>
+      <td>
+        <button pButton type="button" label="Voltar" (click)="voltar()" [disabled]="linhaAtual==0"></button><br>
+        <button pButton type="button" label="Avançar" (click)="avancar()" [disabled]="linhaAtual==traceExecucao.trace.length-1"></button>
+      </td>
+    </tr>
+  </ng-template>
+</p-table>
