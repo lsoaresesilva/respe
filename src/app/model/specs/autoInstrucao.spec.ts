@@ -35,7 +35,7 @@ describe("Testes de Auto instrução", ()=>{
       });
 
     it("deve salvar uma Autoinstrução", (done)=>{
-        let e = new Estudante("12345", null);
+        let e = new Estudante("12345", null, null, null, null);
         let q = new Questao("123456", "nomeCurto", "enunciado", Dificuldade.facil, 1, "ap", [], []);
         let autoInstrucao = new AutoInstrucao(null, e, q, "problema", "variaveis", "condicoes", "repeticoes", "funcoes", "vetores");
         autoInstrucao.save().subscribe(resposta=>{
@@ -47,7 +47,7 @@ describe("Testes de Auto instrução", ()=>{
     })
 
     it("Deve gerar um document a partir de um objeto", ()=>{
-        let e = new Estudante("12345", null);
+        let e = new Estudante("12345", null, null, null, null);
         let q = new Questao("123456", "nomeCurto", "enunciado", Dificuldade.facil, 1, "ap", [], []);
         let autoInstrucao = new AutoInstrucao(null, e, q, "problema", "variaveis", "condicoes", "repeticoes", "funcoes", "vetores");
         expect(autoInstrucao.objectToDocument()).toEqual({estudanteId:"12345", questaoId:"123456", problema:"problema", variaveis:"variaveis", condicoes:"condicoes", repeticoes:"repeticoes", funcoes:"funcoes", vetores:"vetores"})

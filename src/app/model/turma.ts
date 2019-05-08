@@ -1,5 +1,8 @@
 import { Document, Collection } from './firestore/document';
 import Estudante from './estudante';
+import { Observable, forkJoin } from 'rxjs';
+import EstudanteTurma from './estudanteTurma';
+import Query from './firestore/query';
 
 @Collection("turmas")
 export default class Turma extends Document{
@@ -11,4 +14,46 @@ export default class Turma extends Document{
         this.estudantes = estudantes;
     }
 
+    save(){
+        return new Observable(observer=>{
+            super.save().subscribe(resultado=>{
+                let consultas = [];
+                this.estudantes.forEach(estudante=>{
+                    consultas.push(new EstudanteTurma(null, estudante, this).save());
+                })
+
+                if(consultas.length > 0 ){
+                    forkJoin(consultas).subscribe(resultados=>{
+                        observer.next();
+                    observer.complete();
+                    })
+                }else{
+                    observer.next();
+                    observer.complete();
+                }
+            }, err=>{
+                observer.error(err);
+            })
+        })
+    }
+
+
+  static get(id){
+    return new Observable(observer=>{
+
+        super.get(id).subscribe(turma=>{
+            EstudanteTurma.getAll(new Query("turmaId", "==", turma["pk"]()) ).subscribe(estudantes=>{
+                turma["estudantes"] = estudantes;
+                observer.next(turma);
+                observer.complete();
+            }, err=>{
+                observer.error(err);
+            });
+        }, err=>{
+            observer.error(err);
+        })
+    });
+
+  }
+    
 }
