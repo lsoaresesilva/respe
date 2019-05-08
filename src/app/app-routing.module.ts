@@ -15,6 +15,10 @@ import { VisualizarConteudoComponent } from './cscl/visualizar-conteudo/visualiz
 import { CadastrarQuestoesComponent } from './juiz/cadastrar-questoes/cadastrar-questoes.component';
 import { CadastrarTesteCaseComponent } from './juiz/cadastrar-teste-case/cadastrar-teste-case.component';
 import { ListarQuestoesComponent } from './juiz/listar-questoes/listar-questoes.component';
+import { CadastrarEstudantesComponent } from './juiz/cadastrar-estudantes/cadastrar-estudantes.component';
+import { ListarEstudantesComponent } from './juiz/listar-estudantes/listar-estudantes.component';
+import { CadastrarTurmaComponent } from './juiz/cadastrar-turma/cadastrar-turma.component';
+import { ListarTurmaComponent } from './juiz/listar-turma/listar-turma.component';
 
 const routes: Routes = [
   {path:"main", component:MainComponent, canActivate: [AuthGuard], canLoad: [AuthGuard], children: [
@@ -26,15 +30,22 @@ const routes: Routes = [
     {path:"cadastro-questao", component:CadastrarQuestoesComponent, canActivate: [AuthGuard], canLoad: [AuthGuard], outlet:"principal"},
     {path:"atualizacao-questao/:id", component:CadastrarQuestoesComponent, canActivate: [AuthGuard], canLoad: [AuthGuard], outlet:"principal"},
     {path:"listagem-questoes", component:ListarQuestoesComponent, canActivate: [AuthGuard], canLoad: [AuthGuard], outlet:"principal"},
+    {path:"cadastro-estudante", component:CadastrarEstudantesComponent, canActivate: [AuthGuard], canLoad: [AuthGuard], outlet:"principal"},
+    {path:"atualizar-estudante/:id", component:CadastrarEstudantesComponent, canActivate: [AuthGuard], canLoad: [AuthGuard], outlet:"principal"},
+    {path:"listagem-estudantes", component:ListarEstudantesComponent, canActivate: [AuthGuard], canLoad: [AuthGuard], outlet:"principal"},
+    {path:"cadastro-turma", component:CadastrarTurmaComponent, canActivate: [AuthGuard], canLoad: [AuthGuard], outlet:"principal"},
+    {path:"atualizar-turma/:id", component:CadastrarTurmaComponent, canActivate: [AuthGuard], canLoad: [AuthGuard], outlet:"principal"},
+    {path:"listagem-turma", component:ListarTurmaComponent, canActivate: [AuthGuard], canLoad: [AuthGuard], outlet:"principal"},
   ]},
   
   {path:"selecionar", component:SelecionarPlanejamentoComponent, canActivate: [AuthGuard], canLoad: [AuthGuard]},
   {path:"", component:LoginComponent},
   {path:"autoreflexao", component:AutoReflexaoComponent},
- 
+
   {path:"cadastrar/testeCase", component:CadastrarTesteCaseComponent},
   
-  {path:"**", component:PaginaNaoEncontradaComponent}
+  {path:"**", component:PaginaNaoEncontradaComponent},
+  
 ];
 
 @NgModule({  

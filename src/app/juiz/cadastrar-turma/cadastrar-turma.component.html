@@ -1,0 +1,43 @@
+<p-toast [style]="{marginTop: '80px'}"></p-toast> 
+<p-toast></p-toast>
+<h2> Cadastro</h2>
+
+<span class="ui-float-label">
+    <input  [(ngModel)]= "turma.nome"  id ="turma.id" type="text" size="30" pInputText>
+  <label>Nome da turma</label>
+</span>
+<br/> 
+<p-toast></p-toast>
+<h3>Adicinar estudantes</h3>
+<p-autoComplete [(ngModel)]="estudante.email" [suggestions]="estudantes" (completeMethod)="search($event)" [size]="30"
+    [minLength]="2" placeholder="Digite o e-mail do estudante" [dropdown]="true" field="email">
+    <ng-template let-estudantePesquisado pTemplate="item">
+        <div class="ui-helper-clearfix" style="border-bottom:1px solid #D5D5D5">
+          
+            <div style="font-size:18px;float:right;margin:10px 10px 0 0">{{estudantePesquisado.email}}</div>
+        </div>
+    </ng-template>
+</p-autoComplete>
+
+<button pButton type="button" label="Adicinar" (click)="adicionarEstudantes()"></button>
+
+<p-table [value]="turma.estudantes"  [(contextMenuSelection)]="selectedEstudante" [contextMenu]="cm">
+        <ng-template pTemplate="header">
+            <tr>
+                <th>Estudantes cadastrados</th>
+                
+                
+            </tr>
+        </ng-template>
+        <ng-template pTemplate="body" let-rowData let-estudante>
+            <tr [pContextMenuRow]="rowData">
+               
+                <td>{{estudante.email}}</td>
+                
+               
+            </tr>
+        </ng-template>
+     </p-table> 
+     <p-contextMenu #cm [model]="items"></p-contextMenu>   
+     <button pButton type="button" label= Salvar (click) = 'cadastrarTurma()' ></button>
+ 

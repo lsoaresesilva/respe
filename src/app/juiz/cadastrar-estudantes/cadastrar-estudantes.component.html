@@ -1,0 +1,26 @@
+<p-toast></p-toast>
+<h1> Cadastro</h1>
+
+<span class="ui-float-label">
+    <input  [(ngModel)]= "estudantes.nome"  id ="EstudanteNome" type="text" size="30" pInputText>
+  <label>Nome</label>
+</span>
+<br/> 
+<span class="ui-float-label">
+    <input [(ngModel)]= "estudantes.email"  id ="EstudanteEmail" type="text" size="30" pInputText>
+  <label>E-mail</label>
+</span>
+<br/>
+<span class="ui-float-label">
+    <input  [(ngModel)]= "estudantes.usuario"  id ="EstudanteUsuario" type="text" size="30" pInputText>
+  <label>Nome de usuario</label>
+</span>
+<br/> 
+<span class="ui-float-label">
+    <input  [(ngModel)]= "estudantes.senha"  id ="EstudanteSenha" type="password" size="30" pInputText>
+  <label>Senha</label>
+</span>
+
+ 
+<br/> 
+<button pButton type="button" label= Salvar (click) = 'cadastrarEstudante()' ></button>  

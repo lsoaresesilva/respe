@@ -25,7 +25,7 @@ export class CadastroPlanejamentoComponent implements OnInit {
     private router: Router,
   ) { 
     // TODO: carregar do login
-    this.planejamento = new Planejamento(null,new Estudante(1, null),null,0,"",0,"");
+    this.planejamento = new Planejamento(null,new Estudante(1, null, null, null, null),null,0,"",0,"");
   }
 
   ngOnInit() {
