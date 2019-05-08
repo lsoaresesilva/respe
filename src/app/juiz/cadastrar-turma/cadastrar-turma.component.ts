@@ -33,7 +33,7 @@ export class CadastrarTurmaComponent implements OnInit {
      
     this.items = [
       { label: 'Vizualizar', icon: 'pi pi-search', command: (event) => this.vizualizar(this.selectedEstudante) },
-      { label: 'Deletar', icon: 'pi pi-times', command: (event) => this.deleteEstudante(this.selectedEstudante) },
+      { label: 'Apagar', icon: 'pi pi-times', command: (event) => this.deleteEstudante(this.selectedEstudante) },
       
   ];
     
@@ -103,7 +103,6 @@ deleteEstudante(estudante:Estudante) {
       },
         err => {
           this.addErro();
-          console.log("Resolva o errinho");
         });
 
     }

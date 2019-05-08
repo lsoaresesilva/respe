@@ -10,13 +10,11 @@ import { Router } from '@angular/router';
 })
 export class ListarEstudantesComponent implements OnInit {
   estudantes: Estudante[];
-  cols: any[];
   selectedEstudante: Estudante;
-  selectEstudante: Estudante[];
   items: MenuItem[];
   estudante : Estudante;
   id:Estudante;
-  ehAdm=true;
+ 
  
 
 constructor(public router : Router, private messageService: MessageService) { 
@@ -28,17 +26,11 @@ ngOnInit() {
   Estudante.getAll().subscribe  (estudante =>{this.estudantes = estudante , console.log ( this.estudantes)});
 
 
-  this.cols = [
-      { field: 'vin', header: 'Vin' },
-      { field: 'year', header: 'Year' },
-      { field: 'brand', header: 'Brand' },
-      { field: 'color', header: 'Color' }
-  ];
 
   this.items = [
       { label: 'Vizualizar', icon: 'pi pi-search', command: (event) => this.vizualizar(this.selectedEstudante) },
-      { label: 'Deletar', icon: 'pi pi-times', command: (event) => this.deleteEstudante(this.selectedEstudante) },
-      { label: 'Atualizar', icon: '°', command: (event) => this.atualizar(this.selectedEstudante) }
+      { label: 'Apagar', icon: 'pi pi-times', command: (event) => this.deleteEstudante(this.selectedEstudante) },
+      { label: 'Alterar', icon: '°', command: (event) => this.atualizar(this.selectedEstudante) }
   ];
 }
 
@@ -48,7 +40,7 @@ this.messageService.add({ severity: 'info', summary: 'Car Selected', detail: est
 }
 
 atualizar(estudante : Estudante){
-  this.router.navigate(["main", { outlets: { principal: ['cadastro-estudante/'+ estudante.pk()] } }]);
+  this.router.navigate(["main", { outlets: { principal: ['atualizacao-estudante'+ estudante.pk()] } }]);
 }
 
 
@@ -57,8 +49,6 @@ delete (estudante:Estudante) {
     console.log("PK é "+estudante.pk());
 
  });
- console.log(estudante.pk());
-
 }
 
 
@@ -75,7 +65,6 @@ for (let i = 0; i < this.estudantes.length; i++) {
 }
 this.estudantes.splice(index, 1);
 this.delete(estudante);
-console.log ("Deletado");
 this.messageService.add({ severity: 'info', summary: 'Estudante deletado', detail: estudante.nome + ' - ' + estudante.email});
 }
 }

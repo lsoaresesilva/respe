@@ -7,10 +7,14 @@ class ErroProgramacao():
         self.texto = erro
         self.tipo = ""
         self.linha = 0
-        self.extrairDadosErro(erro)
         
+    def possuiErroVisualizacao(self):
+        tipoErro = re.findall("([a-zA-Z]+):", self.texto)
+        if tipoErro:
+            return True
+        return False
 
-    def extrairDadosErro(self, erro):
+    def possuiErroExecucao(self, erro):
         
         linha = re.findall("line ([0-9]+)", erro)
         tipoErro = re.findall("([a-zA-Z]+):", erro)

@@ -4,7 +4,6 @@ import { PlanejamentoService } from './planejamento.service';
 import { SelfInstructionComponent } from './self-instruction/self-instruction.component';
 import {BrowserAnimationsModule} from '@angular/platform-browser/animations';
 import { BrowserModule } from '@angular/platform-browser';
-import { SelecionarPlanejamentoComponent } from './selecionar-planejamento/selecionar-planejamento.component';
 import { CadastroPlanejamentoComponent } from './cadastro-planejamento/cadastro-planejamento.component';
 import { FormsModule } from '@angular/forms';
 import { InputTextareaModule } from 'primeng/inputtextarea';
@@ -18,13 +17,12 @@ import {ToastModule} from 'primeng/toast';
 import {TabViewModule} from 'primeng/tabview';
 
 import { PaginaNaoEncontradaComponent } from './pagina-nao-encontrada/pagina-nao-encontrada.component';
-import { RiscoEstudanteComponent } from './risco-estudante/risco-estudante.component';
+import { RiscoEstudanteComponent } from '../analytics-module/risco-estudante/risco-estudante.component';
 import {ProgressBarModule} from 'primeng/progressbar';
 
 @NgModule({
   declarations: [
     SelfInstructionComponent,
-    SelecionarPlanejamentoComponent,
     CadastroPlanejamentoComponent,
     AutoReflexaoComponent,
     PaginaNaoEncontradaComponent,

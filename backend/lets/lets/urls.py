@@ -17,11 +17,13 @@ from django.contrib import admin
 from django.urls import path
 from django.conf.urls import url
 from letscode.views.submissao import SubmissaoView
+from letscode.views.visualizacao import VisualizacaoAlgoritmoView
 
 
 
 urlpatterns = [
     path('admin/', admin.site.urls),
-    url(r'^codigo/', SubmissaoView.as_view())
+    url(r'^codigo/', SubmissaoView.as_view()),
+    url(r'^visualizar-execucao/', VisualizacaoAlgoritmoView.as_view())
     
 ]

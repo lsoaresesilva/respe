@@ -32,19 +32,19 @@ ngOnInit() {
 
 this.items = [
     { label: 'Vizualizar', icon: 'pi pi-search', command: (event) => this.vizualizar(this.selectedTurma) },
-    { label: 'Deletar', icon: 'pi pi-times', command: (event) => this.delete(this.selectedTurma) },
-    { label: 'Atualizar', icon: '°', command: (event) => this.atualizar(this.selectedTurma) }
+    { label: 'Apagar', icon: 'pi pi-times', command: (event) => this.delete(this.selectedTurma) },
+    { label: 'Alterar', icon: '°', command: (event) => this.atualizar(this.selectedTurma) }
 ];
 }
 
 vizualizar(turma:Turma) {
-this.messageService.add({ severity: 'info', summary: 'Car Selected', detail: turma.nome + ' - ' + turma.id});
+this.messageService.add({ severity: 'info', summary: 'Car Selected', detail: turma.nome + ' - ' + turma.estudantes});
 
 }
 
 atualizar(turma: Turma){
-  this.router.navigate(["main", { outlets: { principal: ['atualizacao-questao', turma.pk()] } } ] );
-  //this.router.navigate(["main", { outlets: { principal: ['atualizar-estudante'+ turma.pk()] } }])
+  this.router.navigate(["main", { outlets: { principal: ['atualizacao-turma', turma.pk()] } } ] );
+  
   
 
 }

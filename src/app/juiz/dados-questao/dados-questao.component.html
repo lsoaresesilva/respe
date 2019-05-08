@@ -1,4 +1,18 @@
+<h4>Título</h4>
 <p>{{questao?.nomeCurto}}</p>
 
-
+<h4>Enunciado</h4>
 <p>{{questao?.enunciado}}</p>
+
+<h4>Testscases</h4>
+
+<div *ngFor="let testCase of questao?.testsCases">
+    <h5>Entradas:</h5>
+    <div>
+        <p *ngFor="let entrada of testCase.entradas">
+            {{entrada}}
+        </p>
+    </div>
+    <h5>Saída:</h5>
+    <p>{{testCase.saida}}</p>
+</div>

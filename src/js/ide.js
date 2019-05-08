@@ -19,6 +19,7 @@ function carregarIde(readOnly, callback=null, instance=null){
 
             });
 
+            // TODO: modificar para colocar em outra função exclusiva de comentário
             var div = document.getElementById('iconeNovoComentario');
             editorElement = document.getElementById('container');
             div.style.left = (editorElement.offsetLeft+1)+"px";

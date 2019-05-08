@@ -1,10 +1,10 @@
-import Estudante from './estudante';
 import { Questao } from './questao';
 import Codigo from './codigo';
 import { Document, Collection, date } from './firestore/document';
 import Erro from './erro';
 import { Observable, forkJoin } from 'rxjs';
 import Query from './firestore/query';
+import Usuario from './usuario';
 
 @Collection("submissoes")
 export default class Submissao extends Document{
@@ -12,7 +12,7 @@ export default class Submissao extends Document{
     @date()
     data;
     codigo:Codigo;
-    estudante:Estudante;
+    estudante:Usuario;
     questao:Questao;
     erros:Erro[];
 

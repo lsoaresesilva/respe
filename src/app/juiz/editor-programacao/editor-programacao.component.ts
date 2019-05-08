@@ -7,6 +7,9 @@ import { Tutor } from 'src/app/model/tutor';
 import { HttpHeaders, HttpClient } from '@angular/common/http';
 import ResultadoTestCase from 'src/app/model/resultadoTestCase';
 import { forkJoin } from 'rxjs';
+import Usuario from 'src/app/model/usuario';
+import { Linha } from 'src/app/model/linha';
+import { ActivatedRoute } from '@angular/router';
 
 declare var editor: any;
 declare function carregarIde(readOnly): any;
@@ -24,16 +27,25 @@ export class EditorProgramacaoComponent implements OnInit {
   questao;
   statusExecucao;
   resultadosTestsCases;
+  modoVisualizacao:boolean = false;
+
+  // TODO: mover para um componente próprio
+  traceExecucao;
 
 
-
-  constructor(private http: HttpClient) { 
+  constructor(private http: HttpClient, private route:ActivatedRoute) { 
     this.erroLinguagemProgramacao = "";
     this.statusExecucao = "";
-    Questao.get("LwC2ItAVtfkDhcE9jvpT").subscribe(questao => {
-      this.questao = questao;
-    })
+    // TODO: passar a questão pela rota
 
+    this.route.params.subscribe(params=>{
+      if(params["id"] != undefined){
+        Questao.get(params["id"]).subscribe(questao => {
+          this.questao = questao;
+        })
+      }
+    })
+    
     this.uploadCodigo = false;
 
   }
@@ -43,6 +55,8 @@ export class EditorProgramacaoComponent implements OnInit {
     this.editorCodigo = Editor.getInstance();
 
     carregarIde(false);
+
+    //this.atualizar();
   }
 
   
@@ -75,13 +89,12 @@ export class EditorProgramacaoComponent implements OnInit {
     let estudante = new Estudante("12345", null, null, null, null); // TODO: pegar do login
     let questao = new Questao("LwC2ItAVtfkDhcE9jvpT", null, null, null, null, null, null, null);
     let submissao = new Submissao(null, this.editorCodigo.codigo, estudante, questao)
+
     let tutor = new Tutor(submissao);
     submissao.save().subscribe(resultado => {
       tutor.analisar();
 
       tutor.salvarErros().subscribe(resultados => {
-        // TODO: salvar o objeto de submissão e usar o id de submissão no erro, ao invés de estudante id
-
         if (tutor.hasErrors()) {
           this.prepararMensagemErros(tutor.erros);
           this.uploadCodigo = false;
@@ -133,7 +146,6 @@ export class EditorProgramacaoComponent implements OnInit {
     })
   }
 
-
   prepararStatus(status) {
     let textoStatus = "<span class='textoStatus'>Status</span> "
     if (!status)
@@ -142,4 +154,38 @@ export class EditorProgramacaoComponent implements OnInit {
       this.statusExecucao = textoStatus + "<span class='statusSucesso'>Sucesso</span>";
   }
 
+  atualizarLinhaEditor(linha){
+    this.editorCodigo.limparCores();
+    this.editorCodigo.destacarLinha(linha, "possivelSolucao");
+  }
+
+  
+  visualizarExecucacao(){
+
+    this.editorCodigo.codigo.setAlgoritmo(editor.getValue());
+    let submissao = new Submissao(null, this.editorCodigo.codigo.algoritmo, Usuario.getUsuarioLogado(), this.questao)
+
+    let httpOptions = {
+      headers: new HttpHeaders({
+        'Content-Type': 'application/json'
+      })
+    }
+    // TODO: definir um timedout
+
+    this.http.post<any>("http://127.0.0.1:8000/visualizar-execucao/", submissao.objectToDocument(), httpOptions).subscribe(resposta => {
+
+      resposta = resposta.replace("script str", "")
+
+      let jsonTrace = JSON.parse(resposta);
+      this.traceExecucao = jsonTrace;
+      this.modoVisualizacao = true;
+    }, err=>{
+      alert("O código apresenta erros de sintaxe:"+err.error.erro) // TODO: melhorar isso.
+    });
+  }
+
+  voltarParaModoExecucao(){
+    this.editorCodigo.limparCores();
+    this.modoVisualizacao = false;
+  }
 }
