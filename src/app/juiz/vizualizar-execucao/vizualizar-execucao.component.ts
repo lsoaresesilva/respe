@@ -1,94 +1,42 @@
-import { Component, OnInit } from '@angular/core';
-import { Linha } from 'src/app/model/Linha';
+import { Component, OnInit, Input, OnChanges, Output, EventEmitter } from '@angular/core';
+import { Linha } from 'src/app/model/linha';
 
 @Component({
-  selector: 'app-vizualizar-execucao',
+  selector: 'visualizar-execucao',
   templateUrl: './vizualizar-execucao.component.html',
   styleUrls: ['./vizualizar-execucao.component.css']
 })
-export class VizualizarExecucaoComponent implements OnInit {
+export class VisualizarExecucacao implements OnInit {
+  
+
+  @Input("traceExecucao") traceExecucao;
+  @Output() mudancaLinha = new EventEmitter();
 
   constructor() { }
 
-  linhaAtual =0;
-  linha:Linha[] = [{event:null,func_name:null,globals:null,heap:null,line:null,ordered_globals:null,stack_to_render:null,stdout:null}]
-
-  traceExecucao = {
-    "code": "a = 2\nx = 3\ny = 4",
-    "trace": [
-    {
-    "line": 1,
-    "event": "step_line",
-    "func_name": "",
-    "globals": {},
-    "ordered_globals": [],
-    "stack_to_render": [],
-    "heap": {},
-    "stdout": ""
-    },
-    {
-    "line": 2,
-    "event": "step_line",
-    "func_name": "",
-    "globals": {
-    "a": 2
-    },
-    "ordered_globals": [
-    "a"
-    ],
-    "stack_to_render": [],
-    "heap": {},
-    "stdout": ""
-    },
-    {
-    "line": 3,
-    "event": "step_line",
-    "func_name": "",
-    "globals": {
-    "a": 2,
-    "x": 3
-    },
-    "ordered_globals": [
-    "a",
-    "x"
-    ],
-    "stack_to_render": [],
-    "heap": {},
-    "stdout": ""
-    },
-    {
-    "line": 3,
-    "event": "return",
-    "func_name": "",
-    "globals": {
-    "a": 2,
-    "x": 3,
-    "y": 4
-    },
-    "ordered_globals": [
-    "a",
-    "x",
-    "y"
-    ],
-    "stack_to_render": [],
-    "heap": {},
-    "stdout": ""
-    }
-    ]
-    }
+  linhaAtual = 0 ;
+  sequenciaExecucao = 0; // usado para percorrer o array de traces
+  linha:Linha[] = [{event:null,func_name:null,globals:null,heap:null,line:null,ordered_globals:null,stack_to_render:null,stdout:null}] // informações sobre a linha atual em execução
 
   ngOnInit() {
+
     this.atualizar();
   }
-  avancar(){
-    this.linhaAtual++;
-    this.atualizar();
+
+  visualizar(sequencia){
+    let linhaEmExecucao = this.traceExecucao.trace[this.sequenciaExecucao].line;
+    if(linhaEmExecucao != undefined){
+      this.linhaAtual = linhaEmExecucao
+      if(sequencia == "++")
+        this.sequenciaExecucao++;
+      else
+        this.sequenciaExecucao--;
+      this.atualizar();
+    }
   }
-  voltar(){
-    this.linhaAtual--;
-    this.atualizar();
-  }
+
   atualizar(){
-    this.linha[0]=this.traceExecucao.trace[this.linhaAtual];
+    this.linha[0]=this.traceExecucao.trace[this.sequenciaExecucao];
+    this.mudancaLinha.emit(this.linhaAtual);
   }
 }

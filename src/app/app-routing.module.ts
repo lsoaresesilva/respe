@@ -13,11 +13,11 @@ import { VisualizarConteudoComponent } from './cscl/visualizar-conteudo/visualiz
 import { CadastrarQuestoesComponent } from './juiz/cadastrar-questoes/cadastrar-questoes.component';
 import { CadastrarTesteCaseComponent } from './juiz/cadastrar-teste-case/cadastrar-teste-case.component';
 import { ListarQuestoesComponent } from './juiz/listar-questoes/listar-questoes.component';
-import { VizualizarExecucaoComponent } from './juiz/vizualizar-execucao/vizualizar-execucao.component';
+import { VisualizarExecucacao } from './juiz/vizualizar-execucao/vizualizar-execucao.component';
 
 const routes: Routes = [
   {path:"main", component:MainComponent, canActivate: [AuthGuard], canLoad: [AuthGuard], children: [
-    {path:"editor", component:EditorProgramacaoComponent, outlet:"principal"},
+    {path:"editor/:id", component:EditorProgramacaoComponent, outlet:"principal"},
     {path:"anotar", component:ComentariosCodigoComponent, outlet:"principal"},
     {path:"visualizarConteudo", component:VisualizarConteudoComponent, outlet:"principal"},
     {path:"srl-cadastro-planejamento", component:CadastroPlanejamentoComponent, canActivate: [AuthGuard], canLoad: [AuthGuard], outlet:"principal"},
@@ -29,7 +29,6 @@ const routes: Routes = [
   ]},
   {path:"", component:LoginComponent},
   {path:"autoreflexao", component:AutoReflexaoComponent},
-  {path:"visualizarexecucao", component:VizualizarExecucaoComponent},
  
   {path:"cadastrar/testeCase", component:CadastrarTesteCaseComponent},
   

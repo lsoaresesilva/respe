@@ -21,9 +21,9 @@ import { AnalyticsModule } from '../analytics-module/analytics.module';
 import { SrlModule } from '../srl/srl.module';
 import { EditorProgramacaoComponent } from './editor-programacao/editor-programacao.component';
 import { DadosQuestaoComponent } from './dados-questao/dados-questao.component';
-import { VizualizarExecucaoComponent } from './vizualizar-execucao/vizualizar-execucao.component';
+import { VisualizarExecucacao } from './vizualizar-execucao/vizualizar-execucao.component';
 @NgModule({
-  declarations: [VisualizarTestesComponent, CadastrarQuestoesComponent, CadastrarTesteCaseComponent, ListarQuestoesComponent, DadosQuestaoComponent, EditorProgramacaoComponent, EditorProgramacaoComponent, VizualizarExecucaoComponent],
+  declarations: [VisualizarTestesComponent, CadastrarQuestoesComponent, CadastrarTesteCaseComponent, ListarQuestoesComponent, DadosQuestaoComponent, EditorProgramacaoComponent, EditorProgramacaoComponent, VisualizarExecucacao],
   imports: [
     CommonModule,
     TableModule,

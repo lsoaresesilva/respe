@@ -7,7 +7,9 @@ import { Tutor } from 'src/app/model/tutor';
 import { HttpHeaders, HttpClient } from '@angular/common/http';
 import ResultadoTestCase from 'src/app/model/resultadoTestCase';
 import { forkJoin } from 'rxjs';
-import { Linha } from 'src/app/model/Linha';
+import Usuario from 'src/app/model/usuario';
+import { Linha } from 'src/app/model/linha';
+import { ActivatedRoute } from '@angular/router';
 
 declare var editor: any;
 declare function carregarIde(readOnly): any;
@@ -27,15 +29,23 @@ export class EditorProgramacaoComponent implements OnInit {
   resultadosTestsCases;
   modoVisualizacao:boolean = false;
 
+  // TODO: mover para um componente próprio
+  traceExecucao;
 
 
-  constructor(private http: HttpClient) { 
+  constructor(private http: HttpClient, private route:ActivatedRoute) { 
     this.erroLinguagemProgramacao = "";
     this.statusExecucao = "";
-    Questao.get("LwC2ItAVtfkDhcE9jvpT").subscribe(questao => {
-      this.questao = questao;
-    })
+    // TODO: passar a questão pela rota
 
+    this.route.params.subscribe(params=>{
+      if(params["id"] != undefined){
+        Questao.get(params["id"]).subscribe(questao => {
+          this.questao = questao;
+        })
+      }
+    })
+    
     this.uploadCodigo = false;
 
   }
@@ -46,7 +56,7 @@ export class EditorProgramacaoComponent implements OnInit {
 
     carregarIde(false);
 
-    this.atualizar();
+    //this.atualizar();
   }
 
   
@@ -76,9 +86,7 @@ export class EditorProgramacaoComponent implements OnInit {
     this.editorCodigo.codigo.setAlgoritmo(editor.getValue());
     this.uploadCodigo = true;
 
-    let estudante = new Estudante("12345", null); // TODO: pegar do login
-    let questao = new Questao("LwC2ItAVtfkDhcE9jvpT", null, null, null, null, null, null, null);
-    let submissao = new Submissao(null, this.editorCodigo.codigo, estudante, questao)
+    let submissao = new Submissao(null, this.editorCodigo.codigo, Usuario.getUsuarioLogado(), this.questao)
     let tutor = new Tutor(submissao);
     submissao.save().subscribe(resultado => {
       tutor.analisar();
@@ -145,88 +153,38 @@ export class EditorProgramacaoComponent implements OnInit {
       this.statusExecucao = textoStatus + "<span class='statusSucesso'>Sucesso</span>";
   }
 
-  vizualizarExecucao(){
-    this.modoVisualizacao = true;
+  atualizarLinhaEditor(linha){
+    this.editorCodigo.limparCores();
+    this.editorCodigo.destacarLinha(linha, "possivelSolucao");
   }
+
+  
+  visualizarExecucacao(){
+
+    this.editorCodigo.codigo.setAlgoritmo(editor.getValue());
+    let submissao = new Submissao(null, this.editorCodigo.codigo.algoritmo, Usuario.getUsuarioLogado(), this.questao)
+
+    let httpOptions = {
+      headers: new HttpHeaders({
+        'Content-Type': 'application/json'
+      })
+    }
+    // TODO: definir um timedout
+
+    this.http.post<any>("http://127.0.0.1:8000/visualizar-execucao/", submissao.objectToDocument(), httpOptions).subscribe(resposta => {
+
+      resposta = resposta.replace("script str", "")
+
+      let jsonTrace = JSON.parse(resposta);
+      this.traceExecucao = jsonTrace;
+      this.modoVisualizacao = true;
+    }, err=>{
+      alert("O código apresenta erros de sintaxe:"+err.error.erro) // TODO: melhorar isso.
+    });
+  }
+
   voltarParaModoExecucao(){
+    this.editorCodigo.limparCores();
     this.modoVisualizacao = false;
-  }
-  linhaAtual =0;
-  linha:Linha[] = [{event:null,func_name:null,globals:null,heap:null,line:null,ordered_globals:null,stack_to_render:null,stdout:null}]
-
-  traceExecucao = {
-    "code": "a = 2\nx = 3\ny = 4",
-    "trace": [
-    {
-    "line": 1,
-    "event": "step_line",
-    "func_name": "",
-    "globals": {},
-    "ordered_globals": [],
-    "stack_to_render": [],
-    "heap": {},
-    "stdout": ""
-    },
-    {
-    "line": 2,
-    "event": "step_line",
-    "func_name": "",
-    "globals": {
-    "a": 2
-    },
-    "ordered_globals": [
-    "a"
-    ],
-    "stack_to_render": [],
-    "heap": {},
-    "stdout": ""
-    },
-    {
-    "line": 3,
-    "event": "step_line",
-    "func_name": "",
-    "globals": {
-    "a": 2,
-    "x": 3
-    },
-    "ordered_globals": [
-    "a",
-    "x"
-    ],
-    "stack_to_render": [],
-    "heap": {},
-    "stdout": ""
-    },
-    {
-    "line": 3,
-    "event": "return",
-    "func_name": "",
-    "globals": {
-    "a": 2,
-    "x": 3,
-    "y": 4
-    },
-    "ordered_globals": [
-    "a",
-    "x",
-    "y"
-    ],
-    "stack_to_render": [],
-    "heap": {},
-    "stdout": ""
-    }
-    ]
-    }
-
-  avancar(){
-    this.linhaAtual++;
-    this.atualizar();
-  }
-  voltar(){
-    this.linhaAtual--;
-    this.atualizar();
-  }
-  atualizar(){
-    this.linha[0]=this.traceExecucao.trace[this.linhaAtual];
   }
 }
