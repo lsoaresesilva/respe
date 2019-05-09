@@ -5,6 +5,7 @@ import { Planejamento } from '../../model/planejamento';
 import Estudante from '../../model/estudante';
 import { Dificuldade } from '../../model/dificuldade';
 import { Router } from '@angular/router';
+import Usuario from 'src/app/model/usuario';
 //import {MessageService} from 'primeng/api';
 @Component({
   selector: 'app-cadastro-planejamento',
@@ -25,7 +26,7 @@ export class CadastroPlanejamentoComponent implements OnInit {
     private router: Router,
   ) { 
     // TODO: carregar do login
-    this.planejamento = new Planejamento(null,new Estudante(1, null, null, null, null),null,0,"",0,"");
+    this.planejamento = new Planejamento(null,Usuario.getUsuarioLogado(),null,0,"",0,"");
   }
 
   ngOnInit() {

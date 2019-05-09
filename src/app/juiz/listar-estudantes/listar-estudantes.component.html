@@ -2,18 +2,18 @@
 
 <p-toast [style]="{marginTop: '80px'}"></p-toast> 
 
+<button pButton label="Cadastrar" (click)="cadastrar()"></button>
+
 <p-table [value]="estudantes"  [(contextMenuSelection)]="selectedEstudante" [contextMenu]="cm">
    <ng-template pTemplate="header">
        <tr>
            <th>Nome</th>
-           <th>Risco de reprovação</th>
            
        </tr>
    </ng-template>
    <ng-template pTemplate="body" let-rowData let-estudante>
        <tr [pContextMenuRow]="rowData">
            <td>{{estudante.nome}}</td>
-           <td>{{estudante.email}}</td>
            
           
        </tr>

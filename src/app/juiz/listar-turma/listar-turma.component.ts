@@ -10,72 +10,47 @@ import { Router } from '@angular/router';
 })
 export class ListarTurmaComponent implements OnInit {
 
-  turmas:Turma[];
+  turmas: Turma[];
   cols: any[];
   selectedTurma: Turma;
   items: MenuItem[];
-  estudante : Turma;
-  id:Turma;
-  
-
-constructor(public router : Router, private messageService: MessageService) { }
-
-ngOnInit() {
-  Turma.getAll().subscribe  (turma =>{this.turmas = turma});
-  
-  this.cols = [
-    { field: 'vin', header: 'Vin' },
-    { field: 'year', header: 'Year' },
-    { field: 'brand', header: 'Brand' },
-    { field: 'color', header: 'Color' }
-];
-
-this.items = [
-    { label: 'Vizualizar', icon: 'pi pi-search', command: (event) => this.vizualizar(this.selectedTurma) },
-    { label: 'Apagar', icon: 'pi pi-times', command: (event) => this.delete(this.selectedTurma) },
-    { label: 'Alterar', icon: '°', command: (event) => this.atualizar(this.selectedTurma) }
-];
-}
-
-vizualizar(turma:Turma) {
-this.messageService.add({ severity: 'info', summary: 'Car Selected', detail: turma.nome + ' - ' + turma.estudantes});
-
-}
-
-atualizar(turma: Turma){
-  this.router.navigate(["main", { outlets: { principal: ['atualizacao-turma', turma.pk()] } } ] );
-  
-  
-
-}
+  estudante: Turma;
+  id: Turma;
 
 
-delete (turma:Turma) {
-  Turma.delete(turma.pk()).subscribe(resultado=>{ console.log("resultado é " + resultado);
-    console.log("PK é "+ turma.pk());
+  constructor(public router: Router, private messageService: MessageService) { }
 
- });
- console.log(turma.pk());
+  ngOnInit() {
+    Turma.getAll().subscribe(turma => { this.turmas = turma });
 
-}
+    this.items = [
+      { label: 'Vizualizar', icon: 'pi pi-search', command: (event) => this.vizualizar(this.selectedTurma) },
+      { label: 'Apagar', icon: 'pi pi-times', command: (event) => this.deletar(this.selectedTurma) },
+      { label: 'Alterar', icon: '°', command: (event) => this.atualizar(this.selectedTurma) }
+    ];
+  }
+
+  vizualizar(turma: Turma) {
+    this.messageService.add({ severity: 'info', summary: 'Car Selected', detail: turma.nome + ' - ' + turma.estudantes });
+
+  }
+
+  atualizar(turma: Turma) {
+    this.router.navigate(["main", { outlets: { principal: ['atualizacao-turma', turma.pk()] } }]);
+  }
+
+  cadastrar() {
+    this.router.navigate(["main", { outlets: { principal: ['cadastro-turma'] } }]);
+  }
 
 
+  deletar(turma: Turma) {
+    Turma.delete(turma.pk()).subscribe(resultado => {
+      // TODO: usar o message service
+      Turma.getAll().subscribe(turma => { this.turmas = turma });
+    });
 
-deleteTurma(turma:Turma) {
-let index = -1;
-for (let i = 0; i < this.turmas.length; i++) {
-    if (this.turmas[i].id == turma.id) {
-        index = i;
-       
-        break;
-  
-    }
-}
-this.turmas.splice(index, 1);
-this.delete(turma);
-console.log ("Deletado");
-this.messageService.add({ severity: 'info', summary: 'Estudante deletado', detail: turma.nome + ' - ' + turma.id});
-}
+  }
 }
 
 

@@ -1,4 +1,4 @@
-import { Document, Collection } from './firestore/document';
+import { Document, Collection, date } from './firestore/document';
 import { Observable } from 'rxjs';
 import Query from './firestore/query';
 import { sha256 } from 'js-sha256';
@@ -8,10 +8,19 @@ import { PerfilUsuario } from './perfilUsuario';
 @Collection("usuarios")
 export default class Usuario extends Document{
 
+    @date()
+    database;
+
     constructor(id, public email, public senha, public perfil:PerfilUsuario) {
         super(id);
         if(senha != null)
             this.senha = sha256(senha);
+    }
+
+    objectToDocument(){
+        let document = super.objectToDocument();
+        document["senha"] = sha256(this.senha);
+        return document;
     }
 
     static getUsuarioLogado() {

@@ -29,6 +29,16 @@ export class MainComponent implements OnInit {
 
       },
       {
+        label: 'Turmas',
+        command: () => { this.router.navigate(["main", { outlets: { principal: ['listagem-turmas'] } }]) }
+
+      },
+      {
+        label: 'Estudantes',
+        command: () => { this.router.navigate(["main", { outlets: { principal: ['listagem-estudantes'] } }]) }
+
+      },
+      {
         label: 'Logout',
         command: () => {this.logout()}
       }
