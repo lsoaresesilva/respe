@@ -8,7 +8,7 @@ import { PerfilUsuario } from './perfilUsuario';
 @Collection("usuarios")
 export default class Usuario extends Document{
 
-    constructor(id, private login, private senha, public perfil:PerfilUsuario) {
+    constructor(id, public email, public senha, public perfil:PerfilUsuario) {
         super(id);
         if(senha != null)
             this.senha = sha256(senha);
@@ -32,7 +32,7 @@ export default class Usuario extends Document{
     static logar(usuario: Usuario) {
 
         return new Observable(observer=>{
-                Usuario.getAll([new Query("usuario", "==", usuario.login), new Query("senha", "==", usuario.senha)]).subscribe(resultado=>{
+                Usuario.getAll([new Query("email", "==", usuario.email), new Query("senha", "==", usuario.senha)]).subscribe(resultado=>{
                     if(resultado.length > 0){
                         localStorage.setItem('usuario', JSON.stringify({id:resultado[0].id, perfil:resultado[0].perfil}));
                         observer.next(true);

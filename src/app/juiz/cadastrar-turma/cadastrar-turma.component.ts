@@ -3,6 +3,7 @@ import Turma from 'src/app/model/turma';
 import Estudante from 'src/app/model/estudante';
 import { MenuItem, MessageService } from 'primeng/api';
 import { Router, ActivatedRoute } from '@angular/router';
+import Usuario from 'src/app/model/usuario';
 
 @Component({
   selector: 'app-cadastrar-turma',
@@ -28,8 +29,8 @@ export class CadastrarTurmaComponent implements OnInit {
   }
 
   ngOnInit() {
-    this.turma = new Turma(null, null, []);
-    this.estudante = new Estudante(null, null, null, null, null);
+    this.turma = new Turma(null, null, [], null);
+    this.estudante = new Estudante(null, null, null);
 
     this.items = [
       { label: 'Vizualizar', icon: 'pi pi-search', command: (event) => this.vizualizar(this.selectedEstudante) },
@@ -40,7 +41,7 @@ export class CadastrarTurmaComponent implements OnInit {
   }
   search(event) {
 
-    Estudante.getAll().subscribe(estudantes => {
+    Usuario.getAll().subscribe(estudantes => {
       this.estudantes = [];
       // TODO: filtrar via banco
       estudantes.forEach(estudante => {
@@ -64,7 +65,7 @@ export class CadastrarTurmaComponent implements OnInit {
   }
 
   vizualizar(estudante: Estudante) {
-    this.messageService.add({ severity: 'info', summary: 'Estudante selecionado', detail: estudante.nome + ' - ' + estudante.email });
+    this.messageService.add({ severity: 'info', summary: 'Estudante selecionado', detail: estudante.nome + ' - ' + estudante.usuario.email });
 
   }
 
@@ -79,7 +80,7 @@ export class CadastrarTurmaComponent implements OnInit {
   deleteEstudante(estudante: Estudante) {
     let index = -1;
     for (let i = 0; i < this.turma.estudantes.length; i++) {
-      if (this.turma.estudantes[i].email == estudante.email) {
+      if (this.turma.estudantes[i].usuario.email == estudante.usuario.email) {
         index = i;
         break;
       }

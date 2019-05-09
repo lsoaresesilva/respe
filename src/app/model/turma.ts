@@ -3,15 +3,22 @@ import Estudante from './estudante';
 import { Observable, forkJoin } from 'rxjs';
 import EstudanteTurma from './estudanteTurma';
 import Query from './firestore/query';
+import Usuario from './usuario';
 
 @Collection("turmas")
 export default class Turma extends Document{
     id;
     estudantes: Estudante[];
 
-    constructor(id, public nome, estudantes){
+    constructor(id, public nome, estudantes, public professor:Usuario){
         super(id);
         this.estudantes = estudantes;
+    }
+
+    objectToDocument(){
+        let document = super.objectToDocument();
+        document["professorId"] = this.professor.pk();
+        return document;
     }
 
     save(){
