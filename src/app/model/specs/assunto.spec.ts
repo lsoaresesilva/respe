@@ -54,13 +54,13 @@ describe("Testes de questão", () => {
 
             q.testsCases = testsCases;
             q.save().subscribe(resultado => {
-                let rt = new ResultadoTestCase(null, true, t, new Estudante("123", "oi", null, null, null)).save();
-                let rt2 = new ResultadoTestCase(null, true, t1, new Estudante("123", "oi", null, null, null)).save();
+                let rt = new ResultadoTestCase(null, true, t, new Estudante("123", "oi", null)).save();
+                let rt2 = new ResultadoTestCase(null, true, t1, new Estudante("123", "oi", null)).save();
                 Usuario.getUsuarioLogado = () =>{
                     return new Usuario("123", "oi", "", null);
                 }
                 forkJoin([rt, rt2]).subscribe(resultadoSalvarTestCases => {
-                    Assunto.isFinalizado(a, new Estudante("123", "oi", null, null, null)).subscribe(resultado => {
+                    Assunto.isFinalizado(a, new Estudante("123", "oi", null)).subscribe(resultado => {
                         expect(resultado).toBeTruthy();
                         Assunto.delete(a.pk())
                         Questao.delete(q.pk()).subscribe(r => {
@@ -90,16 +90,16 @@ describe("Testes de questão", () => {
 
             q.testsCases = testsCases;
             q.save().subscribe(resultado => {
-                let rt = new ResultadoTestCase(null, true, t, new Estudante("123", "oi", null, null, null)).save();
-                let rt2 = new ResultadoTestCase(null, false, t, new Estudante("123", "oi", null, null, null)).save();
-                let rt3 = new ResultadoTestCase(null, true, t1, new Estudante("123", "oi", null, null, null)).save();
+                let rt = new ResultadoTestCase(null, true, t, new Estudante("123", "oi", null)).save();
+                let rt2 = new ResultadoTestCase(null, false, t, new Estudante("123", "oi", null)).save();
+                let rt3 = new ResultadoTestCase(null, true, t1, new Estudante("123", "oi", null)).save();
 
                 Usuario.getUsuarioLogado = () =>{
                     return new Usuario("123", "oi", "", null);
                 }
 
                 forkJoin([rt, rt2, rt3]).subscribe(resultadoSalvarTestCases => {
-                    Assunto.isFinalizado(a, new Estudante("123", "oi", null, null, null)).subscribe(resultado => {
+                    Assunto.isFinalizado(a, new Estudante("123", "oi", null)).subscribe(resultado => {
                         expect(resultado).toBeFalsy();
                         Assunto.delete(a.pk())
                         Questao.delete(q.pk()).subscribe(r => {

@@ -71,9 +71,11 @@ export default class ErroSintaxeVariavel extends ErroSintaxe{
     }
 
     static nomeVariavelComEspaco(linha) {
-        if (this.isLinhaProgramacaoValida(linha)) {
+
+        return false; // TODO: regex não suportado!
+        /*if (this.isLinhaProgramacaoValida(linha)) {
             // (?<=[a-zA-Z]*\s)(\w)*\s*=
-            let regex = /(?<=\w+\s+\w+\s*)=/g
+            let regex =  /\n/ // /(?<=\w+\s+\w+\s*)=/g
             let resultado = regex.exec(linha)
             if (resultado != null && resultado.length > 0) {
                 return true;
@@ -82,7 +84,7 @@ export default class ErroSintaxeVariavel extends ErroSintaxe{
             return false;
         }
 
-        return false;
+        return false;*/
     }
 
 

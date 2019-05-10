@@ -3,10 +3,11 @@ import ComentarioCodigo from 'src/app/model/comentarioCodigo';
 import Query from 'src/app/model/firestore/query';
 import Usuario from 'src/app/model/usuario';
 import Submissao from 'src/app/model/submissao';
+import { ActivatedRoute } from '@angular/router';
 
 declare var dialogEmExibicao: any;
 declare function obterPosicoesBotaoCriarComentario(): any;
-declare function carregarIde(readOnly, callback, instance): any;
+declare function carregarIde(readOnly, callback, instance, codigo): any;
 
 @Component({
   selector: 'comentarios-codigo',
@@ -19,15 +20,29 @@ export class ComentariosCodigoComponent implements OnInit {
   comentarios:ComentarioCodigo[];
   visibilidade:boolean;
   linhaComentario;
-  constructor() {
+  submissao;
+
+
+  constructor(private activatedRoute:ActivatedRoute) {
     this.visibilidade = false;
     this.linhaComentario = 0;
     // TODO: pegar a submissão pela rota
-    
-    //this.comentario = new ComentarioCodigo(null, Usuario.getUsuarioLogado(), new Submissao("Fz0penFp04A3z5xus6qF", null, null, null), null, null);
+    this.activatedRoute.params.subscribe(params=>{
+      if(params["id"] == undefined)
+        throw new Error("É preciso informar uma submissão.");
 
-    // Carregar todos os comentários dessa submissão
-    this.carregarComentarios();
+        // Carregar todos os comentários dessa submissão
+        Submissao.get(params["id"]).subscribe(submissao=>{
+          this.submissao = submissao;
+          let codigo = submissao["codigo"]
+          codigo = codigo.split("\\n")
+          carregarIde(false, this.selecionarLinha, this, codigo);
+          this.carregarComentarios();
+        });
+        
+    });
+
+    
   }
 
   construirComentariosCadastrados(){
@@ -36,7 +51,7 @@ export class ComentariosCodigoComponent implements OnInit {
 
   ngOnInit() {
 
-    carregarIde(false, this.selecionarLinha, this);
+    
   }
 
   fazer(){
@@ -75,7 +90,7 @@ export class ComentariosCodigoComponent implements OnInit {
 
   salvarComentario(texto){
     // TODO: pegar a submissao e estudante
-    let comentario = new ComentarioCodigo(null, Usuario.getUsuarioLogado(), new Submissao("Fz0penFp04A3z5xus6qF", null, null, null), texto, this.linhaComentario);
+    let comentario = new ComentarioCodigo(null, Usuario.getUsuarioLogado(), this.submissao, texto, this.linhaComentario);
     comentario.save().subscribe(resultado=>{
       this.visibilidade = false;
       dialogEmExibicao = false;
@@ -85,7 +100,7 @@ export class ComentariosCodigoComponent implements OnInit {
   }
 
   carregarComentarios(){
-    ComentarioCodigo.getAll(new Query("submissaoId", "==", "Fz0penFp04A3z5xus6qF")).subscribe(comentariosCadastrados=>{
+    ComentarioCodigo.getAll(new Query("submissaoId", "==", this.submissao.pk())).subscribe(comentariosCadastrados=>{
       this.comentarios = ComentarioCodigo.agrupar(comentariosCadastrados);
       
       // Desenhar os quadrados

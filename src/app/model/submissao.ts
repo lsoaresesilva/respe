@@ -5,6 +5,7 @@ import Erro from './erro';
 import { Observable, forkJoin } from 'rxjs';
 import Query from './firestore/query';
 import Usuario from './usuario';
+import Estudante from './estudante';
 
 @Collection("submissoes")
 export default class Submissao extends Document{
@@ -30,6 +31,33 @@ export default class Submissao extends Document{
         document["questaoId"] = this.questao.pk();
 
         return document;
+    }
+
+    static getRecentePorQuestao(questao:Questao, estudante:Usuario){
+        return new Observable(observer=>{
+            Submissao.getAll([new Query("estudanteId", "==", estudante.pk()), new Query("questaoId", "==", questao.pk())]).subscribe(submissoes=>{
+                let submissaoRecente = null;
+                if(submissoes.length != 0){
+                    if(submissoes.length == 1){
+                        submissaoRecente = submissoes[0];
+                    }else{
+                        submissoes.forEach(submissao=>{
+                            if(submissaoRecente == null){
+                                submissaoRecente = submissao;
+                            }else{
+                                if(submissaoRecente.data.toDate().getTime() <= submissao.data.toDate().getTime()){
+                                    submissaoRecente = submissao;
+                                }
+                            }
+                        })
+                    }
+                }
+
+                observer.next(submissaoRecente);
+                observer.complete();
+            })
+        })
+        
     }
 
     /*getLazy(){

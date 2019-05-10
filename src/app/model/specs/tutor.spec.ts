@@ -11,6 +11,7 @@ import { FirebaseConfiguracao } from 'src/environments/firebase';
 import ResultadoTestCase from '../resultadoTestCase';
 import { forkJoin } from 'rxjs';
 import Erro from '../erro';
+import { isNull } from '@angular/compiler/src/output/output_ast';
 
 describe("Testes de TUTOR", ()=>{
 
@@ -49,10 +50,10 @@ describe("Testes de TUTOR", ()=>{
       })
 
     it("Deve calcular como média 0.75 para os tests cases respondidos", (done) => {
-        let r = new ResultadoTestCase(null, false, null, new Estudante("12345", null, null, null, null));
-        let r1 = new ResultadoTestCase(null, true, null, new Estudante("12345", null, null, null, null));
-        let r2 = new ResultadoTestCase(null, true, null, new Estudante("12345", null, null, null, null));
-        let r3 = new ResultadoTestCase(null, true, null, new Estudante("12345", null, null, null, null));
+        let r = new ResultadoTestCase(null, false, null, new Estudante("12345", null, null));
+        let r1 = new ResultadoTestCase(null, true, null, new Estudante("12345", null, null));
+        let r2 = new ResultadoTestCase(null, true, null, new Estudante("12345", null, null));
+        let r3 = new ResultadoTestCase(null, true, null, new Estudante("12345", null, null));
 
         let salvamentos = [];
         salvamentos.push(r.save())
@@ -61,7 +62,7 @@ describe("Testes de TUTOR", ()=>{
         salvamentos.push(r3.save())
 
         forkJoin(salvamentos).subscribe(resultados => {
-            Tutor.mediaTestsCases(new Estudante("12345", null, null, null, null)).subscribe(media => {
+            Tutor.mediaTestsCases(new Estudante("12345", null, null)).subscribe(media => {
                 expect(media).toBe(0.75);
 
                
@@ -77,7 +78,7 @@ describe("Testes de TUTOR", ()=>{
         let c = new Codigo();
         let algoritmo = "x = 'leonardo'\ny = x\nz = a\nx = 'leonardo'\ny = 2,5\nx == 'leonardo'\nnome do leonardo = 'leo'\nif idade >:\nif idade > 18\ncurrent_time_str = input('What is the current time (in hours 0-23)?'\ndef bla(a_a b c):"
         c.setAlgoritmo(algoritmo);
-        let e = new Estudante("12345", null, null, null, null);
+        let e = new Estudante("12345", null, null);
         let s = new Submissao(null, c, e, null)
         let t = new Tutor(s);
         t.analisar();
@@ -89,7 +90,7 @@ describe("Testes de TUTOR", ()=>{
         let c = new Codigo();
         let algoritmo = "notaUm = 2\nnotaDois = 3\nmedia = (notaUm+notaDois)/2"
         c.setAlgoritmo(algoritmo);
-        let e = new Estudante("12345", null, null, null, null);
+        let e = new Estudante("12345", null, null);
         let s = new Submissao(null, c, e, null)
         let t = new Tutor(s);
         t.analisar();

@@ -33,7 +33,7 @@ describe("Testes de estudante", () => {
     it("deve apagar um estudante pelo seu id", (done)=>{
         let e = new Estudante(null, "Leonardo", null);
         e.save().subscribe(resultado=>{
-            let pk = resultado.pk();
+            let pk = resultado["pk"]();
             Estudante.delete(pk).subscribe(resultadoDelete=>{
                 expect(resultadoDelete).toBeTruthy();
                 Estudante.get(pk).subscribe(resultado=>{

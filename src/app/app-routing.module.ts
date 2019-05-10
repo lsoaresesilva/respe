@@ -24,7 +24,7 @@ import { VisualizarExecucacao } from './juiz/vizualizar-execucao/vizualizar-exec
 const routes: Routes = [
   {path:"main", component:MainComponent, canActivate: [AuthGuard], canLoad: [AuthGuard], children: [
     {path:"editor/:id", component:EditorProgramacaoComponent, outlet:"principal"},
-    {path:"anotar", component:ComentariosCodigoComponent, outlet:"principal"},
+    {path:"comentario-codigo/:id", component:ComentariosCodigoComponent, outlet:"principal"},
     {path:"visualizarConteudo", component:VisualizarConteudoComponent, outlet:"principal"},
     {path:"srl-cadastro-planejamento", component:CadastroPlanejamentoComponent, canActivate: [AuthGuard], canLoad: [AuthGuard], outlet:"principal"},
     {path:"srl-listagem-planejamento", component:CadastroPlanejamentoComponent, canActivate: [AuthGuard], canLoad: [AuthGuard], outlet:"principal"},

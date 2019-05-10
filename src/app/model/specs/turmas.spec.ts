@@ -35,7 +35,7 @@ describe("Testes de turma", ()=>{
       it("deve carregar um estudante com seus alunos", (done)=>{
         let e = new Estudante(null, "oi", null);
         let e2 = new Estudante(null, "olá", null);
-        let t = new Turma(null, "turma", [e, e2]);
+        let t = new Turma(null, "turma", [e, e2], null);
 
         forkJoin([e.save(), e2.save()]).subscribe(resultado=>{
           t.save().subscribe(r=>{
