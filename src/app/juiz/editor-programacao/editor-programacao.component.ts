@@ -25,7 +25,7 @@ export class EditorProgramacaoComponent implements OnInit {
   editorCodigo?: Editor;
   pausaIde;
   erroLinguagemProgramacao;
-  questao;
+  questao?;
   statusExecucao;
   resultadosTestsCases;
   modoVisualizacao: boolean = false;
