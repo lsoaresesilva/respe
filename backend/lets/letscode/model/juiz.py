@@ -61,7 +61,8 @@ class Juiz():
 
     def executarTestes(self, arquivo):
         resultados = []
-
+        resultadoTeste = False
+        msgRetornoAlgoritmo =  ""
         self.isQuestaoValida()
 
         for teste in self.submissao.questao.testsCases:
@@ -90,8 +91,8 @@ class Juiz():
                                 msgRetornoAlgoritmo, teste.saida)
                         finally:
                             child.close()
-                    except OSError:
-                            resultadoTeste = False
+                    except OSError as e:
+                        raise JuizError("O código possui um erro.") #TODO: melhorar a mensagem para indicar qual o problema
 
                 else:
                     raise JuizError(
@@ -138,9 +139,10 @@ class Juiz():
             # Se for um texto que apareceu em razão da entrada do test case ou do input do algoritmo, deve ignorar
             textoEntradaInput = False
             for textoInput in textosInput:  # OU se for uma das entradas do testcase, também ignorar
-                if textoInput in saida:
-                    textoEntradaInput = True
-                    break
+                if textoInput != "":
+                    if textoInput in saida:
+                        textoEntradaInput = True
+                        break
             for textoEntrada in entradas:  # OU se for uma das entradas do testcase, também ignorar
                 if textoEntrada == saida:
                     textoEntradaInput = True
