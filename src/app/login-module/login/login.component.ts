@@ -24,9 +24,13 @@ export class LoginComponent implements OnInit {
   }
 
   acessar(){
+    let t = this;
     Usuario.logar(new Usuario(null, this.login, this.senha, null)).subscribe(resultado=>{
       if( resultado )
         this.router.navigateByUrl("/main");
+      else{
+        alert("Usuário ou senha inválidos.") // TODO: mudar para o message service
+      }
     })
   }
 

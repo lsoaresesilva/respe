@@ -28,17 +28,20 @@ export class Tutor{
 
 
     salvarErros(){
+        let resultados;
         return new Observable(observer=>{
             let operacoesSalvar = []
             this.erros.forEach(erro=>{
                 operacoesSalvar.push(erro.save())
             })
 
-            forkJoin(operacoesSalvar).subscribe(resultados=>{
-                observer.next(resultados);
-                observer.complete();
+            forkJoin(operacoesSalvar).subscribe(errosSalvos=>{
+                resultados = errosSalvos;
             }, err=>{
                 observer.error(err);
+            }, ()=>{
+                observer.next(resultados);
+                observer.complete();
             })
         })
         

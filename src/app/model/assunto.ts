@@ -56,7 +56,7 @@ export class Assunto extends Document {
     }
 
     // TODO: pegar somente o que for do usuário logado
-    static percentualConclusaoQuestoes(assunto: Assunto, usuario) {
+    static percentualConclusaoQuestoes(assunto: Assunto, usuario):Observable<number> {
         // Pegar todas as questões de um assunto
         return new Observable(observer => {
             if(assunto != undefined && usuario != undefined){

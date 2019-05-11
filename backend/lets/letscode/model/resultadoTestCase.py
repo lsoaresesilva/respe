@@ -26,6 +26,7 @@ class ResultadoTestCase(Document):
         return {
             "id":self.id,
             "testCaseId":self.testCase.id,
+            "submissaoId":self.submissao.id,
             "respostaAlgoritmo":self.respostaAlgoritmo,
             "status":self.status
         }

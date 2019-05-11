@@ -12,14 +12,12 @@ export default class Submissao extends Document{
 
     @date()
     data;
-    codigo:Codigo;
     estudante:Usuario;
     questao:Questao;
     erros:Erro[];
 
-    constructor(id, codigo, estudante, questao){
+    constructor(id, public codigo:Codigo, estudante, questao){
         super(id);
-        this.codigo = codigo;
         this.estudante = estudante;
         this.questao = questao;
         this.erros = [];
@@ -29,7 +27,8 @@ export default class Submissao extends Document{
         let document = super.objectToDocument();
         document["estudanteId"] = this.estudante.pk();
         document["questaoId"] = this.questao.pk();
-
+        document["codigo"] = this.codigo.algoritmo;
+        
         return document;
     }
 

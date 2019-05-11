@@ -10,9 +10,10 @@ import { forkJoin } from 'rxjs';
 import Usuario from 'src/app/model/usuario';
 import { Linha } from 'src/app/model/linha';
 import { ActivatedRoute } from '@angular/router';
+import Query from 'src/app/model/firestore/query';
 
 declare var editor: any;
-declare function carregarIde(readOnly): any;
+declare function carregarIde(readOnly, callback, instance, codigo): any;
 
 @Component({
   selector: 'editor-programacao',
@@ -22,52 +23,97 @@ declare function carregarIde(readOnly): any;
 export class EditorProgramacaoComponent implements OnInit {
 
   editorCodigo?: Editor;
-  uploadCodigo;
+  pausaIde;
   erroLinguagemProgramacao;
   questao;
   statusExecucao;
   resultadosTestsCases;
-  modoVisualizacao:boolean = false;
+  modoVisualizacao: boolean = false;
+  submissao;
 
   // TODO: mover para um componente próprio
   traceExecucao;
 
 
-  constructor(private http: HttpClient, private route:ActivatedRoute) { 
+  constructor(private http: HttpClient, private route: ActivatedRoute) {
+    this.pausaIde = true;
     this.erroLinguagemProgramacao = "";
     this.statusExecucao = "";
     // TODO: passar a questão pela rota
 
-    this.route.params.subscribe(params=>{
-      if(params["id"] != undefined){
+    this.route.params.subscribe(params => {
+      if (params["id"] != undefined) {
         Questao.get(params["id"]).subscribe(questao => {
           this.questao = questao;
+          this.editorCodigo = Editor.getInstance();
+
+          // TODO: pegar a última submissão para uma questão
+          let usuario = Usuario.getUsuarioLogado();
+          if (usuario != null) {
+            Submissao.getRecentePorQuestao(this.questao, usuario).subscribe(submissao => {
+              
+              /*ResultadoTestCase.getAll(new Query("submissaoId", "==", submissao["pk"]())).subscribe(resultados=>{
+                this.resultadosTestsCases = resultados;
+              })*/
+
+              this.submissao = submissao;
+
+
+              let codigo = "";
+              if (submissao != null)
+                codigo = submissao["codigo"];
+
+              carregarIde(false, null, null, codigo);
+              this.pausaIde = false;
+            })
+          }
+
+          
+
+
+
         })
+      }else{
+        throw new Error("Não é possível iniciar o editor sem uma questão.");
       }
     })
-    
-    this.uploadCodigo = false;
 
+
+
+  }
+
+  /**
+   * Salva o código do estudante automaticamente a cada 2 minutos.
+   */
+  salvarAutomaticamente() {
+    let __this = this;
+    setInterval(function () {
+      let submissao = __this.prepararSubmissao();
+      submissao.save().subscribe(resultado=>{
+        // TODO: mostrar mensagem que o código foi salvo automaticamente.
+      });
+
+    }, 120000)
   }
 
   ngOnInit() {
 
-    this.editorCodigo = Editor.getInstance();
+    let estudante = Usuario.getUsuarioLogado(); // TODO: pegar do login
+    if (estudante == null) {
+      throw new Error("Não é possível executar o código, pois você não está logado."); // TODO: mudar para o message
+    }
 
-    carregarIde(false);
+    //this.salvarAutomaticamente(); # desabilitado temporariamente
 
-    //this.atualizar();
   }
 
-  
-
-  mouseMove(event){
-    
-    
-    //let linha = event.target.position.linha;
-    // SE mouse estiver na área do editor mostrar div;
-    // Mo Y do div a partir da linha
-
+  /**
+   * Constrói uma submissão que será salva no banco de dados.
+   */
+  prepararSubmissao():Submissao {
+    this.editorCodigo.codigo.setAlgoritmo(editor.getValue());
+    let submissao = new Submissao(null, this.editorCodigo.codigo, Usuario.getUsuarioLogado(), this.questao);
+    return submissao;
   }
 
   prepararMensagemErros(erros) {
@@ -81,29 +127,29 @@ export class EditorProgramacaoComponent implements OnInit {
     }
   }
 
+  getResultadosTestsCases(submissao){
+    //ResultadoTestCase.getAll(new Query("))
+  }
+
   executar() {
+    this.pausaIde = true;
 
-    this.editorCodigo.codigo.setAlgoritmo(editor.getValue());
-    this.uploadCodigo = true;
+    let submissao = this.prepararSubmissao();
 
-    let estudante = new Estudante("12345", null, null); // TODO: pegar do login
-    let questao = new Questao("LwC2ItAVtfkDhcE9jvpT", null, null, null, null, null, null, null);
-    let submissao = new Submissao(null, this.editorCodigo.codigo, estudante, questao)
-
-    let tutor = new Tutor(submissao);
     submissao.save().subscribe(resultado => {
+      let tutor = new Tutor(submissao);
       tutor.analisar();
 
       tutor.salvarErros().subscribe(resultados => {
         if (tutor.hasErrors()) {
           this.prepararMensagemErros(tutor.erros);
-          this.uploadCodigo = false;
+          this.pausaIde = false;
         } else {
 
           let _this = this;
 
           setTimeout(function () {
-            _this.uploadCodigo = false;
+            _this.pausaIde = false;
           }, 10000)
 
           let httpOptions = {
@@ -111,39 +157,38 @@ export class EditorProgramacaoComponent implements OnInit {
               'Content-Type': 'application/json'
             })
           }
+          // TODO: definir um timedout para, caso a requisiçõa não tenha uma resposta, interromper a execução.
 
-          // TODO: pegar usuário logado
-
-
-
-          // TODO: definir um timedout
-
-          this.http.post<any>("http://127.0.0.1:8000/codigo/", submissao.objectToDocument(), httpOptions).subscribe(resposta => {
+          this.http.post<any>("http://127.0.0.1:8000/codigo/", submissao.objectToDocument(), httpOptions).subscribe(resposta => { // TODO: mudar o endereço para o real
 
 
 
             let consultas = []
-            this.resultadosTestsCases = []
-            for (let i = 0; i < resposta.resultados.length; i++) {
-              let consulta = ResultadoTestCase.get(resposta.resultados[i].id);
-              consultas.push(consulta);
+            ResultadoTestCase.saveAll(resposta.resultados).subscribe(resultados=>{
+              
+              /*resultados.forEach(resultado=>{
+                this.questao.testsCases.forEach(testCase=>{
+                  if(resultado.testCase.pk() == testCase.pk()){
+                    resultado.testCase = testCase;
+                  }
+                })
+                
+              })
 
-            }
+              this.resultadosTestsCases = resultados;*/
 
-            forkJoin(consultas).subscribe(resultados => {
-
-              for (let i = 0; i < resultados.length; i++) {
-                this.resultadosTestsCases.push(resultados[i]);
-              }
+              this.submissao = submissao;
             })
+
           }, err => {
             console.log(err); // TODO jogar em variável
           }, () => {
-            _this.uploadCodigo = false;
+            _this.pausaIde = false;
           })
         }
       })
     })
+
   }
 
   prepararStatus(status) {
@@ -154,16 +199,16 @@ export class EditorProgramacaoComponent implements OnInit {
       this.statusExecucao = textoStatus + "<span class='statusSucesso'>Sucesso</span>";
   }
 
-  atualizarLinhaEditor(linha){
+  atualizarLinhaEditor(linha) {
     this.editorCodigo.limparCores();
     this.editorCodigo.destacarLinha(linha, "possivelSolucao");
   }
 
-  
-  visualizarExecucacao(){
+
+  visualizarExecucacao() {
 
     this.editorCodigo.codigo.setAlgoritmo(editor.getValue());
-    let submissao = new Submissao(null, this.editorCodigo.codigo.algoritmo, Usuario.getUsuarioLogado(), this.questao)
+    let submissao = this.prepararSubmissao();
 
     let httpOptions = {
       headers: new HttpHeaders({
@@ -179,12 +224,12 @@ export class EditorProgramacaoComponent implements OnInit {
       let jsonTrace = JSON.parse(resposta);
       this.traceExecucao = jsonTrace;
       this.modoVisualizacao = true;
-    }, err=>{
-      alert("O código apresenta erros de sintaxe:"+err.error.erro) // TODO: melhorar isso.
+    }, err => {
+      alert("O código apresenta erros de sintaxe:" + err.error.erro) // TODO: melhorar isso.
     });
   }
 
-  voltarParaModoExecucao(){
+  voltarParaModoExecucao() {
     this.editorCodigo.limparCores();
     this.modoVisualizacao = false;
   }

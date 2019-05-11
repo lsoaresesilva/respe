@@ -26,12 +26,28 @@ export class CadastroPlanejamentoComponent implements OnInit {
     private router: Router,
   ) { 
     // TODO: carregar do login
-    this.planejamento = new Planejamento(null,Usuario.getUsuarioLogado(),null,0,"",0,"");
+    this.planejamento = new Planejamento(null,Usuario.getUsuarioLogado(),null,0,"",0,"", false);
+  }
+
+  prepararAssuntos(assuntos){
+    let opcoesAssuntos =[
+      {label:'Selecione uma dificuldade', value:null},
+    ];
+
+    assuntos.forEach(assunto => {
+      opcoesAssuntos.push({label:assunto.nome, value:assunto});
+    });
+
+    return opcoesAssuntos;
+
   }
 
   ngOnInit() {
     
-    Assunto.getAll().subscribe(assuntos=>{this.assuntos= assuntos});
+    Assunto.getAll().subscribe(assuntos=>{
+
+      this.assuntos = this.prepararAssuntos(assuntos)
+    });
 
     this.dificuldades=[
       {label:'Selecione uma dificuldade', value:null},
@@ -42,7 +58,7 @@ export class CadastroPlanejamentoComponent implements OnInit {
   }
 
   cadastrarPlanejamento(){
-    if(this.planejamento){
+    if(this.planejamento.validar()){
       this.planejamento.save().subscribe(resultado=>{
 
         this.router.navigate(["main", { outlets: { principal: ['listagem-planejamento'] } }])
@@ -52,9 +68,11 @@ export class CadastroPlanejamentoComponent implements OnInit {
       // this.messageService.add({severity:'Erro', summary: 'Error Message', detail:'Algo inesperado aconteceu, tente novamente mais tarde.'});
       });
     }else{
-      // this.messageService.add({severity:'Campos Vazios', summary: 'Warn Message', detail:'Preencha todos os campos se quiser realizar salvar o planejamento'});
+      alert('Preencha todos os campos se quiser realizar salvar o planejamento'); // TODO: usar o message service
     }
   }
+
+  
 
 
 

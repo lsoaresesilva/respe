@@ -82,7 +82,7 @@ class Juiz():
                         # TODO: verificar se há erro no código
                         try:
                             erro = ErroProgramacao(msgRetornoAlgoritmo)
-                            if erro.possuiErroExecucao():
+                            if erro.possuiErroExecucao(msgRetornoAlgoritmo):
                                 raise JuizError(
                                     "O código apresentou o seguinte erro '"+erro.tipo+"' na linha "+erro.linha)
                         except ErroProgramacaoError:  # Não há erro, verificar o resultado test de testcase normalmente
@@ -104,7 +104,7 @@ class Juiz():
             else:
                 raise JuizError("O arquivo de código não foi encontrado.")
 
-        self.salvarResultados(resultados)
+        # self.salvarResultados(resultados) # migrou para o frontend que será responsável por salvar tudo
 
         return resultados
 

@@ -1,3 +1,15 @@
+/**
+ * O editor de programação exige que o código salvo seja um array, mas no BD é salvo como string. Faz a conversão neste método
+ * @param  codigo 
+ */
+function prepararCodigo(codigo){
+    if(codigo != undefined || codigo != ""){
+        return [codigo];
+    }else{
+        return [""];
+    }
+}
+
 // TODO: usar Observable para disparar quando o editor estiver pronto. Assim o model Editor pode ter acesso à instância do mônico quando ela estiver pronta.
 function carregarIde(readOnly, callback=null, instance=null, codigo){
 
@@ -8,13 +20,15 @@ function carregarIde(readOnly, callback=null, instance=null, codigo){
             //document.getElementById("body").appendChild(appRoot);
             if(document.getElementById('container') != undefined){
                 editor = monaco.editor.create(document.getElementById('container'), {
-                value: codigo.join('\n'),
+                value: prepararCodigo(codigo).join('\n'),
                 language: 'python',
                 readOnly:readOnly
 
             });
 
-            // TODO: modificar para colocar em outra função exclusiva de comentário
+
+
+            // TODO: modificar para colocar em outra função exclusiva de comentário e só aparecer para comentários
             var div = document.getElementById('iconeNovoComentario');
             editorElement = document.getElementById('container');
             div.style.left = (editorElement.offsetLeft+1)+"px";

@@ -25,7 +25,7 @@ export default class Usuario extends Document{
 
     static getUsuarioLogado() {
         if( Usuario.isUsuarioLogado() ){
-            let json = JSON.parse(localStorage.getItem("usuario"));
+            let json = JSON.parse(sessionStorage.getItem("usuario"));
             if(json.id != undefined && json.perfil != undefined){
                 let usuario = new Usuario(json.id, null, null, json.perfil);
                 return usuario;
@@ -43,23 +43,25 @@ export default class Usuario extends Document{
         return new Observable(observer=>{
                 Usuario.getAll([new Query("email", "==", usuario.email), new Query("senha", "==", usuario.senha)]).subscribe(resultado=>{
                     if(resultado.length > 0){
-                        localStorage.setItem('usuario', JSON.stringify({id:resultado[0].id, perfil:resultado[0].perfil}));
+                        sessionStorage.setItem('usuario', JSON.stringify({id:resultado[0].id, perfil:resultado[0].perfil}));
                         observer.next(true);
                         observer.complete();
                     }else{
                         observer.next(false);
                         observer.complete();
                     }
+                }, err=>{
+                    alert("Erro ao tentar realizar login: "+err.toString());
                 });
         });
     }
 
     static isUsuarioLogado() {
-        return localStorage.getItem("usuario") != undefined ? true : false;
+        return sessionStorage.getItem("usuario") != undefined ? true : false;
     }
 
     static logout(){
-        localStorage.removeItem("usuario");
+        sessionStorage.removeItem("usuario");
         return true;
     }
 

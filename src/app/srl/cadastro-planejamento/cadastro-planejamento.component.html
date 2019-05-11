@@ -1,23 +1,23 @@
 <div class="p-grid">
   <div class="p-col-1"></div>
   <div class="p-col-11">
-    <h2>Planeje O Seu Estudo</h2>
+    <h2>Planeje o seu estudo</h2>
   </div>
 </div>
 
 <div class="p-grid">
   <div class="p-col-1"></div>
-  <div class="p-col-2">
+  <div class="p-col-4">
     Escolha abaixo o assunto que pretende estudar.
   </div>
   <div class="p-col-6">
-    <p-dropdown [options]="assuntos" [(ngModel)]="planejamento.assunto" optionLabel="nome"></p-dropdown>
+    <p-dropdown [options]="assuntos" [(ngModel)]="planejamento.assunto"></p-dropdown>
   </div>
 </div>
 
 <div class="p-grid">
   <div class="p-col-1"></div>
-  <div class="p-col-2">
+  <div class="p-col-4">
     Quanto tempo (em horas) semanalmente você irá dedicar ao estudo?
   </div>
   <div class="p-col-1">
@@ -31,7 +31,7 @@
 
 <div class="p-grid">
   <div class="p-col-1"></div>
-  <div class="p-col-2">
+  <div class="p-col-4">
     Por que você considera esse assunto importante no aprendizado de programação?
   </div>
   <div class="p-col-6"> <textarea [rows]="5" [cols]="50" pInputTextarea autoResize="autoResize"
@@ -40,7 +40,7 @@
 
 <div class="p-grid">
   <div class="p-col-1"></div>
-  <div class="p-col-2">
+  <div class="p-col-4">
     Como você avalia a dificuldade desse assunto?
   </div>
   <div class="p-col-6"><p-dropdown [options]="dificuldades" [(ngModel)]="planejamento.dificuldadeConteudo"></p-dropdown></div>
@@ -49,8 +49,8 @@
 
 <div class="p-grid">
   <div class="p-col-1"></div>
-  <div class="p-col-2">
-    Como você pretende estudar?
+  <div class="p-col-4">
+    Como você pretende estudar? <!-- TODO: fazer hints-->
   </div>
   <div class="p-col-6"><textarea [rows]="5" [cols]="50" pInputTextarea autoResize="autoResize"
     [(ngModel)]="planejamento.estrategiaRealizacaoEstudo"></textarea></div>

@@ -20,7 +20,7 @@ export class MainComponent implements OnInit {
     this.itens = [
       {
         label: 'Planejamento',
-        command: () => { this.router.navigate(["main", { outlets: { principal: ['cadastro-planejamento'] } }]) }
+        command: () => { this.router.navigate(["main", { outlets: { principal: ['listagem-planejamento'] } }]) }
 
       },
       {

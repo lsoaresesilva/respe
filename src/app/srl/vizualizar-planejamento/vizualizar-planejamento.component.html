@@ -1,0 +1,53 @@
+<h1>{{assunto.nome}}</h1>
+
+<h3>Seu progresso:</h3>
+
+<p-progressBar [value]="progresso"></p-progressBar>
+
+<p>
+    Você sabia? Para se dar bem nesse assunto você 
+    precisa de: .
+</p>
+<p>
+    Os objetivos educacionais desse assunto são: .
+</p>
+
+<h3>Materiais de estudo</h3>
+
+<p-table [value]="materialDeEstudo">
+    <ng-template pTemplate="header">
+        <tr>
+            <th>Nome</th>
+            <th>Concluído</th>
+        </tr>
+    </ng-template>
+    <ng-template pTemplate="body" let-material>
+        <tr>
+            <!--
+                Rever essa parte pq por algum motivo ele não está
+                seguindo para o link
+            -->
+            <td><a href="material.link">{{material.nome}}</a></td>
+            <td>
+                <p-checkbox [(ngModel)]="material.concluido" binary="true"></p-checkbox>
+            </td>
+        </tr>
+    </ng-template>
+</p-table>
+
+<h3>Atividades</h3>
+
+<p-table [value]="questoes">
+    <ng-template pTemplate="header">
+        <tr>
+            <th>Nome</th>
+            <th>Status</th>
+        </tr>
+    </ng-template>
+    <ng-template pTemplate="body" let-questao>
+        <tr>
+            <td><a (click)="responderQuestao(questao)">{{questao.nomeCurto}}</a></td>
+            <td></td>
+        </tr>
+    </ng-template>
+</p-table>

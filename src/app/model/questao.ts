@@ -75,6 +75,7 @@ export class Questao extends Document {
   }
 
   static get(id) {
+    console.log("get de questão")
     return new Observable(observer => {
       super.get(id).subscribe(questao => {
         let consultas = {}
@@ -112,6 +113,7 @@ export class Questao extends Document {
   }
 
   static getAll(query: Query = null): Observable<any[]> {
+    console.log("get all de questão")
     return new Observable(observer => {
       super.getAll(query).subscribe(questoes => {
         /*let assuntosQuestoes = {}

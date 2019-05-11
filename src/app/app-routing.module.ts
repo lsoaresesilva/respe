@@ -19,6 +19,8 @@ import { CadastrarTurmaComponent } from './juiz/cadastrar-turma/cadastrar-turma.
 import { ListarTurmaComponent } from './juiz/listar-turma/listar-turma.component';
 
 import { VisualizarExecucacao } from './juiz/vizualizar-execucao/vizualizar-execucao.component';
+import { ListarPlanejamentosComponent } from './srl/listar-planejamentos/listar-planejamentos.component';
+import { VisualizarPlanejamentoComponent } from './srl/vizualizar-planejamento/visualizar-planejamento.component';
 
 
 const routes: Routes = [
@@ -26,8 +28,9 @@ const routes: Routes = [
     {path:"editor/:id", component:EditorProgramacaoComponent, outlet:"principal"},
     {path:"comentario-codigo/:id", component:ComentariosCodigoComponent, outlet:"principal"},
     {path:"visualizarConteudo", component:VisualizarConteudoComponent, outlet:"principal"},
-    {path:"srl-cadastro-planejamento", component:CadastroPlanejamentoComponent, canActivate: [AuthGuard], canLoad: [AuthGuard], outlet:"principal"},
-    {path:"srl-listagem-planejamento", component:CadastroPlanejamentoComponent, canActivate: [AuthGuard], canLoad: [AuthGuard], outlet:"principal"},
+    {path:"visualizacao-planejamento/:id", component:VisualizarPlanejamentoComponent, canActivate: [AuthGuard], canLoad: [AuthGuard], outlet:"principal"},
+    {path:"cadastro-planejamento", component:CadastroPlanejamentoComponent, canActivate: [AuthGuard], canLoad: [AuthGuard], outlet:"principal"},
+    {path:"listagem-planejamento", component:ListarPlanejamentosComponent, canActivate: [AuthGuard], canLoad: [AuthGuard], outlet:"principal"},
     {path:"srl-autoreflexao/:id", component:AutoReflexaoComponent, canActivate: [AuthGuard], canLoad: [AuthGuard], outlet:"principal"},
     {path:"cadastro-questao", component:CadastrarQuestoesComponent, canActivate: [AuthGuard], canLoad: [AuthGuard], outlet:"principal"},
     {path:"atualizacao-questao/:id", component:CadastrarQuestoesComponent, canActivate: [AuthGuard], canLoad: [AuthGuard], outlet:"principal"},

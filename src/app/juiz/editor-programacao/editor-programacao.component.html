@@ -51,7 +51,7 @@
 
   </div>
   <div class="p-col-6" *ngIf="modoVisualizacao==false">
-    <app-visualizar-testes [resultados]="resultadosTestsCases"></app-visualizar-testes>
+    <app-visualizar-testes [testsCases]="questao.testsCases" [submissao]= "submissao"></app-visualizar-testes>
   </div>
 
   <div class="p-col-3">

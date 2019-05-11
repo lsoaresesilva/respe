@@ -1,6 +1,5 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { PlanejamentoService } from './planejamento.service';
 import { SelfInstructionComponent } from './self-instruction/self-instruction.component';
 import {BrowserAnimationsModule} from '@angular/platform-browser/animations';
 import { BrowserModule } from '@angular/platform-browser';
@@ -19,6 +18,10 @@ import {TabViewModule} from 'primeng/tabview';
 import { PaginaNaoEncontradaComponent } from './pagina-nao-encontrada/pagina-nao-encontrada.component';
 import { RiscoEstudanteComponent } from '../analytics-module/risco-estudante/risco-estudante.component';
 import {ProgressBarModule} from 'primeng/progressbar';
+import { ListarPlanejamentosComponent } from './listar-planejamentos/listar-planejamentos.component';
+import { VisualizarPlanejamentoComponent } from './vizualizar-planejamento/visualizar-planejamento.component';
+import { RouterModule } from '@angular/router';
+import { CheckboxModule } from 'primeng/primeng';
 
 @NgModule({
   declarations: [
@@ -26,10 +29,13 @@ import {ProgressBarModule} from 'primeng/progressbar';
     CadastroPlanejamentoComponent,
     AutoReflexaoComponent,
     PaginaNaoEncontradaComponent,
-    RiscoEstudanteComponent
+    RiscoEstudanteComponent,
+    ListarPlanejamentosComponent,
+    VisualizarPlanejamentoComponent
   ],
   imports: [
     CommonModule,
+    CheckboxModule,
     BrowserModule,
     BrowserAnimationsModule,
     FormsModule,
@@ -43,8 +49,9 @@ import {ProgressBarModule} from 'primeng/progressbar';
     TabViewModule,
     ButtonModule,
     ToastModule,
+    RouterModule
   ],
-  providers:[PlanejamentoService],
+  providers:[],
   exports:[RiscoEstudanteComponent]
 
 })

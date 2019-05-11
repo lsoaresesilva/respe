@@ -2,22 +2,22 @@
   <ng-template pTemplate="header">
       <tr>
           <th>#</th>
-          <th>Resultado</th>
           <th>Entradas</th>
           <th>Saída esperada</th>
+          <th>Concluído</th>
           <th>Resposta do algoritmo</th>
       </tr>
   </ng-template>
   <ng-template pTemplate="body" let-resultadoTestCase let-i="rowIndex">
       <tr>
           <td>{{i+1}}</td>
+          <td>{{testCase.entradas}}</td>
+          <td>{{testCase.saida}}</td>
           <td><span [ngClass]="{
             'statusSucesso': resultadoTestCase.status,
             'statusErro': !resultadoTestCase.status
-          }">{{resultadoTestCase.status == true?"Sucesso":"Falha"}}</span></td>
-          <td>{{resultadoTestCase.testCase.entradas}}</td>
-          <td>{{resultadoTestCase.testCase.saida}}</td>
-          <td>{{resultadoTestCase.respostaAlgoritmo}}</td>
+          }">{{getResultado(testCase).status == true?"Sucesso":"Falha"}}</span></td>
+          <td>{{getResultado(testCase).respostaAlgoritmo}}</td>
       </tr>
   </ng-template>
 </p-table>

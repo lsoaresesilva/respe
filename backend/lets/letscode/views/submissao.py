@@ -30,21 +30,19 @@ class SubmissaoView(APIView):
         
 
         try:
-            # TODO: verificações para ver se o JSON é válido
+            
             if self.submissaoRequestValid(request):
+                # TODO: receber via JSON do frontend
                 testsCases = TestCase.listAllByQuery(Query("questaoId", "==", request.data["questaoId"]))
                 
                 questao = Questao(request.data["questaoId"], testsCases)
-                submissao = Submissao(None, request.data["algoritmo"], Estudante(request.data["estudanteId"], None), questao)
+                submissao = Submissao(request.data["id"], request.data["codigo"], Estudante(request.data["estudanteId"], None), questao)
 
-                # TODO: o que fazer se a verificação for falsa?
-                if submissao.save():
-                    
-                    juiz = Juiz(submissao)
-                    arquivo = ArquivoSubmissao(submissao.codigo)
-                    submissao.resultadosTestsCases = juiz.executarTestes(arquivo)
-                    arquivo.apagarArquivo()
-                    return JsonResponse(submissao.toJson(), safe=False, status=status.HTTP_201_CREATED)
+                juiz = Juiz(submissao)
+                arquivo = ArquivoSubmissao(submissao.codigo)
+                submissao.resultadosTestsCases = juiz.executarTestes(arquivo)
+                arquivo.apagarArquivo()
+                return JsonResponse(submissao.toJson(), safe=False, status=status.HTTP_201_CREATED)
             
         except Exception as exception:
             return JsonResponse({"erro":str(exception)}, safe=False, status=status.HTTP_500_INTERNAL_SERVER_ERROR)    
@@ -52,7 +50,7 @@ class SubmissaoView(APIView):
 
     # TODO: deslocar isto para um model.
     def submissaoRequestValid(self, request):
-        if request.data["questaoId"] != None and request.data["questaoId"] != "" and request.data["algoritmo"] != None and request.data["algoritmo"] != "" and request.data["estudanteId"] != None and request.data["estudanteId"] != "":
+        if request.data["id"] != None and request.data["questaoId"] != None and request.data["questaoId"] != "" and request.data["codigo"] != None and request.data["codigo"] != "" and request.data["estudanteId"] != None and request.data["estudanteId"] != "":
             return True
 
         return False
