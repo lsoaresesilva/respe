@@ -72,7 +72,6 @@ else:
   #print(args[0])
   # TODO: usar o texto
   fin = sys.stdin if args[0] == "-" else open(args[0])
-  print()
   if options.js_varname:
     JS_VARNAME = options.js_varname
     print(pg_logger.exec_script_str_local(fin.read(), options.raw_input_lst_json, options.cumulative, options.heapPrimitives, js_var_finalizer))

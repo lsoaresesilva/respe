@@ -26,23 +26,40 @@ class Juiz():
         if type(self.submissao) == Submissao and type(self.submissao.questao) != Questao:
             raise JuizError("Uma questão precisa ser informada")
 
-    def executarVisualizacao(self, arquivo):
-        self.isQuestaoValida()
+    # Formata os inputs que serão utilizados na visualização do algoritmo.
+    def prepararInputs(self, entradas):
         inputs = ""
-        jsonTrace = ""
-
-        teste = self.submissao.questao.testsCases[0]
-        if teste != None:
-            for entrada in teste.entradas:
+        
+        for entrada in entradas:
+            # Verificar se é um número
+            numeroApenas = re.search("^[0-9]*$", entrada)
+            if numeroApenas != None:
                 inputs += entrada+","
+            else:
+                inputs += '"'+entrada+'"'+','
 
         inputs = inputs[:-1] # remove a , que foi acrescentada a mais.
+
+        return "'["+inputs+"]'"
+
+
+    def executarVisualizacao(self, arquivo):
+        self.isQuestaoValida()
+        
+        jsonTrace = ""
+
+        
+        teste = self.submissao.questao.testsCases[0]
+        if teste != None:
+            inputs = self.prepararInputs(teste.entradas)
+        # TODO: colocar tudo dentro do if, se n tiver teste, n tem como visualizar.
 
         if arquivo.is_arquivo_valido():
             if self.matchInputCodigo(teste.entradas):
                 path = os.path.dirname(os.path.realpath(__file__))
                 path = path+'/pythontutor/generate_json_trace.py'
-                child = pexpect.spawn('python3 '+path+' '+arquivo.nome()+' -i ['+inputs+']') #BUG: tem de recuperar o dir do projeto.. para poder executar
+                comando = 'python3 '+path+' '+arquivo.nome()+' -i '+inputs
+                child = pexpect.spawn('python3 '+path+' '+arquivo.nome()+' -i '+inputs) #BUG: tem de recuperar o dir do projeto.. para poder executar
                 child.expect(pexpect.EOF)
                 jsonTrace = child.before.decode("utf-8")
                 erro = ErroProgramacao(jsonTrace)

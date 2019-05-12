@@ -176,12 +176,12 @@ export class EditorProgramacaoComponent implements OnInit {
               })
 
               this.resultadosTestsCases = resultados;*/
-
+              this.erroLinguagemProgramacao = "";
               this.submissao = submissao;
             })
 
           }, err => {
-            console.log(err); // TODO jogar em variável
+            this.prepararMensagemExceptionHttp(err);
           }, () => {
             _this.pausaIde = false;
           })
@@ -189,6 +189,14 @@ export class EditorProgramacaoComponent implements OnInit {
       })
     })
 
+  }
+
+  prepararMensagemExceptionHttp(erro){
+    if(erro.name == "HttpErrorResponse" && erro.status == undefined){
+      this.erroLinguagemProgramacao = "O servidor está fora do ar."
+    }else if(erro.status == 500 && erro.error != undefined){
+      this.erroLinguagemProgramacao = erro.error.erro;
+    }
   }
 
   prepararStatus(status) {
@@ -224,8 +232,9 @@ export class EditorProgramacaoComponent implements OnInit {
       let jsonTrace = JSON.parse(resposta);
       this.traceExecucao = jsonTrace;
       this.modoVisualizacao = true;
+      this.erroLinguagemProgramacao = "";
     }, err => {
-      alert("O código apresenta erros de sintaxe:" + err.error.erro) // TODO: melhorar isso.
+      this.prepararMensagemExceptionHttp(err);
     });
   }
 
