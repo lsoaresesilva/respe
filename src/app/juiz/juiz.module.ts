@@ -30,10 +30,13 @@ import {AutoCompleteModule} from 'primeng/autocomplete';
 import {ToastModule} from 'primeng/toast';
 import {InputTextModule} from 'primeng/inputtext';
 import { VisualizarExecucacao } from './vizualizar-execucao/vizualizar-execucao.component';
+import { CadastrarAssuntosComponent } from './cadastrar-assuntos/cadastrar-assuntos.component';
+import { ListarAssuntosComponent } from './listar-assuntos/listar-assuntos.component';
+import { VisualizarAssuntoComponent } from './visualizar-assunto/visualizar-assunto.component';
 
 
 @NgModule({
-  declarations: [VisualizarTestesComponent, CadastrarQuestoesComponent, CadastrarTesteCaseComponent, ListarQuestoesComponent, DadosQuestaoComponent, EditorProgramacaoComponent, EditorProgramacaoComponent, CadastrarEstudantesComponent, ListarEstudantesComponent, CadastrarTurmaComponent, ListarTurmaComponent, VisualizarExecucacao],
+  declarations: [VisualizarTestesComponent, CadastrarQuestoesComponent, CadastrarTesteCaseComponent, ListarQuestoesComponent, DadosQuestaoComponent, EditorProgramacaoComponent, EditorProgramacaoComponent, CadastrarEstudantesComponent, ListarEstudantesComponent, CadastrarTurmaComponent, ListarTurmaComponent, VisualizarExecucacao, CadastrarAssuntosComponent, ListarAssuntosComponent, VisualizarAssuntoComponent],
 
   imports: [
     CommonModule,

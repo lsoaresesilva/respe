@@ -1,0 +1,21 @@
+<p-toast></p-toast>
+<p>Informações desse assunto</p>
+ <p-table [value]="assuntos" >
+    <ng-template pTemplate="header">
+    </ng-template>
+    <ng-template pTemplate="body"  let-assunto>
+        <tr>
+            <td><b>Nome</b></td>
+            <td>{{assunto.nome}}</td>
+        </tr>
+    </ng-template>
+</p-table> 
+<p-contextMenu #cm [model]="items"></p-contextMenu>   
+
+
+
+
+
+
+
+

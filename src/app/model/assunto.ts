@@ -57,6 +57,15 @@ export class Assunto extends Document {
         });
     }
 
+
+    validar() {
+        if (this.nome == undefined || this.nome == null ) {
+          return false;
+        }
+    
+        return true;
+    }
+
     // TODO: pegar somente o que for do usuário logado
     static percentualConclusaoQuestoes(assunto: Assunto, usuario):Observable<number> {
         // Pegar todas as questões de um assunto
