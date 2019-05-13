@@ -11,7 +11,9 @@ import Usuario from './usuario';
 export class Assunto extends Document {
 
 
-    constructor(id, public nome, public preRequisitos: Assunto[], public objetivosEducacionais, materialEstudo: MaterialEstudo[]) {
+    constructor(id, public nome
+        // public preRequisitos: Assunto[], public objetivosEducacionais, materialEstudo: MaterialEstudo[]
+        ) {
         super(id);
     }
 

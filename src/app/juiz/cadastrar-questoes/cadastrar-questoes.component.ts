@@ -19,7 +19,11 @@ export class CadastrarQuestoesComponent implements OnInit {
   questao;
   dificuldades: SelectItem[];
   assuntos;
+   
 
+    assuntos2: string[] = ['', 'variaveis','array','Finance'];
+
+    
 
   constructor(private router: Router, private activatedRoute: ActivatedRoute) {
     // private messageService: MessageService,
@@ -41,8 +45,8 @@ export class CadastrarQuestoesComponent implements OnInit {
       });
 
 
-    Assunto.getAll().subscribe(assuntos => { this.assuntos = assuntos });
-
+    Assunto.getAll().subscribe(assuntos => { this.assuntos = assuntos});
+   
 
     this.dificuldades = [
       { label: 'Selecione uma dificuldade', value: null },
@@ -50,12 +54,7 @@ export class CadastrarQuestoesComponent implements OnInit {
       { label: 'intermediário', value: Dificuldade.medio },
       { label: 'Facíl', value: Dificuldade.facil },
     ];
-    this.assuntos = [
-      { label: 'selecione o assunto principal', value: null }
-    ]
-
-
-
+    
 
   }
 
@@ -71,7 +70,7 @@ export class CadastrarQuestoesComponent implements OnInit {
     
       this.questao.assuntos = this.questao.assuntos.map(assunto =>{
         if(typeof assunto === "string")
-          return new Assunto(assunto, null, null, null, null)
+          return new Assunto(assunto, null)
         return assunto;
       } )
 

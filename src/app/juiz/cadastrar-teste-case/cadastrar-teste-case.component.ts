@@ -1,6 +1,7 @@
 import { Component, OnInit, Input } from '@angular/core';
 import TestCase from 'src/app/model/testCase';
 import { TestesCasesService } from '../testes-cases.service';
+import { MenuItem, MessageService } from 'primeng/api';
 
 @Component({
   selector: 'app-cadastrar-teste-case',
@@ -10,42 +11,64 @@ import { TestesCasesService } from '../testes-cases.service';
 export class CadastrarTesteCaseComponent implements OnInit {
   @Input("testCase")
   testeCase:TestCase;
-  temTesteCase=false;
-  entrada:string ="";
+  entrada:string ;
+  selectedEntrada: String;
+  items: MenuItem[];
+  
 
 
 
-  constructor() { }
+
+  constructor(private messageService: MessageService) { }
+
+
 
   ngOnInit() {
-    //this.testeCase = new TestCase(null,[],null, );
+    this.items = [
+      { label: 'Apagar', icon: 'pi pi-times', command: (event) => this.retirarTestCase(this.selectedEntrada) }
+    ];
   }
    
-  addMaisTesteCase(){
-    this.temTesteCase=true;
-    this.testeCase.entradas.push(this.entrada);
-    for(let i=0;i<this.testeCase.entradas.length;i++)
-    {console.log("na posição " +i+ "o elemento é = "+ this.testeCase.entradas[i]);
+
+
+  addTestCase(){
+    if(this.testeCase.validarEntrada(this.entrada)){
+      this.testeCase.entradas.push(this.entrada);
+      this.entrada=null;
+
+    }else {
+      this.messageService.add({ severity: 'info', summary:"Teste Case indefinido", detail: "Teste case não pode ser vazio" });
+     
     }
-    this.entrada="";
   }
 
+  retirarTestCase(entrada: String) {
+    let index = -1;
+     for(let i=0;i<this.testeCase.entradas.length;i++) {
+       if (this.testeCase.entradas[i] == entrada) {
+         index = i;
+         break;
+       }
+     }
+   this.testeCase.entradas.splice(index, 1);
+   this.messageService.add({ severity: 'info', summary:"Entrada retirado", detail: "Essa entrada não existe mais" });
+   }
+
+
   cadastrarTesteCase(){
-   console.log("Array = "+this.testeCase.entradas +"   "+ "saida = "+this.testeCase.saida);
-    console.log(this.testeCase);
-     if(this.testeCase){
+    if (this.testeCase.validar()) {
        this.testeCase.save().subscribe(resultado=>{
-         console.log("cadastrado");
-         console.log(this.testeCase.entradas);
+      this.messageService.add({ severity: 'success', summary:"Test Case cadastrado", detail: "Esse test Case foi incluído na questão" });
+        
      }, err=>{
-       console.log("deu erro")
+      this.messageService.add({ severity: 'error', summary:"teste Case inválido", detail: "Esse teste Case não foi cadastrado" });
        
        });
      }else{
-       console.log("vazio")
+      this.messageService.add({ severity: 'error', summary:"teste Case vazio", detail: "Esse teste Case foi negado" });
      }
    }
  
 
-
+ 
 }

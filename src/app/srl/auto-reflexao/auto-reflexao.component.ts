@@ -27,7 +27,7 @@ export class AutoReflexaoComponent implements OnInit {
     this.route.params.subscribe(params=>{
       if(params["id"] != undefined){
         
-        this.assunto = new Assunto(params["id"], null, null, null, null);
+        this.assunto = new Assunto(params["id"], null);
       }else{
         this.msgs.push({ severity: 'error', summary: 'Erro', detail: 'Não é possível iniciar uma autoreflexão sem informar um assunto.' });
       }
