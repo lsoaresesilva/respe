@@ -97,12 +97,14 @@ export default class ErroSintaxeVariavel extends ErroSintaxe{
         for (let i = 0; i < linhasCodigo.length; i++) {
             // =[\s.]*[^0-9\"\'][a-zA-z0-9(]*
             let resultado = undefined
-            // SE tiver () ou os sinais de operação então deve removê-los para restar apenas as variáveis
+            
+            // SE tiver sinais de operação +, -, * e / deve dividir a setença
             resultado = linhasCodigo[i].match(/=[\s.]*(?:\(|\+|\-|\/|\*)/);
             if(resultado != undefined && resultado.length > 0){
                 let linhaCodigo = linhasCodigo[i]
                 let atribuicao = linhaCodigo.match(/=[\s.]*(.*)/);
                 if(atribuicao != undefined && atribuicao.length > 0){
+                    // SE tiver () ou os sinais de operação então deve removê-los para restar apenas as variáveis
                     // deve remover os (
                         atribuicao[1] = atribuicao[1].replace(/\(/, "")
                         atribuicao[1] = atribuicao[1].replace(/\)/, "")
@@ -118,15 +120,16 @@ export default class ErroSintaxeVariavel extends ErroSintaxe{
                         })
                 }
             }else{
-                // SE tiver sinais de operação +, -, * e / deve dividir a setença
+                
 
-                resultado = linhasCodigo[i].match(/=[\s.]*(?![0-9\"\',])[a-zA-z0-9(]*/);
+                resultado = linhasCodigo[i].match(/=[\s.]*(?![0-9\"\',\[])[a-zA-z0-9(]*/);
 
                 if (resultado != undefined && resultado.length > 0) {
-                    // se tiver input então ignora
+                    
 
                     let nomeVariavel = resultado[0].replace(/=\s*/, "");
                     if (nomeVariavel != "") { // a REGEX retorna =\s, assim ao fazer o replace acima sobra vazio
+                        // se tiver input então ignora
                         if (nomeVariavel.search(/input\(/) == -1) {
                             
                             
