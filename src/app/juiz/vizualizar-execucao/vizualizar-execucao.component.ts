@@ -15,7 +15,7 @@ export class VisualizarExecucacao implements OnInit {
   constructor() { }
 
   linhaAtual = 0 ;
-  sequenciaExecucao = 0; // usado para percorrer o array de traces
+  sequenciaExecucao = -1; // usado para percorrer o array de traces
   linha:Linha[] = [{event:null,func_name:null,globals:null,heap:null,line:null,ordered_globals:null,stack_to_render:null,stdout:null}] // informações sobre a linha atual em execução
 
   ngOnInit() {
@@ -24,19 +24,26 @@ export class VisualizarExecucacao implements OnInit {
   }
 
   visualizar(sequencia){
-    let linhaEmExecucao = this.traceExecucao.trace[this.sequenciaExecucao].line;
-    if(linhaEmExecucao != undefined){
-      this.linhaAtual = linhaEmExecucao
-      if(sequencia == "++")
+    if(sequencia == "++")
         this.sequenciaExecucao++;
-      else
+    else
         this.sequenciaExecucao--;
+    let linhaEmExecucao = this.traceExecucao.trace[this.sequenciaExecucao].line;
+    if(this.traceExecucao.trace[this.sequenciaExecucao].event != "return" && linhaEmExecucao != undefined){
+      this.linhaAtual = linhaEmExecucao
+      
       this.atualizar();
     }
   }
 
   atualizar(){
-    this.linha[0]=this.traceExecucao.trace[this.sequenciaExecucao];
-    this.mudancaLinha.emit(this.linhaAtual);
+    if(this.sequenciaExecucao >= 0){
+      this.linha[0]=this.traceExecucao.trace[this.sequenciaExecucao];
+      this.mudancaLinha.emit(this.linhaAtual);
+    }else{
+      this.linha[0] = this.traceExecucao.trace[0];
+      this.mudancaLinha.emit(0);
+    }
+    
   }
 }

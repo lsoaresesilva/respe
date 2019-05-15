@@ -1691,7 +1691,6 @@ def exec_script_str_local(script_str, raw_input_lst_json, cumulative_mode, heap_
   input_string_queue = []
   if raw_input_lst_json:
     # TODO: if we want to support unicode, remove str() cast
-    #raw_input_lst_json = '["quatro", "cinco"]'
     input_string_queue = [str(e) for e in json.loads(raw_input_lst_json)] # TODO: erro aqui!
 
   try:
