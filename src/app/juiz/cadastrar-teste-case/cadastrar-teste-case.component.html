@@ -1,14 +1,26 @@
 <h1 class="first">Teste Case</h1> <br /> <br />
 
 <h3 class="first">Entrada</h3>
-<input id="nomeCurto" type="text" [(ngModel)]="entrada" /> <br>
-<button pButton type="button" label="Adicionar" (click)='addMaisTesteCase()'></button> <br /><br />
+<input id="Entrada" type="text" [(ngModel)]="entrada" /> <br>
+<button pButton type="button" label="Adicionar" (click)='addEntrada()'></button> <br /><br />
 
-<div *ngIf="temTesteCase">
-  <h4>Entradas atribuídas:</h4>
-  <div *ngFor="let entrada of testeCase.entradas">{{entrada}}</div>
-</div>
+
+<p-table [value]="testeCase.entradas" [(contextMenuSelection)]="selectedEntrada" [contextMenu]="cm">
+    <ng-template pTemplate="header">
+        <tr>
+          <th>Entradas do TestCase</th>
+
+        </tr>
+    </ng-template>
+    <ng-template pTemplate="body" let-rowData let-entrada>
+        <tr [pContextMenuRow]="rowData">
+          <td>{{entrada}}</td>
+
+        </tr>
+    </ng-template>
+</p-table>
+<p-contextMenu #cm [model]="items"></p-contextMenu>
 
 <h3 class="first">Saída</h3>
-<input id="nomeCurto" type="text" [(ngModel)]="testeCase.saida" />
+<input id="saida" type="text" [(ngModel)]="testeCase.saida" />
 <br> <br> <br>

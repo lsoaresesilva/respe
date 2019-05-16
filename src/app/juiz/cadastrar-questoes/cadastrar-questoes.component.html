@@ -21,9 +21,15 @@
     <h3 class="first">Assunto Principal</h3>
     <p-dropdown [options]="assuntos" optionLabel="nome" [(ngModel)]="questao.assuntoPrincipal"></p-dropdown>
 
-    <h3 class="first">Assuntos</h3>
-    <p-checkbox *ngFor="let assunto of assuntos" name="assuntosQuestao" value="{{assunto.id}}"
-      [(ngModel)]="questao.assuntos" label="{{assunto.nome}}" inputId="{{assunto.id}}"></p-checkbox>
+    <div class="ui-g" style="width:250px;margin-bottom:10px">
+      <h3>Assuntos</h3>
+      <div class="ui-g-12"> <p-checkbox *ngFor="let assunto of assuntos"  name="{{assunto.nome}}" value= "{{assunto.id}}"
+       [(ngModel)]="questao.assuntos" label="{{assunto.nome}}" inputId= "{{assunto.id}}"></p-checkbox>
+      </div>
+    </div>
+  
+   <!-- Assuntos da questão: <span *ngFor="let assunto of questao.assuntos" style="margin-right:10px">{{assunto.nome}} </span> -->
+
 
     <h3 class="first">Sequência</h3>
     <p-spinner size="15" [min]="0" [(ngModel)]="questao.sequencia"></p-spinner>
