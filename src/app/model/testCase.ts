@@ -27,4 +27,19 @@ export default class TestCase extends Document{
 
         return document;
     }
+
+
+    validarEntrada(entrada:String) {
+        if (entrada== undefined ||entrada == null || entrada  == "" ) {
+             return false;
+        }
+        return true;
+    }
+
+    validar(){
+            if (this.saida == null || this.saida ==undefined ||this.entradas == null|| this.entradas == undefined|| this.entradas.length ==0 || this.questao == null || this.questao == undefined) {
+              return false;
+            }
+            return true;
+    }
 }

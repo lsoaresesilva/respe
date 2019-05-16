@@ -1,0 +1,29 @@
+<p-toast></p-toast>
+<div style="margin-left: auto;margin-right: auto;width: 30em">
+
+
+  <div *ngIf="!ehAlterar">
+    <h1 class="first">Cadastro de assunto</h1>
+  </div>
+
+  <div *ngIf="ehAlterar">
+    <h1 class="first">alterar assunto </h1>
+  </div>
+
+  <h3 class="first">Nome </h3>
+  <input id ="nome" type="text" [(ngModel)]="assunto.nome" /> 
+
+  <br/>
+  <br/>
+  
+  <div *ngIf="!ehAlterar">
+    <button pButton type="button" label="cadastrar assunto" (click)="cadastrarAssunto()" ></button>
+    
+  </div>
+
+  <div *ngIf="ehAlterar">
+    <button pButton type="button" label="alterar assunto" (click)="cadastrarAssunto()" ></button>
+   
+  </div>
+
+</div>

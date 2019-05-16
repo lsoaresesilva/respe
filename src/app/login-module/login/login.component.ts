@@ -29,7 +29,9 @@ export class LoginComponent implements OnInit {
       if( resultado )
         this.router.navigateByUrl("/main");
       else{
-        alert("Usuário ou senha inválidos.") // TODO: mudar para o message service
+        alert("a senha ="+this.senha +" e login = "+this.login+" estão invalidos") // TODO: mudar para o message service
+        console.log(this.login);
+        console.log(this.senha);
       }
     })
   }

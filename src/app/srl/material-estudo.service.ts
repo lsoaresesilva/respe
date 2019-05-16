@@ -27,14 +27,14 @@ export class MaterialEstudoService {
   
   iniciaOArray(){
     let m1 = new MaterialEstudo();
-    m1.assunto = new Assunto("iN4G7FJV51uJEsu9Mrsj", null, null, null, null);
+    m1.assunto = new Assunto("iN4G7FJV51uJEsu9Mrsj", null);
     m1.nome = "Video";
     
     let m2 = new MaterialEstudo();
-    m2.assunto = new Assunto("iN4G7FJV51uJEsu9Mrsj", null, null, null, null);
+    m2.assunto = new Assunto("iN4G7FJV51uJEsu9Mrsj", null);
     m2.nome = "Texto";
     let m3 = new MaterialEstudo();
-    m3.assunto = new Assunto("i3lixuzD3EWsGEFm7gmR", null, null, null, null);
+    m3.assunto = new Assunto("i3lixuzD3EWsGEFm7gmR", null);
     m3.nome = "Video";
     this.materiaisDeEstudo.push(m1);
     this.materiaisDeEstudo.push(m2);
