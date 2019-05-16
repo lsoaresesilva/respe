@@ -29,7 +29,7 @@ export class VisualizarExecucacao implements OnInit {
     else
         this.sequenciaExecucao--;
     let linhaEmExecucao = this.traceExecucao.trace[this.sequenciaExecucao].line;
-    if(this.traceExecucao.trace[this.sequenciaExecucao].event != "return" && linhaEmExecucao != undefined){
+    if(/*this.traceExecucao.trace[this.sequenciaExecucao].event != "return" && */linhaEmExecucao != undefined){
       this.linhaAtual = linhaEmExecucao
       
       this.atualizar();
@@ -45,5 +45,21 @@ export class VisualizarExecucacao implements OnInit {
       this.mudancaLinha.emit(0);
     }
     
+  }
+
+  isArray(variavel){
+    return typeof variavel === "object";
+  }
+
+  getValorArray(posicao){
+    let valores = this.traceExecucao.trace[this.sequenciaExecucao].heap[posicao]
+    
+    valores = valores.filter(valor=>{
+      if( valor == "LIST")
+        return false;
+      return true;
+    })
+
+    return valores;
   }
 }

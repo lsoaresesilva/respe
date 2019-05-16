@@ -12,7 +12,13 @@
         <tr>
           <td>
             <p-card *ngFor="let variavel of linha.ordered_globals, let i = index; let valor of linha.globals" header="{{variavel}}">
-              {{linha.globals[valor]}}
+              <span *ngIf="isArray(linha.globals[valor]); else variavelPrimitiva ">
+                {{getValorArray(linha.globals[valor][1])}}
+              </span>
+              <ng-template #variavelPrimitiva>
+                  {{linha.globals[valor]}}
+                </ng-template>
+              
             </p-card>
           </td>
         </tr>

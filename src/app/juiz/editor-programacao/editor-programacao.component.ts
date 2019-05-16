@@ -218,24 +218,28 @@ export class EditorProgramacaoComponent implements OnInit {
     this.editorCodigo.codigo.setAlgoritmo(editor.getValue());
     let submissao = this.prepararSubmissao();
 
-    let httpOptions = {
-      headers: new HttpHeaders({
-        'Content-Type': 'application/json'
-      })
-    }
-    // TODO: definir um timedout
+    submissao.save().subscribe(resultado => {
+      let httpOptions = {
+        headers: new HttpHeaders({
+          'Content-Type': 'application/json'
+        })
+      }
+      // TODO: definir um timedout
+  
+      this.http.post<any>("http://127.0.0.1:8000/visualizar-execucao/", submissao.objectToDocument(), httpOptions).subscribe(resposta => {
+  
+        resposta = resposta.replace("script str", "")
+  
+        let jsonTrace = JSON.parse(resposta);
+        this.traceExecucao = jsonTrace;
+        this.modoVisualizacao = true;
+        this.erroLinguagemProgramacao = "";
+      }, err => {
+        this.prepararMensagemExceptionHttp(err);
+      });
+    })
 
-    this.http.post<any>("http://127.0.0.1:8000/visualizar-execucao/", submissao.objectToDocument(), httpOptions).subscribe(resposta => {
-
-      resposta = resposta.replace("script str", "")
-
-      let jsonTrace = JSON.parse(resposta);
-      this.traceExecucao = jsonTrace;
-      this.modoVisualizacao = true;
-      this.erroLinguagemProgramacao = "";
-    }, err => {
-      this.prepararMensagemExceptionHttp(err);
-    });
+    
   }
 
   voltarParaModoExecucao() {
