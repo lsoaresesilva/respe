@@ -10,6 +10,7 @@ import { MenuItem, MessageService } from 'primeng/api';
 })
 export class CadastrarTesteCaseComponent implements OnInit {
   @Input("testCase")
+  
   testeCase:TestCase;
   entrada:string ;
   selectedEntrada: String;

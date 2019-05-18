@@ -78,7 +78,7 @@ export class CadastrarQuestoesComponent implements OnInit {
     if (this.questao.validar() && TestCase.validarTestsCases(this.questao.testsCases)) {
 
     
-      this.questao.assuntos = this.questao.assuntos.map(assunto =>{
+      this.questao.assunto = this.questao.assuntos.map(assunto =>{
         if(typeof assunto === "string")
           return new Assunto(assunto, null, null, null, null)
         return assunto;

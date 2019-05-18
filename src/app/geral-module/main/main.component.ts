@@ -29,6 +29,11 @@ export class MainComponent implements OnInit {
 
       },
       {
+        label: 'QuestõesFechadas',
+        command: () => { this.router.navigate(["main", { outlets: { principal: ['listagem-questoes-fechadas'] } }]) }
+
+      },
+      {
         label: 'Turmas',
         command: () => { this.router.navigate(["main", { outlets: { principal: ['listagem-turmas'] } }]) }
 
