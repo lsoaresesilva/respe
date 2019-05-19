@@ -24,11 +24,11 @@ export class CadastrarTesteCaseComponent implements OnInit {
   ngOnInit() {
     this.items = [
 
-      { label: 'Apagar', icon: 'pi pi-times', command: (event) => this.retirarTestCase(this.selectedEntrada) }
+      { label: 'Apagar', icon: 'pi pi-times', command: (event) => this.retirarEntrada(this.selectedEntrada) }
     ];
   }
 
-  addTestCase(){
+  addEntrada(){
 
     if(this.testeCase.validarEntrada(this.entrada)){
       this.testeCase.entradas.push(this.entrada);
@@ -42,7 +42,7 @@ export class CadastrarTesteCaseComponent implements OnInit {
     }
   }
 
-  retirarTestCase(entrada: String) {
+  retirarEntrada(entrada: String) {
 
     let index = -1;
      for(let i=0;i<this.testeCase.entradas.length;i++) {
@@ -74,15 +74,6 @@ export class CadastrarTesteCaseComponent implements OnInit {
        });
      }else{
       this.messageCamposVazios();
-
-      this.messageService.add({ severity: 'success', summary:"Test Case cadastrado", detail: "Esse test Case foi incluído na questão" });
-        
-     }, err=>{
-      this.messageService.add({ severity: 'error', summary:"teste Case inválido", detail: "Esse teste Case não foi cadastrado" });
-       
-       });
-     }else{
-      this.messageService.add({ severity: 'error', summary:"teste Case vazio", detail: "Esse teste Case foi negado" });
      }
    }
  

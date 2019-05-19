@@ -1,0 +1,37 @@
+<p-toast></p-toast>
+
+ <h3>Informações sobre a questão:{{questao.nomeCurto}}</h3>
+
+ <p-button label="Editar" (click)="alterarQuestao(questao)"></p-button>
+ <p-table [value]="questoes" >
+    <ng-template pTemplate="header">
+    </ng-template>
+    <ng-template pTemplate="body"  let-questao>
+      <tr>
+        <td><b>Título</b></td>
+          <td>{{questao.nomeCurto}}</td>
+      </tr>
+        <tr>
+          <td><b>Enunciado</b></td>
+          <td>{{questao.enunciado}}</td>
+        </tr>
+      <tr>
+        <td><b>Dificuldade</b></td>
+        <td>{{questao.dificuldade}}</td>
+      </tr>
+      <tr>
+        <td><b>Assunto principal</b></td>
+        <td>{{questao.assuntoPrincipalId}}</td>
+      </tr>
+      <tr>
+        <td><b>Sequência de exibição</b></td>
+        <td>{{questao.sequencia}}</td>
+      </tr>
+    </ng-template>
+</p-table> 
+<p-contextMenu #cm [model]="items"></p-contextMenu>   
+
+
+
+
+

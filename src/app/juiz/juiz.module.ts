@@ -44,7 +44,7 @@ import { VisualizarAssuntoComponent } from './visualizar-assunto/visualizar-assu
 
 
 @NgModule({
-  declarations: [VisualizarTestesComponent, CadastrarQuestoesComponent, CadastrarTesteCaseComponent, ListarQuestoesComponent, DadosQuestaoComponent, EditorProgramacaoComponent, EditorProgramacaoComponent, CadastrarEstudantesComponent, ListarEstudantesComponent, CadastrarTurmaComponent, ListarTurmaComponent, VisualizarExecucacao, VisualizarQuestaoComponent, CadastrarAlternativasComponent, CadastrarQuestoesFechadasComponent, ListarQuestoesFechadasComponent, VisualizarQuestaoFechadaComponent],
+  declarations: [VisualizarTestesComponent, CadastrarQuestoesComponent, CadastrarTesteCaseComponent, ListarQuestoesComponent, DadosQuestaoComponent, EditorProgramacaoComponent, EditorProgramacaoComponent, CadastrarEstudantesComponent, ListarEstudantesComponent, CadastrarTurmaComponent, ListarTurmaComponent, VisualizarExecucacao, VisualizarQuestaoComponent, CadastrarAlternativasComponent, CadastrarQuestoesFechadasComponent, ListarQuestoesFechadasComponent, VisualizarQuestaoFechadaComponent,CadastrarAssuntosComponent,ListarAssuntosComponent,VisualizarAssuntoComponent],
 
   imports: [
     CommonModule,
