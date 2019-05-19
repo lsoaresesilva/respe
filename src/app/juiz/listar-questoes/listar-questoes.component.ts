@@ -28,9 +28,10 @@ export class ListarQuestoesComponent implements OnInit  {
     Questao.getAll().subscribe(questoes=>{this.questoes= questoes});
 
     this.items = [
-    { label: 'Alterar', icon: 'fa fa-check', command: (event) => this.alterarQuestao(this.selectedQuestao) },
-    { label: 'Apagar', icon: 'pi pi-times', command: (event) => this.deleteQuestao(this.selectedQuestao) }
-    ];
+      { label: 'Update', icon: 'pi pi-check', command: (event) => this.alterarQuestao(this.selectedQuestao) },
+      { label: 'Delete', icon: 'pi pi-times', command: (event) => this.deleteQuestao(this.selectedQuestao) },
+      { label: 'View', icon:  'pi pi-search', command: (event) => this.viewQuestao(this.selectedQuestao) }
+      ];
 
   }
 
@@ -51,6 +52,17 @@ export class ListarQuestoesComponent implements OnInit  {
       Questao.getAll().subscribe(questoes=>{this.questoes= questoes});
        
     });
+  }
+
+  viewQuestao(questao:Questao) {
+    this.router.navigate(["main", { outlets: { principal: ['visualizacao-questao', questao.pk()] } } ] );
+    this.messageView();
+  }
+  messageDelete() {
+    this.messageService.add({severity:'error', summary:'Deletado!', detail:" foi excluido do banco de questões"});
+  }
+  messageView(){
+    this.messageService.add({severity:'info', summary:'Questao visualizado', detail:'informações sobre a questão'});
   }
   
   

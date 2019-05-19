@@ -10,14 +10,12 @@ import { MenuItem, MessageService } from 'primeng/api';
 })
 export class CadastrarTesteCaseComponent implements OnInit {
   @Input("testCase")
+  
   testeCase:TestCase;
   entrada:string ;
   selectedEntrada: String;
+  selectedTest:TestCase;
   items: MenuItem[];
-  
-
-
-
 
   constructor(private messageService: MessageService) { }
 
@@ -25,24 +23,27 @@ export class CadastrarTesteCaseComponent implements OnInit {
 
   ngOnInit() {
     this.items = [
+
       { label: 'Apagar', icon: 'pi pi-times', command: (event) => this.retirarTestCase(this.selectedEntrada) }
     ];
   }
-   
-
 
   addTestCase(){
+
     if(this.testeCase.validarEntrada(this.entrada)){
       this.testeCase.entradas.push(this.entrada);
       this.entrada=null;
 
     }else {
-      this.messageService.add({ severity: 'info', summary:"Teste Case indefinido", detail: "Teste case não pode ser vazio" });
+
+     this.messageCamposVazios();
+      this.messageService.add({ severity: 'info', summary:"Teste Case indefinido", detail: "Teste case não pode ser vazio" })
      
     }
   }
 
   retirarTestCase(entrada: String) {
+
     let index = -1;
      for(let i=0;i<this.testeCase.entradas.length;i++) {
        if (this.testeCase.entradas[i] == entrada) {
@@ -54,10 +55,26 @@ export class CadastrarTesteCaseComponent implements OnInit {
    this.messageService.add({ severity: 'info', summary:"Entrada retirado", detail: "Essa entrada não existe mais" });
    }
 
+   deleteTeste(teste:TestCase) {
+    TestCase.delete(teste.pk()).subscribe(resultado=>{
+     
+     
+      
+   });
+ }
 
   cadastrarTesteCase(){
     if (this.testeCase.validar()) {
        this.testeCase.save().subscribe(resultado=>{
+     this.messageCadastrado();
+        
+     }, err=>{
+     this.messageError();
+       
+       });
+     }else{
+      this.messageCamposVazios();
+
       this.messageService.add({ severity: 'success', summary:"Test Case cadastrado", detail: "Esse test Case foi incluído na questão" });
         
      }, err=>{
@@ -69,6 +86,16 @@ export class CadastrarTesteCaseComponent implements OnInit {
      }
    }
  
+  messageCadastrado(){
+  this.messageService.add({ severity: 'success', summary:"Test Case cadastrado", detail: "Esse test Case foi incluído na questão" });
+  }
 
+  messageError(){
+  this.messageService.add({ severity: 'error', summary:"teste Case inválido", detail: "Esse teste Case não foi cadastrado" });
+  }
+
+  messageCamposVazios(){
+  this.messageService.add({ severity: 'error', summary:"teste Case inválido", detail: "Todos os campos do test case precisam ser preenchidos" });
+  }
  
 }

@@ -6,6 +6,7 @@ import Query from './firestore/query';
 import AssuntoQuestao from './assuntoQuestao';
 import TestCase from './testCase';
 import ResultadoTestCase from './resultadoTestCase';
+
 import Submissao from './submissao';
 import Usuario from './usuario';
 
@@ -19,6 +20,7 @@ export class Questao extends Document {
   assuntoPrincipal: Assunto;
   sequencia: number;
   testsCases: TestCase[];
+  
 
   constructor(id, nomeCurto, enunciado, dificuldade, sequencia, assuntoPrincipal, assuntos, testsCases) {
     super(id);
@@ -251,16 +253,36 @@ export class Questao extends Document {
   validar() {
     if (this.assuntos == undefined || this.assuntos == null || this.assuntoPrincipal == null || this.assuntoPrincipal == undefined ||
       this.assuntos.length == 0 || this.nomeCurto == null || this.nomeCurto == "" ||
-      this.enunciado == null || this.enunciado == "" || this.dificuldade == null || this.sequencia == null || this.sequencia < 1 || this.testsCases == undefined || this.testsCases.length == 0) {
+      this.enunciado == null || this.enunciado == "" || this.dificuldade == null || this.sequencia == null || this.sequencia < 1 || this.testsCases == undefined || this.testsCases.length == 0 ) {
       return false;
     }
-
     return true;
+    
   }
 
 
-  // TODO: fazer deletar para apagar os testscases
+  // validarSequencia(sequencia:Number){
+  //   return new Observable(observer => {
+  //     Questao.getAll(new Query("QuestaoSequencia", "==", sequencia)).subscribe(questoes => {
 
+  //       if(questoes == null || questoes == undefined){
+  //         console.log("realmente não existe essa sequencia")
+  //         console.log(questoes);
+  //         return true;
+  //       }
+  //       else{
+  //         alert("A questão"+questoes[0].nome+ "já será exibida nesse sequencia,por favor coloque outro número");
+  //         console.log(questoes);
+  //         return false;
+  //       }
+  //     }, err => {
+  //       observer.error(err);
+        
+  //     })
+  //   })
+  // }
+
+  // TODO: fazer deletar para apagar os testscases
 
 
 

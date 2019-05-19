@@ -30,6 +30,7 @@ export default class TestCase extends Document{
 
 
     validarEntrada(entrada:String) {
+
         if (entrada== undefined ||entrada == null || entrada  == "" ) {
              return false;
         }
@@ -37,9 +38,20 @@ export default class TestCase extends Document{
     }
 
     validar(){
-            if (this.saida == null || this.saida ==undefined ||this.entradas == null|| this.entradas == undefined|| this.entradas.length ==0 || this.questao == null || this.questao == undefined) {
-              return false;
-            }
-            return true;
+
+        if (this.saida == null || this.saida ==undefined ||this.entradas == null|| this.entradas == undefined|| this.entradas.length ==0 || this.questao == null || this.questao == undefined) {
+
+          return false;
+        }
+        return true;
+    }
+
+    static validarTestsCases(tests:TestCase[]){
+            for(let i=0;i<tests.length;i++){
+                if(!tests[i].validar()){
+                    return false;
+                }
+            }  
+        return true;
     }
 }
