@@ -11,7 +11,9 @@ import Usuario from './usuario';
 export class Assunto extends Document {
 
 
-    constructor(id, public nome, public preRequisitos: Assunto[], public objetivosEducacionais, materialEstudo: MaterialEstudo[]) {
+    constructor(id, public nome
+        // public preRequisitos: Assunto[], public objetivosEducacionais, materialEstudo: MaterialEstudo[]
+        ) {
         super(id);
     }
 
@@ -53,6 +55,15 @@ export class Assunto extends Document {
                 }
             })
         });
+    }
+
+
+    validar() {
+        if (this.nome == undefined || this.nome == null ) {
+          return false;
+        }
+    
+        return true;
     }
 
     // TODO: pegar somente o que for do usuário logado

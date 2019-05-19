@@ -41,6 +41,28 @@ export class EditorProgramacaoComponent implements OnInit {
     this.statusExecucao = "";
     // TODO: passar a questão pela rota
 
+    
+
+
+
+  }
+
+  /**
+   * Salva o código do estudante automaticamente a cada 2 minutos.
+   */
+  salvarAutomaticamente() {
+    let __this = this;
+    setInterval(function () {
+      let submissao = __this.prepararSubmissao();
+      submissao.save().subscribe(resultado=>{
+        // TODO: mostrar mensagem que o código foi salvo automaticamente.
+      });
+
+    }, 120000)
+  }
+
+  ngOnInit() {
+
     this.route.params.subscribe(params => {
       if (params["id"] != undefined) {
         Questao.get(params["id"]).subscribe(questao => {
@@ -51,10 +73,6 @@ export class EditorProgramacaoComponent implements OnInit {
           let usuario = Usuario.getUsuarioLogado();
           if (usuario != null) {
             Submissao.getRecentePorQuestao(this.questao, usuario).subscribe(submissao => {
-              
-              /*ResultadoTestCase.getAll(new Query("submissaoId", "==", submissao["pk"]())).subscribe(resultados=>{
-                this.resultadosTestsCases = resultados;
-              })*/
 
               this.submissao = submissao;
 
@@ -77,26 +95,6 @@ export class EditorProgramacaoComponent implements OnInit {
         throw new Error("Não é possível iniciar o editor sem uma questão.");
       }
     })
-
-
-
-  }
-
-  /**
-   * Salva o código do estudante automaticamente a cada 2 minutos.
-   */
-  salvarAutomaticamente() {
-    let __this = this;
-    setInterval(function () {
-      let submissao = __this.prepararSubmissao();
-      submissao.save().subscribe(resultado=>{
-        // TODO: mostrar mensagem que o código foi salvo automaticamente.
-      });
-
-    }, 120000)
-  }
-
-  ngOnInit() {
 
     let estudante = Usuario.getUsuarioLogado(); // TODO: pegar do login
     if (estudante == null) {
@@ -218,24 +216,28 @@ export class EditorProgramacaoComponent implements OnInit {
     this.editorCodigo.codigo.setAlgoritmo(editor.getValue());
     let submissao = this.prepararSubmissao();
 
-    let httpOptions = {
-      headers: new HttpHeaders({
-        'Content-Type': 'application/json'
-      })
-    }
-    // TODO: definir um timedout
+    submissao.save().subscribe(resultado => {
+      let httpOptions = {
+        headers: new HttpHeaders({
+          'Content-Type': 'application/json'
+        })
+      }
+      // TODO: definir um timedout
+  
+      this.http.post<any>("http://127.0.0.1:8000/visualizar-execucao/", submissao.objectToDocument(), httpOptions).subscribe(resposta => {
+  
+        resposta = resposta.replace("script str", "")
+  
+        let jsonTrace = JSON.parse(resposta);
+        this.traceExecucao = jsonTrace;
+        this.modoVisualizacao = true;
+        this.erroLinguagemProgramacao = "";
+      }, err => {
+        this.prepararMensagemExceptionHttp(err);
+      });
+    })
 
-    this.http.post<any>("http://127.0.0.1:8000/visualizar-execucao/", submissao.objectToDocument(), httpOptions).subscribe(resposta => {
-
-      resposta = resposta.replace("script str", "")
-
-      let jsonTrace = JSON.parse(resposta);
-      this.traceExecucao = jsonTrace;
-      this.modoVisualizacao = true;
-      this.erroLinguagemProgramacao = "";
-    }, err => {
-      this.prepararMensagemExceptionHttp(err);
-    });
+    
   }
 
   voltarParaModoExecucao() {

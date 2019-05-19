@@ -16,10 +16,6 @@ export class CadastrarTesteCaseComponent implements OnInit {
   selectedEntrada: String;
   selectedTest:TestCase;
   items: MenuItem[];
-  
-
-
-
 
   constructor(private messageService: MessageService) { }
 
@@ -27,26 +23,27 @@ export class CadastrarTesteCaseComponent implements OnInit {
 
   ngOnInit() {
     this.items = [
-      { label: 'Apagar entrada', icon: 'pi pi-times', command: (event) => this.retirarEntrada(this.selectedEntrada) },
-     
+
+      { label: 'Apagar', icon: 'pi pi-times', command: (event) => this.retirarTestCase(this.selectedEntrada) }
     ];
   }
-   
 
+  addTestCase(){
 
-  addEntrada(){
     if(this.testeCase.validarEntrada(this.entrada)){
       this.testeCase.entradas.push(this.entrada);
       this.entrada=null;
 
     }else {
+
      this.messageCamposVazios();
-      alert("Entrada não pode ser nula");
+      this.messageService.add({ severity: 'info', summary:"Teste Case indefinido", detail: "Teste case não pode ser vazio" })
      
     }
   }
 
-  retirarEntrada(entrada: String) {
+  retirarTestCase(entrada: String) {
+
     let index = -1;
      for(let i=0;i<this.testeCase.entradas.length;i++) {
        if (this.testeCase.entradas[i] == entrada) {
@@ -77,6 +74,15 @@ export class CadastrarTesteCaseComponent implements OnInit {
        });
      }else{
       this.messageCamposVazios();
+
+      this.messageService.add({ severity: 'success', summary:"Test Case cadastrado", detail: "Esse test Case foi incluído na questão" });
+        
+     }, err=>{
+      this.messageService.add({ severity: 'error', summary:"teste Case inválido", detail: "Esse teste Case não foi cadastrado" });
+       
+       });
+     }else{
+      this.messageService.add({ severity: 'error', summary:"teste Case vazio", detail: "Esse teste Case foi negado" });
      }
    }
  
@@ -91,7 +97,5 @@ export class CadastrarTesteCaseComponent implements OnInit {
   messageCamposVazios(){
   this.messageService.add({ severity: 'error', summary:"teste Case inválido", detail: "Todos os campos do test case precisam ser preenchidos" });
   }
-
-
  
 }

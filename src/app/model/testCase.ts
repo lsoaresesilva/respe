@@ -30,19 +30,20 @@ export default class TestCase extends Document{
 
 
     validarEntrada(entrada:String) {
-        if (entrada== undefined ||entrada == null || entrada  == ""  ) {
+
+        if (entrada== undefined ||entrada == null || entrada  == "" ) {
              return false;
         }
         return true;
     }
 
     validar(){
-            if (this.saida == null || this.saida == " " || this.saida == undefined || this.entradas== undefined ||this.entradas == null)
 
-                  {
-              return false;
-            }
-            return true;
+        if (this.saida == null || this.saida ==undefined ||this.entradas == null|| this.entradas == undefined|| this.entradas.length ==0 || this.questao == null || this.questao == undefined) {
+
+          return false;
+        }
+        return true;
     }
 
     static validarTestsCases(tests:TestCase[]){

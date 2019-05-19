@@ -47,7 +47,7 @@
     <ng-template pTemplate="body" let-questao>
         <tr>
             <td><a (click)="responderQuestao(questao)">{{questao.nomeCurto}}</a></td>
-            <td></td>
+            <td>{{questao.percentualResposta}}% concluído</td>
         </tr>
     </ng-template>
 </p-table>

@@ -134,7 +134,7 @@ class Juiz():
     def obterTextosInput(self):
 
         textosInput = []
-        inputs = re.findall("input\((.*)\)", self.submissao.codigo)
+        inputs = re.findall("input\((.*[^\(\)])\)", self.submissao.codigo) 
         if inputs and len(inputs) > 0:
             for textoInput in inputs:
 

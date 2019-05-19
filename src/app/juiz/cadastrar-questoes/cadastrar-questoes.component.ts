@@ -20,9 +20,7 @@ export class CadastrarQuestoesComponent implements OnInit {
   questao;
   dificuldades: SelectItem[];
   assuntos;
-   
-
-    
+ 
 
   constructor(private router: Router, private activatedRoute: ActivatedRoute, private messageService: MessageService) {
    
@@ -80,7 +78,7 @@ export class CadastrarQuestoesComponent implements OnInit {
     
       this.questao.assunto = this.questao.assuntos.map(assunto =>{
         if(typeof assunto === "string")
-          return new Assunto(assunto, null, null, null, null)
+          return new Assunto(assunto, null)
         return assunto;
       } )
 

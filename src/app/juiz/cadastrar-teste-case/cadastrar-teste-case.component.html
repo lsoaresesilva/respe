@@ -5,10 +5,12 @@
 <button pButton type="button" label="Adicionar" (click)='addEntrada()'></button> <br /><br />
 
 
+
 <p-table [value]="testeCase.entradas" [(contextMenuSelection)]="selectedEntrada" [contextMenu]="cm">
     <ng-template pTemplate="header">
         <tr>
           <th>Entradas do TestCase</th>
+
         </tr>
     </ng-template>
     <ng-template pTemplate="body" let-rowData let-entrada>

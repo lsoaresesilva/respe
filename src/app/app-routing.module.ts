@@ -21,16 +21,22 @@ import { ListarTurmaComponent } from './juiz/listar-turma/listar-turma.component
 import { VisualizarExecucacao } from './juiz/vizualizar-execucao/vizualizar-execucao.component';
 import { ListarPlanejamentosComponent } from './srl/listar-planejamentos/listar-planejamentos.component';
 import { VisualizarPlanejamentoComponent } from './srl/vizualizar-planejamento/visualizar-planejamento.component';
+
 import { VisualizarQuestaoComponent } from './juiz/visualizar-questao/visualizar-questao.component';
 import { CadastrarQuestoesFechadasComponent } from './juiz/cadastrar-questoes-fechadas/cadastrar-questoes-fechadas.component';
 import { CadastrarAlternativasComponent } from './juiz/cadastrar-alternativas/cadastrar-alternativas.component';
 import { ListarQuestoesFechadasComponent } from './juiz/listar-questoes-fechadas/listar-questoes-fechadas.component';
 import { VisualizarQuestaoFechadaComponent } from './juiz/visualizar-questao-fechada/visualizar-questao-fechada.component';
+import { CadastrarAssuntosComponent } from './juiz/cadastrar-assuntos/cadastrar-assuntos.component';
+import { ListarAssuntosComponent } from './juiz/listar-assuntos/listar-assuntos.component';
+import { VisualizarAssuntoComponent } from './juiz/visualizar-assunto/visualizar-assunto.component';
 
 
 const routes: Routes = [
+  {path:"editor", component:EditorProgramacaoComponent}, // TODO: remover depois
   {path:"main", component:MainComponent, canActivate: [AuthGuard], canLoad: [AuthGuard], children: [
     {path:"editor/:id", component:EditorProgramacaoComponent, outlet:"principal"},
+    
     {path:"comentario-codigo/:id", component:ComentariosCodigoComponent, outlet:"principal"},
     {path:"visualizarConteudo", component:VisualizarConteudoComponent, outlet:"principal"},
     {path:"visualizacao-planejamento/:id", component:VisualizarPlanejamentoComponent, canActivate: [AuthGuard], canLoad: [AuthGuard], outlet:"principal"},
@@ -41,7 +47,11 @@ const routes: Routes = [
     {path:"cadastro-questao-fechada", component:CadastrarQuestoesFechadasComponent, canActivate: [AuthGuard], canLoad: [AuthGuard], outlet:"principal"},
     {path:"atualizacao-questao/:id", component:CadastrarQuestoesComponent, canActivate: [AuthGuard], canLoad: [AuthGuard], outlet:"principal"},
     {path:"atualizacao-questao-fechada/:id", component:CadastrarQuestoesFechadasComponent, canActivate: [AuthGuard], canLoad: [AuthGuard], outlet:"principal"},
+    {path:"cadastro-assunto", component:CadastrarAssuntosComponent, canActivate: [AuthGuard], canLoad: [AuthGuard], outlet:"principal"},
+    {path:"atualizacao-questao/:id", component:CadastrarQuestoesComponent, canActivate: [AuthGuard], canLoad: [AuthGuard], outlet:"principal"},
+    {path:"atualizacao-assunto/:id", component:CadastrarAssuntosComponent, canActivate: [AuthGuard], canLoad: [AuthGuard], outlet:"principal"},
     {path:"listagem-questoes", component:ListarQuestoesComponent, canActivate: [AuthGuard], canLoad: [AuthGuard], outlet:"principal"},
+    {path:"listagem-assuntos", component:ListarAssuntosComponent, canActivate: [AuthGuard], canLoad: [AuthGuard], outlet:"principal"},
     {path:"cadastro-estudante", component:CadastrarEstudantesComponent, canActivate: [AuthGuard], canLoad: [AuthGuard], outlet:"principal"},
     {path:"atualizacao-estudante/:id", component:CadastrarEstudantesComponent, canActivate: [AuthGuard], canLoad: [AuthGuard], outlet:"principal"},
     {path:"listagem-estudantes", component:ListarEstudantesComponent, canActivate: [AuthGuard], canLoad: [AuthGuard], outlet:"principal"},
@@ -51,6 +61,8 @@ const routes: Routes = [
     {path:"visualizacao-questao/:id", component:VisualizarQuestaoComponent, canActivate: [AuthGuard], canLoad: [AuthGuard], outlet:"principal"},
     {path:"visualizacao-questao-fechada/:id", component:VisualizarQuestaoFechadaComponent, canActivate: [AuthGuard], canLoad: [AuthGuard], outlet:"principal"},
     {path:"listagem-questoes-fechadas", component:ListarQuestoesFechadasComponent, canActivate: [AuthGuard], canLoad: [AuthGuard], outlet:"principal"},
+
+    {path:"visualizacao-assunto/:id", component:VisualizarAssuntoComponent, canActivate: [AuthGuard], canLoad: [AuthGuard], outlet:"principal"},
   ]},
   {path:"", component:LoginComponent},
   {path:"autoreflexao", component:AutoReflexaoComponent},
