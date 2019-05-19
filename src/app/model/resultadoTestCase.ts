@@ -65,7 +65,7 @@ export default class ResultadoTestCase extends Document {
         })
     }
 
-    static getRecentePorSubmissaoTestCase(testCase:TestCase, submissao:Submissao){
+    static getRecentePorSubmissaoTestCase(testCase:TestCase, submissao){
         return new Observable(observer=>{
             ResultadoTestCase.getAll([new Query("submissaoId", "==", submissao.pk()), new Query("testCaseId", "==", testCase.pk())]).subscribe(resultadosTestsCases=>{
                 let resultadoTestCaseRecente = null;

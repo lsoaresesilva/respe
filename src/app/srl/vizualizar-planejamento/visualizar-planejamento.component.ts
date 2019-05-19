@@ -6,6 +6,7 @@ import { MaterialEstudoService } from '../material-estudo.service';
 import Usuario from 'src/app/model/usuario';
 import { Questao } from 'src/app/model/questao';
 import Query from 'src/app/model/firestore/query';
+import { forkJoin } from 'rxjs';
 
 @Component({
   selector: 'app-vizualizar-planejamento',
@@ -62,6 +63,22 @@ export class VisualizarPlanejamentoComponent implements OnInit {
     if(this.planejamento.assunto != undefined){
       Questao.getAll(new Query("assuntoPrincipalId", "==", this.planejamento.assunto.pk())).subscribe(questoes=>{
         this.questoes = questoes;
+        let consultas:any = {};
+        this.questoes.forEach(questao=>{
+          
+          consultas[questao.pk()] = (Questao.isFinalizada(questao)); // TODO: problema está aqui
+        })
+
+        forkJoin(consultas).subscribe(consulta=>{
+          let x = 2;
+          for(let id in consulta){
+            this.questoes.forEach(questao=>{
+              if(questao.pk() == id){
+                questao["percentualResposta"] = consulta[id];
+              }
+            })
+          }
+        });
       })
     }else{
       throw new Error("É preciso que exista um assunto em um planejamento.")
@@ -72,5 +89,6 @@ export class VisualizarPlanejamentoComponent implements OnInit {
   responderQuestao(questao){
     this.router.navigate(['main', { outlets: { principal: ['editor', questao.pk()] } }]);
   }
+
 
 }

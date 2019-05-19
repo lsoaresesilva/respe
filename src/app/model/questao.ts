@@ -6,6 +6,8 @@ import Query from './firestore/query';
 import AssuntoQuestao from './assuntoQuestao';
 import TestCase from './testCase';
 import ResultadoTestCase from './resultadoTestCase';
+import Submissao from './submissao';
+import Usuario from './usuario';
 
 @Collection("questoes")
 export class Questao extends Document {
@@ -37,6 +39,50 @@ export class Questao extends Document {
     return document;
   }
 
+  static isFinalizada(questao) {
+    return new Observable(observer => {
+      Submissao.getRecentePorQuestao(questao, Usuario.getUsuarioLogado()).subscribe(submissao => {
+        if (submissao != null) {
+          let consultas = [];
+          questao.testsCases.forEach(testCase => {
+            consultas.push(ResultadoTestCase.getRecentePorSubmissaoTestCase(testCase, submissao));
+          })
+
+          if (consultas.length > 0) {
+            forkJoin(consultas).subscribe(resultadosTestCase => {
+              let totalTestCase = questao.testsCases.length;
+              let totalRespondidasSucesso = 0;
+              resultadosTestCase.forEach(resultado => {
+                
+                if (resultado != null && resultado["status"] == true)
+                  totalRespondidasSucesso++;
+              })
+
+              let percentual = (totalRespondidasSucesso / totalTestCase) * 100;
+              observer.next(percentual);
+              observer.complete();
+            }, err => {
+              observer.error(err);
+            })
+          } else {
+            observer.next(0);
+            observer.complete();
+          }
+
+
+
+        }else{
+          observer.next(0);
+            observer.complete();
+        }
+
+      }, err => {
+        observer.error(err);
+      })
+    })
+
+  }
+
   save() {
     return new Observable(observer => {
 
@@ -61,7 +107,7 @@ export class Questao extends Document {
             observer.next(questao)
             observer.complete();
           }, err => {
-            observer.error(new Error("Falha ao salvar os assuntos/testscases de uma questão.: "+err));
+            observer.error(new Error("Falha ao salvar os assuntos/testscases de uma questão.: " + err));
           })
 
         })

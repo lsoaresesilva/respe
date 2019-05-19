@@ -27,8 +27,10 @@ import { VisualizarAssuntoComponent } from './juiz/visualizar-assunto/visualizar
 
 
 const routes: Routes = [
+  {path:"editor", component:EditorProgramacaoComponent}, // TODO: remover depois
   {path:"main", component:MainComponent, canActivate: [AuthGuard], canLoad: [AuthGuard], children: [
     {path:"editor/:id", component:EditorProgramacaoComponent, outlet:"principal"},
+    
     {path:"comentario-codigo/:id", component:ComentariosCodigoComponent, outlet:"principal"},
     {path:"visualizarConteudo", component:VisualizarConteudoComponent, outlet:"principal"},
     {path:"visualizacao-planejamento/:id", component:VisualizarPlanejamentoComponent, canActivate: [AuthGuard], canLoad: [AuthGuard], outlet:"principal"},
