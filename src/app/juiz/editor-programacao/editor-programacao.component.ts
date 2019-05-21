@@ -41,7 +41,7 @@ export class EditorProgramacaoComponent implements OnInit {
     this.statusExecucao = "";
     // TODO: passar a questão pela rota
 
-    
+
 
 
 
@@ -54,7 +54,7 @@ export class EditorProgramacaoComponent implements OnInit {
     let __this = this;
     setInterval(function () {
       let submissao = __this.prepararSubmissao();
-      submissao.save().subscribe(resultado=>{
+      submissao.save().subscribe(resultado => {
         // TODO: mostrar mensagem que o código foi salvo automaticamente.
       });
 
@@ -86,12 +86,12 @@ export class EditorProgramacaoComponent implements OnInit {
             })
           }
 
-          
+
 
 
 
         })
-      }else{
+      } else {
         throw new Error("Não é possível iniciar o editor sem uma questão.");
       }
     })
@@ -108,7 +108,7 @@ export class EditorProgramacaoComponent implements OnInit {
   /**
    * Constrói uma submissão que será salva no banco de dados.
    */
-  prepararSubmissao():Submissao {
+  prepararSubmissao(): Submissao {
     this.editorCodigo.codigo.setAlgoritmo(editor.getValue());
     let submissao = new Submissao(null, this.editorCodigo.codigo, Usuario.getUsuarioLogado(), this.questao);
     return submissao;
@@ -125,7 +125,7 @@ export class EditorProgramacaoComponent implements OnInit {
     }
   }
 
-  getResultadosTestsCases(submissao){
+  getResultadosTestsCases(submissao) {
     //ResultadoTestCase.getAll(new Query("))
   }
 
@@ -134,65 +134,63 @@ export class EditorProgramacaoComponent implements OnInit {
 
     let submissao = this.prepararSubmissao();
 
-    submissao.save().subscribe(resultado => {
-      let tutor = new Tutor(submissao);
-      tutor.analisar();
-
-      tutor.salvarErros().subscribe(resultados => {
-        if (tutor.hasErrors()) {
-          this.prepararMensagemErros(tutor.erros);
-          this.pausaIde = false;
-        } else {
-
-          let _this = this;
-
-          setTimeout(function () {
-            _this.pausaIde = false;
-          }, 10000)
-
-          let httpOptions = {
-            headers: new HttpHeaders({
-              'Content-Type': 'application/json'
-            })
-          }
-          // TODO: definir um timedout para, caso a requisiçõa não tenha uma resposta, interromper a execução.
-
-          this.http.post<any>("http://127.0.0.1:8000/codigo/", submissao.objectToDocument(), httpOptions).subscribe(resposta => { // TODO: mudar o endereço para o real
-
-
-
-            let consultas = []
-            ResultadoTestCase.saveAll(resposta.resultados).subscribe(resultados=>{
-              
-              /*resultados.forEach(resultado=>{
-                this.questao.testsCases.forEach(testCase=>{
-                  if(resultado.testCase.pk() == testCase.pk()){
-                    resultado.testCase = testCase;
-                  }
-                })
-                
-              })
-
-              this.resultadosTestsCases = resultados;*/
-              this.erroLinguagemProgramacao = "";
-              this.submissao = submissao;
-            })
-
-          }, err => {
-            this.prepararMensagemExceptionHttp(err);
-          }, () => {
-            _this.pausaIde = false;
-          })
-        }
+    let httpOptions = {
+      headers: new HttpHeaders({
+        'Content-Type': 'application/json'
       })
+    }
+
+    let _this = this;
+
+    this.http.post<any>("http://127.0.0.1:8000/codigo/", submissao.objectToDocument(), httpOptions).subscribe(resposta => { // TODO: mudar o endereço para o real
+
+
+
+      let consultas = []
+
+      submissao.save().subscribe(resultado => {
+        let tutor = new Tutor(submissao);
+        tutor.analisar();
+
+        tutor.salvarErros().subscribe(resultados => {
+          if (tutor.hasErrors()) {
+            this.prepararMensagemErros(tutor.erros);
+            this.pausaIde = false;
+          } else {
+
+            let _this = this;
+
+            setTimeout(function () {
+              _this.pausaIde = false;
+            }, 10000)
+
+
+            // TODO: definir um timedout para, caso a requisiçõa não tenha uma resposta, interromper a execução.
+
+
+          }
+        })
+      })
+
+      this.erroLinguagemProgramacao = "";
+      this.submissao = submissao;
+
+
+
+    }, err => {
+      this.prepararMensagemExceptionHttp(err);
+    }, () => {
+      _this.pausaIde = false;
     })
+
+
 
   }
 
-  prepararMensagemExceptionHttp(erro){
-    if(erro.name == "HttpErrorResponse" && erro.status == undefined){
+  prepararMensagemExceptionHttp(erro) {
+    if (erro.name == "HttpErrorResponse" && erro.status == undefined) {
       this.erroLinguagemProgramacao = "O servidor está fora do ar."
-    }else if(erro.status == 500 && erro.error != undefined){
+    } else if (erro.status == 500 && erro.error != undefined) {
       this.erroLinguagemProgramacao = erro.error.erro;
     }
   }
@@ -223,11 +221,11 @@ export class EditorProgramacaoComponent implements OnInit {
         })
       }
       // TODO: definir um timedout
-  
+
       this.http.post<any>("http://127.0.0.1:8000/visualizar-execucao/", submissao.objectToDocument(), httpOptions).subscribe(resposta => {
-  
+
         resposta = resposta.replace("script str", "")
-  
+
         let jsonTrace = JSON.parse(resposta);
         this.traceExecucao = jsonTrace;
         this.modoVisualizacao = true;
@@ -237,7 +235,7 @@ export class EditorProgramacaoComponent implements OnInit {
       });
     })
 
-    
+
   }
 
   voltarParaModoExecucao() {

@@ -1,14 +1,13 @@
 import { Collection, Document, date } from './firestore/document';
 import { Observable, forkJoin } from 'rxjs';
 import TestCase from './testCase';
-import Estudante from './estudante';
-import Usuario from './usuario';
 import Submissao from './submissao';
 import Query from './firestore/query';
 
+import * as firebase from 'firebase';
 
 @Collection("resultadoTestCase")
-export default class ResultadoTestCase extends Document {
+export default class ResultadoTestCase{
 
     @date()
     data;
@@ -16,19 +15,20 @@ export default class ResultadoTestCase extends Document {
 
     // TODO: incluir a submissão
 
-    constructor(id, public status, public respostaAlgoritmo, public testCase: TestCase, public submissao: Submissao) {
-        super(id);
+    constructor(public status, public respostaAlgoritmo, public testCase: TestCase, public submissao: Submissao) {
+        //super(id);
     }
 
     objectToDocument() {
-        let document = super.objectToDocument();
-
-        document["submissaoId"] = this.submissao.pk();
-        document["testCaseId"] = this.testCase.pk(); // TODO: fazer uma verificação no construtor para não permitir estudante e testcase null
+        let document = {};
+        document["data"] = firebase.firestore.FieldValue.serverTimestamp();
+        document["status"] = this.status;
+        document["respostaAlgoritmo"] = this.respostaAlgoritmo;
+        document["testCaseId"] = this.testCase.id;
         return document;
     }
 
-    static saveAll(resultados: ResultadoTestCase[]):Observable<any[]> {
+    /*static saveAll(resultados: ResultadoTestCase[]):Observable<any[]> {
 
         return new Observable(observer => {
             let consultas = [];
@@ -63,11 +63,11 @@ export default class ResultadoTestCase extends Document {
             });
 
         })
-    }
+    }*/
 
     static getRecentePorSubmissaoTestCase(testCase:TestCase, submissao){
         return new Observable(observer=>{
-            ResultadoTestCase.getAll([new Query("submissaoId", "==", submissao.pk()), new Query("testCaseId", "==", testCase.pk())]).subscribe(resultadosTestsCases=>{
+            /*ResultadoTestCase.getAll([new Query("submissaoId", "==", submissao.pk()), new Query("testCaseId", "==", testCase.pk())]).subscribe(resultadosTestsCases=>{
                 let resultadoTestCaseRecente = null;
                 if(resultadosTestsCases.length != 0){
                     if(resultadosTestsCases.length == 1){
@@ -87,7 +87,7 @@ export default class ResultadoTestCase extends Document {
 
                 observer.next(resultadoTestCaseRecente);
                 observer.complete();
-            })
+            })*/
         })
         
     }

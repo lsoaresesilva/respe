@@ -79,7 +79,8 @@ export class Assunto extends Document {
                             questao.testsCases.forEach(testCase => {
                                 if (typeof testCase.pk === "function"){
                                     
-                                    consultas.push(ResultadoTestCase.getAll([new Query("testCaseId", "==", testCase.pk()), new Query("estudanteId", "==", usuario.pk()) ]));
+                                    // TODO: resolver.
+                                    //consultas.push(ResultadoTestCase.getAll([new Query("testCaseId", "==", testCase.pk()), new Query("estudanteId", "==", usuario.pk()) ]));
                                 }
                                     
                             })

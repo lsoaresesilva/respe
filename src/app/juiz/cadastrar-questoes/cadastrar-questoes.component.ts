@@ -56,7 +56,7 @@ export class CadastrarQuestoesComponent implements OnInit {
   }
 
   adicionarTestCase() {
-    this.questao.testsCases.push(new TestCase(null, [], "", this.questao))
+    this.questao.testsCases.push(new TestCase(null, [], ""))
   }
 
   messageCadastro() {

@@ -5,46 +5,53 @@ import Erro from './erro';
 import { Observable, forkJoin } from 'rxjs';
 import Query from './firestore/query';
 import Usuario from './usuario';
-import Estudante from './estudante';
+import ResultadoTestCase from './resultadoTestCase';
 
 @Collection("submissoes")
-export default class Submissao extends Document{
+export default class Submissao extends Document {
 
     @date()
     data;
-    estudante:Usuario;
-    questao:Questao;
-    erros:Erro[];
+    estudante: Usuario;
+    questao: Questao;
+    erros: Erro[];
+    resultadosTestsCases: ResultadoTestCase[];
 
-    constructor(id, public codigo:Codigo, estudante, questao){
+    constructor(id, public codigo: Codigo, estudante, questao) {
         super(id);
         this.estudante = estudante;
         this.questao = questao;
         this.erros = [];
     }
 
-    objectToDocument(){
+    objectToDocument() {
         let document = super.objectToDocument();
         document["estudanteId"] = this.estudante.pk();
         document["questaoId"] = this.questao.pk();
         document["codigo"] = this.codigo.algoritmo;
-        
+        if (this.resultadosTestsCases != null && this.resultadosTestsCases.length > 0) {
+            let resultadoTestsCases = [];
+            this.resultadosTestsCases.forEach(resultadoTestCase => {
+                resultadoTestsCases.push(resultadoTestCase.objectToDocument());
+            })
+            document["resultadosTestsCases"] = resultadoTestsCases;
+        }
         return document;
     }
 
-    static getRecentePorQuestao(questao:Questao, estudante:Usuario){
-        return new Observable(observer=>{
-            Submissao.getAll([new Query("estudanteId", "==", estudante.pk()), new Query("questaoId", "==", questao.pk())]).subscribe(submissoes=>{
+    static getRecentePorQuestao(questao: Questao, estudante: Usuario) {
+        return new Observable(observer => {
+            Submissao.getAll([new Query("estudanteId", "==", estudante.pk()), new Query("questaoId", "==", questao.pk())]).subscribe(submissoes => {
                 let submissaoRecente = null;
-                if(submissoes.length != 0){
-                    if(submissoes.length == 1){
+                if (submissoes.length != 0) {
+                    if (submissoes.length == 1) {
                         submissaoRecente = submissoes[0];
-                    }else{
-                        submissoes.forEach(submissao=>{
-                            if(submissaoRecente == null){
+                    } else {
+                        submissoes.forEach(submissao => {
+                            if (submissaoRecente == null) {
                                 submissaoRecente = submissao;
-                            }else{
-                                if(submissaoRecente.data.toDate().getTime() <= submissao.data.toDate().getTime()){
+                            } else {
+                                if (submissaoRecente.data.toDate().getTime() <= submissao.data.toDate().getTime()) {
                                     submissaoRecente = submissao;
                                 }
                             }
@@ -56,7 +63,7 @@ export default class Submissao extends Document{
                 observer.complete();
             })
         })
-        
+
     }
 
     /*getLazy(){
@@ -72,37 +79,37 @@ export default class Submissao extends Document{
         });
     }*/
 
-    static get(id){
-        return new Observable(observer=>{
-            super.get(id).subscribe(submissao=>{
-                Erro.getAll(new Query("submissaoId", "==", submissao["id"])).subscribe(erros=>{
+    static get(id) {
+        return new Observable(observer => {
+            super.get(id).subscribe(submissao => {
+                Erro.getAll(new Query("submissaoId", "==", submissao["id"])).subscribe(erros => {
                     submissao["erros"] = erros;
-                }, err=>{
-                    
-                }, ()=>{
+                }, err => {
+
+                }, () => {
                     observer.next(submissao);
                     observer.complete();
                 });
-            }, err=>{
+            }, err => {
                 observer.error(err);
             })
         })
     }
 
-    static getAll(queries?){
-        return new Observable<any[]>(observer=>{
-            super.getAll(queries).subscribe(submissoes=>{
-                let erros:any[] = [];
-                submissoes.forEach(submissao=>{
+    static getAll(queries?) {
+        return new Observable<any[]>(observer => {
+            super.getAll(queries).subscribe(submissoes => {
+                let erros: any[] = [];
+                submissoes.forEach(submissao => {
                     erros.push(Erro.getAll(new Query("submissaoId", "==", submissao["id"])));
 
-                    
+
                 })
-                
-                if(erros.length > 0){
-                    forkJoin(erros).subscribe(erros=>{
-                        
-                        erros.forEach(erro=>{
+
+                if (erros.length > 0) {
+                    forkJoin(erros).subscribe(erros => {
+
+                        erros.forEach(erro => {
                             console.log(erro);
                             /*erro.forEach(e=>{
                                 for(let i = 0; i < submissoes.length; i++){
@@ -113,28 +120,28 @@ export default class Submissao extends Document{
                                     
                                 }
                             })*/
-                            
+
                         });
-                        
-                        
-                        
-                    }, err=>{
-                        
-                    }, ()=>{
+
+
+
+                    }, err => {
+
+                    }, () => {
                         observer.next(submissoes);
                         observer.complete();
                     });
-                }else{
+                } else {
                     observer.next(submissoes);
                     observer.complete();
                 }
-                
-                
-            }, err=>{
+
+
+            }, err => {
                 observer.error(err);
             })
         })
     }
 
-    
+
 }

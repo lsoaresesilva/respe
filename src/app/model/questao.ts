@@ -20,7 +20,7 @@ export class Questao extends Document {
   assuntoPrincipal: Assunto;
   sequencia: number;
   testsCases: TestCase[];
-  
+
 
   constructor(id, nomeCurto, enunciado, dificuldade, sequencia, assuntoPrincipal, assuntos, testsCases) {
     super(id);
@@ -37,6 +37,14 @@ export class Questao extends Document {
     let document = super.objectToDocument();
     if (this.assuntoPrincipal != null && typeof this.assuntoPrincipal.pk === "function")
       document["assuntoPrincipalId"] = this.assuntoPrincipal.pk();
+
+    if (this.testsCases != null && this.testsCases.length > 0) {
+      let ts = [];
+      this.testsCases.forEach(testCase=>{
+        ts.push(testCase.objectToDocument());
+      })
+      document["testsCases"] = ts;
+    }
 
     return document;
   }
@@ -55,7 +63,7 @@ export class Questao extends Document {
               let totalTestCase = questao.testsCases.length;
               let totalRespondidasSucesso = 0;
               resultadosTestCase.forEach(resultado => {
-                
+
                 if (resultado != null && resultado["status"] == true)
                   totalRespondidasSucesso++;
               })
@@ -73,9 +81,9 @@ export class Questao extends Document {
 
 
 
-        }else{
+        } else {
           observer.next(0);
-            observer.complete();
+          observer.complete();
         }
 
       }, err => {
@@ -98,13 +106,6 @@ export class Questao extends Document {
             operacoesFirestore.push(operacaoSave);
           })
 
-          this.testsCases.forEach(testCase => {
-
-            operacoesFirestore.push(testCase.save());
-          })
-
-
-
           forkJoin(operacoesFirestore).subscribe(resultados => {
             observer.next(questao)
             observer.complete();
@@ -123,15 +124,15 @@ export class Questao extends Document {
   }
 
   static get(id) {
-    console.log("get de questão")
     return new Observable(observer => {
       super.get(id).subscribe(questao => {
         let consultas = {}
         let questaoId = questao["id"];
         consultas["assuntosQuestao_" + questaoId] = this.getAssuntos(questao);
-        consultas["testsCases_" + questaoId] = this.getTestsCases(questao);
         if (questao["assuntoPrincipalId"] != null && questao["assuntoPrincipalId"] != "")
           consultas["assuntoPrincipal_" + questaoId] = Assunto.get(questao["assuntoPrincipalId"]);
+
+        questao["testsCases"] = TestCase.construir(questao["testsCases"]);
 
         if (Object.entries(consultas).length === 0 && consultas.constructor === Object) {
           observer.next(questao);
@@ -143,10 +144,10 @@ export class Questao extends Document {
 
             let assuntosQuestaoKey = "assuntosQuestao_" + questaoId;
             let assuntoPrincipalKey = "assuntoPrincipal_" + questaoId;
-            let testsCasesKey = "testsCases_" + questaoId;
+            //let testsCasesKey = "testsCases_" + questaoId;
             questao["assuntos"] = resultados[assuntosQuestaoKey]
             questao["assuntoPrincipal"] = resultados[assuntoPrincipalKey]
-            questao["testsCases"] = resultados[testsCasesKey]
+            //questao["testsCases"] = resultados[testsCasesKey]
 
 
           }, err => {
@@ -172,10 +173,15 @@ export class Questao extends Document {
           counter++;
           let questaoId = questao.id;
           consultas["assuntosQuestao_" + questaoId] = this.getAssuntos(questao);
-          consultas["testsCases_" + questaoId] = this.getTestsCases(questao);
+          //consultas["testsCases_" + questaoId] = this.getTestsCases(questao);
           if (questao.assuntoPrincipalId != null && questao.assuntoPrincipalId != "")
             consultas["assuntoPrincipal_" + questaoId] = Assunto.get(questao.assuntoPrincipalId);
+
+
+          questao.testsCases = TestCase.construir(questao.testsCases);
         })
+
+        
 
 
         if (counter > 0)
@@ -184,10 +190,10 @@ export class Questao extends Document {
             questoes.forEach(questao => {
               let assuntosQuestaoKey = "assuntosQuestao_" + questao.pk();
               let assuntoPrincipalKey = "assuntoPrincipal_" + questao.pk();
-              let testsCasesKey = "testsCases_" + questao.pk();
+              //let testsCasesKey = "testsCases_" + questao.pk();
               questao.assuntos = resultados[assuntosQuestaoKey]
               questao.assuntoPrincipal = resultados[assuntoPrincipalKey]
-              questao["testsCases"] = resultados[testsCasesKey]
+              //questao["testsCases"] = resultados[testsCasesKey]
             });
 
 
@@ -204,18 +210,6 @@ export class Questao extends Document {
       })
 
     });
-  }
-
-  private static getTestsCases(questao) {
-    return new Observable(observer => {
-      TestCase.getAll(new Query("questaoId", "==", questao.id)).subscribe(testsCases => {
-
-        observer.next(testsCases);
-        observer.complete();
-      }, err => {
-        observer.error(err);
-      })
-    })
   }
 
   private static getAssuntos(questao) {
@@ -253,11 +247,11 @@ export class Questao extends Document {
   validar() {
     if (this.assuntos == undefined || this.assuntos == null || this.assuntoPrincipal == null || this.assuntoPrincipal == undefined ||
       this.assuntos.length == 0 || this.nomeCurto == null || this.nomeCurto == "" ||
-      this.enunciado == null || this.enunciado == "" || this.dificuldade == null || this.sequencia == null || this.sequencia < 1 || this.testsCases == undefined || this.testsCases.length == 0 ) {
+      this.enunciado == null || this.enunciado == "" || this.dificuldade == null || this.sequencia == null || this.sequencia < 1 || this.testsCases == undefined || this.testsCases.length == 0) {
       return false;
     }
     return true;
-    
+
   }
 
 
@@ -277,7 +271,7 @@ export class Questao extends Document {
   //       }
   //     }, err => {
   //       observer.error(err);
-        
+
   //     })
   //   })
   // }

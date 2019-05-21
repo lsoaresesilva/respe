@@ -62,7 +62,8 @@ export class Tutor{
         
         return new Observable(observer=>{
             // pegar todos os testes cases respondidos pelo estudante
-            ResultadoTestCase.getAll(new Query("estudanteId", "==", "12345")).subscribe(respostas=>{
+            // TODO: resolver.
+            /*ResultadoTestCase.getAll(new Query("estudanteId", "==", "12345")).subscribe(respostas=>{
                 let respostasTestsCases = respostas.length;
                 let respostasCorretas = 0;
                 respostas.forEach(resultado=>{
@@ -77,7 +78,7 @@ export class Tutor{
 
             }, err=>{
                 // TODO: fazer algo com o erro
-            });   
+            });*/   
         });
         
     }

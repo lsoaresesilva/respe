@@ -10,11 +10,11 @@ import { MenuItem, MessageService } from 'primeng/api';
 })
 export class CadastrarTesteCaseComponent implements OnInit {
   @Input("testCase")
-  
-  testeCase:TestCase;
-  entrada:string ;
+
+  testeCase: TestCase;
+  entrada: string;
   selectedEntrada: String;
-  selectedTest:TestCase;
+  selectedTest: TestCase;
   items: MenuItem[];
 
   constructor(private messageService: MessageService) { }
@@ -28,74 +28,44 @@ export class CadastrarTesteCaseComponent implements OnInit {
     ];
   }
 
-  addTestCase(){
+  adicionarEntrada() {
 
-    if(this.testeCase.validarEntrada(this.entrada)){
+    if (this.testeCase.validarEntrada(this.entrada)) {
       this.testeCase.entradas.push(this.entrada);
-      this.entrada=null;
+      this.entrada = null;
 
-    }else {
+    } else {
 
-     this.messageCamposVazios();
-      this.messageService.add({ severity: 'info', summary:"Teste Case indefinido", detail: "Teste case não pode ser vazio" })
-     
+      this.messageCamposVazios();
+      this.messageService.add({ severity: 'info', summary: "Teste Case indefinido", detail: "Teste case não pode ser vazio" })
+
     }
   }
 
   retirarTestCase(entrada: String) {
 
     let index = -1;
-     for(let i=0;i<this.testeCase.entradas.length;i++) {
-       if (this.testeCase.entradas[i] == entrada) {
-         index = i;
-         break;
-       }
-     }
-   this.testeCase.entradas.splice(index, 1);
-   this.messageService.add({ severity: 'info', summary:"Entrada retirado", detail: "Essa entrada não existe mais" });
-   }
-
-   deleteTeste(teste:TestCase) {
-    TestCase.delete(teste.pk()).subscribe(resultado=>{
-     
-     
-      
-   });
- }
-
-  cadastrarTesteCase(){
-    if (this.testeCase.validar()) {
-       this.testeCase.save().subscribe(resultado=>{
-     this.messageCadastrado();
-        
-     }, err=>{
-     this.messageError();
-       
-       });
-     }else{
-      this.messageCamposVazios();
-
-      this.messageService.add({ severity: 'success', summary:"Test Case cadastrado", detail: "Esse test Case foi incluído na questão" });
-        
-     }, err=>{
-      this.messageService.add({ severity: 'error', summary:"teste Case inválido", detail: "Esse teste Case não foi cadastrado" });
-       
-       });
-     }else{
-      this.messageService.add({ severity: 'error', summary:"teste Case vazio", detail: "Esse teste Case foi negado" });
-     }
-   }
- 
-  messageCadastrado(){
-  this.messageService.add({ severity: 'success', summary:"Test Case cadastrado", detail: "Esse test Case foi incluído na questão" });
+    for (let i = 0; i < this.testeCase.entradas.length; i++) {
+      if (this.testeCase.entradas[i] == entrada) {
+        index = i;
+        break;
+      }
+    }
+    this.testeCase.entradas.splice(index, 1);
+    this.messageService.add({ severity: 'info', summary: "Entrada retirado", detail: "Essa entrada não existe mais" });
   }
 
-  messageError(){
-  this.messageService.add({ severity: 'error', summary:"teste Case inválido", detail: "Esse teste Case não foi cadastrado" });
+
+  messageCadastrado() {
+    this.messageService.add({ severity: 'success', summary: "Test Case cadastrado", detail: "Esse test Case foi incluído na questão" });
   }
 
-  messageCamposVazios(){
-  this.messageService.add({ severity: 'error', summary:"teste Case inválido", detail: "Todos os campos do test case precisam ser preenchidos" });
+  messageError() {
+    this.messageService.add({ severity: 'error', summary: "teste Case inválido", detail: "Esse teste Case não foi cadastrado" });
   }
- 
+
+  messageCamposVazios() {
+    this.messageService.add({ severity: 'error', summary: "teste Case inválido", detail: "Todos os campos do test case precisam ser preenchidos" });
+  }
+
 }

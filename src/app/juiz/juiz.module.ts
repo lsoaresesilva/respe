@@ -32,19 +32,35 @@ import {InputTextModule} from 'primeng/inputtext';
 import { VisualizarExecucacao } from './vizualizar-execucao/vizualizar-execucao.component';
 
 import { VisualizarQuestaoComponent } from './visualizar-questao/visualizar-questao.component';
-import { CadastrarAlternativasComponent } from './cadastrar-alternativas/cadastrar-alternativas.component';
+/*import { CadastrarAlternativasComponent } from './cadastrar-alternativas/cadastrar-alternativas.component';
 import { CadastrarQuestoesFechadasComponent } from './cadastrar-questoes-fechadas/cadastrar-questoes-fechadas.component';
 import { ListarQuestoesFechadasComponent } from './listar-questoes-fechadas/listar-questoes-fechadas.component';
-import {RadioButtonModule} from 'primeng/radiobutton';
 import { VisualizarQuestaoFechadaComponent } from './visualizar-questao-fechada/visualizar-questao-fechada.component';
+*/
 
+import {RadioButtonModule} from 'primeng/radiobutton';
 import { CadastrarAssuntosComponent } from './cadastrar-assuntos/cadastrar-assuntos.component';
 import { ListarAssuntosComponent } from './listar-assuntos/listar-assuntos.component';
 import { VisualizarAssuntoComponent } from './visualizar-assunto/visualizar-assunto.component';
 
 
 @NgModule({
-  declarations: [VisualizarTestesComponent, CadastrarQuestoesComponent, CadastrarTesteCaseComponent, ListarQuestoesComponent, DadosQuestaoComponent, EditorProgramacaoComponent, EditorProgramacaoComponent, CadastrarEstudantesComponent, ListarEstudantesComponent, CadastrarTurmaComponent, ListarTurmaComponent, VisualizarExecucacao, VisualizarQuestaoComponent, CadastrarAlternativasComponent, CadastrarQuestoesFechadasComponent, ListarQuestoesFechadasComponent, VisualizarQuestaoFechadaComponent],
+  declarations: [VisualizarTestesComponent, 
+    CadastrarQuestoesComponent, 
+    CadastrarTesteCaseComponent, 
+    ListarQuestoesComponent, 
+    DadosQuestaoComponent, 
+    EditorProgramacaoComponent, 
+    EditorProgramacaoComponent, 
+    CadastrarEstudantesComponent, 
+    ListarEstudantesComponent, 
+    CadastrarTurmaComponent, 
+    ListarTurmaComponent, 
+    VisualizarExecucacao, 
+    ListarAssuntosComponent,
+    VisualizarAssuntoComponent,
+    VisualizarQuestaoComponent, 
+    CadastrarAssuntosComponent/*, CadastrarAlternativasComponent, CadastrarQuestoesFechadasComponent, ListarQuestoesFechadasComponent, VisualizarQuestaoFechadaComponent*/],
 
   imports: [
     CommonModule,
@@ -81,7 +97,9 @@ import { VisualizarAssuntoComponent } from './visualizar-assunto/visualizar-assu
     ListarEstudantesComponent,
     CadastrarTurmaComponent,
     ListarTurmaComponent,
-   
+    CadastrarAssuntosComponent,
+    ListarAssuntosComponent,
+    VisualizarAssuntoComponent,
   ],
 
   providers: [MessageService],
