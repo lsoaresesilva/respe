@@ -49,38 +49,29 @@ export class Questao extends Document {
     return document;
   }
 
-  static isFinalizada(questao) {
+  static isFinalizada(questao, margemAceitavel = 0.6) {
     return new Observable(observer => {
       Submissao.getRecentePorQuestao(questao, Usuario.getUsuarioLogado()).subscribe(submissao => {
         if (submissao != null) {
-          let consultas = [];
-          questao.testsCases.forEach(testCase => {
-            consultas.push(ResultadoTestCase.getRecentePorSubmissaoTestCase(testCase, submissao));
-          })
 
-          if (consultas.length > 0) {
-            forkJoin(consultas).subscribe(resultadosTestCase => {
-              let totalTestCase = questao.testsCases.length;
-              let totalRespondidasSucesso = 0;
-              resultadosTestCase.forEach(resultado => {
+          if(questao.testsCases != null){
+            let totalTestsCases = questao.testsCases.length;
+            let totalAcertos = 0;
+            submissao["resultadosTestsCases"].forEach(resultadoTestCase => {
+              if(resultadoTestCase.status){
+                totalAcertos++;
+              }
+            });
 
-                if (resultado != null && resultado["status"] == true)
-                  totalRespondidasSucesso++;
-              })
-
-              let percentual = (totalRespondidasSucesso / totalTestCase) * 100;
-              observer.next(percentual);
-              observer.complete();
-            }, err => {
-              observer.error(err);
-            })
-          } else {
+            let percentual = totalAcertos/totalTestsCases;
+            observer.next(percentual*100);
+          }else{
             observer.next(0);
-            observer.complete();
+            
           }
 
-
-
+          observer.complete();
+          
         } else {
           observer.next(0);
           observer.complete();
