@@ -5,27 +5,42 @@ import Submissao from './submissao';
 import Query from './firestore/query';
 
 import * as firebase from 'firebase';
+import { Util } from './util';
 
 @Collection("resultadoTestCase")
-export default class ResultadoTestCase{
-
-    @date()
-    data;
-
-
+export default class ResultadoTestCase {
     // TODO: incluir a submissão
 
-    constructor(public status, public respostaAlgoritmo, public testCase: TestCase, public submissao: Submissao) {
-        //super(id);
+    constructor(public id, public status, public respostaAlgoritmo, public testCase: TestCase) {
+        if(id == null)
+            this.id = Util.uuidv4();
+        else{
+            this.id = id;
+        }
     }
 
     objectToDocument() {
         let document = {};
-        document["data"] = firebase.firestore.FieldValue.serverTimestamp();
         document["status"] = this.status;
         document["respostaAlgoritmo"] = this.respostaAlgoritmo;
         document["testCaseId"] = this.testCase.id;
         return document;
+    }
+
+    /**
+     * Constrói objetos ResultadoTestCase a partir do atributo resultadoTestCase de uma submissão (que é um array)
+     * @param testsCases 
+     */
+    static construir(resultadosTestsCases:any[]){
+        let objetoResultadoTestCase:ResultadoTestCase[] = [];
+
+        if(resultadosTestsCases != null){
+            resultadosTestsCases.forEach(resultado=>{
+                objetoResultadoTestCase.push(new ResultadoTestCase(null, resultado["status"], resultado["respostaAlgoritmo"], new TestCase(resultado["testCaseId"], null, null)));
+            })
+        }
+
+        return objetoResultadoTestCase;
     }
 
     /*static saveAll(resultados: ResultadoTestCase[]):Observable<any[]> {
@@ -65,8 +80,27 @@ export default class ResultadoTestCase{
         })
     }*/
 
-    static getRecentePorSubmissaoTestCase(testCase:TestCase, submissao){
-        return new Observable(observer=>{
+    static getRecente(resultadosTestCase: any[]) {
+        let resultadoAtualTestCase = null;
+
+        for (let x = 0; x < resultadosTestCase["length"]; x++) {
+
+            if (resultadoAtualTestCase == null)
+                resultadoAtualTestCase = resultadosTestCase[x];
+            else {
+                let dateTestCase = resultadosTestCase[x]["data"]["toDate"]()
+                let dateTestCaseAtual = resultadoAtualTestCase["data"]["toDate"]()
+                if (dateTestCase["getTime"]() > dateTestCaseAtual["getTime"]()) {
+                    resultadoAtualTestCase = resultadosTestCase[x];
+                }
+            }
+        }
+
+        return resultadoAtualTestCase;
+    }
+
+    static getRecentePorSubmissaoTestCase(testCase: TestCase, submissao) {
+        return new Observable(observer => {
             /*ResultadoTestCase.getAll([new Query("submissaoId", "==", submissao.pk()), new Query("testCaseId", "==", testCase.pk())]).subscribe(resultadosTestsCases=>{
                 let resultadoTestCaseRecente = null;
                 if(resultadosTestsCases.length != 0){
@@ -89,7 +123,7 @@ export default class ResultadoTestCase{
                 observer.complete();
             })*/
         })
-        
+
     }
 
 

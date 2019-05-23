@@ -72,7 +72,7 @@ export class VisualizarPlanejamentoComponent implements OnInit {
   }
 
   isPlanejamentoFinalizado(){
-    return Assunto.isFinalizado(this.planejamento.assunto.pk(), Usuario.getUsuarioLogado());
+    //return Assunto.isFinalizado(this.planejamento.assunto.pk(), Usuario.getUsuarioLogado());
   }
 
 

@@ -40,28 +40,36 @@ export default class Submissao extends Document {
     }
 
     static getRecentePorQuestao(questao: Questao, estudante: Usuario) {
+        
         return new Observable(observer => {
-            Submissao.getAll([new Query("estudanteId", "==", estudante.pk()), new Query("questaoId", "==", questao.pk())]).subscribe(submissoes => {
-                let submissaoRecente = null;
-                if (submissoes.length != 0) {
-                    if (submissoes.length == 1) {
-                        submissaoRecente = submissoes[0];
-                    } else {
-                        submissoes.forEach(submissao => {
-                            if (submissaoRecente == null) {
-                                submissaoRecente = submissao;
-                            } else {
-                                if (submissaoRecente.data.toDate().getTime() <= submissao.data.toDate().getTime()) {
+            if(questao == null || typeof questao.pk != "function" || estudante == null || typeof estudante.pk != "function"){
+                observer.error(new Error("Questão ou estudante não podem ser vazios"));
+            }else{
+                Submissao.getAll([new Query("estudanteId", "==", estudante.pk()), new Query("questaoId", "==", questao.pk())]).subscribe(submissoes => {
+                    let submissaoRecente = null;
+                    if (submissoes.length != 0) {
+                        if (submissoes.length == 1) {
+                            submissaoRecente = submissoes[0];
+                        } else {
+                            submissoes.forEach(submissao => {
+                                if (submissaoRecente == null) {
                                     submissaoRecente = submissao;
+                                } else {
+                                    if (submissaoRecente.data.toDate().getTime() <= submissao.data.toDate().getTime()) {
+                                        submissaoRecente = submissao;
+                                    }
                                 }
-                            }
-                        })
+                            })
+                        }
                     }
-                }
 
-                observer.next(submissaoRecente);
-                observer.complete();
-            })
+                    
+    
+                    observer.next(submissaoRecente);
+                    observer.complete();
+                })
+            }
+            
         })
 
     }
@@ -82,6 +90,7 @@ export default class Submissao extends Document {
     static get(id) {
         return new Observable(observer => {
             super.get(id).subscribe(submissao => {
+                submissao["resultadosTestsCases"] = ResultadoTestCase.construir(submissao["resultadosTestsCases"]);
                 Erro.getAll(new Query("submissaoId", "==", submissao["id"])).subscribe(erros => {
                     submissao["erros"] = erros;
                 }, err => {
@@ -102,7 +111,7 @@ export default class Submissao extends Document {
                 let erros: any[] = [];
                 submissoes.forEach(submissao => {
                     erros.push(Erro.getAll(new Query("submissaoId", "==", submissao["id"])));
-
+                    submissao.resultadosTestsCases = ResultadoTestCase.construir(submissao.resultadosTestsCases);
 
                 })
 

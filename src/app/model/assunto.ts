@@ -6,6 +6,8 @@ import { MaterialEstudo } from './materialEstudo';
 import { Questao } from './questao';
 import ResultadoTestCase from './resultadoTestCase';
 import Usuario from './usuario';
+import Submissao from './submissao';
+import { Util } from './util';
 
 @Collection("assuntos")
 export class Assunto extends Document {
@@ -13,7 +15,7 @@ export class Assunto extends Document {
 
     constructor(id, public nome
         // public preRequisitos: Assunto[], public objetivosEducacionais, materialEstudo: MaterialEstudo[]
-        ) {
+    ) {
         super(id);
     }
 
@@ -43,13 +45,13 @@ export class Assunto extends Document {
         });
     }
 
-    static isFinalizado(assunto: Assunto, estudante, margemAceitavel = 0.6){
+    static isFinalizado(assunto: Assunto, estudante, margemAceitavel = 0.6) {
         return new Observable(observer => {
-            this.percentualConclusaoQuestoes(assunto, estudante).subscribe(percentual=>{
-                if(percentual >= margemAceitavel){
+            this.percentualConclusaoQuestoes(assunto, estudante, margemAceitavel).subscribe(percentual => {
+                if (percentual >= margemAceitavel) {
                     observer.next(true);
                     observer.complete();
-                }else{
+                } else {
                     observer.next(false);
                     observer.complete();
                 }
@@ -59,85 +61,75 @@ export class Assunto extends Document {
 
 
     validar() {
-        if (this.nome == undefined || this.nome == null ) {
-          return false;
+        if (this.nome == undefined || this.nome == null) {
+            return false;
         }
-    
+
         return true;
     }
 
     // TODO: pegar somente o que for do usuário logado
-    static percentualConclusaoQuestoes(assunto: Assunto, usuario):Observable<number> {
+    static percentualConclusaoQuestoes(assunto: Assunto, usuario: Usuario, margemAceitavel): Observable<number> {
         // Pegar todas as questões de um assunto
         return new Observable(observer => {
-            if(assunto != undefined && usuario != undefined){
+            if (assunto != undefined && usuario != undefined) {
                 Questao.getAll(new Query("assuntoPrincipalId", "==", assunto.pk())).subscribe(questoes => {
-            
-                    let consultas = []
+
+                    let consultas = {}
                     questoes.forEach(questao => {
                         if (questao.testsCases != undefined && questao.testsCases.length > 0) {
                             questao.testsCases.forEach(testCase => {
-                                if (typeof testCase.pk === "function"){
-                                    
-                                    // TODO: resolver.
-                                    //consultas.push(ResultadoTestCase.getAll([new Query("testCaseId", "==", testCase.pk()), new Query("estudanteId", "==", usuario.pk()) ]));
-                                }
-                                    
+                                // TIRAR ISSO E SUBSTITUIR POR SUBMISSAO
+                                consultas[questao.pk()] = Submissao.getRecentePorQuestao(questao, usuario);
+                                //    consultas.push(ResultadoTestCase.getAll([new Query("testCaseId", "==", testCase.pk()), new Query("estudanteId", "==", usuario.pk()) ]));
+
+
                             })
                         }
                     })
-    
-                    let totalQuestoes = questoes.length;
-    
-                    if (consultas.length > 0) {
-                        forkJoin(consultas).subscribe(todosResultadosTestsCases => {
-                            if (todosResultadosTestsCases.length > 0) {
+
+                    if (!Util.isObjectEmpty(consultas)) {
+                        forkJoin(consultas).subscribe(submissoes => {
+                            let s: any = submissoes;
+                            if (!Util.isObjectEmpty(s)) {
+                                let totalQuestoes = questoes.length;
                                 let questoesRespondidas = [];
                                 questoes.forEach(questao => {
                                     let questaoRespondida = true;
-                                    for (let j = 0; j < questao.testsCases.length; j++) {
-                                        //let testResultados = [];
-                                        let testCaseRespondidoSucesso = true;
+                                    //for (let j = 0; j < questao.testsCases.length; j++) {
                                         let resultadoAtualTestCase = null;
+
+                                        for (let questaoId in s) {
+                                            if (questaoId == questao.pk()) {
+                                                let totalTestsCases = questao.testsCases.length;
+                                                let totalAcertos = 0;
+                                                if(s[questaoId] != null && s[questaoId].resultadosTestsCases != null){
+                                                    s[questaoId].resultadosTestsCases.forEach(resultadoTestCase=>{
+                                                        if(resultadoTestCase.status)
+                                                            totalAcertos++;
+                                                    })
     
-                                        todosResultadosTestsCases.forEach(resultadosTestCase => {
-                                            for (let x = 0; x < resultadosTestCase["length"]; x++) {
-                                                if (questao.testsCases[j].pk() == resultadosTestCase[x]["testCaseId"]) {
-                                                    if (resultadoAtualTestCase == null)
-                                                        resultadoAtualTestCase = resultadosTestCase[x];
-                                                    else {
-                                                        let dateTestCase = resultadosTestCase[x]["data"]["toDate"]()
-                                                        let dateTestCaseAtual = resultadoAtualTestCase["data"]["toDate"]()
-                                                        if (dateTestCase["getTime"]() > dateTestCaseAtual["getTime"]()) {
-                                                            resultadoAtualTestCase = resultadosTestCase[x];
-                                                        }
-                                                    }
-    
+                                                    let percentual = totalAcertos/totalTestsCases;
+                                                    if(percentual >= margemAceitavel)
+                                                    questoesRespondidas.push(questao);
                                                 }
-                                            }
-    
-                                        });
-                                        if (resultadoAtualTestCase == null || !resultadoAtualTestCase.status) {
-                                            questaoRespondida = false
-                                            break;
+                                                
+                                            }   
                                         }
-                                    }
-    
-                                    if (questaoRespondida) {
-                                        questoesRespondidas.push(questao);
-                                    }
-    
+                                    //}
                                 })
-    
-                                observer.next(questoesRespondidas.length/ totalQuestoes);
+
+                                observer.next(questoesRespondidas.length / totalQuestoes);
                                 observer.complete();
                             } else {
                                 observer.next(0);
                                 observer.complete();
                             }
-    
-    
-    
+
+
+
+
+
                         });
                     } else {
                         observer.next(0);
@@ -145,7 +137,7 @@ export class Assunto extends Document {
                     }
                 })
             }
-            
+
         })
 
     }

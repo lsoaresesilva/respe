@@ -8,38 +8,27 @@ import { forkJoin, Observable } from 'rxjs';
   styleUrls: ['./visualizar-testes.component.css']
 })
 export class VisualizarTestesComponent implements OnInit, OnChanges {
-  ngOnChanges(changes: import("@angular/core").SimpleChanges): void {
-    if(this.testsCases != undefined && this.submissao != undefined){
-      let consultas:any = {};
-      this.testsCases.forEach(testCase=>{
-        
-        consultas[testCase.pk()] = ResultadoTestCase.getRecentePorSubmissaoTestCase(testCase, this.submissao);
-      })
-
-      forkJoin(consultas).subscribe(resultados=>{
-
-        for(let key in resultados){
-          if(resultados[key] != null){
-            this.testsCases.forEach(testCase=>{
-              if(testCase.pk() == key){
-                testCase["resultadoTestCase"] = resultados[key];
-              }
-            });
+  ngOnChanges(changes: import("@angular/core").SimpleChanges): void { // PROBLEMA: mudou a estrutura, não há mais resultado test case. apenas submissao
+    
+    
+    if(this.submissao != undefined && this.submissao.resultadosTestsCases != undefined && this.testsCases != undefined){
+      this.submissao.resultadosTestsCases.forEach(resultadoTestCase=>{
+        this.testsCases.forEach(testCase=>{
+          if(testCase.id == resultadoTestCase.testCase.id){
+            testCase["resultadoTestCase"] = resultadoTestCase;
           }
-          
-        }
+        });
       })
     }
   }
 
-  @Input() testsCases?:any[];
-  @Input() submissao;
+  @Input() submissao?;
+  @Input() testsCases?;
 
   resultadosTestsCases;
 
   constructor() {
     this.resultadosTestsCases = [];
-    this.testsCases = [];
   }
 
   ngOnInit() {

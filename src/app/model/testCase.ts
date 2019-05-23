@@ -1,4 +1,5 @@
 import { Document, Collection } from './firestore/document'
+import { Util } from './util';
 
 @Collection("testsCases")
 export default class TestCase {
@@ -10,7 +11,7 @@ export default class TestCase {
         this.entradas = entradas;
         this.saida = saida;
         if(id == null)
-            this.id = this.uuidv4();
+            this.id = Util.uuidv4();
         else{
             this.id = id;
         }
@@ -28,15 +29,19 @@ export default class TestCase {
     }
 
     /**
-     * Constrói objetos TestsCases a partir de atributo testsCases de uma questão
+     * Constrói objetos TestsCases a partir do atributo testsCases de uma questão (que é um array)
      * @param testsCases 
      */
     static construir(testsCases:any[]){
         let objetosTestsCases:TestCase[] = [];
 
-        testsCases.forEach(testCase=>{
-            objetosTestsCases.push(new TestCase(testCase.id, testCase.entradas, testCase.saida));
-        })
+        if(testsCases != null){
+            testsCases.forEach(testCase=>{
+                objetosTestsCases.push(new TestCase(testCase.id, testCase.entradas, testCase.saida));
+            })
+        }
+
+        
 
         return objetosTestsCases;
     }
@@ -69,14 +74,5 @@ export default class TestCase {
     }
 
 
-    /**
-     * Gerador de UUID. 
-     * Autor: https://stackoverflow.com/posts/2117523/revisions
-     */
-    uuidv4() {
-        return 'xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx'.replace(/[xy]/g, function (c) {
-            var r = Math.random() * 16 | 0, v = c == 'x' ? r : (r & 0x3 | 0x8);
-            return v.toString(16);
-        });
-    }
+    
 }

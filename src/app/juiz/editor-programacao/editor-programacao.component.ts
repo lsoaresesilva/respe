@@ -142,12 +142,12 @@ export class EditorProgramacaoComponent implements OnInit {
 
     let _this = this;
 
-    this.http.post<any>("http://127.0.0.1:8000/codigo/", submissao.objectToDocument(), httpOptions).subscribe(resposta => { // TODO: mudar o endereço para o real
+    let request = submissao.objectToDocument();
+    request["tipo"] = "execução";
 
-
-
+    this.http.post<any>("http://127.0.0.1:8000/codigo/", request, httpOptions).subscribe(resposta => { // TODO: mudar o endereço para o real
       let consultas = []
-
+      submissao.resultadosTestsCases = ResultadoTestCase.construir(resposta.resultados);
       submissao.save().subscribe(resultado => {
         let tutor = new Tutor(submissao);
         tutor.analisar();
@@ -222,7 +222,10 @@ export class EditorProgramacaoComponent implements OnInit {
       }
       // TODO: definir um timedout
 
-      this.http.post<any>("http://127.0.0.1:8000/visualizar-execucao/", submissao.objectToDocument(), httpOptions).subscribe(resposta => {
+      let request = submissao.objectToDocument();
+      request["tipo"] = "visualização";
+
+      this.http.post<any>("http://127.0.0.1:8000/codigo/", request, httpOptions).subscribe(resposta => {
 
         resposta = resposta.replace("script str", "")
 

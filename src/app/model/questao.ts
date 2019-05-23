@@ -144,10 +144,8 @@ export class Questao extends Document {
 
             let assuntosQuestaoKey = "assuntosQuestao_" + questaoId;
             let assuntoPrincipalKey = "assuntoPrincipal_" + questaoId;
-            //let testsCasesKey = "testsCases_" + questaoId;
             questao["assuntos"] = resultados[assuntosQuestaoKey]
             questao["assuntoPrincipal"] = resultados[assuntoPrincipalKey]
-            //questao["testsCases"] = resultados[testsCasesKey]
 
 
           }, err => {
@@ -165,35 +163,26 @@ export class Questao extends Document {
     console.log("get all de questão")
     return new Observable(observer => {
       super.getAll(query).subscribe(questoes => {
-        /*let assuntosQuestoes = {}
-        let assuntosPrincipais = {};*/
+
         let consultas = {}
         let counter = 0;
         questoes.forEach(questao => {
           counter++;
           let questaoId = questao.id;
           consultas["assuntosQuestao_" + questaoId] = this.getAssuntos(questao);
-          //consultas["testsCases_" + questaoId] = this.getTestsCases(questao);
           if (questao.assuntoPrincipalId != null && questao.assuntoPrincipalId != "")
             consultas["assuntoPrincipal_" + questaoId] = Assunto.get(questao.assuntoPrincipalId);
-
-
           questao.testsCases = TestCase.construir(questao.testsCases);
         })
-
         
-
-
         if (counter > 0)
           forkJoin(consultas).subscribe(resultados => {
 
             questoes.forEach(questao => {
               let assuntosQuestaoKey = "assuntosQuestao_" + questao.pk();
               let assuntoPrincipalKey = "assuntoPrincipal_" + questao.pk();
-              //let testsCasesKey = "testsCases_" + questao.pk();
               questao.assuntos = resultados[assuntosQuestaoKey]
               questao.assuntoPrincipal = resultados[assuntoPrincipalKey]
-              //questao["testsCases"] = resultados[testsCasesKey]
             });
 
 
