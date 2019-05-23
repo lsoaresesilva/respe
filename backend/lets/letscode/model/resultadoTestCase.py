@@ -5,17 +5,15 @@ from letscode.model.firestore.query import Query
 @Collection("resultadoTestCase")
 class ResultadoTestCase(Document):
 
-    def __init__(self, id, submissao, testCase, respostaAlgoritmo, status):
+    def __init__(self, id, testCase, respostaAlgoritmo, status):
         super().__init__(id)
-        self.submissao = submissao
         self.testCase = testCase
         self.status = status
         self.respostaAlgoritmo = respostaAlgoritmo
 
     def objectToDocument(self):
         document = super().objectToDocument()
-        document["testCaseId"] = self.testCase.id
-        document["submissaoId"] = self.submissao.id
+        document["testCaseId"] = self.testCase["id"]
         document["respostaAlgoritmo"] = self.respostaAlgoritmo
         return document
 
@@ -25,8 +23,7 @@ class ResultadoTestCase(Document):
     def toJson(self):
         return {
             "id":self.id,
-            "testCaseId":self.testCase.id,
-            "submissaoId":self.submissao.id,
+            "testCaseId":self.testCase["id"],
             "respostaAlgoritmo":self.respostaAlgoritmo,
             "status":self.status
         }

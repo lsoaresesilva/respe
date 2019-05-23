@@ -15,13 +15,11 @@ import { forkJoin } from 'rxjs';
 })
 export class VisualizarPlanejamentoComponent implements OnInit {
   planejamento: Planejamento;
-  assunto: any;
   materialDeEstudo: any[] = [];
   questoes: any[] = [];
   progresso: number = 0;
 
   constructor(private activatedRoute: ActivatedRoute, private router: Router) {
-    this.assunto = {nome: ""};
   }
 
   ngOnInit() {
@@ -38,25 +36,8 @@ export class VisualizarPlanejamentoComponent implements OnInit {
   getPlanejamento(id){
     Planejamento.get(id).subscribe(planejamentoCadastrado => {
       this.planejamento = planejamentoCadastrado;
-      this.getProgresso();
       this.getQuestoes();
     });
-  }
-
-  getProgresso(){
-    let usuario = Usuario.getUsuarioLogado();
-    if(this.planejamento["assunto"] != undefined && usuario != null){
-    Assunto.percentualConclusaoQuestoes(this.planejamento["assunto"], usuario).subscribe(progresso=>{
-      this.progresso = progresso;
-    })
-    }else{
-      throw new Error("É preciso que exista um assunto em um planejamento.")
-    }
-  }
-
-
-  getMaterialDeEstudo(assunto){
-    
   }
 
   getQuestoes(){
@@ -89,6 +70,12 @@ export class VisualizarPlanejamentoComponent implements OnInit {
   responderQuestao(questao){
     this.router.navigate(['main', { outlets: { principal: ['editor', questao.pk()] } }]);
   }
+
+  isPlanejamentoFinalizado(){
+    //return Assunto.isFinalizado(this.planejamento.assunto.pk(), Usuario.getUsuarioLogado());
+  }
+
+
 
 
 }

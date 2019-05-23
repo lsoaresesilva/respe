@@ -1,8 +1,10 @@
-<h1>{{assunto.nome}}</h1>
+<button *ngIf="isPlanejamentoFinalizado() | async" pButton label="Revisar progresso" (click)="revisarProgresso()"></button>
 
 <h3>Seu progresso:</h3>
 
 <p-progressBar [value]="progresso"></p-progressBar>
+
+
 
 <p>
     Você sabia? Para se dar bem nesse assunto você 

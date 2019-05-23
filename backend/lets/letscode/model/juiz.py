@@ -51,11 +51,11 @@ class Juiz():
         
         teste = self.submissao.questao.testsCases[0]
         if teste != None:
-            inputs = self.prepararInputs(teste.entradas)
+            inputs = self.prepararInputs(teste["entradas"])
         # TODO: colocar tudo dentro do if, se n tiver teste, n tem como visualizar.
 
         if arquivo.is_arquivo_valido():
-            if self.matchInputCodigo(teste.entradas):
+            if self.matchInputCodigo(teste["entradas"]):
                 path = os.path.dirname(os.path.realpath(__file__))
                 path = path+'/pythontutor/generate_json_trace.py'
                 comando = 'python3 '+path+' '+arquivo.nome()+' -i '+inputs
@@ -83,15 +83,15 @@ class Juiz():
         self.isQuestaoValida()
 
         for teste in self.submissao.questao.testsCases:
-
+            print(teste["entradas"])
             if arquivo.is_arquivo_valido():
-                if self.matchInputCodigo(teste.entradas):
+                if self.matchInputCodigo(teste["entradas"]):
 
                     child = pexpect.spawn('python3 '+arquivo.nome())
 
                     try:
 
-                        for entradas in teste.entradas:
+                        for entradas in teste["entradas"]:
                             child.expect(".*")
                             child.sendline(entradas)
 
@@ -105,7 +105,7 @@ class Juiz():
                                     "O código apresentou o seguinte erro '"+erro.tipo+"' na linha "+erro.linha)
                         except ErroProgramacaoError:  # Não há erro, verificar o resultado test de testcase normalmente
                             resultadoTeste = self.compararSaidaEsperadaComSaidaAlgoritmo(
-                                msgRetornoAlgoritmo, teste.saida)
+                                msgRetornoAlgoritmo, teste["saida"])
                         finally:
                             child.close()
                     except OSError as e:
@@ -115,8 +115,8 @@ class Juiz():
                     raise JuizError(
                         "A quantidade de inputs em seu código é menor que a quantidade de entradas")
 
-                resultado = ResultadoTestCase(None, self.submissao, teste, self.respostaAlgoritmo(
-                    msgRetornoAlgoritmo, teste.entradas), resultadoTeste)
+                resultado = ResultadoTestCase(None, teste, self.respostaAlgoritmo(
+                    msgRetornoAlgoritmo, teste["entradas"]), resultadoTeste)
 
                 resultados.append(resultado)
             else:
