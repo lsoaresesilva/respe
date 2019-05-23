@@ -77,11 +77,11 @@ export class CadastrarTesteCaseComponent implements OnInit {
 
       this.messageService.add({ severity: 'success', summary:"Test Case cadastrado", detail: "Esse test Case foi incluído na questão" });
         
-     }, err=>{
+     //}, err=>{
       this.messageService.add({ severity: 'error', summary:"teste Case inválido", detail: "Esse teste Case não foi cadastrado" });
        
-       });
-     }else{
+       //});
+     //}else{
       this.messageService.add({ severity: 'error', summary:"teste Case vazio", detail: "Esse teste Case foi negado" });
      }
    }
