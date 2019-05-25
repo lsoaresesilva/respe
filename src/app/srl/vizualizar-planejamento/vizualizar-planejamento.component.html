@@ -1,4 +1,4 @@
-<button *ngIf="isPlanejamentoFinalizado() | async" pButton label="Revisar progresso" (click)="revisarProgresso()"></button>
+<button *ngIf="isFinalizado" pButton label="Revisar progresso" (click)="iniciarAutoReflexao()"></button>
 
 <h3>Seu progresso:</h3>
 

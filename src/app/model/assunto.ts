@@ -12,11 +12,43 @@ import { Util } from './util';
 @Collection("assuntos")
 export class Assunto extends Document {
 
+    questoes?:Questao[];
 
-    constructor(id, public nome
-        // public preRequisitos: Assunto[], public objetivosEducacionais, materialEstudo: MaterialEstudo[]
-    ) {
+
+    constructor(id, public nome) {
         super(id);
+        // TODO: remover, pois questão estará dentro de assunto.
+        
+    }
+    
+
+    static getQuestoes(assunto){
+        let questoes;
+        return new Observable(observer=>{
+            Questao.getAll(new Query("assuntoPrincipalId", "==", assunto.pk())).subscribe(questoes=>{
+                questoes = questoes;
+                
+            }, err=>{
+                observer.error(err);
+            },()=>{
+                observer.next(questoes);
+                observer.complete();
+            })
+        })
+    }
+
+    static get(id){
+        return new Observable(observer=>{
+            super.get(id).subscribe(assunto=>{
+                this.getQuestoes(assunto).subscribe(questoes=>{
+                    assunto["questoes"] = questoes;
+                    observer.next(assunto);
+                    observer.complete();
+                },err=>{
+                    observer.error(err);
+                })
+            })
+        })
     }
 
     static delete(id) {
@@ -79,11 +111,7 @@ export class Assunto extends Document {
                     questoes.forEach(questao => {
                         if (questao.testsCases != undefined && questao.testsCases.length > 0) {
                             questao.testsCases.forEach(testCase => {
-                                // TIRAR ISSO E SUBSTITUIR POR SUBMISSAO
                                 consultas[questao.pk()] = Submissao.getRecentePorQuestao(questao, usuario);
-                                //    consultas.push(ResultadoTestCase.getAll([new Query("testCaseId", "==", testCase.pk()), new Query("estudanteId", "==", usuario.pk()) ]));
-
-
                             })
                         }
                     })
@@ -97,25 +125,25 @@ export class Assunto extends Document {
                                 questoes.forEach(questao => {
                                     let questaoRespondida = true;
                                     //for (let j = 0; j < questao.testsCases.length; j++) {
-                                        let resultadoAtualTestCase = null;
+                                    let resultadoAtualTestCase = null;
 
-                                        for (let questaoId in s) {
-                                            if (questaoId == questao.pk()) {
-                                                let totalTestsCases = questao.testsCases.length;
-                                                let totalAcertos = 0;
-                                                if(s[questaoId] != null && s[questaoId].resultadosTestsCases != null){
-                                                    s[questaoId].resultadosTestsCases.forEach(resultadoTestCase=>{
-                                                        if(resultadoTestCase.status)
-                                                            totalAcertos++;
-                                                    })
-    
-                                                    let percentual = totalAcertos/totalTestsCases;
-                                                    if(percentual >= margemAceitavel)
+                                    for (let questaoId in s) {
+                                        if (questaoId == questao.pk()) {
+                                            let totalTestsCases = questao.testsCases.length;
+                                            let totalAcertos = 0;
+                                            if (s[questaoId] != null && s[questaoId].resultadosTestsCases != null) {
+                                                s[questaoId].resultadosTestsCases.forEach(resultadoTestCase => {
+                                                    if (resultadoTestCase.status)
+                                                        totalAcertos++;
+                                                })
+
+                                                let percentual = totalAcertos / totalTestsCases;
+                                                if (percentual >= margemAceitavel)
                                                     questoesRespondidas.push(questao);
-                                                }
-                                                
-                                            }   
+                                            }
+
                                         }
+                                    }
                                     //}
                                 })
 

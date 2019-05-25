@@ -3,6 +3,8 @@ import { Assunto } from './assunto';
 import { Document, Collection } from './firestore/document';
 import { Dificuldade } from './dificuldade';
 import { Observable, forkJoin } from 'rxjs';
+import AutoReflexao from './autoReflexao';
+import Estudante from './estudante';
 
 @Collection("planejamentos")
 export class Planejamento extends Document {
@@ -13,7 +15,7 @@ export class Planejamento extends Document {
   dificuldadeConteudo: Dificuldade;
   estrategiaRealizacaoEstudo;
 
-  constructor(id, estudante, assunto, tempoEstudo, importanciaAssunto, dificuldadeConteudo, estrategiaRealizacaoEstudo, public status) {
+  constructor(id, estudante, assunto, tempoEstudo, importanciaAssunto, dificuldadeConteudo, estrategiaRealizacaoEstudo, public status, public autoReflexao) {
     super(id);
     this.estudante = estudante;
     this.assunto = assunto;
@@ -27,6 +29,10 @@ export class Planejamento extends Document {
     let document = super.objectToDocument()
     document["estudanteId"] = this.estudante.pk();
     document["assuntoId"] = this.assunto.pk();
+    if(this.autoReflexao != null){
+      document["autoReflexao"] = this.autoReflexao.objectToDocument();
+    }
+
     return document;
   }
 
@@ -40,11 +46,17 @@ export class Planejamento extends Document {
     }
   }
 
+  
+
   static getAll(query): Observable<any[]> {
     return new Observable(observer => {
       super.getAll(query).subscribe(planejamentos => {
         let consultas: any = {};
         planejamentos.forEach(planejamento => {
+
+          planejamento["estudante"] = new Estudante(planejamento["estudanteId"], null, null);
+          planejamento["autoReflexao"] = new AutoReflexao(planejamento["estudanteId"], null, null, null);
+
           if (planejamento["assuntoId"] != undefined && consultas[planejamento["assuntoId"]] == undefined) {
 
             consultas[planejamento["assuntoId"]] = Assunto.get(planejamento["assuntoId"]);
@@ -76,6 +88,7 @@ export class Planejamento extends Document {
     return new Observable(observer => {
       super.get(id).subscribe(planejamento => {
 
+        planejamento["estudante"] = new Estudante(planejamento["estudanteId"], null, null);
 
         if (planejamento["assuntoId"] != undefined) {
 

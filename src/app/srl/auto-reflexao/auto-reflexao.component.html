@@ -11,7 +11,7 @@
     Como você avalia o seu nível de confiança neste conteúdo?
   </div>
   <div class="p-col-8">
-    <p-dropdown [options]="niveisConfianca" [(ngModel)]="autoReflexao.nivelConfianca"></p-dropdown>
+    <p-dropdown [options]="niveisConfianca" [(ngModel)]="planejamento.autoReflexao.nivelConfianca"></p-dropdown>
   </div>
 </div>
 
@@ -20,7 +20,7 @@
   <div class="p-col-3">
     Quais foram as dificuldades enfrentadas durante o aprendizado?
   </div>
-  <div class="p-col-8"><textarea pInputTextarea [(ngModel)]="autoReflexao.dificuldades" style="width:100%"></textarea>
+  <div class="p-col-8"><textarea pInputTextarea [(ngModel)]="planejamento.autoReflexao.dificuldades" style="width:100%"></textarea>
   </div>
 </div>
 
@@ -29,7 +29,7 @@
   <div class="p-col-3">
     O que você deveria ter feito que poderia melhorar seu aprendizado?
   </div>
-  <div class="p-col-8"><textarea pInputTextarea [(ngModel)]="autoReflexao.acoesFracasso" style="width:100%"></textarea>
+  <div class="p-col-8"><textarea pInputTextarea [(ngModel)]="planejamento.autoReflexao.acoesFracasso" style="width:100%"></textarea>
   </div>
 </div>
 
@@ -38,7 +38,7 @@
   <div class="p-col-3">
     O que você fez que ajudou no seu aprendizado?
   </div>
-  <div class="p-col-8"><textarea pInputTextarea [(ngModel)]="autoReflexao.acoesSucesso" style="width:100%"></textarea>
+  <div class="p-col-8"><textarea pInputTextarea [(ngModel)]="planejamento.autoReflexao.acoesSucesso" style="width:100%"></textarea>
   </div>
 </div>
 

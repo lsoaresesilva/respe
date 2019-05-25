@@ -1,13 +1,11 @@
 import { Component, OnInit } from '@angular/core';
 import AutoReflexao from 'src/app/model/autoReflexao';
-import Estudante from 'src/app/model/estudante';
 import { Message } from 'primeng/components/common/message';
-import { AngularFirestoreCollection } from '@angular/fire/firestore';
-import { error } from '@angular/compiler/src/util';
 import { Assunto } from 'src/app/model/assunto';
 import { Router, ActivatedRoute } from '@angular/router';
 import { SelectItem } from 'primeng/api';
 import { NivelConfianca } from 'src/app/model/nivelConfianca';
+import { Planejamento } from 'src/app/model/planejamento';
 
 @Component({
   selector: 'app-auto-reflexao',
@@ -16,8 +14,7 @@ import { NivelConfianca } from 'src/app/model/nivelConfianca';
 })
 export class AutoReflexaoComponent implements OnInit {
 
-  autoReflexao: AutoReflexao;
-  assunto: Assunto;
+  planejamento: Planejamento;
   msgs: Message[];
   niveisConfianca: SelectItem[];
 
@@ -27,18 +24,20 @@ export class AutoReflexaoComponent implements OnInit {
     this.route.params.subscribe(params=>{
       if(params["id"] != undefined){
         
-        this.assunto = new Assunto(params["id"], null);
+        Planejamento.get(params["id"]).subscribe(planejamento=>{
+          this.planejamento = planejamento;
+          if(this.planejamento.autoReflexao == null){
+            this.planejamento.autoReflexao = new AutoReflexao(0, "", "", "");
+          }
+        }, err=>{
+          this.msgs.push({ severity: 'error', summary: 'Erro', detail: 'Não é possível iniciar uma autoreflexão com um planejamento inválido.' });
+        })
       }else{
-        this.msgs.push({ severity: 'error', summary: 'Erro', detail: 'Não é possível iniciar uma autoreflexão sem informar um assunto.' });
+        this.msgs.push({ severity: 'error', summary: 'Erro', detail: 'Não é possível iniciar uma autoreflexão sem informar um planejamento.' });
       }
     })
 
     
-    // TODO: carregar do login
-// <<<<<<< HEAD
-//     this.autoReflexao = new AutoReflexao(this.assunto, new Estudante("12345", null, null, null, null), " ", " ", " ");
-// =======
-    this.autoReflexao = new AutoReflexao(null, this.assunto, 0, "", "", "");
 
   }
 
@@ -55,25 +54,15 @@ export class AutoReflexaoComponent implements OnInit {
   }
 
   salvar() {
-    if(this.autoReflexao.validar()){
-      
-      this.autoReflexao.save().subscribe(resultado => {
-        this.autoReflexao.pk = resultado.id;
+    if(this.planejamento.autoReflexao.validar()){
+
+      this.planejamento.save().subscribe(resulado=>{
         this.msgs.push({ severity: 'success', summary: 'Dados salvos com sucesso.' });
-        this.router.navigate(["main", { outlets: { principal: ['srl-listagem-planejamento'] } }])
+        this.router.navigate(["main", { outlets: { principal: ['listagem-planejamento'] } }])
       })
     }else{
       this.msgs.push({ severity: 'error', summary: 'Erro', detail: 'Preencha os dados corretamente.' });
     }
-    /*if (this.autoReflexao.isValido = false) {
-      
-    } else {
-      this.autoReflexao.save().subscribe(resultado => {
-        this.autoReflexao.pk = resultado.id;
-        this.showSuccess();
-        this.router.navigate(['planejamento/listar']);
-      })
-    }*/
   }
   
 }

@@ -1,12 +1,12 @@
 <p-toast></p-toast>
-<p>Informações desse assunto</p>
- <p-table [value]="assuntos" >
+{{assunto?.nome}}
+ <p-table [value]="assunto?.questoes" >
     <ng-template pTemplate="header">
+        <th>Nome</th>
     </ng-template>
-    <ng-template pTemplate="body"  let-assunto>
+    <ng-template pTemplate="body"  let-questao>
         <tr>
-            <td><b>Nome</b></td>
-            <td>{{assunto.nome}}</td>
+            <td>{{questao.nomeCurto}}</td>
         </tr>
     </ng-template>
 </p-table> 

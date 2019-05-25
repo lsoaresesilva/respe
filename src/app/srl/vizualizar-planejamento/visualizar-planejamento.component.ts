@@ -18,6 +18,7 @@ export class VisualizarPlanejamentoComponent implements OnInit {
   materialDeEstudo: any[] = [];
   questoes: any[] = [];
   progresso: number = 0;
+  isFinalizado?
 
   constructor(private activatedRoute: ActivatedRoute, private router: Router) {
   }
@@ -37,6 +38,11 @@ export class VisualizarPlanejamentoComponent implements OnInit {
     Planejamento.get(id).subscribe(planejamentoCadastrado => {
       this.planejamento = planejamentoCadastrado;
       this.getQuestoes();
+
+      Assunto.isFinalizado(this.planejamento.assunto, Usuario.getUsuarioLogado()).subscribe(status=>{
+        this.isFinalizado = status;
+      })
+
     });
   }
 
@@ -71,11 +77,8 @@ export class VisualizarPlanejamentoComponent implements OnInit {
     this.router.navigate(['main', { outlets: { principal: ['editor', questao.pk()] } }]);
   }
 
-  isPlanejamentoFinalizado(){
-    //return Assunto.isFinalizado(this.planejamento.assunto.pk(), Usuario.getUsuarioLogado());
+  iniciarAutoReflexao(){
+    this.router.navigate(['main', { outlets: { principal: ['autoreflexao', this.planejamento.pk()] } }]);
   }
-
-
-
 
 }
