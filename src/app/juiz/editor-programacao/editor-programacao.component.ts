@@ -30,6 +30,8 @@ export class EditorProgramacaoComponent implements OnInit {
   resultadosTestsCases;
   modoVisualizacao: boolean = false;
   submissao;
+  dialogPedirAjuda: boolean = false;
+  motivoAjuda;
 
   // TODO: mover para um componente próprio
   traceExecucao;
@@ -244,5 +246,12 @@ export class EditorProgramacaoComponent implements OnInit {
   voltarParaModoExecucao() {
     this.editorCodigo.limparCores();
     this.modoVisualizacao = false;
+  }
+
+  pedirAjuda(){
+    this.dialogPedirAjuda = true;
+  }
+  enviarPedidoDeAjuda(){
+    console.log(this.motivoAjuda);
   }
 }

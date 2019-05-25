@@ -29,6 +29,7 @@ import { ListarTurmaComponent } from './listar-turma/listar-turma.component';
 import {AutoCompleteModule} from 'primeng/autocomplete';
 import {ToastModule} from 'primeng/toast';
 import {InputTextModule} from 'primeng/inputtext';
+import {DialogModule} from 'primeng/dialog';
 import { VisualizarExecucacao } from './vizualizar-execucao/vizualizar-execucao.component';
 
 import { VisualizarQuestaoComponent } from './visualizar-questao/visualizar-questao.component';
@@ -61,7 +62,8 @@ import { VisualizarAssuntoComponent } from './visualizar-assunto/visualizar-assu
     ListarAssuntosComponent,
     VisualizarAssuntoComponent,
     VisualizarQuestaoComponent, 
-    CadastrarAssuntosComponent/*, CadastrarAlternativasComponent, CadastrarQuestoesFechadasComponent, ListarQuestoesFechadasComponent, VisualizarQuestaoFechadaComponent*/],
+    CadastrarAssuntosComponent/*, CadastrarAlternativasComponent, CadastrarQuestoesFechadasComponent, ListarQuestoesFechadasComponent, VisualizarQuestaoFechadaComponent*/
+  ],
 
   imports: [
     CommonModule,
@@ -82,7 +84,8 @@ import { VisualizarAssuntoComponent } from './visualizar-assunto/visualizar-assu
     ToastModule,
     InputTextModule,
     CardModule,
-    RadioButtonModule
+    RadioButtonModule,
+    DialogModule,
 
     
     
