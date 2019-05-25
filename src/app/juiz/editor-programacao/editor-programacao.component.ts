@@ -208,16 +208,9 @@ export class EditorProgramacaoComponent implements OnInit {
     this.editorCodigo.destacarLinha(linha, "possivelSolucao");
   }
 
-  salvarSubmissao(){
-    this.editorCodigo.codigo.setAlgoritmo(editor.getValue());
-    let submissao = this.prepararSubmissao();
-    return submissao.save();
-  }
-
-
   visualizarExecucacao() {
-
-    this.salvarSubmissao().subscribe(resultado => {
+    let submissao = this.prepararSubmissao()
+    submissao.save().subscribe(resultado => {
       let httpOptions = {
         headers: new HttpHeaders({
           'Content-Type': 'application/json'
