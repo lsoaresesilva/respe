@@ -11,10 +11,9 @@ import { MessageService } from 'primeng/api';
 export class VisualizarAssuntoComponent implements OnInit {
   
 
-  private assunto;
+  assunto?
   private id: number;
   private sub: any;
-  private assuntos=[];
   
 
   constructor(private route: ActivatedRoute,private messageService: MessageService){
@@ -26,8 +25,6 @@ export class VisualizarAssuntoComponent implements OnInit {
       this.id = params['id'];
       Assunto.get(this.id).subscribe(resultado =>{
       this.assunto= resultado
-      this.assuntos.push(this.assunto);
-   
       });
     });
   }

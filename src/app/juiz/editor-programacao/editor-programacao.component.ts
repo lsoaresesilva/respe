@@ -188,7 +188,7 @@ export class EditorProgramacaoComponent implements OnInit {
   }
 
   prepararMensagemExceptionHttp(erro) {
-    if (erro.name == "HttpErrorResponse" && erro.status == undefined) {
+    if (erro.name == "HttpErrorResponse" && erro.status == 0) {
       this.erroLinguagemProgramacao = "O servidor está fora do ar."
     } else if (erro.status == 500 && erro.error != undefined) {
       this.erroLinguagemProgramacao = erro.error.erro;
@@ -208,12 +208,8 @@ export class EditorProgramacaoComponent implements OnInit {
     this.editorCodigo.destacarLinha(linha, "possivelSolucao");
   }
 
-
   visualizarExecucacao() {
-
-    this.editorCodigo.codigo.setAlgoritmo(editor.getValue());
-    let submissao = this.prepararSubmissao();
-
+    let submissao = this.prepararSubmissao()
     submissao.save().subscribe(resultado => {
       let httpOptions = {
         headers: new HttpHeaders({

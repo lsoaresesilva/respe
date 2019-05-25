@@ -4,23 +4,23 @@ import Usuario from './usuario';
 import { NivelConfianca } from './nivelConfianca';
 
 @Collection("autoReflexoes")
-export default class AutoReflexao extends Document {
+export default class AutoReflexao {
 
-    estudante: Usuario;
     nivelConfianca:NivelConfianca;
 
-    constructor(id, public assunto, nivelConfianca, public dificuldades, public acoesSucesso, public acoesFracasso) {
-        super(id);
-        this.estudante = Usuario.getUsuarioLogado();
+    constructor(nivelConfianca, public dificuldades, public acoesSucesso, public acoesFracasso) {
         this.nivelConfianca = nivelConfianca;
     }
 
-    objectToDocument() {
-        let document = super.objectToDocument()
-        document["estudanteId"] = this.estudante.pk();
-        document["assuntoId"] = this.assunto.pk();
-        return document;
+    objectToDocument(){
+        return {
+            nivelConfiaca:this.nivelConfianca,
+            dificuldades:this.dificuldades,
+            acoesSucesso:this.acoesSucesso,
+            acoesFracasso:this.acoesFracasso
+        }
     }
+
     validar() {
         if (this.acoesSucesso != "" || this.acoesFracasso != "" || this.dificuldades != "" || this.nivelConfianca > 0) {
             return true;

@@ -151,7 +151,6 @@ export class Questao extends Document {
   }
 
   static getAll(query: Query = null): Observable<any[]> {
-    console.log("get all de questão")
     return new Observable(observer => {
       super.getAll(query).subscribe(questoes => {
 
