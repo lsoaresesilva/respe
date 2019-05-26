@@ -69,29 +69,40 @@ export class Questao {
     return document;
   }
 
-  static isFinalizada(questao, margemAceitavel = 0.6) {
+
+
+  static isFinalizada(questao) {
     return new Observable(observer => {
       Submissao.getRecentePorQuestao(questao, Usuario.getUsuarioLogado()).subscribe(submissao => {
         if (submissao != null) {
+          let consultas = [];
+          questao.testsCases.forEach(testCase => {
+            //consultas.push(ResultadoTestCase.getRecentePorSubmissaoTestCase(testCase, submissao));
+          })
 
-          if(questao.testsCases != null){
-            let totalTestsCases = questao.testsCases.length;
-            let totalAcertos = 0;
-            submissao["resultadosTestsCases"].forEach(resultadoTestCase => {
-              if(resultadoTestCase.status){
-                totalAcertos++;
-              }
-            });
+          if (consultas.length > 0) {
+            forkJoin(consultas).subscribe(resultadosTestCase => {
+              let totalTestCase = questao.testsCases.length;
+              let totalRespondidasSucesso = 0;
+              resultadosTestCase.forEach(resultado => {
 
-            let percentual = totalAcertos/totalTestsCases;
-            observer.next(percentual*100);
-          }else{
+                if (resultado != null && resultado["status"] == true)
+                  totalRespondidasSucesso++;
+              })
+
+              let percentual = (totalRespondidasSucesso / totalTestCase) * 100;
+              observer.next(percentual);
+              observer.complete();
+            }, err => {
+              observer.error(err);
+            })
+          } else {
             observer.next(0);
-            
+            observer.complete();
           }
 
-          observer.complete();
-          
+
+
         } else {
           observer.next(0);
           observer.complete();
@@ -172,6 +183,7 @@ export class Questao {
   }
 
   static getAll(query: Query = null): Observable<any[]> {
+    console.log("get all de questão")
     return new Observable(observer => {
       super.getAll(query).subscribe(questoes => {
 

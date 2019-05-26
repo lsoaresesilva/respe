@@ -1,26 +1,4 @@
-<<<<<<< HEAD
-<p-toast></p-toast>
 {{assunto?.nome}}
- <p-table [value]="assunto?.questoes" >
-    <ng-template pTemplate="header">
-        <th>Nome</th>
-    </ng-template>
-    <ng-template pTemplate="body"  let-questao>
-        <tr>
-            <td>{{questao.nomeCurto}}</td>
-        </tr>
-    </ng-template>
-</p-table> 
-<p-contextMenu #cm [model]="items"></p-contextMenu>   
-
-
-
-
-
-
-=======
-{{assunto?.nome}}
->>>>>>> #130
 
 <div>
     <p-button label="Cadastrar questão" (click)="cadastrar()"></p-button>
