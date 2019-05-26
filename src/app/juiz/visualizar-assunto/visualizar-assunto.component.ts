@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { Assunto } from 'src/app/model/assunto';
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { MessageService } from 'primeng/api';
 
 @Component({
@@ -11,32 +11,40 @@ import { MessageService } from 'primeng/api';
 export class VisualizarAssuntoComponent implements OnInit {
   
 
+<<<<<<< HEAD
   assunto?
   private id: number;
   private sub: any;
   
+=======
+  assunto;
+>>>>>>> #130
 
-  constructor(private route: ActivatedRoute,private messageService: MessageService){
+  constructor(private route: ActivatedRoute,private messageService: MessageService, private router:Router){
   
   }
 
   ngOnInit() {
+<<<<<<< HEAD
     this.sub = this.route.params.subscribe(params => {
       this.id = params['id'];
       Assunto.get(this.id).subscribe(resultado =>{
       this.assunto= resultado
+=======
+    this.route.params.subscribe(params => {
+      Assunto.get(params['id']).subscribe(resultado =>{
+      this.assunto = resultado
+   
+>>>>>>> #130
       });
     });
   }
 
-  ngOnDestroy() {
-     this.sub.unsubscribe();
+  cadastrar(){
+    this.router.navigate(["main", { outlets: { principal: ['cadastro-questao', this.assunto.pk()] }}]);
   }
 
-
-  // questaoVisualizada(){
-  //   this.messageService.add({severity:'info', summary:'Questão visualizada', detail:'informações sobre a questão'});
-  // }
+  
 
 
 }

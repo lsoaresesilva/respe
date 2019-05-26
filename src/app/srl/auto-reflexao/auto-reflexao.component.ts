@@ -24,6 +24,7 @@ export class AutoReflexaoComponent implements OnInit {
     this.route.params.subscribe(params=>{
       if(params["id"] != undefined){
         
+<<<<<<< HEAD
         Planejamento.get(params["id"]).subscribe(planejamento=>{
           this.planejamento = planejamento;
           if(this.planejamento.autoReflexao == null){
@@ -32,6 +33,9 @@ export class AutoReflexaoComponent implements OnInit {
         }, err=>{
           this.msgs.push({ severity: 'error', summary: 'Erro', detail: 'Não é possível iniciar uma autoreflexão com um planejamento inválido.' });
         })
+=======
+        this.assunto = new Assunto(params["id"], null, []);
+>>>>>>> #130
       }else{
         this.msgs.push({ severity: 'error', summary: 'Erro', detail: 'Não é possível iniciar uma autoreflexão sem informar um planejamento.' });
       }

@@ -11,6 +11,7 @@ import Usuario from 'src/app/model/usuario';
 import { Linha } from 'src/app/model/linha';
 import { ActivatedRoute } from '@angular/router';
 import Query from 'src/app/model/firestore/query';
+import { Assunto } from 'src/app/model/assunto';
 
 declare var editor: any;
 declare function carregarIde(readOnly, callback, instance, codigo): any;
@@ -64,27 +65,42 @@ export class EditorProgramacaoComponent implements OnInit {
   ngOnInit() {
 
     this.route.params.subscribe(params => {
-      if (params["id"] != undefined) {
-        Questao.get(params["id"]).subscribe(questao => {
-          this.questao = questao;
-          this.editorCodigo = Editor.getInstance();
+      if (params["assuntoId"] != undefined && params["questaoId"] != undefined) {
+        Assunto.get(params["assuntoId"]).subscribe(assunto => {
 
-          // TODO: pegar a última submissão para uma questão
-          let usuario = Usuario.getUsuarioLogado();
-          if (usuario != null) {
-            Submissao.getRecentePorQuestao(this.questao, usuario).subscribe(submissao => {
-
-              this.submissao = submissao;
-
-
-              let codigo = "";
-              if (submissao != null)
-                codigo = submissao["codigo"];
-
-              carregarIde(false, null, null, codigo);
-              this.pausaIde = false;
+          if (assunto["questoes"] != undefined && assunto["questoes"].length > 0) {
+            assunto["questoes"].forEach(questao => {
+              if (questao.id == params["questaoId"]) {
+                this.questao = questao;
+              }
             })
+
+            if (this.questao == undefined) {
+              throw new Error("Não é possível iniciar o editor sem uma questão.");
+            } else {
+              this.editorCodigo = Editor.getInstance();
+
+              // TODO: pegar a última submissão para uma questão
+              let usuario = Usuario.getUsuarioLogado();
+              if (usuario != null) {
+                Submissao.getRecentePorQuestao(this.questao, usuario).subscribe(submissao => {
+
+                  this.submissao = submissao;
+
+
+                  let codigo = "";
+                  if (submissao != null)
+                    codigo = submissao["codigo"];
+
+                  carregarIde(false, null, null, codigo);
+                  this.pausaIde = false;
+                })
+              }
+            }
           }
+
+
+
 
 
 

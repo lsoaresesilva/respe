@@ -2,23 +2,18 @@
 
 <p-toast [style]="{marginTop: '80px'}"></p-toast>
 
-<div>
-<p-button label="Cadastrar" (click)="cadastrar()"></p-button>
-</div>
-<p-table [value]="questoes" [(contextMenuSelection)]="selectedQuestao" [contextMenu]="cm">
+
+
+<p-table [value]="assunto?.questoes" [(contextMenuSelection)]="selectedQuestao" [contextMenu]="cm">
     <ng-template pTemplate="header">
         <tr>
             <th>Nome</th>
-            <th>Assunto principal</th>
 
         </tr>
     </ng-template>
     <ng-template pTemplate="body" let-rowData let-questao>
         <tr [pContextMenuRow]="rowData">
-            <td>{{questao.nomeCurto}}</td>
-            <td>{{questao.assuntoPrincipal.nome}}</td> 
-
-
+            <td (click)="abrirEditor(questao)">{{questao.nomeCurto}}</td>
         </tr>
     </ng-template>
 </p-table>

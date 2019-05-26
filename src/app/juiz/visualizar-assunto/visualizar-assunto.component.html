@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 <p-toast></p-toast>
 {{assunto?.nome}}
  <p-table [value]="assunto?.questoes" >
@@ -17,5 +18,12 @@
 
 
 
+=======
+{{assunto?.nome}}
+>>>>>>> #130
 
+<div>
+    <p-button label="Cadastrar questão" (click)="cadastrar()"></p-button>
+</div>
 
+<app-listar-questoes [assunto]="assunto"></app-listar-questoes>

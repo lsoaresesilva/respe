@@ -2,7 +2,6 @@ import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { Planejamento } from 'src/app/model/planejamento';
 import { Assunto } from 'src/app/model/assunto';
-import { MaterialEstudoService } from '../material-estudo.service';
 import Usuario from 'src/app/model/usuario';
 import { Questao } from 'src/app/model/questao';
 import Query from 'src/app/model/firestore/query';
@@ -48,8 +47,8 @@ export class VisualizarPlanejamentoComponent implements OnInit {
 
   getQuestoes(){
     if(this.planejamento.assunto != undefined){
-      Questao.getAll(new Query("assuntoPrincipalId", "==", this.planejamento.assunto.pk())).subscribe(questoes=>{
-        this.questoes = questoes;
+      Assunto.get(this.planejamento.assunto.pk()).subscribe(assunto=>{
+        this.questoes = assunto["questoes"];
         let consultas:any = {};
         this.questoes.forEach(questao=>{
           
