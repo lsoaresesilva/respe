@@ -12,8 +12,8 @@ import { Linha } from 'src/app/model/linha';
 import { ActivatedRoute } from '@angular/router';
 import Query from 'src/app/model/firestore/query';
 import PedidoAjuda from 'src/app/model/pedidoAjuda';
-import RespostaPedidoAjuda from 'src/app/model/RespostaPedidoAjuda';
 import { Util } from 'src/app/model/util';
+import { Assunto } from 'src/app/model/assunto';
 
 declare var editor: any;
 declare function carregarIde(readOnly, callback, instance, codigo): any;
@@ -69,27 +69,42 @@ export class EditorProgramacaoComponent implements OnInit {
   ngOnInit() {
 
     this.route.params.subscribe(params => {
-      if (params["id"] != undefined) {
-        Questao.get(params["id"]).subscribe(questao => {
-          this.questao = questao;
-          this.editorCodigo = Editor.getInstance();
+      if (params["assuntoId"] != undefined && params["questaoId"] != undefined) {
+        Assunto.get(params["assuntoId"]).subscribe(assunto => {
 
-          // TODO: pegar a última submissão para uma questão
-          let usuario = Usuario.getUsuarioLogado();
-          if (usuario != null) {
-            Submissao.getRecentePorQuestao(this.questao, usuario).subscribe(submissao => {
-
-              this.submissao = submissao;
-
-
-              let codigo = "";
-              if (submissao != null)
-                codigo = submissao["codigo"];
-
-              carregarIde(false, null, null, codigo);
-              this.pausaIde = false;
+          if (assunto["questoes"] != undefined && assunto["questoes"].length > 0) {
+            assunto["questoes"].forEach(questao => {
+              if (questao.id == params["questaoId"]) {
+                this.questao = questao;
+              }
             })
+
+            if (this.questao == undefined) {
+              throw new Error("Não é possível iniciar o editor sem uma questão.");
+            } else {
+              this.editorCodigo = Editor.getInstance();
+
+              // TODO: pegar a última submissão para uma questão
+              let usuario = Usuario.getUsuarioLogado();
+              if (usuario != null) {
+                Submissao.getRecentePorQuestao(this.questao, usuario).subscribe(submissao => {
+
+                  this.submissao = submissao;
+
+
+                  let codigo = "";
+                  if (submissao != null)
+                    codigo = submissao["codigo"];
+
+                  carregarIde(false, null, null, codigo);
+                  this.pausaIde = false;
+                })
+              }
+            }
           }
+
+
+
 
 
 
@@ -193,7 +208,7 @@ export class EditorProgramacaoComponent implements OnInit {
   }
 
   prepararMensagemExceptionHttp(erro) {
-    if (erro.name == "HttpErrorResponse" && erro.status == undefined) {
+    if (erro.name == "HttpErrorResponse" && erro.status == 0) {
       this.erroLinguagemProgramacao = "O servidor está fora do ar."
     } else if (erro.status == 500 && erro.error != undefined) {
       this.erroLinguagemProgramacao = erro.error.erro;
@@ -213,12 +228,8 @@ export class EditorProgramacaoComponent implements OnInit {
     this.editorCodigo.destacarLinha(linha, "possivelSolucao");
   }
 
-
   visualizarExecucacao() {
-
-    this.editorCodigo.codigo.setAlgoritmo(editor.getValue());
-    let submissao = this.prepararSubmissao();
-
+    let submissao = this.prepararSubmissao()
     submissao.save().subscribe(resultado => {
       let httpOptions = {
         headers: new HttpHeaders({

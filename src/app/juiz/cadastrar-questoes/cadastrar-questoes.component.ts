@@ -17,7 +17,8 @@ import { MessageService } from 'primeng/api';
 })
 export class CadastrarQuestoesComponent implements OnInit {
 
-  questao;
+  assunto?;
+  questao?;
   dificuldades: SelectItem[];
   assuntos;
  
@@ -28,15 +29,23 @@ export class CadastrarQuestoesComponent implements OnInit {
   }
 
   ngOnInit() {
-
-    this.questao = new Questao(null, null, null, null, null, [], null, []);
+    
+    this.questao = new Questao(null, "", "", 0, 0, [], []);
 
     this.activatedRoute.params
       .subscribe(params => {
-        if (params["id"] != undefined) {
-          Questao.get(params["id"]).subscribe(questao => {
-            this.questao = questao;
+        if (params["assuntoId"] != undefined) {
+
+          Assunto.get(params["assuntoId"]).subscribe(assunto => {
+            this.assunto = assunto;
+
+            if (params["questaoId"] != undefined) {
+              this.questao = assunto["getQuestaoById"](params["questaoId"]);
+            }
           })
+
+        }else{
+          throw new Error("Não é possível criar uma questão sem informar um assunto.")
         }
 
       });
@@ -76,19 +85,23 @@ export class CadastrarQuestoesComponent implements OnInit {
     if (this.questao.validar() && TestCase.validarTestsCases(this.questao.testsCases)) {
 
     
-      this.questao.assunto = this.questao.assuntos.map(assunto =>{
+      this.questao.assuntos = this.questao.assuntos.map(assunto =>{
         if(typeof assunto === "string")
-          return new Assunto(assunto, null)
+          return new Assunto(assunto, null, [])
         return assunto;
       } )
 
-      this.questao.save().subscribe(resultado => {
-        this.router.navigate(["main", { outlets: { principal: ['listagem-questoes'] } }])
-        console.log("cadastrado");
+      if(this.assunto.questoes == null)
+        this.assunto.questoes = [];
+
+      this.assunto.questoes.push(this.questao);
+
+      this.assunto.save().subscribe(resultado => {
+        this.router.navigate(["main", { outlets: { principal: ['listagem-assuntos'] } }])
+        
 
       }, err => {
-      this.messageErro();
-
+        this.messageErro();
       });
     } else {
       this.messageInformarDados();

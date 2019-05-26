@@ -18,7 +18,6 @@ import { ListarEstudantesComponent } from './juiz/listar-estudantes/listar-estud
 import { CadastrarTurmaComponent } from './juiz/cadastrar-turma/cadastrar-turma.component';
 import { ListarTurmaComponent } from './juiz/listar-turma/listar-turma.component';
 
-import { VisualizarExecucacao } from './juiz/vizualizar-execucao/vizualizar-execucao.component';
 import { ListarPlanejamentosComponent } from './srl/listar-planejamentos/listar-planejamentos.component';
 import { VisualizarPlanejamentoComponent } from './srl/vizualizar-planejamento/visualizar-planejamento.component';
 
@@ -35,7 +34,7 @@ import { VisualizarAssuntoComponent } from './juiz/visualizar-assunto/visualizar
 const routes: Routes = [
   {path:"editor", component:EditorProgramacaoComponent}, // TODO: remover depois
   {path:"main", component:MainComponent, canActivate: [AuthGuard], canLoad: [AuthGuard], children: [
-    {path:"editor/:id", component:EditorProgramacaoComponent, outlet:"principal"},
+    {path:"editor/:assuntoId/:questaoId", component:EditorProgramacaoComponent, outlet:"principal"},
     
     {path:"comentario-codigo/:id", component:ComentariosCodigoComponent, outlet:"principal"},
     {path:"visualizarConteudo", component:VisualizarConteudoComponent, outlet:"principal"},
@@ -43,8 +42,8 @@ const routes: Routes = [
     {path:"cadastro-planejamento", component:CadastroPlanejamentoComponent, canActivate: [AuthGuard], canLoad: [AuthGuard], outlet:"principal"},
     {path:"listagem-planejamento", component:ListarPlanejamentosComponent, canActivate: [AuthGuard], canLoad: [AuthGuard], outlet:"principal"},
     {path:"srl-autoreflexao/:id", component:AutoReflexaoComponent, canActivate: [AuthGuard], canLoad: [AuthGuard], outlet:"principal"},
-    {path:"cadastro-questao", component:CadastrarQuestoesComponent, canActivate: [AuthGuard], canLoad: [AuthGuard], outlet:"principal"},
-    
+    {path:"cadastro-questao/:assuntoId", component:CadastrarQuestoesComponent, canActivate: [AuthGuard], canLoad: [AuthGuard], outlet:"principal"},
+    {path:"cadastro-questao/:assuntoId/:questaoId", component:CadastrarQuestoesComponent, canActivate: [AuthGuard], canLoad: [AuthGuard], outlet:"principal"},
     {path:"atualizacao-questao/:id", component:CadastrarQuestoesComponent, canActivate: [AuthGuard], canLoad: [AuthGuard], outlet:"principal"},
    
     {path:"cadastro-assunto", component:CadastrarAssuntosComponent, canActivate: [AuthGuard], canLoad: [AuthGuard], outlet:"principal"},
@@ -58,7 +57,7 @@ const routes: Routes = [
     {path:"cadastro-turma", component:CadastrarTurmaComponent, canActivate: [AuthGuard], canLoad: [AuthGuard], outlet:"principal"},
     {path:"atualizacao-turma/:id", component:CadastrarTurmaComponent, canActivate: [AuthGuard], canLoad: [AuthGuard], outlet:"principal"},
     {path:"listagem-turmas", component:ListarTurmaComponent, canActivate: [AuthGuard], canLoad: [AuthGuard], outlet:"principal"},
-    {path:"visualizacao-questao/:id", component:VisualizarQuestaoComponent, canActivate: [AuthGuard], canLoad: [AuthGuard], outlet:"principal"},
+    {path:"visualizacao-questao/:assuntoId/:questaoId", component:VisualizarQuestaoComponent, canActivate: [AuthGuard], canLoad: [AuthGuard], outlet:"principal"},
     /*
     {path:"atualizacao-questao-fechada/:id", component:CadastrarQuestoesFechadasComponent, canActivate: [AuthGuard], canLoad: [AuthGuard], outlet:"principal"},
     {path:"cadastro-questao-fechada", component:CadastrarQuestoesFechadasComponent, canActivate: [AuthGuard], canLoad: [AuthGuard], outlet:"principal"},
@@ -68,7 +67,7 @@ const routes: Routes = [
     {path:"visualizacao-assunto/:id", component:VisualizarAssuntoComponent, canActivate: [AuthGuard], canLoad: [AuthGuard], outlet:"principal"},
   ]},
   {path:"", component:LoginComponent},
-  {path:"autoreflexao", component:AutoReflexaoComponent},
+  
 
   {path:"cadastrar/testeCase", component:CadastrarTesteCaseComponent},
   /*{path:"cadastrar/alternativa", component:CadastrarAlternativasComponent},*/

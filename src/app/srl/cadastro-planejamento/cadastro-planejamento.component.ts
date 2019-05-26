@@ -26,7 +26,7 @@ export class CadastroPlanejamentoComponent implements OnInit {
     private router: Router,
   ) { 
     // TODO: carregar do login
-    this.planejamento = new Planejamento(null,Usuario.getUsuarioLogado(),null,0,"",0,"", false);
+    this.planejamento = new Planejamento(null,Usuario.getUsuarioLogado(),null,0,"",0,"", false, null);
   }
 
   prepararAssuntos(assuntos){
