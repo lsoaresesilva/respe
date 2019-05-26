@@ -27,7 +27,7 @@ export default class Submissao extends Document {
     objectToDocument() {
         let document = super.objectToDocument();
         document["estudanteId"] = this.estudante.pk();
-        document["questaoId"] = this.questao.pk();
+        document["questaoId"] = this.questao.id;
         document["codigo"] = this.codigo.algoritmo;
         if (this.resultadosTestsCases != null && this.resultadosTestsCases.length > 0) {
             let resultadoTestsCases = [];
@@ -42,10 +42,10 @@ export default class Submissao extends Document {
     static getRecentePorQuestao(questao: Questao, estudante: Usuario) {
         
         return new Observable(observer => {
-            if(questao == null || typeof questao.pk != "function" || estudante == null || typeof estudante.pk != "function"){
+            if(questao == null || typeof questao.id == null || estudante == null || typeof estudante.pk != "function"){
                 observer.error(new Error("Questão ou estudante não podem ser vazios"));
             }else{
-                Submissao.getAll([new Query("estudanteId", "==", estudante.pk()), new Query("questaoId", "==", questao.pk())]).subscribe(submissoes => {
+                Submissao.getAll([new Query("estudanteId", "==", estudante.pk()), new Query("questaoId", "==", questao.id)]).subscribe(submissoes => {
                     let submissaoRecente = null;
                     if (submissoes.length != 0) {
                         if (submissoes.length == 1) {

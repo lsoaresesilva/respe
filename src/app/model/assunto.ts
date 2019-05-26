@@ -13,11 +13,60 @@ import { Util } from './util';
 export class Assunto extends Document {
 
 
-    constructor(id, public nome
-        // public preRequisitos: Assunto[], public objetivosEducacionais, materialEstudo: MaterialEstudo[]
-    ) {
+    constructor(id, public nome, public questoes) {
         super(id);
     }
+
+    objectToDocument(){
+        let document = super.objectToDocument();
+        if (this.questoes != null && this.questoes.length > 0) {
+            let questoes = [];
+            this.questoes.forEach(questao => {
+                if(typeof questao.objectToDocument === "function")
+                    questoes.push(questao.objectToDocument());
+            })
+      
+            document["questoes"] = questoes;
+          }
+
+        return document;
+    }
+
+    getQuestaoById(questaoId){
+        this.questoes.forEach(questao=>{
+            if(questao.id == questaoId)
+                return questao;
+        })
+
+        return new Questao(null, "", "", 0, 0, [], []);
+    }
+
+    static get(id){
+        
+        return new Observable(observer=>{
+            super.get(id).subscribe(assunto=>{
+                assunto["questoes"] = Questao.construir(assunto["questoes"]);
+                observer.next(assunto);
+                observer.complete();
+            }, err=>{
+                observer.error(err);
+            });
+        })
+        
+    }
+
+    getQuestao(questaoId) {
+        if (this.questoes != undefined && this.questoes.length > 0) {
+            this.questoes.forEach(questao => {
+                if (questao.id == questaoId) {
+                    return questao;
+                }
+            })
+        }
+
+        return null;
+    }
+
 
     static delete(id) {
         return new Observable(observer => {
@@ -41,9 +90,11 @@ export class Assunto extends Document {
                     }
                 })
             })
-
-        });
+        }
+        );
     }
+
+
 
     static isFinalizado(assunto: Assunto, estudante, margemAceitavel = 0.6) {
         return new Observable(observer => {
@@ -73,10 +124,10 @@ export class Assunto extends Document {
         // Pegar todas as questões de um assunto
         return new Observable(observer => {
             if (assunto != undefined && usuario != undefined) {
-                Questao.getAll(new Query("assuntoPrincipalId", "==", assunto.pk())).subscribe(questoes => {
+                
 
                     let consultas = {}
-                    questoes.forEach(questao => {
+                    assunto.questoes.forEach(questao => {
                         if (questao.testsCases != undefined && questao.testsCases.length > 0) {
                             questao.testsCases.forEach(testCase => {
                                 // TIRAR ISSO E SUBSTITUIR POR SUBMISSAO
@@ -92,30 +143,30 @@ export class Assunto extends Document {
                         forkJoin(consultas).subscribe(submissoes => {
                             let s: any = submissoes;
                             if (!Util.isObjectEmpty(s)) {
-                                let totalQuestoes = questoes.length;
+                                let totalQuestoes = assunto.questoes.length;
                                 let questoesRespondidas = [];
-                                questoes.forEach(questao => {
+                                assunto.questoes.forEach(questao => {
                                     let questaoRespondida = true;
                                     //for (let j = 0; j < questao.testsCases.length; j++) {
-                                        let resultadoAtualTestCase = null;
+                                    let resultadoAtualTestCase = null;
 
-                                        for (let questaoId in s) {
-                                            if (questaoId == questao.pk()) {
-                                                let totalTestsCases = questao.testsCases.length;
-                                                let totalAcertos = 0;
-                                                if(s[questaoId] != null && s[questaoId].resultadosTestsCases != null){
-                                                    s[questaoId].resultadosTestsCases.forEach(resultadoTestCase=>{
-                                                        if(resultadoTestCase.status)
-                                                            totalAcertos++;
-                                                    })
-    
-                                                    let percentual = totalAcertos/totalTestsCases;
-                                                    if(percentual >= margemAceitavel)
+                                    for (let questaoId in s) {
+                                        if (questaoId == questao.pk()) {
+                                            let totalTestsCases = questao.testsCases.length;
+                                            let totalAcertos = 0;
+                                            if (s[questaoId] != null && s[questaoId].resultadosTestsCases != null) {
+                                                s[questaoId].resultadosTestsCases.forEach(resultadoTestCase => {
+                                                    if (resultadoTestCase.status)
+                                                        totalAcertos++;
+                                                })
+
+                                                let percentual = totalAcertos / totalTestsCases;
+                                                if (percentual >= margemAceitavel)
                                                     questoesRespondidas.push(questao);
-                                                }
-                                                
-                                            }   
+                                            }
+
                                         }
+                                    }
                                     //}
                                 })
 
@@ -135,7 +186,7 @@ export class Assunto extends Document {
                         observer.next(0);
                         observer.complete();
                     }
-                })
+                
             }
 
         })
