@@ -43,6 +43,8 @@ import {RadioButtonModule} from 'primeng/radiobutton';
 import { CadastrarAssuntosComponent } from './cadastrar-assuntos/cadastrar-assuntos.component';
 import { ListarAssuntosComponent } from './listar-assuntos/listar-assuntos.component';
 import { VisualizarAssuntoComponent } from './visualizar-assunto/visualizar-assunto.component';
+import { ListarPedidosAjudaComponent } from './listar-pedidos-ajuda/listar-pedidos-ajuda.component';
+import { VisualizarPedidoAjudaComponent } from './visualizar-pedido-ajuda/visualizar-pedido-ajuda.component';
 
 
 @NgModule({
@@ -62,7 +64,7 @@ import { VisualizarAssuntoComponent } from './visualizar-assunto/visualizar-assu
     ListarAssuntosComponent,
     VisualizarAssuntoComponent,
     VisualizarQuestaoComponent, 
-    CadastrarAssuntosComponent/*, CadastrarAlternativasComponent, CadastrarQuestoesFechadasComponent, ListarQuestoesFechadasComponent, VisualizarQuestaoFechadaComponent*/
+    CadastrarAssuntosComponent, ListarPedidosAjudaComponent, VisualizarPedidoAjudaComponent/*, CadastrarAlternativasComponent, CadastrarQuestoesFechadasComponent, ListarQuestoesFechadasComponent, VisualizarQuestaoFechadaComponent*/
   ],
 
   imports: [

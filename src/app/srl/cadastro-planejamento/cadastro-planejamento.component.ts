@@ -31,7 +31,7 @@ export class CadastroPlanejamentoComponent implements OnInit {
 
   prepararAssuntos(assuntos){
     let opcoesAssuntos =[
-      {label:'Selecione uma dificuldade', value:null},
+      {label:'Selecione um Assunto', value:null},
     ];
 
     assuntos.forEach(assunto => {
