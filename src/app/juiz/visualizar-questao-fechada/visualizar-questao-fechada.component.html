@@ -1,0 +1,23 @@
+<p-toast></p-toast>
+
+ <h1>{{questao.nomeCurto}}</h1>
+ 
+ <p><b>Dificuldade:</b> {{questao.dificuldade}}</p>
+ <p><b>Assunto:</b> {{questao.assuntoId}}</p>
+ <p><b>Sequencia:</b> {{questao.sequencia}}</p>
+ <p><b>Enunciado:</b> {{questao.enunciado}}</p>
+ 
+ <h3>Alternativas:</h3>
+
+ <!-- <p-radioButton name="groupname" value="val1" label="Option 2" [(ngModel)]="selectedValue"></p-radioButton><br>
+ <p-radioButton name="groupname" value="val2" label="Option 1" [(ngModel)]="selectedValue"></p-radioButton> -->
+ 
+ <p-radioButton *ngFor="let alternativa of questao.alternativas"  name="{{alternativa.nome}}" value= "{{alternativa.id}}"
+       [(ngModel)]="questao.alternativas" label="{{alternativa.texto}}" inputId= "{{alternativa.id}}"></p-radioButton>
+
+ <br>
+ <br>
+ <p-button label="Editar" (click)="alterarQuestao(questao)"></p-button>
+
+
+ 

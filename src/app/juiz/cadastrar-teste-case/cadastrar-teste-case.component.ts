@@ -33,11 +33,11 @@ export class CadastrarTesteCaseComponent implements OnInit {
     if (this.testeCase.validarEntrada(this.entrada)) {
       this.testeCase.entradas.push(this.entrada);
       this.entrada = null;
+      this.messageEntradaAdicionada();
 
     } else {
-
-      this.messageCamposVazios();
-      this.messageService.add({ severity: 'info', summary: "Teste Case indefinido", detail: "Teste case não pode ser vazio" })
+      this.messageEntradaVazia();
+     
 
     }
   }
@@ -52,7 +52,7 @@ export class CadastrarTesteCaseComponent implements OnInit {
       }
     }
     this.testeCase.entradas.splice(index, 1);
-    this.messageService.add({ severity: 'info', summary: "Entrada retirado", detail: "Essa entrada não existe mais" });
+    this.messageEntradaRetirada();
   }
 
 
@@ -64,8 +64,14 @@ export class CadastrarTesteCaseComponent implements OnInit {
     this.messageService.add({ severity: 'error', summary: "teste Case inválido", detail: "Esse teste Case não foi cadastrado" });
   }
 
-  messageCamposVazios() {
-    this.messageService.add({ severity: 'error', summary: "teste Case inválido", detail: "Todos os campos do test case precisam ser preenchidos" });
+  messageEntradaVazia() {
+    this.messageService.add({ severity: 'info', summary: "Entrada negada", detail: "ops... a entrada não pode estar vazia" });
   }
 
+  messageEntradaRetirada() {
+    this.messageService.add({ severity: 'info', summary: "teste Case modificado", detail: "Entrada retirada" });
+  }
+  messageEntradaAdicionada() {
+    this.messageService.add({ severity: 'success', summary: "teste Case modificado", detail: "Entrada adicionada" });
+  }
 }

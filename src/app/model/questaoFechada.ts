@@ -30,23 +30,18 @@ export default class QuestaoFechada extends Document{
     }
 
 
-    validarAlternativas(){
-      let quantDeAlternativaCerta=0;
-      for(let i=0;i<this.alternativas.length;i++){
-        if(this.alternativas[i].isVerdadeira== true){
-         quantDeAlternativaCerta ++;
-        }
-      }
-    return quantDeAlternativaCerta;
-    }
+    
 
     validar() {
       if (this.assuntoPrincipal == null || this.assuntoPrincipal == undefined ||
-         this.nomeCurto == null || this.nomeCurto == "" ||
-        this.enunciado == null || this.enunciado == "" || this.dificuldade == null || this.sequencia == null || this.sequencia < 1 || this.alternativas == undefined ) {
+        this.nomeCurto == null || this.nomeCurto == "" ||
+        this.enunciado == null || this.enunciado == "" || this.dificuldade == null || 
+        this.sequencia == null || this.sequencia < 1 || this.alternativas == undefined ||
+         this.alternativas.length <2 || Alternativa.validarAlternativas(this.alternativas)==false) {
+        console.log(this.alternativas.length);
         return false;
       }
       return true;
-      
     }
 }
+

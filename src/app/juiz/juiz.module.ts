@@ -30,18 +30,18 @@ import {AutoCompleteModule} from 'primeng/autocomplete';
 import {ToastModule} from 'primeng/toast';
 import {InputTextModule} from 'primeng/inputtext';
 import { VisualizarExecucacao } from './vizualizar-execucao/vizualizar-execucao.component';
-
 import { VisualizarQuestaoComponent } from './visualizar-questao/visualizar-questao.component';
-/*import { CadastrarAlternativasComponent } from './cadastrar-alternativas/cadastrar-alternativas.component';
-import { CadastrarQuestoesFechadasComponent } from './cadastrar-questoes-fechadas/cadastrar-questoes-fechadas.component';
-import { ListarQuestoesFechadasComponent } from './listar-questoes-fechadas/listar-questoes-fechadas.component';
-import { VisualizarQuestaoFechadaComponent } from './visualizar-questao-fechada/visualizar-questao-fechada.component';
-*/
 
 import {RadioButtonModule} from 'primeng/radiobutton';
 import { CadastrarAssuntosComponent } from './cadastrar-assuntos/cadastrar-assuntos.component';
 import { ListarAssuntosComponent } from './listar-assuntos/listar-assuntos.component';
 import { VisualizarAssuntoComponent } from './visualizar-assunto/visualizar-assunto.component';
+
+import { CadastrarAlternativasComponent } from './cadastrar-alternativas/cadastrar-alternativas.component';
+import { CadastrarQuestoesFechadasComponent } from './cadastrar-questoes-fechadas/cadastrar-questoes-fechadas.component';
+import { VisualizarQuestaoFechadaComponent } from './visualizar-questao-fechada/visualizar-questao-fechada.component';
+import { ListarQuestoesFechadasComponent } from './listar-questoes-fechadas/listar-questoes-fechadas.component';
+
 
 
 @NgModule({
@@ -60,7 +60,12 @@ import { VisualizarAssuntoComponent } from './visualizar-assunto/visualizar-assu
     ListarAssuntosComponent,
     VisualizarAssuntoComponent,
     VisualizarQuestaoComponent, 
-    CadastrarAssuntosComponent/*, CadastrarAlternativasComponent, CadastrarQuestoesFechadasComponent, ListarQuestoesFechadasComponent, VisualizarQuestaoFechadaComponent*/],
+    CadastrarAssuntosComponent, 
+    CadastrarQuestoesFechadasComponent, 
+    ListarQuestoesFechadasComponent,
+     VisualizarQuestaoFechadaComponent,
+     CadastrarAlternativasComponent
+    ],
 
   imports: [
     CommonModule,
@@ -100,6 +105,10 @@ import { VisualizarAssuntoComponent } from './visualizar-assunto/visualizar-assu
     CadastrarAssuntosComponent,
     ListarAssuntosComponent,
     VisualizarAssuntoComponent,
+    CadastrarQuestoesFechadasComponent,
+    ListarQuestoesFechadasComponent,
+    VisualizarQuestaoFechadaComponent,
+    CadastrarAlternativasComponent
   ],
 
   providers: [MessageService],
