@@ -5,6 +5,7 @@ import { MessageService } from 'primeng/api';
 import { Questao } from 'src/app/model/questao';
 import TestCase from 'src/app/model/testCase';
 import { Router, ActivatedRoute } from '@angular/router';
+import Usuario from 'src/app/model/usuario';
 
 @Component({
   selector: 'app-listar-questoes',
@@ -17,17 +18,20 @@ export class ListarQuestoesComponent implements OnInit  {
 
   selectedQuestao: Questao;
   items: MenuItem[];
+  usuario;
+
   constructor(private messageService: MessageService, private router:Router) { 
     
   }
 
   ngOnInit() {
+
+    this.usuario = Usuario.getUsuarioLogado();
+
     this.items = [
       { label: 'Update', icon: 'pi pi-check', command: (event) => this.alterarQuestao(this.selectedQuestao) },
-      { label: 'Delete', icon: 'pi pi-times', command: (event) => this.deleteQuestao(this.selectedQuestao) },
-      { label: 'View', icon:  'pi pi-search', command: (event) => this.viewQuestao(this.selectedQuestao) }
+      { label: 'Delete', icon: 'pi pi-times', command: (event) => this.deleteQuestao(this.selectedQuestao) }
       ];
-
   }
 
   abrirEditor(questao){
@@ -49,10 +53,6 @@ export class ListarQuestoesComponent implements OnInit  {
     });*/
   }
 
-  viewQuestao(questao:Questao) {
-    this.router.navigate(["main", { outlets: { principal: ['visualizacao-questao', questao.id] } } ] );
-    this.messageView();
-  }
   messageDelete() {
     this.messageService.add({severity:'error', summary:'Deletado!', detail:" foi excluido do banco de questões"});
   }
