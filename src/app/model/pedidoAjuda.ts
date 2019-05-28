@@ -12,7 +12,8 @@ export default class PedidoAjuda extends Document{
 
     objectToDocument(){
         let document = super.objectToDocument();
-        document["questaoId"] = this.submissao["questaoId"]; // TODO: mudar para objeto questao. mas precisa alterar o get de submissão para carregar questão do banco.
+        document["submissaoId"] = this.submissao.pk(); // TODO: mudar para objeto questao. mas precisa alterar o get de submissão para carregar questão do banco.
+        // TODO: pegar a submissão mais recente do BD ao carregar um pedido de ajuda.
         if (this.respostas != null && this.respostas.length > 0) {
             let respostas = [];
             this.respostas.forEach(resposta => {
