@@ -169,6 +169,7 @@ export class EditorProgramacaoComponent implements OnInit {
       let consultas = []
       submissao.resultadosTestsCases = ResultadoTestCase.construir(resposta.resultados);
       submissao.save().subscribe(resultado => {
+        this.submissao = resultado;
         let tutor = new Tutor(submissao);
         tutor.analisar();
 
@@ -231,6 +232,7 @@ export class EditorProgramacaoComponent implements OnInit {
   visualizarExecucacao() {
     let submissao = this.prepararSubmissao()
     submissao.save().subscribe(resultado => {
+      this.submissao = resultado;
       let httpOptions = {
         headers: new HttpHeaders({
           'Content-Type': 'application/json'
@@ -267,7 +269,7 @@ export class EditorProgramacaoComponent implements OnInit {
   }
 
   enviarPedidoDeAjuda(){
-    let pedidoAjuda = this.criarPedidoAjuda();
+    let pedidoAjuda = new PedidoAjuda(null,this.submissao,this.duvida, []);
 
     if(pedidoAjuda.validar()){
       pedidoAjuda.save().subscribe(resultado=>{
@@ -279,10 +281,5 @@ export class EditorProgramacaoComponent implements OnInit {
       alert('Preencha todos os campos se quiser realizar salvar o planejamento'); // TODO: usar o message service
     }
     
-  }
-
-  criarPedidoAjuda(){
-    let pedidoAjuda:PedidoAjuda = new PedidoAjuda(Util.uuidv4(),this.prepararSubmissao(),this.duvida,0,[]);
-    return pedidoAjuda;
   }
 }
