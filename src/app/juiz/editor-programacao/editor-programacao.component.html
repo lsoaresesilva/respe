@@ -12,6 +12,17 @@
   </div>
 </div>
 
+<p-dialog header="Indique o motivo do pedido de ajuda(dúvida):" [(visible)]="dialogPedirAjuda">
+
+  <span class="ui-float-label">
+      <textarea pInputTextarea autoResize="autoResize" [cols]="44" [(ngModel)]="duvida"></textarea>
+    <label for="float-input">Digite o motivo</label>
+  </span>
+  <button type="button" pButton icon="pi pi-check" (click)="dialogPedirAjuda=false; enviarPedidoDeAjuda();" label="Enviar"></button>
+  <button type="button" pButton icon="pi pi-close" (click)="dialogPedirAjuda=false;" label="Cancelar" class="ui-button-secondary"></button>
+
+</p-dialog>
+
 <div class="p-grid">
   <div class="p-col-3" style="background-color:#ffffe6">
     <dados-questao [questao]="questao"></dados-questao>
@@ -40,6 +51,7 @@
       *ngIf="modoVisualizacao"></button>
     <button type="button" (click)="visualizarExecucacao()" pButton label="Vizualizar execução"
       *ngIf="!modoVisualizacao && this.questao != undefined"></button>
+      <button type="button" (click)="pedirAjuda()" pButton label="Pedir ajuda"></button>
   </div>
 
   <div class="p-col-3">

@@ -11,6 +11,8 @@ import Usuario from 'src/app/model/usuario';
 import { Linha } from 'src/app/model/linha';
 import { ActivatedRoute } from '@angular/router';
 import Query from 'src/app/model/firestore/query';
+import PedidoAjuda from 'src/app/model/pedidoAjuda';
+import { Util } from 'src/app/model/util';
 import { Assunto } from 'src/app/model/assunto';
 
 declare var editor: any;
@@ -31,6 +33,8 @@ export class EditorProgramacaoComponent implements OnInit {
   resultadosTestsCases;
   modoVisualizacao: boolean = false;
   submissao;
+  dialogPedirAjuda: boolean = false;
+  duvida:string = "";
 
   // TODO: mover para um componente próprio
   traceExecucao;
@@ -256,5 +260,29 @@ export class EditorProgramacaoComponent implements OnInit {
   voltarParaModoExecucao() {
     this.editorCodigo.limparCores();
     this.modoVisualizacao = false;
+  }
+
+  pedirAjuda(){
+    this.dialogPedirAjuda = true;
+  }
+
+  enviarPedidoDeAjuda(){
+    let pedidoAjuda = this.criarPedidoAjuda();
+
+    if(pedidoAjuda.validar()){
+      pedidoAjuda.save().subscribe(resultado=>{
+        // TODO: usar o message service para mensagem de sucesso
+    }, err=>{
+      // TODO: usar o message service para mensagem de erro
+      });
+    }else{
+      alert('Preencha todos os campos se quiser realizar salvar o planejamento'); // TODO: usar o message service
+    }
+    
+  }
+
+  criarPedidoAjuda(){
+    let pedidoAjuda:PedidoAjuda = new PedidoAjuda(Util.uuidv4(),this.prepararSubmissao(),this.duvida,0,[]);
+    return pedidoAjuda;
   }
 }
