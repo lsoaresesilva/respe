@@ -14,6 +14,7 @@ import Erro from '../erro';
 import { TipoErro } from '../tipoErro';
 import { forkJoin } from 'rxjs';
 import Usuario from '../usuario';
+import Codigo from '../codigo';
 
 describe("Testes de Submissão", ()=>{
 
@@ -41,8 +42,8 @@ describe("Testes de Submissão", ()=>{
     it("Deve carregar uma submissão com erro", (done)=>{
         let algoritmo = "x = 2\ny = c";
         let estudante = new Usuario("CvsVQsPKIExzNWFh2TWW", null, null, null);
-        let questao = new Questao("LwC2ItAVtfkDhcE9jvpT", null, null, null, null, null, null, []);
-        let submissao = new Submissao(null, algoritmo, estudante, questao);
+        let questao = new Questao("LwC2ItAVtfkDhcE9jvpT", null, null, null, null, null, []);
+        let submissao = new Submissao(null, new Codigo().algoritmo, estudante, questao);
         let x = submissao.erros;
         submissao.save().subscribe(resultado=>{
             let erro = new Erro(null, 2, null, TipoErro.variavelNaoDeclarada, resultado);
@@ -62,9 +63,9 @@ describe("Testes de Submissão", ()=>{
     it("Deve carregar uma submissão mais recente", (done)=>{
         let algoritmo = "x = 2\ny = x";
         let estudante = new Usuario("CvsVQsPKIExzNWFh2TWW", null, null, null);
-        let questao = new Questao("LwC2ItAVtfkDhcE9jvpT", null, null, null, null, null, null, []);
-        let s1 = new Submissao(null, algoritmo, estudante, questao);
-        let s2 = new Submissao(null, algoritmo, estudante, questao);
+        let questao = new Questao("LwC2ItAVtfkDhcE9jvpT", null, null, null, null, null, []);
+        let s1 = new Submissao(null, new Codigo().algoritmo, estudante, questao);
+        let s2 = new Submissao(null, new Codigo().algoritmo, estudante, questao);
         let x = s1.erros;
     
         s1.save().subscribe(resultado=>{

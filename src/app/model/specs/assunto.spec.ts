@@ -25,7 +25,7 @@ describe("Testes de questão", () => {
     let app: firebase.app.App;
     let afs: AngularFirestore;
 
-
+/*
     beforeAll(() => {
         jasmine.DEFAULT_TIMEOUT_INTERVAL = 1200000;
         TestBed.configureTestingModule({
@@ -118,7 +118,7 @@ describe("Testes de questão", () => {
 
 
         })
-    })
+    })*/
 
 });
 

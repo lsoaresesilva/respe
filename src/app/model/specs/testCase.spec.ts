@@ -28,12 +28,12 @@ describe("Testes de testcase", ()=>{
         })();
     
       });
-
+/*
       it("deve carregar todos os testscases para uma questão", (done)=>{
         TestCase.getAll(new Query("idQuestao", "==", "LwC2ItAVtfkDhcE9jvpT")).subscribe(testsCases=>{
             expect(testsCases.length).toBe(2);
             done();
         })
     })
-
+*/
 });

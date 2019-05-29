@@ -52,7 +52,7 @@ export class VisualizarPlanejamentoComponent implements OnInit {
         let consultas:any = {};
         this.questoes.forEach(questao=>{
           
-          consultas[questao.pk()] = (Questao.isFinalizada(questao)); // TODO: problema está aqui
+          consultas[questao.pk()] = (Questao.isFinalizada(questao, Usuario.getUsuarioLogado())); // TODO: problema está aqui
         })
 
         forkJoin(consultas).subscribe(consulta=>{
