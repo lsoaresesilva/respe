@@ -2,7 +2,6 @@ import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { Planejamento } from 'src/app/model/planejamento';
 import { Assunto } from 'src/app/model/assunto';
-import { MaterialEstudoService } from '../material-estudo.service';
 import Usuario from 'src/app/model/usuario';
 import { Questao } from 'src/app/model/questao';
 import Query from 'src/app/model/firestore/query';
@@ -18,6 +17,7 @@ export class VisualizarPlanejamentoComponent implements OnInit {
   materialDeEstudo: any[] = [];
   questoes: any[] = [];
   progresso: number = 0;
+  isFinalizado?
 
   constructor(private activatedRoute: ActivatedRoute, private router: Router) {
   }
@@ -37,13 +37,18 @@ export class VisualizarPlanejamentoComponent implements OnInit {
     Planejamento.get(id).subscribe(planejamentoCadastrado => {
       this.planejamento = planejamentoCadastrado;
       this.getQuestoes();
+
+      Assunto.isFinalizado(this.planejamento.assunto, Usuario.getUsuarioLogado()).subscribe(status=>{
+        this.isFinalizado = status;
+      })
+
     });
   }
 
   getQuestoes(){
     if(this.planejamento.assunto != undefined){
-      Questao.getAll(new Query("assuntoPrincipalId", "==", this.planejamento.assunto.pk())).subscribe(questoes=>{
-        this.questoes = questoes;
+      Assunto.get(this.planejamento.assunto.pk()).subscribe(assunto=>{
+        this.questoes = assunto["questoes"];
         let consultas:any = {};
         this.questoes.forEach(questao=>{
           
@@ -71,11 +76,8 @@ export class VisualizarPlanejamentoComponent implements OnInit {
     this.router.navigate(['main', { outlets: { principal: ['editor', questao.pk()] } }]);
   }
 
-  isPlanejamentoFinalizado(){
-    //return Assunto.isFinalizado(this.planejamento.assunto.pk(), Usuario.getUsuarioLogado());
+  iniciarAutoReflexao(){
+    this.router.navigate(['main', { outlets: { principal: ['autoreflexao', this.planejamento.pk()] } }]);
   }
-
-
-
 
 }

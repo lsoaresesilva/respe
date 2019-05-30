@@ -1,10 +1,10 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, Input } from '@angular/core';
 import { Assunto } from 'src/app/model/assunto';
 import { MenuItem } from 'primeng/components/common/menuitem';
 import { MessageService } from 'primeng/api';
 import { Questao } from 'src/app/model/questao';
 import TestCase from 'src/app/model/testCase';
-import { Router } from '@angular/router';
+import { Router, ActivatedRoute } from '@angular/router';
 
 @Component({
   selector: 'app-listar-questoes',
@@ -12,21 +12,16 @@ import { Router } from '@angular/router';
   styleUrls: ['./listar-questoes.component.css']
 })
 export class ListarQuestoesComponent implements OnInit  {
-
   
-  questoes;
+  @Input("assunto") assunto?;
+
   selectedQuestao: Questao;
-  selectQuestoes: Questao[];
   items: MenuItem[];
-  minhasQuestions;
-  constructor(private messageService: MessageService,private router:Router) { 
+  constructor(private messageService: MessageService, private router:Router) { 
     
   }
 
   ngOnInit() {
-   
-    Questao.getAll().subscribe(questoes=>{this.questoes= questoes});
-
     this.items = [
       { label: 'Update', icon: 'pi pi-check', command: (event) => this.alterarQuestao(this.selectedQuestao) },
       { label: 'Delete', icon: 'pi pi-times', command: (event) => this.deleteQuestao(this.selectedQuestao) },
@@ -35,27 +30,27 @@ export class ListarQuestoesComponent implements OnInit  {
 
   }
 
-  cadastrar(){
-    this.router.navigate(["main", { outlets: { principal: ['cadastro-questao'] } }]);
+  abrirEditor(questao){
+    this.router.navigate(["main", { outlets: { principal: ['editor', this.assunto.pk(), questao.id] }}]);
   }
 
   alterarQuestao(questao: Questao) {
     if(questao != undefined){
-      this.router.navigate(["main", { outlets: { principal: ['atualizacao-questao', questao.pk()] } } ] );
+      this.router.navigate(["main", { outlets: { principal: ['atualizacao-questao', questao.id] } } ] );
     }
     
   }
 
   deleteQuestao(questao:Questao) {
-     Questao.delete(questao.pk()).subscribe(resultado=>{
+     /*Questao.delete(questao.pk()).subscribe(resultado=>{
       
       Questao.getAll().subscribe(questoes=>{this.questoes= questoes});
        
-    });
+    });*/
   }
 
   viewQuestao(questao:Questao) {
-    this.router.navigate(["main", { outlets: { principal: ['visualizacao-questao', questao.pk()] } } ] );
+    this.router.navigate(["main", { outlets: { principal: ['visualizacao-questao', questao.id] } } ] );
     this.messageView();
   }
   messageDelete() {
@@ -65,5 +60,8 @@ export class ListarQuestoesComponent implements OnInit  {
     this.messageService.add({severity:'info', summary:'Questao visualizado', detail:'informações sobre a questão'});
   }
   
+  cadastrar(){
+    this.router.navigate(["main", { outlets: { principal: ['cadastro-questao'] } }]);
+  }
   
 }

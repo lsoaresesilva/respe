@@ -48,6 +48,7 @@ export class ListarQuestoesFechadasComponent implements OnInit {
      QuestaoFechada.delete(questao.pk()).subscribe(resultado=>{
       
       QuestaoFechada.getAll().subscribe(questoes=>{this.questoes= questoes});
+      this.messageDelete();
        
     });
   }

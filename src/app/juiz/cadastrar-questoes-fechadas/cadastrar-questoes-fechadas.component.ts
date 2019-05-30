@@ -17,6 +17,7 @@ export class CadastrarQuestoesFechadasComponent implements OnInit {
   questao;
   dificuldades: SelectItem[];
   assuntos;
+  isAlterar:Boolean;
  
 
   constructor(private router: Router, private activatedRoute: ActivatedRoute, private messageService: MessageService) {
@@ -31,6 +32,7 @@ export class CadastrarQuestoesFechadasComponent implements OnInit {
     this.activatedRoute.params
       .subscribe(params => {
         if (params["id"] != undefined) {
+          this.isAlterar=true;
           QuestaoFechada.get(params["id"]).subscribe(questao => {
             this.questao = questao;
           })

@@ -238,17 +238,15 @@ export class Questao {
   }*/
 
   validar() {
-    if (this.nomeCurto == null || this.nomeCurto == "" ||this.enunciado == null || 
-      this.enunciado == "" || this.dificuldade == null ||this.sequencia == null ||
-      this.sequencia < 1 || this.testsCases == undefined || this.testsCases.length == 0 ||
+    if (this.nomeCurto == null ||
+      this.nomeCurto == "" ||this.enunciado == null || this.enunciado == "" || this.dificuldade == null ||
+      this.sequencia == null || this.sequencia < 1 || this.testsCases == undefined || this.testsCases.length == 0 ||
       TestCase.validarTestsCases(this.testsCases)==false) {
-        
       return false;
     }
     return true;
 
   }
-  
 
 
   // validarSequencia(sequencia:Number){

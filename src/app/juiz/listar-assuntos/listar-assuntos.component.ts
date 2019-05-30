@@ -32,6 +32,10 @@ export class ListarAssuntosComponent implements OnInit {
     this.router.navigate(["main", { outlets: { principal: ['cadastro-assunto'] } }]);
   }
 
+  abrirAssunto(assunto){
+    this.router.navigate(["main", { outlets: { principal: ['visualizacao-assunto', assunto.pk()] } } ] );
+  }
+
   alterarAssunto(assunto: Assunto) {
     if(assunto != undefined){
       this.router.navigate(["main", { outlets: { principal: ['atualizacao-assunto', assunto.pk()] } } ] );

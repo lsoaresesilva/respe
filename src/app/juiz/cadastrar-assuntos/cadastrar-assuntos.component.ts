@@ -18,7 +18,7 @@ export class CadastrarAssuntosComponent implements OnInit {
    }
 
   ngOnInit() {
-    this.assunto = new Assunto(null, null);
+    this.assunto = new Assunto(null, null, []);
     this.route.params.subscribe(params=> {this.id = params["id"];
       if(this.id!=undefined){
         this.ehAlterar=true;
@@ -32,12 +32,12 @@ export class CadastrarAssuntosComponent implements OnInit {
   }
 
   messageCadastro() {
-    this.messageService.add({severity:'success', summary:'Cadastrado!', detail: this.assunto.nome+" foi adicionada ao banco de questões"});
+    this.messageService.add({severity:'success', summary:'Cadastrado!', detail: this.assunto.nome+"  foi adicionado"});
   }
  
 
   messageUpdate() {
-    this.messageService.add({severity:'warn', summary:'Alterado!', detail: this.assunto.nome+" foi alterada no banco de questões"});
+    this.messageService.add({severity:'success', summary:'Alterado!', detail: " assunto alterado"});
   }
 
   messageErro() {
@@ -56,6 +56,7 @@ export class CadastrarAssuntosComponent implements OnInit {
       this.assunto.save().subscribe(resultado => {
         this.router.navigate(["main", { outlets: { principal: ['listagem-assuntos'] } }]);
         this.messageCadastro();
+       
 
       }, err => {
        this.messageErro();
