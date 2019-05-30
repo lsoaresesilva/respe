@@ -11,6 +11,8 @@ import Usuario from 'src/app/model/usuario';
 import { Linha } from 'src/app/model/linha';
 import { ActivatedRoute } from '@angular/router';
 import Query from 'src/app/model/firestore/query';
+import PedidoAjuda from 'src/app/model/pedidoAjuda';
+import { Util } from 'src/app/model/util';
 import { Assunto } from 'src/app/model/assunto';
 
 declare var editor: any;
@@ -31,6 +33,8 @@ export class EditorProgramacaoComponent implements OnInit {
   resultadosTestsCases;
   modoVisualizacao: boolean = false;
   submissao;
+  dialogPedirAjuda: boolean = false;
+  duvida:string = "";
 
   // TODO: mover para um componente próprio
   traceExecucao;
@@ -165,6 +169,7 @@ export class EditorProgramacaoComponent implements OnInit {
       let consultas = []
       submissao.resultadosTestsCases = ResultadoTestCase.construir(resposta.resultados);
       submissao.save().subscribe(resultado => {
+        this.submissao = resultado;
         let tutor = new Tutor(submissao);
         tutor.analisar();
 
@@ -227,6 +232,7 @@ export class EditorProgramacaoComponent implements OnInit {
   visualizarExecucacao() {
     let submissao = this.prepararSubmissao()
     submissao.save().subscribe(resultado => {
+      this.submissao = resultado;
       let httpOptions = {
         headers: new HttpHeaders({
           'Content-Type': 'application/json'
@@ -256,5 +262,24 @@ export class EditorProgramacaoComponent implements OnInit {
   voltarParaModoExecucao() {
     this.editorCodigo.limparCores();
     this.modoVisualizacao = false;
+  }
+
+  pedirAjuda(){
+    this.dialogPedirAjuda = true;
+  }
+
+  enviarPedidoDeAjuda(){
+    let pedidoAjuda = new PedidoAjuda(null,this.submissao,this.duvida, []);
+
+    if(pedidoAjuda.validar()){
+      pedidoAjuda.save().subscribe(resultado=>{
+        // TODO: usar o message service para mensagem de sucesso
+    }, err=>{
+      // TODO: usar o message service para mensagem de erro
+      });
+    }else{
+      alert('Preencha todos os campos se quiser realizar salvar o planejamento'); // TODO: usar o message service
+    }
+    
   }
 }

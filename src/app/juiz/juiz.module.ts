@@ -29,6 +29,7 @@ import { ListarTurmaComponent } from './listar-turma/listar-turma.component';
 import {AutoCompleteModule} from 'primeng/autocomplete';
 import {ToastModule} from 'primeng/toast';
 import {InputTextModule} from 'primeng/inputtext';
+import {DialogModule} from 'primeng/dialog';
 import { VisualizarExecucacao } from './vizualizar-execucao/vizualizar-execucao.component';
 import { VisualizarQuestaoComponent } from './visualizar-questao/visualizar-questao.component';
 
@@ -36,6 +37,8 @@ import {RadioButtonModule} from 'primeng/radiobutton';
 import { CadastrarAssuntosComponent } from './cadastrar-assuntos/cadastrar-assuntos.component';
 import { ListarAssuntosComponent } from './listar-assuntos/listar-assuntos.component';
 import { VisualizarAssuntoComponent } from './visualizar-assunto/visualizar-assunto.component';
+import { ListarPedidosAjudaComponent } from './listar-pedidos-ajuda/listar-pedidos-ajuda.component';
+import { VisualizarPedidoAjudaComponent } from './visualizar-pedido-ajuda/visualizar-pedido-ajuda.component';
 
 import { CadastrarAlternativasComponent } from './cadastrar-alternativas/cadastrar-alternativas.component';
 import { CadastrarQuestoesFechadasComponent } from './cadastrar-questoes-fechadas/cadastrar-questoes-fechadas.component';
@@ -45,7 +48,8 @@ import { ListarQuestoesFechadasComponent } from './listar-questoes-fechadas/list
 
 
 @NgModule({
-  declarations: [VisualizarTestesComponent, 
+  declarations: [
+    VisualizarTestesComponent, 
     CadastrarQuestoesComponent, 
     CadastrarTesteCaseComponent, 
     ListarQuestoesComponent, 
@@ -63,9 +67,12 @@ import { ListarQuestoesFechadasComponent } from './listar-questoes-fechadas/list
     CadastrarAssuntosComponent, 
     CadastrarQuestoesFechadasComponent, 
     ListarQuestoesFechadasComponent,
-     VisualizarQuestaoFechadaComponent,
-     CadastrarAlternativasComponent
-    ],
+    VisualizarQuestaoFechadaComponent,
+    CadastrarAlternativasComponent,
+    ListarPedidosAjudaComponent,
+    VisualizarPedidoAjudaComponent
+  ],
+
 
   imports: [
     CommonModule,
@@ -86,7 +93,8 @@ import { ListarQuestoesFechadasComponent } from './listar-questoes-fechadas/list
     ToastModule,
     InputTextModule,
     CardModule,
-    RadioButtonModule
+    RadioButtonModule,
+    DialogModule,
 
     
     
