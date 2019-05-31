@@ -44,6 +44,7 @@ import { CadastrarAlternativasComponent } from './cadastrar-alternativas/cadastr
 import { CadastrarQuestoesFechadasComponent } from './cadastrar-questoes-fechadas/cadastrar-questoes-fechadas.component';
 import { VisualizarQuestaoFechadaComponent } from './visualizar-questao-fechada/visualizar-questao-fechada.component';
 import { ListarQuestoesFechadasComponent } from './listar-questoes-fechadas/listar-questoes-fechadas.component';
+import { EscolherQuestaoComponent } from './escolher-questao/escolher-questao.component';
 
 
 
@@ -70,7 +71,8 @@ import { ListarQuestoesFechadasComponent } from './listar-questoes-fechadas/list
     VisualizarQuestaoFechadaComponent,
     CadastrarAlternativasComponent,
     ListarPedidosAjudaComponent,
-    VisualizarPedidoAjudaComponent
+    VisualizarPedidoAjudaComponent,
+    EscolherQuestaoComponent
   ],
 
 
