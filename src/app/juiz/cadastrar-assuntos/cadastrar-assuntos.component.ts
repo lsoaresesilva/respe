@@ -18,7 +18,7 @@ export class CadastrarAssuntosComponent implements OnInit {
    }
 
   ngOnInit() {
-    this.assunto = new Assunto(null, null, []);
+    this.assunto = new Assunto(null, null);
     this.route.params.subscribe(params=> {this.id = params["id"];
       if(this.id!=undefined){
         this.ehAlterar=true;

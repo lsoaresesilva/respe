@@ -5,6 +5,7 @@ import { Router } from '@angular/router';
 import Usuario from 'src/app/model/usuario';
 import Query from 'src/app/model/firestore/query';
 import { forkJoin } from 'rxjs';
+import { LoginService } from 'src/app/juiz/login.service';
 
 @Component({
   selector: 'app-listar-planejamentos',
@@ -15,14 +16,14 @@ export class ListarPlanejamentosComponent implements OnInit {
   planejamentos: any[] = [];
   assuntos: any[] = [];
 
-  constructor(private router: Router) { }
+  constructor(private router: Router, private login:LoginService) { }
 
   ngOnInit() {
     this.getPlanejamentos();
   }
 
   getPlanejamentos() {
-    let usuario = Usuario.getUsuarioLogado();
+    let usuario = this.login.getUsuarioLogado();
     if (usuario == null) {
       throw new Error("É preciso estar logado para poder visualizar os planejamentos");
     }

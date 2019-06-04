@@ -3,6 +3,7 @@ import TextoHighlight from 'src/app/model/textoHighlight';
 import Usuario from 'src/app/model/usuario';
 import { DomSanitizer } from '@angular/platform-browser';
 import ComentarioEstudo from 'src/app/model/comentarioEstudo';
+import { LoginService } from 'src/app/juiz/login.service';
 
 /**
  * Estão declaradas no arquivo visualizarConteudo.js. A função é usada para iniciar o listener do mouse para capturar quando um texto for selecionado. A variável armazena o texto selecionado.
@@ -38,7 +39,7 @@ export class VisualizarConteudoComponent implements OnInit {
 
   @ViewChild("btnApagarDestaque") btnApagarDestaque;
 
-  constructor(private sanitizer: DomSanitizer) {
+  constructor(private sanitizer: DomSanitizer, private login:LoginService) {
 
     this.textosHighlighted = []
     this.visibilidadeDialogComentario = false;
@@ -67,7 +68,7 @@ export class VisualizarConteudoComponent implements OnInit {
 
   salvarComentario(comentario) {
     // TODO: pegar a submissao que vem pela rota
-    let comentarioEstudante = new ComentarioEstudo(null, Usuario.getUsuarioLogado(), comentario, textoSelecionado);
+    let comentarioEstudante = new ComentarioEstudo(null, this.login.getUsuarioLogado(), comentario, textoSelecionado);
     comentarioEstudante.save().subscribe(resultado => {
       this.visibilidadeDialogComentario = false;
       this.inicializarTexto();

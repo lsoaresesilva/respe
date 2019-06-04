@@ -6,6 +6,7 @@ import { Questao } from 'src/app/model/questao';
 import TestCase from 'src/app/model/testCase';
 import { Router, ActivatedRoute } from '@angular/router';
 import Usuario from 'src/app/model/usuario';
+import { LoginService } from '../login.service';
 
 @Component({
   selector: 'app-listar-questoes',
@@ -20,13 +21,13 @@ export class ListarQuestoesComponent implements OnInit  {
   items: MenuItem[];
   usuario;
 
-  constructor(private messageService: MessageService, private router:Router) { 
+  constructor(private messageService: MessageService, private router:Router, private login:LoginService) { 
     
   }
 
   ngOnInit() {
 
-    this.usuario = Usuario.getUsuarioLogado();
+    this.usuario = this.login.getUsuarioLogado();
 
     this.items = [
       { label: 'Update', icon: 'pi pi-check', command: (event) => this.alterarQuestao(this.selectedQuestao) },

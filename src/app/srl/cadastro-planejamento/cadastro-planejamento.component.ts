@@ -6,6 +6,7 @@ import Estudante from '../../model/estudante';
 import { Dificuldade } from '../../model/dificuldade';
 import { Router } from '@angular/router';
 import Usuario from 'src/app/model/usuario';
+import { LoginService } from 'src/app/juiz/login.service';
 //import {MessageService} from 'primeng/api';
 @Component({
   selector: 'app-cadastro-planejamento',
@@ -24,9 +25,10 @@ export class CadastroPlanejamentoComponent implements OnInit {
   constructor(
     // private messageService: MessageService,
     private router: Router,
+    private login:LoginService
   ) { 
     // TODO: carregar do login
-    this.planejamento = new Planejamento(null,Usuario.getUsuarioLogado(),null,0,"",0,"", false, null);
+    this.planejamento = new Planejamento(null, this.login.getUsuarioLogado(),null,0,"",0,"", false, null);
   }
 
   prepararAssuntos(assuntos){

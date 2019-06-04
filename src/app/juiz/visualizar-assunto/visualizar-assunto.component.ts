@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { Assunto } from 'src/app/model/assunto';
 import { ActivatedRoute, Router } from '@angular/router';
 import { MessageService } from 'primeng/api';
+import { LoginService } from '../login.service';
 
 @Component({
   selector: 'app-visualizar-assunto',
@@ -13,7 +14,7 @@ export class VisualizarAssuntoComponent implements OnInit {
 
   assunto;
 
-  constructor(private route: ActivatedRoute,private messageService: MessageService, private router:Router){
+  constructor(private route: ActivatedRoute,private messageService: MessageService, private router:Router, public login:LoginService){
   
   }
 

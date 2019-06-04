@@ -45,6 +45,8 @@ import { ListarAssuntosComponent } from './listar-assuntos/listar-assuntos.compo
 import { VisualizarAssuntoComponent } from './visualizar-assunto/visualizar-assunto.component';
 import { ListarPedidosAjudaComponent } from './listar-pedidos-ajuda/listar-pedidos-ajuda.component';
 import { VisualizarPedidoAjudaComponent } from './visualizar-pedido-ajuda/visualizar-pedido-ajuda.component';
+import { LoginService } from './login.service';
+import { EditorService } from './editor.service';
 
 
 @NgModule({
@@ -108,7 +110,7 @@ import { VisualizarPedidoAjudaComponent } from './visualizar-pedido-ajuda/visual
     VisualizarAssuntoComponent,
   ],
 
-  providers: [MessageService],
+  providers: [MessageService, LoginService, EditorService],
   schemas: [
     CUSTOM_ELEMENTS_SCHEMA
 ],

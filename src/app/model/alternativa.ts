@@ -1,27 +1,44 @@
-import { Document, Collection } from './firestore/document';
-import QuestaoFechada from './questaoFechada';
+import { Util } from './util';
 
-@Collection("alternativas")
-export default class Alternativa extends Document{
-    texto:String ;
-    isVerdadeira:Boolean;
-    questaoFechada:QuestaoFechada;
-
-    constructor(id, texto, isVerdadeira, questaoFechada){
-        super(id);
+export default class Alternativa{
+    constructor(public id, public texto, public isVerdadeira){
+        if(this.id == null){
+            this.id = Util.uuidv4();
+        }else{
+            this.id = id;
+        }
         this.texto = texto;
         this.isVerdadeira = isVerdadeira;
-        this.questaoFechada = questaoFechada;
     }
 
     objectToDocument(){
-        let document = super.objectToDocument();
-        document["questaoFechadaId"] = this.questaoFechada.pk();
+        let document = {}
+        
+        document["id"] = this.id;
+        document["texto"] = this.texto;
+        document["isVerdadeira"] = this.isVerdadeira;
+
         return document;
     }
+
+    /**
+     * Constrói objetos a partir do atributo array de uma document
+     * @param alternativas 
+     */
+    static construir(alternativas:any[]){
+        let objetosAlternativas:Alternativa[] = [];
+
+        if(alternativas != null){
+            alternativas.forEach(alternativa=>{
+                objetosAlternativas.push(new Alternativa(alternativa.id, alternativa.texto, alternativa.isVerdadeira));
+            })
+        }
+
+        return objetosAlternativas;
+    }
+
     validar() {
-        if (this.texto == undefined || this.texto == null || this.isVerdadeira == null || this.isVerdadeira == undefined ||
-         this.questaoFechada == undefined || this.questaoFechada == null) {
+        if (this.texto == undefined || this.texto == null || this.isVerdadeira == null || this.isVerdadeira == undefined ) {
           return false;
         }
         return true;

@@ -82,19 +82,19 @@ export class CadastrarQuestoesComponent implements OnInit {
   
   cadastrarQuestao() {
    
-    if (this.questao.validar() && TestCase.validarTestsCases(this.questao.testsCases)) {
+    if (this.questao.validar() && TestCase.validarTestsCases(this.questao.testsCases)) { // PROBLEMA <------ entradas de TESTSCASES está vazio
 
     
       this.questao.assuntos = this.questao.assuntos.map(assunto =>{
         if(typeof assunto === "string")
-          return new Assunto(assunto, null, [])
+          return new Assunto(assunto, null)
         return assunto;
       } )
 
-      if(this.assunto.questoes == null)
-        this.assunto.questoes = [];
+      if(this.assunto.questoesProgramacao == null)
+        this.assunto.questoesProgramacao = [];
 
-      this.assunto.questoes.push(this.questao);
+      this.assunto.questoesProgramacao.push(this.questao);
 
       this.assunto.save().subscribe(resultado => {
         this.router.navigate(["main", { outlets: { principal: ['listagem-assuntos'] } }])

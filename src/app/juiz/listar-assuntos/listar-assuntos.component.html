@@ -1,11 +1,15 @@
 <p-toast></p-toast>
 <h2>Assuntos</h2>
 
+<div *ngIf="login.getUsuarioLogado().perfil == 3">
+    <p-button label="Cadastrar" (click)="cadastrar()" ></p-button>
+    <p>Clique com o botão direito para ver as opções</p>
+    <p-contextMenu #cm [model]="items"></p-contextMenu>
+</div>
 
-<p-button label="Cadastrar" (click)="cadastrar()"></p-button>
-<p-toast [style]="{marginTop: '80px'}"></p-toast> 
-<p>Clique com o botão direito para ver as opções</p>
- <p-table [value]="assuntos"  [(contextMenuSelection)]="selectedAssunto" [contextMenu]="cm">
+<p-toast [style]="{marginTop: '80px'}"></p-toast>
+
+<p-table [value]="assuntos" [(contextMenuSelection)]="selectedAssunto" [contextMenu]="cm">
     <ng-template pTemplate="header">
         <tr>
             <th>Nome</th>
@@ -16,9 +20,4 @@
             <td (click)="abrirAssunto(assunto)">{{assunto.nome}}</td>
         </tr>
     </ng-template>
-</p-table> 
-<p-contextMenu #cm [model]="items"></p-contextMenu>   
-
-
-
-
+</p-table>

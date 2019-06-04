@@ -14,6 +14,7 @@ import Query from 'src/app/model/firestore/query';
 import PedidoAjuda from 'src/app/model/pedidoAjuda';
 import { Util } from 'src/app/model/util';
 import { Assunto } from 'src/app/model/assunto';
+import { LoginService } from '../login.service';
 
 declare var editor: any;
 declare function carregarIde(readOnly, callback, instance, codigo): any;
@@ -25,6 +26,7 @@ declare function carregarIde(readOnly, callback, instance, codigo): any;
 })
 export class EditorProgramacaoComponent implements OnInit {
 
+  assunto;
   editorCodigo?: Editor;
   pausaIde;
   erroLinguagemProgramacao;
@@ -34,21 +36,16 @@ export class EditorProgramacaoComponent implements OnInit {
   modoVisualizacao: boolean = false;
   submissao;
   dialogPedirAjuda: boolean = false;
-  duvida:string = "";
+  duvida: string = "";
 
   // TODO: mover para um componente próprio
   traceExecucao;
 
 
-  constructor(private http: HttpClient, private route: ActivatedRoute) {
+  constructor(private http: HttpClient, private route: ActivatedRoute, private login: LoginService) {
     this.pausaIde = true;
     this.erroLinguagemProgramacao = "";
     this.statusExecucao = "";
-    // TODO: passar a questão pela rota
-
-
-
-
 
   }
 
@@ -71,9 +68,9 @@ export class EditorProgramacaoComponent implements OnInit {
     this.route.params.subscribe(params => {
       if (params["assuntoId"] != undefined && params["questaoId"] != undefined) {
         Assunto.get(params["assuntoId"]).subscribe(assunto => {
-
-          if (assunto["questoes"] != undefined && assunto["questoes"].length > 0) {
-            assunto["questoes"].forEach(questao => {
+          this.assunto = assunto;
+          if (assunto["questoesProgramacao"] != undefined && assunto["questoesProgramacao"].length > 0) {
+            assunto["questoesProgramacao"].forEach(questao => {
               if (questao.id == params["questaoId"]) {
                 this.questao = questao;
               }
@@ -85,7 +82,7 @@ export class EditorProgramacaoComponent implements OnInit {
               this.editorCodigo = Editor.getInstance();
 
               // TODO: pegar a última submissão para uma questão
-              let usuario = Usuario.getUsuarioLogado();
+              let usuario = this.login.getUsuarioLogado();
               if (usuario != null) {
                 Submissao.getRecentePorQuestao(this.questao, usuario).subscribe(submissao => {
 
@@ -102,21 +99,13 @@ export class EditorProgramacaoComponent implements OnInit {
               }
             }
           }
-
-
-
-
-
-
-
-
         })
       } else {
         throw new Error("Não é possível iniciar o editor sem uma questão.");
       }
     })
 
-    let estudante = Usuario.getUsuarioLogado(); // TODO: pegar do login
+    let estudante = this.login.getUsuarioLogado(); // TODO: pegar do login
     if (estudante == null) {
       throw new Error("Não é possível executar o código, pois você não está logado."); // TODO: mudar para o message
     }
@@ -130,8 +119,18 @@ export class EditorProgramacaoComponent implements OnInit {
    */
   prepararSubmissao(): Submissao {
     this.editorCodigo.codigo.setAlgoritmo(editor.getValue());
-    let submissao = new Submissao(null, this.editorCodigo.codigo, Usuario.getUsuarioLogado(), this.questao);
+    let submissao = new Submissao(null, this.editorCodigo.codigo, this.login.getUsuarioLogado(), this.questao);
     return submissao;
+  }
+
+  construirJson(submissao, tipo ){
+    let json = {}
+    json["submissao"] = submissao.objectToDocument();
+    json["tipo"] = tipo;
+    json["assunto"] = this.assunto.objectToDocument();
+    json["questao"] = this.questao;
+
+    return json;
   }
 
   prepararMensagemErros(erros) {
@@ -143,10 +142,6 @@ export class EditorProgramacaoComponent implements OnInit {
         this.editorCodigo.destacarLinha(erro.linha, "erro");
       });
     }
-  }
-
-  getResultadosTestsCases(submissao) {
-    //ResultadoTestCase.getAll(new Query("))
   }
 
   executar() {
@@ -162,49 +157,52 @@ export class EditorProgramacaoComponent implements OnInit {
 
     let _this = this;
 
-    let request = submissao.objectToDocument();
-    request["tipo"] = "execução";
+    
+    let tutor = new Tutor(submissao);
+    tutor.analisar();
 
-    this.http.post<any>("http://127.0.0.1:8000/codigo/", request, httpOptions).subscribe(resposta => { // TODO: mudar o endereço para o real
-      let consultas = []
-      submissao.resultadosTestsCases = ResultadoTestCase.construir(resposta.resultados);
-      submissao.save().subscribe(resultado => {
-        this.submissao = resultado;
-        let tutor = new Tutor(submissao);
-        tutor.analisar();
+    /*
+    let _this = this;
 
-        tutor.salvarErros().subscribe(resultados => {
-          if (tutor.hasErrors()) {
-            this.prepararMensagemErros(tutor.erros);
-            this.pausaIde = false;
-          } else {
+        setTimeout(function () {
+          _this.pausaIde = false;
+        }, 10000)
+    */
 
-            let _this = this;
+    if (tutor.hasErrors()) {
+      tutor.salvarErros().subscribe(resultados => {
+        // TODO: deve fazer um resultadoTestCase falso.
+        this.prepararMensagemErros(tutor.erros);
+        this.pausaIde = false;
 
-            setTimeout(function () {
-              _this.pausaIde = false;
-            }, 10000)
-
-
-            // TODO: definir um timedout para, caso a requisiçõa não tenha uma resposta, interromper a execução.
-
-
-          }
-        })
       })
-
-      this.erroLinguagemProgramacao = "";
-      this.submissao = submissao;
-
-
-
-    }, err => {
-      this.prepararMensagemExceptionHttp(err);
-    }, () => {
-      _this.pausaIde = false;
-    })
-
-
+    } else {
+      let json = this.construirJson(submissao, "execução");
+      submissao.save().subscribe(resultado => {
+        this.http.post<any>("http://127.0.0.1:8000/codigo/", json, httpOptions).subscribe(resposta => { // TODO: mudar o endereço para o real
+          let consultas = []
+          submissao.resultadosTestsCases = ResultadoTestCase.construir(resposta.resultados);
+          submissao.save().subscribe(resultado => {
+            this.submissao = resultado;
+  
+          })
+  
+          this.erroLinguagemProgramacao = "";
+          this.editorCodigo.limparCores();
+          this.submissao = submissao;
+  
+  
+  
+        }, err => {
+  
+          this.prepararMensagemExceptionHttp(err);
+  
+  
+        }, () => {
+          _this.pausaIde = false;
+        })
+      });
+    }
 
   }
 
@@ -239,11 +237,9 @@ export class EditorProgramacaoComponent implements OnInit {
         })
       }
       // TODO: definir um timedout
+      let json = this.construirJson(submissao, "visualização");
 
-      let request = submissao.objectToDocument();
-      request["tipo"] = "visualização";
-
-      this.http.post<any>("http://127.0.0.1:8000/codigo/", request, httpOptions).subscribe(resposta => {
+      this.http.post<any>("http://127.0.0.1:8000/codigo/", json, httpOptions).subscribe(resposta => {
 
         resposta = resposta.replace("script str", "")
 
@@ -264,22 +260,22 @@ export class EditorProgramacaoComponent implements OnInit {
     this.modoVisualizacao = false;
   }
 
-  pedirAjuda(){
+  pedirAjuda() {
     this.dialogPedirAjuda = true;
   }
 
-  enviarPedidoDeAjuda(){
-    let pedidoAjuda = new PedidoAjuda(null,this.submissao,this.duvida, []);
+  enviarPedidoDeAjuda() {
+    let pedidoAjuda = new PedidoAjuda(null, this.submissao, this.duvida, []);
 
-    if(pedidoAjuda.validar()){
-      pedidoAjuda.save().subscribe(resultado=>{
+    if (pedidoAjuda.validar()) {
+      pedidoAjuda.save().subscribe(resultado => {
         // TODO: usar o message service para mensagem de sucesso
-    }, err=>{
-      // TODO: usar o message service para mensagem de erro
+      }, err => {
+        // TODO: usar o message service para mensagem de erro
       });
-    }else{
+    } else {
       alert('Preencha todos os campos se quiser realizar salvar o planejamento'); // TODO: usar o message service
     }
-    
+
   }
 }

@@ -13,20 +13,21 @@ import { PerfilUsuario } from 'src/app/model/perfilUsuario';
 export class CadastrarEstudantesComponent implements OnInit {
 
   id;
-  estudante;
-  isAtualizacao
+  usuario;
+  isAtualizacao;
 
   constructor(public router: Router, private messageService: MessageService, private route: ActivatedRoute) {
 
   }
 
   ngOnInit() {
-    this.estudante = new Estudante(null, null, new Usuario(null, null, null, PerfilUsuario.estudante));
+    this.usuario = new Usuario(null, null, null, PerfilUsuario.estudante);
+
     if (this.id = this.route.snapshot.params["id"]) {
       this.route.params.subscribe(params => {
         this.id = params["id"];
-        Estudante.get(this.id).subscribe(atualizarEstudante => {
-          this.estudante = atualizarEstudante;
+        Usuario.get(this.id).subscribe(atualizarEstudante => {
+          this.usuario = atualizarEstudante;
           this.isAtualizacao = true;
         }
         )
@@ -37,10 +38,10 @@ export class CadastrarEstudantesComponent implements OnInit {
   }
 
   cadastrarEstudante() {
-    if (this.estudante) {
-      this.estudante.save().subscribe(resultado => {
+    if (this.usuario.validar()) {
+      this.usuario.save().subscribe(resultado => {
+        alert('Estudante salvo com sucesso.') // TODO: apagar futuramente quando message service estiver funcionando.
         this.messageService.add({ severity: 'sucesso', summary: 'Estudante salvo com sucesso.' });
-        this.messageService.add({ severity: 'info', summary: 'Estudante cadastrado', detail: this.estudante.nome });
         this.router.navigate(["main", { outlets: { principal: ['listagem-estudantes'] } }]);
 
       },

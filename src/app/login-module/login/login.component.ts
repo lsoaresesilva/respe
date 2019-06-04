@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { UsuarioService } from '../usuario.service';
 import Usuario from '../../model/usuario';
 import { Router } from '@angular/router';
+import { LoginService } from 'src/app/juiz/login.service';
 
 @Component({
   selector: 'app-login',
@@ -10,14 +11,10 @@ import { Router } from '@angular/router';
 })
 export class LoginComponent implements OnInit {
 
-  login;
-  senha;
+  usuario:Usuario;
 
-  constructor(private loginService:UsuarioService, private router:Router) { 
-
-    
-    
-    
+  constructor(private loginService:UsuarioService, private router:Router, private login:LoginService) { 
+    this.usuario = new Usuario(null, null, null, 0);
   }
 
   ngOnInit() {
@@ -25,15 +22,17 @@ export class LoginComponent implements OnInit {
 
   acessar(){
     let t = this;
-    Usuario.logar(new Usuario(null, this.login, this.senha, null)).subscribe(resultado=>{
+    this.login.logar(this.usuario).subscribe(resultado=>{
       if( resultado )
         this.router.navigateByUrl("/main");
       else{
-        alert("a senha ="+this.senha +" e login = "+this.login+" estão invalidos") // TODO: mudar para o message service
-        console.log(this.login);
-        console.log(this.senha);
+        alert("a senha ="+this.usuario.senha +" e login = "+this.usuario.email+" estão invalidos") // TODO: mudar para o message service
       }
     })
+  }
+
+  cadastrar(){
+    this.router.navigate(["cadastro-estudante"])
   }
 
 }

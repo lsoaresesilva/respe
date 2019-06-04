@@ -4,6 +4,7 @@ import { ActivatedRouteSnapshot, RouterStateSnapshot, Router, CanLoad, Route } f
 import { Observable } from 'rxjs';
 import Usuario from '../model/usuario';
 import { containsElement } from '@angular/animations/browser/src/render/shared';
+import { LoginService } from '../juiz/login.service';
 
 
 @Injectable({
@@ -16,7 +17,8 @@ export class AuthGuard implements CanActivate, CanLoad {
     route: ActivatedRouteSnapshot;
 
   constructor(
-    private router: Router
+    private router: Router,
+    private login:LoginService
   ) { }
 
 
@@ -36,7 +38,7 @@ export class AuthGuard implements CanActivate, CanLoad {
   }
 
   verificarAcesso() {
-    if (Usuario.isUsuarioLogado()) {
+    if (this.login.isUsuarioLogado()) {
       return true;
     }
       this.router.navigate([""]);
