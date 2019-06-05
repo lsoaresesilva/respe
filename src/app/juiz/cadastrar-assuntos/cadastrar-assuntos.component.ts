@@ -54,7 +54,11 @@ export class CadastrarAssuntosComponent implements OnInit {
     if (this.assunto.validar()) {
       
       this.assunto.save().subscribe(resultado => {
-        this.router.navigate(["main", { outlets: { principal: ['listagem-assuntos'] } }]);
+
+         this.router.navigate(["main", { outlets: { principal: ['escolher-questao',this.assunto.id] } }]);
+
+
+
         this.messageCadastro();
        
 

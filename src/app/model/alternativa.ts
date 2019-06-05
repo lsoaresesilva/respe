@@ -18,11 +18,14 @@ export default class Alternativa extends Document{
         this.questaoFechada = questaoFechada;
     }
 
-    objectToDocument(){
-        let document = super.objectToDocument();
-        document["questaoFechadaId"] = this.questaoFechada.pk();
-        return document;
-    }
+    objectToDocument() {
+      let document = {}
+      document["texto"] = this.texto;
+      document["id"] = this.id;
+      document["isVerdadeira"] = this.isVerdadeira;
+
+      return document;
+  }
 
     validar() {
         if (this.texto == undefined || this.texto == null || this.isVerdadeira == null || this.isVerdadeira == undefined ||
@@ -55,4 +58,22 @@ export default class Alternativa extends Document{
       return quantDeAlternativaCerta;
       }
   
+      /**
+     * Constrói objetos alterntivas a partir do atributo alterntivas de uma questão (que é um array)
+     * @param  alternativas 
+     */
+    static construir(alternativas:any[]){
+      let objetosAlternativas:Alternativa[] = [];
+
+      if(alternativas != null){
+          alternativas.forEach(alternativa=>{
+              objetosAlternativas.push(new Alternativa(alternativa.id, alternativa.texto, alternativa.isVerdadeira,alternativa.questaoFechada));
+          })
+      }
+
+      
+
+      return  alternativas;
+  }
+
 }

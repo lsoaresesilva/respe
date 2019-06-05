@@ -21,6 +21,7 @@ export class CadastrarQuestoesComponent implements OnInit {
   dificuldades: SelectItem[];
   assuntos;
   isAlterar:Boolean;
+  
  
 
   constructor(private router: Router, private activatedRoute: ActivatedRoute, private messageService: MessageService) {
@@ -34,6 +35,7 @@ export class CadastrarQuestoesComponent implements OnInit {
 
     this.activatedRoute.params
       .subscribe(params => {
+        this.questao.assuntoPrincipal=params["assuntoId"];
         if (params["assuntoId"] != undefined) {
           this.isAlterar=true;
           Assunto.get(params["assuntoId"]).subscribe(assunto => {
@@ -81,7 +83,7 @@ export class CadastrarQuestoesComponent implements OnInit {
       this.assunto.questoes.push(this.questao);
 
       this.assunto.save().subscribe(resultado => {
-        this.router.navigate(["main", { outlets: { principal: ['listagem-assuntos'] } }])
+        this.router.navigate(["main", { outlets: { principal: ['escolher-questao',this.questao.assuntoPrincipal] } }])
         
 
       }, err => {

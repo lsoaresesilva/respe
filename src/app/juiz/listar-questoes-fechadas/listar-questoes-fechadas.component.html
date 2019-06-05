@@ -1,4 +1,4 @@
-<p-toast></p-toast>
+<!-- <p-toast></p-toast>
 <h2>Questões</h2>
 
 <p-toast [style]="{marginTop: '80px'}"></p-toast>
@@ -23,4 +23,28 @@
         </tr>
     </ng-template>
 </p-table>
-<p-contextMenu #cm [model]="items"></p-contextMenu>
+<p-contextMenu #cm [model]="items"></p-contextMenu> -->
+
+
+<p-toast></p-toast>
+<h2>Questões</h2>
+
+<p-toast [style]="{marginTop: '80px'}"></p-toast>
+
+
+
+<p-table [value]="assunto?.questoes" [(contextMenuSelection)]="selectedQuestao" [contextMenu]="cm">
+    <ng-template pTemplate="header">
+        <tr>
+            <th>Nome</th>
+
+        </tr>
+    </ng-template>
+    <ng-template pTemplate="body" let-rowData let-questao>
+        <tr [pContextMenuRow]="rowData">
+            <td (click)="abrirEditor(questao)">{{questao.nomeCurto}}</td>
+        </tr>
+    </ng-template>
+</p-table>
+
+<p-contextMenu #cm [model]="items" *ngIf="usuario.perfil == 3"></p-contextMenu>

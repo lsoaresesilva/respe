@@ -4,9 +4,7 @@
 <p-toast [style]="{marginTop: '80px'}"></p-toast>
 
 
-<div>
-<p-button label="Cadastrar" (click)="cadastrar()"></p-button>
-</div>
+
 <p-table [value]="assunto?.questoes" [(contextMenuSelection)]="selectedQuestao" [contextMenu]="cm">
     <ng-template pTemplate="header">
         <tr>

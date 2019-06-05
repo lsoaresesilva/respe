@@ -12,12 +12,15 @@ import Alternativa from 'src/app/model/alternativa';
   styleUrls: ['./cadastrar-questoes-fechadas.component.css']
 })
 export class CadastrarQuestoesFechadasComponent implements OnInit {
-  
 
-  questao;
+  assunto?;
+  questao?;
   dificuldades: SelectItem[];
   assuntos;
-  isAlterar:Boolean;
+  idAssunto
+  isAlterar:Boolean=true;
+
+  
  
 
   constructor(private router: Router, private activatedRoute: ActivatedRoute, private messageService: MessageService) {
@@ -27,15 +30,25 @@ export class CadastrarQuestoesFechadasComponent implements OnInit {
 
   ngOnInit() {
 
-    this.questao = new QuestaoFechada(null, null, null, null, [], null, []);
+    this.questao = new QuestaoFechada(null, null, null, [], null, []);
 
     this.activatedRoute.params
       .subscribe(params => {
-        if (params["id"] != undefined) {
-          this.isAlterar=true;
-          QuestaoFechada.get(params["id"]).subscribe(questao => {
-            this.questao = questao;
+
+        this.questao.assuntoPrincipal=params["assuntoId"];
+        console.log(this.questao.assuntoPrincipal);
+        if (params["assuntoId"] != undefined) {
+          this.isAlterar=false;
+          Assunto.get(params["assuntoId"]).subscribe(assunto => {
+            this.assunto = assunto;
+
+            if (params["questaoId"] != undefined) {
+              this.questao = assunto["getQuestaoById"](params["questaoId"]);
+            }
           })
+
+        }else{
+          throw new Error("Não é possível criar uma questão sem informar um assunto.")
         }
 
       });
@@ -62,8 +75,9 @@ export class CadastrarQuestoesFechadasComponent implements OnInit {
     this.messageService.add({severity:'success', summary:'Cadastrado!', detail: this.questao.nome+" foi adicionada ao banco de questões"});
   }
 
-  messageErro() {
-    this.messageService.add({severity:'warn', summary:'Falha ao cadastrar questão', detail: 'A questão não foi cadastrado'});
+  messageErro(err) {
+    console.log(err);
+    this.messageService.add({severity:'warn', summary:'Falha ao cadastrar questão', detail: err});
   }
 
   messageInformarDados(){
@@ -75,13 +89,19 @@ export class CadastrarQuestoesFechadasComponent implements OnInit {
   }
 
   cadastrarQuestao() {
+   
     if(this.questao.validar() && Alternativa.calcularQuantasAlternativasCertas((this.questao.alternativas))==1) {
+      if(this.assunto.questoes == null)
+      this.assunto.questoes = [];
 
-      this.questao.save().subscribe(resultado => {
-      this.router.navigate(["main", { outlets: { principal: ['listagem-questoes-fechadas'] } }]);
+    this.assunto.questoes.push(this.questao);
+
+    this.assunto.save().subscribe(resultado => {
+      this.router.navigate(["main", { outlets: { principal: ['escolher-questao',this.questao.assuntoPrincipal] } }])
+      
 
       }, err => {
-      this.messageErro();
+      this.messageErro(err);
 
       });
     } 

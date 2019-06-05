@@ -1,6 +1,4 @@
-<h1>qual questão deseja cadastrar?</h1>
+<h1>Qual questão deseja cadastrar?</h1>
 
-<p> <a [routerLink]="['main', { outlets: { principal: ['cadastro-questao'] } }]">  questão aberta </a> </p> 
-<p> <a [routerLink]="['main', { outlets: { principal: ['cadastro-questao-fechada'] } }]">  questão fechada </a> </p> 
-
- 
+<p><button pButton type="button" label="Questão aberta" (click)="cadastrarQuestao()" ></button></p>
+<p><button pButton type="button" label="Questão fechada" (click)="cadastrarQuestaoFechada()" ></button> </p>

@@ -1,4 +1,6 @@
 import { Component, OnInit } from '@angular/core';
+import { ActivatedRoute, Router } from '@angular/router';
+import { MessageService } from 'primeng/api';
 
 @Component({
   selector: 'app-escolher-questao',
@@ -6,10 +8,23 @@ import { Component, OnInit } from '@angular/core';
   styleUrls: ['./escolher-questao.component.css']
 })
 export class EscolherQuestaoComponent implements OnInit {
-
-  constructor() { }
+assuntoId;
+  constructor(private route: ActivatedRoute,private messageService: MessageService, private router:Router) { }
 
   ngOnInit() {
+    this.route.params.subscribe(params => {
+      this.assuntoId = params["assuntoId"];
+    console.log(this.assuntoId);
+
+    });
+  }
+
+  cadastrarQuestao(){
+    this.router.navigate(["main", { outlets: { principal: ['cadastro-questao',this.assuntoId] } }]);
+  }
+  cadastrarQuestaoFechada(){
+    this.router.navigate(["main", { outlets: { principal: ['cadastro-questao-fechada',this.assuntoId] } }]);
+
   }
 
 }
