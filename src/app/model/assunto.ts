@@ -8,56 +8,71 @@ import ResultadoTestCase from './resultadoTestCase';
 import Usuario from './usuario';
 import Submissao from './submissao';
 import { Util } from './util';
+import QuestaoFechada from './questaoFechada';
 
 @Collection("assuntos")
 export class Assunto extends Document {
 
+    questoesProgramacao;
+    questoesFechadas;
 
-    constructor(id, public nome, public questoes) {
+    constructor(id, public nome) {
         super(id);
+        this.questoesFechadas = [];
+        this.questoesProgramacao = [];
     }
 
-    objectToDocument(){
+    objectToDocument() {
         let document = super.objectToDocument();
-        if (this.questoes != null && this.questoes.length > 0) {
+        if (this.questoesProgramacao != null && this.questoesProgramacao.length > 0) {
             let questoes = [];
-            this.questoes.forEach(questao => {
-                if(typeof questao.objectToDocument === "function")
+            this.questoesProgramacao.forEach(questao => {
+                if (typeof questao.objectToDocument === "function")
                     questoes.push(questao.objectToDocument());
             })
-      
-            document["questoes"] = questoes;
-          }
+
+            document["questoesProgramacao"] = questoes;
+        }
+        if (this.questoesFechadas != null && this.questoesFechadas.length > 0) {
+            let questoesFechadas = [];
+            this.questoesFechadas.forEach(questao => {
+                if (typeof questao.objectToDocument === "function")
+                    questoesFechadas.push(questao.objectToDocument());
+            })
+
+            document["questoesFechadas"] = questoesFechadas;
+        }
 
         return document;
     }
 
-    getQuestaoById(questaoId){
-        this.questoes.forEach(questao=>{
-            if(questao.id == questaoId)
+    getQuestaoById(questaoId) {
+        this.questoesProgramacao.forEach(questao => {
+            if (questao.id == questaoId)
                 return questao;
         })
 
         return new Questao(null, "", "", 0, 0, [], []);
     }
 
-    static get(id){
-        
-        return new Observable(observer=>{
-            super.get(id).subscribe(assunto=>{
-                assunto["questoes"] = Questao.construir(assunto["questoes"]);
+    static get(id) {
+
+        return new Observable(observer => {
+            super.get(id).subscribe(assunto => {
+                assunto["questoesProgramacao"] = Questao.construir(assunto["questoesProgramacao"]);
+                assunto["questoesFechadas"] = QuestaoFechada.construir(assunto["questoesFechadas"]);
                 observer.next(assunto);
                 observer.complete();
-            }, err=>{
+            }, err => {
                 observer.error(err);
             });
         })
-        
+
     }
 
     getQuestao(questaoId) {
-        if (this.questoes != undefined && this.questoes.length > 0) {
-            this.questoes.forEach(questao => {
+        if (this.questoesProgramacao != undefined && this.questoesProgramacao.length > 0) {
+            this.questoesProgramacao.forEach(questao => {
                 if (questao.id == questaoId) {
                     return questao;
                 }
@@ -124,69 +139,69 @@ export class Assunto extends Document {
         // Pegar todas as questões de um assunto
         return new Observable(observer => {
             if (assunto != undefined && usuario != undefined) {
-                
-
-                    let consultas = {}
-                    assunto.questoes.forEach(questao => {
-                        if (questao.testsCases != undefined && questao.testsCases.length > 0) {
-                            questao.testsCases.forEach(testCase => {
-                                // TIRAR ISSO E SUBSTITUIR POR SUBMISSAO
-                                consultas[questao.pk()] = Submissao.getRecentePorQuestao(questao, usuario);
-                                //    consultas.push(ResultadoTestCase.getAll([new Query("testCaseId", "==", testCase.pk()), new Query("estudanteId", "==", usuario.pk()) ]));
 
 
-                            })
-                        }
-                    })
-
-                    if (!Util.isObjectEmpty(consultas)) {
-                        forkJoin(consultas).subscribe(submissoes => {
-                            let s: any = submissoes;
-                            if (!Util.isObjectEmpty(s)) {
-                                let totalQuestoes = assunto.questoes.length;
-                                let questoesRespondidas = [];
-                                assunto.questoes.forEach(questao => {
-                                    let questaoRespondida = true;
-                                    //for (let j = 0; j < questao.testsCases.length; j++) {
-                                    let resultadoAtualTestCase = null;
-
-                                    for (let questaoId in s) {
-                                        if (questaoId == questao.pk()) {
-                                            let totalTestsCases = questao.testsCases.length;
-                                            let totalAcertos = 0;
-                                            if (s[questaoId] != null && s[questaoId].resultadosTestsCases != null) {
-                                                s[questaoId].resultadosTestsCases.forEach(resultadoTestCase => {
-                                                    if (resultadoTestCase.status)
-                                                        totalAcertos++;
-                                                })
-
-                                                let percentual = totalAcertos / totalTestsCases;
-                                                if (percentual >= margemAceitavel)
-                                                    questoesRespondidas.push(questao);
-                                            }
-
-                                        }
-                                    }
-                                    //}
-                                })
-
-                                observer.next(questoesRespondidas.length / totalQuestoes);
-                                observer.complete();
-                            } else {
-                                observer.next(0);
-                                observer.complete();
-                            }
+                let consultas = {}
+                assunto.questoesProgramacao.forEach(questao => {
+                    if (questao.testsCases != undefined && questao.testsCases.length > 0) {
+                        questao.testsCases.forEach(testCase => {
+                            // TIRAR ISSO E SUBSTITUIR POR SUBMISSAO
+                            consultas[questao.pk()] = Submissao.getRecentePorQuestao(questao, usuario);
+                            //    consultas.push(ResultadoTestCase.getAll([new Query("testCaseId", "==", testCase.pk()), new Query("estudanteId", "==", usuario.pk()) ]));
 
 
-
-
-
-                        });
-                    } else {
-                        observer.next(0);
-                        observer.complete();
+                        })
                     }
-                
+                })
+
+                if (!Util.isObjectEmpty(consultas)) {
+                    forkJoin(consultas).subscribe(submissoes => {
+                        let s: any = submissoes;
+                        if (!Util.isObjectEmpty(s)) {
+                            let totalQuestoes = assunto.questoesProgramacao.length;
+                            let questoesRespondidas = [];
+                            assunto.questoesProgramacao.forEach(questao => {
+                                let questaoRespondida = true;
+                                //for (let j = 0; j < questao.testsCases.length; j++) {
+                                let resultadoAtualTestCase = null;
+
+                                for (let questaoId in s) {
+                                    if (questaoId == questao.pk()) {
+                                        let totalTestsCases = questao.testsCases.length;
+                                        let totalAcertos = 0;
+                                        if (s[questaoId] != null && s[questaoId].resultadosTestsCases != null) {
+                                            s[questaoId].resultadosTestsCases.forEach(resultadoTestCase => {
+                                                if (resultadoTestCase.status)
+                                                    totalAcertos++;
+                                            })
+
+                                            let percentual = totalAcertos / totalTestsCases;
+                                            if (percentual >= margemAceitavel)
+                                                questoesRespondidas.push(questao);
+                                        }
+
+                                    }
+                                }
+                                //}
+                            })
+
+                            observer.next(questoesRespondidas.length / totalQuestoes);
+                            observer.complete();
+                        } else {
+                            observer.next(0);
+                            observer.complete();
+                        }
+
+
+
+
+
+                    });
+                } else {
+                    observer.next(0);
+                    observer.complete();
+                }
+
             }
 
         })

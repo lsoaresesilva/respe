@@ -13,7 +13,6 @@ from letscode.model.testCase import TestCase
 from letscode.model.juiz import Juiz
 from letscode.model.submissao import Submissao
 from letscode.model.estudante import Estudante
-from letscode.model.questao import Questao
 
 from letscode.model.arquivoSubmissao import ArquivoSubmissao
 from letscode.model.errors.juizError import JuizError
@@ -36,8 +35,8 @@ class SubmissaoView(APIView):
                 # TODO: receber via JSON do frontend
                 #testsCases = TestCase.listAllByQuery(Query("questaoId", "==", request.data["questaoId"]))
                 
-                questao = Questao.get(request.data["questaoId"])
-                submissao = Submissao(None, request.data["codigo"], Estudante(request.data["estudanteId"], None), questao)
+                
+                submissao = Submissao(None, request.data["submissao"]["codigo"], Estudante(request.data["submissao"]["estudanteId"], None), request.data["questao"])
 
                 juiz = Juiz(submissao)
                 arquivo = ArquivoSubmissao(submissao.codigo)
@@ -58,7 +57,7 @@ class SubmissaoView(APIView):
 
     # TODO: deslocar isto para um model.
     def submissaoRequestValid(self, request):
-        if request.data["tipo"] != None and request.data["questaoId"] != None and request.data["questaoId"] != "" and request.data["codigo"] != None and request.data["codigo"] != "" and request.data["estudanteId"] != None and request.data["estudanteId"] != "":
+        if request.data["tipo"] != None and request.data["assunto"] != None and request.data["assunto"] != "" and request.data["submissao"] != None and request.data["submissao"] != "" and request.data["questao"] != None and request.data["questao"] != "":
             return True
 
         return False

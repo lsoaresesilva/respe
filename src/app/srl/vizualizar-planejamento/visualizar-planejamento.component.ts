@@ -6,6 +6,7 @@ import Usuario from 'src/app/model/usuario';
 import { Questao } from 'src/app/model/questao';
 import Query from 'src/app/model/firestore/query';
 import { forkJoin } from 'rxjs';
+import { LoginService } from 'src/app/juiz/login.service';
 
 @Component({
   selector: 'app-vizualizar-planejamento',
@@ -19,7 +20,7 @@ export class VisualizarPlanejamentoComponent implements OnInit {
   progresso: number = 0;
   isFinalizado?
 
-  constructor(private activatedRoute: ActivatedRoute, private router: Router) {
+  constructor(private activatedRoute: ActivatedRoute, private router: Router, private login:LoginService) {
   }
 
   ngOnInit() {
@@ -38,7 +39,7 @@ export class VisualizarPlanejamentoComponent implements OnInit {
       this.planejamento = planejamentoCadastrado;
       this.getQuestoes();
 
-      Assunto.isFinalizado(this.planejamento.assunto, Usuario.getUsuarioLogado()).subscribe(status=>{
+      Assunto.isFinalizado(this.planejamento.assunto, this.login.getUsuarioLogado()).subscribe(status=>{
         this.isFinalizado = status;
       })
 
@@ -52,7 +53,7 @@ export class VisualizarPlanejamentoComponent implements OnInit {
         let consultas:any = {};
         this.questoes.forEach(questao=>{
           
-          consultas[questao.pk()] = (Questao.isFinalizada(questao, Usuario.getUsuarioLogado())); // TODO: problema está aqui
+          consultas[questao.pk()] = (Questao.isFinalizada(questao, this.login.getUsuarioLogado())); // TODO: problema está aqui
         })
 
         forkJoin(consultas).subscribe(consulta=>{

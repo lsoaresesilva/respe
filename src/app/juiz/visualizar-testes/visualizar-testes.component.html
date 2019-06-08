@@ -1,4 +1,8 @@
-<p-table [value]="testsCases" >
+<button style="margin-bottom: 10px;" label="{{submissao.isComSucesso()?'Sucesso':'Falha no algoritmo'}}"
+      *ngIf="submissao != undefined && submissao.isComSucesso() != null" 
+      [ngClass]="{'ui-button-success':submissao.isComSucesso(), 'ui-button-danger':!submissao.isComSucesso()}" pButton></button>
+
+<p-table [value]="testsCases">
   <ng-template pTemplate="header">
       <tr>
           <th>#</th>

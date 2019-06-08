@@ -15,23 +15,54 @@
 <p-dialog header="Indique o motivo do pedido de ajuda(dúvida):" [(visible)]="dialogPedirAjuda">
 
   <span class="ui-float-label">
-      <textarea pInputTextarea autoResize="autoResize" [cols]="44" [(ngModel)]="duvida"></textarea>
+    <textarea pInputTextarea autoResize="autoResize" [cols]="44" [(ngModel)]="duvida"></textarea>
     <label for="float-input">Digite o motivo</label>
   </span>
-  <button type="button" pButton icon="pi pi-check" (click)="dialogPedirAjuda=false; enviarPedidoDeAjuda();" label="Enviar"></button>
-  <button type="button" pButton icon="pi pi-close" (click)="dialogPedirAjuda=false;" label="Cancelar" class="ui-button-secondary"></button>
+  <button type="button" pButton icon="pi pi-check" (click)="dialogPedirAjuda=false; enviarPedidoDeAjuda();"
+    label="Enviar"></button>
+  <button type="button" pButton icon="pi pi-close" (click)="dialogPedirAjuda=false;" label="Cancelar"
+    class="ui-button-secondary"></button>
 
 </p-dialog>
+
 
 <div class="p-grid">
   <div class="p-col-3" style="background-color:#ffffe6">
     <dados-questao [questao]="questao"></dados-questao>
   </div>
+  <!-- Editor de programação -->
   <div class="p-col-6">
-    <div id="container" style="height:600px;border:1px solid grey; position:relative;"></div>
+    <div class="p-grid">
+      <div class="p-col-12">
+        <div id="container" style="height:600px;border:1px solid grey; position:relative;"></div>
+      </div>
+    </div>
+    <div class="p-grid">
+      <div class="p-col-2">
+        <button type="button" (click)="executar()" pButton label="Executar"
+          *ngIf="!modoVisualizacao && this.questao != undefined"></button>
+      </div>
+      <div class="p-col-5">
+        <button type="button" (click)="voltarParaModoExecucao()" pButton label="Voltar ao modo execução"
+          *ngIf="modoVisualizacao"></button>
+        <button type="button" (click)="visualizarExecucacao()" pButton label="Vizualizar execução"
+          *ngIf="!modoVisualizacao && this.questao != undefined"></button>
+      </div>
+      <div class="p-col-2">
+
+      </div>
+    </div>
+    <div class="p-grid">
+      <div class="p-col-12" *ngIf="modoVisualizacao==false">
+        <app-visualizar-testes *ngIf="questao != undefined" [testsCases]="questao.testsCases" [submissao]="submissao">
+        </app-visualizar-testes>
+      </div>
+    </div>
   </div>
+  <!-- Erro de linguagem de programação -->
   <div class="p-col-3" *ngIf="modoVisualizacao==false">
-    <div class="saida" style="min-height:100%;">
+
+    <div class="saida" style="min-height:80%;">
       <div style="background-color:#F8E6E0;">
         <span [innerHTML]="erroLinguagemProgramacao" style="padding:20px;"></span>
       </div>
@@ -39,22 +70,16 @@
   </div>
 
   <div class="p-col-3">
-    <visualizar-execucao *ngIf="modoVisualizacao  == true" [traceExecucao]="traceExecucao" (mudancaLinha)="atualizarLinhaEditor($event)"></visualizar-execucao>
+
+    <visualizar-execucao *ngIf="modoVisualizacao  == true" [traceExecucao]="traceExecucao"
+      (mudancaLinha)="atualizarLinhaEditor($event)"></visualizar-execucao>
   </div>
 </div>
 
 <div class="p-grid">
-  <div class="p-col-3"></div>
-  <div class="p-col-6">
-    <button type="button" (click)="executar()" pButton label="Executar" *ngIf="!modoVisualizacao && this.questao != undefined"></button>
-    <button type="button" (click)="voltarParaModoExecucao()" pButton label="Voltar ao modo execução"
-      *ngIf="modoVisualizacao"></button>
-    <button type="button" (click)="visualizarExecucacao()" pButton label="Vizualizar execução"
-      *ngIf="!modoVisualizacao && this.questao != undefined"></button>
-      <button type="button" (click)="pedirAjuda()" pButton label="Pedir ajuda"></button>
-  </div>
 
-  <div class="p-col-3">
+
+  <div class="p-col-1">
 
   </div>
 </div>
@@ -62,9 +87,7 @@
   <div class="p-col-3">
 
   </div>
-  <div class="p-col-6" *ngIf="modoVisualizacao==false">
-    <app-visualizar-testes *ngIf="questao != undefined" [testsCases]="questao.testsCases" [submissao]= "submissao"></app-visualizar-testes>
-  </div>
+
 
   <div class="p-col-3">
 

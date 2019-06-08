@@ -1,8 +1,7 @@
-import { Document, Collection } from './firestore/document';
 import { Dificuldade } from './dificuldade';
-import { Assunto } from './assunto';
 import Alternativa from './alternativa';
 import { Util } from './util';
+<<<<<<< HEAD
 import Submissao from './submissao';
 import { Observable } from 'rxjs';
 
@@ -25,10 +24,22 @@ export default class QuestaoFechada {
     else {
       this.id = id;
     }
+=======
+
+export default class QuestaoFechada{
+
+  constructor(public id, public nomeCurto, public enunciado, public dificuldade:Dificuldade, public sequencia, public alternativas: Alternativa[]) {
+    if(this.id == null){
+      this.id = Util.uuidv4();
+  }else{
+      this.id = id;
+  }
+>>>>>>> 3230f9b0750445f73c6e331a8a72b3811ca96b03
     this.nomeCurto = nomeCurto;
     this.enunciado = enunciado;
     this.dificuldade = dificuldade;
     this.sequencia = sequencia;
+<<<<<<< HEAD
     //this.assuntos = assuntos;
     //this.assuntoPrincipal = assuntoPrincipal;
     this.alternativas = alternativas;
@@ -48,6 +59,27 @@ export default class QuestaoFechada {
     //   this.assuntos.forEach(assunto => {
     //     assuntos.push(assunto.pk()); // TODO: erro aqui
     //   })
+=======
+    this.alternativas = alternativas;
+  }
+
+    objectToDocument(){
+        let document = {}
+        document["nomeCurto"] = this.nomeCurto;
+        document["enunciado"] = this.enunciado;
+        document["dificuldade"] = this.dificuldade;
+        document["sequencia"] = this.sequencia;
+
+        if (this.alternativas != null && this.alternativas.length > 0) {
+          let alternativas = [];
+          this.alternativas.forEach(alternativa => {
+            if(typeof alternativa.objectToDocument === "function")
+              alternativas.push(alternativa.objectToDocument()); 
+          })
+    
+          document["alternativas"] = alternativas;
+        }
+>>>>>>> 3230f9b0750445f73c6e331a8a72b3811ca96b03
 
     //   document["assuntos"] = assuntos;
     // }
@@ -62,6 +94,7 @@ export default class QuestaoFechada {
       document["alternativa"] = al;
     }
 
+<<<<<<< HEAD
     return document;
   }
 
@@ -71,6 +104,24 @@ export default class QuestaoFechada {
     return new Observable(observer => {
       Submissao.getRecentePorQuestao(questao, usuario).subscribe(submissao => {
         if (submissao != null && submissao["resultadosTestsCases"] != null) {
+=======
+    /**
+     * Constrói objetos a partir do atributo array de uma document
+     * @param questoesFechadas 
+     */
+    static construir(questoesFechadas:any[]){
+      let objetos:QuestaoFechada[] = [];
+
+      if(questoesFechadas != null){
+        questoesFechadas.forEach(questaoFechada=>{
+          objetos.push(new QuestaoFechada(questaoFechada.id, questaoFechada.nomeCurto, questaoFechada.enunciado, questaoFechada.dificuldade, questaoFechada.sequencia, questaoFechada.alternativas));
+          })
+      }
+
+      return objetos;
+  }
+
+>>>>>>> 3230f9b0750445f73c6e331a8a72b3811ca96b03
 
           let totalTestCase = questao.testsCases.length;
           let totalRespondidasSucesso = 0;
@@ -116,6 +167,7 @@ export default class QuestaoFechada {
         questao.assuntos = assuntos;
       }
 
+<<<<<<< HEAD
       questao.alternativas = Alternativa.construir(questao.testsCases);
 
       objetosQuestoes.push(new QuestaoFechada(questao.id, questao.nomeCurto, questao.enunciado, questao.dificuldade, questao.sequencia, questao.alternativas));
@@ -153,6 +205,12 @@ export default class QuestaoFechada {
           observer.next(questao);
           observer.complete();
         })
+=======
+    validar() {
+      if (this.nomeCurto == null || this.nomeCurto == "" ||
+        this.enunciado == null || this.enunciado == "" || this.dificuldade == null || this.sequencia == null || this.sequencia < 1 || this.alternativas == undefined ) {
+        return false;
+>>>>>>> 3230f9b0750445f73c6e331a8a72b3811ca96b03
       }
     });
   });

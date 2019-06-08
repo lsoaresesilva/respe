@@ -39,6 +39,8 @@ import { ListarAssuntosComponent } from './listar-assuntos/listar-assuntos.compo
 import { VisualizarAssuntoComponent } from './visualizar-assunto/visualizar-assunto.component';
 import { ListarPedidosAjudaComponent } from './listar-pedidos-ajuda/listar-pedidos-ajuda.component';
 import { VisualizarPedidoAjudaComponent } from './visualizar-pedido-ajuda/visualizar-pedido-ajuda.component';
+import { LoginService } from './login.service';
+import { EditorService } from './editor.service';
 
 import { CadastrarAlternativasComponent } from './cadastrar-alternativas/cadastrar-alternativas.component';
 import { CadastrarQuestoesFechadasComponent } from './cadastrar-questoes-fechadas/cadastrar-questoes-fechadas.component';
@@ -121,7 +123,7 @@ import { EscolherQuestaoComponent } from './escolher-questao/escolher-questao.co
     CadastrarAlternativasComponent
   ],
 
-  providers: [MessageService],
+  providers: [MessageService, LoginService, EditorService],
   schemas: [
     CUSTOM_ELEMENTS_SCHEMA
 ],

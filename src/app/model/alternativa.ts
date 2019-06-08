@@ -1,35 +1,45 @@
-import { Document, Collection } from './firestore/document';
-import QuestaoFechada from './questaoFechada';
+import { Util } from './util';
 
-@Collection("alternativas")
-export default class Alternativa extends Document{
-  static validar(): any {
-    throw new Error("Method not implemented.");
-  }
-  
-    texto:String ;
-    isVerdadeira:Boolean;
-    questaoFechada:QuestaoFechada;
-
-    constructor(id, texto, isVerdadeira, questaoFechada){
-        super(id);
+export default class Alternativa{
+    constructor(public id, public texto, public isVerdadeira){
+        if(this.id == null){
+            this.id = Util.uuidv4();
+        }else{
+            this.id = id;
+        }
         this.texto = texto;
         this.isVerdadeira = isVerdadeira;
-        this.questaoFechada = questaoFechada;
     }
 
-    objectToDocument() {
-      let document = {}
-      document["texto"] = this.texto;
-      document["id"] = this.id;
-      document["isVerdadeira"] = this.isVerdadeira;
+    objectToDocument(){
+        let document = {}
+        
+        document["id"] = this.id;
+        document["texto"] = this.texto;
+        document["isVerdadeira"] = this.isVerdadeira;
 
-      return document;
-  }
+        return document;
+    }
+
+    /**
+     * Constrói objetos a partir do atributo array de uma document
+     * @param alternativas 
+     */
+    static construir(alternativas:any[]){
+        let objetosAlternativas:Alternativa[] = [];
+
+        if(alternativas != null){
+            alternativas.forEach(alternativa=>{
+                objetosAlternativas.push(new Alternativa(alternativa.id, alternativa.texto, alternativa.isVerdadeira));
+            })
+        }
+
+        return objetosAlternativas;
+    }
+
 
     validar() {
-        if (this.texto == undefined || this.texto == null || this.isVerdadeira == null || this.isVerdadeira == undefined ||
-         this.questaoFechada == undefined || this.questaoFechada == null) {
+        if (this.texto == undefined || this.texto == null || this.isVerdadeira == null || this.isVerdadeira == undefined ) {
           return false;
         }
         return true;
@@ -56,24 +66,6 @@ export default class Alternativa extends Document{
           }
         }
       return quantDeAlternativaCerta;
-      }
+    }
   
-      /**
-     * Constrói objetos alterntivas a partir do atributo alterntivas de uma questão (que é um array)
-     * @param  alternativas 
-     */
-    static construir(alternativas:any[]){
-      let objetosAlternativas:Alternativa[] = [];
-
-      if(alternativas != null){
-          alternativas.forEach(alternativa=>{
-              objetosAlternativas.push(new Alternativa(alternativa.id, alternativa.texto, alternativa.isVerdadeira,alternativa.questaoFechada));
-          })
-      }
-
-      
-
-      return  alternativas;
-  }
-
 }

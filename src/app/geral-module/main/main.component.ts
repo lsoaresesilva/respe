@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { MenuItem } from 'primeng/components/common/menuitem';
 import { Router } from '@angular/router';
 import Usuario from 'src/app/model/usuario';
+import { LoginService } from 'src/app/juiz/login.service';
 
 @Component({
   selector: 'app-main',
@@ -13,7 +14,7 @@ export class MainComponent implements OnInit {
   itens: MenuItem[];
 
 
-  constructor(private router: Router) { }
+  constructor(private router: Router, private login:LoginService) { }
 
   ngOnInit() {
 
@@ -57,7 +58,7 @@ export class MainComponent implements OnInit {
   }
 
   private logout() {
-    if(Usuario.logout()){
+    if(this.login.logout()){
       return this.router.navigate([""])
     }
   }

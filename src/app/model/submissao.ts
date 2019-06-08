@@ -39,6 +39,19 @@ export default class Submissao extends Document {
         return document;
     }
 
+    isComSucesso(){
+        if (this.resultadosTestsCases != null && this.resultadosTestsCases.length > 0) {
+            let sucesso = true;
+            this.resultadosTestsCases.forEach(resultadoTestCase => {
+                if(!resultadoTestCase.status)
+                sucesso = false;
+            });
+            return sucesso;
+        }else{
+            return null;
+        }
+    }
+
     static getRecentePorQuestao(questao: Questao, estudante: Usuario) {
         
         return new Observable(observer => {
@@ -73,20 +86,6 @@ export default class Submissao extends Document {
         })
 
     }
-
-    /*getLazy(){
-        return new Observable<Erro[]>(observer=>{
-            Erro.getAll(new Query("submissaoId", "==", this.id)).subscribe(errosLocalizados=>{
-                this.erros = errosLocalizados;
-            }, err=>{
-                
-            }, ()=>{
-                observer.next(this.erros);
-                observer.complete();
-            });
-        });
-    }*/
-
     static get(id) {
         return new Observable(observer => {
             super.get(id).subscribe(submissao => {

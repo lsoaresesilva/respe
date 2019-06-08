@@ -5,7 +5,6 @@ import os
 from letscode.model.errors.juizError import JuizError
 from letscode.model.testCase import TestCase
 from letscode.model.resultadoTestCase import ResultadoTestCase
-from letscode.model.questao import Questao
 from letscode.model.submissao import Submissao
 from letscode.model.erroProgramacao import ErroProgramacao
 from letscode.model.errors.erroProgramacaoError import ErroProgramacaoError
@@ -23,7 +22,7 @@ class Juiz():
         pass
 
     def isQuestaoValida(self):
-        if type(self.submissao) == Submissao and type(self.submissao.questao) != Questao:
+        if type(self.submissao) == Submissao:
             raise JuizError("Uma questão precisa ser informada")
 
     # Formata os inputs que serão utilizados na visualização do algoritmo.
@@ -44,12 +43,10 @@ class Juiz():
 
 
     def executarVisualizacao(self, arquivo):
-        self.isQuestaoValida()
-        
         jsonTrace = ""
 
         
-        teste = self.submissao.questao.testsCases[0]
+        teste = self.submissao.questao["testsCases"][0]
         if teste != None:
             inputs = self.prepararInputs(teste["entradas"])
         # TODO: colocar tudo dentro do if, se n tiver teste, n tem como visualizar.
@@ -80,9 +77,8 @@ class Juiz():
         resultados = []
         resultadoTeste = False
         msgRetornoAlgoritmo =  ""
-        self.isQuestaoValida()
 
-        for teste in self.submissao.questao.testsCases:
+        for teste in self.submissao.questao["testsCases"]:
             print(teste["entradas"])
             if arquivo.is_arquivo_valido():
                 if self.matchInputCodigo(teste["entradas"]):

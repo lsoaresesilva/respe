@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { Assunto } from 'src/app/model/assunto';
 import { MenuItem, MessageService } from 'primeng/api';
 import { Router } from '@angular/router';
+import { LoginService } from '../login.service';
 
 @Component({
   selector: 'app-listar-assuntos',
@@ -15,7 +16,7 @@ export class ListarAssuntosComponent implements OnInit {
   selectedAssunto: Assunto;
   items: MenuItem[];
   
-  constructor(private messageService: MessageService,private router:Router) { }
+  constructor(private messageService: MessageService,private router:Router, public login:LoginService) { }
 
   ngOnInit() {
     Assunto.getAll().subscribe(assuntos=>{this.assuntos = assuntos});

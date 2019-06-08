@@ -44,9 +44,6 @@ export class Tutor{
                 observer.complete();
             })
         })
-        
-
-
     }
 
     hasErrors(){

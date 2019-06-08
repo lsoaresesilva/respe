@@ -4,6 +4,7 @@ import Query from 'src/app/model/firestore/query';
 import Usuario from 'src/app/model/usuario';
 import Submissao from 'src/app/model/submissao';
 import { ActivatedRoute } from '@angular/router';
+import { LoginService } from 'src/app/juiz/login.service';
 
 declare var dialogEmExibicao: any;
 declare function obterPosicoesBotaoCriarComentario(): any;
@@ -23,7 +24,7 @@ export class ComentariosCodigoComponent implements OnInit {
   submissao;
 
 
-  constructor(private activatedRoute:ActivatedRoute) {
+  constructor(private activatedRoute:ActivatedRoute, private login:LoginService) {
     this.visibilidade = false;
     this.linhaComentario = 0;
     // TODO: pegar a submissão pela rota
@@ -90,7 +91,7 @@ export class ComentariosCodigoComponent implements OnInit {
 
   salvarComentario(texto){
     // TODO: pegar a submissao e estudante
-    let comentario = new ComentarioCodigo(null, Usuario.getUsuarioLogado(), this.submissao, texto, this.linhaComentario);
+    let comentario = new ComentarioCodigo(null, this.login.getUsuarioLogado(), this.submissao, texto, this.linhaComentario);
     comentario.save().subscribe(resultado=>{
       this.visibilidade = false;
       dialogEmExibicao = false;
