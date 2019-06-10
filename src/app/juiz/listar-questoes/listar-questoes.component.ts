@@ -7,6 +7,7 @@ import TestCase from 'src/app/model/testCase';
 import { Router, ActivatedRoute } from '@angular/router';
 import Usuario from 'src/app/model/usuario';
 import { LoginService } from '../login.service';
+import AssuntoQuestao from 'src/app/model/assuntoQuestao';
 
 @Component({
   selector: 'app-listar-questoes',
@@ -20,13 +21,18 @@ export class ListarQuestoesComponent implements OnInit  {
   selectedQuestao: Questao;
   items: MenuItem[];
   usuario;
+  assuntos;
 
   constructor(private messageService: MessageService, private router:Router, private login:LoginService) { 
     
   }
 
   ngOnInit() {
-
+    Assunto.getAll().subscribe(assuntos=>{this.assuntos = assuntos});
+    console.log(this.assunto);
+    for(let i=0;i< this.assuntos.length;i++){
+      console.log(this.assuntos[i].nome)
+    }
     this.usuario = this.login.getUsuarioLogado();
 
     this.items = [
@@ -47,6 +53,11 @@ export class ListarQuestoesComponent implements OnInit  {
   }
 
   deleteQuestao(questao:Questao) {
+  //  for(let i =0;i<this.assunto.length;i++){
+  //   if( this.assunto[i].questoesProgramacao.id==questao.id){
+       
+  //   }
+  //  }
      /*Questao.delete(questao.pk()).subscribe(resultado=>{
       
       Questao.getAll().subscribe(questoes=>{this.questoes= questoes});
