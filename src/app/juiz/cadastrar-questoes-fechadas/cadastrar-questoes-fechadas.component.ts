@@ -29,8 +29,8 @@ export class CadastrarQuestoesFechadasComponent implements OnInit {
   }
 
   ngOnInit() {
-
-    this.questao = new QuestaoFechada(null, null, null, [], null, []);
+    this.questao = new QuestaoFechada(null, "", "", 0, 0, []);
+    //this.questao = new QuestaoFechada(null, null, null, [], null, []);
 
     this.activatedRoute.params
       .subscribe(params => {
@@ -68,7 +68,7 @@ export class CadastrarQuestoesFechadasComponent implements OnInit {
   }
 
   adicionarAlternativa() {
-    this.questao.alternativas.push(new Alternativa(null, null, null, this.questao))
+    this.questao.alternativas.push(new Alternativa(null, null, this.questao))
   }
 
   messageCadastro() {

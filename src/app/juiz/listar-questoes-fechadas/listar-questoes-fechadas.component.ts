@@ -3,6 +3,7 @@ import QuestaoFechada from 'src/app/model/questaoFechada';
 import { MenuItem, MessageService } from 'primeng/api';
 import { Router } from '@angular/router';
 import Usuario from 'src/app/model/usuario';
+import { LoginService } from '../login.service';
 
 @Component({
   selector: 'app-listar-questoes-fechadas',
@@ -19,12 +20,13 @@ export class ListarQuestoesFechadasComponent implements OnInit {
   items: MenuItem[];
   minhasQuestions;
   usuario;
-  constructor(private messageService: MessageService,private router:Router) { 
+  constructor(private messageService: MessageService,private router:Router,private login:LoginService) { 
     
   }
 
   ngOnInit() {
-    this.usuario = Usuario.getUsuarioLogado();
+    this.usuario = this.login.getUsuarioLogado();
+
     // QuestaoFechada.getAll().subscribe(questoes=>{this.questoes= questoes});
 
     this.items = [
