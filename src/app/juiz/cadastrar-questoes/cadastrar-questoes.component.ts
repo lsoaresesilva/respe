@@ -70,10 +70,8 @@ export class CadastrarQuestoesComponent implements OnInit {
    
 
 
-    if (this.questao.validar() && TestCase.validarTestsCases(this.questao.testsCases)) { // PROBLEMA <------ entradas de TESTSCASES está vazio
+    if (this.questao.validar() && TestCase.validarTestsCases(this.questao.testsCases)) { 
 
-
-    
       this.questao.assuntos = this.questao.assuntos.map(assunto =>{
         if(typeof assunto === "string")
           return new Assunto(assunto, null)
@@ -86,12 +84,11 @@ export class CadastrarQuestoesComponent implements OnInit {
       this.assunto.questoesProgramacao.push(this.questao);
 
       this.assunto.save().subscribe(resultado => {
-        this.router.navigate(["main", { outlets: { principal: ['escolher-questao',this.questao.assuntoPrincipal] } }])
-        
+       this.router.navigate(["main", { outlets: { principal: ['visualizacao-assunto',this.questao.assuntoPrincipal] } }])
 
       }, err => {
         this.messageErro();
-        alert(err+this.questao.testsCases + this.questao.assuntos);
+        
 
 
       });

@@ -30,7 +30,7 @@ export class CadastrarQuestoesFechadasComponent implements OnInit {
 
   ngOnInit() {
     this.questao = new QuestaoFechada(null, "", "", 0, 0, []);
-    //this.questao = new QuestaoFechada(null, null, null, [], null, []);
+   
 
     this.activatedRoute.params
       .subscribe(params => {
@@ -88,42 +88,36 @@ export class CadastrarQuestoesFechadasComponent implements OnInit {
     this.messageService.add({severity:'warn', summary:'Falha ao cadastrar questão', detail: 'ops... Deve haver, obrigatoriamente, uma alternativa certa!'});
   }
 
+  
+
   cadastrarQuestao() {
-   
-    if(this.questao.validar() && Alternativa.calcularQuantasAlternativasCertas((this.questao.alternativas))==1) {
-      if(this.assunto.questoes == null)
-      this.assunto.questoes = [];
 
-    this.assunto.questoes.push(this.questao);
+    if (this.questao.validar() && Alternativa.calcularQuantasAlternativasCertas((this.questao.alternativas))==1) { 
 
-    this.assunto.save().subscribe(resultado => {
-      this.router.navigate(["main", { outlets: { principal: ['escolher-questao',this.questao.assuntoPrincipal] } }])
-      
+      if(this.assunto.questoesFechadas == null)
+        this.assunto.questoesFechadas = [];
+
+      this.assunto.questoesFechadas.push(this.questao);
+
+      this.assunto.save().subscribe(resultado => {
+       this.router.navigate(["main", { outlets: { principal: ['visualizacao-assunto',this.questao.assuntoPrincipal] } }])
 
       }, err => {
-      this.messageErro(err);
-
-      });
+        this.messageErro(err);
+  
+        });
     } 
-    
+      
     if(Alternativa.calcularQuantasAlternativasCertas(this.questao.alternativas)!=1){
       this.messageErroAlternativa();
-     alert("ops... Deve haver, obrigatoriamente, uma alternativa certa!")
+      alert("ops... Deve haver, obrigatoriamente, uma alternativa certa!")
     }
-
+  
     if(!this.questao.validar()) {
       this.messageInformarDados();
       alert("reveja se vc preencheu todos os dados corretamente ou certifique-se que há pelo menos duas alternativas!");
     }
-
-    
-    
-
-
   }
-
-
-  
  
 }
 

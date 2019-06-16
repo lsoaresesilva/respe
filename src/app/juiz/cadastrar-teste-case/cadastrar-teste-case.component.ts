@@ -22,11 +22,14 @@ export class CadastrarTesteCaseComponent implements OnInit {
 
 
   ngOnInit() {
+   
     this.items = [
-
+  
       { label: 'Apagar', icon: 'pi pi-times', command: (event) => this.retirarTestCase(this.selectedEntrada) }
     ];
   }
+
+
 
   adicionarEntrada() {
 
@@ -35,6 +38,7 @@ export class CadastrarTesteCaseComponent implements OnInit {
       this.entrada = null;
       this.messageEntradaAdicionada();
 
+     
     } else {
       this.messageEntradaVazia();
      

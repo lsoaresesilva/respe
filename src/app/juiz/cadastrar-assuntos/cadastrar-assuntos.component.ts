@@ -12,7 +12,7 @@ export class CadastrarAssuntosComponent implements OnInit {
   
  assunto;
  id;
- ehAlterar
+ isAlterar
   constructor(private router: Router, private route: ActivatedRoute, private messageService: MessageService) {
 
    }
@@ -21,7 +21,7 @@ export class CadastrarAssuntosComponent implements OnInit {
     this.assunto = new Assunto(null, null);
     this.route.params.subscribe(params=> {this.id = params["id"];
       if(this.id!=undefined){
-        this.ehAlterar=true;
+        this.isAlterar=true;
         Assunto.get(this.id).subscribe(resultado =>{
           this.assunto = resultado;
         

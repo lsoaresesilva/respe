@@ -17,8 +17,10 @@ export default class QuestaoFechada{
     this.alternativas = alternativas;
   }
 
+  
     objectToDocument(){
         let document = {}
+        document["id"] = this.id;
         document["nomeCurto"] = this.nomeCurto;
         document["enunciado"] = this.enunciado;
         document["dificuldade"] = this.dificuldade;

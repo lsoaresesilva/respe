@@ -2,11 +2,11 @@
 <div style="margin-left: auto;margin-right: auto;width: 30em">
 
 
-  <div *ngIf="!ehAlterar">
+  <div *ngIf="!isAlterar">
     <h1 class="first">Cadastro de assunto</h1>
   </div>
 
-  <div *ngIf="ehAlterar">
+  <div *ngIf="isAlterar">
     <h1 class="first">alterar assunto </h1>
   </div>
 
@@ -16,13 +16,13 @@
   <br/>
   <br/>
   
-  <div *ngIf="!ehAlterar">
-    <button pButton type="button" label="cadastrar assunto" (click)="cadastrarAssunto()" ></button>
+  <div *ngIf="!isAlterar">
+    <button pButton type="button" label="Cadastrar Assunto" (click)="cadastrarAssunto()" ></button>
     
   </div>
 
-  <div *ngIf="ehAlterar">
-    <button pButton type="button" label="alterar assunto" (click)="cadastrarAssunto()" ></button>
+  <div *ngIf="isAlterar">
+    <button pButton type="button" label="Alterar Assunto" (click)="cadastrarAssunto()" ></button>
    
   </div>
 

@@ -4,6 +4,7 @@ import { MenuItem, MessageService } from 'primeng/api';
 import { Router } from '@angular/router';
 import Usuario from 'src/app/model/usuario';
 import { LoginService } from '../login.service';
+import { Assunto } from 'src/app/model/assunto';
 
 @Component({
   selector: 'app-listar-questoes-fechadas',
@@ -11,60 +12,51 @@ import { LoginService } from '../login.service';
   styleUrls: ['./listar-questoes-fechadas.component.css']
 })
 export class ListarQuestoesFechadasComponent implements OnInit {
-
-  @Input("assunto") assunto?;
   
-  questoes;
+  @Input("assunto") assunto?;
+
   selectedQuestao: QuestaoFechada;
-  selectQuestoes: QuestaoFechada[];
   items: MenuItem[];
-  minhasQuestions;
   usuario;
-  constructor(private messageService: MessageService,private router:Router,private login:LoginService) { 
+  assuntos;
+
+  constructor(private messageService: MessageService, private router:Router, private login:LoginService) { 
     
   }
 
   ngOnInit() {
     this.usuario = this.login.getUsuarioLogado();
-
-    // QuestaoFechada.getAll().subscribe(questoes=>{this.questoes= questoes});
-
     this.items = [
-      { label: 'Update', icon: 'pi pi-check', command: (event) => this.alterarQuestao(this.selectedQuestao) },
-      { label: 'Delete', icon: 'pi pi-times', command: (event) => this.deleteQuestao(this.selectedQuestao) },
-      { label: 'View', icon:  'pi pi-search', command: (event) => this.viewQuestao(this.selectedQuestao) }
+      { label: 'Update', icon: 'pi pi-check', command: (event) => this.alterar(this.selectedQuestao) },
+      { label: 'Delete', icon: 'pi pi-times', command: (event) => this.delete(this.selectedQuestao) }
       ];
-
   }
 
-  cadastrar(){
-    this.router.navigate(["main", { outlets: { principal: ['cadastro-questao-fechada'] } }]);
-  }
 
-  abrirEditor(questao){
-    this.router.navigate(["main", { outlets: { principal: ['editor', this.assunto.pk(), questao.id] }}]);
-  }
-
-  alterarQuestao(questao: QuestaoFechada) {
+  alterar(questao: QuestaoFechada) {
     if(questao != undefined){
-      this.router.navigate(["main", { outlets: { principal: ['atualizacao-questao-fechada', questao.id()] } } ] );
+      this.router.navigate(["main", { outlets: { principal: ['atualizacao-questao-fechada', questao.id] } } ] );
     }
-    
+  
+  }
+  visualizar(questao:QuestaoFechada){
+    this.router.navigate(["main", { outlets: { principal: ['visualizacao-questao-fechada',this.assunto.pk(), questao.id] } } ] );
+
   }
 
-  deleteQuestao(questao:QuestaoFechada) {
-    //  QuestaoFechada.delete(questao.pk()).subscribe(resultado=>{
-      
-    //   QuestaoFechada.getAll().subscribe(questoes=>{this.questoes= questoes});
-    //   this.messageDelete();
+  delete(questao:QuestaoFechada) {
+  //  for(let i =0;i<this.assunto.length;i++){
+  //   if( this.assunto[i].questoesProgramacao.id==questao.id){
        
-    // });
+  //   }
+  //  }
+     /*Questao.delete(questao.pk()).subscribe(resultado=>{
+      
+      Questao.getAll().subscribe(questoes=>{this.questoes= questoes});
+       
+    });*/
   }
 
-  viewQuestao(questao:QuestaoFechada) {
-    this.router.navigate(["main", { outlets: { principal: ['visualizacao-questao-fechada', questao.id()] } } ] );
-    this.messageView();
-  }
   messageDelete() {
     this.messageService.add({severity:'error', summary:'Deletado!', detail:" foi excluido do banco de questões"});
   }
@@ -72,5 +64,8 @@ export class ListarQuestoesFechadasComponent implements OnInit {
     this.messageService.add({severity:'info', summary:'Questao visualizado', detail:'informações sobre a questão'});
   }
   
+  cadastrar(){
+    this.router.navigate(["main", { outlets: { principal: ['cadastro-questao-fechada'] } }]);
+  }
   
 }

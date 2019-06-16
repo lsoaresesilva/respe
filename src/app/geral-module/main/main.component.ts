@@ -24,16 +24,16 @@ export class MainComponent implements OnInit {
         command: () => { this.router.navigate(["main", { outlets: { principal: ['listagem-planejamento'] } }]) }
 
       },
-      {
-        label: 'Questões',
-        command: () => { this.router.navigate(["main", { outlets: { principal: ['listagem-questoes'] } }]) }
+      // {
+      //   label: 'Questões de Programação',
+      //   command: () => { this.router.navigate(["main", { outlets: { principal: ['listagem-questoes'] } }]) }
 
-      },
-      {
-        label: 'QuestõesFechadas',
-        command: () => { this.router.navigate(["main", { outlets: { principal: ['listagem-questoes-fechadas'] } }]) }
+      // },
+      // {
+      //   label: 'Questões Fechadas',
+      //   command: () => { this.router.navigate(["main", { outlets: { principal: ['listagem-questoes-fechadas'] } }]) }
 
-      },
+      // },
       {
         label: 'Turmas',
         command: () => { this.router.navigate(["main", { outlets: { principal: ['listagem-turmas'] } }]) }

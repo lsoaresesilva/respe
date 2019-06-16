@@ -1,11 +1,10 @@
 <p-toast></p-toast>
 
- <h1>{{questao.nomeCurto}}</h1>
- 
- <p><b>Dificuldade:</b> {{questao.dificuldade}}</p>
- <p><b>Assunto:</b> {{questao.assuntoId}}</p>
- <p><b>Sequencia:</b> {{questao.sequencia}}</p>
- <p><b>Enunciado:</b> {{questao.enunciado}}</p>
+<h4>Título</h4>
+<p>{{questao?.nomeCurto}}</p>
+
+<h4>Enunciado</h4>
+<p>{{questao?.enunciado}}</p>
  
  <h3>Alternativas:</h3>
 
@@ -17,7 +16,7 @@
 
  <br>
  <br>
- <p-button label="Editar" (click)="alterarQuestao(questao)"></p-button>
+ <p-button label="Responder" ></p-button>
 
 
  
