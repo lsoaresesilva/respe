@@ -19,11 +19,15 @@ export class VisualizarQuestaoFechadaComponent implements OnInit {
   private id: number;
   private sub: any;
   private questoes = [];
-  private submissao;
+  private respostaQuestaofechada;
+  
 
 
   constructor(private route: ActivatedRoute, private router: Router,private login: LoginService) {
     this.questao = new QuestaoFechada(null, null, null, null, [], []);
+   
+
+
 
   }
 
@@ -52,16 +56,19 @@ export class VisualizarQuestaoFechadaComponent implements OnInit {
 
   }
 
-  // ngOnDestroy() {
-  //   this.sub.unsubscribe();
-  // }
+  
   alterarQuestao(questao: QuestaoFechada) {
     if (questao != undefined) {
       this.router.navigate(["main", { outlets: { principal: ['atualizacao-questao', questao.id] } }]);
     }
   }
 
-
-
+  responder(){
+   alert("parabéns você respondeu uma questão!");
+   console.log("estudanteId: "+ this.login.getUsuarioLogado().pk())
+   console.log("alternativaId: "+ this.respostaQuestaofechada);
+  }
+ 
+  
 
 }

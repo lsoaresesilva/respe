@@ -12,11 +12,11 @@
  <p-radioButton name="groupname" value="val2" label="Option 1" [(ngModel)]="selectedValue"></p-radioButton> -->
  
  <p-radioButton *ngFor="let alternativa of questao.alternativas"  name="{{alternativa.nome}}" value= "{{alternativa.id}}"
-       [(ngModel)]="questao.alternativas" label="{{alternativa.texto}}" inputId= "{{alternativa.id}}"></p-radioButton>
+       [(ngModel)]="respostaQuestaofechada" label="{{alternativa.texto}}" inputId= "{{alternativa.id}}"></p-radioButton>
 
  <br>
  <br>
- <p-button label="Responder" ></p-button>
+ <p-button label="Responder" (click) = "responder()" ></p-button>
 
 
  
