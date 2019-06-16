@@ -19,7 +19,7 @@ export class VisualizarQuestaoFechadaComponent implements OnInit {
   private id: number;
   private sub: any;
   private questoes = [];
-  private submissao;
+  
 
 
   constructor(private route: ActivatedRoute, private router: Router,private login: LoginService) {
@@ -52,9 +52,7 @@ export class VisualizarQuestaoFechadaComponent implements OnInit {
 
   }
 
-  // ngOnDestroy() {
-  //   this.sub.unsubscribe();
-  // }
+  
   alterarQuestao(questao: QuestaoFechada) {
     if (questao != undefined) {
       this.router.navigate(["main", { outlets: { principal: ['atualizacao-questao', questao.id] } }]);
