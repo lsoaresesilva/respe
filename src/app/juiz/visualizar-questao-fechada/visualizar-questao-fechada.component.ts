@@ -20,7 +20,6 @@ export class VisualizarQuestaoFechadaComponent implements OnInit {
   private sub: any;
   private questoes = [];
   private respostaQuestaofechada;
-  
 
 
   constructor(private route: ActivatedRoute, private router: Router,private login: LoginService) {
