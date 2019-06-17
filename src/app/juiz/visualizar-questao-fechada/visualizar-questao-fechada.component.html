@@ -8,10 +8,7 @@
  
  <h3>Alternativas:</h3>
 
- <!-- <p-radioButton name="groupname" value="val1" label="Option 2" [(ngModel)]="selectedValue"></p-radioButton><br>
- <p-radioButton name="groupname" value="val2" label="Option 1" [(ngModel)]="selectedValue"></p-radioButton> -->
- 
- <p-radioButton *ngFor="let alternativa of questao.alternativas"  name="{{alternativa.nome}}" value= "{{alternativa.id}}"
+ <p-radioButton *ngFor="let alternativa of questao.alternativas" class= "alternativa" name="{{alternativa.nome}}" value= "{{alternativa.id}}"
        [(ngModel)]="respostaQuestaofechada" label="{{alternativa.texto}}" inputId= "{{alternativa.id}}"></p-radioButton>
 
  <br>
