@@ -120,7 +120,7 @@ import { EscolherQuestaoComponent } from './escolher-questao/escolher-questao.co
     CadastrarQuestoesFechadasComponent,
     ListarQuestoesFechadasComponent,
     VisualizarQuestaoFechadaComponent,
-    CadastrarAlternativasComponent
+    //CadastrarAlternativasComponent
   ],
 
   providers: [MessageService, LoginService, EditorService],

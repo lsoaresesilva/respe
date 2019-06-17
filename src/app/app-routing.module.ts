@@ -25,12 +25,11 @@ import { VisualizarQuestaoComponent } from './juiz/visualizar-questao/visualizar
 import { CadastrarAssuntosComponent } from './juiz/cadastrar-assuntos/cadastrar-assuntos.component';
 import { ListarAssuntosComponent } from './juiz/listar-assuntos/listar-assuntos.component';
 import { VisualizarAssuntoComponent } from './juiz/visualizar-assunto/visualizar-assunto.component';
-
-import { CadastrarAlternativasComponent } from './juiz/cadastrar-alternativas/cadastrar-alternativas.component';
 import { CadastrarQuestoesFechadasComponent } from './juiz/cadastrar-questoes-fechadas/cadastrar-questoes-fechadas.component';
 import { VisualizarQuestaoFechadaComponent } from './juiz/visualizar-questao-fechada/visualizar-questao-fechada.component';
 import { ListarQuestoesFechadasComponent } from './juiz/listar-questoes-fechadas/listar-questoes-fechadas.component';
 import { EscolherQuestaoComponent } from './juiz/escolher-questao/escolher-questao.component';
+import { CadastrarAlternativasComponent } from './juiz/cadastrar-alternativas/cadastrar-alternativas.component';
 
 
 const routes: Routes = [
@@ -43,7 +42,6 @@ const routes: Routes = [
     {path:"cadastro-planejamento", component:CadastroPlanejamentoComponent, canActivate: [AuthGuard], canLoad: [AuthGuard], outlet:"principal"},
     {path:"listagem-planejamento", component:ListarPlanejamentosComponent, canActivate: [AuthGuard], canLoad: [AuthGuard], outlet:"principal"},
     {path:"srl-autoreflexao/:id", component:AutoReflexaoComponent, canActivate: [AuthGuard], canLoad: [AuthGuard], outlet:"principal"},
-    //{path:"cadastro-questao-fechada/:assuntoId", component:CadastrarQuestoesFechadasComponent, canActivate: [AuthGuard], canLoad: [AuthGuard], outlet:"principal"},
     {path:"cadastro-questao/:assuntoId", component:CadastrarQuestoesComponent, canActivate: [AuthGuard], canLoad: [AuthGuard], outlet:"principal"},
     {path:"cadastro-questao/:assuntoId/:questaoId", component:CadastrarQuestoesComponent, canActivate: [AuthGuard], canLoad: [AuthGuard], outlet:"principal"},
     {path:"cadastro-questao-fechada/:assuntoId", component:CadastrarQuestoesFechadasComponent,canActivate: [AuthGuard], canLoad: [AuthGuard], outlet:"principal"},
