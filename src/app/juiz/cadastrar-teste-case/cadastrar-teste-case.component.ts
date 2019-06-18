@@ -25,7 +25,7 @@ export class CadastrarTesteCaseComponent implements OnInit {
    
     this.items = [
   
-      { label: 'Apagar', icon: 'pi pi-times', command: (event) => this.retirarTestCase(this.selectedEntrada) }
+      { label: 'Apagar', icon: 'pi pi-times', command: (event) => this.retirarEntrada(this.selectedEntrada) }
     ];
   }
 
@@ -46,7 +46,7 @@ export class CadastrarTesteCaseComponent implements OnInit {
     }
   }
 
-  retirarTestCase(entrada: String) {
+  retirarEntrada(entrada: String) {
 
     let index = -1;
     for (let i = 0; i < this.testeCase.entradas.length; i++) {

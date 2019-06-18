@@ -1,3 +1,28 @@
-<p>
-  self-instruction works!
-</p>
+
+
+<p>Questão:{{questao.sequencia}}</p>
+<textarea [rows]="10" [cols]="100" pInputTextarea autoResize="autoResize" [(ngModel)]="questao.enunciado" disabled></textarea>
+<br>
+<p-accordion>
+    <p-accordionTab header="Qual problema você espera resolver com esse algoritmo?">
+        <textarea [rows]="6" [cols]="60" pInputTextarea autoResize="autoResize" [(ngModel)]="autoInstrucao.problema"></textarea>
+    </p-accordionTab>
+    <p-accordionTab header="Quais as variáveis que precisam ser criadas para resolver esse problema?">
+        <textarea [rows]="6" [cols]="60" pInputTextarea autoResize="autoResize" [(ngModel)]="autoInstrucao.variaveis"></textarea>
+    </p-accordionTab>
+    <p-accordionTab header="Quais as condições que são necessárias para resolver esse problema?">
+        <textarea [rows]="10" [cols]="1000" pInputTextarea autoResize="autoResize" [(ngModel)]="autoInstrucao.condicoes"></textarea> 
+    </p-accordionTab>
+    <p-accordionTab header="Quais as repetições que são necessárias para resolver esse problema?">
+        <textarea [rows]="6" [cols]="60" pInputTextarea autoResize="autoResize" [(ngModel)]="autoInstrucao.repeticoes"></textarea>
+    </p-accordionTab>
+    <p-accordionTab header="Quais as funções que são necessárias para resolver esse problema?">
+        <textarea [rows]="6" [cols]="60" pInputTextarea autoResize="autoResize" [(ngModel)]="autoInstrucao.funcoes"></textarea>
+    </p-accordionTab>
+    <p-accordionTab header= "Quais os vetores que são necessários para resolver esse problema?">
+        <textarea [rows]="6" [cols]="60" pInputTextarea autoResize="autoResize" [(ngModel)]="autoInstrucao.vetores"></textarea> 
+    </p-accordionTab>
+</p-accordion>
+
+<button type="button" pButton icon="pi pi-check" (click)="salvar()"
+label="Avançar"></button>

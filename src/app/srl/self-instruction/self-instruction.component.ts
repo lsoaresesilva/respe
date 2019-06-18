@@ -1,5 +1,9 @@
 import { Component, OnInit, Input } from '@angular/core';
 import { Questao } from 'src/app/model/questao';
+import { AutoInstrucao } from 'src/app/model/autoInstrucao';
+import { ActivatedRoute, Router } from '@angular/router';
+import { Assunto } from 'src/app/model/assunto';
+import { LoginService } from 'src/app/juiz/login.service';
 
 @Component({
   selector: 'app-self-instruction',
@@ -7,12 +11,67 @@ import { Questao } from 'src/app/model/questao';
   styleUrls: ['./self-instruction.component.css']
 })
 export class SelfInstructionComponent implements OnInit {
+  // estudante:Estudante;
+  // questao:Questao;
+  // problema;
+  // variaveis;
+  // condicoes;
+  // repeticoes;
+  // funcoes;
+  // vetores;
+  //@Input() questao: Questao;
 
-  @Input() questao: Questao;
+  autoInstrucao;
+  private questao?;
+  private id: number;
+  private sub: any;
+  private assunto;
+  //private questoes = [];
 
-  constructor() { }
+
+  
+   constructor(private route: ActivatedRoute, private router: Router ,private login : LoginService) {
+    this.questao = new Questao(null, null, null, null, null, [], []);
+    this.autoInstrucao = new AutoInstrucao (null,this.login.getUsuarioLogado().pk(),this.questao.id,null,null,null,null,null,null);
+
+  }
 
   ngOnInit() {
+    this.route.params.subscribe(params => {
+      if (params["assuntoId"] != undefined && params["questaoId"] != undefined) {
+        Assunto.get(params["assuntoId"]).subscribe(assunto => {
+          this.assunto = assunto;
+          if (assunto["questoesProgramacao"] != undefined && assunto["questoesProgramacao"].length > 0) {
+            assunto["questoesProgramacao"].forEach(questao => {
+              if (questao.id == params["questaoId"]) {
+                this.questao = questao;
+                console.log(this.questao);
+              }
+            });
+          }
+          });
+        
+      } else {
+        throw new Error("Não é possível visualizar uma questão, pois não foram passados os identificadores de assunto e questão.")
+      }
+
+    });
   }
+  
+
+  salvar(){
+    console.log("entrou");
+    console.log(this.autoInstrucao);
+    // console.log(this.autoInstrucao.questao);
+    // console.log(this.autoInstrucao.estudante);
+      this.autoInstrucao.save().subscribe(resultado => {
+      this.router.navigate(["main", { outlets: { principal: ['editor', this.assunto.pk(),this.questao.id] }}]);
+
+      },
+       err => {
+      alert(err);
+      });
+    } 
+   
 
 }

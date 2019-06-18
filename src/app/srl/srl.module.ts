@@ -21,7 +21,8 @@ import {ProgressBarModule} from 'primeng/progressbar';
 import { ListarPlanejamentosComponent } from './listar-planejamentos/listar-planejamentos.component';
 import { VisualizarPlanejamentoComponent } from './vizualizar-planejamento/visualizar-planejamento.component';
 import { RouterModule } from '@angular/router';
-import { CheckboxModule } from 'primeng/primeng';
+import { CheckboxModule, InputTextModule } from 'primeng/primeng';
+import {AccordionModule} from 'primeng/accordion';
 
 @NgModule({
   declarations: [
@@ -49,7 +50,9 @@ import { CheckboxModule } from 'primeng/primeng';
     TabViewModule,
     ButtonModule,
     ToastModule,
-    RouterModule
+    RouterModule,
+    AccordionModule,
+    InputTextModule
   ],
   providers:[],
   exports:[RiscoEstudanteComponent]

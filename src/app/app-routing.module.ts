@@ -4,7 +4,7 @@ import { LoginComponent } from './login-module/login/login.component';
 import { MainComponent } from './geral-module/main/main.component';
 import { CadastroPlanejamentoComponent } from './srl/cadastro-planejamento/cadastro-planejamento.component';
 import { AutoReflexaoComponent } from './srl/auto-reflexao/auto-reflexao.component';
-
+import { SelfInstructionComponent } from './srl/self-instruction/self-instruction.component';
 import { AuthGuard } from './guards/auth.guard';
 import { PaginaNaoEncontradaComponent } from './srl/pagina-nao-encontrada/pagina-nao-encontrada.component';
 import { EditorProgramacaoComponent } from './juiz/editor-programacao/editor-programacao.component';
@@ -68,6 +68,7 @@ const routes: Routes = [
     {path:"escolher-questao/:assuntoId", component:EscolherQuestaoComponent, canActivate: [AuthGuard], canLoad: [AuthGuard], outlet:"principal"},
 
     {path:"visualizacao-assunto/:id", component:VisualizarAssuntoComponent, canActivate: [AuthGuard], canLoad: [AuthGuard], outlet:"principal"},
+    {path:"monitoramento/:assuntoId/:questaoId", component:SelfInstructionComponent, canActivate: [AuthGuard], canLoad: [AuthGuard], outlet:"principal"},
   ]},
   {path:"", component:LoginComponent},
   {path:"cadastro-estudante", component:CadastrarEstudantesComponent},
