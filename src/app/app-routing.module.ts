@@ -4,7 +4,6 @@ import { LoginComponent } from './login-module/login/login.component';
 import { MainComponent } from './geral-module/main/main.component';
 import { CadastroPlanejamentoComponent } from './srl/cadastro-planejamento/cadastro-planejamento.component';
 import { AutoReflexaoComponent } from './srl/auto-reflexao/auto-reflexao.component';
-import { SelfInstructionComponent } from './srl/self-instruction/self-instruction.component';
 import { AuthGuard } from './guards/auth.guard';
 import { PaginaNaoEncontradaComponent } from './srl/pagina-nao-encontrada/pagina-nao-encontrada.component';
 import { EditorProgramacaoComponent } from './juiz/editor-programacao/editor-programacao.component';
@@ -17,10 +16,8 @@ import { CadastrarEstudantesComponent } from './juiz/cadastrar-estudantes/cadast
 import { ListarEstudantesComponent } from './juiz/listar-estudantes/listar-estudantes.component';
 import { CadastrarTurmaComponent } from './juiz/cadastrar-turma/cadastrar-turma.component';
 import { ListarTurmaComponent } from './juiz/listar-turma/listar-turma.component';
-
 import { ListarPlanejamentosComponent } from './srl/listar-planejamentos/listar-planejamentos.component';
 import { VisualizarPlanejamentoComponent } from './srl/vizualizar-planejamento/visualizar-planejamento.component';
-
 import { VisualizarQuestaoComponent } from './juiz/visualizar-questao/visualizar-questao.component';
 import { CadastrarAssuntosComponent } from './juiz/cadastrar-assuntos/cadastrar-assuntos.component';
 import { ListarAssuntosComponent } from './juiz/listar-assuntos/listar-assuntos.component';
@@ -30,6 +27,7 @@ import { VisualizarQuestaoFechadaComponent } from './juiz/visualizar-questao-fec
 import { ListarQuestoesFechadasComponent } from './juiz/listar-questoes-fechadas/listar-questoes-fechadas.component';
 import { EscolherQuestaoComponent } from './juiz/escolher-questao/escolher-questao.component';
 import { CadastrarAlternativasComponent } from './juiz/cadastrar-alternativas/cadastrar-alternativas.component';
+import { SelfInstructionComponent } from './srl/self-instruction/self-instruction.component';
 
 
 const routes: Routes = [
@@ -70,6 +68,7 @@ const routes: Routes = [
     {path:"visualizacao-assunto/:id", component:VisualizarAssuntoComponent, canActivate: [AuthGuard], canLoad: [AuthGuard], outlet:"principal"},
     {path:"monitoramento/:assuntoId/:questaoId", component:SelfInstructionComponent, canActivate: [AuthGuard], canLoad: [AuthGuard], outlet:"principal"},
   ]},
+
   {path:"", component:LoginComponent},
   {path:"cadastro-estudante", component:CadastrarEstudantesComponent},
   
@@ -79,6 +78,8 @@ const routes: Routes = [
   
   {path:"**", component:PaginaNaoEncontradaComponent},
   
+
+
 ];
 
 @NgModule({  

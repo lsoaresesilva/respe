@@ -5,36 +5,27 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { Assunto } from 'src/app/model/assunto';
 import { LoginService } from 'src/app/juiz/login.service';
 
+
 @Component({
   selector: 'app-self-instruction',
   templateUrl: './self-instruction.component.html',
   styleUrls: ['./self-instruction.component.css']
 })
 export class SelfInstructionComponent implements OnInit {
-  // estudante:Estudante;
-  // questao:Questao;
-  // problema;
-  // variaveis;
-  // condicoes;
-  // repeticoes;
-  // funcoes;
-  // vetores;
-  //@Input() questao: Questao;
+  
 
   autoInstrucao;
   private questao?;
   private id: number;
   private sub: any;
   private assunto;
-  //private questoes = [];
-
-
+  
   
    constructor(private route: ActivatedRoute, private router: Router ,private login : LoginService) {
     this.questao = new Questao(null, null, null, null, null, [], []);
-    this.autoInstrucao = new AutoInstrucao (null,this.login.getUsuarioLogado().pk(),this.questao.id,null,null,null,null,null,null);
+    this.autoInstrucao = new AutoInstrucao (null,this.login.getUsuarioLogado(),this.questao,null,null,null,null,null,null);
+   }
 
-  }
 
   ngOnInit() {
     this.route.params.subscribe(params => {
