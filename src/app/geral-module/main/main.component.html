@@ -1,2 +1,11 @@
-<p-menubar [model]="itens"></p-menubar>
-<router-outlet name="principal"></router-outlet>
+<div *ngIf="perfil == 3">
+    <router-outlet name="principal"></router-outlet>
+    <p-menubar [model]="menu"></p-menubar> 
+    
+</div>
+<div *ngIf = "perfil == 1">
+        <router-outlet name="principal"></router-outlet>
+        <p-menubar [model]="itens"></p-menubar> 
+
+</div>
+  

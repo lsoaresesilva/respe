@@ -11,6 +11,7 @@ import Usuario from 'src/app/model/usuario';
 export class MainComponent implements OnInit {
 
   itens: MenuItem[];
+  menu: MenuItem[];
 
 
   constructor(private router: Router) { }
@@ -47,7 +48,32 @@ export class MainComponent implements OnInit {
         label: 'Logout',
         command: () => {this.logout()}
       }
+    ],
+    this.menu = [
+      {
+        label: 'Estudantes',
+        command: () => { this.router.navigate(["main", { outlets: { principal: ['listagem-estudantes'] } }]) }
+
+      },
+      {
+        label: 'Assuntos',
+        command: () => { this.router.navigate(["main", { outlets: { principal: ['listagem-assuntos'] } }]) }
+
+      },
+      {
+        label: 'Questões',
+        command: () => { this.router.navigate(["main", { outlets: { principal: ['listagem-questoes'] } }]) }
+
+      },
+     
+      {
+        
+      label: 'Logout',
+      command: () => {this.logout()}
+     
+      }
     ];
+
 
   }
 
