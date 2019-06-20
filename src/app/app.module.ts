@@ -1,11 +1,14 @@
-
 import { NgModule } from '@angular/core';
+
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
+
 import {InputTextModule} from 'primeng/inputtext';
 import {MenubarModule} from 'primeng/menubar';
+
 import { AngularFireModule } from '@angular/fire';
 import { AngularFirestoreModule } from '@angular/fire/firestore';
+
 import { FirebaseConfiguracao } from 'src/environments/firebase';
 import { LoginModule } from './login-module/login.module';
 import { MainComponent } from './geral-module/main/main.component';
@@ -39,12 +42,11 @@ import { DocumentModule } from './model/firestore/document.module';
     AngularFireModule.initializeApp(FirebaseConfiguracao),
     AngularFirestoreModule,
     InputTextModule,
-    MenubarModule,
+    MenubarModule,//  
     JuizModule
-
-
   ],
   providers: [AuthGuard],
   bootstrap: [AppComponent]
 })
 export class AppModule { }
+

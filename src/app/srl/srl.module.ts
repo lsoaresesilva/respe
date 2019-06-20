@@ -9,20 +9,19 @@ import { InputTextareaModule } from 'primeng/inputtextarea';
 import { DropdownModule } from 'primeng/dropdown';
 import { TableModule } from 'primeng/table';
 import { SliderModule } from 'primeng/slider';
-import { AccordionModule } from 'primeng/accordion';
-import { MessageService } from 'primeng/api';
+
 import { AutoReflexaoComponent } from './auto-reflexao/auto-reflexao.component';
 import { ButtonModule } from 'primeng/button';
 import {ToastModule} from 'primeng/toast';
 import {TabViewModule} from 'primeng/tabview';
+
 import { PaginaNaoEncontradaComponent } from './pagina-nao-encontrada/pagina-nao-encontrada.component';
 import { RiscoEstudanteComponent } from '../analytics-module/risco-estudante/risco-estudante.component';
 import {ProgressBarModule} from 'primeng/progressbar';
 import { ListarPlanejamentosComponent } from './listar-planejamentos/listar-planejamentos.component';
 import { VisualizarPlanejamentoComponent } from './vizualizar-planejamento/visualizar-planejamento.component';
 import { RouterModule } from '@angular/router';
-import { CheckboxModule, InputTextModule } from 'primeng/primeng';
-
+import { CheckboxModule, InputTextModule, AccordionModule } from 'primeng/primeng';
 
 @NgModule({
   declarations: [
@@ -56,7 +55,6 @@ import { CheckboxModule, InputTextModule } from 'primeng/primeng';
   ],
   providers:[],
   exports:[RiscoEstudanteComponent]
-
 
 })
 export class SrlModule { }
