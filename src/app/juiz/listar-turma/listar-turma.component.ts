@@ -9,7 +9,6 @@ import { Router } from '@angular/router';
   styleUrls: ['./listar-turma.component.css']
 })
 export class ListarTurmaComponent implements OnInit {
-
   turmas: Turma[];
   cols: any[];
   selectedTurma: Turma;
@@ -28,6 +27,9 @@ export class ListarTurmaComponent implements OnInit {
       { label: 'Apagar', icon: 'pi pi-times', command: (event) => this.deletar(this.selectedTurma) },
       { label: 'Alterar', icon: '°', command: (event) => this.atualizar(this.selectedTurma) }
     ];
+  }
+  abrirPerfilTurma(turma: Turma) {
+    this.router.navigate(['main', { outlets: { principal: ['visualizacao-turma/:id', turma.pk()] } }]);
   }
 
   vizualizar(turma: Turma) {
