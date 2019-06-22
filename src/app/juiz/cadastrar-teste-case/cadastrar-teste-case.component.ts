@@ -22,27 +22,31 @@ export class CadastrarTesteCaseComponent implements OnInit {
 
 
   ngOnInit() {
+   
     this.items = [
-
-      { label: 'Apagar', icon: 'pi pi-times', command: (event) => this.retirarTestCase(this.selectedEntrada) }
+  
+      { label: 'Apagar', icon: 'pi pi-times', command: (event) => this.retirarEntrada(this.selectedEntrada) }
     ];
   }
+
+
 
   adicionarEntrada() {
 
     if (this.testeCase.validarEntrada(this.entrada)) {
       this.testeCase.entradas.push(this.entrada);
       this.entrada = null;
+      this.messageEntradaAdicionada();
 
+     
     } else {
-
-      this.messageCamposVazios();
-      this.messageService.add({ severity: 'info', summary: "Teste Case indefinido", detail: "Teste case não pode ser vazio" })
+      this.messageEntradaVazia();
+     
 
     }
   }
 
-  retirarTestCase(entrada: String) {
+  retirarEntrada(entrada: String) {
 
     let index = -1;
     for (let i = 0; i < this.testeCase.entradas.length; i++) {
@@ -52,7 +56,7 @@ export class CadastrarTesteCaseComponent implements OnInit {
       }
     }
     this.testeCase.entradas.splice(index, 1);
-    this.messageService.add({ severity: 'info', summary: "Entrada retirado", detail: "Essa entrada não existe mais" });
+    this.messageEntradaRetirada();
   }
 
 
@@ -64,8 +68,14 @@ export class CadastrarTesteCaseComponent implements OnInit {
     this.messageService.add({ severity: 'error', summary: "teste Case inválido", detail: "Esse teste Case não foi cadastrado" });
   }
 
-  messageCamposVazios() {
-    this.messageService.add({ severity: 'error', summary: "teste Case inválido", detail: "Todos os campos do test case precisam ser preenchidos" });
+  messageEntradaVazia() {
+    this.messageService.add({ severity: 'info', summary: "Entrada negada", detail: "ops... a entrada não pode estar vazia" });
   }
 
+  messageEntradaRetirada() {
+    this.messageService.add({ severity: 'info', summary: "teste Case modificado", detail: "Entrada retirada" });
+  }
+  messageEntradaAdicionada() {
+    this.messageService.add({ severity: 'success', summary: "teste Case modificado", detail: "Entrada adicionada" });
+  }
 }

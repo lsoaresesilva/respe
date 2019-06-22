@@ -7,7 +7,6 @@ import { Assunto } from '../../model/assunto';
 import TestCase from 'src/app/model/testCase';
 import { MessageService } from 'primeng/api';
 
-;
 
 
 @Component({
@@ -21,6 +20,8 @@ export class CadastrarQuestoesComponent implements OnInit {
   questao?;
   dificuldades: SelectItem[];
   assuntos;
+  isAlterar:Boolean;
+  
  
 
   constructor(private router: Router, private activatedRoute: ActivatedRoute, private messageService: MessageService) {
@@ -34,8 +35,9 @@ export class CadastrarQuestoesComponent implements OnInit {
 
     this.activatedRoute.params
       .subscribe(params => {
+        this.questao.assuntoPrincipal=params["assuntoId"];
         if (params["assuntoId"] != undefined) {
-
+          this.isAlterar=true;
           Assunto.get(params["assuntoId"]).subscribe(assunto => {
             this.assunto = assunto;
 
@@ -63,6 +65,39 @@ export class CadastrarQuestoesComponent implements OnInit {
     
 
   }
+  
+  cadastrarQuestao() {
+   
+
+
+    if (this.questao.validar() && TestCase.validarTestsCases(this.questao.testsCases)) { 
+
+      this.questao.assuntos = this.questao.assuntos.map(assunto =>{
+        if(typeof assunto === "string")
+          return new Assunto(assunto, null)
+        return assunto;
+      } )
+
+      if(this.assunto.questoesProgramacao == null)
+        this.assunto.questoesProgramacao = [];
+
+      this.assunto.questoesProgramacao.push(this.questao);
+
+      this.assunto.save().subscribe(resultado => {
+       this.router.navigate(["main", { outlets: { principal: ['visualizacao-assunto',this.questao.assuntoPrincipal] } }])
+
+      }, err => {
+        this.messageErro();
+        
+
+
+      });
+    } else {
+      this.messageInformarDados();
+
+    }
+
+  }
 
   adicionarTestCase() {
     this.questao.testsCases.push(new TestCase(null, [], ""))
@@ -79,48 +114,10 @@ export class CadastrarQuestoesComponent implements OnInit {
   messageInformarDados(){
     this.messageService.add({severity:'warn', summary:'Falha ao cadastrar questão', detail: 'É preciso informar todos os campos do formulário'});
   }
-  
-  cadastrarQuestao() {
-   
-    if (this.questao.validar() && TestCase.validarTestsCases(this.questao.testsCases)) { // PROBLEMA <------ entradas de TESTSCASES está vazio
-
-    
-      this.questao.assuntos = this.questao.assuntos.map(assunto =>{
-        if(typeof assunto === "string")
-          return new Assunto(assunto, null)
-        return assunto;
-      } )
-
-      if(this.assunto.questoesProgramacao == null)
-        this.assunto.questoesProgramacao = [];
-
-      this.assunto.questoesProgramacao.push(this.questao);
-
-      this.assunto.save().subscribe(resultado => {
-        this.router.navigate(["main", { outlets: { principal: ['listagem-assuntos'] } }])
-        
-
-      }, err => {
-        this.messageErro();
-      });
-    } else {
-      this.messageInformarDados();
-
-      console.log(TestCase.validarTestsCases(this.questao.testsCases)+""+ this.questao.testsCases);
-      alert("falta dados");
-     
-
-    }
-
-  }
 
 
   
  
 }
-
-
-
-
 
 

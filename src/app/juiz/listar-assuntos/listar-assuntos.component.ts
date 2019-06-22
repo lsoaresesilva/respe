@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { Assunto } from 'src/app/model/assunto';
 import { MenuItem, MessageService } from 'primeng/api';
-import { Router } from '@angular/router';
+import { Router, ActivatedRoute } from '@angular/router';
 import { LoginService } from '../login.service';
 
 @Component({
@@ -16,10 +16,12 @@ export class ListarAssuntosComponent implements OnInit {
   selectedAssunto: Assunto;
   items: MenuItem[];
   
-  constructor(private messageService: MessageService,private router:Router, public login:LoginService) { }
+  constructor(private messageService: MessageService,private router:Router, public login:LoginService,private route: ActivatedRoute) { }
 
   ngOnInit() {
+   
     Assunto.getAll().subscribe(assuntos=>{this.assuntos = assuntos});
+    
 
     this.items = [
     { label: 'Update', icon: 'pi pi-check', command: (event) => this.alterarAssunto(this.selectedAssunto) },

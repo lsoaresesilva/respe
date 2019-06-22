@@ -1,4 +1,3 @@
-
 import { NgModule } from '@angular/core';
 
 import { AppRoutingModule } from './app-routing.module';
@@ -50,3 +49,4 @@ import { DocumentModule } from './model/firestore/document.module';
   bootstrap: [AppComponent]
 })
 export class AppModule { }
+

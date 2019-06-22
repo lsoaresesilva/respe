@@ -58,8 +58,7 @@ export default class TestCase {
     validar() {
 
         if (this.saida == null || this.saida == undefined || this.entradas == null || this.entradas == undefined || this.entradas.length == 0) {
-
-            return false;
+        return false;
         }
         return true;
     }

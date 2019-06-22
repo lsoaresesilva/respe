@@ -4,7 +4,6 @@ import { LoginComponent } from './login-module/login/login.component';
 import { MainComponent } from './geral-module/main/main.component';
 import { CadastroPlanejamentoComponent } from './srl/cadastro-planejamento/cadastro-planejamento.component';
 import { AutoReflexaoComponent } from './srl/auto-reflexao/auto-reflexao.component';
-
 import { AuthGuard } from './guards/auth.guard';
 import { PaginaNaoEncontradaComponent } from './srl/pagina-nao-encontrada/pagina-nao-encontrada.component';
 import { EditorProgramacaoComponent } from './juiz/editor-programacao/editor-programacao.component';
@@ -17,18 +16,18 @@ import { CadastrarEstudantesComponent } from './juiz/cadastrar-estudantes/cadast
 import { ListarEstudantesComponent } from './juiz/listar-estudantes/listar-estudantes.component';
 import { CadastrarTurmaComponent } from './juiz/cadastrar-turma/cadastrar-turma.component';
 import { ListarTurmaComponent } from './juiz/listar-turma/listar-turma.component';
-
 import { ListarPlanejamentosComponent } from './srl/listar-planejamentos/listar-planejamentos.component';
 import { VisualizarPlanejamentoComponent } from './srl/vizualizar-planejamento/visualizar-planejamento.component';
-
 import { VisualizarQuestaoComponent } from './juiz/visualizar-questao/visualizar-questao.component';
-/*import { CadastrarQuestoesFechadasComponent } from './juiz/cadastrar-questoes-fechadas/cadastrar-questoes-fechadas.component';
-import { CadastrarAlternativasComponent } from './juiz/cadastrar-alternativas/cadastrar-alternativas.component';
-import { ListarQuestoesFechadasComponent } from './juiz/listar-questoes-fechadas/listar-questoes-fechadas.component';
-import { VisualizarQuestaoFechadaComponent } from './juiz/visualizar-questao-fechada/visualizar-questao-fechada.component';*/
 import { CadastrarAssuntosComponent } from './juiz/cadastrar-assuntos/cadastrar-assuntos.component';
 import { ListarAssuntosComponent } from './juiz/listar-assuntos/listar-assuntos.component';
 import { VisualizarAssuntoComponent } from './juiz/visualizar-assunto/visualizar-assunto.component';
+import { CadastrarQuestoesFechadasComponent } from './juiz/cadastrar-questoes-fechadas/cadastrar-questoes-fechadas.component';
+import { VisualizarQuestaoFechadaComponent } from './juiz/visualizar-questao-fechada/visualizar-questao-fechada.component';
+import { ListarQuestoesFechadasComponent } from './juiz/listar-questoes-fechadas/listar-questoes-fechadas.component';
+import { EscolherQuestaoComponent } from './juiz/escolher-questao/escolher-questao.component';
+import { CadastrarAlternativasComponent } from './juiz/cadastrar-alternativas/cadastrar-alternativas.component';
+import { SelfInstructionComponent } from './srl/self-instruction/self-instruction.component';
 
 
 const routes: Routes = [
@@ -41,9 +40,10 @@ const routes: Routes = [
     {path:"cadastro-planejamento", component:CadastroPlanejamentoComponent, canActivate: [AuthGuard], canLoad: [AuthGuard], outlet:"principal"},
     {path:"listagem-planejamento", component:ListarPlanejamentosComponent, canActivate: [AuthGuard], canLoad: [AuthGuard], outlet:"principal"},
     {path:"srl-autoreflexao/:id", component:AutoReflexaoComponent, canActivate: [AuthGuard], canLoad: [AuthGuard], outlet:"principal"},
-    //{path:"cadastro-questao-fechada/:assuntoId", component:CadastrarQuestoesFechadasComponent, canActivate: [AuthGuard], canLoad: [AuthGuard], outlet:"principal"},
     {path:"cadastro-questao/:assuntoId", component:CadastrarQuestoesComponent, canActivate: [AuthGuard], canLoad: [AuthGuard], outlet:"principal"},
     {path:"cadastro-questao/:assuntoId/:questaoId", component:CadastrarQuestoesComponent, canActivate: [AuthGuard], canLoad: [AuthGuard], outlet:"principal"},
+    {path:"cadastro-questao-fechada/:assuntoId", component:CadastrarQuestoesFechadasComponent,canActivate: [AuthGuard], canLoad: [AuthGuard], outlet:"principal"},
+    {path:"cadastro-questao-fechada/:assuntoId/:questaoId", component:CadastrarQuestoesFechadasComponent,canActivate: [AuthGuard], canLoad: [AuthGuard], outlet:"principal"},
     {path:"atualizacao-questao/:id", component:CadastrarQuestoesComponent, canActivate: [AuthGuard], canLoad: [AuthGuard], outlet:"principal"},
    
     {path:"cadastro-assunto", component:CadastrarAssuntosComponent, canActivate: [AuthGuard], canLoad: [AuthGuard], outlet:"principal"},
@@ -58,24 +58,28 @@ const routes: Routes = [
     {path:"atualizacao-turma/:id", component:CadastrarTurmaComponent, canActivate: [AuthGuard], canLoad: [AuthGuard], outlet:"principal"},
     {path:"listagem-turmas", component:ListarTurmaComponent, canActivate: [AuthGuard], canLoad: [AuthGuard], outlet:"principal"},
     {path:"visualizacao-questao/:assuntoId/:questaoId", component:VisualizarQuestaoComponent, canActivate: [AuthGuard], canLoad: [AuthGuard], outlet:"principal"},
-    
-    /*
+    {path:"visualizacao-questao-fechada/:assuntoId/:questaoId", component:VisualizarQuestaoFechadaComponent, canActivate: [AuthGuard], canLoad: [AuthGuard], outlet:"principal"},
     {path:"atualizacao-questao-fechada/:id", component:CadastrarQuestoesFechadasComponent, canActivate: [AuthGuard], canLoad: [AuthGuard], outlet:"principal"},
     {path:"cadastro-questao-fechada", component:CadastrarQuestoesFechadasComponent, canActivate: [AuthGuard], canLoad: [AuthGuard], outlet:"principal"},
     {path:"visualizacao-questao-fechada/:id", component:VisualizarQuestaoFechadaComponent, canActivate: [AuthGuard], canLoad: [AuthGuard], outlet:"principal"},
-    {path:"listagem-questoes-fechadas", component:ListarQuestoesFechadasComponent, canActivate: [AuthGuard], canLoad: [AuthGuard], outlet:"principal"},*/
+    {path:"listagem-questoes-fechadas", component:ListarQuestoesFechadasComponent, canActivate: [AuthGuard], canLoad: [AuthGuard], outlet:"principal"},
+    {path:"escolher-questao/:assuntoId", component:EscolherQuestaoComponent, canActivate: [AuthGuard], canLoad: [AuthGuard], outlet:"principal"},
 
     {path:"visualizacao-assunto/:id", component:VisualizarAssuntoComponent, canActivate: [AuthGuard], canLoad: [AuthGuard], outlet:"principal"},
+    {path:"monitoramento/:assuntoId/:questaoId", component:SelfInstructionComponent, canActivate: [AuthGuard], canLoad: [AuthGuard], outlet:"principal"},
   ]},
+
   {path:"", component:LoginComponent},
   {path:"cadastro-estudante", component:CadastrarEstudantesComponent},
   
 
   {path:"cadastrar/testeCase", component:CadastrarTesteCaseComponent},
-  /*{path:"cadastrar/alternativa", component:CadastrarAlternativasComponent},*/
+  {path:"cadastrar/alternativa", component:CadastrarAlternativasComponent},
   
   {path:"**", component:PaginaNaoEncontradaComponent},
   
+
+
 ];
 
 @NgModule({  

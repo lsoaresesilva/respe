@@ -3,7 +3,6 @@
 
 <div *ngIf="login.getUsuarioLogado().perfil == 3">
     <p-button label="Cadastrar" (click)="cadastrar()" ></p-button>
-    <p>Clique com o botão direito para ver as opções</p>
     <p-contextMenu #cm [model]="items"></p-contextMenu>
 </div>
 

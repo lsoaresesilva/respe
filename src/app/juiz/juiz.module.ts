@@ -31,13 +31,7 @@ import {ToastModule} from 'primeng/toast';
 import {InputTextModule} from 'primeng/inputtext';
 import {DialogModule} from 'primeng/dialog';
 import { VisualizarExecucacao } from './vizualizar-execucao/vizualizar-execucao.component';
-
 import { VisualizarQuestaoComponent } from './visualizar-questao/visualizar-questao.component';
-/*import { CadastrarAlternativasComponent } from './cadastrar-alternativas/cadastrar-alternativas.component';
-import { CadastrarQuestoesFechadasComponent } from './cadastrar-questoes-fechadas/cadastrar-questoes-fechadas.component';
-import { ListarQuestoesFechadasComponent } from './listar-questoes-fechadas/listar-questoes-fechadas.component';
-import { VisualizarQuestaoFechadaComponent } from './visualizar-questao-fechada/visualizar-questao-fechada.component';
-*/
 
 import {RadioButtonModule} from 'primeng/radiobutton';
 import { CadastrarAssuntosComponent } from './cadastrar-assuntos/cadastrar-assuntos.component';
@@ -47,6 +41,13 @@ import { ListarPedidosAjudaComponent } from './listar-pedidos-ajuda/listar-pedid
 import { VisualizarPedidoAjudaComponent } from './visualizar-pedido-ajuda/visualizar-pedido-ajuda.component';
 import { LoginService } from './login.service';
 import { EditorService } from './editor.service';
+
+import { CadastrarAlternativasComponent } from './cadastrar-alternativas/cadastrar-alternativas.component';
+import { CadastrarQuestoesFechadasComponent } from './cadastrar-questoes-fechadas/cadastrar-questoes-fechadas.component';
+import { VisualizarQuestaoFechadaComponent } from './visualizar-questao-fechada/visualizar-questao-fechada.component';
+import { ListarQuestoesFechadasComponent } from './listar-questoes-fechadas/listar-questoes-fechadas.component';
+import { EscolherQuestaoComponent } from './escolher-questao/escolher-questao.component';
+
 
 
 @NgModule({
@@ -66,8 +67,16 @@ import { EditorService } from './editor.service';
     ListarAssuntosComponent,
     VisualizarAssuntoComponent,
     VisualizarQuestaoComponent, 
-    CadastrarAssuntosComponent, ListarPedidosAjudaComponent, VisualizarPedidoAjudaComponent/*, CadastrarAlternativasComponent, CadastrarQuestoesFechadasComponent, ListarQuestoesFechadasComponent, VisualizarQuestaoFechadaComponent*/
+    CadastrarAssuntosComponent, 
+    CadastrarQuestoesFechadasComponent, 
+    ListarQuestoesFechadasComponent,
+    VisualizarQuestaoFechadaComponent,
+    CadastrarAlternativasComponent,
+    ListarPedidosAjudaComponent,
+    VisualizarPedidoAjudaComponent,
+    EscolherQuestaoComponent
   ],
+
 
   imports: [
     CommonModule,
@@ -108,6 +117,10 @@ import { EditorService } from './editor.service';
     CadastrarAssuntosComponent,
     ListarAssuntosComponent,
     VisualizarAssuntoComponent,
+    CadastrarQuestoesFechadasComponent,
+    ListarQuestoesFechadasComponent,
+    VisualizarQuestaoFechadaComponent,
+    //CadastrarAlternativasComponent
   ],
 
   providers: [MessageService, LoginService, EditorService],

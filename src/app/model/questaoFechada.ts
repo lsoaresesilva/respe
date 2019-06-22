@@ -17,8 +17,10 @@ export default class QuestaoFechada{
     this.alternativas = alternativas;
   }
 
+  
     objectToDocument(){
         let document = {}
+        document["id"] = this.id;
         document["nomeCurto"] = this.nomeCurto;
         document["enunciado"] = this.enunciado;
         document["dificuldade"] = this.dificuldade;
@@ -53,23 +55,14 @@ export default class QuestaoFechada{
       return objetos;
   }
 
-
-    validarAlternativas(){
-      let quantDeAlternativaCerta=0;
-      for(let i=0;i<this.alternativas.length;i++){
-        if(this.alternativas[i].isVerdadeira== true){
-         quantDeAlternativaCerta ++;
-        }
-      }
-    return quantDeAlternativaCerta;
+  validar() {
+    if (this.nomeCurto == null || this.nomeCurto == "" ||
+      this.enunciado == null || this.enunciado == "" || this.dificuldade == null ||
+       this.sequencia == null || this.sequencia < 1 || this.alternativas == undefined ||
+        this.alternativas.length == 0 || Alternativa.validarAlternativas(this.alternativas)==false) {
+      return false;
     }
-
-    validar() {
-      if (this.nomeCurto == null || this.nomeCurto == "" ||
-        this.enunciado == null || this.enunciado == "" || this.dificuldade == null || this.sequencia == null || this.sequencia < 1 || this.alternativas == undefined ) {
-        return false;
-      }
-      return true;
-      
-    }
+    return true;
+  
+  }
 }
