@@ -28,6 +28,7 @@ import { ListarQuestoesFechadasComponent } from './juiz/listar-questoes-fechadas
 import { EscolherQuestaoComponent } from './juiz/escolher-questao/escolher-questao.component';
 import { CadastrarAlternativasComponent } from './juiz/cadastrar-alternativas/cadastrar-alternativas.component';
 import { SelfInstructionComponent } from './srl/self-instruction/self-instruction.component';
+import { ListarSubmissaoQuestaoComponent } from './cscl/listar-submissao-questao/listar-submissao-questao.component';
 
 
 const routes: Routes = [
@@ -64,7 +65,7 @@ const routes: Routes = [
     {path:"visualizacao-questao-fechada/:id", component:VisualizarQuestaoFechadaComponent, canActivate: [AuthGuard], canLoad: [AuthGuard], outlet:"principal"},
     {path:"listagem-questoes-fechadas", component:ListarQuestoesFechadasComponent, canActivate: [AuthGuard], canLoad: [AuthGuard], outlet:"principal"},
     {path:"escolher-questao/:assuntoId", component:EscolherQuestaoComponent, canActivate: [AuthGuard], canLoad: [AuthGuard], outlet:"principal"},
-
+    {path:"listar-submissao-questao/:questaoId", component:ListarSubmissaoQuestaoComponent, canActivate: [AuthGuard], canLoad: [AuthGuard], outlet:"principal"},
     {path:"visualizacao-assunto/:id", component:VisualizarAssuntoComponent, canActivate: [AuthGuard], canLoad: [AuthGuard], outlet:"principal"},
     {path:"monitoramento/:assuntoId/:questaoId", component:SelfInstructionComponent, canActivate: [AuthGuard], canLoad: [AuthGuard], outlet:"principal"},
   ]},

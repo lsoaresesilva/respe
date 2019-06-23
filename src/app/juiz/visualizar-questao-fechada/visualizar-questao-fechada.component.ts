@@ -20,7 +20,8 @@ export class VisualizarQuestaoFechadaComponent implements OnInit {
   private id: number;
   private sub: any;
   private questoes = [];
-  private respostaQuestaofechada:RespostaQuestaoFechada;
+  private  resposta;
+  // private respostaQuestaofechada:RespostaQuestaoFechada;
 
 
   constructor(private route: ActivatedRoute, private router: Router,private login: LoginService) {
@@ -64,16 +65,10 @@ export class VisualizarQuestaoFechadaComponent implements OnInit {
     }
   }
 
-  // responder(){
-  //   this.respostaQuestaofechada.save().subscribe(resultado => {
-  //     alert("parabéns você respondeu uma questão!");
-  //     console.log("estudanteId: "+ this.login.getUsuarioLogado().pk())
-  //     console.log("alternativaId: "+ this.respostaQuestaofechada);
-
-  //    }, err => {
-  //     alert(err)
-  //    });
-  //  }
+  responder(){
+      alert("parabéns você respondeu uma questão!");
+    
+   }
    
   
 

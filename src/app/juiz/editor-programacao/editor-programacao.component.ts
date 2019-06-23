@@ -9,7 +9,7 @@ import ResultadoTestCase from 'src/app/model/resultadoTestCase';
 import { forkJoin } from 'rxjs';
 import Usuario from 'src/app/model/usuario';
 import { Linha } from 'src/app/model/linha';
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import Query from 'src/app/model/firestore/query';
 import PedidoAjuda from 'src/app/model/pedidoAjuda';
 import { Util } from 'src/app/model/util';
@@ -42,7 +42,7 @@ export class EditorProgramacaoComponent implements OnInit {
   traceExecucao;
 
 
-  constructor(private http: HttpClient, private route: ActivatedRoute, private login: LoginService) {
+  constructor(private http: HttpClient, private route: ActivatedRoute, private login: LoginService,private router:Router) {
     this.pausaIde = true;
     this.erroLinguagemProgramacao = "";
     this.statusExecucao = "";
@@ -277,5 +277,9 @@ export class EditorProgramacaoComponent implements OnInit {
       alert('Preencha todos os campos se quiser realizar salvar o planejamento'); // TODO: usar o message service
     }
 
+  }
+
+  listarSubmissao(){
+    this.router.navigate(["main", { outlets: { principal: ['listar-submissao-questao', this.questao.id] } } ] );
   }
 }
