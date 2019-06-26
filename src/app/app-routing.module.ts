@@ -24,6 +24,7 @@ import { VisualizarPlanejamentoComponent } from './srl/vizualizar-planejamento/v
 import { CadastrarAssuntosComponent } from './juiz/cadastrar-assuntos/cadastrar-assuntos.component';
 import { ListarAssuntosComponent } from './juiz/listar-assuntos/listar-assuntos.component';
 import { VisualizarAssuntoComponent } from './juiz/visualizar-assunto/visualizar-assunto.component';
+import { VisualizarTurmaComponent } from './juiz/visualizar-turma/visualizar-turma.component';
 
 
 const routes: Routes = [
@@ -48,6 +49,7 @@ const routes: Routes = [
     {path:"atualizacao-turma/:id", component:CadastrarTurmaComponent, canActivate: [AuthGuard], canLoad: [AuthGuard], outlet:"principal"},
     {path:"listagem-turmas", component:ListarTurmaComponent, canActivate: [AuthGuard], canLoad: [AuthGuard], outlet:"principal"},
     {path:"visualizacao-assunto/:id", component:VisualizarAssuntoComponent, canActivate: [AuthGuard], canLoad: [AuthGuard], outlet:"principal"},
+    {path:"visualizacao-turma/:id", component:VisualizarTurmaComponent, canActivate: [AuthGuard], canLoad: [AuthGuard], outlet:"principal"},
   ]},
   {path:"", component:LoginComponent},
   {path:"autoreflexao", component:AutoReflexaoComponent},

@@ -29,7 +29,8 @@ export class ListarTurmaComponent implements OnInit {
     ];
   }
   abrirPerfilTurma(turma: Turma) {
-    this.router.navigate(['main', { outlets: { principal: ['visualizacao-turma/:id', turma.pk()] } }]);
+    this.router.navigate(['main', { outlets: { principal: ['visualizacao-turma', turma.pk()] } }]);
+    
   }
 
   vizualizar(turma: Turma) {

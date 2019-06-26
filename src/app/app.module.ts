@@ -24,10 +24,12 @@ import { DocumentModule } from './model/firestore/document.module';
 
 
 
+
 @NgModule({
   declarations: [
     AppComponent,
-    MainComponent
+    MainComponent,
+  
 
   ],
   imports: [
