@@ -4,6 +4,7 @@ import { Router, ActivatedRoute } from '@angular/router';
 import { Assunto } from 'src/app/model/assunto';
 import { LoginService } from '../login.service';
 import Submissao from 'src/app/model/submissao';
+import RespostaQuestaoFechada from 'src/app/model/respostaQuestaoFechada';
 
 @Component({
   selector: 'app-visualizar-questao-fechada',
@@ -19,11 +20,13 @@ export class VisualizarQuestaoFechadaComponent implements OnInit {
   private id: number;
   private sub: any;
   private questoes = [];
-  private respostaQuestaofechada;
+  private  resposta;
+  private respostaQuestaofechada:RespostaQuestaoFechada;
 
 
   constructor(private route: ActivatedRoute, private router: Router,private login: LoginService) {
     this.questao = new QuestaoFechada(null, null, null, null, [], []);
+    
    
 
 
@@ -63,11 +66,19 @@ export class VisualizarQuestaoFechadaComponent implements OnInit {
   }
 
   responder(){
-   alert("parabéns você respondeu uma questão!");
-   console.log("estudanteId: "+ this.login.getUsuarioLogado().pk())
-   console.log("alternativaId: "+ this.respostaQuestaofechada);
+    this.respostaQuestaofechada.estudante= this.login.getUsuarioLogado().pk();
+    this.respostaQuestaofechada.resposta= this.resposta;
+      //this.respostaQuestaofechada.save().subscribe(resultado => {
+        alert("parabéns você respondeu uma questão!");
+        console.log("estudanteId: "+ this.login.getUsuarioLogado().pk())
+        console.log("alternativaId: "+ this.respostaQuestaofechada);
+       
+  
+     //  }, err => {
+     //   alert(err)
+      // });
   }
- 
+   
   
 
 }

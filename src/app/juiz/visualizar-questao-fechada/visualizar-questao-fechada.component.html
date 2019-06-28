@@ -9,7 +9,7 @@
  <h3>Alternativas:</h3>
 
  <p-radioButton *ngFor="let alternativa of questao.alternativas" class= "alternativa" name="{{alternativa.nome}}" value= "{{alternativa.id}}"
-       [(ngModel)]="respostaQuestaofechada" label="{{alternativa.texto}}" inputId= "{{alternativa.id}}"></p-radioButton>
+       [(ngModel)]="resposta" label="{{alternativa.texto}}" inputId= "{{alternativa.id}}"></p-radioButton>
 
  <br>
  <br>
