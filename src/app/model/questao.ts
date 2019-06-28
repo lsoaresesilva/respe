@@ -141,23 +141,16 @@ export class Questao {
       consultas["assuntosQuestao_" + questaoId] = this.getAssuntos(questao);
       if (questao["assuntoPrincipalId"] != null && questao["assuntoPrincipalId"] != "")
         consultas["assuntoPrincipal_" + questaoId] = Assunto.get(questao["assuntoPrincipalId"]);
-
       questao["testsCases"] = TestCase.construir(questao["testsCases"]);
-
       if (Object.entries(consultas).length === 0 && consultas.constructor === Object) {
         observer.next(questao);
         observer.complete();
-
       } else {
         forkJoin(consultas).subscribe(resultados => {
-
-
           let assuntosQuestaoKey = "assuntosQuestao_" + questaoId;
           let assuntoPrincipalKey = "assuntoPrincipal_" + questaoId;
           questao["assuntos"] = resultados[assuntosQuestaoKey]
           questao["assuntoPrincipal"] = resultados[assuntoPrincipalKey]
-
-
         }, err => {
           observer.error(err);
         }, () => {
@@ -168,12 +161,10 @@ export class Questao {
     });
   });
 }
-
 static getAll(query: Query = null): Observable<any[]> {
   console.log("get all de questão")
   return new Observable(observer => {
     super.getAll(query).subscribe(questoes => {
-
       let consultas = {}
       let counter = 0;
       questoes.forEach(questao => {
@@ -184,18 +175,14 @@ static getAll(query: Query = null): Observable<any[]> {
           consultas["assuntoPrincipal_" + questaoId] = Assunto.get(questao.assuntoPrincipalId);
         questao.testsCases = TestCase.construir(questao.testsCases);
       })
-
       if (counter > 0)
         forkJoin(consultas).subscribe(resultados => {
-
           questoes.forEach(questao => {
             let assuntosQuestaoKey = "assuntosQuestao_" + questao.pk();
             let assuntoPrincipalKey = "assuntoPrincipal_" + questao.pk();
             questao.assuntos = resultados[assuntosQuestaoKey]
             questao.assuntoPrincipal = resultados[assuntoPrincipalKey]
           });
-
-
         }, err => {
           observer.error(err);
         }, () => {
@@ -207,10 +194,8 @@ static getAll(query: Query = null): Observable<any[]> {
         observer.complete();
       }
     })
-
   });
 }
-
 private static getAssuntos(questao) {
   return new Observable(observer => {
     let assuntos = []
@@ -220,7 +205,6 @@ private static getAssuntos(questao) {
         assuntosQuestao.forEach(assuntoQuestao => {
           consultaAssuntos.push(Assunto.get(assuntoQuestao.assuntoId));
         })
-
         if (consultaAssuntos.length > 0) {
           forkJoin(consultaAssuntos).subscribe(assuntosLocalizados => {
             assuntos = assuntosLocalizados;
@@ -236,16 +220,15 @@ private static getAssuntos(questao) {
       } catch (e) {
         observer.error(e);
       }
-
-
     })
   })
-
 }*/
 
 validar() {
   if (this.nomeCurto == null || this.nomeCurto == "" ||
-    this.enunciado == null || this.enunciado == "" || this.dificuldade == null || this.sequencia == null || this.sequencia < 1 || this.testsCases == undefined || this.testsCases.length == 0) {
+    this.enunciado == null || this.enunciado == "" || this.dificuldade == null ||
+     this.sequencia == null || this.sequencia < 1 || this.testsCases == undefined ||
+      this.testsCases.length == 0 || TestCase.validarTestsCases(this.testsCases)==false) {
     return false;
   }
   return true;

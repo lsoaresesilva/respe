@@ -37,12 +37,35 @@ export default class Alternativa{
         return objetosAlternativas;
     }
 
+
     validar() {
         if (this.texto == undefined || this.texto == null || this.isVerdadeira == null || this.isVerdadeira == undefined ) {
           return false;
         }
         return true;
-        
-      }
+     }
+
+
+   
+
+    static validarAlternativas(alternativa: Alternativa[]) {
+        for (let i = 0; i < alternativa.length; i++) {
+            if (!alternativa[i].validar()) {
+                return false;
+            }
+        }
+        return true;
+    }
     
+
+   static calcularQuantasAlternativasCertas(alternativas:Alternativa[]){
+        let quantDeAlternativaCerta=0;
+        for(let i=0;i<alternativas.length;i++){
+          if(alternativas[i].isVerdadeira== true){
+           quantDeAlternativaCerta ++;
+          }
+        }
+      return quantDeAlternativaCerta;
+    }
+  
 }

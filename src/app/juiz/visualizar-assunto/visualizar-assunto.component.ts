@@ -15,7 +15,7 @@ export class VisualizarAssuntoComponent implements OnInit {
   assunto;
 
   constructor(private route: ActivatedRoute,private messageService: MessageService, private router:Router, public login:LoginService){
-  
+    this.assunto = new Assunto(null, null);
   }
 
   ngOnInit() {
@@ -28,7 +28,7 @@ export class VisualizarAssuntoComponent implements OnInit {
   }
 
   cadastrar(){
-    this.router.navigate(["main", { outlets: { principal: ['cadastro-questao', this.assunto.pk()] }}]);
+    this.router.navigate(["main", { outlets: { principal: ['escolher-questao', this.assunto.pk()] }}]);
   }
 
   

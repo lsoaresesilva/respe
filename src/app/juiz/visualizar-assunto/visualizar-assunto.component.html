@@ -1,5 +1,7 @@
 <div>
     <p-button label="Cadastrar questão" (click)="cadastrar()" *ngIf="login.getUsuarioLogado().perfil == 3"></p-button>
 </div>
-
+<h4>Assunto</h4>
+<p>{{assunto.nome}}</p>
 <app-listar-questoes [assunto]="assunto"></app-listar-questoes>
+<app-listar-questoes-fechadas [assunto]="assunto"></app-listar-questoes-fechadas>

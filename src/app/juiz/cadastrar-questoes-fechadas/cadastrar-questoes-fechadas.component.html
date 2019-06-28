@@ -2,10 +2,10 @@
 <div class="p-grid">
   <div class="p-col-12">
     <div *ngIf="isAlterar">
-      <h1 class="first">Cadastro de questao</h1>
+      <h1 class="first">Alterar questao</h1>
     </div>
     <ng-template #other_content>
-      <h1 class="first">Alterar questao</h1>
+      <h1 class="first">Cadastrar questao</h1>
     </ng-template>
   </div>
   <div class="p-col-12">
@@ -19,14 +19,6 @@
     <h3 class="first">Enunciado</h3>
     <textarea [rows]="6" [cols]="60" pInputTextarea autoResize="autoResize" [(ngModel)]="questao.enunciado"></textarea>
 
-    <div class="ui-g" style="width:250px;margin-bottom:10px">
-      <h3>Assuntos</h3>
-      <div class="ui-g-12"> <p-checkbox *ngFor="let assunto of assuntos"  name="{{assunto.nome}}" value= "{{assunto.id}}"
-       [(ngModel)]="questao.assuntos" label="{{assunto.nome}}" inputId= "{{assunto.id}}"></p-checkbox>
-      </div>
-    </div>
-
-
 
     <h3 class="first">Sequência</h3>
     <p-spinner size="15" [min]="0" [(ngModel)]="questao.sequencia"></p-spinner>
@@ -34,10 +26,10 @@
     <h3 class="first">Dificuldade</h3>
     <p-dropdown [options]="dificuldades" [(ngModel)]="questao.dificuldade"></p-dropdown>
 
-    <h3>Tests cases</h3>
-    <p-button label="Novo test case" (click)="adicionarTestCase()"></p-button>
-    <app-cadastrar-teste-case *ngFor="let testCase of questao.testsCases" [testCase]="testCase">
-    </app-cadastrar-teste-case>
+    <h3>Alternativas</h3>
+    <p-button label="Nova alternativa" (click)="adicionarAlternativa()"></p-button>
+    <app-cadastrar-alternativas *ngFor="let alternativa of questao.alternativas" [alternativa]="alternativa">
+    </app-cadastrar-alternativas>
 
     <br />
 

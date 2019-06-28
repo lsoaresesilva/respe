@@ -1,0 +1,19 @@
+<p-toast></p-toast>
+
+<h4>Título</h4>
+<p>{{questao?.nomeCurto}}</p>
+
+<h4>Enunciado</h4>
+<p>{{questao?.enunciado}}</p>
+ 
+ <h3>Alternativas:</h3>
+
+ <p-radioButton *ngFor="let alternativa of questao.alternativas" class= "alternativa" name="{{alternativa.nome}}" value= "{{alternativa.id}}"
+       [(ngModel)]="respostaQuestaofechada.resposta" label="{{alternativa.texto}}" inputId= "{{alternativa.id}}"></p-radioButton>
+
+ <br>
+ <br>
+ <p-button label="Responder" (click) = "responder()" ></p-button>
+
+
+ 
