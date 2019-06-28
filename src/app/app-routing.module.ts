@@ -68,6 +68,7 @@ const routes: Routes = [
     {path:"listar-submissao-questao/:questaoId", component:ListarSubmissaoQuestaoComponent, canActivate: [AuthGuard], canLoad: [AuthGuard], outlet:"principal"},
     {path:"visualizacao-assunto/:id", component:VisualizarAssuntoComponent, canActivate: [AuthGuard], canLoad: [AuthGuard], outlet:"principal"},
     {path:"monitoramento/:assuntoId/:questaoId", component:SelfInstructionComponent, canActivate: [AuthGuard], canLoad: [AuthGuard], outlet:"principal"},
+  
   ]},
 
   {path:"", component:LoginComponent},

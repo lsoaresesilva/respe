@@ -50,6 +50,7 @@ import { EscolherQuestaoComponent } from './escolher-questao/escolher-questao.co
 
 
 
+
 @NgModule({
   declarations: [
     VisualizarTestesComponent, 
@@ -74,7 +75,8 @@ import { EscolherQuestaoComponent } from './escolher-questao/escolher-questao.co
     CadastrarAlternativasComponent,
     ListarPedidosAjudaComponent,
     VisualizarPedidoAjudaComponent,
-    EscolherQuestaoComponent
+    EscolherQuestaoComponent,
+   
   ],
 
 
