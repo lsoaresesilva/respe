@@ -51,19 +51,6 @@ export class ListarQuestoesComponent implements OnInit  {
   }
  
 
-  // deletar(questao:Questao){
-  //   let index = -1;
-  //   for (let i=0;i<this.assunto.questoesProgramacao;i++){
-  //    if( this.assunto.questoesProgramacao[i].id== questao.id){
-  //     index = i;
-  //     break;
-      
-  //    }
-  //   }
-  //   this.assunto.questoesProgramacao.splice(index, 1);
-  //   this.messageDelete();
-    
-  // }
 
 
   deletar(questao:Questao){
@@ -80,8 +67,8 @@ export class ListarQuestoesComponent implements OnInit  {
      
       this.messageDelete();
     });
-    // this.assunto.questoesProgramacao.splice(index, 1);
-    // this.messageDelete();
+    this.assunto.questoesProgramacao.splice(index, 1);
+    this.messageDelete();
   }
 
   messageDelete() {

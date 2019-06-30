@@ -18,9 +18,9 @@
     </ng-template>
 </p-table>
 
-<p-contextMenu #cm [model]="items" ></p-contextMenu>
+<p-contextMenu #cm [model]="items" *ngIf="usuario.perfil == 3"></p-contextMenu>
 
 
 
-<!-- *ngIf="usuario.perfil == 1" -->
+
 
