@@ -20,7 +20,7 @@ export class CadastrarQuestoesComponent implements OnInit {
   questao?;
   dificuldades: SelectItem[];
   assuntos;
-  isAlterar:Boolean;
+  isAlterar:Boolean=false;
   
  
 
@@ -31,23 +31,30 @@ export class CadastrarQuestoesComponent implements OnInit {
 
   ngOnInit() {
     
-    this.questao = new Questao(null, "", "", 0, 0, [], []);
+    this.questao = new Questao(null, "", "", 0, null, [], []);
+
 
     this.activatedRoute.params
       .subscribe(params => {
+
+        console.log(params["assuntoId"]);
+        console.log(params["questaoId"]);
         this.questao.assuntoPrincipal=params["assuntoId"];
         if (params["assuntoId"] != undefined) {
-          this.isAlterar=true;
           Assunto.get(params["assuntoId"]).subscribe(assunto => {
             this.assunto = assunto;
 
             if (params["questaoId"] != undefined) {
-              this.questao = assunto["getQuestaoById"](params["questaoId"]);
+            this.isAlterar=true;
+              assunto["questoesProgramacao"].forEach(questao => {
+                if (questao.id == params["questaoId"]) {
+                  this.questao = questao;
+                  console.log(this.questao);
+                }
+              });
             }
           })
 
-        }else{
-          throw new Error("Não é possível criar uma questão sem informar um assunto.")
         }
 
       });
@@ -66,11 +73,11 @@ export class CadastrarQuestoesComponent implements OnInit {
 
   }
   
-  cadastrarQuestao() {
+  cadastrar() {
    
 
 
-    if (this.questao.validar() && TestCase.validarTestsCases(this.questao.testsCases)) { 
+    if (this.questao.validar()) { 
 
       this.questao.assuntos = this.questao.assuntos.map(assunto =>{
         if(typeof assunto === "string")
@@ -81,13 +88,18 @@ export class CadastrarQuestoesComponent implements OnInit {
       if(this.assunto.questoesProgramacao == null)
         this.assunto.questoesProgramacao = [];
 
-      this.assunto.questoesProgramacao.push(this.questao);
-
+      if(this.isAlterar==false){
+        console.log(this.isAlterar);
+        this.assunto.questoesProgramacao.push(this.questao);
+      } 
+      console.log(this.isAlterar);
       this.assunto.save().subscribe(resultado => {
-       this.router.navigate(["main", { outlets: { principal: ['visualizacao-assunto',this.questao.assuntoPrincipal] } }])
+        
+       this.router.navigate(["main", { outlets: { principal: ['visualizacao-assunto',this.assunto.pk()] } }])
 
       }, err => {
-        this.messageErro();
+        this.messageErro(err);
+        console.log(err);
         
 
 
@@ -107,8 +119,8 @@ export class CadastrarQuestoesComponent implements OnInit {
     this.messageService.add({severity:'success', summary:'Cadastrado!', detail: this.questao.nome+" foi adicionada ao banco de questões"});
   }
 
-  messageErro() {
-    this.messageService.add({severity:'warn', summary:'Falha ao cadastrar questão', detail: 'A questão não foi cadastrado'});
+  messageErro(err) {
+    this.messageService.add({severity:'warn', summary:'Falha ao cadastrar questão', detail: err});
   }
 
   messageInformarDados(){
@@ -119,5 +131,3 @@ export class CadastrarQuestoesComponent implements OnInit {
   
  
 }
-
-

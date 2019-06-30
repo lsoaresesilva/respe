@@ -12,14 +12,13 @@ import Alternativa from 'src/app/model/alternativa';
   styleUrls: ['./cadastrar-questoes-fechadas.component.css']
 })
 export class CadastrarQuestoesFechadasComponent implements OnInit {
+  
 
   assunto?;
   questao?;
   dificuldades: SelectItem[];
   assuntos;
-  idAssunto
-  isAlterar:Boolean=true;
-
+  isAlterar:Boolean=false;
   
  
 
@@ -29,26 +28,29 @@ export class CadastrarQuestoesFechadasComponent implements OnInit {
   }
 
   ngOnInit() {
-    this.questao = new QuestaoFechada(null, "", "", 0, 0, []);
-   
+    
+    this.questao = new QuestaoFechada(null, "", "", 0, null, []);
+
 
     this.activatedRoute.params
       .subscribe(params => {
-
+        
         this.questao.assuntoPrincipal=params["assuntoId"];
-        console.log(this.questao.assuntoPrincipal);
         if (params["assuntoId"] != undefined) {
-          this.isAlterar=false;
           Assunto.get(params["assuntoId"]).subscribe(assunto => {
             this.assunto = assunto;
 
             if (params["questaoId"] != undefined) {
-              this.questao = assunto["getQuestaoById"](params["questaoId"]);
+            this.isAlterar=true;
+              assunto["questoesFechadas"].forEach(questao => {
+                if (questao.id == params["questaoId"]) {
+                  this.questao = questao;
+                  
+                }
+              });
             }
           })
 
-        }else{
-          throw new Error("Não é possível criar uma questão sem informar um assunto.")
         }
 
       });
@@ -66,63 +68,54 @@ export class CadastrarQuestoesFechadasComponent implements OnInit {
     
 
   }
+  
+  cadastrar() {
+    
+     if (this.questao.validar()) { 
+
+
+      if(this.assunto.questoesFechadas == null)
+        this.assunto.questoesFechadas = [];
+
+      if(this.isAlterar==false){
+        this.assunto.questoesFechadas.push(this.questao);
+      } 
+     
+      this.assunto.save().subscribe(resultado => {
+        
+       this.router.navigate(["main", { outlets: { principal: ['visualizacao-assunto',this.assunto.pk()] } }])
+
+      }, err => {
+        this.messageErro();
+        console.log(err);
+        
+
+
+      });
+    } else {
+      this.messageInformarDados();
+
+    }
+
+  }
 
   adicionarAlternativa() {
-    this.questao.alternativas.push(new Alternativa(null, null, this.questao))
+    this.questao.alternativas.push(new Alternativa(null, null, null))
   }
 
   messageCadastro() {
     this.messageService.add({severity:'success', summary:'Cadastrado!', detail: this.questao.nome+" foi adicionada ao banco de questões"});
   }
 
-  messageErro(err) {
-    console.log(err);
-    this.messageService.add({severity:'warn', summary:'Falha ao cadastrar questão', detail: err});
+  messageErro() {
+    this.messageService.add({severity:'warn', summary:'Falha ao cadastrar questão', detail: 'A questão não foi cadastrado'});
   }
 
   messageInformarDados(){
-    this.messageService.add({severity:'warn', summary:'Falha ao cadastrar questão', detail: 'reveja se vc preencheu todos os dados corretamente ou certifique-se que há pelo menos duas alternativas!'});
+    this.messageService.add({severity:'warn', summary:'Falha ao cadastrar questão', detail: 'É preciso informar todos os campos do formulário'});
   }
 
-  messageErroAlternativa(){
-    this.messageService.add({severity:'warn', summary:'Falha ao cadastrar questão', detail: 'ops... Deve haver, obrigatoriamente, uma alternativa certa!'});
-  }
 
   
-
-  cadastrarQuestao() {
-
-    if (this.questao.validar() && Alternativa.calcularQuantasAlternativasCertas((this.questao.alternativas))==1) { 
-
-      if(this.assunto.questoesFechadas == null)
-        this.assunto.questoesFechadas = [];
-
-      this.assunto.questoesFechadas.push(this.questao);
-
-      this.assunto.save().subscribe(resultado => {
-       this.router.navigate(["main", { outlets: { principal: ['visualizacao-assunto',this.questao.assuntoPrincipal] } }])
-
-      }, err => {
-        this.messageErro(err);
-  
-        });
-    } 
-      
-    if(Alternativa.calcularQuantasAlternativasCertas(this.questao.alternativas)!=1){
-      this.messageErroAlternativa();
-      alert("ops... Deve haver, obrigatoriamente, uma alternativa certa!")
-    }
-  
-    if(!this.questao.validar()) {
-      this.messageInformarDados();
-      alert("reveja se vc preencheu todos os dados corretamente ou certifique-se que há pelo menos duas alternativas!");
-    }
-  }
  
 }
-
-
-
-
-
-

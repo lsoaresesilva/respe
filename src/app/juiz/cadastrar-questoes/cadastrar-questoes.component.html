@@ -21,7 +21,7 @@
 
     <div class="ui-g" style="width:250px;margin-bottom:10px">
       <h3>Assuntos</h3>
-      <div class="ui-g-12"> <p-checkbox *ngFor="let assunto of assuntos"  name="{{assunto.nome}}" value= "{{assunto.id}}"
+      <div class="ui-g-12"> <p-checkbox *ngFor="let assunto of assuntos" class="assuntos" name="{{assunto.nome}}" value= "{{assunto.id}}"
        [(ngModel)]="questao.assuntos" label="{{assunto.nome}}" inputId= "{{assunto.id}}"></p-checkbox>
       </div>
     </div>
@@ -42,6 +42,6 @@
     <br />
 
   </div>
-  <div class="p-col-12"><button pButton type="button" label="cadastrar questão" (click)="cadastrarQuestao()"></button>
+  <div class="p-col-12"><button pButton type="button" label="Cadastrar" (click)="cadastrar()"></button>
   </div>
 </div>
