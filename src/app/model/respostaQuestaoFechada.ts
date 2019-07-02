@@ -3,22 +3,21 @@ import Usuario from './usuario';
 
 
 @Collection("respostaQuestaoFechada")
-export class RespostaQuestaoFechada extends Document{
-
-    usuario: Usuario;
+export default class RespostaQuestaoFechada extends Document{
+    estudante: Usuario;
     resposta :String;
 
-    constructor(id, usuario, resposta){
+    constructor(public id, estudante,resposta){
         super(id);
-        this.usuario = usuario;
-        this.resposta = resposta;
+
+        this.estudante=estudante;
+        this.resposta=resposta;
        
     }
 
    objectToDocument(){
         let document = super.objectToDocument()
-        document["usuarioId"] = this.usuario.pk();
-        document["resposta"] = this.resposta; 
+        document["usuarioId"] = this.estudante.pk();
         return document;
     }
 
