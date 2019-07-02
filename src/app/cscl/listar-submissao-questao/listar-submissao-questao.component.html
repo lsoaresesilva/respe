@@ -5,7 +5,7 @@
    <ng-template pTemplate="header">
        <tr>
            <th>Nome</th>
-           <th>Codigo</th>
+           <!-- <th>Codigo</th> -->
            <th>Questao</th>
            <th>Data</th>
           <!-- <th>Resposta</th>   -->
@@ -15,14 +15,16 @@
    <ng-template pTemplate="body"  let-submissao>
        <tr>
            <td>{{submissao.estudanteId}}</td>
-           <td>{{submissao.codigo}}</td>
+           <!-- <td>{{submissao.codigo}}</td> -->
            <td>{{submissao.questaoId}}</td>
            <td>{{submissao.data}}</td> 
         <!-- <td *ngFor="let teste of submissao.resultadosTestsCases">{{teste.respostaAlgoritmo}}</td> --> 
       
        </tr>
    </ng-template>
-</p-table>  
+</p-table> 
+
+<!-- <textarea [rows]="5" [cols]="150" pInputTextarea autoResize="autoResize" [(ngModel)]="submissao.codigo" disabled></textarea> -->
 
 
 <p-table [value]="submissoesQuestao"  [(contextMenuSelection)]="submissaoSelected" [contextMenu]="cm">

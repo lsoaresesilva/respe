@@ -24,9 +24,9 @@ export class ListarAssuntosComponent implements OnInit {
     
 
     this.items = [
-    { label: 'Update', icon: 'pi pi-check', command: (event) => this.alterarAssunto(this.selectedAssunto) },
-    { label: 'Delete', icon: 'pi pi-times', command: (event) => this.deleteAssunto(this.selectedAssunto) },
-    { label: 'View', icon:  'pi pi-search', command: (event) => this.viewQuestao(this.selectedAssunto) }
+    { label: 'Alterar', icon: 'pi pi-check', command: (event) => this.alterar(this.selectedAssunto) },
+    { label: 'Deletar', icon: 'pi pi-times', command: (event) => this.deletar(this.selectedAssunto) },
+  
     ];
 
   }
@@ -39,29 +39,24 @@ export class ListarAssuntosComponent implements OnInit {
     this.router.navigate(["main", { outlets: { principal: ['visualizacao-assunto', assunto.pk()] } } ] );
   }
 
-  alterarAssunto(assunto: Assunto) {
+  alterar(assunto: Assunto) {
     if(assunto != undefined){
       this.router.navigate(["main", { outlets: { principal: ['atualizacao-assunto', assunto.pk()] } } ] );
     }
     
   }
 
-  deleteAssunto(assunto:Assunto) {
+  deletar(assunto:Assunto) {
      Assunto.delete(assunto.pk()).subscribe(resultado=>{
       
       Assunto.getAll().subscribe(assuntos=>{this.assuntos= assuntos});
-      this.messageDelete();
+      this.messageDeletar();
     });
   }  
 
-  viewQuestao(assunto:Assunto) {
-    this.router.navigate(["main", { outlets: { principal: ['visualizacao-assunto', assunto.pk()] } } ] );
-    this.messageView();
+  
+  messageDeletar() {
+    this.messageService.add({severity:'error', summary:'Deletado!', detail:"Esse assunto foi apagado!"});
   }
-  messageDelete() {
-    this.messageService.add({severity:'error', summary:'Deletado!', detail:" foi excluido do banco de questões"});
-  }
-  messageView(){
-    this.messageService.add({severity:'info', summary:'Assunto visualizado', detail:'informações sobre a questão'});
-  }
+ 
 }

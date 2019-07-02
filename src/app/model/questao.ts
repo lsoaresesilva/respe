@@ -18,7 +18,6 @@ export class Questao {
   enunciado: string;
   dificuldade: Dificuldade;
   assuntos: Assunto[];
-  //assuntoPrincipal: Assunto;
   sequencia: number;
   testsCases: TestCase[];
 
@@ -34,7 +33,6 @@ export class Questao {
     this.dificuldade = dificuldade;
     this.sequencia = sequencia;
     this.assuntos = assuntos;
-    //this.assuntoPrincipal = assuntoPrincipal;
     this.testsCases = testsCases;
   }
 
@@ -234,31 +232,6 @@ validar() {
   return true;
 
 }
-
-
-  // validarSequencia(sequencia:Number){
-  //   return new Observable(observer => {
-  //     Questao.getAll(new Query("QuestaoSequencia", "==", sequencia)).subscribe(questoes => {
-
-  //       if(questoes == null || questoes == undefined){
-  //         console.log("realmente não existe essa sequencia")
-  //         console.log(questoes);
-  //         return true;
-  //       }
-  //       else{
-  //         alert("A questão"+questoes[0].nome+ "já será exibida nesse sequencia,por favor coloque outro número");
-  //         console.log(questoes);
-  //         return false;
-  //       }
-  //     }, err => {
-  //       observer.error(err);
-
-  //     })
-  //   })
-  // }
-
-  // TODO: fazer deletar para apagar os testscases
-
 
 
 

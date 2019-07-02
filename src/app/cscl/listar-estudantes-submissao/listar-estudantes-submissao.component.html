@@ -1,0 +1,21 @@
+
+
+
+ <p-table [value]="estudantes"  [(contextMenuSelection)]="submissaoSelected" [contextMenu]="cm">
+  <ng-template pTemplate="header">
+      <tr>
+          <th>Nome</th>
+          <th>Visualizar</th>
+       </tr>
+  </ng-template>
+  <ng-template pTemplate="body"  let-estudante>
+      <tr>
+          <td>{{estudante.nome}}</td>
+          <td><button>visualizar</button></td>
+     
+      </tr>
+  </ng-template>
+</p-table> 
+
+
+

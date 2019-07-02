@@ -18,9 +18,10 @@ import { ConteudoProgramacaoComponent } from './conteudo-programacao/conteudo-pr
 import { SanitizeHtmlDirective } from '../pipes/sanitize.directive';
 import { ListarSubmissaoQuestaoComponent } from './listar-submissao-questao/listar-submissao-questao.component';
 import { TableModule } from 'primeng/table';
+import { ListarEstudantesSubmissaoComponent } from './listar-estudantes-submissao/listar-estudantes-submissao.component';
 
 @NgModule({
-  declarations: [ComentariosCodigoComponent, BoxComentarioComponent, BoxNovoComentarioComponent, VisualizarConteudoComponent, EscapeHtmlPipe, SanitizeHtmlDirective, ConteudoProgramacaoComponent, ListarSubmissaoQuestaoComponent],
+  declarations: [ComentariosCodigoComponent, BoxComentarioComponent, BoxNovoComentarioComponent, VisualizarConteudoComponent, EscapeHtmlPipe, SanitizeHtmlDirective, ConteudoProgramacaoComponent, ListarSubmissaoQuestaoComponent, ListarEstudantesSubmissaoComponent],
   imports: [
     CommonModule,
     InputTextareaModule,
