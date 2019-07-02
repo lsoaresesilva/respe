@@ -4,20 +4,15 @@ import { Util } from './util';
 
 
 @Collection("respostaQuestaoFechada")
-export default class RespostaQuestaoFechada{
+export default class RespostaQuestaoFechada extends Document{
     estudante: Estudante;
     resposta :String;
 
     constructor(public id, estudante,resposta){
+        super(id);
+
         this.estudante=estudante;
         this.resposta=resposta;
-        if(id == null)
-            this.id = Util.uuidv4();
-        else{
-            this.id = id;
-        }
-
-
 
     }
 
