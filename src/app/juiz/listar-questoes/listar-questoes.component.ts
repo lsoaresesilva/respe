@@ -30,8 +30,8 @@ export class ListarQuestoesComponent implements OnInit  {
     this.usuario = this.login.getUsuarioLogado();
 
     this.items = [
-      { label: 'Alterar', icon: 'pi pi-check', command: (event) => this.alterarQuestao(this.selectedQuestao) },
-      { label: 'Deletar', icon: 'pi pi-times', command: (event) => this.deleteQuestao(this.selectedQuestao) }
+      { label: 'Alterar', icon: 'pi pi-check', command: (event) => this.alterar(this.selectedQuestao) },
+      { label: 'Deletar', icon: 'pi pi-times', command: (event) => this.deletar(this.selectedQuestao) }
       ];
   }
 
@@ -43,28 +43,32 @@ export class ListarQuestoesComponent implements OnInit  {
     this.router.navigate(["main", { outlets: { principal: ['monitoramento',this.assunto.pk(), questao.id] }}]);
   }
 
-  alterarQuestao(questao: Questao) {
+  alterar(questao: Questao) {
     if(questao != undefined){
-      this.router.navigate(["main", { outlets: { principal: ['atualizacao-questao', questao.id] } } ] );
+      this.router.navigate(["main", { outlets: { principal: ['cadastro-questao', this.assunto.pk(),questao.id] } } ] );
     }
     
   }
+ 
 
-  // deleteQuestao(questao:Questao) {
-  
-  //    /*Questao.delete(questao.pk()).subscribe(resultado=>{
+
+
+  deletar(questao:Questao){
+    let index = -1;
+    for (let i=0;i<this.assunto.questoesProgramacao;i++){
+     if( this.assunto.questoeProgramacao[i].id== questao.id){
+      index = i;
+      break;
       
-  //     Questao.getAll().subscribe(questoes=>{this.questoes= questoes});
-       
-  //   });*/
-  // }
+     }
+    }
 
-  deleteQuestao(questao:Questao){
-   Assunto.delete(questao.id).subscribe(resultado=>{
+    Assunto.delete(this.assunto.questoesProgramacao[index]).subscribe(resultado=>{
      
-   });
-  
-   
+      this.messageDelete();
+    });
+    this.assunto.questoesProgramacao.splice(index, 1);
+    this.messageDelete();
   }
 
   messageDelete() {

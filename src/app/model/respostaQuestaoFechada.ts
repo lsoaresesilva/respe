@@ -1,11 +1,10 @@
 import { Collection, Document, date } from './firestore/document';
-import Estudante from './estudante';
-import { Util } from './util';
+import Usuario from './usuario';
 
 
 @Collection("respostaQuestaoFechada")
 export default class RespostaQuestaoFechada extends Document{
-    estudante: Estudante;
+    estudante: Usuario;
     resposta :String;
 
     constructor(public id, estudante,resposta){
@@ -13,14 +12,13 @@ export default class RespostaQuestaoFechada extends Document{
 
         this.estudante=estudante;
         this.resposta=resposta;
-
+       
     }
 
-    objectToDocument(){
-        return {
-            estudanteId:this.estudante.pk(),
-            resposta:this.resposta
-        }
+   objectToDocument(){
+        let document = super.objectToDocument()
+        document["usuarioId"] = this.estudante.pk();
+        return document;
     }
 
 }

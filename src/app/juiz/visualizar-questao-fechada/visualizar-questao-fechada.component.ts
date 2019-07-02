@@ -3,8 +3,10 @@ import QuestaoFechada from 'src/app/model/questaoFechada';
 import { Router, ActivatedRoute } from '@angular/router';
 import { Assunto } from 'src/app/model/assunto';
 import { LoginService } from '../login.service';
-import Submissao from 'src/app/model/submissao';
-import RespostaQuestaoFechada from 'src/app/model/respostaQuestaoFechada';
+import { RespostaQuestaoFechada } from 'src/app/model/respostaQuestaoFechada';
+
+
+
 
 @Component({
   selector: 'app-visualizar-questao-fechada',
@@ -17,14 +19,15 @@ export class VisualizarQuestaoFechadaComponent implements OnInit {
 
   private assunto;
   private questao?;
-  private id: number;
-  private sub: any;
-  private questoes = [];
-  private respostaQuestaofechada:RespostaQuestaoFechada;
+  private respostaQuestaoFechada;
+  
+
 
 
   constructor(private route: ActivatedRoute, private router: Router,private login: LoginService) {
     this.questao = new QuestaoFechada(null, null, null, null, [], []);
+    this.respostaQuestaoFechada = new RespostaQuestaoFechada(null,this.login.getUsuarioLogado(),null);
+
     
    
 
@@ -41,7 +44,6 @@ export class VisualizarQuestaoFechadaComponent implements OnInit {
             assunto["questoesFechadas"].forEach(questao => {
               if (questao.id == params["questaoId"]) {
                 this.questao = questao;
-                console.log(this.questao);
               }
             });
           }
@@ -64,16 +66,17 @@ export class VisualizarQuestaoFechadaComponent implements OnInit {
     }
   }
 
-  // responder(){
-  //   this.respostaQuestaofechada.save().subscribe(resultado => {
-  //     alert("parabéns você respondeu uma questão!");
-  //     console.log("estudanteId: "+ this.login.getUsuarioLogado().pk())
-  //     console.log("alternativaId: "+ this.respostaQuestaofechada);
 
-  //    }, err => {
-  //     alert(err)
-  //    });
-  //  }
+  responder(){
+      this.respostaQuestaoFechada.save().subscribe(resultado => {
+        alert("parabéns você respondeu uma questão!");
+
+  
+      }, err => {
+       alert(err)
+      });
+  }
+
    
   
 
