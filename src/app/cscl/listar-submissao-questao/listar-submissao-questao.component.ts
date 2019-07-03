@@ -16,21 +16,13 @@ export class ListarSubmissaoQuestaoComponent implements OnInit {
   //private submissoesQuestao:any[];
   submissoesQuestao: Submissao[] = [];
   private  submissoesConcluidas: any = []
-
+  
   
 
 
   constructor(private messageService: MessageService,private router:Router, public login:LoginService,private route: ActivatedRoute) { }
 
   ngOnInit() {
-
-    // this.route.params.subscribe(params => {
-    //   Submissao.get(params['questaoId']).subscribe(resultado =>{
-    //   this.submissao = resultado
-   
-    //   });
-    // });
-
 
 
     this.route.params.subscribe(params => {
@@ -66,6 +58,11 @@ export class ListarSubmissaoQuestaoComponent implements OnInit {
 
     // }
   }
+
+
+
+
+ 
 }
   
 

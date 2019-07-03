@@ -4,6 +4,8 @@ import { MessageService } from 'primeng/api';
 import { Router, ActivatedRoute } from '@angular/router';
 import { LoginService } from 'src/app/juiz/login.service';
 import Estudante from 'src/app/model/estudante';
+import Query from 'src/app/model/firestore/query';
+import Usuario from 'src/app/model/usuario';
 
 @Component({
   selector: 'app-listar-estudantes-submissao',
@@ -12,7 +14,7 @@ import Estudante from 'src/app/model/estudante';
 })
 export class ListarEstudantesSubmissaoComponent implements OnInit {
   
-  private submissoes;
+  private submissoesDaQuestao;
   private submissaoSelected;
   private questaoId;
   //private submissoesQuestao:any[];
@@ -20,68 +22,55 @@ export class ListarEstudantesSubmissaoComponent implements OnInit {
   private  submissoesConcluidas: any = []
   estudantes:Estudante[]=[];
   estudante;
-
+ estudantesCovertidos:any=[];
+ resultado;
+ 
   
 
 
   constructor(private messageService: MessageService,private router:Router, public login:LoginService,private route: ActivatedRoute) { }
 
   ngOnInit() {
-
-    // this.route.params.subscribe(params => {
-    //   Submissao.get(params['questaoId']).subscribe(resultado =>{
-    //   this.submissao = resultado
-   
-    //   });
-    // });
-
-
-
     this.route.params.subscribe(params => {
-      Submissao.getAll().subscribe(resultado =>{
-        this.submissoes = resultado
+      Submissao.getAll(new Query("questaoId","==", params['questaoId'])).subscribe(resultado =>{
+        this.questaoId =params['questaoId'],
+        this.submissoesDaQuestao = resultado;
+        this.elimanarSubmissoesInconcluidas();
 
-        for(let i=0;i<this.submissoes.length;i++){
-          for(let y=0;y<this.submissoes[i].resultadosTestsCases.length;y++){
-
-            if(this.submissoes[i].questaoId == params['questaoId'] && this.submissoes[i].resultadosTestsCases[y].status == true  ){
-
-             this.addSubmissao(this.submissoes[i]);
-
-
-             for(let i=0;i<this.submissoes.length;i++){
-               Estudante.get(this.submissoes[i].estudanteId).subscribe(resultado =>{this.estudante=resultado
-              //this.estudantes.push(this.estudante);
-
-             //console.log(this.estudantes);
-              console.log(this.estudante);
-              //console.log(this.submissoes);
+      
+          // Estudante.getAll().subscribe(resultado =>{this.resultado=resultado});
+          //  console.log(this.resultado);
+        //  console.log(this.submissoesDaQuestao[0].estudanteId);
+        //}
 
 
-              
-              }  );
-             }
-            } 
-          }
-        }
+        
 
       });
     });
   }
 
-
-  addSubmissao(submissao){
-
-    // for(let i =0; i<this.submissoesQuestao.length;i++ ){
-    
-        
-        if(!this.submissoesQuestao.includes(submissao.id)){
-          this.submissoes.push(submissao)
-
-      //}
-
-    }
+  visualizarSubmissao(estudanteId){
+  this.router.navigate(["main", { outlets: { principal: ['listar-submissao-questao',this.questaoId,estudanteId ]} }]);
   }
+  
+
+
+  elimanarSubmissoesInconcluidas() {
+    console.log(this.submissoesDaQuestao);
+    
+    for (let i = 0; i < this.submissoesDaQuestao.length; i++) {
+      for (let j = 0; j < this.submissoesDaQuestao.length; j++) {
+        if(this.submissoesDaQuestao[i].resultadosTestsCases[j].status==false){
+          this.submissoesDaQuestao.splice(i, 1);
+         
+        }
+      }
+    }
+  
+    console.log(this.submissoesDaQuestao);
+  }
+
 }
   
 

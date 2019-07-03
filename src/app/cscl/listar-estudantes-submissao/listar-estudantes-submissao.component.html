@@ -1,21 +1,21 @@
 
 
 
- <p-table [value]="estudantes"  [(contextMenuSelection)]="submissaoSelected" [contextMenu]="cm">
-  <ng-template pTemplate="header">
-      <tr>
-          <th>Nome</th>
-          <th>Visualizar</th>
-       </tr>
-  </ng-template>
-  <ng-template pTemplate="body"  let-estudante>
-      <tr>
-          <td>{{estudante.nome}}</td>
-          <td><button>visualizar</button></td>
-     
-      </tr>
-  </ng-template>
-</p-table> 
+<p>Você gostaria da resposta de qual estudante?</p>
 
+
+<p-table [value]="submissoesDaQuestao" [(contextMenuSelection)]="selectedEstudante" [contextMenu]="cm">
+    <ng-template pTemplate="header">
+        <tr>
+            <th>Nome</th>
+
+        </tr>
+    </ng-template>
+    <ng-template pTemplate="body" let-rowData let-estudante>
+        <tr [pContextMenuRow]="rowData">
+            <td (click)="visualizarSubmissao(estudante.estudanteId)">{{estudante.estudanteId}}</td>
+        </tr>
+    </ng-template>
+</p-table>
 
 
