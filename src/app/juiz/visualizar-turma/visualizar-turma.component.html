@@ -2,7 +2,7 @@
 
 <p-toast [style]="{marginTop: '80px'}"></p-toast>
 
-<p-table [value]="estudantesTurma" [(contextMenuSelection)]="selectedTurma" [contextMenu]="cm">
+<p-table [value]="estudanteSelecionados" [(contextMenuSelection)]="selectedEstudantes" [contextMenu]="cm">
     <ng-template pTemplate="header">
         <tr>
             <th>Nome</th>
@@ -11,9 +11,9 @@
 
         </tr>
     </ng-template>
-    <ng-template pTemplate="body" let-rowData let-estudante>
+    <ng-template pTemplate="body" let-rowData let-estudantes>
         <tr [pContextMenuRow]="rowData">
-            <td>{{estudante.estudanteId}}</td>
+            <td>{{estudantes.nome}}</td>
             <td>{{estudante.estudanteId}}</td>
             <td>{{estudante}}</td>
 

@@ -8,6 +8,34 @@
 </span>
 <br/> 
 <p-toast></p-toast>
+<h3>Adicinar professores</h3>
+<p-autoComplete [(ngModel)]="professor.email" [suggestions]="professores" (completeMethod)="searchP($event)" [size]="30"
+    [minLength]="2" placeholder="Digite o e-mail do professor" [dropdown]="true" field="email">
+    <ng-template let-ProfessorPesquisado pTemplate="item">
+        <div class="ui-helper-clearfix" style="border-bottom:1px solid #D5D5D5">
+            <div style="font-size:18px;float:right;margin:10px 10px 0 0">{{ProfessorPesquisado.email}}</div>
+        </div>
+    </ng-template>
+</p-autoComplete>
+<button pButton type="button" label="Adicinar" (click)="adicionarProfessores()"></button>
+<p-table [value]="turma.professor"  [(contextMenuSelection)]="selectedProfessor" [contextMenu]="cm">
+    <ng-template pTemplate="header">
+        <tr>
+            <th>E-mail do professor</th>
+            
+            
+        </tr>
+    </ng-template>
+    <ng-template pTemplate="body" let-rowData let-professor>
+        <tr [pContextMenuRow]="rowData">
+           
+            <td>{{professor.email}}</td>
+            
+           
+        </tr>
+    </ng-template>
+ </p-table> 
+<p-toast></p-toast>
 <h3>Adicinar estudantes</h3>
 <p-autoComplete [(ngModel)]="estudante.email" [suggestions]="estudantes" (completeMethod)="search($event)" [size]="30"
     [minLength]="2" placeholder="Digite o e-mail do estudante" [dropdown]="true" field="email">
@@ -38,6 +66,7 @@
             </tr>
         </ng-template>
      </p-table> 
+     
      <p-contextMenu #cm [model]="items"></p-contextMenu>   
      <button pButton type="button" label= Salvar (click) = 'cadastrarTurma()' ></button>
  
