@@ -3,9 +3,10 @@ import Submissao from 'src/app/model/submissao';
 import { MessageService } from 'primeng/api';
 import { Router, ActivatedRoute } from '@angular/router';
 import { LoginService } from 'src/app/juiz/login.service';
-import Estudante from 'src/app/model/estudante';
 import Query from 'src/app/model/firestore/query';
 import Usuario from 'src/app/model/usuario';
+import Estudante from 'src/app/model/estudante';
+
 
 @Component({
   selector: 'app-listar-estudantes-submissao',
@@ -15,16 +16,11 @@ import Usuario from 'src/app/model/usuario';
 export class ListarEstudantesSubmissaoComponent implements OnInit {
   
   private submissoesDaQuestao;
-  private submissaoSelected;
-  private questaoId;
-  //private submissoesQuestao:any[];
-  submissoesQuestao: Submissao[] = [];
-  private  submissoesConcluidas: any = []
-  estudantes:Estudante[]=[];
-  estudante;
- estudantesCovertidos:any=[];
- resultado;
- 
+  private questao;
+  private submissoes;
+  private estudante;
+  private assuntoId
+  private json;
   
 
 
@@ -32,45 +28,54 @@ export class ListarEstudantesSubmissaoComponent implements OnInit {
 
   ngOnInit() {
     this.route.params.subscribe(params => {
-      Submissao.getAll(new Query("questaoId","==", params['questaoId'])).subscribe(resultado =>{
-        this.questaoId =params['questaoId'],
-        this.submissoesDaQuestao = resultado;
-        this.elimanarSubmissoesInconcluidas();
-
+      this.questao= params['questaoId'];
+      //this.questao = "fc91ec49-7b5f-4d23-a27b-992e0a7d58ae";
       
-          // Estudante.getAll().subscribe(resultado =>{this.resultado=resultado});
-          //  console.log(this.resultado);
-        //  console.log(this.submissoesDaQuestao[0].estudanteId);
-        //}
-
-
+     
+      Submissao.getAll(new Query("questaoId","==",this.questao)).subscribe(resultado =>{
+        this.submissoes =resultado;
         
 
+        this.eliminarSubmissoesInconcluidas(resultado);
       });
     });
   }
 
-  visualizarSubmissao(estudanteId){
-  this.router.navigate(["main", { outlets: { principal: ['listar-submissao-questao',this.questaoId,estudanteId ]} }]);
-  }
-  
-
-
-  elimanarSubmissoesInconcluidas() {
-    console.log(this.submissoesDaQuestao);
-    
-    for (let i = 0; i < this.submissoesDaQuestao.length; i++) {
-      for (let j = 0; j < this.submissoesDaQuestao.length; j++) {
-        if(this.submissoesDaQuestao[i].resultadosTestsCases[j].status==false){
-          this.submissoesDaQuestao.splice(i, 1);
-         
+  eliminarSubmissoesInconcluidas(submissoesQuestao:Submissao[]) {
+    for (let i = 0; i < submissoesQuestao.length; i++) {
+      for (let j = 0;j<submissoesQuestao[i].resultadosTestsCases.length; j++) {
+        if(submissoesQuestao[i].resultadosTestsCases[j].status != true){
+          submissoesQuestao.splice(i, 1);
         }
       }
     }
-  
-    console.log(this.submissoesDaQuestao);
+    
+    this.BuscarEstudante(submissoesQuestao);
   }
 
+
+  BuscarEstudante(submissoesQuestao){
+    for(let i=0;i<submissoesQuestao.length;i++){
+
+      Usuario.get(submissoesQuestao[i].estudanteId).subscribe(resultado=>{this.estudante=resultado
+        submissoesQuestao[i].estudante=this.estudante.nome;
+        
+      });
+    }
+   this.submissoesDaQuestao=submissoesQuestao;
+
+  }
+
+
+
+
+ 
+  visualizarSubmissao(submissao){
+    this.router.navigate(["main", { outlets: { principal: ['listar-submissao-questao', submissao.id] } } ] );
+  }
+
+  
+ 
 }
   
 

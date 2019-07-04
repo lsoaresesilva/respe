@@ -1,7 +1,7 @@
 
 
 
-<p>Você gostaria da resposta de qual estudante?</p>
+<p>Visualizar a resposta de qual estudante?</p>
 
 
 <p-table [value]="submissoesDaQuestao" [(contextMenuSelection)]="selectedEstudante" [contextMenu]="cm">
@@ -11,9 +11,9 @@
 
         </tr>
     </ng-template>
-    <ng-template pTemplate="body" let-rowData let-estudante>
+    <ng-template pTemplate="body" let-rowData let-submissao>
         <tr [pContextMenuRow]="rowData">
-            <td (click)="visualizarSubmissao(estudante.estudanteId)">{{estudante.estudanteId}}</td>
+            <td (click)="visualizarSubmissao(submissao)">{{submissao.estudante}}</td>
         </tr>
     </ng-template>
 </p-table>
