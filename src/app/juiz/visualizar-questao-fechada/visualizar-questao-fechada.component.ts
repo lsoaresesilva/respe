@@ -68,6 +68,7 @@ export class VisualizarQuestaoFechadaComponent implements OnInit {
   }
 
 
+
   responder(){
       this.respostaQuestaoFechada.save().subscribe(resultado => {
         alert("parabéns você respondeu uma questão!");
@@ -77,6 +78,7 @@ export class VisualizarQuestaoFechadaComponent implements OnInit {
        alert(err)
       });
   }
+
 
    
   

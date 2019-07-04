@@ -16,9 +16,12 @@ import { VisualizarConteudoComponent } from './visualizar-conteudo/visualizar-co
 import { EscapeHtmlPipe } from '../pipes/keep-html.pipe';
 import { ConteudoProgramacaoComponent } from './conteudo-programacao/conteudo-programacao.component';
 import { SanitizeHtmlDirective } from '../pipes/sanitize.directive';
+import { ListarSubmissaoQuestaoComponent } from './listar-submissao-questao/listar-submissao-questao.component';
+import { TableModule } from 'primeng/table';
+import { ListarEstudantesSubmissaoComponent } from './listar-estudantes-submissao/listar-estudantes-submissao.component';
 
 @NgModule({
-  declarations: [ComentariosCodigoComponent, BoxComentarioComponent, BoxNovoComentarioComponent, VisualizarConteudoComponent, EscapeHtmlPipe, SanitizeHtmlDirective, ConteudoProgramacaoComponent],
+  declarations: [ComentariosCodigoComponent, BoxComentarioComponent, BoxNovoComentarioComponent, VisualizarConteudoComponent, EscapeHtmlPipe, SanitizeHtmlDirective, ConteudoProgramacaoComponent, ListarSubmissaoQuestaoComponent, ListarEstudantesSubmissaoComponent],
   imports: [
     CommonModule,
     InputTextareaModule,
@@ -27,7 +30,8 @@ import { SanitizeHtmlDirective } from '../pipes/sanitize.directive';
     JuizModule,
     FormsModule,
     OverlayPanelModule,
-    AccordionModule
+    AccordionModule,
+    TableModule
   ],
 
   exports:[ComentariosCodigoComponent, VisualizarConteudoComponent]
