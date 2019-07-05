@@ -33,6 +33,10 @@ export class ListarEstudantesComponent implements OnInit {
       { label: 'Alterar', icon: '°', command: (event) => this.atualizar(this.selectedEstudante) }
     ];
   }
+  abrirPerfilEstudante(estudante : Estudante) {
+    this.router.navigate(['main', { outlets: { principal: ['visualizacao-estudante', estudante.pk()] } }]);
+    
+  }
 
   vizualizar(estudante: Estudante) {
     
