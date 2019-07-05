@@ -29,7 +29,7 @@ export class ListarEstudantesSubmissaoComponent implements OnInit {
   ngOnInit() {
     this.route.params.subscribe(params => {
       this.questao= params['questaoId'];
-     // this.questao = "fc91ec49-7b5f-4d23-a27b-992e0a7d58ae";
+    
       
      
       Submissao.getAll(new Query("questaoId","==",this.questao)).subscribe(resultado =>{
@@ -44,14 +44,26 @@ export class ListarEstudantesSubmissaoComponent implements OnInit {
 
 
   filtrarSubmissoesConcluidas(submissoesQuestao){
-    
-    this.submissoesDaQuestao = submissoesQuestao.filter(element=>{ 
-     element.resultadosTestsCases.status == true;
-     console.log(element)
+   // Filtrando todas as submissões que o seu resultadosTestsCase não seja undefined
+		var submissaoFiltrada = submissoesQuestao.filter(submissao => {
+      return submissao.resultadosTestsCases !== undefined
+      
+   })
+   // Filtrando toda as submissões que tem todos os seus testsCases com status true
+   .filter(submissao => {
+     
+     // Retornar um array vazio caso o resultadosTestsCases tenha todos os elementos com status true. Caso não, o array vai retornar 
+     // com pelo menos um elemento com status false
+     var filterFalseTestsCases = submissao.resultadosTestsCases.filter(el => el.status === false)
+
+     // Se a submissão tiver todos seus status true, então retorne-a
+     if(filterFalseTestsCases.length === 0) {return submissao} 
+   
         
     });
-    
-     this.BuscarEstudante(this.submissoesDaQuestao);
+ 
+     this.BuscarEstudante(submissaoFiltrada);
+
   }
 
 
