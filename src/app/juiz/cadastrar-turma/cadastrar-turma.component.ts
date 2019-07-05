@@ -21,6 +21,9 @@ export class CadastrarTurmaComponent implements OnInit {
   cols: any[];
   selectedEstudante: Estudante;
   items: MenuItem[];
+  professor;
+  professores: Usuario [];
+  selectedProfessor: Usuario;
 
 
 
@@ -31,10 +34,16 @@ export class CadastrarTurmaComponent implements OnInit {
   ngOnInit() {
     this.turma = new Turma(null, null, [], null);
     this.estudante = new Estudante(null, null, null);
+    this.professor = new Usuario (null,null,null,null);
 
     this.items = [
       { label: 'Vizualizar', icon: 'pi pi-search', command: (event) => this.vizualizar(this.selectedEstudante) },
       { label: 'Apagar', icon: 'pi pi-times', command: (event) => this.deleteEstudante(this.selectedEstudante) },
+
+    ];
+    this.items = [
+      // { label: 'Vizualizar', icon: 'pi pi-search', command: (event) => this.vizualizar(this.selectedProfessor) },
+      
 
     ];
 
@@ -56,7 +65,23 @@ export class CadastrarTurmaComponent implements OnInit {
       return this.estudantes;
     })
   }
+  searchP(event) {
 
+    Usuario.getAll().subscribe(professores => {
+      this.professores = [];
+      // TODO: filtrar via banco
+      professores.forEach(professor => {
+        // console.log (estudante)
+        if (professor.email != undefined && typeof professor.email === "string") {
+          if (professor.email.includes(event.query)) {
+            this.professores.push(professor);
+          }
+        }
+      })
+
+      return this.professores;
+    })
+  }
   addSingle() {
     this.messageService.add({ severity: 'success', summary: 'Service Message', detail: 'Via MessageService' });
   }
@@ -72,6 +97,10 @@ export class CadastrarTurmaComponent implements OnInit {
   adicionarEstudantes() {
 
     this.turma.estudantes.push(this.estudante.email);
+  }
+  adicionarProfessores() {
+
+    this.turma.professores.push(this.professor.email);
   }
 
 

@@ -35,10 +35,11 @@ import { ListarAssuntosComponent } from './listar-assuntos/listar-assuntos.compo
 import { VisualizarAssuntoComponent } from './visualizar-assunto/visualizar-assunto.component';
 import { ListagemTurmaComponent } from './listagem-turma/listagem-turma.component';
 import { VisualizarTurmaComponent } from './visualizar-turma/visualizar-turma.component';
+import { VisualizarPerfilEstudanteComponent } from './visualizar-perfil-estudante/visualizar-perfil-estudante.component';
 
 
 @NgModule({
-  declarations: [VisualizarTestesComponent, CadastrarQuestoesComponent, CadastrarTesteCaseComponent, ListarQuestoesComponent, DadosQuestaoComponent, EditorProgramacaoComponent, EditorProgramacaoComponent, CadastrarEstudantesComponent, ListarEstudantesComponent, CadastrarTurmaComponent, ListarTurmaComponent, VisualizarExecucacao, CadastrarAssuntosComponent, ListarAssuntosComponent, VisualizarAssuntoComponent, ListagemTurmaComponent, VisualizarTurmaComponent],
+  declarations: [VisualizarTestesComponent, CadastrarQuestoesComponent, CadastrarTesteCaseComponent, ListarQuestoesComponent, DadosQuestaoComponent, EditorProgramacaoComponent, EditorProgramacaoComponent, CadastrarEstudantesComponent, ListarEstudantesComponent, CadastrarTurmaComponent, ListarTurmaComponent, VisualizarExecucacao, CadastrarAssuntosComponent, ListarAssuntosComponent, VisualizarAssuntoComponent, ListagemTurmaComponent, VisualizarTurmaComponent, VisualizarPerfilEstudanteComponent],
 
   imports: [
     CommonModule,

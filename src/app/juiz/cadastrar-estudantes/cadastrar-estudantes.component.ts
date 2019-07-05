@@ -14,7 +14,8 @@ export class CadastrarEstudantesComponent implements OnInit {
 
   id;
   estudante;
-  isAtualizacao
+  isAtualizacao;
+  estudantes = [];
 
   constructor(public router: Router, private messageService: MessageService, private route: ActivatedRoute) {
 
@@ -35,22 +36,41 @@ export class CadastrarEstudantesComponent implements OnInit {
 
     }
   }
+  messageCadastro() {
+    this.messageService.add({severity:'success', summary:'Cadastrado!', detail: this.estudante.nome + "O estudante foi cadastrado"});
+  }
+ 
 
-  cadastrarEstudante() {
-    if (this.estudante) {
-      this.estudante.save().subscribe(resultado => {
-        this.messageService.add({ severity: 'sucesso', summary: 'Estudante salvo com sucesso.' });
-        this.messageService.add({ severity: 'info', summary: 'Estudante cadastrado', detail: this.estudante.nome });
-        this.router.navigate(["main", { outlets: { principal: ['listagem-estudantes'] } }]);
-
-      },
-        err => {
-          this.messageService.add({ severity: 'erro', summary: 'Houve um erro:', detail: err.toString() });
-        });
-
-    }
-
+  messageUpdate() {
+    this.messageService.add({severity:'warn', summary:'Alterado!', detail: this.estudante.nome + "O estudante foi alterado"});
   }
 
+  messageErro() {
+    this.messageService.add({severity:'warn', summary:'Falha ao cadastrar o estudante', detail: 'O usuario não foi cadastrado'});
+  }
+  messageErroCadastro() {
+    this.messageService.add({severity:'warn', summary:'Falha ao cadastrar o estudante', detail: 'O estudante já foi cadastrado'});
+  }
+
+
+
+  cadastrarEstudante() {
+    Estudante.getAll(this.estudante);
+    for (let i =0; i<this.estudantes.length; i++){
+      if (this.estudantes[i].email != this.estudante.email){
+      this.estudante.save().subscribe (resultado => {
+        this.router.navigate(["main", { outlets: { principal: ['listagem-estudantes'] } }]);
+        this.messageCadastro();
+
+      },
+      err => {
+       this.messageErroCadastro();
+
+      });
+    } else {
+    
+    }
+    }
+  }
 }
 
