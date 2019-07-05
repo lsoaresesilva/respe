@@ -29,29 +29,32 @@ export class ListarEstudantesSubmissaoComponent implements OnInit {
   ngOnInit() {
     this.route.params.subscribe(params => {
       this.questao= params['questaoId'];
-      //this.questao = "fc91ec49-7b5f-4d23-a27b-992e0a7d58ae";
+     // this.questao = "fc91ec49-7b5f-4d23-a27b-992e0a7d58ae";
       
      
       Submissao.getAll(new Query("questaoId","==",this.questao)).subscribe(resultado =>{
         this.submissoes =resultado;
         
 
-        this.eliminarSubmissoesInconcluidas(resultado);
+        this.filtrarSubmissoesConcluidas(resultado);
       });
     });
   }
 
-  eliminarSubmissoesInconcluidas(submissoesQuestao:Submissao[]) {
-    for (let i = 0; i < submissoesQuestao.length; i++) {
-      for (let j = 0;j<submissoesQuestao[i].resultadosTestsCases.length; j++) {
-        if(submissoesQuestao[i].resultadosTestsCases[j].status != true){
-          submissoesQuestao.splice(i, 1);
-        }
-      }
-    }
+
+
+  filtrarSubmissoesConcluidas(submissoesQuestao){
     
-    this.BuscarEstudante(submissoesQuestao);
+    this.submissoesDaQuestao = submissoesQuestao.filter(element=>{ 
+     element.resultadosTestsCases.status == true;
+     console.log(element)
+        
+    });
+    
+     this.BuscarEstudante(this.submissoesDaQuestao);
   }
+
+
 
 
   BuscarEstudante(submissoesQuestao){
