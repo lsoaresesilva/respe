@@ -1,9 +1,9 @@
-import { Component, OnInit } from '@angular/core';
-import Turma from 'src/app/model/turma';
-import Estudante from 'src/app/model/estudante';
-import EstudanteTurma from 'src/app/model/estudanteTurma';
+import { Component, OnInit, } from '@angular/core';
+import { ActivatedRoute, Router } from '@angular/router';
 import Query from 'src/app/model/firestore/query';
-import { ActivatedRoute } from '@angular/router';
+
+import Usuario from 'src/app/model/usuario';
+import EstudanteTurma from 'src/app/model/estudanteTurma';
 
 @Component({
   selector: 'app-visualizar-turma',
@@ -11,37 +11,35 @@ import { ActivatedRoute } from '@angular/router';
   styleUrls: ['./visualizar-turma.component.css']
 })
 export class VisualizarTurmaComponent implements OnInit {
-  turmas: Turma[];
-  turma;
-  estudante;
-  Estudante;
-  estudantesTurma;
-  id;
-  sub: any;
-  
+  private turma;
+  private resultado;
+  private estudante;
+  private nomes:String[]=[];
 
-  constructor(private route: ActivatedRoute) { 
-    this.Estudante = new EstudanteTurma (null,null, null);
-    this.turma = new Turma (null, null,null,null);
-  }
+  constructor(private route: ActivatedRoute) { }
 
   ngOnInit() {
-    this.sub = this.route.params.subscribe(params => {
-      this.id = params['id'];
-     // EstudanteTurma.get(this.id).subscribe(resultado =>{
-      //this.turma= resultado
-      console.log(this.id);
-      EstudanteTurma.getAll(new Query("turmaId", "==", this.id)).subscribe(estudantesTurma => {this.estudantesTurma = estudantesTurma});
-      // Estudante.get(this.estudantesTurma.estudanteId).subscribe(estudante => {this.estudante = estudante});
+    
+    this.route.params.subscribe(params => {
+      this.turma = params['turmaId'];
 
+      EstudanteTurma.getAll(new Query("turmaId","==",this.turma)).subscribe(resultado =>{ this.resultado=resultado;
+      this.BuscarEstudante(this.resultado);
       });
-    // });
-    console.log(this.estudantesTurma)
+    });
+
   }
-    
-       
+
+  BuscarEstudante(estudanteTurma){
+    for(let i=0;i<estudanteTurma.length;i++){
+      Usuario.get(estudanteTurma[i].estudanteId).subscribe(resultado=>{this.estudante=resultado
+        this.nomes.push(this.estudante.nome);
+      });
+    }
+
   }
-    
+
+}
   
 
     
