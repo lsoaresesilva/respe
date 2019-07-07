@@ -32,11 +32,7 @@ export class VisualizarTurmaComponent implements OnInit {
     this.sub=this.route.params.subscribe(params => {
       this.id =params['id'];
       EstudanteTurma.getAll(new Query("turmaId","==",this.id)).subscribe(resultado =>{ this.resultado=resultado;
-        for(let i=0;i<this.estudanteTurma.length;i++){
-          Usuario.get(this.estudanteTurma[i].estudanteId).subscribe(resultado=>{this.estudante=resultado
-            this.estudantesNomes.push(this.estudante.nome);
-          });
-        }
+       this.BuscarEstudante(this.resultado);
       });
     });
 
