@@ -10,7 +10,7 @@
    </ng-template>
    <ng-template pTemplate="body" let-rowData let-turma>
        <tr [pContextMenuRow]="rowData">
-           <td>{{turma.nome}}</td>
+           <td><a (click)="abrirPerfilTurma(turma)"></a>{{turma.nome}}</a></td>
           
            
           
