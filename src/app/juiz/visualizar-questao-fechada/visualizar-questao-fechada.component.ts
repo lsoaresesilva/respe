@@ -3,9 +3,7 @@ import QuestaoFechada from 'src/app/model/questaoFechada';
 import { Router, ActivatedRoute } from '@angular/router';
 import { Assunto } from 'src/app/model/assunto';
 import { LoginService } from '../login.service';
-import { RespostaQuestaoFechada } from 'src/app/model/respostaQuestaoFechada';
-
-
+import { RespostaQuestaoFechada } from '../../model/respostaQuestaoFechada';
 
 
 @Component({

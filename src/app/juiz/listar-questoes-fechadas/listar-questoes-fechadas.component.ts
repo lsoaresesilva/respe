@@ -30,6 +30,7 @@ export class ListarQuestoesFechadasComponent implements OnInit {
       { label: 'Alterar', icon: 'pi pi-check', command: (event) => this.alterar(this.selectedQuestao) },
       { label: 'Deletar', icon: 'pi pi-times', command: (event) => this.deletar(this.selectedQuestao) }
       ];
+    console.log(this.login.getUsuarioLogado().perfil);
   }
 
 
