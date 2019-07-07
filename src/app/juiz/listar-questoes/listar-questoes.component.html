@@ -13,16 +13,16 @@
     </ng-template>
     <ng-template pTemplate="body" let-rowData let-questao>
         <tr [pContextMenuRow]="rowData">
-            <td (click)="responder(questao)">{{questao.nomeCurto}}</td>
+            <td (click)="visualizar(questao)">{{questao.nomeCurto}}</td>
         </tr>
     </ng-template>
 </p-table>
 
-<p-contextMenu #cm [model]="items" *ngIf="usuario.perfil == 3" ></p-contextMenu>
+<p-contextMenu #cm [model]="items"  ></p-contextMenu>
 
 
 
-
+<!-- *ngIf="usuario.perfil == 3" -->
 
 
 

@@ -21,7 +21,8 @@ import { TableModule } from 'primeng/table';
 import { ListarEstudantesSubmissaoComponent } from './listar-estudantes-submissao/listar-estudantes-submissao.component';
 
 @NgModule({
-  declarations: [ComentariosCodigoComponent, BoxComentarioComponent, BoxNovoComentarioComponent, VisualizarConteudoComponent, EscapeHtmlPipe, SanitizeHtmlDirective, ConteudoProgramacaoComponent, ListarSubmissaoQuestaoComponent, ListarEstudantesSubmissaoComponent],
+  declarations: [ComentariosCodigoComponent, BoxComentarioComponent, BoxNovoComentarioComponent, VisualizarConteudoComponent, EscapeHtmlPipe, SanitizeHtmlDirective, ConteudoProgramacaoComponent, ListarSubmissaoQuestaoComponent,ListarEstudantesSubmissaoComponent],
+ 
   imports: [
     CommonModule,
     InputTextareaModule,
@@ -34,6 +35,8 @@ import { ListarEstudantesSubmissaoComponent } from './listar-estudantes-submissa
     TableModule
   ],
 
-  exports:[ComentariosCodigoComponent, VisualizarConteudoComponent]
+  exports:[ComentariosCodigoComponent, VisualizarConteudoComponent,ListarSubmissaoQuestaoComponent,ListarEstudantesSubmissaoComponent]
+
+ 
 })
 export class CsclModule { }

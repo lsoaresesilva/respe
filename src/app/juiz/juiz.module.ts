@@ -47,6 +47,8 @@ import { CadastrarQuestoesFechadasComponent } from './cadastrar-questoes-fechada
 import { VisualizarQuestaoFechadaComponent } from './visualizar-questao-fechada/visualizar-questao-fechada.component';
 import { ListarQuestoesFechadasComponent } from './listar-questoes-fechadas/listar-questoes-fechadas.component';
 import { EscolherQuestaoComponent } from './escolher-questao/escolher-questao.component';
+import { ListarEstudantesSubmissaoComponent } from '../cscl/listar-estudantes-submissao/listar-estudantes-submissao.component';
+
 
 
 
@@ -76,6 +78,8 @@ import { EscolherQuestaoComponent } from './escolher-questao/escolher-questao.co
     ListarPedidosAjudaComponent,
     VisualizarPedidoAjudaComponent,
     EscolherQuestaoComponent,
+   // ListarEstudantesSubmissaoComponent
+   
    
   ],
 
@@ -101,6 +105,7 @@ import { EscolherQuestaoComponent } from './escolher-questao/escolher-questao.co
     CardModule,
     RadioButtonModule,
     DialogModule,
+   // ListarEstudantesSubmissaoComponent
 
     
     
