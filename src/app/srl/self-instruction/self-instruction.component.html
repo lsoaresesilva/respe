@@ -1,6 +1,8 @@
 
-<h3>Questão:{{questao.sequencia}}</h3>
-<textarea [rows]="5" [cols]="150" pInputTextarea autoResize="autoResize" [(ngModel)]="questao.enunciado" disabled></textarea>
+<p-fieldset legend="Questão: {{questao.sequencia}}">
+    {{questao.enunciado}}
+</p-fieldset>
+
 
 <p-accordion>
     <p-accordionTab header="Qual problema você espera resolver com esse algoritmo?">

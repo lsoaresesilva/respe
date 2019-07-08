@@ -15,6 +15,7 @@ import { ButtonModule } from 'primeng/button';
 import {ToastModule} from 'primeng/toast';
 import {TabViewModule} from 'primeng/tabview';
 
+
 import { PaginaNaoEncontradaComponent } from './pagina-nao-encontrada/pagina-nao-encontrada.component';
 import { RiscoEstudanteComponent } from '../analytics-module/risco-estudante/risco-estudante.component';
 import {ProgressBarModule} from 'primeng/progressbar';
@@ -22,6 +23,10 @@ import { ListarPlanejamentosComponent } from './listar-planejamentos/listar-plan
 import { VisualizarPlanejamentoComponent } from './vizualizar-planejamento/visualizar-planejamento.component';
 import { RouterModule } from '@angular/router';
 import { CheckboxModule, InputTextModule, AccordionModule } from 'primeng/primeng';
+import {FieldsetModule} from 'primeng/fieldset';
+import { RespostaSimilarQuestaoProgramacaoComponent } from './resposta-similar-questao-programacao/resposta-similar-questao-programacao.component';
+import {TreeTableModule} from 'primeng/treetable';
+
 
 @NgModule({
   declarations: [
@@ -31,7 +36,8 @@ import { CheckboxModule, InputTextModule, AccordionModule } from 'primeng/primen
     PaginaNaoEncontradaComponent,
     RiscoEstudanteComponent,
     ListarPlanejamentosComponent,
-    VisualizarPlanejamentoComponent
+    VisualizarPlanejamentoComponent,
+    RespostaSimilarQuestaoProgramacaoComponent
   ],
   imports: [
     CommonModule,
@@ -51,7 +57,12 @@ import { CheckboxModule, InputTextModule, AccordionModule } from 'primeng/primen
     ToastModule,
     RouterModule,
     AccordionModule,
-    InputTextModule
+    InputTextModule,
+    FieldsetModule,
+    TreeTableModule,
+    
+    
+    
   ],
   providers:[],
   exports:[RiscoEstudanteComponent]
