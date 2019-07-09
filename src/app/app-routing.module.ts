@@ -28,6 +28,7 @@ import { ListarQuestoesFechadasComponent } from './juiz/listar-questoes-fechadas
 import { EscolherQuestaoComponent } from './juiz/escolher-questao/escolher-questao.component';
 import { CadastrarAlternativasComponent } from './juiz/cadastrar-alternativas/cadastrar-alternativas.component';
 import { SelfInstructionComponent } from './srl/self-instruction/self-instruction.component';
+import { VisualizarTurmaComponent } from './juiz/visualizar-turma/visualizar-turma.component';
 
 
 const routes: Routes = [
@@ -68,6 +69,7 @@ const routes: Routes = [
 
     {path:"visualizacao-assunto/:id", component:VisualizarAssuntoComponent, canActivate: [AuthGuard], canLoad: [AuthGuard], outlet:"principal"},
     {path:"monitoramento/:assuntoId/:questaoId", component:SelfInstructionComponent, canActivate: [AuthGuard], canLoad: [AuthGuard], outlet:"principal"},
+    {path:"visualizacao-turma/: turmaId", component:VisualizarTurmaComponent, canActivate: [AuthGuard], canLoad: [AuthGuard], outlet:"principal"},
   ]},
 
   {path:"", component:LoginComponent},
