@@ -1,0 +1,23 @@
+<h2>Estudantes</h2>
+
+<p-toast [style]="{marginTop: '80px'}"></p-toast>
+
+<p-table [value]="buscarEstudantes" [contextMenu]="cm">
+    <ng-template pTemplate="header">
+        <tr>
+            <th>Nome</th>
+            <th>Error Quotient</th>
+            <th>% dos acertos</th>
+
+        </tr>
+    </ng-template>
+    <ng-template pTemplate="body" let-rowData let-estudante>
+        <tr [pContextMenuRow]="rowData">
+            <td>{{estudante}}</td>
+          
+           
+
+        </tr>
+    </ng-template>
+</p-table>
+
