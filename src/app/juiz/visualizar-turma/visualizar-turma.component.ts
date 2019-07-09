@@ -1,3 +1,4 @@
+
 import { Component, OnInit} from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import EstudanteTurma from 'src/app/model/estudanteTurma';
@@ -5,12 +6,14 @@ import Query from 'src/app/model/firestore/query';
 import Usuario from 'src/app/model/usuario';
 import Estudante from 'src/app/model/estudante';
 
+
 @Component({
   selector: 'app-visualizar-turma',
   templateUrl: './visualizar-turma.component.html',
   styleUrls: ['./visualizar-turma.component.css']
 })
 export class VisualizarTurmaComponent implements OnInit {
+
   sub: any;
   id;
   buscarEstudantes=[];
@@ -43,3 +46,5 @@ export class VisualizarTurmaComponent implements OnInit {
   }
 
 }
+
+ 

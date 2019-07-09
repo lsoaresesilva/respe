@@ -29,15 +29,13 @@ export class ListarTurmaComponent implements OnInit {
       { label: 'Alterar', icon: '°', command: (event) => this.atualizar(this.selectedTurma) }
     ];
   }
-
-  visualizar(turma: Turma) {
-    this.messageService.add({ severity: 'info', summary: 'Car Selected', detail: turma.nome + ' - ' + turma.estudantes });
-
-  }
   abrirPerfilTurma(turma){
     this.router.navigate(['main', { outlets: { principal: ['visualizacao-turma', turma.pk()] } }]);
+  }
+  visualizar(turma: Turma) {
 
   }
+
 
   atualizar(turma: Turma) {
     this.router.navigate(["main", { outlets: { principal: ['atualizacao-turma', turma.pk()] } }]);

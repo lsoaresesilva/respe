@@ -30,7 +30,6 @@ import { CadastrarAlternativasComponent } from './juiz/cadastrar-alternativas/ca
 import { SelfInstructionComponent } from './srl/self-instruction/self-instruction.component';
 import { VisualizarTurmaComponent } from './juiz/visualizar-turma/visualizar-turma.component';
 
-
 const routes: Routes = [
   {path:"main", component:MainComponent, canActivate: [AuthGuard], canLoad: [AuthGuard], children: [
     {path:"editor/:assuntoId/:questaoId", component:EditorProgramacaoComponent, outlet:"principal"},
@@ -80,6 +79,7 @@ const routes: Routes = [
   {path:"cadastrar/alternativa", component:CadastrarAlternativasComponent},
   
   {path:"**", component:PaginaNaoEncontradaComponent},
+  
   
 
 
