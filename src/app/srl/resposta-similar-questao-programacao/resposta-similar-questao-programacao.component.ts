@@ -1,6 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 import { ModeloRespostaQuestao } from 'src/app/model/ModeloRespostaQuestao';
 import { Assunto } from 'src/app/model/assunto';
+import { Router } from '@angular/router';
+import { Questao } from 'src/app/model/questao';
 
 @Component({
   selector: 'app-resposta-similar-questao-programacao',
@@ -12,44 +14,62 @@ export class RespostaSimilarQuestaoProgramacaoComponent implements OnInit {
  
  assuntos: Assunto[];
  rowGroupMetadata: any;
+ questao;
+ resposta;
   
 
-  constructor() {
-    this.modeloRespostaQuestao= new ModeloRespostaQuestao (null,null);
+  constructor( private router: Router) {
+    this.questao= new Questao(null,null,null,null,null,null,null)
+    this.modeloRespostaQuestao= new ModeloRespostaQuestao (null,null,this.questao);
    }
 
   ngOnInit() {
     Assunto.getAll().subscribe(assuntos=>{this.assuntos = assuntos;
-      // this.updateRowGroupMetaData();
-    
+
+      this.updateRowGroupMetaData();
+
     });
   }
 
-//   onSort() {
-//     this.updateRowGroupMetaData();
-//   }
+  onSort() {
+    this.updateRowGroupMetaData();
+  }
+
+   
+  updateRowGroupMetaData() {
+    this.rowGroupMetadata = {};
+    if (this.assuntos) {
+      for (let i = 0; i < this.assuntos.length; i++) {
+        let rowData = this.assuntos[i];
+        let questoesProgramacao= rowData.questoesProgramacao;
+          if (i == 0) {
+            this.rowGroupMetadata[questoesProgramacao] = { index: 0, size: 1 };
+          }
+          else {
+            let previousRowData = this.assuntos[i - 1];
+            let previousRowGroup = previousRowData.questoesProgramacao;
+            
+              if (questoesProgramacao === previousRowGroup)
+                this.rowGroupMetadata[questoesProgramacao].size++;
+              else
+                this.rowGroupMetadata[questoesProgramacao] = { index: i, size: 1 };
+          }
+      }
+    }
+  }
+    
 
 
-//   updateRowGroupMetaData() {
 
-//     this.rowGroupMetadata = {};
-//     if (this.assuntos) {
-//         for (let i = 0; i < this.assuntos.length; i++) {
-//             let questao= this.assuntos[i];
-//             let nome = questao.nome;
-//             if (i == 0) {
-//                 this.rowGroupMetadata[questao] = { index: 0, size: 1 };
-//             }
-//             else {
-//                 let previousRowData = this.assuntos[i - 1];
-//                 let previousRowGroup = previousRowData.brand;
-//                 if (brand === previousRowGroup)
-//                     this.rowGroupMetadata[brand].size++;
-//                 else
-//                     this.rowGroupMetadata[brand] = { index: i, size: 1 };
-//             }
-//         }
-//     }
-// }
+  salvar(){
 
+    if(this.modeloRespostaQuestao.validar()){
+      this.modeloRespostaQuestao.save().subscribe(resultado => {
+        alert("Cadastrado com sucesso!");
+      },
+      err => {
+      alert(err);
+      });
+    }
+  } 
 }

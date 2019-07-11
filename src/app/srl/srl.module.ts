@@ -26,6 +26,8 @@ import { CheckboxModule, InputTextModule, AccordionModule } from 'primeng/primen
 import {FieldsetModule} from 'primeng/fieldset';
 import { RespostaSimilarQuestaoProgramacaoComponent } from './resposta-similar-questao-programacao/resposta-similar-questao-programacao.component';
 import {TreeTableModule} from 'primeng/treetable';
+import { ExibirSolucaoComponent } from './exibir-solucao/exibir-solucao.component';
+import {RadioButtonModule} from 'primeng/radiobutton';
 
 
 @NgModule({
@@ -37,7 +39,8 @@ import {TreeTableModule} from 'primeng/treetable';
     RiscoEstudanteComponent,
     ListarPlanejamentosComponent,
     VisualizarPlanejamentoComponent,
-    RespostaSimilarQuestaoProgramacaoComponent
+    RespostaSimilarQuestaoProgramacaoComponent,
+    ExibirSolucaoComponent
   ],
   imports: [
     CommonModule,
@@ -60,6 +63,8 @@ import {TreeTableModule} from 'primeng/treetable';
     InputTextModule,
     FieldsetModule,
     TreeTableModule,
+    RadioButtonModule
+    
     
     
     

@@ -31,6 +31,7 @@ import { SelfInstructionComponent } from './srl/self-instruction/self-instructio
 import { ListarSubmissaoQuestaoComponent } from './cscl/listar-submissao-questao/listar-submissao-questao.component';
 import { ListarEstudantesSubmissaoComponent } from './cscl/listar-estudantes-submissao/listar-estudantes-submissao.component';
 import { RespostaSimilarQuestaoProgramacaoComponent } from './srl/resposta-similar-questao-programacao/resposta-similar-questao-programacao.component';
+import { ExibirSolucaoComponent } from './srl/exibir-solucao/exibir-solucao.component';
 
 
 const routes: Routes = [
@@ -73,6 +74,7 @@ const routes: Routes = [
     {path:"monitoramento/:assuntoId/:questaoId", component:SelfInstructionComponent, canActivate: [AuthGuard], canLoad: [AuthGuard], outlet:"principal"},
     {path:"estudantes-questao/:assuntoId/:questaoId", component:ListarEstudantesSubmissaoComponent, canActivate: [AuthGuard], canLoad: [AuthGuard], outlet:"principal"},
     {path:"codigo-similar", component:RespostaSimilarQuestaoProgramacaoComponent, canActivate: [AuthGuard], canLoad: [AuthGuard], outlet:"principal"},
+    {path:"exibir-codigo", component: ExibirSolucaoComponent, canActivate: [AuthGuard], canLoad: [AuthGuard], outlet:"principal"},
      
   ]},
 
