@@ -6,7 +6,6 @@ import { LoginService } from '../login.service';
 import { RespostaQuestaoFechada } from '../../model/respostaQuestaoFechada';
 
 
-
 @Component({
   selector: 'app-visualizar-questao-fechada',
   templateUrl: './visualizar-questao-fechada.component.html',
