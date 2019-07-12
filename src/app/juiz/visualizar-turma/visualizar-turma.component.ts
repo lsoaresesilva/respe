@@ -19,15 +19,17 @@ export class VisualizarTurmaComponent implements OnInit {
   buscarEstudantes=[];
   estudante;
   resultado;
+  turma;
 
   constructor(private route: ActivatedRoute) { 
     this.estudante = new Usuario(null,null,null,null);
+    
   }
 
   ngOnInit() {
     this.sub = this.route.params.subscribe(params => {
-    this.id = params = ['id'];
-    EstudanteTurma.getAll (new Query ("id", "==", this.id)).subscribe(resultado=> {this.resultado= resultado
+    this.id = params = ['turmaId'];
+    EstudanteTurma.getAll (new Query ("turmaId", "==", this.turma)).subscribe(resultado=> {this.resultado= resultado
   
     this.BuscarEstudante(this.resultado);
       console.log (this.BuscarEstudante(this.resultado + "A função"));
