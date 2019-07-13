@@ -48,7 +48,7 @@ export default class QuestaoFechada{
 
       if(questoesFechadas != null){
         questoesFechadas.forEach(questaoFechada=>{
-          objetos.push(new QuestaoFechada(questaoFechada.id, questaoFechada.nomeCurto, questaoFechada.enunciado, questaoFechada.dificuldade, questaoFechada.sequencia, questaoFechada.alternativas));
+          objetos.push(new QuestaoFechada(questaoFechada.id, questaoFechada.nomeCurto, questaoFechada.enunciado, questaoFechada.dificuldade, questaoFechada.sequencia, Alternativa.construir(questaoFechada.alternativas)));
           })
       }
 
