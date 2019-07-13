@@ -6,6 +6,7 @@ import Query from 'src/app/model/firestore/query';
 import Usuario from 'src/app/model/usuario';
 import Estudante from 'src/app/model/estudante';
 import { PerfilUsuario } from 'src/app/model/perfilUsuario';
+import { MessageService, MenuItem } from 'primeng/api';
 
 
 @Component({
@@ -16,15 +17,25 @@ import { PerfilUsuario } from 'src/app/model/perfilUsuario';
 export class VisualizarTurmaComponent implements OnInit {
 
   estudantes;
+  items: MenuItem[];
+  selectedEstudante: Usuario;
 
-  constructor(private route: ActivatedRoute) {
+  constructor(private route: ActivatedRoute, private messageService: MessageService) {
     this.estudantes = [];
   }
 
   ngOnInit() {
     this.route.params.subscribe(params => {
       this.buscarEstudante(params['turmaId'])
+
     });
+
+    this.items = [
+      { label: 'Apagar ', icon: 'pi pi-times', command: (event) => this.deleteEstudante(this.selectedEstudante) },
+     
+    ];
+  
+
   }
 
   buscarEstudante(turmaId) {
@@ -44,6 +55,17 @@ export class VisualizarTurmaComponent implements OnInit {
         
       });
     });
+
+    
+  }
+  deleteEstudante(estudantes: Usuario) {
+    
+    Usuario.delete(estudantes.pk()).subscribe(resultado => {
+      Usuario.getAll().subscribe(estudantes=>{
+        this.estudantes = estudantes;
+      })
+      this.messageService.add({ severity: 'info', summary: 'Estudante deletado', detail: estudantes.nome });
+    }); 
 
     
   }

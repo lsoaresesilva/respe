@@ -1,6 +1,6 @@
 <h2>Estudantes</h2>
 <p-toast [style]="{marginTop: '80px'}"></p-toast>
-<p-table [value]="estudantes" [contextMenu]="cm">
+<p-table [value]="estudantes" [(contextMenuSelection)]="selectedEstudante"  [contextMenu]="cm">
    <ng-template pTemplate="header">
         <tr>
             <th>Nome</th>
@@ -15,4 +15,5 @@
         </tr>
     </ng-template>
 </p-table>
+<p-contextMenu #cm [model]="items"></p-contextMenu> 
 
