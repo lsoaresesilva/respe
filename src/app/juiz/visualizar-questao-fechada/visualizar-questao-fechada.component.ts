@@ -6,6 +6,7 @@ import { LoginService } from '../login.service';
 import { RespostaQuestaoFechada } from '../../model/respostaQuestaoFechada';
 
 
+
 @Component({
   selector: 'app-visualizar-questao-fechada',
   templateUrl: './visualizar-questao-fechada.component.html',
@@ -25,12 +26,6 @@ export class VisualizarQuestaoFechadaComponent implements OnInit {
   constructor(private route: ActivatedRoute, private router: Router,private login: LoginService) {
     this.questao = new QuestaoFechada(null, null, null, null, [], []);
     this.respostaQuestaoFechada = new RespostaQuestaoFechada(null,this.login.getUsuarioLogado(),null);
-
-    
-   
-
-
-
   }
 
   ngOnInit() {

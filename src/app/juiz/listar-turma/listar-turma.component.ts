@@ -24,16 +24,18 @@ export class ListarTurmaComponent implements OnInit {
     Turma.getAll().subscribe(turma => { this.turmas = turma });
 
     this.items = [
-      { label: 'Vizualizar', icon: 'pi pi-search', command: (event) => this.vizualizar(this.selectedTurma) },
+      { label: 'Vizualizar', icon: 'pi pi-search', command: (event) => this.visualizar(this.selectedTurma) },
       { label: 'Apagar', icon: 'pi pi-times', command: (event) => this.deletar(this.selectedTurma) },
       { label: 'Alterar', icon: '°', command: (event) => this.atualizar(this.selectedTurma) }
     ];
   }
-
-  vizualizar(turma: Turma) {
-    this.messageService.add({ severity: 'info', summary: 'Car Selected', detail: turma.nome + ' - ' + turma.estudantes });
+  abrirPerfilTurma(turma){
+    this.router.navigate(['main', { outlets: { principal: ['visualizacao-turma', turma.pk()] } }]);
+  }
+  visualizar(turma: Turma) {
 
   }
+
 
   atualizar(turma: Turma) {
     this.router.navigate(["main", { outlets: { principal: ['atualizacao-turma', turma.pk()] } }]);

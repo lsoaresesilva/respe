@@ -21,16 +21,18 @@ export class ListarQuestoesFechadasComponent implements OnInit {
   assuntos;
 
   constructor(private messageService: MessageService, private router:Router, private login:LoginService) { 
-    
+    this.usuario = this.login.getUsuarioLogado();
   }
 
   ngOnInit() {
-    this.usuario = this.login.getUsuarioLogado();
-    this.items = [
-      { label: 'Alterar', icon: 'pi pi-check', command: (event) => this.alterar(this.selectedQuestao) },
-      { label: 'Deletar', icon: 'pi pi-times', command: (event) => this.deletar(this.selectedQuestao) }
-      ];
-    console.log(this.login.getUsuarioLogado().perfil);
+    
+    if(this.usuario.perfil == 3){
+      this.items = [
+        { label: 'Alterar', icon: 'pi pi-check', command: (event) => this.alterar(this.selectedQuestao) },
+        { label: 'Deletar', icon: 'pi pi-times', command: (event) => this.deletar(this.selectedQuestao) }
+        ];
+    }
+  
   }
 
 
