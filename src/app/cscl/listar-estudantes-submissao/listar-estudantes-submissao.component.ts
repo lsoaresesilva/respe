@@ -28,10 +28,11 @@ export class ListarEstudantesSubmissaoComponent implements OnInit {
         this.questao=this.questaoId;
       }
       this.questao= params['questaoId'];
+      console.log(this.questao);
      
       Submissao.getAll(new Query("questaoId","==",this.questao)).subscribe(resultado =>{
         this.submissoes =resultado;
-        
+         console.log(resultado);
 
         this.filtrarSubmissoesConcluidas(resultado);
       });
