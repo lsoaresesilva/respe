@@ -1,32 +1,30 @@
 
 <h3>Estudante:{{estudante}}</h3>
 <h3>Data: {{dataFormatada}}</h3>
-<!-- <h3>Questao: {{questao.nome}}</h3> -->
 
 
-<textarea [rows]="40" [cols]="80" pInputTextarea autoResize="autoResize" [(ngModel)]="submissao.codigo" disabled></textarea>
+
+<textarea [rows]="40" [cols]="80" pInputTextarea autoResize="autoResize" [(ngModel)]="submissao.codigo" 
+disabled></textarea>
 
 
-  
 
- 
-<p-table [value]="submissao.resultadosTestsCases ">
+
+<p-table [value]="submissao.resultadosTestsCases">
     <ng-template pTemplate="header">
         <tr>
-            <th>Tests Cases</th>
+            <th>Saída do Algoritmo</th>
         </tr>
-         
-            
     </ng-template>
-    <ng-template pTemplate="body" let- teste>
+    <ng-template pTemplate="body" let-teste>
         <tr>
-            
-            <td *ngFor="let teste of submissao.resultadosTestsCases; let i = index">{{teste.respostaAlgoritmo}}</td>
-           
+            <td >{{teste.respostaAlgoritmo}}</td>
         </tr>
-        
     </ng-template>
 </p-table>
+          
+        
+    
 
 
      
