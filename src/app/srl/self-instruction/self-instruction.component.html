@@ -1,6 +1,7 @@
 
-<h3>Questão:{{questao.sequencia}}</h3>
-<textarea [rows]="5" [cols]="150" pInputTextarea autoResize="autoResize" [(ngModel)]="questao.enunciado" disabled></textarea>
+<p-fieldset legend="Questão: {{questao?.sequencia}}">
+    {{questao?.enunciado}}
+  </p-fieldset>
 
 <p-accordion>
     <p-accordionTab header="Qual problema você espera resolver com esse algoritmo?">
@@ -30,11 +31,11 @@
 </p-accordion>
 
 <div class="ui-g">
-        <div class="ui-g-4"></div>
-        <div class="ui-g-2"></div>
-        <div class="ui-g-2"></div>
-        <div class="ui-g-3">
-          <p-button label="Avançar" (click)="salvar()"></p-button>
-        </div>
-        <div class="ui-g-1"></div>
-      </div>
+    <div class="ui-g-4"></div>
+    <div class="ui-g-2"></div>
+    <div class="ui-g-2"></div>
+    <div class="ui-g-3">
+        <p-button label="Avançar" (click)="salvar()"></p-button>
+    </div>
+    <div class="ui-g-1"></div>
+</div>

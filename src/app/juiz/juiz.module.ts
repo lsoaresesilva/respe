@@ -49,6 +49,7 @@ import { ListarQuestoesFechadasComponent } from './listar-questoes-fechadas/list
 import { EscolherQuestaoComponent } from './escolher-questao/escolher-questao.component';
 import { ListarEstudantesSubmissaoComponent } from '../cscl/listar-estudantes-submissao/listar-estudantes-submissao.component';
 import { VisualizarTurmaComponent } from './visualizar-turma/visualizar-turma.component';
+import {FieldsetModule} from 'primeng/fieldset';
 
 
 
@@ -104,7 +105,8 @@ import { VisualizarTurmaComponent } from './visualizar-turma/visualizar-turma.co
     CardModule,
     RadioButtonModule,
     DialogModule,
-   // ListarEstudantesSubmissaoComponent
+    FieldsetModule
+   
 
     
     
@@ -127,6 +129,7 @@ import { VisualizarTurmaComponent } from './visualizar-turma/visualizar-turma.co
     ListarQuestoesFechadasComponent,
     VisualizarQuestaoFechadaComponent,
     //CadastrarAlternativasComponent
+
   ],
 
   providers: [MessageService, LoginService, EditorService],

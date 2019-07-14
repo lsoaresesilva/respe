@@ -1,48 +1,43 @@
 <p-toast></p-toast>
 
-<h3>Questão:{{questao.nomeCurto}}</h3>
+<h1>Questão:{{questao?.nomeCurto}}</h1>
 
 
-<table>
-  <tr>
-    <td><b>Título</b></td>
-    <td>{{questao?.nomeCurto}}</td>
-  </tr>
-  <tr>
-    <td><b>Enunciado</b></td>
-    <td>{{questao?.enunciado}}</td>
-  </tr>
-  <tr>
-    <td><b>Dificuldade</b></td>
-    <td>{{questao?.dificuldade}}</td>
-  </tr>
-  <tr *ngFor='let assunto of questao?.assuntos '>
-    <td><b>Assuntos relacionados</b></td>
-    <td> {{assunto.nome}}</td>
-  </tr>
-  <tr>
-    <td><b>Sequência de exibição</b></td>
-    <td>{{questao?.sequencia}}</td>
-  </tr>
-  <tr>
-    <td><b>Id</b></td>
-    <td>{{questao?.id}}</td>
-  </tr>
-  <tr *ngFor='let teste of questao?.testsCases'>
-    <td><b>TestCase</b></td>
-    <td><b>Entrada: </b>{{teste.entradas}} <br>
-      <b>Saida: </b>{{teste.saida}}
-    </td>
+ <p-fieldset legend="Questão: {{questao?.sequencia}}">
+  {{questao?.enunciado}}
+</p-fieldset>
+ 
 
 
-  </tr>
-</table>
+<p-table [value]="questao?.testsCases">
+  <ng-template pTemplate="header">
+      <tr>
+          <th>Exemplo de Entrada</th>
+          <th>Exemplo de Saída</th>
+         
+      </tr>
+  </ng-template>
+  <ng-template pTemplate="body" let-teste>
+      <tr>
+          <td *ngFor='let entrada of teste.entradas'>{{entrada}}</td>
+          <td>{{teste.saida}}</td>
+         
+      </tr>
+  </ng-template>
+</p-table>
+
+
 
  <app-listar-estudantes-submissao [questaoId]="questao?.id" ></app-listar-estudantes-submissao> 
  
  
 
- <!-- <p-button label="Responder" (click)="abrirEditor(questao)"></p-button> -->
- <p-button label="Responder" (click)="responder(questao)"></p-button>
-
- 
+ <div class="ui-g">
+  <div class="ui-g-4"></div>
+  <div class="ui-g-2"></div>
+  <div class="ui-g-2"></div>
+  <div class="ui-g-3">
+    <p-button label="Responder" (click)="responder(questao)"></p-button>
+  </div>
+  <div class="ui-g-1"></div>
+</div>
