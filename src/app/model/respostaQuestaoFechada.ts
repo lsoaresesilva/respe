@@ -3,7 +3,7 @@ import Usuario from './usuario';
 
 
 @Collection("respostaQuestaoFechada")
-export default class RespostaQuestaoFechada extends Document{
+export class RespostaQuestaoFechada extends Document{
     estudante: Usuario;
     resposta :String;
 

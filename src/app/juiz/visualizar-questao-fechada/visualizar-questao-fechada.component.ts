@@ -28,12 +28,6 @@ export class VisualizarQuestaoFechadaComponent implements OnInit {
   constructor(private route: ActivatedRoute, private router: Router,private login: LoginService) {
     this.questao = new QuestaoFechada(null, null, null, null, [], []);
     this.respostaQuestaoFechada = new RespostaQuestaoFechada(null,this.login.getUsuarioLogado(),null);
-
-    
-   
-
-
-
   }
 
   ngOnInit() {
