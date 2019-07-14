@@ -55,6 +55,11 @@ export class VisualizarQuestaoComponent implements OnInit {
   abrirEditor(questao){
     this.router.navigate(["main", { outlets: { principal: ['editor', this.assunto.pk(), questao.id] }}]);
   }
+
+
+  responder(questao){
+    this.router.navigate(["main", { outlets: { principal: ['monitoramento', this.assunto.pk(), questao.id] }}]);
+  }
   alterarQuestao(questao: Questao) {
     if (questao != undefined) {
       this.router.navigate(["main", { outlets: { principal: ['atualizacao-questao', questao.id] } }]);
