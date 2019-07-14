@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import Estudante from 'src/app/model/estudante';
 import { MenuItem, MessageService } from 'primeng/api';
 import { Router } from '@angular/router';
+import Usuario from 'src/app/model/usuario';
 
 @Component({
   selector: 'app-listar-estudantes',
@@ -23,7 +24,7 @@ export class ListarEstudantesComponent implements OnInit {
 
   ngOnInit() {
 
-    Estudante.getAll().subscribe(estudante => { this.estudantes = estudante, console.log(this.estudantes) });
+   Usuario.getAll().subscribe(estudante => { this.estudantes = estudante, console.log(this.estudantes) });
 
 
 
