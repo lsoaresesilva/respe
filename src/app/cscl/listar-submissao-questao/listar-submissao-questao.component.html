@@ -1,14 +1,8 @@
-
-<h3>Estudante:{{estudante}}</h3>
+<h3>Estudante: {{usuario.nome}}</h3>
 <h3>Data: {{dataFormatada}}</h3>
-
-
 
 <textarea [rows]="40" [cols]="80" pInputTextarea autoResize="autoResize" [(ngModel)]="submissao.codigo" 
 disabled></textarea>
-
-
-
 
 <p-table [value]="submissao.resultadosTestsCases">
     <ng-template pTemplate="header">
@@ -22,10 +16,3 @@ disabled></textarea>
         </tr>
     </ng-template>
 </p-table>
-          
-        
-    
-
-
-     
-
