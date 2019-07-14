@@ -43,6 +43,10 @@ export class ListarQuestoesComponent implements OnInit  {
     this.router.navigate(["main", { outlets: { principal: ['monitoramento',this.assunto.pk(), questao.id] }}]);
   }
 
+  visualizar(questao){
+    this.router.navigate(["main", { outlets: { principal: ['visualizacao-questao',this.assunto.pk(), questao.id] }}]);
+  }
+
   alterar(questao: Questao) {
     if(questao != undefined){
       this.router.navigate(["main", { outlets: { principal: ['cadastro-questao', this.assunto.pk(),questao.id] } } ] );

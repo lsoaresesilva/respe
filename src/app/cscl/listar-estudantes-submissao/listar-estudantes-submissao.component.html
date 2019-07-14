@@ -1,0 +1,24 @@
+
+
+
+ <p>Visualizar a resposta de qual estudante?</p> 
+
+
+<p-table [value]="submissoesDaQuestao" [(contextMenuSelection)]="selectedEstudante" [contextMenu]="cm">
+    <ng-template pTemplate="header">
+        <tr>
+            <th>Nome</th>
+
+        </tr>
+    </ng-template>
+    <ng-template pTemplate="body" let-rowData let-submissao>
+        <tr [pContextMenuRow]="rowData">
+            <td (click)="visualizarSubmissao(submissao)">{{submissao.estudante}}</td>
+            <button pButton icon="fa-search" (click)="visualizarSubmissao(submissao)">{{submissao.estudante}}</button>
+        </tr>
+    </ng-template>
+</p-table>
+
+
+
+

@@ -3,7 +3,9 @@ import QuestaoFechada from 'src/app/model/questaoFechada';
 import { Router, ActivatedRoute } from '@angular/router';
 import { Assunto } from 'src/app/model/assunto';
 import { LoginService } from '../login.service';
-import { RespostaQuestaoFechada } from '../../model/respostaQuestaoFechada';
+import RespostaQuestaoFechada from 'src/app/model/respostaQuestaoFechada';
+
+
 
 
 
@@ -60,6 +62,7 @@ export class VisualizarQuestaoFechadaComponent implements OnInit {
   }
 
 
+
   responder(){
       this.respostaQuestaoFechada.save().subscribe(resultado => {
         alert("parabéns você respondeu uma questão!");
@@ -69,6 +72,7 @@ export class VisualizarQuestaoFechadaComponent implements OnInit {
        alert(err)
       });
   }
+
 
    
   

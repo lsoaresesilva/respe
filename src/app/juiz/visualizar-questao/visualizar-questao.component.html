@@ -1,8 +1,8 @@
 <p-toast></p-toast>
 
-<h3>Informações sobre a questão:{{questao.nomeCurto}}</h3>
+<h3>Questão:{{questao.nomeCurto}}</h3>
 
-<p-button label="Editar" (click)="alterarQuestao(questao)"></p-button>
+
 <table>
   <tr>
     <td><b>Título</b></td>
@@ -21,10 +21,6 @@
     <td> {{assunto.nome}}</td>
   </tr>
   <tr>
-    <td><b>Assunto principal</b></td>
-    <td>{{questao?.assuntoPrincipal.nome}}</td>
-  </tr>
-  <tr>
     <td><b>Sequência de exibição</b></td>
     <td>{{questao?.sequencia}}</td>
   </tr>
@@ -37,4 +33,12 @@
 
   </tr>
 </table>
-<p-contextMenu #cm [model]="items"></p-contextMenu>
+
+ <app-listar-estudantes-submissao [questaoId]="questao?.id" ></app-listar-estudantes-submissao> 
+ 
+ 
+
+ <!-- <p-button label="Responder" (click)="abrirEditor(questao)"></p-button> -->
+ <p-button label="Responder" (click)="responder(questao)"></p-button>
+
+ 

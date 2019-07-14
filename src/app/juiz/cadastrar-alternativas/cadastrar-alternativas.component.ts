@@ -16,11 +16,11 @@ export class CadastrarAlternativasComponent implements OnInit {
   
 
   constructor(private messageService: MessageService) { 
-    
+    this.alternativa.isVerdadeira=false;
   }
 
   ngOnInit() {
-    this.alternativa.isVerdadeira=false;
+   
   }
 
  
