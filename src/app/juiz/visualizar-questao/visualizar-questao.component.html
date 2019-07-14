@@ -24,6 +24,10 @@
     <td><b>Sequência de exibição</b></td>
     <td>{{questao?.sequencia}}</td>
   </tr>
+  <tr>
+    <td><b>Id</b></td>
+    <td>{{questao?.id}}</td>
+  </tr>
   <tr *ngFor='let teste of questao?.testsCases'>
     <td><b>TestCase</b></td>
     <td><b>Entrada: </b>{{teste.entradas}} <br>
