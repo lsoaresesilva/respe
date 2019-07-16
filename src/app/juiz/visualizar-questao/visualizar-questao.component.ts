@@ -18,6 +18,7 @@ export class VisualizarQuestaoComponent implements OnInit {
   private questao?;
   private id: number;
   private sub: any;
+  private assunto;
   private questoes = [];
 
 
@@ -28,14 +29,20 @@ export class VisualizarQuestaoComponent implements OnInit {
 
   ngOnInit() {
 
-    this.sub = this.route.params.subscribe(params => {
-      if (params['assuntoId'] != null && params['questaoId']) {
-        this.id = params['id'];
-        Assunto.get(params['assuntoId']).subscribe(assunto => {
-          this.questao = assunto["getQuestao"](params['questaoId']);
-          this.questoes.push(this.questao);
-
-        });
+    this.route.params.subscribe(params => {
+      if (params["assuntoId"] != undefined && params["questaoId"] != undefined) {
+        Assunto.get(params["assuntoId"]).subscribe(assunto => {
+          this.assunto = assunto;
+          if (assunto["questoesProgramacao"] != undefined && assunto["questoesProgramacao"].length > 0) {
+            assunto["questoesProgramacao"].forEach(questao => {
+              if (questao.id == params["questaoId"]) {
+                this.questao = questao;
+                console.log(this.questao);
+              }
+            });
+          }
+          });
+        
       } else {
         throw new Error("Não é possível visualizar uma questão, pois não foram passados os identificadores de assunto e questão.")
       }
@@ -43,8 +50,15 @@ export class VisualizarQuestaoComponent implements OnInit {
     });
   }
 
-  ngOnDestroy() {
-    this.sub.unsubscribe();
+  
+
+  abrirEditor(questao){
+    this.router.navigate(["main", { outlets: { principal: ['editor', this.assunto.pk(), questao.id] }}]);
+  }
+
+
+  responder(questao){
+    this.router.navigate(["main", { outlets: { principal: ['monitoramento', this.assunto.pk(), questao.id] }}]);
   }
   alterarQuestao(questao: Questao) {
     if (questao != undefined) {

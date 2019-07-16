@@ -91,7 +91,6 @@ export class CadastrarTurmaComponent implements OnInit {
 
 
   cadastrarTurma() {
-    console.log(this.turma);
     if (this.turma) {
       this.turma.save().subscribe(resultado => {
 

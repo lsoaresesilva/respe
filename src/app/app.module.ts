@@ -26,7 +26,8 @@ import { DocumentModule } from './model/firestore/document.module';
 @NgModule({
   declarations: [
     AppComponent,
-    MainComponent
+    MainComponent,
+    
 
   ],
   imports: [
@@ -42,8 +43,9 @@ import { DocumentModule } from './model/firestore/document.module';
     AngularFireModule.initializeApp(FirebaseConfiguracao),
     AngularFirestoreModule,
     InputTextModule,
-    MenubarModule,//  
-    JuizModule
+    MenubarModule,  
+    JuizModule,
+   
   ],
   providers: [AuthGuard],
   bootstrap: [AppComponent]

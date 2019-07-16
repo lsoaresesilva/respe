@@ -32,6 +32,8 @@ import { ListarSubmissaoQuestaoComponent } from './cscl/listar-submissao-questao
 import { ListarEstudantesSubmissaoComponent } from './cscl/listar-estudantes-submissao/listar-estudantes-submissao.component';
 import { RespostaSimilarQuestaoProgramacaoComponent } from './srl/resposta-similar-questao-programacao/resposta-similar-questao-programacao.component';
 import { ExibirSolucaoComponent } from './srl/exibir-solucao/exibir-solucao.component';
+import { VisualizarTurmaComponent } from './juiz/visualizar-turma/visualizar-turma.component';
+
 
 
 const routes: Routes = [
@@ -74,8 +76,10 @@ const routes: Routes = [
     {path:"monitoramento/:assuntoId/:questaoId", component:SelfInstructionComponent, canActivate: [AuthGuard], canLoad: [AuthGuard], outlet:"principal"},
     {path:"estudantes-questao/:assuntoId/:questaoId", component:ListarEstudantesSubmissaoComponent, canActivate: [AuthGuard], canLoad: [AuthGuard], outlet:"principal"},
     {path:"codigo-similar", component:RespostaSimilarQuestaoProgramacaoComponent, canActivate: [AuthGuard], canLoad: [AuthGuard], outlet:"principal"},
-    {path:"exibir-codigo", component: ExibirSolucaoComponent, canActivate: [AuthGuard], canLoad: [AuthGuard], outlet:"principal"},
-     
+    {path:"exibir-codigo/:questaoId", component: ExibirSolucaoComponent, canActivate: [AuthGuard], canLoad: [AuthGuard], outlet:"principal"},
+    {path:"visualizacao-turma/:turmaId", component:VisualizarTurmaComponent, canActivate: [AuthGuard], canLoad: [AuthGuard], outlet:"principal"},
+
+
   ]},
 
   {path:"", component:LoginComponent},
@@ -86,6 +90,7 @@ const routes: Routes = [
   {path:"cadastrar/alternativa", component:CadastrarAlternativasComponent},
   
   {path:"**", component:PaginaNaoEncontradaComponent},
+  
   
 
 

@@ -22,12 +22,12 @@ import {ProgressBarModule} from 'primeng/progressbar';
 import { ListarPlanejamentosComponent } from './listar-planejamentos/listar-planejamentos.component';
 import { VisualizarPlanejamentoComponent } from './vizualizar-planejamento/visualizar-planejamento.component';
 import { RouterModule } from '@angular/router';
-import { CheckboxModule, InputTextModule, AccordionModule } from 'primeng/primeng';
+import { CheckboxModule, InputTextModule, AccordionModule, RadioButtonModule } from 'primeng/primeng';
 import {FieldsetModule} from 'primeng/fieldset';
 import { RespostaSimilarQuestaoProgramacaoComponent } from './resposta-similar-questao-programacao/resposta-similar-questao-programacao.component';
 import {TreeTableModule} from 'primeng/treetable';
 import { ExibirSolucaoComponent } from './exibir-solucao/exibir-solucao.component';
-import {RadioButtonModule} from 'primeng/radiobutton';
+import {} from 'primeng/radiobutton';
 
 
 @NgModule({
@@ -67,6 +67,9 @@ import {RadioButtonModule} from 'primeng/radiobutton';
     
     
     
+    
+    
+
     
   ],
   providers:[],

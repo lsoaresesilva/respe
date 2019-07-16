@@ -3,7 +3,11 @@ import QuestaoFechada from 'src/app/model/questaoFechada';
 import { Router, ActivatedRoute } from '@angular/router';
 import { Assunto } from 'src/app/model/assunto';
 import { LoginService } from '../login.service';
-import { RespostaQuestaoFechada } from '../../model/respostaQuestaoFechada';
+import { RespostaQuestaoFechada } from 'src/app/model/respostaQuestaoFechada';
+
+
+
+
 
 
 @Component({
@@ -25,12 +29,6 @@ export class VisualizarQuestaoFechadaComponent implements OnInit {
   constructor(private route: ActivatedRoute, private router: Router,private login: LoginService) {
     this.questao = new QuestaoFechada(null, null, null, null, [], []);
     this.respostaQuestaoFechada = new RespostaQuestaoFechada(null,this.login.getUsuarioLogado(),null);
-
-    
-   
-
-
-
   }
 
   ngOnInit() {

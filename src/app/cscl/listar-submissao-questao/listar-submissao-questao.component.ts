@@ -14,8 +14,7 @@ import Usuario from 'src/app/model/usuario';
 export class ListarSubmissaoQuestaoComponent implements OnInit {
  private submissaoId;
  private submissao;
- private estudante;
-
+ private usuario;
  private  dataFormatada;
  
   
@@ -24,38 +23,42 @@ export class ListarSubmissaoQuestaoComponent implements OnInit {
 
   constructor(private messageService: MessageService,private router:Router, public login:LoginService,private route: ActivatedRoute) {
     this.submissao= new Submissao (null,null,null,[]);
+    this.usuario = new Usuario (null,null,null,null);
    }
 
   ngOnInit() {
 
-
     this.route.params.subscribe(params => {
       this.submissaoId=params['submissaoId'];
-      Submissao.get(this.submissaoId).subscribe( resultado => {this.submissao =resultado
-        console.log(this.submissao);
-        this.dataFormatada = new Date (this.submissao.data.seconds * 1000).toLocaleString();
-        console.log(this.dataFormatada);
-        console.log(this.submissao.data.toLocaleString);
-        this.buscarEstudante();
+
+      Submissao.get(this.submissaoId).subscribe( resultado => {
+
+        this.submissao =resultado;
+        this.formatarData(this.submissao.data);
+        this.buscarEstudante(this.submissao.estudanteId);
+        
       });
-      
     });
 
-
     
-     console.log(this.submissao);
-     console.log(this.submissao.data);
+    
     
   }
 
 
-  buscarEstudante(){
-      Usuario.get(this.submissao.estudanteId).subscribe(resultado=>{this.estudante=resultado
-       this.estudante = this.estudante.nome;
-      });
-
+  buscarEstudante(estudanteId){
+      Usuario.get(estudanteId).subscribe(resultado=>{this.usuario=resultado});
   }
+
+
+  
    
+  formatarData(data){
+    this.dataFormatada = new Date (data.seconds * 1000).toLocaleString();
+  }
+
+  
+  
    
     
 

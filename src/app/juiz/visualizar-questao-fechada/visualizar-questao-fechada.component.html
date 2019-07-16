@@ -1,12 +1,13 @@
 <p-toast></p-toast>
 
-<h4>Título</h4>
-<p>{{questao?.nomeCurto}}</p>
+<h1>Questão:{{questao?.nomeCurto}}</h1>
 
-<h4>Enunciado</h4>
-<p>{{questao?.enunciado}}</p>
- 
- <h3>Alternativas:</h3>
+
+ <p-fieldset legend="Questão: {{questao?.sequencia}}">
+  {{questao?.enunciado}}
+</p-fieldset>
+ <br>
+ <br>
 
  <p-radioButton *ngFor="let alternativa of questao.alternativas" class= "alternativa" name="{{alternativa.nome}}" value= "{{alternativa.id}}"
 
@@ -16,7 +17,10 @@
 
  <br>
  <br>
- <p-button label="Responder" (click) = "responder()" ></p-button>
+    <p-button label="Responder" (click) = "responder()" ></p-button>
+    
+  
+ 
 
 
  

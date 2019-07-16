@@ -1,4 +1,3 @@
-<h2>Questões Fechadas</h2>
 
 <p-toast [style]="{marginTop: '80px'}"></p-toast>
 
@@ -7,7 +6,7 @@
 <p-table [value]="assunto?.questoesFechadas" [(contextMenuSelection)]="selectedQuestao" [contextMenu]="cm">
     <ng-template pTemplate="header">
         <tr>
-            <th>Nome</th>
+            <th>Fechadas</th>
 
         </tr>
     </ng-template>
@@ -18,5 +17,6 @@
     </ng-template>
 </p-table>
 
-<p-contextMenu #cm [model]="items"></p-contextMenu>
-<!-- *ngIf="usuario.perfil == 3" -->
+
+<p-contextMenu #cm [model]="items" ></p-contextMenu>
+

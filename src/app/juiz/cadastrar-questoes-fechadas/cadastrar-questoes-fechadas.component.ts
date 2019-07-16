@@ -100,7 +100,7 @@ export class CadastrarQuestoesFechadasComponent implements OnInit {
   }
 
   adicionarAlternativa() {
-    this.questao.alternativas.push(new Alternativa(null, null, null))
+    this.questao.alternativas.push(new Alternativa(null, null, false))
   }
 
   messageCadastro() {

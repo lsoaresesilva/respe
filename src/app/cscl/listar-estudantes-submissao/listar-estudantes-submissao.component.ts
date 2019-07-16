@@ -1,11 +1,8 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, Input } from '@angular/core';
 import Submissao from 'src/app/model/submissao';
-import { MessageService } from 'primeng/api';
 import { Router, ActivatedRoute } from '@angular/router';
-import { LoginService } from 'src/app/juiz/login.service';
 import Query from 'src/app/model/firestore/query';
 import Usuario from 'src/app/model/usuario';
-import Estudante from 'src/app/model/estudante';
 
 
 @Component({
@@ -20,21 +17,22 @@ export class ListarEstudantesSubmissaoComponent implements OnInit {
   private submissoes;
   private estudante;
   private assuntoId
-  private json;
-  
+  @Input ("questaoId") questaoId;
 
-
-  constructor(private messageService: MessageService,private router:Router, public login:LoginService,private route: ActivatedRoute) { }
+  constructor(private router:Router,private route: ActivatedRoute) { }
 
   ngOnInit() {
-    this.route.params.subscribe(params => {
-      this.questao= params['questaoId'];
     
-      
+    this.route.params.subscribe(params => {
+      if(params['questaoId']==undefined || params['questaoId']== null){
+        this.questao=this.questaoId;
+      }
+      this.questao= params['questaoId'];
+      console.log(this.questao);
      
       Submissao.getAll(new Query("questaoId","==",this.questao)).subscribe(resultado =>{
         this.submissoes =resultado;
-        
+         console.log(resultado);
 
         this.filtrarSubmissoesConcluidas(resultado);
       });

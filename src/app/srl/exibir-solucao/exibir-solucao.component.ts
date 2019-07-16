@@ -12,12 +12,14 @@ import { ActivatedRoute } from '@angular/router';
   styleUrls: ['./exibir-solucao.component.css']
 })
 export class ExibirSolucaoComponent implements OnInit {
-  modelo;
+ 
   visualizacao;
   questaoId;
+  modelo;
 
 
-  questao;
+  // questao;
+  
 
 
 
@@ -34,7 +36,7 @@ export class ExibirSolucaoComponent implements OnInit {
 
   ngOnInit() {
     
-    // this.route.params.subscribe(params => { this.questaoId = params["questaoId"] });
+     this.route.params.subscribe(params => { this.questaoId = params["questaoId"] });
 
     ModeloRespostaQuestao.get(new Query ("questaoId", "==", "146918ad-8bd7-41c8-8901-b3c28e7d8a89")).subscribe(modelo =>{this.modelo = modelo});
 
