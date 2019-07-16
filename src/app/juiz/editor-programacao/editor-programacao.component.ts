@@ -282,4 +282,9 @@ export class EditorProgramacaoComponent implements OnInit {
   listarSubmissao(){
     this.router.navigate(["main", { outlets: { principal: ['estudantes-questao',this.assunto.id, this.questao.id] } } ] );
   }
+
+
+  visualizarCodigoSimilar(questao){
+    this.router.navigate(["main", { outlets: { principal: ['exibir-codigo',questao.id] } } ] );
+  }
 }

@@ -9,6 +9,7 @@ import { RespostaQuestaoFechada } from 'src/app/model/respostaQuestaoFechada';
 
 
 
+
 @Component({
   selector: 'app-visualizar-questao-fechada',
   templateUrl: './visualizar-questao-fechada.component.html',

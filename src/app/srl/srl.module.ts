@@ -15,13 +15,20 @@ import { ButtonModule } from 'primeng/button';
 import {ToastModule} from 'primeng/toast';
 import {TabViewModule} from 'primeng/tabview';
 
+
 import { PaginaNaoEncontradaComponent } from './pagina-nao-encontrada/pagina-nao-encontrada.component';
 import { RiscoEstudanteComponent } from '../analytics-module/risco-estudante/risco-estudante.component';
 import {ProgressBarModule} from 'primeng/progressbar';
 import { ListarPlanejamentosComponent } from './listar-planejamentos/listar-planejamentos.component';
 import { VisualizarPlanejamentoComponent } from './vizualizar-planejamento/visualizar-planejamento.component';
 import { RouterModule } from '@angular/router';
-import { CheckboxModule, InputTextModule, AccordionModule, FieldsetModule } from 'primeng/primeng';
+import { CheckboxModule, InputTextModule, AccordionModule, RadioButtonModule } from 'primeng/primeng';
+import {FieldsetModule} from 'primeng/fieldset';
+import { RespostaSimilarQuestaoProgramacaoComponent } from './resposta-similar-questao-programacao/resposta-similar-questao-programacao.component';
+import {TreeTableModule} from 'primeng/treetable';
+import { ExibirSolucaoComponent } from './exibir-solucao/exibir-solucao.component';
+import {} from 'primeng/radiobutton';
+
 
 @NgModule({
   declarations: [
@@ -31,7 +38,9 @@ import { CheckboxModule, InputTextModule, AccordionModule, FieldsetModule } from
     PaginaNaoEncontradaComponent,
     RiscoEstudanteComponent,
     ListarPlanejamentosComponent,
-    VisualizarPlanejamentoComponent
+    VisualizarPlanejamentoComponent,
+    RespostaSimilarQuestaoProgramacaoComponent,
+    ExibirSolucaoComponent
   ],
   imports: [
     CommonModule,
@@ -52,7 +61,16 @@ import { CheckboxModule, InputTextModule, AccordionModule, FieldsetModule } from
     RouterModule,
     AccordionModule,
     InputTextModule,
-    FieldsetModule
+    FieldsetModule,
+    TreeTableModule,
+    RadioButtonModule
+    
+    
+    
+    
+    
+
+    
   ],
   providers:[],
   exports:[RiscoEstudanteComponent]
