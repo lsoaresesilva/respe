@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { ModeloRespostaQuestao } from 'src/app/model/ModeloRespostaQuestao';
+import { ModeloRespostaQuestao } from 'src/app/model/modeloRespostaQuestao';
 import { Assunto } from 'src/app/model/assunto';
 import { Router } from '@angular/router';
 import { Questao } from 'src/app/model/questao';

@@ -1,6 +1,6 @@
 import { Collection, Document, date } from './firestore/document';
 import Usuario from './usuario';
-import { ModeloRespostaQuestao } from './ModeloRespostaQuestao';
+import { ModeloRespostaQuestao } from './modeloRespostaQuestao';
 
 
 @Collection("visualizacaoRespostasQuestoes")
