@@ -29,7 +29,7 @@ export class CadastrarQuestoesFechadasComponent implements OnInit {
 
   ngOnInit() {
     
-    this.questao = new QuestaoFechada(null, "", "", 0, null, []);
+    this.questao = new QuestaoFechada(null, "", "", 0, null, [],"",null);
 
 
     this.activatedRoute.params
@@ -87,7 +87,9 @@ export class CadastrarQuestoesFechadasComponent implements OnInit {
 
       }, err => {
         this.messageErro();
-        console.log(err);
+        alert(err);
+        console.log(this.questao);
+        console.log(this.questao.respostaQuestao);
         
 
 

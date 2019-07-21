@@ -16,6 +16,7 @@ export class ListarTurmaComponent implements OnInit {
   items: MenuItem[];
   estudante: Turma;
   id: Turma;
+  usuario;
 
 
   constructor(public router: Router, private messageService: MessageService) { }
@@ -23,11 +24,14 @@ export class ListarTurmaComponent implements OnInit {
   ngOnInit() {
     Turma.getAll().subscribe(turma => { this.turmas = turma });
 
+    if(this.usuario.perfil == 3){
     this.items = [
       { label: 'Vizualizar', icon: 'pi pi-search', command: (event) => this.visualizar(this.selectedTurma) },
       { label: 'Apagar', icon: 'pi pi-times', command: (event) => this.deletar(this.selectedTurma) },
       { label: 'Alterar', icon: '°', command: (event) => this.atualizar(this.selectedTurma) }
     ];
+  }
+  
   }
   abrirPerfilTurma(turma){
     this.router.navigate(['main', { outlets: { principal: ['visualizacao-turma', turma.pk()] } }]);

@@ -50,6 +50,10 @@ import { EscolherQuestaoComponent } from './escolher-questao/escolher-questao.co
 import { ListarEstudantesSubmissaoComponent } from '../cscl/listar-estudantes-submissao/listar-estudantes-submissao.component';
 import { VisualizarTurmaComponent } from './visualizar-turma/visualizar-turma.component';
 import {FieldsetModule} from 'primeng/fieldset';
+import {InputMaskModule} from 'primeng/inputmask';
+import {ConfirmDialogModule} from 'primeng/confirmdialog';
+import {ConfirmationService} from 'primeng/api';
+
 
 
 
@@ -79,7 +83,8 @@ import {FieldsetModule} from 'primeng/fieldset';
     ListarPedidosAjudaComponent,
     VisualizarPedidoAjudaComponent,
     EscolherQuestaoComponent,
-    VisualizarTurmaComponent
+    VisualizarTurmaComponent,
+    
 
   ],
 
@@ -105,7 +110,10 @@ import {FieldsetModule} from 'primeng/fieldset';
     CardModule,
     RadioButtonModule,
     DialogModule,
-    FieldsetModule
+    FieldsetModule,
+    InputMaskModule,
+    ConfirmDialogModule
+    
    
 
     
@@ -132,7 +140,7 @@ import {FieldsetModule} from 'primeng/fieldset';
 
   ],
 
-  providers: [MessageService, LoginService, EditorService],
+  providers: [MessageService, LoginService, EditorService,ConfirmationService],
   schemas: [
     CUSTOM_ELEMENTS_SCHEMA
 ],

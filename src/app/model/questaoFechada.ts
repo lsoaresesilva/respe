@@ -1,10 +1,13 @@
 import { Dificuldade } from './dificuldade';
 import Alternativa from './alternativa';
 import { Util } from './util';
+import { RespostaQuestaoFechada } from './respostaQuestaoFechada';
+import Query from './firestore/query';
+import Usuario from './usuario';
 
 export default class QuestaoFechada{
 
-  constructor(public id, public nomeCurto, public enunciado, public dificuldade:Dificuldade, public sequencia, public alternativas: Alternativa[]) {
+  constructor(public id, public nomeCurto, public enunciado, public dificuldade:Dificuldade, public sequencia, public alternativas: Alternativa[],public respostaQuestao:String,public respostaUsuario) {
     if(this.id == null){
       this.id = Util.uuidv4();
   }else{
@@ -15,6 +18,8 @@ export default class QuestaoFechada{
     this.dificuldade = dificuldade;
     this.sequencia = sequencia;
     this.alternativas = alternativas;
+    this.respostaQuestao = respostaQuestao;
+    this.respostaUsuario = respostaUsuario;
   }
 
   
@@ -25,6 +30,8 @@ export default class QuestaoFechada{
         document["enunciado"] = this.enunciado;
         document["dificuldade"] = this.dificuldade;
         document["sequencia"] = this.sequencia;
+        document["respostaQuestao"] = this.respostaQuestao;
+
 
         if (this.alternativas != null && this.alternativas.length > 0) {
           let alternativas = [];
@@ -48,7 +55,7 @@ export default class QuestaoFechada{
 
       if(questoesFechadas != null){
         questoesFechadas.forEach(questaoFechada=>{
-          objetos.push(new QuestaoFechada(questaoFechada.id, questaoFechada.nomeCurto, questaoFechada.enunciado, questaoFechada.dificuldade, questaoFechada.sequencia, Alternativa.construir(questaoFechada.alternativas)));
+          objetos.push(new QuestaoFechada(questaoFechada.id, questaoFechada.nomeCurto, questaoFechada.enunciado, questaoFechada.dificuldade, questaoFechada.sequencia, Alternativa.construir(questaoFechada.alternativas),questaoFechada.respostaQuestao,questaoFechada.respostaUsuario));
           })
       }
 
@@ -65,4 +72,7 @@ export default class QuestaoFechada{
     return true;
   
   }
+
+
+ 
 }

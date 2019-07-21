@@ -29,10 +29,13 @@ export class ListarQuestoesComponent implements OnInit  {
 
     this.usuario = this.login.getUsuarioLogado();
 
-    this.items = [
-      { label: 'Alterar', icon: 'pi pi-check', command: (event) => this.alterar(this.selectedQuestao) },
-      { label: 'Deletar', icon: 'pi pi-times', command: (event) => this.deletar(this.selectedQuestao) }
-      ];
+   
+    if(this.usuario.perfil == 3){
+      this.items = [
+        { label: 'Alterar', icon: 'pi pi-check', command: (event) => this.alterar(this.selectedQuestao) },
+        { label: 'Deletar', icon: 'pi pi-times', command: (event) => this.deletar(this.selectedQuestao) }
+        ];
+    }
   }
 
   abrirEditor(questao){

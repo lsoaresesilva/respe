@@ -31,7 +31,10 @@
     <app-cadastrar-alternativas *ngFor="let alternativa of questao.alternativas" [alternativa]="alternativa">
     </app-cadastrar-alternativas>
 
-    <br />
+    <h3>Justifique o motivo da alternativa está certa</h3>
+    <textarea [rows]="5" [cols]="60" pInputTextarea autoResize="autoResize" [(ngModel)]="questao.respostaQuestao"></textarea>
+
+    <br/>
 
   </div>
   <div class="p-col-12"><button pButton type="button" label="Cadastrar" (click)="cadastrar()"></button>
