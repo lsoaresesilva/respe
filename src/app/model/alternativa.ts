@@ -67,5 +67,15 @@ export default class Alternativa{
         }
       return quantDeAlternativaCerta;
     }
-  
+    
+    static EncontrarAlternativaCerta(alternativas:Alternativa[]){
+        for(let i =0; i<alternativas.length;i++){
+            if(alternativas[i].isVerdadeira== true){
+               return alternativas[i].id
+            }
+        }
+
+        
+
+    }
 }

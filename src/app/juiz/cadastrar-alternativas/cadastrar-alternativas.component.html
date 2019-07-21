@@ -1,11 +1,9 @@
 <p-toast></p-toast>
-<h1 class="first">alternativa</h1> <br /> <br />
+<h1 class="first">Nova Alternativa</h1> <br /> <br />
 
 <h3 class="first">texto</h3>
 <input id="texto" type="text" [(ngModel)]="alternativa.texto" /> <br>
 
-<h3 class="first">Esta alternativa é a certa?</h3>
+<h3 class="first">Esta alternativa é a certa? <p-checkbox [(ngModel)]="alternativa.isVerdadeira" binary="true"></p-checkbox></h3>
 
-<p-checkbox [(ngModel)]="alternativa.isVerdadeira" binary="false"></p-checkbox> {{alternativa.isVerdadeira}}
-
-<br> <br> <br>
+<br>

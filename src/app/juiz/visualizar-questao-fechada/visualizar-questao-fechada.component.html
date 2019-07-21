@@ -13,11 +13,23 @@
 
  [(ngModel)]="respostaQuestaoFechada.resposta" label="{{alternativa.texto}}" inputId= "{{alternativa.id}}"></p-radioButton>
 
-
-
+<br>
+ <div class="p-grid">
+  <div class="p-col-12">
+    <div *ngIf="mostrar">
+        <p-card>
+          <p>{{questao?.respostaQuestao}}</p>
+        </p-card>
+    </div>
+    
+  </div>
+  <div class="p-col-12">
  <br>
  <br>
-    <p-button label="Responder" (click) = "responder()" ></p-button>
+    
+
+<p-confirmDialog header="Confirmação" icon="pi pi-exclamation-triangle"></p-confirmDialog>
+<button type="text" (click)="confirmar()" pButton icon="pi pi-check" label="Responder"></button>
     
   
  

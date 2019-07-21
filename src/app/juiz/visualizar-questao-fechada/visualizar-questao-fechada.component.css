@@ -3,3 +3,7 @@
 Display: flex;
 
 }
+
+:host >>> .ui-card {
+    background-color: rgb(207, 252, 193);
+  }

@@ -4,6 +4,8 @@ import { Router, ActivatedRoute } from '@angular/router';
 import { Assunto } from 'src/app/model/assunto';
 import { LoginService } from '../login.service';
 import { RespostaQuestaoFechada } from 'src/app/model/respostaQuestaoFechada';
+import { MessageService, ConfirmationService } from 'primeng/api';
+import Alternativa from 'src/app/model/alternativa';
 
 
 
@@ -20,19 +22,26 @@ export class VisualizarQuestaoFechadaComponent implements OnInit {
 
 
   private assunto;
-  private questao?;
+  private questao;
   private respostaQuestaoFechada;
+  private mostrar;
+  private respostaUsuarioBanco;
+  private usuario;
+  private id;
   
 
 
 
-  constructor(private route: ActivatedRoute, private router: Router,private login: LoginService) {
-    this.questao = new QuestaoFechada(null, null, null, null, [], []);
-    this.respostaQuestaoFechada = new RespostaQuestaoFechada(null,this.login.getUsuarioLogado(),null);
+  constructor(private route: ActivatedRoute, private router: Router,private login: LoginService, private messageService: MessageService,private confirmationService: ConfirmationService) {
+     this.questao = new QuestaoFechada(this.id, null, null, null, [], [],null,"");
+     this.usuario =login.getUsuarioLogado();
+    this.respostaQuestaoFechada = new RespostaQuestaoFechada(null,this.login.getUsuarioLogado(),null,this.questao);
   }
 
   ngOnInit() {
+
     this.route.params.subscribe(params => {
+      this.id=params["questaoId"]
       if (params["assuntoId"] != undefined && params["questaoId"] != undefined) {
         Assunto.get(params["assuntoId"]).subscribe(assunto => {
           this.assunto = assunto;
@@ -40,6 +49,7 @@ export class VisualizarQuestaoFechadaComponent implements OnInit {
             assunto["questoesFechadas"].forEach(questao => {
               if (questao.id == params["questaoId"]) {
                 this.questao = questao;
+                
               }
             });
           }
@@ -51,6 +61,21 @@ export class VisualizarQuestaoFechadaComponent implements OnInit {
 
     });
 
+
+
+    this.respostaQuestaoFechada.jaRespondeu(this.id,this.usuario.id).subscribe(respostaUsuario => {
+      console.log("aqui é alternativa"+ respostaUsuario);
+      this.respostaUsuarioBanco=respostaUsuario
+      
+      if(respostaUsuario!= null){
+        
+        this.respostaQuestaoFechada.resposta = respostaUsuario;
+        this.mostrar=true;
+
+
+      }
+     
+    });
  
 
   }
@@ -62,20 +87,62 @@ export class VisualizarQuestaoFechadaComponent implements OnInit {
     }
   }
 
-
-
-  responder(){
-      this.respostaQuestaoFechada.save().subscribe(resultado => {
-        alert("parabéns você respondeu uma questão!");
-
+  confirmar() {
+    
+    if(this.respostaQuestaoFechada.resposta == null){
+      this.messageService.add({severity:'info', summary:'ops...', detail:"É preciso marca alguma alternativa!"});
+    }
   
-      }, err => {
-       alert(err)
+    else if(this.respostaUsuarioBanco != undefined){
+      this.messageService.add({severity:'warn', summary:'ops...', detail:"Só é possível responder uma vez!"});
+    }
+
+    else{
+      this.confirmationService.confirm({
+        message: 'Você não poderá responder essa questão novamente,tem certeza da resposta?',
+        accept: () => {
+           this.responder();
+        }
       });
+    }
+
+}
+ 
+  responder(){
+ 
+      this.respostaUsuarioBanco = this.respostaQuestaoFechada.resposta;
+      this.respostaQuestaoFechada.questao=this.questao;
+
+      this.respostaQuestaoFechada.save().subscribe(resultado => {
+        this.mostrar=true;
+        let resposta = Alternativa.EncontrarAlternativaCerta(this.questao.alternativas);
+
+        if(this.respostaQuestaoFechada.resposta == resposta){
+          this.messageService.add({severity:'success', summary:'Parabéns!', detail:" Você acertou essa questão!"});
+        }
+        else{
+          this.messageService.add({severity:'error', summary:'ops...', detail:"você errou essa questao!"});
+        }
+           
+          
+      });
+      
+    
   }
 
+
+
+
+
+
+
+    
 
    
   
 
+  
+
 }
+
+

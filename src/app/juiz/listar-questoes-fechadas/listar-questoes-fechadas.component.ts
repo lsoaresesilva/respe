@@ -5,6 +5,10 @@ import { Router } from '@angular/router';
 import Usuario from 'src/app/model/usuario';
 import { LoginService } from '../login.service';
 import { Assunto } from 'src/app/model/assunto';
+import { RespostaQuestaoFechada } from 'src/app/model/respostaQuestaoFechada';
+import Query from 'src/app/model/firestore/query';
+import { Observable } from 'rxjs';
+import Alternativa from 'src/app/model/alternativa';
 
 @Component({
   selector: 'app-listar-questoes-fechadas',
@@ -18,14 +22,25 @@ export class ListarQuestoesFechadasComponent implements OnInit {
   selectedQuestao: QuestaoFechada;
   items: MenuItem[];
   usuario;
-  assuntos;
+  questoes;
+  respostas;
+  
+
+  
 
   constructor(private messageService: MessageService, private router:Router, private login:LoginService) { 
     this.usuario = this.login.getUsuarioLogado();
   }
 
   ngOnInit() {
-    
+    RespostaQuestaoFechada.getAll(new Query("usuarioId","==",this.usuario.pk())).subscribe(respostas => {
+      this.respostas=respostas;
+      this.adicionandoRespostaUsuario(this.assunto.questoesFechadas,this.respostas);
+
+    });
+
+
+
     if(this.usuario.perfil == 3){
       this.items = [
         { label: 'Alterar', icon: 'pi pi-check', command: (event) => this.alterar(this.selectedQuestao) },
@@ -51,7 +66,35 @@ export class ListarQuestoesFechadasComponent implements OnInit {
     }
     
   }
+
+
+  adicionandoRespostaUsuario(questoes,respostasUsuario){
+
+
+    questoes.map(questao =>{
+
+      //Iniciando as respostas como não respondida
+      questao.respostaUsuario = "responder";
+
+      respostasUsuario.map(respostaUsuario=>{
+
+        if( questao.id == respostaUsuario.questaoId ){
+          let respostaCerta = Alternativa.EncontrarAlternativaCerta(questao.alternativas);
+
+          //definindo a questao do usuario se a sua resposta foi certa ou errada
+          questao.respostaUsuario = respostaUsuario.resposta === respostaCerta ? "Certo" : "Errado";
+        }
+          
+      });
+
+    });
+    
+    this.questoes= questoes;
+       
+  }
  
+  
+  
 
   deletar(questao:QuestaoFechada){
     let index = -1;

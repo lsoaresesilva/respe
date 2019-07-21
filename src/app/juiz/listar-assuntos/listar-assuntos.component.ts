@@ -15,19 +15,24 @@ export class ListarAssuntosComponent implements OnInit {
   assuntos;
   selectedAssunto: Assunto;
   items: MenuItem[];
+  usuario;
   
-  constructor(private messageService: MessageService,private router:Router, public login:LoginService,private route: ActivatedRoute) { }
+  constructor(private messageService: MessageService,private router:Router, public login:LoginService,private route: ActivatedRoute) { 
+    this.usuario = this.login.getUsuarioLogado();
+  }
 
   ngOnInit() {
    
     Assunto.getAll().subscribe(assuntos=>{this.assuntos = assuntos});
     
-
+    if(this.usuario.perfil == 3){
     this.items = [
     { label: 'Alterar', icon: 'pi pi-check', command: (event) => this.alterar(this.selectedAssunto) },
     { label: 'Deletar', icon: 'pi pi-times', command: (event) => this.deletar(this.selectedAssunto) },
   
     ];
+    }
+    
 
   }
   
