@@ -1,6 +1,6 @@
 <p-toast></p-toast>
 
-<h1>Questão:{{questao?.nomeCurto}}</h1>
+<h1>{{questao?.nomeCurto}}</h1>
 
 
  <p-fieldset legend="Questão: {{questao?.sequencia}}">
@@ -11,7 +11,7 @@
 
  <p-radioButton *ngFor="let alternativa of questao.alternativas" class= "alternativa" name="{{alternativa.nome}}" value= "{{alternativa.id}}"
 
- [(ngModel)]="respostaQuestaoFechada.resposta" label="{{alternativa.texto}}" inputId= "{{alternativa.id}}"></p-radioButton>
+ [(ngModel)]="respostaQuestaoFechada.resposta" label="{{alternativa.texto}}"  inputId= "{{alternativa.id}}"></p-radioButton>
 
 <br>
  <div class="p-grid">
@@ -29,7 +29,7 @@
     
 
 <p-confirmDialog header="Confirmação" icon="pi pi-exclamation-triangle"></p-confirmDialog>
-<button type="text" (click)="confirmar()" pButton icon="pi pi-check" label="Responder"></button>
+<button type="text" (click)="confirmar()" pButton icon="pi pi-check" class="ui-button-success"label="Responder"></button>
     
   
  

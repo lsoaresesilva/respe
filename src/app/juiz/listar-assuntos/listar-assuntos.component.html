@@ -1,8 +1,8 @@
 <p-toast></p-toast>
-<h2>Assuntos</h2>
+<h1>Assuntos</h1>
 
 <div *ngIf="login.getUsuarioLogado().perfil == 3">
-    <p-button label="Cadastrar" (click)="cadastrar()" ></p-button>
+    <button pButton type="button" (click)="cadastrar()" class="ui-button-success" label="Cadastrar"></button>
     <p-contextMenu #cm [model]="items"></p-contextMenu>
 </div>
 
@@ -10,9 +10,7 @@
 
 <p-table [value]="assuntos" [(contextMenuSelection)]="selectedAssunto" [contextMenu]="cm">
     <ng-template pTemplate="header">
-        <tr>
-            <th>Nome</th>
-        </tr>
+       
     </ng-template>
     <ng-template pTemplate="body" let-rowData let-assunto>
         <tr [pContextMenuRow]="rowData">

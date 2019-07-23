@@ -1,6 +1,6 @@
 <p-toast></p-toast>
 
-<h1>Questão:{{questao?.nomeCurto}}</h1>
+<h1>{{questao?.nomeCurto}}</h1>
 
 
  <p-fieldset legend="Questão: {{questao?.sequencia}}">
@@ -37,7 +37,7 @@
   <div class="ui-g-2"></div>
   <div class="ui-g-2"></div>
   <div class="ui-g-3">
-    <p-button label="Responder" (click)="responder(questao)"></p-button>
+    <button type="text" (click)="responder(questao)" pButton icon="pi pi-check" class="ui-button-success"label="Responder"></button>
   </div>
   <div class="ui-g-1"></div>
 </div>

@@ -2,7 +2,7 @@
 
 <p-toast [style]="{marginTop: '80px'}" position="top-right"></p-toast>
 <p-card title="Lista das Questoes com Programação">
-    <p-card>
+    
 
 
     <p-table [value]="assunto?.questoesProgramacao" [(contextMenuSelection)]="selectedQuestao" [contextMenu]="cm">
@@ -19,7 +19,7 @@
     </p-table>
 
     <p-contextMenu #cm [model]="items"  ></p-contextMenu>
-    </p-card>
+    
 </p-card>
 
 

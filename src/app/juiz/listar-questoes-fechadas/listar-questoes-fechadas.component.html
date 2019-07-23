@@ -3,12 +3,11 @@
 
 
 <p-card title="Lista das Questoes com alternativas">
-    <p-card>
         <p-table [value]="questoes"  [(contextMenuSelection)]="selectedQuestao" [contextMenu]="cm">
             <ng-template pTemplate="header">
                 <tr>
                     <th>Questões Fechadas</th>
-                    <th>Você respondeu</th>
+                    <th>Resposta</th>
                 </tr>
             </ng-template>
             <ng-template pTemplate="body" let-rowData let-questao let-resposta>
@@ -18,7 +17,6 @@
                </tr>
             </ng-template>
         </p-table>
-    </p-card>
 </p-card>
 
 
