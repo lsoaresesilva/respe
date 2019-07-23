@@ -1,6 +1,7 @@
+
+<h1> {{assunto.nome}}</h1>
 <div>
-    <p-button label="Cadastrar questão" (click)="cadastrar()" *ngIf="login.getUsuarioLogado().perfil == 3"></p-button>
+    <button pButton type="button" (click)="cadastrar()" class="ui-button-success" label= "Nova Questão" *ngIf="login.getUsuarioLogado().perfil == 3"></button> 
 </div>
-<h3>Questões relacionados ao assunto: {{assunto.nome}}</h3>
 <app-listar-questoes [assunto]="assunto"></app-listar-questoes>
 <app-listar-questoes-fechadas [assunto]="assunto"></app-listar-questoes-fechadas>

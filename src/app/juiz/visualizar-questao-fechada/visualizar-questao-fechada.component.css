@@ -7,3 +7,5 @@ Display: flex;
 :host >>> .ui-card {
     background-color: rgb(207, 252, 193);
   }
+
+  h1{text-align: center}

@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import Turma from 'src/app/model/turma';
 import { MenuItem, MessageService } from 'primeng/api';
 import { Router } from '@angular/router';
+import { LoginService } from '../login.service';
 
 @Component({
   selector: 'app-listar-turma',
@@ -19,7 +20,8 @@ export class ListarTurmaComponent implements OnInit {
   usuario;
 
 
-  constructor(public router: Router, private messageService: MessageService) { }
+  constructor(public router: Router, private messageService: MessageService, private login:LoginService) { 
+    this.usuario = this.login.getUsuarioLogado()};
 
   ngOnInit() {
     Turma.getAll().subscribe(turma => { this.turmas = turma });
