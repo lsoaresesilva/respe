@@ -16,17 +16,11 @@ export class ExibirSolucaoComponent implements OnInit {
   visualizacao;
   questaoId;
   modelo;
-
-
-  // questao;
   
-
 
 
   constructor( private login:LoginService,private route: ActivatedRoute) {  
 
-    // this.questao = new Questao ("123",null,null,null,null,null,null) ;
-    // this.modelo = new ModeloRespostaQuestao("testee","TESTEE",this.questao);
 
 
 
@@ -36,9 +30,10 @@ export class ExibirSolucaoComponent implements OnInit {
 
   ngOnInit() {
     
-     this.route.params.subscribe(params => { this.questaoId = params["questaoId"] });
+    this.route.params.subscribe(params => { this.questaoId = params["questaoId"] });
 
-    ModeloRespostaQuestao.get(new Query ("questaoId", "==", "146918ad-8bd7-41c8-8901-b3c28e7d8a89")).subscribe(modelo =>{this.modelo = modelo});
+    //função get de modelo questão não está funcionando
+    ModeloRespostaQuestao.get(new Query ("questaoId", "==",this.questaoId)).subscribe(modelo =>{this.modelo = modelo});
 
     this.visualizacao.save().subscribe(resultado => {});
       

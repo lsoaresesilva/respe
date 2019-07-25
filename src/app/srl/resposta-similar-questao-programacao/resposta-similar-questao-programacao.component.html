@@ -1,11 +1,7 @@
-<p>
- Digita uma resposta Simila para essa questao
-</p>
-<textarea [rows]="40" [cols]="80" pInputTextarea autoResize="autoResize" [(ngModel)]="modeloRespostaQuestao.codigo" ></textarea>
 
+<h2>Resposta similar da questão</h2>
 
-
-<h3 class="first">Selecione uma questão:</h3>
+<h3 class="first">Selecione a questão</h3>
 <p-table [value]="assuntos" dataKey="questoesProgramacao">
     <ng-template pTemplate="header">
         <tr>
@@ -33,5 +29,10 @@
     </ng-template>
 </p-table>
 
-<button pButton type="button" (click)="salvar()" label="Salvar"></button>
+<h3>Digite o código:</h3>
+<textarea [rows]="40" [cols]="80" pInputTextarea autoResize="autoResize" [(ngModel)]="modeloRespostaQuestao.codigo" ></textarea>
+
+<br>
+<button type="text" (click)="salvar()" pButton icon="pi pi-check" class="ui-button-success"label="Salvar"></button>
+
 
