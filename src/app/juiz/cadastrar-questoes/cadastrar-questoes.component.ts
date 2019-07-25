@@ -21,6 +21,7 @@ export class CadastrarQuestoesComponent implements OnInit {
   dificuldades: SelectItem[];
   assuntos;
   isAlterar:Boolean=false;
+  x: string[] = ['5pC18pGdOEao1nzvvd55','e4J7VID1wSHMPmV7pTai'];
   
  
 
@@ -47,7 +48,16 @@ export class CadastrarQuestoesComponent implements OnInit {
               assunto["questoesProgramacao"].forEach(questao => {
                 if (questao.id == params["questaoId"]) {
                   this.questao = questao;
-                  console.log(this.questao);
+                  
+                  if (this.questao.assuntos != null && this.questao.assuntos.length > 0) {
+                    let assuntos = [];
+                    this.questao.assuntos.forEach(assunto => {
+                      assuntos.push(assunto.id); 
+                    })
+              
+                    this.questao.assuntos=assuntos;
+                  }
+                 
                 }
               });
             }
