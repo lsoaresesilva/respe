@@ -53,6 +53,7 @@ import {FieldsetModule} from 'primeng/fieldset';
 import {InputMaskModule} from 'primeng/inputmask';
 import {ConfirmDialogModule} from 'primeng/confirmdialog';
 import {ConfirmationService} from 'primeng/api';
+import { VisualizarPerfilEstudanteComponent } from './visualizar-perfil-estudante/visualizar-perfil-estudante.component';
 
 
 
@@ -84,6 +85,7 @@ import {ConfirmationService} from 'primeng/api';
     VisualizarPedidoAjudaComponent,
     EscolherQuestaoComponent,
     VisualizarTurmaComponent,
+    VisualizarPerfilEstudanteComponent,
     
 
   ],

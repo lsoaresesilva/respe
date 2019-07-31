@@ -52,7 +52,7 @@ export class Assunto extends Document {
                 return questao;
         })
 
-        return new Questao(null, "", "", 0, 0, [], []);
+        return new Questao(null, "", "", 0, 0, [], [],null);
     }
 
     static get(id) {

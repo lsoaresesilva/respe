@@ -13,7 +13,7 @@
    </ng-template>
    <ng-template pTemplate="body" let-rowData let-estudante>
        <tr [pContextMenuRow]="rowData">
-           <td>{{estudante.nome}}</td>
+        <td><a (click)="abrirPerfilEstudante(estudante)">{{estudante.nome}}</a></td>
            
           
        </tr>

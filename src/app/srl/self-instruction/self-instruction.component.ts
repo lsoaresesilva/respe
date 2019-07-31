@@ -22,7 +22,7 @@ export class SelfInstructionComponent implements OnInit {
   
   
    constructor(private route: ActivatedRoute, private router: Router ,private login : LoginService) {
-    this.questao = new Questao(null, null, null, null, null, [], []);
+    this.questao = new Questao(null, null, null, null, null, [], [],null);
     this.autoInstrucao = new AutoInstrucao (null,this.login.getUsuarioLogado(),this.questao,null,null,null,null,null,null);
    }
 
