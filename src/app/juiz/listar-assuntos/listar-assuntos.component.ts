@@ -63,5 +63,9 @@ export class ListarAssuntosComponent implements OnInit {
   messageDeletar() {
     this.messageService.add({severity:'error', summary:'Deletado!', detail:"Esse assunto foi apagado!"});
   }
+
+  registrar(){
+    this.router.navigate(["main", { outlets: { principal: ["codigo-similar"] } } ] );
+  }
  
 }

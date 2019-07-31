@@ -27,6 +27,7 @@ export class ModeloRespostaQuestao extends Document{
     verificaModeloExiste():Boolean {
         let quantdeModelos:Number;
         console.log(this.questao);
+        //get all  de modeloResposta está sem funcionar está sem funcionar
         ModeloRespostaQuestao.getAll(new Query ("questaoId", "==", this.questao)).subscribe(modeloResultado=>{ 
            quantdeModelos= modeloResultado.length
 
