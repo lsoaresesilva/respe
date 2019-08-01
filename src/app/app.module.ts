@@ -45,6 +45,7 @@ import { DocumentModule } from './model/firestore/document.module';
     InputTextModule,
     MenubarModule,  
     JuizModule,
+    
    
   ],
   providers: [AuthGuard],

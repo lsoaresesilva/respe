@@ -34,6 +34,7 @@ import { RespostaSimilarQuestaoProgramacaoComponent } from './srl/resposta-simil
 import { ExibirSolucaoComponent } from './srl/exibir-solucao/exibir-solucao.component';
 import { VisualizarTurmaComponent } from './juiz/visualizar-turma/visualizar-turma.component';
 import { VisualizarPerfilEstudanteComponent } from './juiz/visualizar-perfil-estudante/visualizar-perfil-estudante.component';
+import { MenuEstudanteComponent } from './geral-module/menu-estudante/menu-estudante.component';
 
 
 
@@ -80,6 +81,7 @@ const routes: Routes = [
     {path:"exibir-codigo/:questaoId", component: ExibirSolucaoComponent, canActivate: [AuthGuard], canLoad: [AuthGuard], outlet:"principal"},
     {path:"visualizacao-turma/:turmaId", component:VisualizarTurmaComponent, canActivate: [AuthGuard], canLoad: [AuthGuard], outlet:"principal"},
     {path:"visualizacao-estudante/:id", component:VisualizarPerfilEstudanteComponent, canActivate: [AuthGuard], canLoad: [AuthGuard], outlet:"principal"},
+    {path:"menu", component:MenuEstudanteComponent, outlet:"principal"},
 
 
 
@@ -93,6 +95,7 @@ const routes: Routes = [
   {path:"cadastrar/alternativa", component:CadastrarAlternativasComponent},
   
   {path:"**", component:PaginaNaoEncontradaComponent},
+  {path:"menu", component:MenuEstudanteComponent},
   
   
 

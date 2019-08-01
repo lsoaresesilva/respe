@@ -12,13 +12,19 @@ import { LoginService } from 'src/app/juiz/login.service';
 export class MainComponent implements OnInit {
 
   itens: MenuItem[];
+  menu: MenuItem[];
+  private usuario;
 
 
-  constructor(private router: Router, private login:LoginService) { }
+  constructor(private router: Router, private login:LoginService) { 
+    this.usuario = this.login.getUsuarioLogado();
+  }
 
   ngOnInit() {
-
-    this.itens = [
+    if (this.usuario.perfil == 3){
+      this.router.navigate(["main", { outlets: { principal: ['menu'] } }]) 
+     }else{
+       this.itens = [
       {
         label: 'Planejamento',
         command: () => { this.router.navigate(["main", { outlets: { principal: ['listagem-planejamento'] } }]) }
@@ -44,8 +50,8 @@ export class MainComponent implements OnInit {
         command: () => {this.logout()}
       }
     ];
-
   }
+}
 
   private logout() {
     if(this.login.logout()){
