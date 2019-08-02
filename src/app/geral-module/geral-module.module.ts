@@ -3,13 +3,17 @@ import { CommonModule } from '@angular/common';
 import { MenuEstudanteComponent } from './menu-estudante/menu-estudante.component';
 import {MenubarModule} from 'primeng/menubar';
 
+
 @NgModule({
   declarations: [MenuEstudanteComponent],
   imports: [
     CommonModule,
     MenubarModule,
+  
+     
     
   ],
-  providers:[]
+  providers:[],
+  exports :[MenuEstudanteComponent]
 })
 export class GeralModuleModule { }

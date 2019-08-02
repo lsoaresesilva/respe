@@ -3,7 +3,6 @@ import { MenuItem } from 'primeng/components/common/menuitem';
 import { Router } from '@angular/router';
 import Usuario from 'src/app/model/usuario';
 import { LoginService } from 'src/app/juiz/login.service';
-
 @Component({
   selector: 'app-main',
   templateUrl: './main.component.html',
@@ -12,7 +11,6 @@ import { LoginService } from 'src/app/juiz/login.service';
 export class MainComponent implements OnInit {
 
   itens: MenuItem[];
-  menu: MenuItem[];
   private usuario;
 
 
@@ -21,9 +19,8 @@ export class MainComponent implements OnInit {
   }
 
   ngOnInit() {
-    if (this.usuario.perfil == 3){
-      this.router.navigate(["main", { outlets: { principal: ['menu'] } }]) 
-     }else{
+    
+     
        this.itens = [
       {
         label: 'Planejamento',
@@ -51,7 +48,7 @@ export class MainComponent implements OnInit {
       }
     ];
   }
-}
+
 
   private logout() {
     if(this.login.logout()){

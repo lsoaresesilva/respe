@@ -1,3 +1,9 @@
-<router-outlet name="principal"></router-outlet>
-<p-menubar [model]="itens"></p-menubar> 
+<div *ngIf="this.usuario.perfil == 3">
+  <app-menu-estudante></app-menu-estudante>
 
+</div>
+<div *ngIf = "this.usuario.perfil == 1">
+        <router-outlet name="principal"></router-outlet>
+        <p-menubar [model]="itens"></p-menubar> 
+
+</div>
