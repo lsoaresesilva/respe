@@ -20,6 +20,7 @@ import { AuthGuard } from './guards/auth.guard';
 import { CsclModule } from './cscl/cscl.module';
 import { BrowserModule } from '@angular/platform-browser';
 import { DocumentModule } from './model/firestore/document.module';
+import { PostagensTurmaGuard } from './guards/postagensTurma.guard';
 
 
 
@@ -47,7 +48,7 @@ import { DocumentModule } from './model/firestore/document.module';
     JuizModule,
    
   ],
-  providers: [AuthGuard],
+  providers: [AuthGuard,PostagensTurmaGuard],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

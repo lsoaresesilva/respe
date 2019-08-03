@@ -1,0 +1,38 @@
+ 
+
+ <button pButton type="button" (click)="cadastrar()" class="ui-button-success" label= "Novo Post" ></button> 
+    <h1>Postagens</h1>
+
+ <div class="ui-g-1"></div>
+    <div class="ui-g-8 data-view">
+        <p-dataView #dv [value]="postagens" [rows]="20" paginatorPosition="both" filterBy="brand" [sortField]="sortField"
+            [sortOrder]="sortOrder">
+            <p-header>
+                Comentários da turma
+            </p-header>
+            <ng-template let-postagem pTemplate="listItem">
+                <div class="ui-g" style="padding: 20px;border-bottom: 1px solid #d9d9d9">
+                        
+                    <div class="ui-g-6">
+                      
+                        <div class="ui-g">
+                            <div class="ui-g-6">Autor: <b>kkkk</b></div>
+                            <div class="ui-g-10 ui-sm-6"></div>
+
+                            <div class="ui-sm-6"> {{postagem.texto}}</div>
+                            <div class="ui-g-10 ui-sm-6"></div>
+
+                           
+                        </div>
+                       
+                    </div>
+                
+                    <div class="ui-g-6">
+                        <button pButton icon="fas fa-plus" iconPos="right" type="button" (click)="abrirPostagem(postagem)"
+                            class="button" label="Veja"></button>
+                    </div>
+                </div>
+            </ng-template>
+        </p-dataView>        
+    </div>
+    <div class="ui-g-2"></div>

@@ -1,0 +1,4 @@
+h1{text-align: center}
+:host >>> .ui-card {
+    background-color: rgb(229, 242, 250);
+  }
