@@ -90,12 +90,7 @@ export class CadastrarTurmaComponent implements OnInit {
   erro() {
     this.messageService.add({ severity: 'erro', summary: 'Service Message', detail: 'Salvo com sucesso' });
   }
-  menssagemDelete(){
-
-  }
-  verificaEmail(){
-
-  }
+ 
   menssagemErro(){
     this.messageService.add({ severity: 'erro', summary: 'Service Message', detail: 'e-mail já adicionado' });
   }
