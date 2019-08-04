@@ -1,4 +1,7 @@
 import { Component, OnInit } from '@angular/core';
+import { MenuItem } from 'primeng/api';
+import { Router } from '@angular/router';
+import { LoginService } from 'src/app/juiz/login.service';
 
 @Component({
   selector: 'app-menu-estudante',
@@ -7,9 +10,41 @@ import { Component, OnInit } from '@angular/core';
 })
 export class MenuEstudanteComponent implements OnInit {
 
-  constructor() { }
+  items: MenuItem[];
+  constructor(private router: Router, private login:LoginService) {
+    
+   }
 
   ngOnInit() {
+    this.items = [
+      {
+        label: 'Estudantes',
+        command: () => { this.router.navigate(["main", { outlets: { principal: ['listagem-estudantes'] } }]) }
+
+      },
+      {
+        label: 'Assuntos',
+        command: () => { this.router.navigate(["main", { outlets: { principal: ['listagem-assuntos'] } }]) }
+
+      },
+      {
+        label: 'Questões',
+        command: () => { this.router.navigate(["main", { outlets: { principal: ['listagem-questoes'] } }]) }
+
+      },
+      {
+        label: 'Logout',
+        command: () => {this.logout()}
+
+      }
+    ];
+  }
+  private logout() {
+    if(this.login.logout()){
+      return this.router.navigate([""])
+    }
   }
 
-}
+ 
+  }
+  
