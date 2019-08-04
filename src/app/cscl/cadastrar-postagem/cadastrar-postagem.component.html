@@ -1,0 +1,30 @@
+<p-toast></p-toast>
+<div class="p-grid">
+  <div class="p-col-12">
+    <div *ngIf="isAlterar">
+      <h1 class="first">Publicar Postagem</h1>
+    </div>
+    <ng-template #other_content>
+      <h1 class="first">Editar Postagem</h1>
+    </ng-template>
+  </div>
+  <div class="p-col-12">
+    <!-- título , texto, estudanteId, turmaId e data de criação. -->
+
+
+    <h3 class="first">Título</h3>
+    <input id="nomeCurto" type="text" [(ngModel)]="postagem.titulo" pInputText />
+
+
+    <h3 class="first">Texto</h3>
+    <textarea [rows]="6" [cols]="60" pInputTextarea autoResize="autoResize" [(ngModel)]="postagem.texto"></textarea>
+
+    
+   <!-- buscar data -->
+   <h3></h3>
+
+    
+  </div>
+  <div class="p-col-12"><button pButton type="button" label="Cadastrar" (click)="cadastrar()"></button>
+  </div>
+</div>

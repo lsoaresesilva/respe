@@ -6,14 +6,15 @@
         <div class="ui-g-2"></div>
         <div class="ui-g-2"></div>
         <div class="ui-g-3">
-            <p-button label="Registar exemplo de questão" (click)="registrar()"></p-button>
+            <button pButton type="button" (click)="cadastrar()" label="Cadastrar"></button>
+            <!-- <p-button label="Registar exemplo de questão" (click)="registrar()"></p-button> -->
+
         </div>
         <div class="ui-g-1"></div>
     </div>
 
 <div *ngIf="login.getUsuarioLogado().perfil == 3">
-    <button pButton type="button" (click)="cadastrar()" class="ui-button-success" label="Cadastrar"></button>
-    <p-contextMenu #cm [model]="items"></p-contextMenu>
+   <p-contextMenu #cm [model]="items"></p-contextMenu>
 </div>
 
 <p-toast [style]="{marginTop: '80px'}"></p-toast>

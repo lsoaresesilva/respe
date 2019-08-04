@@ -19,9 +19,15 @@ import { SanitizeHtmlDirective } from '../pipes/sanitize.directive';
 import { ListarSubmissaoQuestaoComponent } from './listar-submissao-questao/listar-submissao-questao.component';
 import { TableModule } from 'primeng/table';
 import { ListarEstudantesSubmissaoComponent } from './listar-estudantes-submissao/listar-estudantes-submissao.component';
+import { ListarPostagensComponent } from './listar-postagens/listar-postagens.component';
+import { CadastrarPostagemComponent } from './cadastrar-postagem/cadastrar-postagem.component';
+import { VisualizarPostagemComponent } from './visualizar-postagem/visualizar-postagem.component';
+import { ToastModule } from 'primeng/toast';
+import { DataViewModule } from 'primeng/dataview';
+import { CardModule } from 'primeng/card';
 
 @NgModule({
-  declarations: [ComentariosCodigoComponent, BoxComentarioComponent, BoxNovoComentarioComponent, VisualizarConteudoComponent, EscapeHtmlPipe, SanitizeHtmlDirective, ConteudoProgramacaoComponent, ListarSubmissaoQuestaoComponent,ListarEstudantesSubmissaoComponent],
+  declarations: [ComentariosCodigoComponent, BoxComentarioComponent, BoxNovoComentarioComponent, VisualizarConteudoComponent, EscapeHtmlPipe, SanitizeHtmlDirective, ConteudoProgramacaoComponent, ListarSubmissaoQuestaoComponent,ListarEstudantesSubmissaoComponent, ListarPostagensComponent, CadastrarPostagemComponent, VisualizarPostagemComponent],
  
   imports: [
     CommonModule,
@@ -32,7 +38,11 @@ import { ListarEstudantesSubmissaoComponent } from './listar-estudantes-submissa
     FormsModule,
     OverlayPanelModule,
     AccordionModule,
-    TableModule
+    TableModule,
+    ToastModule,
+    DataViewModule,
+    CardModule
+    
   ],
 
   exports:[ComentariosCodigoComponent, VisualizarConteudoComponent,ListarSubmissaoQuestaoComponent,ListarEstudantesSubmissaoComponent]

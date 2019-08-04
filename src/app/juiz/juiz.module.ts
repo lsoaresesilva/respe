@@ -140,6 +140,7 @@ import {ScrollPanelModule} from 'primeng/scrollpanel';
     CadastrarQuestoesFechadasComponent,
     ListarQuestoesFechadasComponent,
     VisualizarQuestaoFechadaComponent,
+    VisualizarPerfilEstudanteComponent
     //CadastrarAlternativasComponent
 
   ],
