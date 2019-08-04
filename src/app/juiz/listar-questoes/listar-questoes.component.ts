@@ -17,7 +17,7 @@ export class ListarQuestoesComponent implements OnInit  {
   
   @Input("assunto") assunto?;
 
-  selectedQuestao: Questao;
+  selectedQuestao: Questao;z
   items: MenuItem[];
   usuario;
 

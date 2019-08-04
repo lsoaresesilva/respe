@@ -45,33 +45,33 @@ export default class Turma extends Document {
     }
 
 
-    static get(id) {
-        return new Observable(observer => {
+    // static get(id) {
+    //     return new Observable(observer => {
 
-            super.get(id).subscribe(turma => {
-                if(turma["professorId"] == undefined || turma["professorId"] == "")
-                    observer.error(new Error("Não é possível carregar Turma, pois não há um professor vinculado à ela."))
+    //         super.get(id).subscribe(turma => {
+    //             if(turma["professorId"] == undefined || turma["professorId"] == "")
+    //                 observer.error(new Error("Não é possível carregar Turma, pois não há um professor vinculado à ela."))
 
-                Usuario.get(turma["professorId"]).subscribe(professor=>{
-                    turma["professor"] = professor;
+    //             Usuario.get(turma["professorId"]).subscribe(professor=>{
+    //                 turma["professor"] = professor;
                     
-                    EstudanteTurma.getAll(new Query("turmaId", "==", turma["pk"]())).subscribe(estudantes => {
-                        turma["estudantes"] = estudantes;
-                        observer.next(turma);
-                        observer.complete();
-                    }, err => {
-                        observer.error(err);
-                    });
-                }, err=>{
-                    observer.error(err);
-                })
+    //                 EstudanteTurma.getAll(new Query("turmaId", "==", turma["pk"]())).subscribe(estudantes => {
+    //                     turma["estudantes"] = estudantes;
+    //                     observer.next(turma);
+    //                     observer.complete();
+    //                 }, err => {
+    //                     observer.error(err);
+    //                 });
+    //             }, err=>{
+    //                 observer.error(err);
+    //             })
                 
-            }, err => {
-                observer.error(err);
-            })
-        });
+    //         }, err => {
+    //             observer.error(err);
+    //         })
+    //     });
 
-    }
+    // }
 
     validar() {
         if (this.estudantes != undefined && this.estudantes.length > 0 && this.professor != undefined && this.nome != undefined && this.nome != "")

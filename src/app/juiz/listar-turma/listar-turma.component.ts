@@ -35,8 +35,8 @@ export class ListarTurmaComponent implements OnInit {
   }
   
   }
-  abrirPerfilTurma(turma){
-    this.router.navigate(['main', { outlets: { principal: ['visualizacao-turma', turma.pk()] } }]);
+  abrirPostagensTurma(turma){
+    this.router.navigate(['main', { outlets: { principal: ['listar-postagens', turma.pk()] } }]);
   }
   visualizar(turma: Turma) {
 

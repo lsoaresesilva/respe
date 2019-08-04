@@ -12,12 +12,13 @@ import Turma from '../model/turma';
     providedIn: 'root'
   })
 
-export class AuthGuard implements CanActivate, CanLoad {
+export class PostagensTurmaGuard implements CanActivate {
     
     path: ActivatedRouteSnapshot[];
     route: ActivatedRouteSnapshot;
 
   constructor(
+      
     private router: Router,
     private login:LoginService
   ) { }
@@ -30,56 +31,31 @@ export class AuthGuard implements CanActivate, CanLoad {
 
     console.log("acesso");
     console.log(this.router.url);
-    return this.verificarAcesso();
+    return this.verificarUsuarioPertenceTurma();
   }
 
-  acessoPostagens(
-    route: ActivatedRouteSnapshot,
-    state: RouterStateSnapshot
-  ) : Observable<boolean> | boolean{
-
-    console.log("acesso");
-    console.log(this.router.url);
-    return this.VerificarUsuarioPertenceTurma()
-  }
-
-  canLoad(route: Route): boolean | Observable<boolean> | Promise<boolean> {
-    console.log('verificando se o usario pode acessar o modulo!');
-    return this.verificarAcesso();
-  }
-
-  verificarAcesso() {
-    if (this.login.isUsuarioLogado()) {
-      return true;
-    }
-      this.router.navigate([""]);
-      return false;
-  }
-
-  VerificarUsuarioPertenceTurma(){
+   verificarUsuarioPertenceTurma(){
     let usuario = this.login.getUsuarioLogado();
-    let turmaId ;
+    let turmaId = "ZlSbQCJmqt1q0uEGhH5A";
     let turma:Turma;
 
-    this.route.params.subscribe(params=> { turmaId = params["turmaId"];
-      Turma.get(turmaId).subscribe(turmaBanco =>{
+    
+        Turma.get(turmaId).subscribe(turmaBanco =>{
           turmaBanco=turma;
      
-          turma.estudantes.forEach(estudante =>{
+            turma.estudantes.forEach(estudante =>{
 
               if(estudante == usuario.pk()){
                 return true;
               } 
               this.router.navigate([""]);
               return false;
-          });
-      });
+           
+        });
 
     });
 
    this.router.navigate([""]);
    return false;
-  }
-
-  
+  }  
 }

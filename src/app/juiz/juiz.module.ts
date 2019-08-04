@@ -138,6 +138,7 @@ import { VisualizarPerfilEstudanteComponent } from './visualizar-perfil-estudant
     CadastrarQuestoesFechadasComponent,
     ListarQuestoesFechadasComponent,
     VisualizarQuestaoFechadaComponent,
+    VisualizarPerfilEstudanteComponent
     //CadastrarAlternativasComponent
 
   ],
