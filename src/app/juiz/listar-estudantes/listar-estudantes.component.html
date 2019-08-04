@@ -1,19 +1,27 @@
+<h1>Estudantes</h1>
+
+
+<div class="ui-g">
+    <div class="ui-g-4"></div>
+    <div class="ui-g-2"></div>
+    <div class="ui-g-2"></div>
+    <div class="ui-g-3">
+        <button pButton label="Cadastrar" (click)="cadastrar()"></button>
+    </div>
+    <div class="ui-g-1"></div>
+</div>
 
 
 <p-toast [style]="{marginTop: '80px'}"></p-toast> 
 
-<button pButton label="Cadastrar" (click)="cadastrar()"></button>
 
 <p-table [value]="estudantes"  [(contextMenuSelection)]="selectedEstudante" [contextMenu]="cm">
    <ng-template pTemplate="header">
-       <tr>
-           <th>Nome</th>
-           
-       </tr>
+      
    </ng-template>
    <ng-template pTemplate="body" let-rowData let-estudante>
        <tr [pContextMenuRow]="rowData">
-           <td>{{estudante.nome}}</td>
+        <td><a (click)="abrirPerfilEstudante(estudante)">{{estudante.nome}}</a></td>
            
           
        </tr>

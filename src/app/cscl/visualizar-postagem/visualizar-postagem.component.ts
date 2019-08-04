@@ -35,19 +35,19 @@ export class VisualizarPostagemComponent implements OnInit {
         this.resposta = new RespostaPostagem(null, null,this.postagem.id,null,this.login.getUsuarioLogado().pk());
         Usuario.get(this.postagem.estudanteId).subscribe(estudante =>{this.estudante= estudante});
         RespostaPostagem.getAll(new Query("postagemId","==",this.postagem.id)).subscribe(respostas =>{
+          this.respostas = respostas
 
-          respostas.forEach(resposta=>{
+          this.respostas.forEach(resposta => {
+            resposta.estudante = new Usuario(null,null,null,null);
 
             Usuario.get(resposta.estudanteId).subscribe(estudante =>{
-              resposta.estudanteId=null;
-              resposta.estudanteId=estudante;
-              
-             });
+              resposta.estudante = estudante;
+            });
+          
+          });
 
-          })
-          
-          
-          this.respostas = respostas});
+        });
+        
       });
      
 

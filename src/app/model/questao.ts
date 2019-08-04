@@ -20,9 +20,9 @@ export class Questao {
   assuntos: Assunto[];
   sequencia: number;
   testsCases: TestCase[];
+  respostaUsuario: String;
 
-
-  constructor(public id, nomeCurto, enunciado, dificuldade, sequencia, assuntos, testsCases) {
+  constructor(public id, nomeCurto, enunciado, dificuldade, sequencia, assuntos, testsCases, respostaUsuario) {
     if (id == null)
       this.id = Util.uuidv4();
     else {
@@ -34,6 +34,7 @@ export class Questao {
     this.sequencia = sequencia;
     this.assuntos = assuntos;
     this.testsCases = testsCases;
+    this.respostaUsuario = respostaUsuario;
   }
 
   objectToDocument() {
@@ -55,6 +56,7 @@ export class Questao {
     }
 
     document["sequencia"] = this.sequencia;
+    document ["respostaUsuario"] = this.respostaUsuario;
 
     if (this.testsCases != null && this.testsCases.length > 0) {
       let ts = [];
@@ -62,6 +64,7 @@ export class Questao {
         ts.push(testCase.objectToDocument());
       })
       document["testsCases"] = ts;
+     
     }
 
     return document;
@@ -120,7 +123,7 @@ export class Questao {
 
       questao.testsCases = TestCase.construir(questao.testsCases);
 
-      objetosQuestoes.push(new Questao(questao.id, questao.nomeCurto, questao.enunciado, questao.dificuldade, questao.sequencia, questao.assuntos, questao.testsCases));
+      objetosQuestoes.push(new Questao(questao.id, questao.nomeCurto, questao.enunciado, questao.dificuldade, questao.sequencia, questao.assuntos, questao.testsCases ,questao.respostaUsuario));
     })
   }
 

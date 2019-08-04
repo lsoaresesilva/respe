@@ -29,16 +29,15 @@ export class ListarEstudantesComponent implements OnInit {
 
 
     this.items = [
-      { label: 'Vizualizar', icon: 'pi pi-search', command: (event) => this.vizualizar(this.selectedEstudante) },
+      
       { label: 'Apagar', icon: 'pi pi-times', command: (event) => this.deleteEstudante(this.selectedEstudante) },
       { label: 'Alterar', icon: '°', command: (event) => this.atualizar(this.selectedEstudante) }
     ];
   }
-
-  vizualizar(estudante: Estudante) {
+  abrirPerfilEstudante(estudante : Estudante) {
+    this.router.navigate(['main', { outlets: { principal: ['visualizacao-estudante', estudante.pk()] } }]);
     
   }
-
   atualizar(estudante: Estudante) {
     this.router.navigate(["main", { outlets: { principal: ['atualizacao-estudante', estudante.pk()] } }]);
   }

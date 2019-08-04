@@ -1,15 +1,12 @@
 
  
 
-<h1>Publicação</h1>
+<h1>{{postagem.titulo}}</h1>
 
 
 
 <p-card>
-  <p-card>
-  <h3 class="first">Título:{{postagem.titulo}}</h3>
   {{postagem.texto}}
-  </p-card>
 </p-card>
 
 
@@ -19,34 +16,55 @@
 </span>
 
 
+
+
+
+<div class="ui-g">
+        <div class="ui-g-4"></div>
+        <div class="ui-g-2"></div>
+        <div class="ui-g-2"></div>
+        <div class="ui-g-3">
+                <button  pButton type="button" label="Responder" (click)="responder()" class="ui-button-rounded ui-button-success"></button>
+            
+        </div>
+        <div class="ui-g-1"></div>
+    </div>
+
+
+
 <br>
-<button  pButton type="button" label="Responder" (click)="responder()" class="ui-button-rounded ui-button-success"></button>
 <br>
 
 
-<div class="ui-g-1"></div>
+
+
+    <div class="ui-g-1"></div>
     <div class="ui-g-8 data-view">
         <p-dataView #dv [value]="respostas" [rows]="20" paginatorPosition="both" filterBy="brand" [sortField]="sortField"
             [sortOrder]="sortOrder">
             <p-header>
-            
-               Respostas dessa publicação
+                Outros Comentários...
             </p-header>
             <ng-template let-resposta pTemplate="listItem">
-
-              
                 <div class="ui-g" style="padding: 20px;border-bottom: 1px solid #d9d9d9">
                         
-                    <p>autor:{{resposta.estudanteId.nome}}</p>
-                    <br>
-                    
-                        {{resposta.texto}}
+                    <div class="ui-g-6">
+                      
+                        <div class="ui-g">
+                            <div class="ui-g-6"> <b>{{resposta.estudante.nome}}</b></div>
+                            <div class="ui-g-10 ui-sm-6"></div>
+
+                            <div class="ui-sm-6"> {{resposta.texto}}</div>
+                            <div class="ui-g-10 ui-sm-6"></div>
+
+                           
+                        </div>
                        
-                    
+                    </div>
                 
-                  
+                    <div class="ui-g-6">
+                    </div>
                 </div>
-             
             </ng-template>
         </p-dataView>        
     </div>
