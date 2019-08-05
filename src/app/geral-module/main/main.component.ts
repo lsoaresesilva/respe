@@ -12,9 +12,12 @@ import { LoginService } from 'src/app/juiz/login.service';
 export class MainComponent implements OnInit {
 
   itens: MenuItem[];
+  private usuario;
 
 
-  constructor(private router: Router, private login:LoginService) { }
+  constructor(private router: Router, private login:LoginService) { 
+    this.usuario = this.login.getUsuarioLogado();
+  }
 
   ngOnInit() {
 

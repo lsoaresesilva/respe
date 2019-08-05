@@ -42,7 +42,7 @@ export class ListarEstudantesComponent implements OnInit {
     this.router.navigate(["main", { outlets: { principal: ['atualizacao-estudante', estudante.pk()] } }]);
   }
 
-  cadastrar() {
+  cadastrarEstudante() {
     this.router.navigate(["main", { outlets: { principal: ['cadastro-estudante'] } }]);
   }
 
