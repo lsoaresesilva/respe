@@ -54,6 +54,7 @@ import {InputMaskModule} from 'primeng/inputmask';
 import {ConfirmDialogModule} from 'primeng/confirmdialog';
 import {ConfirmationService} from 'primeng/api';
 import { VisualizarPerfilEstudanteComponent } from './visualizar-perfil-estudante/visualizar-perfil-estudante.component';
+import {ScrollPanelModule} from 'primeng/scrollpanel';
 
 
 
@@ -114,7 +115,8 @@ import { VisualizarPerfilEstudanteComponent } from './visualizar-perfil-estudant
     DialogModule,
     FieldsetModule,
     InputMaskModule,
-    ConfirmDialogModule
+    ConfirmDialogModule,
+    ScrollPanelModule,
     
    
 
