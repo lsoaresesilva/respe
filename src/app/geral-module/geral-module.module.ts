@@ -12,6 +12,5 @@ import {MenubarModule} from 'primeng/menubar';
   ],
   providers:[],
   exports :[MenuEstudanteComponent],
-
 })
 export class GeralModuleModule { }

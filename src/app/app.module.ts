@@ -46,7 +46,6 @@ import { PostagensTurmaGuard } from './guards/postagensTurma.guard';
     InputTextModule,
     MenubarModule,  
     JuizModule,
-    
    
   ],
   providers: [AuthGuard,PostagensTurmaGuard],
