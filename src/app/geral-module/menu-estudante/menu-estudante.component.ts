@@ -28,11 +28,6 @@ export class MenuEstudanteComponent implements OnInit {
 
       },
       {
-        label: 'Questões',
-        command: () => { this.router.navigate(["main", { outlets: { principal: ['listagem-questoes'] } }]) }
-
-      },
-      {
         label: 'Logout',
         command: () => {this.logout()}
 
