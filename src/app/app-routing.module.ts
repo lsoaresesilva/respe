@@ -38,6 +38,7 @@ import { ListarPostagensComponent } from './cscl/listar-postagens/listar-postage
 import { VisualizarPostagemComponent } from './cscl/visualizar-postagem/visualizar-postagem.component';
 import { PostagensTurmaGuard } from './guards/postagensTurma.guard';
 import { VisualizarPerfilEstudanteComponent } from './juiz/visualizar-perfil-estudante/visualizar-perfil-estudante.component';
+import { MenuEstudanteComponent } from './geral-module/menu-estudante/menu-estudante.component';
 
 
 
@@ -90,6 +91,7 @@ const routes: Routes = [
     {path:"listar-postagens/:turmaId", component:ListarPostagensComponent, canActivate: [AuthGuard], canLoad: [AuthGuard], outlet:"principal"},
     {path:"visualizar-postagem/:postagemId", component:VisualizarPostagemComponent, canActivate: [AuthGuard], canLoad: [AuthGuard], outlet:"principal"},
     {path:"visualizacao-estudante/:id", component:VisualizarPerfilEstudanteComponent, canActivate: [AuthGuard], canLoad: [AuthGuard], outlet:"principal"},
+    {path:"menu", component:MenuEstudanteComponent, outlet:"principal"},
 
 
 
@@ -103,6 +105,7 @@ const routes: Routes = [
   {path:"cadastrar/alternativa", component:CadastrarAlternativasComponent},
   
   {path:"**", component:PaginaNaoEncontradaComponent},
+  {path:"menu", component:MenuEstudanteComponent},
   
   
 
