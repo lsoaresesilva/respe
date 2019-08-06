@@ -3,6 +3,7 @@ import { MenuItem } from 'primeng/components/common/menuitem';
 import { Router } from '@angular/router';
 import Usuario from 'src/app/model/usuario';
 import { LoginService } from 'src/app/juiz/login.service';
+
 @Component({
   selector: 'app-main',
   templateUrl: './main.component.html',
@@ -19,9 +20,8 @@ export class MainComponent implements OnInit {
   }
 
   ngOnInit() {
-    
-     
-       this.itens = [
+
+    this.itens = [
       {
         label: 'Planejamento',
         command: () => { this.router.navigate(["main", { outlets: { principal: ['listagem-planejamento'] } }]) }
@@ -47,8 +47,8 @@ export class MainComponent implements OnInit {
         command: () => {this.logout()}
       }
     ];
-  }
 
+  }
 
   private logout() {
     if(this.login.logout()){
