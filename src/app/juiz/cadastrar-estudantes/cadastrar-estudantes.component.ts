@@ -1,7 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { Router, ActivatedRoute } from '@angular/router';
 import { MessageService } from 'primeng/api';
-import Estudante from 'src/app/model/estudante';
 import Usuario from 'src/app/model/usuario';
 import { PerfilUsuario } from 'src/app/model/perfilUsuario';
 
@@ -16,9 +15,13 @@ export class CadastrarEstudantesComponent implements OnInit {
   usuario;
   isAtualizacao;
 
-  constructor(public router: Router, private messageService: MessageService, private route: ActivatedRoute) {
+  constructor(public router: Router,private route: ActivatedRoute, private messageService: MessageService) {
 
   }
+      
+  menssagemCadastro() {
+    this.messageService.add({severity:'success', summary:'Estudante cadastrado!', detail:'O '+ this.usuario.nome+" foi cadastrado com sucesso!"});
+}
 
   ngOnInit() {
     this.usuario = new Usuario(null, null, null, PerfilUsuario.estudante);
@@ -37,17 +40,17 @@ export class CadastrarEstudantesComponent implements OnInit {
     }
   }
 
+  
+
   cadastrarEstudante() {
     if (this.usuario.validar()) {
+      this.menssagemCadastro();
       this.usuario.save().subscribe(resultado => {
-        alert('Estudante salvo com sucesso.') // TODO: apagar futuramente quando message service estiver funcionando.
-        this.messageService.add({ severity: 'sucesso', summary: 'Estudante salvo com sucesso.' });
         this.router.navigate(["main", { outlets: { principal: ['listagem-estudantes'] } }]);
-
       },
-        err => {
-          this.messageService.add({ severity: 'erro', summary: 'Houve um erro:', detail: err.toString() });
-        });
+      err => {
+        this.messageService.add({ severity: 'erro', summary: 'Houve um erro:', detail: err.toString() });
+      });
 
     }
 

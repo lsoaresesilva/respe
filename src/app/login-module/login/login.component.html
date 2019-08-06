@@ -5,7 +5,7 @@ margin:0 auto;
 padding: 10% 0;">
   <div class="p-col-5"></div>
   <div class="p-col-5" p-col-align-center >
-
+    <p-card>
     <div class="ui-inputgroup" style="margin-bottom:20px;">
       <span class="ui-inputgroup-addon"><i class="fa fa-user"></i>Usuário</span>
       <input type="text" pInputText [(ngModel)]="usuario.email">
@@ -15,7 +15,7 @@ padding: 10% 0;">
       <input type="text" type="password" pPassword [(ngModel)]="usuario.senha">
     </div>
     <p-button label="Entrar" (click)="acessar()"></p-button>&nbsp;&nbsp;&nbsp;<p-button label="Cadastrar" (click)="cadastrar()"></p-button>
-
+  </p-card>
   </div>
   <div class="p-col-2"></div>
 </div>
