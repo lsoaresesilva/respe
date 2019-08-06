@@ -7,6 +7,7 @@ import { FormsModule } from '@angular/forms';
 
 import {ButtonModule} from 'primeng/button';
 import {InputTextModule} from 'primeng/inputtext';
+import {CardModule} from 'primeng/card';
 
 @NgModule({
   declarations: [
@@ -16,7 +17,9 @@ import {InputTextModule} from 'primeng/inputtext';
     CommonModule,
     FormsModule,
     ButtonModule,
-    InputTextModule
+    InputTextModule,
+    CardModule
+    
   ],
   providers: [UsuarioService]
 })
