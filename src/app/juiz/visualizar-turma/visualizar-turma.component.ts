@@ -58,15 +58,16 @@ export class VisualizarTurmaComponent implements OnInit {
 
     
   }
-  deleteEstudante(estudantes: Usuario) {
-    
-    Usuario.delete(estudantes.pk()).subscribe(resultado => {
-      Usuario.getAll().subscribe(estudantes=>{
-        this.estudantes = estudantes;
-      })
-      this.messageService.add({ severity: 'info', summary: 'Estudante deletado', detail: estudantes.nome });
-    }); 
+  deleteEstudante(estudante: Usuario) {
 
     
-  }
+      Usuario.delete(estudante.pk()).subscribe(resultado => {
+        Usuario.getAll().subscribe(estudantes=>{
+          resultado = estudantes;
+        });
+        this.messageService.add({ severity: 'info', summary: 'Estudante deletado', detail: estudante.nome });
+      }); 
+  
+      
+    }
 }
