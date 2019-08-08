@@ -51,7 +51,7 @@ export class ListarPlanejamentosComponent implements OnInit {
 
       
     }, err=>{
-      alert("Houve um erro ao carregar os status dos planejamentos: "+err.toString()) // TODO: mudar para o messages
+      
     });
   }
 
