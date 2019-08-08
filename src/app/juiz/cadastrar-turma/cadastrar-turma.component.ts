@@ -128,12 +128,16 @@ export class CadastrarTurmaComponent implements OnInit {
 
 
   deleteEstudante(estudante: Usuario) {
-    this.estudantes == null;
-    for (var i =0; i < this.estudantes.length; i++){
-      if (this.estudantes[i].email == estudante.email){
-        this.estudantes.splice(i,1);
-      }
-    }
+    
+      Usuario.delete(estudante.pk()).subscribe(resultado => {
+        Usuario.getAll().subscribe(estudantes=>{
+          resultado = estudantes;
+        });
+        this.messageService.add({ severity: 'info', summary: 'Estudante deletado', detail: estudante.nome });
+      }); 
+  
+      
+    
 
     
   }

@@ -28,7 +28,20 @@ export default class Usuario extends Document{
             return false;
         }
 
-        return true;
+       this.emailExistente();
+    }
+
+
+    emailExistente(){
+        Usuario.getAll(new Query("email","==",this.email)).subscribe(usuarios=> { 
+            if (usuarios.length==1){
+                console.log ("erro");
+                return true;
+                
+            }
+
+        });
+       return false;
     }
 
     

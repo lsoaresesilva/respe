@@ -11,7 +11,7 @@ import Usuario from 'src/app/model/usuario';
 })
 export class ListarEstudantesComponent implements OnInit {
   estudantes: Estudante[];
-  selectedEstudante: Estudante;
+  selectedEstudante: Usuario;
   items: MenuItem[];
   estudante: Estudante;
   id: Estudante;
@@ -30,15 +30,15 @@ export class ListarEstudantesComponent implements OnInit {
 
     this.items = [
       
-      { label: 'Apagar', icon: 'pi pi-times', command: (event) => this.deleteEstudante(this.selectedEstudante) },
-      { label: 'Alterar', icon: '°', command: (event) => this.atualizar(this.selectedEstudante) }
+      { label: 'Deletar', icon: 'pi pi-times', command: (event) => this.deleteEstudante(this.selectedEstudante) },
+      { label: 'Alterar', icon: '°', command: (event) => this.alterar(this.selectedEstudante) }
     ];
   }
   abrirPerfilEstudante(estudante : Estudante) {
     this.router.navigate(['main', { outlets: { principal: ['visualizacao-estudante', estudante.pk()] } }]);
     
   }
-  atualizar(estudante: Estudante) {
+  alterar(estudante: Usuario) {
     this.router.navigate(["main", { outlets: { principal: ['atualizacao-estudante', estudante.pk()] } }]);
   }
 
@@ -46,12 +46,12 @@ export class ListarEstudantesComponent implements OnInit {
     this.router.navigate(["main", { outlets: { principal: ['cadastro-estudante'] } }]);
   }
 
-  deleteEstudante(estudante: Estudante) {
+  deleteEstudante(estudante: Usuario) {
     
-    Estudante.delete(estudante.pk()).subscribe(resultado => {
-      Estudante.getAll().subscribe(estudantes=>{
-        this.estudantes = estudantes;
-      })
+    Usuario.delete(estudante.pk()).subscribe(resultado => {
+      Usuario.getAll().subscribe(estudantes=>{
+        resultado = estudantes;
+      });
       this.messageService.add({ severity: 'info', summary: 'Estudante deletado', detail: estudante.nome });
     }); 
 
