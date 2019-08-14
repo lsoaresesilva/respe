@@ -7,7 +7,7 @@ import { Questao } from './questao';
 
 @Collection("autoInstrucao")
 export class AutoInstrucao extends Document{
-    estudante:Estudante;
+    estudante:Usuario;
     questao:Questao;
     problema;
     variaveis;
