@@ -21,7 +21,7 @@ export class VisualizarPostagemComponent implements OnInit {
 
   constructor(private router:Router,private route: ActivatedRoute,private login:LoginService,private messageService: MessageService) { 
     this.resposta = new RespostaPostagem(null, null,null,null,null);
-    this.postagem = new Postagem(null, null,null,null,null,null);
+    this.postagem = new Postagem(null, null,null,null,null);
   }
 
   ngOnInit() {

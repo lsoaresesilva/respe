@@ -6,6 +6,7 @@ import Usuario from 'src/app/model/usuario';
 import Query from 'src/app/model/firestore/query';
 import { PerfilUsuario } from 'src/app/model/perfilUsuario';
 import EstudanteTurma from 'src/app/model/estudanteTurma';
+import Turma from 'src/app/model/turma';
 
 @Component({
   selector: 'app-listar-estudantes',
@@ -18,7 +19,7 @@ export class ListarEstudantesComponent implements OnInit {
   items: MenuItem[];
   estudante: Estudante;
   id: Estudante;
-
+  turma:Turma;
 
   constructor(private route: ActivatedRoute, private router:Router, private messageService: MessageService) {
     this.estudantes = [];
@@ -26,6 +27,7 @@ export class ListarEstudantesComponent implements OnInit {
 
   ngOnInit() {
     this.route.params.subscribe(params => {
+      this.turma = new Turma(params['turmaId'], null, null, null);
       this.buscarEstudante(params['turmaId'])
 
     });
@@ -33,7 +35,7 @@ export class ListarEstudantesComponent implements OnInit {
     this.items = [
       
       { label: 'Deletar', icon: 'pi pi-times', command: (event) => this.deleteEstudante(this.selectedEstudante) },
-      { label: 'Alterar', icon: '°', command: (event) => this.alterar(this.selectedEstudante) }
+      //{ label: 'Alterar', icon: '°', command: (event) => this.alterar(this.selectedEstudante) }
     ];
   
 
@@ -74,15 +76,15 @@ export class ListarEstudantesComponent implements OnInit {
     }
 
 
-  abrirPerfilEstudante(estudante : Estudante) {
+  /*abrirPerfilEstudante(estudante : Estudante) {
     this.router.navigate(['main', { outlets: { principal: ['visualizacao-estudante', estudante.pk()] } }]);
     
   }
   alterar(estudante: Usuario) {
     this.router.navigate(["main", { outlets: { principal: ['atualizacao-estudante', estudante.pk()] } }]);
-  }
+  }*/
 
   cadastrarEstudante() {
-    this.router.navigate(["main", { outlets: { principal: ['cadastro-estudante'] } }]);
+    this.router.navigate(["main", { outlets: { principal: ['cadastro-estudante', this.turma.pk()] } }]);
   }
 }

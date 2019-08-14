@@ -48,13 +48,13 @@ import { VisualizarQuestaoFechadaComponent } from './visualizar-questao-fechada/
 import { ListarQuestoesFechadasComponent } from './listar-questoes-fechadas/listar-questoes-fechadas.component';
 import { EscolherQuestaoComponent } from './escolher-questao/escolher-questao.component';
 import { ListarEstudantesSubmissaoComponent } from '../cscl/listar-estudantes-submissao/listar-estudantes-submissao.component';
-import { VisualizarTurmaComponent } from './visualizar-turma/visualizar-turma.component';
 import {FieldsetModule} from 'primeng/fieldset';
 import {InputMaskModule} from 'primeng/inputmask';
 import {ConfirmDialogModule} from 'primeng/confirmdialog';
 import {ConfirmationService} from 'primeng/api';
 import { VisualizarPerfilEstudanteComponent } from './visualizar-perfil-estudante/visualizar-perfil-estudante.component';
 import {ScrollPanelModule} from 'primeng/scrollpanel';
+import { CsclModule } from '../cscl/cscl.module';
 
 
 
@@ -85,7 +85,6 @@ import {ScrollPanelModule} from 'primeng/scrollpanel';
     ListarPedidosAjudaComponent,
     VisualizarPedidoAjudaComponent,
     EscolherQuestaoComponent,
-    VisualizarTurmaComponent,
     VisualizarPerfilEstudanteComponent,
     
 
@@ -116,9 +115,7 @@ import {ScrollPanelModule} from 'primeng/scrollpanel';
     FieldsetModule,
     InputMaskModule,
     ConfirmDialogModule,
-    ScrollPanelModule,
-    
-   
+    ScrollPanelModule
 
     
     

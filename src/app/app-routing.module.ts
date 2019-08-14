@@ -32,7 +32,7 @@ import { ListarSubmissaoQuestaoComponent } from './cscl/listar-submissao-questao
 import { ListarEstudantesSubmissaoComponent } from './cscl/listar-estudantes-submissao/listar-estudantes-submissao.component';
 import { RespostaSimilarQuestaoProgramacaoComponent } from './srl/resposta-similar-questao-programacao/resposta-similar-questao-programacao.component';
 import { ExibirSolucaoComponent } from './srl/exibir-solucao/exibir-solucao.component';
-import { VisualizarTurmaComponent } from './juiz/visualizar-turma/visualizar-turma.component';
+import { VisualizarTurmaComponent } from './turma/visualizar-turma/visualizar-turma.component';
 import { CadastrarPostagemComponent } from './cscl/cadastrar-postagem/cadastrar-postagem.component';
 import { ListarPostagensComponent } from './cscl/listar-postagens/listar-postagens.component';
 import { VisualizarPostagemComponent } from './cscl/visualizar-postagem/visualizar-postagem.component';
@@ -66,9 +66,9 @@ const routes: Routes = [
     {path:"listagem-assuntos", component:ListarAssuntosComponent, canActivate: [AuthGuard], canLoad: [AuthGuard], outlet:"principal"},
     
     {path:"atualizacao-estudante/:id", component:CadastrarEstudantesComponent, canActivate: [AuthGuard], canLoad: [AuthGuard], outlet:"principal"},
-    {path:"listagem-estudantes", component:ListarEstudantesComponent, canActivate: [AuthGuard], canLoad: [AuthGuard], outlet:"principal"},
+    {path:"listagem-estudantes/:turmaId", component:ListarEstudantesComponent, canActivate: [AuthGuard], canLoad: [AuthGuard], outlet:"principal"},
     {path:"cadastro-turma", component:CadastrarTurmaComponent, canActivate: [AuthGuard], canLoad: [AuthGuard], outlet:"principal"},
-    {path:"cadastro-estudante", component:CadastrarEstudantesComponent, canActivate: [AuthGuard], canLoad: [AuthGuard], outlet:"principal"},
+    {path:"cadastro-estudante/:turmaId", component:CadastrarEstudantesComponent, canActivate: [AuthGuard], canLoad: [AuthGuard], outlet:"principal"},
     {path:"atualizacao-turma/:id", component:CadastrarTurmaComponent, canActivate: [AuthGuard], canLoad: [AuthGuard], outlet:"principal"},
     {path:"listagem-turmas", component:ListarTurmaComponent, canActivate: [AuthGuard], canLoad: [AuthGuard], outlet:"principal"},
     {path:"visualizacao-questao/:assuntoId/:questaoId", component:VisualizarQuestaoComponent, canActivate: [AuthGuard], canLoad: [AuthGuard], outlet:"principal"},

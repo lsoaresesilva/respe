@@ -1,38 +1,25 @@
 <div class="ui-g">
-    <div class="ui-g-4"></div>gi
-    <div class="ui-g-2"></div>
-    <div class="ui-g-2"></div>
-    <div class="ui-g-3">
+    <div class="ui-g-2">
         <button pButton type="button" (click)="cadastrar()" class="ui-button-info" label= "Novo Post" ></button> 
     </div>
-    <div class="ui-g-1"></div>
 </div>
 
- <div class="ui-g-1"></div>
-    <div class="ui-g-8 data-view">
-        <p-dataView #dv [value]="postagens" [rows]="20" paginatorPosition="both" filterBy="brand" [sortField]="sortField"
-            [sortOrder]="sortOrder">
+ <div class="ui-g"></div>
+    <div class="ui-g-12 data-view">
+        <p-dataView #dv [value]="postagens" [rows]="20" paginatorPosition="both" [sortOrder]="postagem?.dataCriacao">
             <p-header>
                 Comentários:
             </p-header>
             <ng-template let-postagem pTemplate="listItem">
                 <div class="ui-g" style="padding: 20px;border-bottom: 1px solid #d9d9d9">
-                        
-                    <div class="ui-g-6">
-                      
-                        <div class="ui-g">
-                            <div class="ui-g-6"> <b>{{postagem.estudante.nome}}</b></div>
-                            <div class="ui-g-10 ui-sm-6"></div>
-
-                            <div class="ui-sm-6"> {{postagem.texto}}</div>
-                            <div class="ui-g-10 ui-sm-6"></div>
+                        <div class="ui-g-10">
+                   
+                            <div class="ui-g-1"> <b>{{postagem.estudante.nome}}</b></div>
+                            <div class="ui-g-9"> {{postagem.titulo}}</div>
 
                            
                         </div>
-                       
-                    </div>
-                
-                    <div class="ui-g-6">
+                    <div class="ui-g-1">
                         <button pButton class="ui-button-success" type="button" (click)="abrirPostagem(postagem)"
                          label="Comentar"></button>
                     </div>
@@ -40,4 +27,3 @@
             </ng-template>
         </p-dataView>        
     </div>
-    <div class="ui-g-2"></div>

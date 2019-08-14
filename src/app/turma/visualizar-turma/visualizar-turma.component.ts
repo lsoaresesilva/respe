@@ -1,6 +1,6 @@
 
 import { Component, OnInit } from '@angular/core';
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import Turma from 'src/app/model/turma';
 
 
@@ -11,21 +11,23 @@ import Turma from 'src/app/model/turma';
 })
 export class VisualizarTurmaComponent implements OnInit {
 
-  turma;
+  turma$?;
 
-  constructor(private route:ActivatedRoute){
+  constructor(private route:ActivatedRoute, private router:Router){
     
   }
 
   ngOnInit() {
     this.route.params.subscribe(params => {
       
-      Turma.get(params["turmaId"]).subscribe(turma=>{
-        this.turma = turma;
-      })
+      this.turma$ = Turma.get(params["turmaId"]);
 
     });
 
+  }
+
+  visualizarEstudantes(turma){
+    this.router.navigate(["main", { outlets: { principal: ['listagem-estudantes', turma.pk()] } }]);
   }
 
   

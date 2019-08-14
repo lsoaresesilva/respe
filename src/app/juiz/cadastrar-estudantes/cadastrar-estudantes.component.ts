@@ -3,6 +3,8 @@ import { Router, ActivatedRoute } from '@angular/router';
 import { MessageService } from 'primeng/api';
 import Usuario from 'src/app/model/usuario';
 import { PerfilUsuario } from 'src/app/model/perfilUsuario';
+import Turma from 'src/app/model/turma';
+import Estudante from 'src/app/model/estudante';
 
 @Component({
   selector: 'app-cadastrar-estudantes',
@@ -12,50 +14,43 @@ import { PerfilUsuario } from 'src/app/model/perfilUsuario';
 export class CadastrarEstudantesComponent implements OnInit {
 
   id;
-  usuario;
-  isAtualizacao;
+  estudante;
 
-  constructor(public router: Router,private route: ActivatedRoute, private messageService: MessageService) {
+  constructor(public router: Router, private route: ActivatedRoute, private messageService: MessageService) {
 
   }
-      
-  menssagemCadastro() {
-    this.messageService.add({severity:'success', summary:'Estudante cadastrado!', detail:'O '+ this.usuario.nome+" foi cadastrado com sucesso!"});
-}
+
+  exibirMensagemCadastro() {
+    this.messageService.add({ severity: 'success', summary: 'Estudante cadastrado!' });
+  }
 
   ngOnInit() {
-    this.usuario = new Usuario(null, null, null, PerfilUsuario.estudante);
 
-    if (this.id = this.route.snapshot.params["id"]) {
-      this.route.params.subscribe(params => {
-        this.id = params["id"];
-        Usuario.get(this.id).subscribe(atualizarEstudante => {
-          this.usuario = atualizarEstudante;
-          this.isAtualizacao = true;
-        }
-        )
-      });
+    this.route.params.subscribe(params => {
+      this.estudante = new Estudante(new Turma(params["turmaId"], null, null, null), new Usuario(null, null, null, PerfilUsuario.estudante));
 
-
-    }
+    });
   }
-
-  
 
   cadastrarEstudante() {
-    if (this.usuario.validar()) {
-      this.menssagemCadastro();
-      this.usuario.save().subscribe(resultado => {
-        this.router.navigate(["main", { outlets: { principal: ['listagem-estudantes'] } }]);
-      },
-      err => {
-        this.messageService.add({ severity: 'erro', summary: 'Houve um erro:', detail: err.toString() });
-      });
+    this.estudante.usuario.validar().subscribe(resultado => {
+      if (resultado) {
+        this.exibirMensagemCadastro();
+        this.estudante.save().subscribe(resultado => {
 
-    }
+          this.router.navigate(["main", { outlets: { principal: ['listagem-estudantes'] } }]);
+        },
+          err => {
+            this.messageService.add({ severity: 'erro', summary: 'Houve um erro:', detail: err.toString() });
+          });
+
+      }else{
+        //TODO: MENSAGEM de erro, pois não conseguiu cadastrar o usuário.
+      }
+    })
 
   }
-  
+
 
 }
 

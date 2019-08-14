@@ -1,4 +1,9 @@
 /* You can add global styles to this file, and also import other style files */
+.cabecalho{
+    font-size: 26pt;
+    font-weight: bold;
+}
+
 .erro {
     background: #F5A9A9 !important;
     cursor: pointer;

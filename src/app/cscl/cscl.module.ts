@@ -6,8 +6,6 @@ import {DialogModule} from 'primeng/dialog';
 import { ButtonModule } from 'primeng/button';
 import {OverlayPanelModule} from 'primeng/overlaypanel';
 import {AccordionModule} from 'primeng/accordion';
-
-import { JuizModule } from '../juiz/juiz.module';
 import { FormsModule } from '@angular/forms';
 import { BoxComentarioComponent } from './box-comentario/box-comentario.component';
 import { BoxNovoComentarioComponent } from './box-novo-comentario/box-novo-comentario.component';
@@ -25,16 +23,17 @@ import { VisualizarPostagemComponent } from './visualizar-postagem/visualizar-po
 import { ToastModule } from 'primeng/toast';
 import { DataViewModule } from 'primeng/dataview';
 import { CardModule } from 'primeng/card';
+import { JuizModule } from '../juiz/juiz.module';
 
 @NgModule({
   declarations: [ComentariosCodigoComponent, BoxComentarioComponent, BoxNovoComentarioComponent, VisualizarConteudoComponent, EscapeHtmlPipe, SanitizeHtmlDirective, ConteudoProgramacaoComponent, ListarSubmissaoQuestaoComponent,ListarEstudantesSubmissaoComponent, ListarPostagensComponent, CadastrarPostagemComponent, VisualizarPostagemComponent],
  
   imports: [
+    JuizModule,
     CommonModule,
     InputTextareaModule,
     DialogModule,
     ButtonModule,
-    JuizModule,
     FormsModule,
     OverlayPanelModule,
     AccordionModule,
@@ -45,7 +44,7 @@ import { CardModule } from 'primeng/card';
     
   ],
 
-  exports:[ComentariosCodigoComponent, VisualizarConteudoComponent,ListarSubmissaoQuestaoComponent,ListarEstudantesSubmissaoComponent]
+  exports:[ListarPostagensComponent, ComentariosCodigoComponent, VisualizarConteudoComponent,ListarSubmissaoQuestaoComponent,ListarEstudantesSubmissaoComponent]
 
  
 })

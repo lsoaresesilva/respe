@@ -23,7 +23,7 @@ export class CadastrarPostagemComponent implements OnInit {
     
      this.route.params.subscribe(params=> {this.id = params["turmaId"];
      this.postagemId = params ["postagemId"]
-     this.postagem = new Postagem(null, null,null,this.login.getUsuarioLogado().pk(),this.id,null);
+     this.postagem = new Postagem(null, null,null,this.login.getUsuarioLogado().pk(),this.id);
        if(this.postagemId!=undefined){
          this.isAlterar=true;
          Postagem.get(this.postagemId).subscribe(resultado =>{
@@ -58,11 +58,7 @@ export class CadastrarPostagemComponent implements OnInit {
      if (this.postagem.validar()) {
        
        this.postagem.save().subscribe(resultado => {
-         this.router.navigate(["main", { outlets: { principal: ['listar-postagens',this.id] } }]);
-         
- 
- 
- 
+         this.router.navigate(["main", { outlets: { principal: ['visualizacao-turma',this.id] } }]);
          this.messageCadastro();
         
  

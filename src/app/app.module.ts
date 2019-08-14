@@ -21,6 +21,7 @@ import { CsclModule } from './cscl/cscl.module';
 import { BrowserModule } from '@angular/platform-browser';
 import { DocumentModule } from './model/firestore/document.module';
 import { PostagensTurmaGuard } from './guards/postagensTurma.guard';
+import { TurmaModule } from './turma/turma.module';
 
 
 
@@ -32,11 +33,11 @@ import { PostagensTurmaGuard } from './guards/postagensTurma.guard';
 
   ],
   imports: [
+    TurmaModule,
     SrlModule,
     CsclModule,
     DocumentModule,
     GeralModuleModule,
-    JuizModule,
     AnalyticsModule,
     LoginModule,
     BrowserModule,
@@ -44,9 +45,7 @@ import { PostagensTurmaGuard } from './guards/postagensTurma.guard';
     AngularFireModule.initializeApp(FirebaseConfiguracao),
     AngularFirestoreModule,
     InputTextModule,
-    MenubarModule,  
-    JuizModule,
-   
+    MenubarModule,
   ],
   providers: [AuthGuard,PostagensTurmaGuard],
   bootstrap: [AppComponent]

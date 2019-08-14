@@ -24,24 +24,45 @@ export default class Usuario extends Document{
     }
 
     validar(){
-        if(this.email == null || this.email == "" || this.senha == null || this.senha == "" || this.perfil == null || this.perfil <= 0){
-            return false;
-        }
 
-       this.emailExistente();
+        return new Observable(observer=>{
+            this.isEmailCadastrado().subscribe(resultado=>{
+                if(!resultado){
+                    if(this.email == null || this.email == "" || this.senha == null || this.senha == "" || this.perfil == null || this.perfil <= 0){
+                        observer.next(false);
+                        observer.complete();
+                    }else{
+                        observer.next(true);
+                        observer.complete();
+                    }
+                }else{
+                    observer.next(false);
+                    observer.complete();
+                }   
+
+               
+                
+            })
+        })
+        
+
+       
     }
 
 
-    emailExistente(){
-        Usuario.getAll(new Query("email","==",this.email)).subscribe(usuarios=> { 
-            if (usuarios.length==1){
-                console.log ("erro");
-                return true;
-                
-            }
+    isEmailCadastrado(){
+        return new Observable(observer=>{
+            Usuario.getAll(new Query("email","==",this.email)).subscribe(usuarios=> { 
+                if (usuarios.length==1){
+                    observer.next(true);
+                }else{
+                    observer.next(false);
+                }
 
-        });
-       return false;
+                observer.complete();
+            });
+        })
+        
     }
 
     

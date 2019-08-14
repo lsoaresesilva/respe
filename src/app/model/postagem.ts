@@ -1,4 +1,4 @@
-import { Collection, Document } from './firestore/document';
+import { Collection, Document, date } from './firestore/document';
 
 
 @Collection("postagens")
@@ -7,16 +7,16 @@ export default class Postagem extends Document{
     texto:String;
     estudanteId:String;
     turmaId:String;
+    @date()
     dataCriacao:Date;
     
 
-    constructor(public id, titulo,texto,estudanteId,turmaId,dataCriacao){
+    constructor(public id, titulo,texto,estudanteId,turmaId){
         super(id);
         this.titulo=titulo;
         this.texto=texto;
         this.estudanteId=estudanteId;
         this.turmaId=turmaId;
-        this.dataCriacao=dataCriacao;
         
        
     }
