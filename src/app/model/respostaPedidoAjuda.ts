@@ -1,8 +1,9 @@
 import Estudante from './estudante';
+import Usuario from './usuario';
 
 export default class RespostaPedidoAjuda{
 
-    constructor(public id, public estudante:Estudante, public resposta:string){
+    constructor(public id, public estudante:Usuario, public resposta:string){
 
     }
 

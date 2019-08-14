@@ -8,7 +8,7 @@ import Usuario from './usuario';
 @Collection("turmas")
 export default class Turma extends Document {
     id;
-    estudantes: Estudante[];
+    estudantes: Usuario[];
 
     constructor(id, public nome, estudantes, public professor: Usuario) {
         super(id);
