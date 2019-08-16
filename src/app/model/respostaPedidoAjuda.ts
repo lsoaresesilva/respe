@@ -1,4 +1,3 @@
-
 import Usuario from './usuario';
 
 export default class RespostaPedidoAjuda{

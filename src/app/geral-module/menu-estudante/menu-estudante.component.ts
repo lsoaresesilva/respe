@@ -31,7 +31,7 @@ export class MenuEstudanteComponent implements OnInit {
         label: 'Sair',
         command: () => {this.logout()}
 
-      }
+      },
     ];
   }
   private logout() {
