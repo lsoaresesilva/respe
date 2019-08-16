@@ -1,12 +1,12 @@
-import Estudante from './estudante';
 
 import Turma from './turma';
 import { Document, Collection } from './firestore/document';
+import Usuario from './usuario';
 
 @Collection("estudantesTurmas")
 export default class EstudanteTurma extends Document{
 
-    constructor(id, public estudante:Estudante, public turma:Turma){
+    constructor(id, public estudante:Usuario, public turma:Turma){
         super(id);
     }
 

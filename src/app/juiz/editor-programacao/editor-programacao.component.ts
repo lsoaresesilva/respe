@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import Editor from 'src/app/model/editor';
-import Estudante from 'src/app/model/estudante';
+
 import { Questao } from 'src/app/model/questao';
 import Submissao from 'src/app/model/submissao';
 import { Tutor } from 'src/app/model/tutor';
@@ -179,7 +179,7 @@ export class EditorProgramacaoComponent implements OnInit {
     } else {
       let json = this.construirJson(submissao, "execução");
       submissao.save().subscribe(resultado => {
-        this.http.post<any>("http://127.0.0.1:8000/codigo/", json, httpOptions).subscribe(resposta => { // TODO: mudar o endereço para o real
+        this.http.post<any>("http://192.168.0.103:8000/codigo/", json, httpOptions).subscribe(resposta => { // TODO: mudar o endereço para o real
           let consultas = []
           submissao.resultadosTestsCases = ResultadoTestCase.construir(resposta.resultados);
           submissao.save().subscribe(resultado => {

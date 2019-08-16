@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import Turma from 'src/app/model/turma';
-import Estudante from 'src/app/model/estudante';
+
 import { MenuItem, MessageService } from 'primeng/api';
 import { Router, ActivatedRoute } from '@angular/router';
 import Usuario from 'src/app/model/usuario';
@@ -16,7 +16,6 @@ export class CadastrarTurmaComponent implements OnInit {
 
   turma;
   turmas: Turma[];
-  estudante;
   estudantes;
   selectedEstudante: Usuario;
   items: MenuItem[];
@@ -33,18 +32,9 @@ export class CadastrarTurmaComponent implements OnInit {
 
   ngOnInit() {
     this.turma = new Turma(null, null, [], null);
-    this.estudante = new Estudante(null, null, null);
     this.professor = new Usuario(null,null,null,null);
     this.usuario = [];
     this.estudantes = [];
-  
-  
-
-    this.items = [
-      { label: 'Vizualizar', icon: 'pi pi-search', command: (event) => this.vizualizar(this.selectedEstudante) },
-      { label: 'Deletar', icon: 'pi pi-times', command: (event) => this.deleteEstudante(this.selectedEstudante) },
-
-    ],
   this.items = [
     { label: 'Vizualizar', icon: 'pi pi-search', command: (event) => this.vizualizarProf(this.selectedProfessor) },
     { label: 'Deletar', icon: 'pi pi-times', command: (event) => this.deleteProf(this.selectedProfessor) },
@@ -53,23 +43,7 @@ export class CadastrarTurmaComponent implements OnInit {
 
   }
 
-  search(event) {
-
-    Usuario.getAll().subscribe(estudantes => {
-      this.estudantes = [];
-      // TODO: filtrar via banco
-      estudantes.forEach(estudante => {
-        // console.log (estudante)
-        if (estudante.email != undefined && typeof estudante.email === "string") {
-          if (estudante.email.includes(event.query)) {
-            this.estudantes.push(estudante);
-          }
-        }
-      })
-
-      return this.estudantes;
-    })
-  }
+  
   searchP(event) {
     Usuario.getAll().subscribe(professores => {this.professores = [];
       professores.forEach(professor => {
@@ -95,19 +69,14 @@ export class CadastrarTurmaComponent implements OnInit {
     this.messageService.add({ severity: 'erro', summary: 'Service Message', detail: 'e-mail já adicionado' });
   }
 
-  vizualizar(estudante: Usuario) {
-    this.messageService.add({ severity: 'info', summary: 'Estudante selecionado', detail: estudante.nome + ' - ' + estudante.email });
+  
 
-  }
   vizualizarProf(professor : Usuario) {
     this.messageService.add({ severity: 'info', summary: 'Professor selecionado', detail: professor.nome + ' - ' + professor.email });
 
   }
 
-  adicionarEstudantes() {
-
-    this.turma.estudantes.push(this.estudante.email);
-  }
+  
   adicionarProfessor() {
     this.turma.professor = this.professor;
   }
@@ -127,21 +96,7 @@ export class CadastrarTurmaComponent implements OnInit {
   }
 
 
-  deleteEstudante(estudante: Usuario) {
-    
-      Usuario.delete(estudante.pk()).subscribe(resultado => {
-        Usuario.getAll().subscribe(estudantes=>{
-          resultado = estudantes;
-        });
-        this.messageService.add({ severity: 'info', summary: 'Estudante deletado', detail: estudante.nome });
-      }); 
   
-      
-    
-
-    
-  }
-
   cadastrarTurma() {
     if (this.turma) {
       this.turma.save().subscribe(resultado => {

@@ -39,6 +39,7 @@
             "console": "integratedTerminal",
             "args": [
                 "runserver",
+                "192.168.0.103:8000",
                 "--noreload",
                 "--nothreading"
             ],

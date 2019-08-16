@@ -28,7 +28,7 @@ export class MenuEstudanteComponent implements OnInit {
 
       },
       {
-        label: 'Logout',
+        label: 'Sair',
         command: () => {this.logout()}
 
       }
