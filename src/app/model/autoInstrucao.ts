@@ -37,24 +37,20 @@ export class AutoInstrucao extends Document{
         return document;
     }
 
-     static IsExiste(estudanteId,questaoId){
+    static getAutoInstrucao(estudanteId,questaoId) :Observable <AutoInstrucao>{
+        
         return new Observable (observer =>{
-            AutoInstrucao.getAll(new Query("estudanteId","==",estudanteId)).subscribe(autoInstrucoes =>{
 
-                autoInstrucoes.filter(autoInstrucao =>{
+            AutoInstrucao.getAll(new Query("estudanteId","==",estudanteId)).subscribe(autoInstrucoesEstudante =>{
+                autoInstrucoesEstudante.filter(autoInstrucao =>{
                     if(autoInstrucao.questaoId == questaoId){
-                        console.log(autoInstrucao);
                         observer.next(autoInstrucao);
                         observer.complete();
                     }
-                    
                 });
-
             });
-            observer.next(null);
-            observer.complete();
+
         });
-       
     }
 
 }
