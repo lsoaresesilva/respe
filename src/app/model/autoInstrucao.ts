@@ -4,10 +4,12 @@ import Estudante from './estudante';
 import { Document, Collection } from './firestore/document';
 import { Dificuldade } from './dificuldade';
 import { Questao } from './questao';
+import { Observable } from 'rxjs';
+import Query from './firestore/query';
 
 @Collection("autoInstrucao")
 export class AutoInstrucao extends Document{
-    estudante:Estudante;
+    estudante:Usuario;
     questao:Questao;
     problema;
     variaveis;
@@ -33,6 +35,26 @@ export class AutoInstrucao extends Document{
         document["estudanteId"] = this.estudante.pk();
         document["questaoId"] = this.questao.id; // TODO: incluir também o assuntoID
         return document;
+    }
+
+     static IsExiste(estudanteId,questaoId){
+        return new Observable (observer =>{
+            AutoInstrucao.getAll(new Query("estudanteId","==",estudanteId)).subscribe(autoInstrucoes =>{
+
+                autoInstrucoes.filter(autoInstrucao =>{
+                    if(autoInstrucao.questaoId == questaoId){
+                        console.log(autoInstrucao);
+                        observer.next(autoInstrucao);
+                        observer.complete();
+                    }
+                    
+                });
+
+            });
+            observer.next(null);
+            observer.complete();
+        });
+       
     }
 
 }

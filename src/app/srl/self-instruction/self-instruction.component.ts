@@ -28,6 +28,8 @@ export class SelfInstructionComponent implements OnInit {
 
 
   ngOnInit() {
+    this.AutoInstrucaoExiste();
+
     this.route.params.subscribe(params => {
       if (params["assuntoId"] != undefined && params["questaoId"] != undefined) {
         Assunto.get(params["assuntoId"]).subscribe(assunto => {
@@ -36,7 +38,7 @@ export class SelfInstructionComponent implements OnInit {
             assunto["questoesProgramacao"].forEach(questao => {
               if (questao.id == params["questaoId"]) {
                 this.questao = questao;
-                console.log(this.questao);
+                
               }
             });
           }
@@ -47,6 +49,9 @@ export class SelfInstructionComponent implements OnInit {
       }
 
     });
+
+   
+ 
   }
   
 
@@ -64,5 +69,14 @@ export class SelfInstructionComponent implements OnInit {
       });
     } 
    
+
+ AutoInstrucaoExiste(){
+  if(AutoInstrucao.IsExiste("1Jxnchu91yERx0mWmVL8","e3c45b10-fe0d-41c1-aa74-41f17567bbe7")!=null){
+    this.autoInstrucao == AutoInstrucao.IsExiste("1Jxnchu91yERx0mWmVL8","e3c45b10-fe0d-41c1-aa74-41f17567bbe7");
+    
+    console.log(this.autoInstrucao);
+  }
+
+ }
 
 }
