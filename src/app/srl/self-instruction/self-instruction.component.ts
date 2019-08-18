@@ -4,6 +4,8 @@ import { AutoInstrucao } from 'src/app/model/autoInstrucao';
 import { ActivatedRoute, Router } from '@angular/router';
 import { Assunto } from 'src/app/model/assunto';
 import { LoginService } from 'src/app/juiz/login.service';
+import { Observable } from 'rxjs';
+import Query from 'src/app/model/firestore/query';
 
 
 @Component({
@@ -14,20 +16,23 @@ import { LoginService } from 'src/app/juiz/login.service';
 export class SelfInstructionComponent implements OnInit {
   
 
-  autoInstrucao;
-  private questao?;
-  private id: number;
-  private sub: any;
+  private autoInstrucao:AutoInstrucao;
+  private questao;
   private assunto;
+  private usuario;
   
-  
-   constructor(private route: ActivatedRoute, private router: Router ,private login : LoginService) {
-    this.questao = new Questao(null, null, null, null, null, [], [],null);
-    this.autoInstrucao = new AutoInstrucao (null,this.login.getUsuarioLogado(),this.questao,null,null,null,null,null,null);
-   }
 
+    constructor(private route: ActivatedRoute, private router: Router ,private login : LoginService) {
+      this.usuario = this.login.getUsuarioLogado();
+      this.autoInstrucao = new AutoInstrucao (null,this.login.getUsuarioLogado(),null,null,null,null,null,null,null);
+    }
 
   ngOnInit() {
+    this.getQuestao();
+   
+  }
+
+  getQuestao(){
     this.route.params.subscribe(params => {
       if (params["assuntoId"] != undefined && params["questaoId"] != undefined) {
         Assunto.get(params["assuntoId"]).subscribe(assunto => {
@@ -36,33 +41,42 @@ export class SelfInstructionComponent implements OnInit {
             assunto["questoesProgramacao"].forEach(questao => {
               if (questao.id == params["questaoId"]) {
                 this.questao = questao;
-                console.log(this.questao);
+                this.autoInstrucao.questao = this.questao;
+                this.getRespostasEstudante();
+ 
               }
             });
           }
-          });
-        
-      } else {
-        throw new Error("Não é possível visualizar uma questão, pois não foram passados os identificadores de assunto e questão.")
-      }
+        });  
 
+      } else {
+         throw new Error("Não é possível visualizar uma questão, pois não foram passados os identificadores de assunto e questão.")
+        }
     });
   }
   
+  getRespostasEstudante(){
+    AutoInstrucao.getAutoInstrucao(this.usuario.id,this.questao.id).subscribe(autoInstrucao =>{
 
-  salvar(){
-    console.log("entrou");
-    console.log(this.autoInstrucao);
-    // console.log(this.autoInstrucao.questao);
-    // console.log(this.autoInstrucao.estudante);
-      this.autoInstrucao.save().subscribe(resultado => {
+      if(autoInstrucao != undefined){
+        this.autoInstrucao = autoInstrucao;
+        this.autoInstrucao.estudante= this.usuario;
+        this.autoInstrucao.questao = this.questao;   
+      }
+
+    });
+
+  }
+
+  salvar(){ 
+    this.autoInstrucao.save().subscribe(resultado => {
       this.router.navigate(["main", { outlets: { principal: ['editor', this.assunto.pk(),this.questao.id] }}]);
 
-      },
-       err => {
-      alert(err);
-      });
-    } 
+      },err => {
+      alert("Ocorreu um problema, tente novamente!");
+    });
+   
+  } 
    
 
 }
