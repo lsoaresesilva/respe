@@ -20,22 +20,37 @@ export class ListarQuestoesComponent implements OnInit  {
   selectedQuestao: Questao;z
   items: MenuItem[];
   usuario;
+  questoes:Questao[]=[];
 
   constructor(private messageService: MessageService, private router:Router, private login:LoginService) { 
+    this.usuario = this.login.getUsuarioLogado();
     
+  
   }
 
   ngOnInit() {
 
-    this.usuario = this.login.getUsuarioLogado();
+    Assunto.getAll().subscribe(assunto => {
+      this.ordernarPorSequencia(this.assunto.questoesProgramacao);
+    });
+   
 
    
+    
+    
     if(this.usuario.perfil == 3){
       this.items = [
         { label: 'Alterar', icon: 'pi pi-check', command: (event) => this.alterar(this.selectedQuestao) },
         { label: 'Deletar', icon: 'pi pi-times', command: (event) => this.deletar(this.selectedQuestao) }
         ];
     }
+  }
+
+  ordernarPorSequencia(questoes){
+    
+    questoes.sort((a, b) => a.sequencia - b.sequencia);
+    this.questoes = questoes;
+    
   }
 
   abrirEditor(questao){

@@ -9,6 +9,8 @@ import { RespostaQuestaoFechada } from 'src/app/model/respostaQuestaoFechada';
 import Query from 'src/app/model/firestore/query';
 import { Observable } from 'rxjs';
 import Alternativa from 'src/app/model/alternativa';
+import { Questao } from 'src/app/model/questao';
+import { forEach } from '@angular/router/src/utils/collection';
 
 @Component({
   selector: 'app-listar-questoes-fechadas',
@@ -33,6 +35,7 @@ export class ListarQuestoesFechadasComponent implements OnInit {
   }
 
   ngOnInit() {
+    
     RespostaQuestaoFechada.getAll(new Query("usuarioId","==",this.usuario.pk())).subscribe(respostas => {
       this.respostas=respostas;
       this.adicionandoRespostaUsuario(this.assunto.questoesFechadas,this.respostas);
@@ -44,7 +47,7 @@ export class ListarQuestoesFechadasComponent implements OnInit {
     if(this.usuario.perfil == 3){
       this.items = [
         { label: 'Alterar', icon: 'pi pi-check', command: (event) => this.alterar(this.selectedQuestao) },
-        { label: 'Deletar', icon: 'pi pi-times', command: (event) => this.deletar(this.selectedQuestao) }
+       // { label: 'Deletar', icon: 'pi pi-times', command: (event) => this.deletar(this.selectedQuestao) }
         ];
     }
   
@@ -88,31 +91,37 @@ export class ListarQuestoesFechadasComponent implements OnInit {
       });
 
     });
+
+
     
-    this.questoes= questoes;
-       
+    this.ordernarPorSequencia(questoes);
+    
+    
   }
  
-  
-  
-
-  deletar(questao:QuestaoFechada){
-    let index = -1;
-    for (let i=0;i<this.assunto.questoesFechadas;i++){
-     if( this.assunto.questoeFechadas[i].id== questao.id){
-      index = i;
-      break;
-      
-     }
-    }
-
-    Assunto.delete(this.assunto.questoesFechadas[index]).subscribe(resultado=>{
-     
-      this.messageDelete();
-    });
-    this.assunto.questoesFechadas.splice(index, 1);
-    this.messageDelete();
+  ordernarPorSequencia(questoes:QuestaoFechada[]){
+    questoes.sort((a, b) => a.sequencia - b.sequencia);
+    this.questoes= questoes;
   }
+  
+
+  // deletar(questao:QuestaoFechada){
+  //   let index = -1;
+  //   for (let i=0;i<this.assunto.questoesFechadas;i++){
+  //    if( this.assunto.questoeFechadas[i].id== questao.id){
+  //     index = i;
+  //     break;
+      
+  //    }
+  //   }
+
+  //   Assunto.delete(this.assunto.questoesFechadas[index]).subscribe(resultado=>{
+     
+  //     this.messageDelete();
+  //   });
+  //   this.assunto.questoesFechadas.splice(index, 1);
+  //   this.messageDelete();
+  // }
 
   messageDelete() {
     this.messageService.add({severity:'error', summary:'Deletado!', detail:" foi excluido do banco de questões"});
