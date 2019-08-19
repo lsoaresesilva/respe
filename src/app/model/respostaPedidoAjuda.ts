@@ -1,4 +1,3 @@
-import Estudante from './estudante';
 import Usuario from './usuario';
 
 export default class RespostaPedidoAjuda{

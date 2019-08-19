@@ -28,12 +28,7 @@ export class MenuEstudanteComponent implements OnInit {
 
       },
       {
-        label: 'Turmas',
-        command: () => { this.router.navigate(["main", { outlets: { principal: ['listagem-turmas'] } }]) }
-
-      },
-      {
-        label: 'Logout',
+        label: 'Sair',
         command: () => {this.logout()}
 
       },

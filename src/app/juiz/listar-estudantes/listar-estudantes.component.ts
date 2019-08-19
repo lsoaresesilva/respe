@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import Estudante from 'src/app/model/estudante';
+
 import { MenuItem, MessageService } from 'primeng/api';
 import { Router, ActivatedRoute } from '@angular/router';
 import Usuario from 'src/app/model/usuario';
@@ -7,6 +7,7 @@ import Query from 'src/app/model/firestore/query';
 import { PerfilUsuario } from 'src/app/model/perfilUsuario';
 import EstudanteTurma from 'src/app/model/estudanteTurma';
 import Turma from 'src/app/model/turma';
+import Estudante from 'src/app/model/estudante';
 
 @Component({
   selector: 'app-listar-estudantes',
