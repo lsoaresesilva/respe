@@ -21,7 +21,7 @@ export default class EstudanteTurma extends Document{
 
         let document = super.objectToDocument();
         document["estudanteId"] = this.estudante.pk();
-        document["turmaId"] = this.turma.pk();
+        document["turmaId"] = this.turma.codigo;
         
         return document;
     }

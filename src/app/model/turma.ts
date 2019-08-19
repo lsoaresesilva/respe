@@ -2,11 +2,13 @@ import { Document, Collection } from './firestore/document';
 import { Observable, forkJoin } from 'rxjs';
 import EstudanteTurma from './estudanteTurma';
 import Usuario from './usuario';
+import GeradorCodigo from '../util/geradorCodigo';
 
 @Collection("turmas")
 export default class Turma extends Document {
     id;
     estudantes: Usuario[];
+    codigo;
 
     constructor(id, public nome, estudantes, public professor: Usuario) {
         super(id);
@@ -21,6 +23,7 @@ export default class Turma extends Document {
 
     save() {
         return new Observable(observer => {
+            this.codigo = GeradorCodigo.gerar();
             super.save().subscribe(resultado => {
                 let consultas = [];
                 this.estudantes.forEach(estudante => {
@@ -72,7 +75,7 @@ export default class Turma extends Document {
     // }
 
     validar() {
-        if (this.estudantes != undefined && this.estudantes.length > 0 && this.professor != undefined && this.nome != undefined && this.nome != "")
+        if (this.professor != undefined && this.nome != undefined && this.nome != "")
             return true;
 
         return false

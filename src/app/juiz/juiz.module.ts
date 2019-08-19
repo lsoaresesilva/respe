@@ -22,9 +22,7 @@ import { SrlModule } from '../srl/srl.module';
 import { EditorProgramacaoComponent } from './editor-programacao/editor-programacao.component';
 import { DadosQuestaoComponent } from './dados-questao/dados-questao.component';
 
-import { CadastrarEstudantesComponent } from './cadastrar-estudantes/cadastrar-estudantes.component';
 import { ListarEstudantesComponent } from './listar-estudantes/listar-estudantes.component';
-import { CadastrarTurmaComponent } from './cadastrar-turma/cadastrar-turma.component';
 import { ListarTurmaComponent } from './listar-turma/listar-turma.component';
 import {AutoCompleteModule} from 'primeng/autocomplete';
 import {ToastModule} from 'primeng/toast';
@@ -47,7 +45,7 @@ import { CadastrarQuestoesFechadasComponent } from './cadastrar-questoes-fechada
 import { VisualizarQuestaoFechadaComponent } from './visualizar-questao-fechada/visualizar-questao-fechada.component';
 import { ListarQuestoesFechadasComponent } from './listar-questoes-fechadas/listar-questoes-fechadas.component';
 import { EscolherQuestaoComponent } from './escolher-questao/escolher-questao.component';
-import { ListarEstudantesSubmissaoComponent } from '../cscl/listar-estudantes-submissao/listar-estudantes-submissao.component';
+
 import {FieldsetModule} from 'primeng/fieldset';
 import {InputMaskModule} from 'primeng/inputmask';
 import {ConfirmDialogModule} from 'primeng/confirmdialog';
@@ -69,9 +67,7 @@ import { CsclModule } from '../cscl/cscl.module';
     DadosQuestaoComponent, 
     EditorProgramacaoComponent, 
     EditorProgramacaoComponent, 
-    CadastrarEstudantesComponent, 
     ListarEstudantesComponent, 
-    CadastrarTurmaComponent, 
     ListarTurmaComponent, 
     VisualizarExecucacao, 
     ListarAssuntosComponent,
@@ -127,9 +123,7 @@ import { CsclModule } from '../cscl/cscl.module';
     CadastrarQuestoesComponent,
     ListarQuestoesComponent,
     CadastrarTesteCaseComponent,
-    CadastrarEstudantesComponent,
     ListarEstudantesComponent,
-    CadastrarTurmaComponent,
     ListarTurmaComponent,
     CadastrarAssuntosComponent,
     ListarAssuntosComponent,

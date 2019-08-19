@@ -1,0 +1,28 @@
+<p-toast></p-toast>
+<h2>Cadastrar uma turma</h2>
+<div class="ui-g">
+    <div class="ui-g-6">
+        <p-toast [style]="{marginTop: '80px'}"></p-toast>
+        <span class="ui-float-label">
+            <input [(ngModel)]="turma.nome" id="turma.id" type="text" size="30" pInputText>
+            <label>Nome da turma</label>
+        </span>
+        <br />
+        
+        <h3>Adicionar professor à turma</h3>
+        <p-autoComplete [(ngModel)]="professor" [suggestions]="professores" (completeMethod)="searchP($event)"
+            [size]="30" [minLength]="2" placeholder="Digite o e-mail do professor" [dropdown]="true" field="email">
+            <ng-template let-ProfessorPesquisado pTemplate="item">
+                <div class="ui-helper-clearfix" style="border-bottom:1px solid #D5D5D5">
+                    <div style="font-size:18px;float:right;margin:10px 10px 0 0">{{ProfessorPesquisado.email}}</div>
+                </div>
+            </ng-template>
+        </p-autoComplete>
+        <button pButton type="button" label="Adicionar" (click)="adicionarProfessor()"></button>
+        <div *ngIf="turma.professor != undefined">
+            {{turma.professor.nome}} <button  pButton label="Excluir" (click)="excluirProfessor()"></button>
+        </div>
+        
+    </div>
+</div>
+<button pButton type="button" label=Salvar (click)='cadastrarTurma()'></button>

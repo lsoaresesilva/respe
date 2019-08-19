@@ -128,7 +128,7 @@ export class EditorProgramacaoComponent implements OnInit {
     json["submissao"] = submissao.objectToDocument();
     json["tipo"] = tipo;
     json["assunto"] = this.assunto.objectToDocument();
-    json["questao"] = this.questao;
+    json["questao"] = this.questao.objectToDocument();
 
     return json;
   }
@@ -179,7 +179,7 @@ export class EditorProgramacaoComponent implements OnInit {
     } else {
       let json = this.construirJson(submissao, "execução");
       submissao.save().subscribe(resultado => {
-        this.http.post<any>("http://192.168.0.103:8000/codigo/", json, httpOptions).subscribe(resposta => { // TODO: mudar o endereço para o real
+        this.http.post<any>("http://127.0.0.1:8000/codigo/", json, httpOptions).subscribe(resposta => { // TODO: mudar o endereço para o real
           let consultas = []
           submissao.resultadosTestsCases = ResultadoTestCase.construir(resposta.resultados);
           submissao.save().subscribe(resultado => {
