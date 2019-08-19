@@ -1,0 +1,15 @@
+<p-table [value]="estudantes" [(contextMenuSelection)]="selectedEstudante"  [contextMenu]="cm">
+  <ng-template pTemplate="header">
+       <tr>
+           <th>Nome do arquivo</th>
+           <th>Descrição</th>
+           <th>Deletar o arquivo</th>
+
+       </tr>
+   </ng-template>
+   <ng-template pTemplate="body" let-rowData let-estudante>
+       <tr [pContextMenuRow]="rowData">
+           
+       </tr>
+   </ng-template>
+</p-table>

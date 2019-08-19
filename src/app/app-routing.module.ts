@@ -38,6 +38,8 @@ import { ListarPostagensComponent } from './cscl/listar-postagens/listar-postage
 import { VisualizarPostagemComponent } from './cscl/visualizar-postagem/visualizar-postagem.component';
 import { PostagensTurmaGuard } from './guards/postagensTurma.guard';
 import { VisualizarPerfilEstudanteComponent } from './juiz/visualizar-perfil-estudante/visualizar-perfil-estudante.component';
+import { EnviarMaterialComponent } from './turma/enviar-material/enviar-material.component';
+import { ListarMateriaisComponent } from './turma/listar-materiais/listar-materiais.component';
 
 
 
@@ -90,6 +92,10 @@ const routes: Routes = [
     {path:"listar-postagens/:turmaId", component:ListarPostagensComponent, canActivate: [AuthGuard], canLoad: [AuthGuard], outlet:"principal"},
     {path:"visualizar-postagem/:postagemId", component:VisualizarPostagemComponent, canActivate: [AuthGuard], canLoad: [AuthGuard], outlet:"principal"},
     {path:"visualizacao-estudante/:id", component:VisualizarPerfilEstudanteComponent, canActivate: [AuthGuard], canLoad: [AuthGuard], outlet:"principal"},
+    {path:"enviar-material/:turmaId", component:EnviarMaterialComponent, canActivate: [AuthGuard], canLoad: [AuthGuard], outlet:"principal"},
+    {path:"listar-materiais/:turmaId", component:ListarMateriaisComponent, canActivate: [AuthGuard], canLoad: [AuthGuard], outlet:"principal"},
+
+
 
 
 
