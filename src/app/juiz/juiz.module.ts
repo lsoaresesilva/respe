@@ -22,7 +22,6 @@ import { SrlModule } from '../srl/srl.module';
 import { EditorProgramacaoComponent } from './editor-programacao/editor-programacao.component';
 import { DadosQuestaoComponent } from './dados-questao/dados-questao.component';
 
-import { ListarEstudantesComponent } from './listar-estudantes/listar-estudantes.component';
 import { ListarTurmaComponent } from './listar-turma/listar-turma.component';
 import {AutoCompleteModule} from 'primeng/autocomplete';
 import {ToastModule} from 'primeng/toast';
@@ -67,7 +66,6 @@ import { CsclModule } from '../cscl/cscl.module';
     DadosQuestaoComponent, 
     EditorProgramacaoComponent, 
     EditorProgramacaoComponent, 
-    ListarEstudantesComponent, 
     ListarTurmaComponent, 
     VisualizarExecucacao, 
     ListarAssuntosComponent,
@@ -123,7 +121,6 @@ import { CsclModule } from '../cscl/cscl.module';
     CadastrarQuestoesComponent,
     ListarQuestoesComponent,
     CadastrarTesteCaseComponent,
-    ListarEstudantesComponent,
     ListarTurmaComponent,
     CadastrarAssuntosComponent,
     ListarAssuntosComponent,

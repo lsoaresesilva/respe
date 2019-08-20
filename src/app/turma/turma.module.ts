@@ -8,9 +8,11 @@ import { CadastrarTurmaComponent } from './cadastrar-turma/cadastrar-turma.compo
 import { FormsModule } from '@angular/forms';
 import { AutoCompleteModule, InputTextModule } from 'primeng/primeng';
 import { ToastModule } from 'primeng/toast';
+import { ListarEstudantesComponent } from './listar-estudantes/listar-estudantes.component';
+import { TableModule } from 'primeng/table';
 
 @NgModule({
-  declarations: [VisualizarTurmaComponent, CadastrarEstudantesComponent, CadastrarTurmaComponent],
+  declarations: [VisualizarTurmaComponent, CadastrarEstudantesComponent, CadastrarTurmaComponent, ListarEstudantesComponent],
   imports: [
     CsclModule,
     CommonModule,
@@ -19,7 +21,8 @@ import { ToastModule } from 'primeng/toast';
     AutoCompleteModule,
     ToastModule,
     InputTextModule,
+    TableModule,
   ],
-  exports:[VisualizarTurmaComponent]
+  exports:[VisualizarTurmaComponent, ListarEstudantesComponent]
 })
 export class TurmaModule { }
