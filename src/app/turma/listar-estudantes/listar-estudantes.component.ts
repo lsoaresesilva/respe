@@ -17,7 +17,6 @@ import Estudante from 'src/app/model/estudante';
 export class ListarEstudantesComponent implements OnInit {
   estudantes: Estudante[];
   selectedEstudante: Usuario;
-  items: MenuItem[];
   estudante: Estudante;
   id: Estudante;
   turma:Turma;
@@ -28,24 +27,17 @@ export class ListarEstudantesComponent implements OnInit {
 
   ngOnInit() {
     this.route.params.subscribe(params => {
-      this.turma = new Turma(params['turmaId'], null, null, null);
-      this.buscarEstudante(params['turmaId'])
+      this.turma = new Turma(null, null, null, null);
+      this.turma.codigo = params['codigoTurma']
+      this.buscarEstudante(this.turma)
 
     });
-
-    this.items = [
-      
-      { label: 'Deletar', icon: 'pi pi-times', command: (event) => this.deleteEstudante(this.selectedEstudante) },
-      //{ label: 'Alterar', icon: '°', command: (event) => this.alterar(this.selectedEstudante) }
-    ];
-  
-
   }
 
-  buscarEstudante(turmaId) {
+  buscarEstudante(turma) {
 
     Usuario.getAll(new Query("perfil", "==", PerfilUsuario.estudante)).subscribe(estudantes=>{
-      EstudanteTurma.getAll(new Query("turmaId", "==", turmaId)).subscribe(estudantesTurma => {
+      EstudanteTurma.getAll(new Query("turmaId", "==", turma.codigo)).subscribe(estudantesTurma => {
 
         for(let i = 0; i < estudantes.length; i++){
           for (let j = 0; j < estudantesTurma.length; j++) {
@@ -64,26 +56,17 @@ export class ListarEstudantesComponent implements OnInit {
   }
 
   deleteEstudante(estudante: Usuario) {
-
-    
       Usuario.delete(estudante.pk()).subscribe(resultado => {
         Usuario.getAll().subscribe(estudantes=>{
           this.estudantes = estudantes;
         });
         this.messageService.add({ severity: 'info', summary: 'Estudante deletado', detail: estudante.nome });
       }); 
-  
-      
-    }
-
-
-  /*abrirPerfilEstudante(estudante : Estudante) {
-    this.router.navigate(['main', { outlets: { principal: ['visualizacao-estudante', estudante.pk()] } }]);
-    
   }
-  alterar(estudante: Usuario) {
-    this.router.navigate(["main", { outlets: { principal: ['atualizacao-estudante', estudante.pk()] } }]);
-  }*/
+
+  abrirPerfilEstudante(estudante) {
+    this.router.navigate(['main', { outlets: { principal: ['visualizacao-estudante', estudante.pk()] } }]);
+  }
 
   cadastrarEstudante() {
     this.router.navigate(["main", { outlets: { principal: ['cadastro-estudante', this.turma.pk()] } }]);

@@ -37,8 +37,9 @@ export class CadastrarEstudantesComponent implements OnInit {
       if (resultado) {
         
         this.estudante.save().subscribe(resultado => {
-          this.exibirMensagemCadastro();
-          this.router.navigate(["main", { outlets: { principal: ['listagem-estudantes'] } }]);
+          //this.exibirMensagemCadastro(); <= não está funcionando
+          alert("Cadastro realizado com sucesso.")
+          this.router.navigate([""]);
         },
           err => {
             this.messageService.add({ severity: 'erro', summary: 'Houve um erro:', detail: err.toString() });
