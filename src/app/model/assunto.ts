@@ -146,7 +146,7 @@ export class Assunto extends Document {
                     if (questao.testsCases != undefined && questao.testsCases.length > 0) {
                         questao.testsCases.forEach(testCase => {
                             // TIRAR ISSO E SUBSTITUIR POR SUBMISSAO
-                            consultas[questao.id] = Submissao.getRecentePorQuestao(questao, usuario);
+                            consultas[questao.id] = Submissao.getRecentePorQuestao(questao.id, usuario.pk());
                             //    consultas.push(ResultadoTestCase.getAll([new Query("testCaseId", "==", testCase.pk()), new Query("estudanteId", "==", usuario.pk()) ]));
 
 

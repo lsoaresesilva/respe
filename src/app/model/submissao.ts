@@ -52,13 +52,13 @@ export default class Submissao extends Document {
         }
     }
 
-    static getRecentePorQuestao(questao: Questao, estudante: Usuario) {
+    static getRecentePorQuestao(questaoId: String, estudanteId: String) {
         
         return new Observable(observer => {
-            if(questao == null || typeof questao.id == null || estudante == null || typeof estudante.pk != "function"){
+            if(questaoId == null || typeof questaoId == null || estudanteId == null || typeof estudanteId == null){
                 observer.error(new Error("Questão ou estudante não podem ser vazios"));
             }else{
-                Submissao.getAll([new Query("estudanteId", "==", estudante.pk()), new Query("questaoId", "==", questao.id)]).subscribe(submissoes => {
+                Submissao.getAll([new Query("estudanteId", "==", estudanteId), new Query("questaoId", "==", questaoId)]).subscribe(submissoes => {
                     let submissaoRecente = null;
                     if (submissoes.length != 0) {
                         if (submissoes.length == 1) {

@@ -84,7 +84,7 @@ export class EditorProgramacaoComponent implements OnInit {
               // TODO: pegar a última submissão para uma questão
               let usuario = this.login.getUsuarioLogado();
               if (usuario != null) {
-                Submissao.getRecentePorQuestao(this.questao, usuario).subscribe(submissao => {
+                Submissao.getRecentePorQuestao(this.questao.id, usuario.pk()).subscribe(submissao => {
 
                   this.submissao = submissao;
 
