@@ -52,6 +52,7 @@ import {ConfirmationService} from 'primeng/api';
 import { VisualizarPerfilEstudanteComponent } from './visualizar-perfil-estudante/visualizar-perfil-estudante.component';
 import {ScrollPanelModule} from 'primeng/scrollpanel';
 import { CsclModule } from '../cscl/cscl.module';
+import { ListarTurmaProfessorComponent } from './listar-turma-professor/listar-turma-professor.component';
 
 
 
@@ -80,6 +81,7 @@ import { CsclModule } from '../cscl/cscl.module';
     VisualizarPedidoAjudaComponent,
     EscolherQuestaoComponent,
     VisualizarPerfilEstudanteComponent,
+    ListarTurmaProfessorComponent,
     
 
   ],
