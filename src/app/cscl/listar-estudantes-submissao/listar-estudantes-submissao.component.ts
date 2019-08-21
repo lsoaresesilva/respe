@@ -4,6 +4,7 @@ import { Router, ActivatedRoute } from '@angular/router';
 import Query from 'src/app/model/firestore/query';
 import Usuario from 'src/app/model/usuario';
 import { LoginService } from 'src/app/juiz/login.service';
+import { Assunto } from 'src/app/model/assunto';
 
 
 @Component({
@@ -14,12 +15,13 @@ import { LoginService } from 'src/app/juiz/login.service';
 export class ListarEstudantesSubmissaoComponent implements OnInit {
   
   private submissoesDaQuestao;
-  private questao;
+  private questaoId;
   private submissoes;
   private estudante;
   private assuntoId;
   private usuario;
-  @Input ("questaoId") questaoId;
+  private assunto;
+  private questao;
 
   constructor(private router:Router,private route: ActivatedRoute,private login:LoginService) { 
   this.usuario= login.getUsuarioLogado();
@@ -28,9 +30,31 @@ export class ListarEstudantesSubmissaoComponent implements OnInit {
   ngOnInit() {
     
     this.route.params.subscribe(params => {
-      this.questao= params['questaoId'];
-     
-      Submissao.getAll(new Query("questaoId","==",this.questao)).subscribe(resultado =>{
+      if (params["assuntoId"] != undefined && params["questaoId"] != undefined) {
+        Assunto.get(params["assuntoId"]).subscribe(assunto => {
+          this.assunto = assunto;
+          if (assunto["questoesProgramacao"] != undefined && assunto["questoesProgramacao"].length > 0) {
+            assunto["questoesProgramacao"].forEach(questao => {
+              if (questao.id == params["questaoId"]) {
+                this.questao = questao;
+                console.log(this.questao);
+              }
+            });
+          }
+          });
+        
+      } else {
+        throw new Error("Não é possível visualizar uma questão, pois não foram passados os identificadores de assunto e questão.")
+      }
+  
+
+
+
+
+      this.questaoId = params['questaoId'];
+      this.assuntoId = params['assuntoId'];
+
+      Submissao.getAll(new Query("questaoId","==",this.questaoId)).subscribe(resultado =>{
       //eliminar a submissao do próprio estudante
         this.submissoes = resultado.filter((sub) => {
           if (sub.estudanteId !== ( this.usuario.pk() )) { return true}
@@ -86,21 +110,27 @@ export class ListarEstudantesSubmissaoComponent implements OnInit {
   }
 
   buscarSubmissaoRecente(submissoes=[]){
+    let usuario;
     console.log("array de buscarSubmissaoRecente" + submissoes);
     let submissoesRecentes=[];
     
     submissoes.forEach(submissao=>{
-      Submissao.getRecentePorQuestao(submissao.questaoId,submissao.estudanteId).subscribe(submissaoResultado => {
+      Usuario.get(submissao.estudanteId).subscribe(usuarioBanco => {
+        usuario = usuarioBanco;
+        console.log("usuario"+usuario);
+        Submissao.getRecentePorQuestao(this.questao,usuario).subscribe(submissaoResultado => {
           submissoesRecentes.push(submissaoResultado);
 
           this.eliminandosubmissoesRepetidas(submissoesRecentes);
-      });
+        });
+
+      })
+     
     });
-
-    
-
   }
 
+
+  
   eliminandosubmissoesRepetidas(todasSubmissoes=[]){
     console.log("eliminando submissoes repetidas" + todasSubmissoes)
     let submissoesSemRepeticao=[];
