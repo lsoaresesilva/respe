@@ -53,15 +53,18 @@ export class ListarEstudantesSubmissaoComponent implements OnInit {
 
       this.questaoId = params['questaoId'];
       this.assuntoId = params['assuntoId'];
+      if (this.questaoId != null){
 
-      Submissao.getAll(new Query("questaoId","==",this.questaoId)).subscribe(resultado =>{
-      //eliminar a submissao do próprio estudante
-        this.submissoes = resultado.filter((sub) => {
-          if (sub.estudanteId !== ( this.usuario.pk() )) { return true}
+        Submissao.getAll(new Query("questaoId","==",this.questaoId)).subscribe(resultado =>{
+          //eliminar a submissao do próprio estudante
+            this.submissoes = resultado.filter((sub) => {
+              if (sub.estudanteId !== ( this.usuario.pk() )) { return true}
+            });
+    
+            this.filtrarSubmissoesConcluidas(this.submissoes);
         });
-
-        this.filtrarSubmissoesConcluidas(this.submissoes);
-      });
+      }
+     
     });
   }
 
