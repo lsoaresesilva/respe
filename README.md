@@ -19,3 +19,18 @@ O diagrama de classes está neste link: https://www.lucidchart.com/invitations/a
 # Fluxo de telas
 
 https://www.lucidchart.com/invitations/accept/c08e9d10-8fa1-41e7-a148-c1b70f3cb0ed
+
+# Instalação
+
+1. Instalar o Angular. 
+2. Instalar as dependências Python do projeto:
+2a. pip3 install --user Django==2.2.4
+2b. pip3 install --user djangorestframework 
+2c. pip3 install --user django-cors-headers
+2d. pip3 install --user pexpect
+2e. pip3 install --user firebase-admin
+3. Clonar o projeto
+4. Acessar a pasta do projeto e instalar as dependências do projeto: npm install
+5. Acessar a pasta src/app/model/firestore e digitar o comando: git submodule init && git submodule update
+6. Rodar o projeto: ng serve
+7. Acessar a pasta backend e executar o servidor Django: python manage.py runserver
