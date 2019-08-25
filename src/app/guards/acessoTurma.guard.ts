@@ -61,7 +61,7 @@ export class TurmaGuard implements CanActivate,CanLoad {
        
         if(resultado.length === 0){
           this.messageService.add({severity:'warning', summary:'Não autorizado', detail: "Apenas pessoas dessa turma tem permissão!"});
-          //alert("Só pessoas dessa turma tem permissão!");
+          alert("Só pessoas dessa turma tem permissão!");
           observer.next(false);
           observer.complete();
          
@@ -73,7 +73,7 @@ export class TurmaGuard implements CanActivate,CanLoad {
         }
       });
     }else{
-      //alert("erro no estudante ou na turma");
+      alert("erro no estudante ou na turma");
       this.messageService.add({severity:'error', summary:'Erro', detail: "Erro no estudante ou na turma.."});
     }
     });
