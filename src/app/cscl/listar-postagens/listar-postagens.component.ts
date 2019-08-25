@@ -43,10 +43,10 @@ export class ListarPostagensComponent implements OnChanges {
 
   cadastrar() {
 
-    this.router.navigate(["main", { outlets: { principal: ['cadastrar-postagem', this.turma.id] } }]);
+    this.router.navigate(["main", { outlets: { principal: ['cadastrar-postagem', this.turma.pk()] } }]);
   }
 
   abrirPostagem(postagem) {
-    this.router.navigate(["main", { outlets: { principal: ['visualizar-postagem', postagem.id] } }]);
+    this.router.navigate(["main", { outlets: { principal: ['visualizar-postagem', postagem.id,this.turma.pk()] } }]);
   }
 }

@@ -20,8 +20,9 @@ import { AuthGuard } from './guards/auth.guard';
 import { CsclModule } from './cscl/cscl.module';
 import { BrowserModule } from '@angular/platform-browser';
 import { DocumentModule } from './model/firestore/document.module';
-import { PostagensTurmaGuard } from './guards/postagensTurma.guard';
 import { TurmaModule } from './turma/turma.module';
+import { TurmaGuard } from './guards/acessoTurma.guard';
+import { MessageService } from 'primeng/api';
 
 
 
@@ -47,7 +48,7 @@ import { TurmaModule } from './turma/turma.module';
     InputTextModule,
     MenubarModule,
   ],
-  providers: [AuthGuard,PostagensTurmaGuard],
+  providers: [AuthGuard,TurmaGuard,MessageService],
   bootstrap: [AppComponent]
 })
 export class AppModule { }
