@@ -55,8 +55,6 @@ import { CsclModule } from '../cscl/cscl.module';
 
 
 
-
-
 @NgModule({
   declarations: [
     VisualizarTestesComponent, 
@@ -80,6 +78,7 @@ import { CsclModule } from '../cscl/cscl.module';
     VisualizarPedidoAjudaComponent,
     EscolherQuestaoComponent,
     VisualizarPerfilEstudanteComponent,
+   
     
 
   ],

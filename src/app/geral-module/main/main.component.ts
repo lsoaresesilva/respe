@@ -13,7 +13,7 @@ import GeradorCodigo from 'src/app/util/geradorCodigo';
 })
 export class MainComponent implements OnInit {
 
-  itens: MenuItem[];
+  items: MenuItem[];
   private usuario;
 
 
@@ -23,7 +23,7 @@ export class MainComponent implements OnInit {
 
   ngOnInit() {
 
-    this.itens = [
+    this.items = [
       {
         label: 'Planejamento',
         command: () => { this.router.navigate(["main", { outlets: { principal: ['listagem-planejamento'] } }]) }

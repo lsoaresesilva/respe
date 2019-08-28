@@ -3,6 +3,7 @@ import { Observable, forkJoin } from 'rxjs';
 import EstudanteTurma from './estudanteTurma';
 import Usuario from './usuario';
 import GeradorCodigo from '../util/geradorCodigo';
+import Query from 'src/app/model/firestore/query';
 
 @Collection("turmas")
 export default class Turma extends Document {
@@ -79,6 +80,21 @@ export default class Turma extends Document {
             return true;
 
         return false
+    }
+    static validarCodigo(codigo){
+        console.log(codigo)
+        return new Observable(observer => {
+        Turma.getAll(new Query("codigo", "==", codigo)).subscribe(resultado => {
+            console.log(resultado)
+            if (resultado.length>0){
+                observer.next(true);
+                observer.complete();
+            }else{
+                observer.next(false);
+                observer.complete();
+            }
+        });
+        });
     }
 
 }
