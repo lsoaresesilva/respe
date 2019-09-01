@@ -28,8 +28,7 @@ export class AuthGuard implements CanActivate, CanLoad {
     state: RouterStateSnapshot
   ) : Observable<boolean> | boolean{
 
-    console.log("acesso");
-    console.log(this.router.url);
+    
     return this.verificarAcesso();
   }
 
@@ -38,8 +37,7 @@ export class AuthGuard implements CanActivate, CanLoad {
     state: RouterStateSnapshot
   ) : Observable<boolean> | boolean{
 
-    console.log("acesso");
-    console.log(this.router.url);
+    
     return this.VerificarUsuarioPertenceTurma()
   }
 
