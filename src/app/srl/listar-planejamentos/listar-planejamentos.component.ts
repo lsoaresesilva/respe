@@ -5,7 +5,7 @@ import { Router } from '@angular/router';
 import Usuario from 'src/app/model/usuario';
 import Query from 'src/app/model/firestore/query';
 import { forkJoin } from 'rxjs';
-import { LoginService } from 'src/app/juiz/login.service';
+import { LoginService } from 'src/app/login-module/login.service';
 
 @Component({
   selector: 'app-listar-planejamentos',

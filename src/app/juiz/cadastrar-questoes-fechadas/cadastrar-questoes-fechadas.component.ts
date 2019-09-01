@@ -20,16 +20,12 @@ export class CadastrarQuestoesFechadasComponent implements OnInit {
   assuntos;
   isAlterar:Boolean=false;
   
- 
-
   constructor(private router: Router, private activatedRoute: ActivatedRoute, private messageService: MessageService) {
-   
-
   }
 
   ngOnInit() {
     
-    this.questao = new QuestaoFechada(null, "", "", 0, null, [],"",null);
+    this.questao = new QuestaoFechada(null, "", "", 0, null, [],"");
 
 
     this.activatedRoute.params

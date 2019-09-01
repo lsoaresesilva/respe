@@ -2,7 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import Turma from 'src/app/model/turma';
 import { MenuItem, MessageService } from 'primeng/api';
 import { Router } from '@angular/router';
-import { LoginService } from '../login.service';
+import { LoginService } from '../../login-module/login.service';
 
 @Component({
   selector: 'app-listar-turma',

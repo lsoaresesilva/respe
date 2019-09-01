@@ -36,7 +36,7 @@ import { ListarAssuntosComponent } from './listar-assuntos/listar-assuntos.compo
 import { VisualizarAssuntoComponent } from './visualizar-assunto/visualizar-assunto.component';
 import { ListarPedidosAjudaComponent } from './listar-pedidos-ajuda/listar-pedidos-ajuda.component';
 import { VisualizarPedidoAjudaComponent } from './visualizar-pedido-ajuda/visualizar-pedido-ajuda.component';
-import { LoginService } from './login.service';
+import { LoginService } from '../login-module/login.service';
 import { EditorService } from './editor.service';
 
 import { CadastrarAlternativasComponent } from './cadastrar-alternativas/cadastrar-alternativas.component';
@@ -99,7 +99,6 @@ import { CsclModule } from '../cscl/cscl.module';
     HttpClientModule,
     ProgressSpinnerModule,
     AnalyticsModule,
-    SrlModule,
     AutoCompleteModule,
     ToastModule,
     InputTextModule,

@@ -8,21 +8,21 @@ import { observable, Observable } from 'rxjs';
 
 
 @Collection("respostaQuestaoFechada")
-export class RespostaQuestaoFechada extends Document{
+export class RespostaQuestaoFechada extends Document {
     estudante: Usuario;
-    resposta :String;
+    resposta: String;
     questao: Questao;
 
-    constructor(public id, estudante,resposta,questao){
+    constructor(public id, estudante, resposta, questao) {
         super(id);
 
-        this.estudante=estudante;
-        this.resposta=resposta;
-        this.questao=questao;
-       
+        this.estudante = estudante;
+        this.resposta = resposta;
+        this.questao = questao;
+
     }
 
-   objectToDocument(){
+    objectToDocument() {
         let document = super.objectToDocument()
         document["usuarioId"] = this.estudante.pk();
         document["questaoId"] = this.questao.id;
@@ -30,33 +30,33 @@ export class RespostaQuestaoFechada extends Document{
     }
 
 
-       jaRespondeu(questaoId,usuarioId):Observable<String>{
+    getRespostaQuestaoEstudante(questao, usuario): Observable<String> {
         return new Observable(observer => {
-            
-            RespostaQuestaoFechada.getAll(new Query("usuarioId","==",usuarioId)).subscribe(respostas => {
 
-                if(respostas.length>0){
-                    respostas.forEach(result=>{ 
+            RespostaQuestaoFechada.getAll([new Query("usuarioId", "==", usuario.pk()), new Query("questaoId", "==", questao.id)]).subscribe(respostaSalva => {
 
-                   
-                        if(result.questaoId == questaoId ){
-                            observer.next(result.resposta);
-                            observer.complete();
-                            
-                        }
-                    });
+                if(respostaSalva.length > 0){
+                    observer.next(respostaSalva[0].resposta);
+                }else{
+                    observer.next(null);
                 }
-            
-           });
-
-           //observer.next(null);
-           //observer.complete();
-
+                
+                observer.complete();
+            });
         });
-        
+
     }
 
-    
+    getTodasRespostasQuestoesFechadasEstudante(usuario){
+        return new Observable(observer=>{
+            RespostaQuestaoFechada.getAll(new Query("usuarioId", "==", usuario.pk())).subscribe(respostas => {
+                observer.next(respostas);
+                observer.complete();
+            });
+        }) 
+    }
+
+
 
 
 }

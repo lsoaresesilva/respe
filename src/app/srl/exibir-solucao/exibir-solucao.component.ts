@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { ModeloRespostaQuestao } from 'src/app/model/modeloRespostaQuestao';
-import { LoginService } from 'src/app/juiz/login.service';
+import { LoginService } from 'src/app/login-module/login.service';
 import { VisualizacaoRespostasQuestoes } from 'src/app/model/visualizacaoRespostasQuestoes';
 import Query from 'src/app/model/firestore/query';
 import { Questao } from 'src/app/model/questao';
