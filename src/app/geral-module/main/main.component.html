@@ -1,7 +1,10 @@
 <div *ngIf="this.usuario.perfil == 3">
-  <app-menu-estudante></app-menu-estudante>
+  <p-menubar [model]="itens"></p-menubar>
+</div>
+<div *ngIf = "this.usuario.perfil == 2">
+  <p-menubar [model]="itens"></p-menubar>
 </div>
 <div *ngIf = "this.usuario.perfil == 1">
-      <p-menubar [model]="itens"></p-menubar> 
+  <app-menu-estudante></app-menu-estudante>
 </div>
 <router-outlet name="principal"></router-outlet>
