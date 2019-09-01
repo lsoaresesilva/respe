@@ -3,7 +3,7 @@ import QuestaoFechada from 'src/app/model/questaoFechada';
 import { MenuItem, MessageService } from 'primeng/api';
 import { Router } from '@angular/router';
 import Usuario from 'src/app/model/usuario';
-import { LoginService } from '../login.service';
+import { LoginService } from '../../login-module/login.service';
 import { Assunto } from 'src/app/model/assunto';
 import { RespostaQuestaoFechada } from 'src/app/model/respostaQuestaoFechada';
 import Query from 'src/app/model/firestore/query';
@@ -16,113 +16,86 @@ import Alternativa from 'src/app/model/alternativa';
   styleUrls: ['./listar-questoes-fechadas.component.css']
 })
 export class ListarQuestoesFechadasComponent implements OnInit {
-  
+
   @Input("assunto") assunto?;
 
   selectedQuestao: QuestaoFechada;
   items: MenuItem[];
-  usuario;
-  questoes;
-  respostas;
-  
+  respostasAluno;
 
-  
 
-  constructor(private messageService: MessageService, private router:Router, private login:LoginService) { 
-    this.usuario = this.login.getUsuarioLogado();
+  constructor(private messageService: MessageService, private router: Router, private login: LoginService) {
+    this.respostasAluno = [];
   }
 
   ngOnInit() {
-    RespostaQuestaoFechada.getAll(new Query("usuarioId","==",this.usuario.pk())).subscribe(respostas => {
-      this.respostas=respostas;
-      this.adicionandoRespostaUsuario(this.assunto.questoesFechadas,this.respostas);
-
+    RespostaQuestaoFechada.getAll(new Query("usuarioId", "==", this.login.getUsuarioLogado().pk())).subscribe(respostasAluno => {
+      this.carregarStatusRespostasAluno(respostasAluno);
     });
 
-
-
-    if(this.usuario.perfil == 3){
+    if (this.login.getUsuarioLogado().perfil == 3) {
       this.items = [
         { label: 'Alterar', icon: 'pi pi-check', command: (event) => this.alterar(this.selectedQuestao) },
         { label: 'Deletar', icon: 'pi pi-times', command: (event) => this.deletar(this.selectedQuestao) }
-        ];
+      ];
     }
-  
   }
 
-
-  
-  
-  
-  visualizar(questao:QuestaoFechada){
-    this.router.navigate(["main", { outlets: { principal: ['visualizacao-questao-fechada',this.assunto.pk(), questao.id] } } ] );
+  visualizar(questao: QuestaoFechada) {
+    this.router.navigate(["main", { outlets: { principal: ['visualizacao-questao-fechada', this.assunto.pk(), questao.id] } }]);
 
   }
 
 
   alterar(questao: QuestaoFechada) {
-    if(questao != undefined){
-      this.router.navigate(["main", { outlets: { principal: ['cadastro-questao-fechada', this.assunto.pk(),questao.id] } } ] );
+    if (questao != undefined) {
+      this.router.navigate(["main", { outlets: { principal: ['cadastro-questao-fechada', this.assunto.pk(), questao.id] } }]);
     }
-    
+
   }
 
+  carregarStatusRespostasAluno(respostasAlunoUsuario) {
 
-  adicionandoRespostaUsuario(questoes,respostasUsuario){
+    this.respostasAluno = [];
 
-
-    questoes.map(questao =>{
-
-      //Iniciando as respostas como não respondida
-      questao.respostaUsuario = "responder";
-
-      respostasUsuario.map(respostaUsuario=>{
-
-        if( questao.id == respostaUsuario.questaoId ){
-          let respostaCerta = Alternativa.EncontrarAlternativaCerta(questao.alternativas);
-
-          //definindo a questao do usuario se a sua resposta foi certa ou errada
-          questao.respostaUsuario = respostaUsuario.resposta === respostaCerta ? "Certo" : "Errado";
+    for (let i = 0; i < this.assunto.questoesFechadas.length; i++) {
+      respostasAlunoUsuario.map(respostaUsuario => {
+        if (respostaUsuario.questaoId == this.assunto.questoesFechadas[i].id) {
+          this.respostasAluno[i] = QuestaoFechada.isRespostaCorreta(this.assunto.questoesFechadas[i], respostaUsuario);
         }
-          
       });
 
-    });
-    
-    this.questoes= questoes;
-       
+      if (this.respostasAluno[i] == undefined)
+        this.respostasAluno[i] = "Responder";
+    }
   }
- 
-  
-  
 
-  deletar(questao:QuestaoFechada){
+  deletar(questao: QuestaoFechada) {
     let index = -1;
-    for (let i=0;i<this.assunto.questoesFechadas;i++){
-     if( this.assunto.questoeFechadas[i].id== questao.id){
-      index = i;
-      break;
-      
-     }
+    for (let i = 0; i < this.assunto.questoesFechadas; i++) {
+      if (this.assunto.questoeFechadas[i].id == questao.id) {
+        index = i;
+        break;
+
+      }
     }
 
-    Assunto.delete(this.assunto.questoesFechadas[index]).subscribe(resultado=>{
-     
+    Assunto.delete(this.assunto.questoesFechadas[index]).subscribe(resultado => {
+
       this.messageDelete();
     });
-    this.assunto.questoesFechadas.splice(index, 1);
-    this.messageDelete();
+    
   }
 
   messageDelete() {
-    this.messageService.add({severity:'error', summary:'Deletado!', detail:" foi excluido do banco de questões"});
+    this.messageService.add({ severity: 'error', summary: 'Deletado!', detail: " foi excluido do banco de questões" });
   }
-  messageView(){
-    this.messageService.add({severity:'info', summary:'Questao visualizado', detail:'informações sobre a questão'});
+  messageView() {
+    this.messageService.add({ severity: 'info', summary: 'Questao visualizado', detail: 'informações sobre a questão' });
   }
-  
-  cadastrar(){
+
+  cadastrar() {
     this.router.navigate(["main", { outlets: { principal: ['cadastro-questao-fechada'] } }]);
   }
-  
+
 }

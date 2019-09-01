@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { MessageService } from 'primeng/api';
 import { Router, ActivatedRoute } from '@angular/router';
-import { LoginService } from 'src/app/juiz/login.service';
+import { LoginService } from 'src/app/login-module/login.service';
 import Submissao from 'src/app/model/submissao';
 import { Assunto } from 'src/app/model/assunto';
 import Usuario from 'src/app/model/usuario';

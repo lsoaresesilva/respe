@@ -2,7 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { Assunto } from 'src/app/model/assunto';
 import { MenuItem, MessageService } from 'primeng/api';
 import { Router, ActivatedRoute } from '@angular/router';
-import { LoginService } from '../login.service';
+import { LoginService } from '../../login-module/login.service';
 
 @Component({
   selector: 'app-listar-assuntos',
