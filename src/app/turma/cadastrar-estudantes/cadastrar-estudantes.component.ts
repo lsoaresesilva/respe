@@ -20,6 +20,9 @@ export class CadastrarEstudantesComponent implements OnInit {
   constructor(public router: Router, private route: ActivatedRoute, private messageService: MessageService) {
 
   }
+  MensagemError(){
+    this.messageService.add({ severity: 'success', summary: 'Estudante cadastrado com sucesso.' });
+  }
 
   exibirMensagemCadastro() {
     this.messageService.add({ severity: 'success', summary: 'Estudante cadastrado com sucesso.' });
@@ -30,25 +33,34 @@ export class CadastrarEstudantesComponent implements OnInit {
   }
 
   cadastrarEstudante() {
-    if(this.estudante.turma.codigo == undefined){
-      alert("É preciso informar o código de uma turma.")
+   let resultado;
+    Turma.validarCodigo(this.estudante.turma.codigo).subscribe(resultadoBanco=>{
+      resultado = resultadoBanco;
+        if(resultado === false){
+        alert("codigo invalido");
+        }
+    });
+    if(this.estudante.turma.codigo == undefined ){
+      alert("É preciso informar o código de uma turma.");
+    }else{
+      this.estudante.usuario.validar().subscribe(resultado => {
+        if (resultado) {
+          
+          this.estudante.save().subscribe(resultado => {
+            //this.exibirMensagemCadastro(); <= não está funcionando
+            alert("Cadastro realizado com sucesso.")
+            this.router.navigate([""]);
+          },
+            err => {
+              this.messageService.add({ severity: 'erro', summary: 'Houve um erro:', detail: err.toString() });
+            });
+  
+        }
+      }, err=>{
+        alert('Houve um erro: '+err.toString());
+      });
     }
-    this.estudante.usuario.validar().subscribe(resultado => {
-      if (resultado) {
-        
-        this.estudante.save().subscribe(resultado => {
-          //this.exibirMensagemCadastro(); <= não está funcionando
-          alert("Cadastro realizado com sucesso.")
-          this.router.navigate([""]);
-        },
-          err => {
-            this.messageService.add({ severity: 'erro', summary: 'Houve um erro:', detail: err.toString() });
-          });
-
-      }
-    }, err=>{
-      alert('Houve um erro: '+err.toString());
-    })
+   
 
   }
 

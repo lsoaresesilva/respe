@@ -2,6 +2,9 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import Turma from 'src/app/model/turma';
+import { LoginService } from 'src/app/juiz/login.service';
+import EstudanteTurma from 'src/app/model/estudanteTurma';
+import Query from 'src/app/model/firestore/query';
 
 
 @Component({
@@ -12,22 +15,32 @@ import Turma from 'src/app/model/turma';
 export class VisualizarTurmaComponent implements OnInit {
 
   turma$?;
+  private usuario;
+  minhaTurma;
+  
 
-  constructor(private route:ActivatedRoute, private router:Router){
-    
+  constructor(private route:ActivatedRoute, private router:Router, private login:LoginService){
+    this.usuario = this.login.getUsuarioLogado();
   }
 
   ngOnInit() {
     this.route.params.subscribe(params => {
       
       this.turma$ = Turma.get(params["turmaId"]);
+      
+      // EstudanteTurma.get(new Query("estudanteId", "==", this.usuario.id)).subscribe(turma =>{this.minhaTurma = turma
+      //   Turma.get(new Query(this.minhaTurma.codigo, "==", this.turma$.codigo)).subscribe(turma=>{
+  
+      //   });
+      // });
 
     });
+   
 
   }
 
-  visualizarEstudantes(turma){
-    this.router.navigate(["main", { outlets: { principal: ['listagem-estudantes', turma.codigo] } }]);
+  visualizarEstudantes(minhaTurma){
+    this.router.navigate(["main", { outlets: { principal: ['listagem-estudantes', minhaTurma.codigo] } }]);
   }
 
   

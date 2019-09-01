@@ -7,9 +7,9 @@ import { CadastrarEstudantesComponent } from './cadastrar-estudantes/cadastrar-e
 import { CadastrarTurmaComponent } from './cadastrar-turma/cadastrar-turma.component';
 import { FormsModule } from '@angular/forms';
 import { AutoCompleteModule, InputTextModule } from 'primeng/primeng';
-import { ToastModule } from 'primeng/toast';
 import { ListarEstudantesComponent } from './listar-estudantes/listar-estudantes.component';
 import { TableModule } from 'primeng/table';
+import {ToastModule} from 'primeng/toast';
 
 @NgModule({
   declarations: [VisualizarTurmaComponent, CadastrarEstudantesComponent, CadastrarTurmaComponent, ListarEstudantesComponent],

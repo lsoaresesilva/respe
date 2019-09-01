@@ -42,6 +42,8 @@ import { CadastrarEstudantesComponent } from './turma/cadastrar-estudantes/cadas
 
 
 
+
+
 const routes: Routes = [
   {path:"main", component:MainComponent, canActivate: [AuthGuard], canLoad: [AuthGuard], children: [
     {path:"editor/:assuntoId/:questaoId", component:EditorProgramacaoComponent, outlet:"principal"},
@@ -91,8 +93,7 @@ const routes: Routes = [
     {path:"visualizacao-estudante/:id", component:VisualizarPerfilEstudanteComponent, canActivate: [AuthGuard], canLoad: [AuthGuard], outlet:"principal"},
     {path:"visualizacao-turma/:turmaId", component: VisualizarTurmaComponent, canActivate: [AuthGuard], canLoad: [AuthGuard], outlet:"principal"},
     
-   
-
+  
 
 
   ]},
