@@ -68,6 +68,7 @@ export class CadastrarQuestoesFechadasComponent implements OnInit {
   cadastrar() {
     
      if (this.questao.validar()) { 
+       this.messageCadastro();
 
 
       if(this.assunto.questoesFechadas == null)
