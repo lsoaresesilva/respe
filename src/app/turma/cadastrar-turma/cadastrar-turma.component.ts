@@ -39,6 +39,8 @@ export class CadastrarTurmaComponent implements OnInit {
             if (professor.email.includes(event.query)) {
               this.professores.push(professor);
             }
+          }else{
+            this.exibirMensagemProfessorAdicionado();
           }
         });
 
@@ -57,6 +59,10 @@ export class CadastrarTurmaComponent implements OnInit {
   exibirMensagemErroCadastroBancoDeDados() {
     this.messageService.add({ severity: 'erro', summary: 'Service Message', detail: 'Houve um erro ao tentar salvar no banco de dados. Tente novamente em alguns minutos.' });
   }
+  exibirMensagemProfessorAdicionado(){
+    this.messageService.add({ severity: 'erro', summary: 'Service Message', detail: 'Houve um erro em adicionar o professo.' });
+  }
+
 
 
 
@@ -77,6 +83,7 @@ export class CadastrarTurmaComponent implements OnInit {
 
   cadastrarTurma() {
     if (this.turma.validar()) {
+      this.exibirMensagemCadastroSucesso();
       this.turma.save().subscribe(resultado => {
         this.router.navigate(["main", { outlets: { principal: ['listagem-turma'] } }]);
 

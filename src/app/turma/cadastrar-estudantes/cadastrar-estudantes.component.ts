@@ -24,6 +24,9 @@ export class CadastrarEstudantesComponent implements OnInit {
   exibirMensagemCadastro() {
     this.messageService.add({ severity: 'success', summary: 'Estudante cadastrado com sucesso.' });
   }
+  exibirMensagemCodigoInvalido() {
+    this.messageService.add({ severity: 'success', summary: 'É preciso informar o código de uma turma.' });
+  }
 
   ngOnInit() {
     this.estudante = new Estudante(new Turma(null, null, null, null), new Usuario(null, null, null, PerfilUsuario.estudante));
@@ -31,14 +34,12 @@ export class CadastrarEstudantesComponent implements OnInit {
 
   cadastrarEstudante() {
     if(this.estudante.turma.codigo == undefined){
-      alert("É preciso informar o código de uma turma.")
+      this.exibirMensagemCodigoInvalido();
     }
     this.estudante.usuario.validar().subscribe(resultado => {
       if (resultado) {
-        
+        this.exibirMensagemCadastro();
         this.estudante.save().subscribe(resultado => {
-          //this.exibirMensagemCadastro(); <= não está funcionando
-          alert("Cadastro realizado com sucesso.")
           this.router.navigate([""]);
         },
           err => {

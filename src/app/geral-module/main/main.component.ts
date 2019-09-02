@@ -5,6 +5,8 @@ import Usuario from 'src/app/model/usuario';
 import { LoginService } from 'src/app/login-module/login.service';
 import geradorCodigo from 'src/app/util/geradorCodigo';
 import GeradorCodigo from 'src/app/util/geradorCodigo';
+import EstudanteTurma from 'src/app/model/estudanteTurma';
+import Query from 'src/app/model/firestore/query';
 
 @Component({
   selector: 'app-main',
@@ -15,6 +17,8 @@ export class MainComponent implements OnInit {
 
   itens: MenuItem[];
   private usuario;
+  private estudanteTurma;
+  turmaId;
 
 
   constructor(private router: Router, private login:LoginService) { 
@@ -22,6 +26,9 @@ export class MainComponent implements OnInit {
   }
 
   ngOnInit() {
+        EstudanteTurma.getAll(new Query("estudanteId", "==", this.usuario.pk())).subscribe(resultado => {
+      this.turmaId = resultado[0].turmaId;
+    });
 
     this.itens = [
       {
@@ -36,7 +43,7 @@ export class MainComponent implements OnInit {
       },
       {
         label: 'Estudantes',
-        command: () => { this.router.navigate(["main", { outlets: { principal: ['listagem-estudantes'] } }]) }
+        command: () => { this.router.navigate(["main", { outlets: { principal: ['listagem-estudantes', this.turmaId] } }]) }
 
       },
       {

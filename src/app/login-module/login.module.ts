@@ -8,6 +8,7 @@ import { FormsModule } from '@angular/forms';
 import {ButtonModule} from 'primeng/button';
 import {InputTextModule} from 'primeng/inputtext';
 import {CardModule} from 'primeng/card';
+import {ToastModule} from 'primeng/toast';
 
 @NgModule({
   declarations: [
@@ -18,7 +19,8 @@ import {CardModule} from 'primeng/card';
     FormsModule,
     ButtonModule,
     InputTextModule,
-    CardModule
+    CardModule,
+    ToastModule,
     
   ],
   providers: [UsuarioService]

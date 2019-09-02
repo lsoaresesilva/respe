@@ -3,6 +3,7 @@ import { UsuarioService } from '../usuario.service';
 import Usuario from '../../model/usuario';
 import { Router } from '@angular/router';
 import { LoginService } from 'src/app/login-module/login.service';
+import {MessageService} from 'primeng/api';
 
 @Component({
   selector: 'app-login',
@@ -13,11 +14,14 @@ export class LoginComponent implements OnInit {
 
   usuario:Usuario;
 
-  constructor(private loginService:UsuarioService, private router:Router, private login:LoginService) { 
+  constructor(private loginService:UsuarioService, private router:Router, private login:LoginService, private messageService: MessageService) { 
     this.usuario = new Usuario(null, null, null, 0);
   }
 
   ngOnInit() {
+  }
+  loginIncorreto(){
+    this.messageService.add({severity:'success', summary:'Inválido!', detail:'Usuário ou senha inválidos'});
   }
 
   acessar(){
@@ -26,7 +30,8 @@ export class LoginComponent implements OnInit {
       if( resultado )
         this.router.navigateByUrl("/main");
       else{
-        alert("a senha ="+this.usuario.senha +" e login = "+this.usuario.email+" estão invalidos") // TODO: mudar para o message service
+        this.loginIncorreto();
+
       }
     })
   }
