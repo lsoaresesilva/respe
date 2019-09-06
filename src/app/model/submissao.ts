@@ -119,7 +119,6 @@ export default class Submissao extends Document {
                     forkJoin(erros).subscribe(erros => {
 
                         erros.forEach(erro => {
-                            console.log(erro);
                             /*erro.forEach(e=>{
                                 for(let i = 0; i < submissoes.length; i++){
                                     if( e.submissaoId == submissoes[i].id){

@@ -29,8 +29,7 @@ export class PostagensTurmaGuard implements CanActivate {
     state: RouterStateSnapshot
   ) : Observable<boolean> | boolean{
 
-    console.log("acesso");
-    console.log(this.router.url);
+    
     return this.verificarUsuarioPertenceTurma();
   }
 
