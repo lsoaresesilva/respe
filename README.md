@@ -6,7 +6,7 @@ Este repositório faz parte de um projeto de pesquisa do Instituto Federal de Pe
 Construir um ambiente de desenvolvimento (IDE) online para o aprendizado de algoritmos. Inicialmente será oferecido suporte para a linguagem Python. Integrado ao ambiente está o suporte à autorregulação.
 
 # Tecnologias
-A criação da IDE será em Angular e o backend em Django (Python). A persistência de dados será feita no Firebase, especificamente com o Firestore.
+A criação da IDE será em Angular e o backend em Djanjgo (Python). A persistência de dados será feita no Firebase, especificamente com o Firestore.
 
 Organizaremos o projeto em módulos do angular. Antes de fazer qualquer código certifique-se que você está no módulo adequado (a identificação do módulo ao qual pertence a issue está como tag da issue)
 
