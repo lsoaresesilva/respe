@@ -46,13 +46,24 @@ export class Assunto extends Document {
         return document;
     }
 
-    getQuestaoById(questaoId) {
+    getQuestaoProgramacaoById(questaoId) {
+        let questaoLocalizada = null;
         this.questoesProgramacao.forEach(questao => {
             if (questao.id == questaoId)
-                return questao;
+                questaoLocalizada = questao;
         })
 
-        return new Questao(null, "", "", 0, 0, [], [],null);
+        return questaoLocalizada;
+    }
+
+    getQuestaoFechadaById(questaoId) {
+        let questaoLocalizada = null;
+        this.questoesFechadas.forEach(questao => {
+            if (questao.id == questaoId)
+                questaoLocalizada = questao;
+        })
+
+        return questaoLocalizada;
     }
 
     static get(id) {
@@ -113,7 +124,7 @@ export class Assunto extends Document {
 
     static isFinalizado(assunto: Assunto, estudante, margemAceitavel = 0.6) {
         return new Observable(observer => {
-            this.percentualConclusaoQuestoes(assunto, estudante, margemAceitavel).subscribe(percentual => {
+            this.calcularPercentualConclusaoQuestoes(assunto, estudante, margemAceitavel).subscribe(percentual => {
                 if (percentual >= margemAceitavel) {
                     observer.next(true);
                     observer.complete();
@@ -134,28 +145,32 @@ export class Assunto extends Document {
         return true;
     }
 
-    // TODO: pegar somente o que for do usuário logado
-    static percentualConclusaoQuestoes(assunto: Assunto, usuario: Usuario, margemAceitavel): Observable<number> {
+    static getTodasSubmissoesProgramacaoPorEstudante(assunto, usuario) {
+        let submissoes = {}
+        assunto.questoesProgramacao.forEach(questao => {
+            if (questao.testsCases != undefined && questao.testsCases.length > 0) {
+                questao.testsCases.forEach(testCase => {
+                    submissoes[questao.id] = Submissao.getRecentePorQuestao(questao, usuario);
+                })
+            }
+        })
+
+        return submissoes;
+    }
+
+    /**
+     * Calcula o percentual de questões de um assunto que o estudante resolveu.
+     * @param assunto 
+     * @param usuario 
+     * @param margemAceitavel 
+     */
+    static calcularPercentualConclusaoQuestoes(assunto: Assunto, usuario: Usuario, margemAceitavel): Observable<number> {
         // Pegar todas as questões de um assunto
         return new Observable(observer => {
             if (assunto != undefined && usuario != undefined) {
-
-
-                let consultas = {}
-                assunto.questoesProgramacao.forEach(questao => {
-                    if (questao.testsCases != undefined && questao.testsCases.length > 0) {
-                        questao.testsCases.forEach(testCase => {
-                            // TIRAR ISSO E SUBSTITUIR POR SUBMISSAO
-                            consultas[questao.pk()] = Submissao.getRecentePorQuestao(questao, usuario);
-                            //    consultas.push(ResultadoTestCase.getAll([new Query("testCaseId", "==", testCase.pk()), new Query("estudanteId", "==", usuario.pk()) ]));
-
-
-                        })
-                    }
-                })
-
-                if (!Util.isObjectEmpty(consultas)) {
-                    forkJoin(consultas).subscribe(submissoes => {
+                let submissoes = this.getTodasSubmissoesProgramacaoPorEstudante(assunto, usuario);
+                if (!Util.isObjectEmpty(submissoes)) {
+                    forkJoin(submissoes).subscribe(submissoes => {
                         let s: any = submissoes;
                         if (!Util.isObjectEmpty(s)) {
                             let totalQuestoes = assunto.questoesProgramacao.length;
@@ -166,7 +181,7 @@ export class Assunto extends Document {
                                 let resultadoAtualTestCase = null;
 
                                 for (let questaoId in s) {
-                                    if (questaoId == questao.pk()) {
+                                    if (questaoId == questao.id) {
                                         let totalTestsCases = questao.testsCases.length;
                                         let totalAcertos = 0;
                                         if (s[questaoId] != null && s[questaoId].resultadosTestsCases != null) {

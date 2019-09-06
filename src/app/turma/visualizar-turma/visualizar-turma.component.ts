@@ -27,7 +27,7 @@ export class VisualizarTurmaComponent implements OnInit {
   }
 
   visualizarEstudantes(turma){
-    this.router.navigate(["main", { outlets: { principal: ['listagem-estudantes', turma.pk()] } }]);
+    this.router.navigate(["main", { outlets: { principal: ['listagem-estudantes', turma.codigo] } }]);
   }
 
   

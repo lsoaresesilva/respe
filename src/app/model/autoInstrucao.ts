@@ -41,16 +41,15 @@ export class AutoInstrucao extends Document{
         
         return new Observable (observer =>{
 
-            AutoInstrucao.getAll(new Query("estudanteId","==",estudanteId)).subscribe(autoInstrucoesEstudante =>{
-                autoInstrucoesEstudante.filter(autoInstrucao =>{
-                    if(autoInstrucao.questaoId == questaoId){
-                        observer.next(autoInstrucao);
-                        observer.complete();
-                    }
-                });
+            AutoInstrucao.getAll([new Query("estudanteId","==",estudanteId), new Query("questaoId", "==", questaoId).subscribe(autoInstrucoesEstudante =>{
+                if(autoInstrucoesEstudante.length > 0){
+                    observer.next(autoInstrucoesEstudante[0]);
+                }else{
+                    observer.next(null);
+                }
+                observer.complete();
             });
 
         });
     }
-
 }

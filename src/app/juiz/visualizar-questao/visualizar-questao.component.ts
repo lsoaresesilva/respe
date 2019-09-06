@@ -37,7 +37,6 @@ export class VisualizarQuestaoComponent implements OnInit {
             assunto["questoesProgramacao"].forEach(questao => {
               if (questao.id == params["questaoId"]) {
                 this.questao = questao;
-                console.log(this.questao);
               }
             });
           }

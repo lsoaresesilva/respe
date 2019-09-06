@@ -28,20 +28,15 @@ export default class Usuario extends Document{
         return new Observable(observer=>{
             this.isEmailCadastrado().subscribe(resultado=>{
                 if(!resultado){
-                    if(this.email == null || this.email == "" || this.senha == null || this.senha == "" || this.perfil == null || this.perfil <= 0){
-                        observer.next(false);
-                        observer.complete();
+                    if(this.email == null || this.email == "" || this.nome == null || this.nome == "" || this.senha == null || this.senha == "" || this.perfil == null || this.perfil <= 0){
+                        observer.error(new Error("É preciso informar o e-mail, nome e senha para efetuar o cadastro.."))
                     }else{
                         observer.next(true);
                         observer.complete();
                     }
                 }else{
-                    observer.next(false);
-                    observer.complete();
+                    observer.error(new Error("Já existe um usuário cadastrado com este e-mail."))
                 }   
-
-               
-                
             })
         })
         

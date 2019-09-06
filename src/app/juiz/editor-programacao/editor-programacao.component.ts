@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import Editor from 'src/app/model/editor';
-import Estudante from 'src/app/model/estudante';
+
 import { Questao } from 'src/app/model/questao';
 import Submissao from 'src/app/model/submissao';
 import { Tutor } from 'src/app/model/tutor';
@@ -14,7 +14,7 @@ import Query from 'src/app/model/firestore/query';
 import PedidoAjuda from 'src/app/model/pedidoAjuda';
 import { Util } from 'src/app/model/util';
 import { Assunto } from 'src/app/model/assunto';
-import { LoginService } from '../login.service';
+import { LoginService } from '../../login-module/login.service';
 
 declare var editor: any;
 declare function carregarIde(readOnly, callback, instance, codigo): any;
@@ -50,7 +50,7 @@ export class EditorProgramacaoComponent implements OnInit {
   }
 
   /**
-   * Salva o código do estudante automaticamente a cada 2 minutos.
+   * Salva o código do estudante automaticamente a cada 5 minutos.
    */
   salvarAutomaticamente() {
     let __this = this;
@@ -60,7 +60,7 @@ export class EditorProgramacaoComponent implements OnInit {
         // TODO: mostrar mensagem que o código foi salvo automaticamente.
       });
 
-    }, 120000)
+    }, 300000)
   }
 
   ngOnInit() {
@@ -120,6 +120,7 @@ export class EditorProgramacaoComponent implements OnInit {
   prepararSubmissao(): Submissao {
     this.editorCodigo.codigo.setAlgoritmo(editor.getValue());
     let submissao = new Submissao(null, this.editorCodigo.codigo, this.login.getUsuarioLogado(), this.questao);
+  
     return submissao;
   }
 
@@ -128,7 +129,7 @@ export class EditorProgramacaoComponent implements OnInit {
     json["submissao"] = submissao.objectToDocument();
     json["tipo"] = tipo;
     json["assunto"] = this.assunto.objectToDocument();
-    json["questao"] = this.questao;
+    json["questao"] = this.questao.objectToDocument();
 
     return json;
   }

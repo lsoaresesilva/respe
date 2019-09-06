@@ -6,7 +6,7 @@ import Estudante from '../../model/estudante';
 import { Dificuldade } from '../../model/dificuldade';
 import { Router } from '@angular/router';
 import Usuario from 'src/app/model/usuario';
-import { LoginService } from 'src/app/juiz/login.service';
+import { LoginService } from 'src/app/login-module/login.service';
 //import {MessageService} from 'primeng/api';
 @Component({
   selector: 'app-cadastro-planejamento',

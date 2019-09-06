@@ -3,15 +3,26 @@ import { CommonModule } from '@angular/common';
 import { VisualizarTurmaComponent } from './visualizar-turma/visualizar-turma.component';
 import { CsclModule } from '../cscl/cscl.module';
 import { ButtonModule } from 'primeng/button';
+import { CadastrarEstudantesComponent } from './cadastrar-estudantes/cadastrar-estudantes.component';
+import { CadastrarTurmaComponent } from './cadastrar-turma/cadastrar-turma.component';
+import { FormsModule } from '@angular/forms';
+import { AutoCompleteModule, InputTextModule } from 'primeng/primeng';
+import { ToastModule } from 'primeng/toast';
+import { ListarEstudantesComponent } from './listar-estudantes/listar-estudantes.component';
+import { TableModule } from 'primeng/table';
 
 @NgModule({
-  declarations: [VisualizarTurmaComponent],
+  declarations: [VisualizarTurmaComponent, CadastrarEstudantesComponent, CadastrarTurmaComponent, ListarEstudantesComponent],
   imports: [
     CsclModule,
     CommonModule,
-    ButtonModule
-    
+    ButtonModule,
+    FormsModule,
+    AutoCompleteModule,
+    ToastModule,
+    InputTextModule,
+    TableModule,
   ],
-  exports:[VisualizarTurmaComponent]
+  exports:[VisualizarTurmaComponent, ListarEstudantesComponent]
 })
 export class TurmaModule { }

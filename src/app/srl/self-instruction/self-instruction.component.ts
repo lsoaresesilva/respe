@@ -3,9 +3,8 @@ import { Questao } from 'src/app/model/questao';
 import { AutoInstrucao } from 'src/app/model/autoInstrucao';
 import { ActivatedRoute, Router } from '@angular/router';
 import { Assunto } from 'src/app/model/assunto';
-import { LoginService } from 'src/app/juiz/login.service';
-import { Observable } from 'rxjs';
-import Query from 'src/app/model/firestore/query';
+import { LoginService } from 'src/app/login-module/login.service';
+import AssuntoQuestao from 'src/app/model/assuntoQuestao';
 
 
 @Component({
@@ -21,6 +20,17 @@ export class SelfInstructionComponent implements OnInit {
   private assunto;
   private usuario;
   
+  private assuntos;
+  condicoes;
+  repeticoes;
+  funcoes;
+  vetores;
+  
+   constructor(private route: ActivatedRoute, private router: Router ,private login : LoginService) {
+    this.questao = new Questao(null, null, null, null, null, [], [],null);
+    this.autoInstrucao = new AutoInstrucao (null,this.login.getUsuarioLogado(),this.questao,null,null,null,null,null,null);
+   }
+
 
     constructor(private route: ActivatedRoute, private router: Router ,private login : LoginService) {
       this.usuario = this.login.getUsuarioLogado();
@@ -43,7 +53,8 @@ export class SelfInstructionComponent implements OnInit {
                 this.questao = questao;
                 this.autoInstrucao.questao = this.questao;
                 this.getRespostasEstudante();
- 
+
+                this.buscarAssuntos();
               }
             });
           }
@@ -65,9 +76,8 @@ export class SelfInstructionComponent implements OnInit {
       }
 
     });
-
   }
-
+  
   salvar(){ 
     this.autoInstrucao.save().subscribe(resultado => {
       this.router.navigate(["main", { outlets: { principal: ['editor', this.assunto.pk(),this.questao.id] }}]);
@@ -77,6 +87,42 @@ export class SelfInstructionComponent implements OnInit {
     });
    
   } 
+
    
+  buscarAssuntos(){
+    let assuntos=[];
+    this.questao.assuntos.push(this.assunto); //incluindo o assunto principal
+    
+
+    this.questao.assuntos.forEach(assunto =>{
+      Assunto.get(assunto.id).subscribe(assuntoBanco =>{
+        assuntos.push(assuntoBanco["nome"]);
+        this.apresentarPerguntas(assuntos);
+      });
+    });
+     
+  }
+
+  apresentarPerguntas(assuntos){
+    assuntos.forEach(assunto=>{
+       
+      switch(assunto){
+        case "repeticoes":{
+          this.repeticoes = true;
+          break;}
+        case "condicoes":{
+          this.condicoes = true;
+          break;}
+        case "funcoes":{
+          this.funcoes = true;
+          break;}
+        case "vetores":{
+          this.vetores = true;
+          break;}
+      }
+    });
+  }
+    
 
 }
+    
