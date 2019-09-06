@@ -7,7 +7,6 @@ import { LoginService } from 'src/app/login-module/login.service';
 import AssuntoQuestao from 'src/app/model/assuntoQuestao';
 
 
-
 @Component({
   selector: 'app-self-instruction',
   templateUrl: './self-instruction.component.html',
@@ -16,11 +15,11 @@ import AssuntoQuestao from 'src/app/model/assuntoQuestao';
 export class SelfInstructionComponent implements OnInit {
   
 
-  autoInstrucao;
-  private questao?;
-  private id: number;
-  private sub: any;
+  private autoInstrucao:AutoInstrucao;
+  private questao;
   private assunto;
+  private usuario;
+  
   private assuntos;
   condicoes;
   repeticoes;
@@ -33,7 +32,17 @@ export class SelfInstructionComponent implements OnInit {
    }
 
 
+    constructor(private route: ActivatedRoute, private router: Router ,private login : LoginService) {
+      this.usuario = this.login.getUsuarioLogado();
+      this.autoInstrucao = new AutoInstrucao (null,this.login.getUsuarioLogado(),null,null,null,null,null,null,null);
+    }
+
   ngOnInit() {
+    this.getQuestao();
+   
+  }
+
+  getQuestao(){
     this.route.params.subscribe(params => {
       if (params["assuntoId"] != undefined && params["questaoId"] != undefined) {
         Assunto.get(params["assuntoId"]).subscribe(assunto => {
@@ -42,32 +51,43 @@ export class SelfInstructionComponent implements OnInit {
             assunto["questoesProgramacao"].forEach(questao => {
               if (questao.id == params["questaoId"]) {
                 this.questao = questao;
+                this.autoInstrucao.questao = this.questao;
+                this.getRespostasEstudante();
+
                 this.buscarAssuntos();
-                 
               }
             });
           }
-          });
-        
+        });  
+
       } else {
-        throw new Error("Não é possível visualizar uma questão, pois não foram passados os identificadores de assunto e questão.")
+         throw new Error("Não é possível visualizar uma questão, pois não foram passados os identificadores de assunto e questão.")
+        }
+    });
+  }
+  
+  getRespostasEstudante(){
+    AutoInstrucao.getAutoInstrucao(this.usuario.id,this.questao.id).subscribe(autoInstrucao =>{
+
+      if(autoInstrucao != undefined){
+        this.autoInstrucao = autoInstrucao;
+        this.autoInstrucao.estudante= this.usuario;
+        this.autoInstrucao.questao = this.questao;   
       }
 
     });
-     
-
   }
   
-
-  salvar(){
-      this.autoInstrucao.save().subscribe(resultado => {
+  salvar(){ 
+    this.autoInstrucao.save().subscribe(resultado => {
       this.router.navigate(["main", { outlets: { principal: ['editor', this.assunto.pk(),this.questao.id] }}]);
 
-      },
-       err => {
-      alert("teve algum problema:"+err);
-      });
-    } 
+      },err => {
+      alert("Ocorreu um problema, tente novamente!");
+    });
+   
+  } 
+
    
   buscarAssuntos(){
     let assuntos=[];
