@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { Questao } from 'src/app/model/questao';
-import { Dificuldade } from 'src/app/model/dificuldade';
+import { Dificuldade } from 'src/app/model/enums/dificuldade';
 import { SelectItem } from 'primeng/components/common/selectitem';
 import { Router, ActivatedRoute } from '@angular/router';
 import { Assunto } from '../../model/assunto';

@@ -11,14 +11,12 @@
       <tr>
           <th>Assunto</th>
           <th>Horas de estudo/semana</th>
-          <th>Concluído</th>
       </tr>
   </ng-template>
   <ng-template pTemplate="body" let-planejamento>
       <tr>
           <td><a (click)="abrirPlanejamento(planejamento)">{{planejamento.assunto.nome}}</a></td>
           <td>{{planejamento.tempoEstudo}} horas/semana</td>
-          <td>{{planejamento.status?"Sim":"Não"}}</td>
       </tr>
   </ng-template>
 </p-table>

@@ -2,7 +2,7 @@ import Usuario from './usuario';
 import { Assunto } from './assunto';
 import Estudante from './estudante';
 import { Document, Collection } from './firestore/document';
-import { Dificuldade } from './dificuldade';
+import { Dificuldade } from './enums/dificuldade';
 import { Questao } from './questao';
 
 @Collection("autoInstrucao")

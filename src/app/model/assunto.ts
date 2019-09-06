@@ -1,10 +1,6 @@
 import { Document, Collection } from './firestore/document';
 import { Observable, forkJoin } from 'rxjs';
-import AssuntoQuestao from './assuntoQuestao';
-import Query from './firestore/query';
-import { MaterialEstudo } from './materialEstudo';
 import { Questao } from './questao';
-import ResultadoTestCase from './resultadoTestCase';
 import Usuario from './usuario';
 import Submissao from './submissao';
 import { Util } from './util';
@@ -99,35 +95,6 @@ export class Assunto extends Document {
 
         return null;
     }
-
-
-    static delete(id) {
-        return new Observable(observer => {
-            super.delete(id).subscribe(resultadoDelete => {
-                AssuntoQuestao.getAll(new Query("assuntoId", "==", id)).subscribe(resultados => {
-                    let delecoes = [];
-                    resultados.forEach(assuntoQuestao => {
-                        delecoes.push(AssuntoQuestao.delete(assuntoQuestao.pk()));
-                    })
-
-                    if (delecoes.length > 0)
-                        forkJoin(delecoes).subscribe(resultados => {
-                            observer.next();
-                            observer.complete();
-                        }, err => {
-                            observer.error(err);
-                        })
-                    else {
-                        observer.next();
-                        observer.complete();
-                    }
-                })
-            })
-        }
-        );
-    }
-
-
 
     static isFinalizado(assunto: Assunto, estudante, margemAceitavel = 0.6) {
         return new Observable(observer => {

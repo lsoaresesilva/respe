@@ -1,7 +1,7 @@
 import Usuario from './usuario';
 import { Assunto } from './assunto';
 import { Document, Collection, ignore } from './firestore/document';
-import { Dificuldade } from './dificuldade';
+import { Dificuldade } from './enums/dificuldade';
 import { Observable, forkJoin } from 'rxjs';
 import AutoReflexao from './autoReflexao';
 import Estudante from './estudante';

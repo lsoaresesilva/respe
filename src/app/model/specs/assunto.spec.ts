@@ -12,7 +12,7 @@ import { Assunto } from "../assunto";
 
 import { Questao } from "../questao";
 
-import { Dificuldade } from "../dificuldade";
+import { Dificuldade } from "../enums/dificuldade";
 
 import TestCase from "../testCase";
 import ResultadoTestCase from '../resultadoTestCase';

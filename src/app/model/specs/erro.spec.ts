@@ -11,7 +11,7 @@ import { DocumentModule } from '../firestore/document.module';
 import { AngularFireModule, FirebaseApp } from '@angular/fire';
 import { FirebaseConfiguracao } from 'src/environments/firebase';
 import { Questao } from '../questao';
-import { Dificuldade } from '../dificuldade';
+import { Dificuldade } from '../enums/dificuldade';
 
 describe("Testes para a classe de Erro", ()=>{
     

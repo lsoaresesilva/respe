@@ -3,7 +3,7 @@ import { SelectItem } from 'primeng/components/common/selectitem';
 import { Assunto } from '../../../model/assunto';
 import { Planejamento } from '../../../model/planejamento';
 import Estudante from '../../../model/estudante';
-import { Dificuldade } from '../../../model/dificuldade';
+import { Dificuldade } from '../../../model/enums/dificuldade';
 import { Router } from '@angular/router';
 import Usuario from 'src/app/model/usuario';
 import { LoginService } from 'src/app/login-module/login.service';

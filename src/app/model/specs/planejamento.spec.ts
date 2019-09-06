@@ -7,7 +7,7 @@ import { Assunto } from '../assunto';
 import Estudante from '../estudante';
 import AutoReflexao from '../autoReflexao';
 import { Planejamento } from '../planejamento';
-import { Dificuldade } from '../dificuldade';
+import { Dificuldade } from '../enums/dificuldade';
 
 
 describe("Testes de autoreflexão", () => {

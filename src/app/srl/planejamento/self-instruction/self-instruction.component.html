@@ -13,8 +13,6 @@
         <textarea [rows]="5" [cols]="150" pInputTextarea autoResize="autoResize" [(ngModel)]="autoInstrucao.variaveis"></textarea>
     </p-accordionTab>
 
-    
-
     <div *ngIf="condicoes">
         <p-accordionTab header="Quais as condições que são necessárias para resolver esse problema?">
             <textarea [rows]="5" [cols]="150" pInputTextarea autoResize="autoResize" [(ngModel)]="autoInstrucao.condicoes"></textarea> 

@@ -1,4 +1,4 @@
-import { Dificuldade } from './dificuldade';
+import { Dificuldade } from './enums/dificuldade';
 import Alternativa from './alternativa';
 import { Util } from './util';
 import { RespostaQuestaoFechada } from './respostaQuestaoFechada';

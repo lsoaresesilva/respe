@@ -87,7 +87,7 @@ const routes: Routes = [
     {path:"escolher-questao/:assuntoId", component:EscolherQuestaoComponent, canActivate: [AuthGuard], canLoad: [AuthGuard], outlet:"principal"},
     {path:"listar-submissao-questao/:submissaoId", component:ListarSubmissaoQuestaoComponent, canActivate: [AuthGuard], canLoad: [AuthGuard], outlet:"principal"},
     {path:"visualizacao-assunto/:id", component:VisualizarAssuntoComponent, canActivate: [AuthGuard], canLoad: [AuthGuard], outlet:"principal"},
-    {path:"monitoramento/:assuntoId/:questaoId", component:SelfInstructionComponent, canActivate: [AuthGuard], canLoad: [AuthGuard], outlet:"principal"},
+    {path:"self-instruction/:assuntoId/:questaoId", component:SelfInstructionComponent, canActivate: [AuthGuard], canLoad: [AuthGuard], outlet:"principal"},
     {path:"estudantes-questao/:assuntoId/:questaoId", component:ListarEstudantesSubmissaoComponent, canActivate: [AuthGuard], canLoad: [AuthGuard], outlet:"principal"},
     {path:"codigo-similar", component:RespostaSimilarQuestaoProgramacaoComponent, canActivate: [AuthGuard], canLoad: [AuthGuard], outlet:"principal"},
     {path:"exibir-codigo/:questaoId", component: ExibirSolucaoComponent, canActivate: [AuthGuard], canLoad: [AuthGuard], outlet:"principal"},

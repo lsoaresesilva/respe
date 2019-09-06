@@ -4,9 +4,8 @@ import { DocumentModule } from '../firestore/document.module';
 import { AngularFirestore, AngularFirestoreModule } from '@angular/fire/firestore';
 import { FirebaseConfiguracao } from 'src/environments/firebase';
 import { AngularFireModule, FirebaseApp } from '@angular/fire';
-import { Dificuldade } from '../dificuldade';
+import { Dificuldade } from '../enums/dificuldade';
 import { Assunto } from '../assunto';
-import AssuntoQuestao from '../assuntoQuestao';
 import Query from '../firestore/query';
 import TestCase from '../testCase';
 import { forkJoin } from 'rxjs';
@@ -14,6 +13,7 @@ import Submissao from '../submissao';
 import Usuario from '../usuario';
 import Codigo from '../codigo';
 import ResultadoTestCase from '../resultadoTestCase';
+import { Assuntos } from '../enums/assuntos';
 
 describe("Testes de questão", () => {
 
@@ -115,6 +115,45 @@ describe("Testes de questão", () => {
 
   
     
+  })
+
+  it("Deve recuperar os assuntos vinculados à uma questão", (done)=>{
+    // Cria dois assuntos
+    let acondicoes =  new Assunto(null, "Condições");
+    let afuncoes = new Assunto(null, "Funções");
+
+    // Salva o assunto no BD
+    afuncoes.save().subscribe(assuntoSalvo=>{
+      // Cria nossa questão que usaremos como base para nosso teste
+      let qCondicao = new Questao(null, "Questão com condição", null, Dificuldade.dificil, 1, [afuncoes.pk()], [], "");
+      
+      // Inclui a questão criada ao array de questões de programação do assunto de condições
+      acondicoes.questoesProgramacao.push(qCondicao);
+
+      // Executa o método que queremos testar
+      qCondicao.buscarAssuntos(acondicoes).subscribe(assuntos=>{
+        // SE o método estiver correto, ele trará dois assuntos: funções e condições.
+        // Usamos as variáveis abaixo para percorrer o array de assuntos (resposta do método buscarAssuntos) para verificar se há os assuntos
+        let contemAssuntoFuncoes = false;
+        let contemAssuntoCondicoes = false;
+
+        assuntos.forEach(assunto => {
+            if(assunto.nome == Assuntos.condicoes)
+              contemAssuntoCondicoes = true;
+
+            if(assunto.nome == Assuntos.condicoes)
+              contemAssuntoFuncoes = true;
+        });
+
+        // Faz as verificações se as variáveis são TRUE (ou seja, possui os assuntos funções e condições)
+        expect(contemAssuntoCondicoes).toBeTruthy();
+        expect(contemAssuntoFuncoes).toBeTruthy();
+        // Deve chamar o método done em todas os testes que envolverem funções assíncronas (neste caso em buscar assunto)
+        done();
+      }, err=>{
+        fail(); // Se o método assíncrono falhar, então indicar que o teste deu erro.
+      })
+    });
   })
   /*
     it("deve carregar assuntosQuestao pelo id de questao", (done) => {

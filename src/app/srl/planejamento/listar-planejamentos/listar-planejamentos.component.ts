@@ -41,7 +41,7 @@ export class ListarPlanejamentosComponent implements OnInit {
 
     Planejamento.getAll(new Query("estudanteId", "==", usuario.pk())).subscribe(planejamentosCadastrados => {
       let consultas:any = {} // TODO: migrar para o model.
-      planejamentosCadastrados.forEach(planejamento=>{
+      /*planejamentosCadastrados.forEach(planejamento=>{
         consultas[planejamento.pk()] = Assunto.isFinalizado(planejamento.assunto, usuario);
       })
 
@@ -53,14 +53,13 @@ export class ListarPlanejamentosComponent implements OnInit {
                 planejamentosCadastrados[i].status = statusAssuntos[key];
                 break;
               }
-            
           }
         }
 
-        this.planejamentos = planejamentosCadastrados
-      })
+        
+      })*/
 
-      
+      this.planejamentos = planejamentosCadastrados
     }, err=>{
       
     });

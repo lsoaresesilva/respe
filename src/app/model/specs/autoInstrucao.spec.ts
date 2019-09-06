@@ -7,7 +7,7 @@ import { Assunto } from '../assunto';
 import Estudante from '../estudante';
 import AutoReflexao from '../autoReflexao';
 import { Questao } from '../questao';
-import { Dificuldade } from '../dificuldade';
+import { Dificuldade } from '../enums/dificuldade';
 import { AutoInstrucao } from '../autoInstrucao';
 
 

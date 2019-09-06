@@ -47,7 +47,7 @@ export class ListarQuestoesComponent implements OnInit, OnChanges {
   }
 
   responder(questao) {
-    this.router.navigate(["main", { outlets: { principal: ['monitoramento', this.assunto.pk(), questao.id] } }]);
+    this.router.navigate(["main", { outlets: { principal: ['self-instruction', this.assunto.pk(), questao.id] } }]);
   }
 
   visualizar(questao) {
