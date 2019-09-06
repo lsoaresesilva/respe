@@ -4,7 +4,7 @@ import { ActivatedRouteSnapshot, RouterStateSnapshot, Router, CanLoad, Route } f
 import { Observable } from 'rxjs';
 import Usuario from '../model/usuario';
 import { containsElement } from '@angular/animations/browser/src/render/shared';
-import { LoginService } from '../juiz/login.service';
+import { LoginService } from '../login-module/login.service';
 import Turma from '../model/turma';
 
 

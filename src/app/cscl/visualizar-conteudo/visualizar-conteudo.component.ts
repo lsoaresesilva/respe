@@ -3,7 +3,7 @@ import TextoHighlight from 'src/app/model/textoHighlight';
 import Usuario from 'src/app/model/usuario';
 import { DomSanitizer } from '@angular/platform-browser';
 import ComentarioEstudo from 'src/app/model/comentarioEstudo';
-import { LoginService } from 'src/app/juiz/login.service';
+import { LoginService } from 'src/app/login-module/login.service';
 
 /**
  * Estão declaradas no arquivo visualizarConteudo.js. A função é usada para iniciar o listener do mouse para capturar quando um texto for selecionado. A variável armazena o texto selecionado.

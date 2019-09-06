@@ -6,7 +6,7 @@ import Usuario from 'src/app/model/usuario';
 import { Questao } from 'src/app/model/questao';
 import Query from 'src/app/model/firestore/query';
 import { forkJoin } from 'rxjs';
-import { LoginService } from 'src/app/juiz/login.service';
+import { LoginService } from 'src/app/login-module/login.service';
 
 @Component({
   selector: 'app-vizualizar-planejamento',
@@ -29,19 +29,20 @@ export class VisualizarPlanejamentoComponent implements OnInit {
         throw new Error("É preciso informar o id de um planejamento");
       }
 
-
-      this.getPlanejamento(params.id);
+      Planejamento.get(params.id).subscribe(planejamentoCadastrado => {
+        this.planejamento = planejamentoCadastrado;
+      });
     });
   }
 
   getPlanejamento(id){
     Planejamento.get(id).subscribe(planejamentoCadastrado => {
       this.planejamento = planejamentoCadastrado;
-      this.getQuestoes();
+      //this.getQuestoes();
 
-      Assunto.isFinalizado(this.planejamento.assunto, this.login.getUsuarioLogado()).subscribe(status=>{
+      /*Assunto.isFinalizado(this.planejamento.assunto, this.login.getUsuarioLogado()).subscribe(status=>{
         this.isFinalizado = status;
-      })
+      })*/
 
     });
   }

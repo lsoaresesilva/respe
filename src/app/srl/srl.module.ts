@@ -28,6 +28,7 @@ import { RespostaSimilarQuestaoProgramacaoComponent } from './resposta-similar-q
 import {TreeTableModule} from 'primeng/treetable';
 import { ExibirSolucaoComponent } from './exibir-solucao/exibir-solucao.component';
 import {} from 'primeng/radiobutton';
+import { JuizModule } from '../juiz/juiz.module';
 
 
 @NgModule({
@@ -43,6 +44,7 @@ import {} from 'primeng/radiobutton';
     ExibirSolucaoComponent
   ],
   imports: [
+    JuizModule,
     CommonModule,
     CheckboxModule,
     BrowserModule,
@@ -63,7 +65,8 @@ import {} from 'primeng/radiobutton';
     InputTextModule,
     FieldsetModule,
     TreeTableModule,
-    RadioButtonModule
+    RadioButtonModule,
+    
     
     
     

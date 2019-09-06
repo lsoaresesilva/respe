@@ -2,7 +2,7 @@ import { Component, OnInit, Input} from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import Usuario from 'src/app/model/usuario';
 import { Questao } from 'src/app/model/questao';
-import { LoginService } from '../login.service';
+import { LoginService } from '../../login-module/login.service';
 import { Assunto } from 'src/app/model/assunto';
 import Submissao from 'src/app/model/submissao';
 import Query from 'src/app/model/firestore/query';

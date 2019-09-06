@@ -3,8 +3,9 @@ import { Questao } from 'src/app/model/questao';
 import { AutoInstrucao } from 'src/app/model/autoInstrucao';
 import { ActivatedRoute, Router } from '@angular/router';
 import { Assunto } from 'src/app/model/assunto';
-import { LoginService } from 'src/app/juiz/login.service';
+import { LoginService } from 'src/app/login-module/login.service';
 import AssuntoQuestao from 'src/app/model/assuntoQuestao';
+
 
 
 @Component({
