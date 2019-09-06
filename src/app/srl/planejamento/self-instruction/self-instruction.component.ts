@@ -14,9 +14,12 @@ import { Assuntos } from 'src/app/model/enums/assuntos';
 export class SelfInstructionComponent implements OnInit {
 
 
-  autoInstrucao;
-  private questao?;
+  private autoInstrucao:AutoInstrucao;
+  private questao;
   private assunto;
+  private usuario;
+  
+  private assuntos;
   condicoes;
   repeticoes;
   funcoes;
@@ -31,8 +34,12 @@ export class SelfInstructionComponent implements OnInit {
     this.vetores = false;
   }
 
-
   ngOnInit() {
+    this.getQuestao();
+   
+  }
+
+  getQuestao(){
     this.route.params.subscribe(params => {
       if (params["assuntoId"] != undefined && params["questaoId"] != undefined) {
         Assunto.get(params["assuntoId"]).subscribe(assunto => {
@@ -41,6 +48,8 @@ export class SelfInstructionComponent implements OnInit {
             assunto["questoesProgramacao"].forEach(questao => {
               if (questao.id == params["questaoId"]) {
                 this.questao = questao;
+                this.autoInstrucao.questao = this.questao;
+                this.getRespostasEstudante();
                 this.questao.buscarAssuntos(this.assunto).subscribe(assuntos => {
                   this.apresentarPerguntas(assuntos);
                 });
@@ -48,29 +57,37 @@ export class SelfInstructionComponent implements OnInit {
               }
             });
           }
-        });
+        });  
 
       } else {
-        throw new Error("Não é possível visualizar uma questão, pois não foram passados os identificadores de assunto e questão.")
+         throw new Error("Não é possível visualizar uma questão, pois não foram passados os identificadores de assunto e questão.")
+        }
+    });
+  }
+  
+  getRespostasEstudante(){
+    AutoInstrucao.getAutoInstrucao(this.usuario.id,this.questao.id).subscribe(autoInstrucao =>{
+
+      if(autoInstrucao != undefined){
+        this.autoInstrucao = autoInstrucao;
+        this.autoInstrucao.estudante= this.usuario;
+        this.autoInstrucao.questao = this.questao;   
       }
 
     });
-
-
   }
 
-
-  salvar() {
+  salvar(){ 
     this.autoInstrucao.save().subscribe(resultado => {
-      this.router.navigate(["main", { outlets: { principal: ['editor', this.assunto.pk(), this.questao.id] } }]);
+      this.router.navigate(["main", { outlets: { principal: ['editor', this.assunto.pk(),this.questao.id] }}]);
 
-    },
-      err => {
-        alert("teve algum problema:" + err);
-      });
-  }
+      },err => {
+      alert("Ocorreu um problema, tente novamente!");
+    });
+   
+  } 
 
-
+   
 
   apresentarPerguntas(assuntos) {
     assuntos.forEach(assunto => {

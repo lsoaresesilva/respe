@@ -4,6 +4,8 @@ import Estudante from './estudante';
 import { Document, Collection } from './firestore/document';
 import { Dificuldade } from './enums/dificuldade';
 import { Questao } from './questao';
+import { Observable } from 'rxjs';
+import Query from './firestore/query';
 
 @Collection("autoInstrucao")
 export class AutoInstrucao extends Document{
@@ -35,7 +37,19 @@ export class AutoInstrucao extends Document{
         return document;
     }
 
-   
+    static getAutoInstrucao(estudanteId,questaoId) :Observable <AutoInstrucao>{
+        
+        return new Observable (observer =>{
 
+            AutoInstrucao.getAll([new Query("estudanteId","==",estudanteId), new Query("questaoId", "==", questaoId).subscribe(autoInstrucoesEstudante =>{
+                if(autoInstrucoesEstudante.length > 0){
+                    observer.next(autoInstrucoesEstudante[0]);
+                }else{
+                    observer.next(null);
+                }
+                observer.complete();
+            });
 
+        });
+    }
 }
