@@ -45,6 +45,11 @@ export class MainComponent implements OnInit {
 
       },
       {
+        label: 'Meu desempenho',
+        command: () => { this.router.navigate(["main", { outlets: { principal: ['meu-desempenho'] } }]) }
+
+      },
+      {
         label: 'Logout',
         command: () => {this.logout()}
       }

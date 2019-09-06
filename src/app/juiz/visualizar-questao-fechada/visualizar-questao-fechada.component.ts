@@ -27,8 +27,8 @@ export class VisualizarQuestaoFechadaComponent implements OnInit {
     this.respostaQuestaoFechada = new RespostaQuestaoFechada(null, this.login.getUsuarioLogado(), null, this.questao);
   }
 
-  carregarQuestao(assunto, questao){
-    
+  selecionarAlternativa(alternativa){
+    this.respostaQuestaoFechada.alternativa = alternativa;
   }
 
   ngOnInit() {
@@ -40,12 +40,11 @@ export class VisualizarQuestaoFechadaComponent implements OnInit {
           
           if (assunto["questoesFechadas"] != undefined && assunto["questoesFechadas"].length > 0) {
             this.questao = assunto["getQuestaoFechadaById"](params["questaoId"]);
-            this.respostaQuestaoFechada.getRespostaQuestaoEstudante(this.questao, this.usuario).subscribe(respostaUsuario => {
+            RespostaQuestaoFechada.getRespostaQuestaoEstudante(this.questao, this.usuario).subscribe(respostaUsuario => {
               this.respostaUsuarioBanco = respostaUsuario
         
               if (respostaUsuario != null) {
-        
-                this.respostaQuestaoFechada.resposta = respostaUsuario;
+                this.respostaQuestaoFechada = respostaUsuario;
                 this.mostrar = true;
               }
         
@@ -69,8 +68,8 @@ export class VisualizarQuestaoFechadaComponent implements OnInit {
 
   confirmar() {
 
-    if (this.respostaQuestaoFechada.resposta == null) {
-      this.messageService.add({ severity: 'info', summary: 'ops...', detail: "É preciso marca alguma alternativa!" });
+    if (this.respostaQuestaoFechada.alternativa == null) {
+      this.messageService.add({ severity: 'info', summary: 'ops...', detail: "É preciso selecionar uma alternativa!" });
     }
 
     else if (this.respostaUsuarioBanco != undefined) {
@@ -79,7 +78,7 @@ export class VisualizarQuestaoFechadaComponent implements OnInit {
 
     else {
       this.confirmationService.confirm({
-        message: 'Você não poderá responder essa questão novamente,tem certeza da resposta?',
+        message: 'Você não poderá responder essa questão novamente, tem certeza da resposta?',
         accept: () => {
           this.responder();
         }
@@ -95,9 +94,9 @@ export class VisualizarQuestaoFechadaComponent implements OnInit {
 
     this.respostaQuestaoFechada.save().subscribe(resultado => {
       this.mostrar = true;
-      let resposta = this.questao.getAlternativaCerta();
+      let alternativaCerta = this.questao.getAlternativaCerta();
 
-      if (this.respostaQuestaoFechada.resposta == resposta) {
+      if (this.respostaQuestaoFechada.alternativa.id == alternativaCerta.id) {
         this.messageService.add({ severity: 'success', summary: 'Parabéns!', detail: " Você acertou essa questão!" });
       }
       else {

@@ -3,6 +3,7 @@ import Erro from 'src/app/model/erro';
 import Query from 'src/app/model/firestore/query';
 import { TipoErro } from 'src/app/model/tipoErro';
 import { Mes } from 'src/app/model/mes';
+import { LoginService } from 'src/app/login-module/login.service';
 
 @Component({
   selector: 'erros-programacao',
@@ -13,11 +14,11 @@ export class ErrosProgramacaoComponent implements OnInit {
 
   grafico;
   graficoBarra;
-  
 
-  constructor() {
 
-   }
+  constructor(private loginService:LoginService) {
+
+  }
 
   ngOnInit() {
     let dados = []
@@ -42,18 +43,18 @@ export class ErrosProgramacaoComponent implements OnInit {
         }]
     };
 
-      Erro.getAll(new Query("estudanteId", "==", "12345")).subscribe(resultados=>{
-        let dados = Erro.calcularFrequenciaPorTipoErro(resultados);
-        this.construirGraficoPizza(dados)
-        let ranking = Erro.rankErros(dados);
-        let dadosHistograma = Erro.calcularHistogramaPorRank(ranking, resultados);
-        this.construirGraficoBarras(dadosHistograma, ranking);
-      })
+    Erro.getAllErrosEstudante(this.loginService.getUsuarioLogado()).subscribe(resultados => {
+      let dados = Erro.calcularFrequenciaPorTipoErro(resultados);
+      this.construirGraficoPizza(dados)
+      let ranking = Erro.rankErros(dados);
+      let dadosHistograma = Erro.calcularHistogramaPorRank(ranking, resultados);
+      this.construirGraficoBarras(dadosHistograma, ranking);
+    })
 
   }
 
-  construirGraficoBarras(dadosHistograma, ranking){
-    
+  construirGraficoBarras(dadosHistograma, ranking) {
+
     let labels = []
     let labelTop1 = Erro.getTextoErro(ranking.top1.tipo)
     let corTop1 = Erro.getCorErro(ranking.top1.tipo)
@@ -66,40 +67,40 @@ export class ErrosProgramacaoComponent implements OnInit {
     let dataTop2 = []
     let dataTop3 = []
 
-    for(let key in dadosHistograma){
+    for (let key in dadosHistograma) {
       dataTop1.push(dadosHistograma[key].top1.total)
       dataTop2.push(dadosHistograma[key].top2.total)
       dataTop3.push(dadosHistograma[key].top3.total)
 
-      if( key == "0" ){
+      if (key == "0") {
         labels.push("Janeiro")
-        
-      }else if( key == "1" ){
+
+      } else if (key == "1") {
         labels.push("Fevereiro")
-      }else if( key == "2" ){
+      } else if (key == "2") {
         labels.push("Março")
-      }else if( key == "3" ){
+      } else if (key == "3") {
         labels.push("Abril")
-      }else if( key == "4" ){
+      } else if (key == "4") {
         labels.push("Maio")
-      }else if( key == "5" ){
+      } else if (key == "5") {
         labels.push("Junho")
-      }else if( key == "6" ){
+      } else if (key == "6") {
         labels.push("Julho")
-      }else if( key == "7" ){
+      } else if (key == "7") {
         labels.push("Agosto")
-      }else if( key == "8" ){
+      } else if (key == "8") {
         labels.push("Setembro")
-      }else if( key == "9" ){
+      } else if (key == "9") {
         labels.push("Outubro")
-      }else if( key == "10" ){
+      } else if (key == "10") {
         labels.push("Novembro")
-      }else if( key == "11" ){
+      } else if (key == "11") {
         labels.push("Dezembro")
       }
-    
+
     }
-    
+
     this.graficoBarra = {
       labels: labels, // devem ser os meses em que foram identificados
       datasets: [
@@ -123,56 +124,58 @@ export class ErrosProgramacaoComponent implements OnInit {
 
   }
 
-  construirGraficoPizza(dados){
+  construirGraficoPizza(dados) {
 
-    
+
 
     let labels = [];
     let backgroundColors = []
     let data = []
 
-    if(dados.comparacaoApenasUmaIgualdade > 0){
+    if (dados.comparacaoApenasUmaIgualdade > 0) {
       labels.push(TipoErro.comparacaoApenasUmaIgualdadeTexto);
       backgroundColors.push(Erro.getCorErro(TipoErro.comparacaoApenasUmaIgualdade));
       data.push(dados.comparacaoApenasUmaIgualdade);
-    }if(dados.declaracaoVariavelComDoisIguais > 0){
-      labels.push(TipoErro.declaracaoVariavelComDoisIgualsTexto);
+    } 
+    console.log(dados)
+    if (dados["declaracaoVariavelComDoisIguais"] > 0) {
+      labels.push(TipoErro.declaracaoVariavelComDoisIguaisTexto);
       backgroundColors.push(Erro.getCorErro(TipoErro.declaracaoVariavelComDoisIguais));
       data.push(dados.declaracaoVariavelComDoisIguais);
-    }if(dados.espacoNoNomeVariavel > 0){
+    } if (dados.espacoNoNomeVariavel > 0) {
       labels.push(TipoErro.espacoNoNomeVariavelTexto);
       backgroundColors.push(Erro.getCorErro(TipoErro.espacoNoNomeVariavel));
       data.push(dados.espacoNoNomeVariavel);
-    }if(dados.faltaDoisPontosCondicaoTexto > 0){
+    } if (dados.faltaDoisPontosCondicaoTexto > 0) {
       labels.push(TipoErro.faltaDoisPontosCondicaoTexto);
       data.push(dados.faltaDoisPontosCondicao);
       backgroundColors.push(Erro.getCorErro(TipoErro.faltaDoisPontosCondicao));
-    }if(dados.faltaDoisPontosFuncao > 0){
+    } if (dados.faltaDoisPontosFuncao > 0) {
       labels.push(TipoErro.faltaDoisPontosFuncaoTexto);
       backgroundColors.push(Erro.getCorErro(TipoErro.faltaDoisPontosFuncao));
       data.push(dados.faltaDoisPontosFuncao);
-    }if(dados.faltaParentesis > 0){
+    } if (dados.faltaParentesis > 0) {
       labels.push(TipoErro.faltaParentesisTexto);
       backgroundColors.push(Erro.getCorErro(TipoErro.faltaParentesis));
       data.push(dados.faltaParentesis);
-    }if(dados.faltaVirgulaParametros > 0){
+    } if (dados.faltaVirgulaParametros > 0) {
       labels.push(TipoErro.faltaVirgulaParametrosTexto);
       backgroundColors.push(Erro.getCorErro(TipoErro.faltaVirgulaParametros));
       data.push(dados.faltaVirgulaParametros);
-    }if(dados.numeroDecimalComVirgula > 0){
+    } if (dados.numeroDecimalComVirgula > 0) {
       labels.push(TipoErro.numeroDecimalComVirgulaTexto);
       backgroundColors.push(Erro.getCorErro(TipoErro.numeroDecimalComVirgula));
       data.push(dados.numeroDecimalComVirgula);
-    }if(dados.parDadosComparacao > 0){
+    } if (dados.parDadosComparacao > 0) {
       labels.push(TipoErro.parDadosComparacaoTexto);
       backgroundColors.push(Erro.getCorErro(TipoErro.parDadosComparacao));
       data.push(dados.parDadosComparacao);
-    }if(dados.variavelNaoDeclarada > 0){
+    } if (dados.variavelNaoDeclarada > 0) {
       labels.push(TipoErro.variavelNaoDeclaradaTexto);
       data.push(dados.variavelNaoDeclarada);
       backgroundColors.push(Erro.getCorErro(TipoErro.variavelNaoDeclarada));
     }
-    
+
 
     this.grafico = {
       data: data,

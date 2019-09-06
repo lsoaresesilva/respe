@@ -45,8 +45,10 @@ export default class ErroSintaxeCondicional extends ErroSintaxe{
 
     static apenasUmaComparacao(linha){
         if (ErroSintaxe.isLinhaProgramacaoValida(linha)) {
-            if(ErroSintaxe.isConditional(linha)){
+            if(ErroSintaxe.isConditional(linha) && (linha.match(/if|elif/g) || []).length > 0){
                 // \bif\s(?:\w*)\s*(?:={2}|>|>=|<|<=|!=)\s*([a-zA-Z0-9\"]+)\s*:
+                
+                // TODO: if(a+b > c): <==== essa comparação está caindo nessa verificação
                 // Verificar se é um if simples, sem AND e/ou OR
                 if( linha.search(/(\sand\s|\sor\s)/) == -1){
                     let regex = /\bif\s(?:\w*)\s*(?:={2}|>|>=|<|<=|!=)\s*([a-zA-Z0-9\"\',]+)\s*/g // TODO: ver isso

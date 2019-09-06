@@ -2,7 +2,7 @@ import { Util } from './util';
 
 export default class Alternativa{
     constructor(public id, public texto, public isVerdadeira){
-        if(this.id == null){
+        if(id == null){
             this.id = Util.uuidv4();
         }else{
             this.id = id;

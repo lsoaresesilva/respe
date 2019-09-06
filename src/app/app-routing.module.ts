@@ -2,10 +2,10 @@ import { NgModule } from '@angular/core';
 import { Routes, RouterModule } from '@angular/router';
 import { LoginComponent } from './login-module/login/login.component';
 import { MainComponent } from './geral-module/main/main.component';
-import { CadastroPlanejamentoComponent } from './srl/cadastro-planejamento/cadastro-planejamento.component';
+import { CadastroPlanejamentoComponent } from './srl/planejamento/cadastro-planejamento/cadastro-planejamento.component';
 import { AutoReflexaoComponent } from './srl/auto-reflexao/auto-reflexao.component';
 import { AuthGuard } from './guards/auth.guard';
-import { PaginaNaoEncontradaComponent } from './srl/pagina-nao-encontrada/pagina-nao-encontrada.component';
+import { PaginaNaoEncontradaComponent } from './geral-module/pagina-nao-encontrada/pagina-nao-encontrada.component';
 import { EditorProgramacaoComponent } from './juiz/editor-programacao/editor-programacao.component';
 import { ComentariosCodigoComponent } from './cscl/comentarios-codigo/comentarios-codigo';
 import { VisualizarConteudoComponent } from './cscl/visualizar-conteudo/visualizar-conteudo.component';
@@ -15,8 +15,8 @@ import { ListarQuestoesComponent } from './juiz/listar-questoes/listar-questoes.
 import { ListarEstudantesComponent } from './turma/listar-estudantes/listar-estudantes.component';
 import { CadastrarTurmaComponent } from './turma/cadastrar-turma/cadastrar-turma.component';
 import { ListarTurmaComponent } from './juiz/listar-turma/listar-turma.component';
-import { ListarPlanejamentosComponent } from './srl/listar-planejamentos/listar-planejamentos.component';
-import { VisualizarPlanejamentoComponent } from './srl/vizualizar-planejamento/visualizar-planejamento.component';
+import { ListarPlanejamentosComponent } from './srl/planejamento/listar-planejamentos/listar-planejamentos.component';
+import { VisualizarPlanejamentoComponent } from './srl/planejamento/vizualizar-planejamento/visualizar-planejamento.component';
 import { VisualizarQuestaoComponent } from './juiz/visualizar-questao/visualizar-questao.component';
 import { CadastrarAssuntosComponent } from './juiz/cadastrar-assuntos/cadastrar-assuntos.component';
 import { ListarAssuntosComponent } from './juiz/listar-assuntos/listar-assuntos.component';
@@ -26,11 +26,11 @@ import { VisualizarQuestaoFechadaComponent } from './juiz/visualizar-questao-fec
 import { ListarQuestoesFechadasComponent } from './juiz/listar-questoes-fechadas/listar-questoes-fechadas.component';
 import { EscolherQuestaoComponent } from './juiz/escolher-questao/escolher-questao.component';
 import { CadastrarAlternativasComponent } from './juiz/cadastrar-alternativas/cadastrar-alternativas.component';
-import { SelfInstructionComponent } from './srl/self-instruction/self-instruction.component';
+import { SelfInstructionComponent } from './srl/planejamento/self-instruction/self-instruction.component';
 import { ListarSubmissaoQuestaoComponent } from './cscl/listar-submissao-questao/listar-submissao-questao.component';
 import { ListarEstudantesSubmissaoComponent } from './cscl/listar-estudantes-submissao/listar-estudantes-submissao.component';
-import { RespostaSimilarQuestaoProgramacaoComponent } from './srl/resposta-similar-questao-programacao/resposta-similar-questao-programacao.component';
-import { ExibirSolucaoComponent } from './srl/exibir-solucao/exibir-solucao.component';
+import { RespostaSimilarQuestaoProgramacaoComponent } from './srl/monitoramento/resposta-similar-questao-programacao/resposta-similar-questao-programacao.component';
+import { ExibirSolucaoComponent } from './srl/monitoramento/exibir-solucao/exibir-solucao.component';
 import { VisualizarTurmaComponent } from './turma/visualizar-turma/visualizar-turma.component';
 import { CadastrarPostagemComponent } from './cscl/cadastrar-postagem/cadastrar-postagem.component';
 import { ListarPostagensComponent } from './cscl/listar-postagens/listar-postagens.component';
@@ -38,6 +38,7 @@ import { VisualizarPostagemComponent } from './cscl/visualizar-postagem/visualiz
 import { PostagensTurmaGuard } from './guards/postagensTurma.guard';
 import { VisualizarPerfilEstudanteComponent } from './juiz/visualizar-perfil-estudante/visualizar-perfil-estudante.component';
 import { CadastrarEstudantesComponent } from './turma/cadastrar-estudantes/cadastrar-estudantes.component';
+import { AcompanharDesempenhoComponent } from './srl/monitoramento/acompanhar-desempenho/acompanhar-desempenho.component';
 
 
 
@@ -45,6 +46,12 @@ import { CadastrarEstudantesComponent } from './turma/cadastrar-estudantes/cadas
 const routes: Routes = [
   {path:"main", component:MainComponent, canActivate: [AuthGuard], canLoad: [AuthGuard], children: [
     {path:"editor/:assuntoId/:questaoId", component:EditorProgramacaoComponent, outlet:"principal"},
+
+    /** SRL */
+
+    /** Monitoramento */
+
+    {path:"meu-desempenho", component:AcompanharDesempenhoComponent, outlet:"principal"},
     
     {path:"comentario-codigo/:id", component:ComentariosCodigoComponent, outlet:"principal"},
     {path:"visualizarConteudo", component:VisualizarConteudoComponent, outlet:"principal"},

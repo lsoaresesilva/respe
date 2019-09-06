@@ -9,7 +9,7 @@ import { Observable } from 'rxjs';
 export default class QuestaoFechada {
 
   constructor(public id, public nomeCurto, public enunciado, public dificuldade: Dificuldade, public sequencia, public alternativas: Alternativa[], public respostaQuestao: String) {
-    if (this.id == null) {
+    if (id == null) {
       this.id = Util.uuidv4();
     } else {
       this.id = id;
@@ -73,6 +73,11 @@ export default class QuestaoFechada {
 
   }
 
+  /**
+   * Verifica se o usuário respondeu uma questão.
+   * @param estudante 
+   * @param questao 
+   */
   static usuarioRespondeu(estudante, questao){
     return new Observable(observer=>{
       RespostaQuestaoFechada.getAll([new Query("usuarioId", "==", estudante.pk()), new Query("questaoId", "==", questao.id)]).subscribe(respostasAluno => {
@@ -83,23 +88,30 @@ export default class QuestaoFechada {
     
   }
 
+  /**
+   * Retorna a alternativa correta para uma questão.
+   */
   getAlternativaCerta(){
     for(let i =0; i<this.alternativas.length;i++){
         if(this.alternativas[i].isVerdadeira== true){
-           return this.alternativas[i].id;
+           return this.alternativas[i];
         }
     }
   }
 
+  /**
+   * Verifica se o estudante respondeu corretamente (true) ou incorretamente (false) uma questão.
+   * @param questao 
+   * @param resposta 
+   */
   static isRespostaCorreta(questao, resposta){
     let alternativaCorreta = questao.getAlternativaCerta();
-    
-    if( alternativaCorreta == resposta.resposta)
-      return true;
+    if( alternativaCorreta != null ){
+      if( alternativaCorreta.id == resposta.alternativa.id)
+        return true;
+    }
 
     return false;
   }
-
-
 
 }

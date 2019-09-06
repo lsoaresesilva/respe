@@ -1,10 +1,10 @@
-<h1>Meus planejamentos</h1>
+<h1>Meus planejamentos de estudo</h1>
 
-<p>
-  Você sabia? Planejar sua rotina de estudos é fundamental para alcançar boas notas.
-  Definir quais são os conteúdos que <br> prentende estudar, dedicar um tempo para o estudo,
-  como também conhecer mais sobre o tema de estudo irão ajudar o seu <br> aprendizado.
-</p>
+<p-dialog header="Planeje o seus estudos!" #dialogPlanejamento [style]="{width: '400px', height: '200px'}">
+  <span style="font-weight: bold">Você sabia?</span> Para alcançar boas notas é fundamental planejar sua rotina de estudos.
+  Você precisa conhecer o conteúdo que irá estudar, quanto tempo irá se dedicar e também refletir sobre como irá estudar (qual material vai utilizar para estudar, se fará sozinho ou em grupo, onde estudará, entre outras informações que possam ajudá-lo a orgnizar o seu ensino).  
+</p-dialog>
+
 
 <p-table [value]="planejamentos">
   <ng-template pTemplate="header">

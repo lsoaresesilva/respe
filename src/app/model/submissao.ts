@@ -22,6 +22,7 @@ export default class Submissao extends Document {
         this.estudante = estudante;
         this.questao = questao;
         this.erros = [];
+        this.resultadosTestsCases = [];
     }
 
     objectToDocument() {

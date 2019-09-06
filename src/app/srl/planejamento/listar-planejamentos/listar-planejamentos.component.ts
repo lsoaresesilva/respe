@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ElementRef, ViewChild } from '@angular/core';
 import { Planejamento } from 'src/app/model/planejamento';
 import { Assunto } from 'src/app/model/assunto';
 import { Router } from '@angular/router';
@@ -15,11 +15,22 @@ import { LoginService } from 'src/app/login-module/login.service';
 export class ListarPlanejamentosComponent implements OnInit {
   planejamentos: any[] = [];
   assuntos: any[] = [];
+  @ViewChild('dialogPlanejamento') dialog:ElementRef;
 
   constructor(private router: Router, private login:LoginService) { }
 
   ngOnInit() {
     this.getPlanejamentos();
+    this.exibirDialogPlanejamento();
+  }
+
+  exibirDialogPlanejamento(){
+    
+    if(localStorage.getItem("exibicaoDialogPlanejamento") == undefined || localStorage.getItem("exibicaoDialogPlanejamento") != this.login.getUsuarioLogado().pk()){
+      this.dialog["visible"] = true;
+      this.dialog["modal"] = true;
+      localStorage.setItem("exibicaoDialogPlanejamento", this.login.getUsuarioLogado().pk());
+    }
   }
 
   getPlanejamentos() {

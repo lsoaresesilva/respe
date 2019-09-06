@@ -1,12 +1,16 @@
 import { TipoErro } from './tipoErro';
 import { Document, Collection, ignore, date } from './firestore/document';
 import Submissao from './submissao';
+import Query from 'mobile/src/odm/query';
+import { forkJoin, Observable } from 'rxjs';
 
 
 @Collection("errosEstudantes")
 export default class Erro extends Document{
 
     linha;
+    @date()
+    data;
     @ignore()
     mensagem
 
@@ -21,6 +25,29 @@ export default class Erro extends Document{
         let document = super.objectToDocument();
         document["submissaoId"] = this.submissao.pk();
         return document;
+    }
+
+    static getAllErrosEstudante(usuario){
+
+        return new Observable(observer=>{
+            Submissao.getAll(new Query("estudanteId", "==", usuario.pk())).subscribe(submissoes=>{
+                let erros = [];
+                submissoes.forEach(submissao=>{
+                    erros.push(Erro.getAll(new Query("submissaoId", "==", submissao.pk())));
+                });
+    
+                if(erros.length > 0){
+                    forkJoin(erros).subscribe(resultados=>{
+                        
+                        observer.next(resultados["flat"]()); // O método flat é utilizado para transformar um array que possui n arrays, cada um com uma quantidade x de erros para cada submissão, em um único array.
+                        observer.complete();
+                    })
+                }else{
+                    observer.next(erros);
+                    observer.complete();
+                }
+            });
+        }); 
     }
 
     /**
@@ -111,7 +138,7 @@ export default class Erro extends Document{
             case 1:
                 return TipoErro.numeroDecimalComVirgulaTexto;
             case 2:
-                return TipoErro.declaracaoVariavelComDoisIgualsTexto;
+                return TipoErro.declaracaoVariavelComDoisIguaisTexto;
             case 3:
                 return TipoErro.espacoNoNomeVariavelTexto;
             case 4:
@@ -170,7 +197,7 @@ export default class Erro extends Document{
 
                 
                 let d = erro.data.toDate();
-                let mes = d.getDay();
+                let mes = d.getMonth();
                 if( resultados[mes] == undefined ){
                     resultados[mes] = {top1:{total:0}, top2:{total:0}, top3:{total:0}}
                     
@@ -194,7 +221,7 @@ export default class Erro extends Document{
         let resultados = {};
 
         let comparacaoApenasUmaIgualdade = 0;
-        let declaracaoVariavelComDoisIguals = 0;
+        let declaracaoVariavelComDoisIguais = 0;
         let espacoNoNomeVariavel = 0;
         let faltaDoisPontosCondicao = 0;
         let faltaDoisPontosFuncao = 0;
@@ -209,7 +236,7 @@ export default class Erro extends Document{
                 if(erro.tipo == TipoErro.comparacaoApenasUmaIgualdade){
                     comparacaoApenasUmaIgualdade += 1;
                 }else if(erro.tipo == TipoErro.declaracaoVariavelComDoisIguais){
-                    declaracaoVariavelComDoisIguals += 1;
+                    declaracaoVariavelComDoisIguais += 1;
                 }else if(erro.tipo == TipoErro.espacoNoNomeVariavel){
                     espacoNoNomeVariavel += 1;
                 }else if(erro.tipo == TipoErro.faltaDoisPontosCondicao){
@@ -230,7 +257,7 @@ export default class Erro extends Document{
         })
 
         resultados = {comparacaoApenasUmaIgualdade:comparacaoApenasUmaIgualdade, 
-                      declaracaoVariavelComDoisIguals:declaracaoVariavelComDoisIguals,
+                      declaracaoVariavelComDoisIguais:declaracaoVariavelComDoisIguais,
                       espacoNoNomeVariavel:espacoNoNomeVariavel,
                       faltaDoisPontosCondicao:faltaDoisPontosCondicao,
                       faltaDoisPontosFuncao:faltaDoisPontosFuncao,

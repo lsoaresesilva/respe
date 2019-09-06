@@ -26,23 +26,40 @@ export class Tutor{
 
     }
 
+    /**
+     * Prepara a submissão para ser salva. Todos os tests cases serão inválidados, pois a submissão é referente a um erro.
+     */
+    salvarSubmissao(){
+        let resultadosTestCase = [];
+        this.submissao.questao.testsCases.forEach(testCase=>{
+            resultadosTestCase.push(new ResultadoTestCase(null, false, "", testCase));
+        });
+
+        this.submissao.resultadosTestsCases = resultadosTestCase;
+
+        return this.submissao.save();
+    }
+
 
     salvarErros(){
         let resultados;
         return new Observable(observer=>{
-            let operacoesSalvar = []
-            this.erros.forEach(erro=>{
-                operacoesSalvar.push(erro.save())
+            let operacoesSalvar = [];
+            this.salvarSubmissao().subscribe(resultado=>{
+                this.erros.forEach(erro=>{
+                    operacoesSalvar.push(erro.save())
+                })
+    
+                forkJoin(operacoesSalvar).subscribe(errosSalvos=>{
+                    resultados = errosSalvos;
+                }, err=>{
+                    observer.error(err);
+                }, ()=>{
+                    observer.next(resultados);
+                    observer.complete();
+                })
             })
-
-            forkJoin(operacoesSalvar).subscribe(errosSalvos=>{
-                resultados = errosSalvos;
-            }, err=>{
-                observer.error(err);
-            }, ()=>{
-                observer.next(resultados);
-                observer.complete();
-            })
+            
         })
     }
 

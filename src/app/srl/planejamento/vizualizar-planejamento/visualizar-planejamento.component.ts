@@ -38,12 +38,6 @@ export class VisualizarPlanejamentoComponent implements OnInit {
   getPlanejamento(id){
     Planejamento.get(id).subscribe(planejamentoCadastrado => {
       this.planejamento = planejamentoCadastrado;
-      //this.getQuestoes();
-
-      /*Assunto.isFinalizado(this.planejamento.assunto, this.login.getUsuarioLogado()).subscribe(status=>{
-        this.isFinalizado = status;
-      })*/
-
     });
   }
 

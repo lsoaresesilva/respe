@@ -39,25 +39,23 @@ describe("Testes de questão", () => {
   });
 
   it("deve validar false para uma questão inválida", () => {
-    let q = new Questao(null, null, null, null, null, null, null);
+    let q = new Questao(null, null, null, null, null, null, null, null);
     expect(q.validar()).toBeFalsy();
-    q = new Questao(null, null, null, null, null, null, []);
+    q = new Questao(null, null, null, null, null, null, [], null);
     expect(q.validar()).toBeFalsy();
   })
 
   it("deve validar true para uma questão válida", () => {
-    let q = new Questao(null, "algo", "enunciado", Dificuldade.facil, 1, [new Assunto(null, null, null)], [new TestCase(null, null, null)]);
+    let q = new Questao(null, "algo", "enunciado", Dificuldade.facil, 1, [new Assunto(null, null)], [new TestCase(123, [2], 3)], null);
     expect(q.validar()).toBeTruthy();
   })
 
 
   it("deve salvar uma questão corretamente", (done) => {
-    let a = new Assunto(null, "umAssunto", null);
+    let a = new Assunto(null, "umAssunto");
     a.save().subscribe(resultado => {
 
-      expect(a.questoes).toBeNull();
-
-      let q = new Questao(null, "nome", "enunciado", Dificuldade.facil, 1, [a], []);
+      let q = new Questao(null, "nome", "enunciado", Dificuldade.facil, 1, [a], [], null);
 
       let t = new TestCase(null, ["a", "b"], "c")
       let t1 = new TestCase(null, ["d", "e"], "a")
@@ -65,11 +63,11 @@ describe("Testes de questão", () => {
 
       q.testsCases = testsCases;
 
-      a.questoes = []
-      a.questoes.push(q);
+      a.questoesProgramacao = []
+      a.questoesProgramacao.push(q);
       a.save().subscribe(assuntoAtualizado => {
         Assunto.get(a.pk()).subscribe(assunto => {
-          expect(a.questoes.length).toBe(1);
+          expect(a.questoesProgramacao.length).toBe(1);
           Assunto.delete(a.pk()).subscribe(deletou => {
             done();
           })
@@ -87,16 +85,16 @@ describe("Testes de questão", () => {
     
     let u = new Usuario("12345", null, null, null);
     
-    let a = new Assunto(null, "umAssunto", null);
-    let q = new Questao("54321", "nome", "enunciado", Dificuldade.facil, 1, [a], []);
+    let a = new Assunto(null, "umAssunto");
+    let q = new Questao("54321", "nome", "enunciado", Dificuldade.facil, 1, [a], [], null);
     let t = new TestCase(null, ["a", "b"], "c")
     let t1 = new TestCase(null, ["d", "e"], "a")
     let testsCases = [t, t1]
 
     q.testsCases = testsCases;
 
-    a.questoes = []
-    a.questoes.push(q);
+    a.questoesProgramacao = []
+    a.questoesProgramacao.push(q);
 
     let c = new Codigo();
     c.algoritmo = "bla";
