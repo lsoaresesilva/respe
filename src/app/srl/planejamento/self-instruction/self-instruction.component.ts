@@ -27,7 +27,7 @@ export class SelfInstructionComponent implements OnInit {
 
   constructor(private route: ActivatedRoute, private router: Router, private login: LoginService) {
     this.questao = new Questao(null, null, null, null, null, [], [], null);
-    this.autoInstrucao = new AutoInstrucao(null, this.login.getUsuarioLogado(), this.questao, null, null, null, null, null, null);
+    
     this.condicoes = false;
     this.repeticoes = false;
     this.funcoes = false;
@@ -47,9 +47,10 @@ export class SelfInstructionComponent implements OnInit {
           if (assunto["questoesProgramacao"] != undefined && assunto["questoesProgramacao"].length > 0) {
             assunto["questoesProgramacao"].forEach(questao => {
               if (questao.id == params["questaoId"]) {
+                
                 this.questao = questao;
-                this.autoInstrucao.questao = this.questao;
-                this.getRespostasEstudante();
+                this.autoInstrucao = new AutoInstrucao(null, this.login.getUsuarioLogado(), this.questao, null, null, null, null, null, null);
+                this.getAutoInstrucao();
                 this.questao.buscarAssuntos(this.assunto).subscribe(assuntos => {
                   this.apresentarPerguntas(assuntos);
                 });
@@ -65,12 +66,11 @@ export class SelfInstructionComponent implements OnInit {
     });
   }
   
-  getRespostasEstudante(){
-    AutoInstrucao.getAutoInstrucao(this.usuario.id,this.questao.id).subscribe(autoInstrucao =>{
+  getAutoInstrucao(){
+    AutoInstrucao.getAutoInstrucao(this.login.getUsuarioLogado().pk(), this.questao.id).subscribe(autoInstrucao =>{
 
-      if(autoInstrucao != undefined){
+      if(autoInstrucao != null){
         this.autoInstrucao = autoInstrucao;
-        this.autoInstrucao.estudante= this.usuario;
         this.autoInstrucao.questao = this.questao;   
       }
 
