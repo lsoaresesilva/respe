@@ -1,0 +1,6 @@
+<h2>Dados sobre o seu desempenho em programação</h2>
+
+<div *ngIf="desempenhoPorErrorQuotient != undefined">Você está: <span style="font-weight: bold">{{desempenhoPorErrorQuotient}}</span></div>
+
+Seu risco é de: (quanto maior o percentual, pior)
+<app-percentual-error-quotient [estudante]="estudante"></app-percentual-error-quotient>

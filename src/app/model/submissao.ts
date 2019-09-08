@@ -22,6 +22,7 @@ export default class Submissao extends Document {
         this.estudante = estudante;
         this.questao = questao;
         this.erros = [];
+        this.resultadosTestsCases = [];
     }
 
     objectToDocument() {
@@ -106,12 +107,12 @@ export default class Submissao extends Document {
         })
     }
 
-    static getAll(queries?) {
+    static getAll(queries = null, orderBy = null) {
         return new Observable<any[]>(observer => {
             super.getAll(queries).subscribe(submissoes => {
                 let erros: any[] = [];
                 submissoes.forEach(submissao => {
-                    erros.push(Erro.getAll(new Query("submissaoId", "==", submissao["id"])));
+                    erros.push(Erro.getAll(new Query("submissaoId", "==", submissao.pk())));
                     submissao.resultadosTestsCases = ResultadoTestCase.construir(submissao.resultadosTestsCases);
 
                 })
@@ -120,16 +121,18 @@ export default class Submissao extends Document {
                     forkJoin(erros).subscribe(erros => {
 
                         erros.forEach(erro => {
-                            console.log(erro);
-                            /*erro.forEach(e=>{
-                                for(let i = 0; i < submissoes.length; i++){
-                                    if( e.submissaoId == submissoes[i].id){
-                                        submissoes[i].erros.push(e);
-                                        break;
+                            if(erro["forEach"] != undefined){
+                                erro["forEach"](e=>{
+                                    for(let i = 0; i < submissoes.length; i++){
+                                        if( e.submissaoId == submissoes[i].id){
+                                            submissoes[i].erros.push(e);
+                                            break;
+                                        }
+                                        
                                     }
-                                    
-                                }
-                            })*/
+                                })
+                            }
+                            
 
                         });
 

@@ -27,6 +27,11 @@ export class CadastrarEstudantesComponent implements OnInit {
 
   ngOnInit() {
     this.estudante = new Estudante(new Turma(null, null, null, null), new Usuario(null, null, null, PerfilUsuario.estudante));
+    this.route.params.subscribe(parametros=>{
+      if(parametros["codigoTurma"] != undefined){
+        this.estudante.turma.codigo = parametros["codigoTurma"];
+      }
+    })
   }
 
   cadastrarEstudante() {

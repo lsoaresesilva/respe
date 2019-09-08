@@ -10,9 +10,9 @@ export default class TestCase {
     constructor(id, entradas, saida) {
         this.entradas = entradas;
         this.saida = saida;
-        if(id == null)
+        if (id == null)
             this.id = Util.uuidv4();
-        else{
+        else {
             this.id = id;
         }
     }
@@ -32,16 +32,16 @@ export default class TestCase {
      * Constrói objetos TestsCases a partir do atributo testsCases de uma questão (que é um array)
      * @param testsCases 
      */
-    static construir(testsCases:any[]){
-        let objetosTestsCases:TestCase[] = [];
+    static construir(testsCases: any[]) {
+        let objetosTestsCases: TestCase[] = [];
 
-        if(testsCases != null){
-            testsCases.forEach(testCase=>{
+        if (testsCases != null) {
+            testsCases.forEach(testCase => {
                 objetosTestsCases.push(new TestCase(testCase.id, testCase.entradas, testCase.saida));
             })
         }
 
-        
+
 
         return objetosTestsCases;
     }
@@ -58,7 +58,7 @@ export default class TestCase {
     validar() {
 
         if (this.saida == null || this.saida == undefined || this.entradas == null || this.entradas == undefined || this.entradas.length == 0) {
-        return false;
+            return false;
         }
         return true;
     }
@@ -73,5 +73,5 @@ export default class TestCase {
     }
 
 
-    
+
 }

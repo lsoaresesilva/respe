@@ -2,7 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { MenuItem } from 'primeng/components/common/menuitem';
 import { Router } from '@angular/router';
 import Usuario from 'src/app/model/usuario';
-import { LoginService } from 'src/app/juiz/login.service';
+import { LoginService } from 'src/app/login-module/login.service';
 import geradorCodigo from 'src/app/util/geradorCodigo';
 import GeradorCodigo from 'src/app/util/geradorCodigo';
 
@@ -42,6 +42,11 @@ export class MainComponent implements OnInit {
       {
         label: 'Assuntos',
         command: () => { this.router.navigate(["main", { outlets: { principal: ['listagem-assuntos'] } }]) }
+
+      },
+      {
+        label: 'Meu desempenho',
+        command: () => { this.router.navigate(["main", { outlets: { principal: ['meu-desempenho'] } }]) }
 
       },
       {

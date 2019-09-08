@@ -2,7 +2,7 @@ import { Util } from './util';
 
 export default class Alternativa{
     constructor(public id, public texto, public isVerdadeira){
-        if(this.id == null){
+        if(id == null){
             this.id = Util.uuidv4();
         }else{
             this.id = id;
@@ -68,14 +68,4 @@ export default class Alternativa{
       return quantDeAlternativaCerta;
     }
     
-    static EncontrarAlternativaCerta(alternativas:Alternativa[]){
-        for(let i =0; i<alternativas.length;i++){
-            if(alternativas[i].isVerdadeira== true){
-               return alternativas[i].id
-            }
-        }
-
-        
-
-    }
 }

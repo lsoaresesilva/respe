@@ -42,7 +42,7 @@ describe("Testes de Submissão", ()=>{
     it("Deve carregar uma submissão com erro", (done)=>{
         let algoritmo = "x = 2\ny = c";
         let estudante = new Usuario("CvsVQsPKIExzNWFh2TWW", null, null, null);
-        let questao = new Questao("LwC2ItAVtfkDhcE9jvpT", null, null, null, null, null, []);
+        let questao = new Questao("LwC2ItAVtfkDhcE9jvpT", null, null, null, null, null, [], null);
         let submissao = new Submissao(null, new Codigo().algoritmo, estudante, questao);
         let x = submissao.erros;
         submissao.save().subscribe(resultado=>{
@@ -63,7 +63,7 @@ describe("Testes de Submissão", ()=>{
     it("Deve carregar uma submissão mais recente", (done)=>{
         let algoritmo = "x = 2\ny = x";
         let estudante = new Usuario("CvsVQsPKIExzNWFh2TWW", null, null, null);
-        let questao = new Questao("LwC2ItAVtfkDhcE9jvpT", null, null, null, null, null, []);
+        let questao = new Questao("LwC2ItAVtfkDhcE9jvpT", null, null, null, null, null, [], null);
         let s1 = new Submissao(null, new Codigo().algoritmo, estudante, questao);
         let s2 = new Submissao(null, new Codigo().algoritmo, estudante, questao);
         let x = s1.erros;

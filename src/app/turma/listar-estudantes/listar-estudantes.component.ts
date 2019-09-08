@@ -69,6 +69,6 @@ export class ListarEstudantesComponent implements OnInit {
   }
 
   cadastrarEstudante() {
-    this.router.navigate(["main", { outlets: { principal: ['cadastro-estudante', this.turma.pk()] } }]);
+    this.router.navigate(["main", { outlets: { principal: ['cadastro-estudante', this.turma.codigo] } }]);
   }
 }
