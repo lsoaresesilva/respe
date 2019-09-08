@@ -10,6 +10,7 @@ import { AutoCompleteModule, InputTextModule } from 'primeng/primeng';
 import { ToastModule } from 'primeng/toast';
 import { ListarEstudantesComponent } from './listar-estudantes/listar-estudantes.component';
 import { TableModule } from 'primeng/table';
+import { SrlModule } from '../srl/srl.module';
 
 @NgModule({
   declarations: [VisualizarTurmaComponent, CadastrarEstudantesComponent, CadastrarTurmaComponent, ListarEstudantesComponent],
@@ -22,6 +23,7 @@ import { TableModule } from 'primeng/table';
     ToastModule,
     InputTextModule,
     TableModule,
+    SrlModule
   ],
   exports:[VisualizarTurmaComponent, ListarEstudantesComponent]
 })

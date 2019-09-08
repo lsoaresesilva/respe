@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { LoginService } from 'src/app/login-module/login.service';
 
 @Component({
   selector: 'app-acompanhar-desempenho',
@@ -7,9 +8,14 @@ import { Component, OnInit } from '@angular/core';
 })
 export class AcompanharDesempenhoComponent implements OnInit {
 
-  constructor() { }
+  estudante;
+
+  constructor( private loginService:LoginService ) {
+    
+  }
 
   ngOnInit() {
+    this.estudante = this.loginService.getUsuarioLogado();
   }
 
 }

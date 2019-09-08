@@ -15,9 +15,13 @@ import { LoginService } from 'src/app/login-module/login.service';
 export class ListarPlanejamentosComponent implements OnInit {
   planejamentos: any[] = [];
   assuntos: any[] = [];
-  @ViewChild('dialogPlanejamento') dialog:ElementRef;
+  visibilidadeDialogPlanejamento;
 
-  constructor(private router: Router, private login:LoginService) { }
+  constructor(private router: Router, private login:LoginService) { 
+
+    this.visibilidadeDialogPlanejamento = false;
+
+  }
 
   ngOnInit() {
     this.getPlanejamentos();
@@ -27,8 +31,8 @@ export class ListarPlanejamentosComponent implements OnInit {
   exibirDialogPlanejamento(){
     
     if(localStorage.getItem("exibicaoDialogPlanejamento") == undefined || localStorage.getItem("exibicaoDialogPlanejamento") != this.login.getUsuarioLogado().pk()){
-      this.dialog["visible"] = true;
-      this.dialog["modal"] = true;
+      this.visibilidadeDialogPlanejamento = true;
+
       localStorage.setItem("exibicaoDialogPlanejamento", this.login.getUsuarioLogado().pk());
     }
   }

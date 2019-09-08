@@ -114,9 +114,7 @@ export class Tutor{
             throw new Error("Estudante precisa ser informado para calcular o Error Quotient.");
         }
 
-        // Pegar todas as submissòes
         
-        // TODO: dar um order by data em submissões, pois pode ser que não pegue na ordem em que foram adicionados.
         // formar pares
         if(submissoes.length > 1){
             let scores = [];
@@ -142,6 +140,19 @@ export class Tutor{
             return null;
         }
                 
+    }
+
+    static desempenhoEstudante(errorQuotient){
+
+        if(errorQuotient >= 0.0 && errorQuotient <= 0.25){
+            return "Excelente";
+        }else if(errorQuotient > 0.25 && errorQuotient <= 0.50){
+            return "Bem";
+        }else if(errorQuotient > 0.50 && errorQuotient <= 0.70){
+            return "Razoável";
+        }else if(errorQuotient > 0.75){
+            return "Precisa melhorar (cuidado)";
+        }
     }
 
     static errorQuotient(submissaoUm, submissaoDois){

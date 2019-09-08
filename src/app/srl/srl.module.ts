@@ -18,7 +18,7 @@ import {DialogModule} from 'primeng/dialog';
 
 
 import { PaginaNaoEncontradaComponent } from '../geral-module/pagina-nao-encontrada/pagina-nao-encontrada.component';
-import { RiscoEstudanteComponent } from '../analytics-module/risco-estudante/risco-estudante.component';
+import { RiscoEstudanteComponent } from './monitoramento/risco-estudante/risco-estudante.component';
 import {ProgressBarModule} from 'primeng/progressbar';
 import { ListarPlanejamentosComponent } from './planejamento/listar-planejamentos/listar-planejamentos.component';
 import { VisualizarPlanejamentoComponent } from './planejamento/vizualizar-planejamento/visualizar-planejamento.component';
@@ -33,6 +33,7 @@ import { JuizModule } from '../juiz/juiz.module';
 import { MonitorarPlanejamentoComponent } from './monitoramento/monitorar-planejamento/monitorar-planejamento.component';
 import { AcompanharDesempenhoComponent } from './monitoramento/acompanhar-desempenho/acompanhar-desempenho.component';
 import { ErrosProgramacaoComponent } from './monitoramento/erros-programacao/erros-programacao.component';
+import { PercentualErrorQuotientComponent } from './monitoramento/percentual-error-quotient/percentual-error-quotient.component';
 
 
 @NgModule({
@@ -48,7 +49,9 @@ import { ErrosProgramacaoComponent } from './monitoramento/erros-programacao/err
     ExibirSolucaoComponent,
     MonitorarPlanejamentoComponent,
     AcompanharDesempenhoComponent,
-    ErrosProgramacaoComponent
+    ErrosProgramacaoComponent,
+    RiscoEstudanteComponent,
+    PercentualErrorQuotientComponent
   ],
   imports: [
     JuizModule,
@@ -83,7 +86,7 @@ import { ErrosProgramacaoComponent } from './monitoramento/erros-programacao/err
     
   ],
   providers:[],
-  exports:[RiscoEstudanteComponent]
+  exports:[RiscoEstudanteComponent, PercentualErrorQuotientComponent]
 
 })
 export class SrlModule { }

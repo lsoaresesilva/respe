@@ -84,19 +84,7 @@ export class Assunto extends Document {
 
     }
 
-    getQuestao(questaoId) {
-        if (this.questoesProgramacao != undefined && this.questoesProgramacao.length > 0) {
-            this.questoesProgramacao.forEach(questao => {
-                if (questao.id == questaoId) {
-                    return questao;
-                }
-            })
-        }
-
-        return null;
-    }
-
-    static isFinalizado(assunto: Assunto, estudante, margemAceitavel = 0.6) {
+    static isQuestoesProgramacaoFinalizadas(assunto: Assunto, estudante, margemAceitavel = 0.6) {
         return new Observable(observer => {
             this.calcularPercentualConclusaoQuestoesProgramacao(assunto, estudante, margemAceitavel).subscribe(percentual => {
                 if (percentual >= margemAceitavel) {
