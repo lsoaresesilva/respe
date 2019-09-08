@@ -3,6 +3,8 @@ import Submissao from 'src/app/model/submissao';
 import { Router, ActivatedRoute } from '@angular/router';
 import Query from 'src/app/model/firestore/query';
 import Usuario from 'src/app/model/usuario';
+import { LoginService } from 'src/app/juiz/login.service';
+import { Assunto } from 'src/app/model/assunto';
 
 
 @Component({
@@ -13,37 +15,65 @@ import Usuario from 'src/app/model/usuario';
 export class ListarEstudantesSubmissaoComponent implements OnInit {
   
   private submissoesDaQuestao;
-  private questao;
+  private questaoId;
   private submissoes;
   private estudante;
-  private assuntoId
-  @Input ("questaoId") questaoId;
+  private assuntoId;
+  private usuario;
+  private assunto;
+  private questao;
 
-  constructor(private router:Router,private route: ActivatedRoute) { }
+  constructor(private router:Router,private route: ActivatedRoute,private login:LoginService) { 
+  this.usuario= login.getUsuarioLogado();
+  }
 
   ngOnInit() {
     
     this.route.params.subscribe(params => {
-      if(params['questaoId']==undefined || params['questaoId']== null){
-        this.questao=this.questaoId;
+      if (params["assuntoId"] != undefined && params["questaoId"] != undefined) {
+        Assunto.get(params["assuntoId"]).subscribe(assunto => {
+          this.assunto = assunto;
+          if (assunto["questoesProgramacao"] != undefined && assunto["questoesProgramacao"].length > 0) {
+            assunto["questoesProgramacao"].forEach(questao => {
+              if (questao.id == params["questaoId"]) {
+                this.questao = questao;
+                console.log(this.questao);
+              }
+            });
+          }
+          });
+        
+      } else {
+        throw new Error("Não é possível visualizar uma questão, pois não foram passados os identificadores de assunto e questão.")
       }
-      this.questao= params['questaoId'];
-      console.log(this.questao);
-     
-      Submissao.getAll(new Query("questaoId","==",this.questao)).subscribe(resultado =>{
-        this.submissoes =resultado;
-         console.log(resultado);
+  
 
-        this.filtrarSubmissoesConcluidas(resultado);
-      });
+
+
+
+      this.questaoId = params['questaoId'];
+      this.assuntoId = params['assuntoId'];
+      if (this.questaoId != null){
+
+        Submissao.getAll(new Query("questaoId","==",this.questaoId)).subscribe(resultado =>{
+          //eliminar a submissao do próprio estudante
+            this.submissoes = resultado.filter((sub) => {
+              if (sub.estudanteId !== ( this.usuario.pk() )) { return true}
+            });
+    
+            this.filtrarSubmissoesConcluidas(this.submissoes);
+        });
+      }
+     
     });
   }
 
 
 
-  filtrarSubmissoesConcluidas(submissoesQuestao){
+  filtrarSubmissoesConcluidas(submissoesQuestao=[]){
+    console.log("array de filtrarSubmissoesConcluidas" + submissoesQuestao);
    // Filtrando todas as submissões que o seu resultadosTestsCase não seja undefined
-		var submissaoFiltrada = submissoesQuestao.filter(submissao => {
+		let submissaoFiltrada = submissoesQuestao.filter(submissao => {
       return submissao.resultadosTestsCases !== undefined
       
    })
@@ -52,7 +82,7 @@ export class ListarEstudantesSubmissaoComponent implements OnInit {
      
      // Retornar um array vazio caso o resultadosTestsCases tenha todos os elementos com status true. Caso não, o array vai retornar 
      // com pelo menos um elemento com status false
-     var filterFalseTestsCases = submissao.resultadosTestsCases.filter(el => el.status === false)
+     let filterFalseTestsCases = submissao.resultadosTestsCases.filter(el => el.status === false)
 
      // Se a submissão tiver todos seus status true, então retorne-a
      if(filterFalseTestsCases.length === 0) {return submissao} 
@@ -60,23 +90,63 @@ export class ListarEstudantesSubmissaoComponent implements OnInit {
         
     });
  
-     this.BuscarEstudante(submissaoFiltrada);
+     this.buscarSubmissaoRecente(submissaoFiltrada);
 
   }
 
 
 
 
-  BuscarEstudante(submissoesQuestao){
+  BuscarEstudantePorSubmissao(submissoesQuestao=[]){
+    console.log("buscarEstudante" + submissoesQuestao)
     for(let i=0;i<submissoesQuestao.length;i++){
 
-      Usuario.get(submissoesQuestao[i].estudanteId).subscribe(resultado=>{this.estudante=resultado
+      Usuario.get(submissoesQuestao[i].estudanteId).subscribe(resultado=>{
+        this.estudante=resultado;
         submissoesQuestao[i].estudante=this.estudante.nome;
-        
       });
     }
-   this.submissoesDaQuestao=submissoesQuestao;
+    
+    this.submissoesDaQuestao=submissoesQuestao;
+  
 
+  }
+
+  buscarSubmissaoRecente(submissoes=[]){
+    let usuario;
+    console.log("array de buscarSubmissaoRecente" + submissoes);
+    let submissoesRecentes=[];
+    
+    submissoes.forEach(submissao=>{
+      Usuario.get(submissao.estudanteId).subscribe(usuarioBanco => {
+        usuario = usuarioBanco;
+        console.log("usuario"+usuario);
+        Submissao.getRecentePorQuestao(this.questao,usuario).subscribe(submissaoResultado => {
+          submissoesRecentes.push(submissaoResultado);
+
+          this.eliminandosubmissoesRepetidas(submissoesRecentes);
+        });
+
+      })
+     
+    });
+  }
+
+
+  
+  eliminandosubmissoesRepetidas(todasSubmissoes=[]){
+    console.log("eliminando submissoes repetidas" + todasSubmissoes)
+    let submissoesSemRepeticao=[];
+
+    todasSubmissoes.forEach(submissao => {
+      let temRepeticao = submissoesSemRepeticao.findIndex (submissaoTratada => submissao.estudanteId ===
+        submissaoTratada.estudanteId) !== -1;
+
+        if(!temRepeticao){
+          submissoesSemRepeticao.push(submissao);
+        }
+      })
+    this.BuscarEstudantePorSubmissao(submissoesSemRepeticao);
   }
 
 
