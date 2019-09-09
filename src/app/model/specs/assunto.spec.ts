@@ -20,7 +20,7 @@ import { forkJoin } from 'rxjs';
 import Estudante from '../estudante';
 import Usuario from '../usuario';
 import QuestaoFechada from '../questaoFechada';
-import { PerfilUsuario } from '../perfilUsuario';
+import { PerfilUsuario } from '../enums/perfilUsuario';
 import { RespostaQuestaoFechada } from '../respostaQuestaoFechada';
 import Alternativa from '../alternativa';
 import Submissao from '../submissao';

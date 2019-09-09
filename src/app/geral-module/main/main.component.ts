@@ -23,37 +23,58 @@ export class MainComponent implements OnInit {
 
   ngOnInit() {
 
-    this.itens = [
-      {
-        label: 'Planejamento',
-        command: () => { this.router.navigate(["main", { outlets: { principal: ['listagem-planejamento'] } }]) }
-
-      },
-      {
-        label: 'Turmas',
-        command: () => { this.router.navigate(["main", { outlets: { principal: ['listagem-turmas'] } }]) }
-
-      },
-      {
-        label: 'Estudantes',
-        command: () => { this.router.navigate(["main", { outlets: { principal: ['listagem-estudantes'] } }]) }
-
-      },
-      {
-        label: 'Assuntos',
-        command: () => { this.router.navigate(["main", { outlets: { principal: ['listagem-assuntos'] } }]) }
-
-      },
-      {
-        label: 'Meu desempenho',
-        command: () => { this.router.navigate(["main", { outlets: { principal: ['meu-desempenho'] } }]) }
-
-      },
-      {
-        label: 'Logout',
-        command: () => {this.logout()}
-      }
-    ];
+    if(this.usuario.perfil == 3){
+      this.itens = [
+        {
+          label: 'Planejamento',
+          command: () => { this.router.navigate(["main", { outlets: { principal: ['listagem-planejamento'] } }]) }
+  
+        },
+        {
+          label: 'Turmas',
+          command: () => { this.router.navigate(["main", { outlets: { principal: ['listagem-turmas'] } }]) }
+  
+        },
+        {
+          label: 'Estudantes',
+          command: () => { this.router.navigate(["main", { outlets: { principal: ['listagem-estudantes'] } }]) }
+  
+        },
+        {
+          label: 'Assuntos',
+          command: () => { this.router.navigate(["main", { outlets: { principal: ['listagem-assuntos'] } }]) }
+  
+        },
+        
+        {
+          label: 'Sair',
+          command: () => {this.logout()}
+        }
+      ];
+    }else{
+      this.itens = [
+        {
+          label: 'Planejamentos',
+          command: () => { this.router.navigate(["main", { outlets: { principal: ['listagem-planejamento'] } }]) }
+  
+        },
+        {
+          label: 'Minha turma',
+          command: () => { this.router.navigate(["main", { outlets: { principal: ['minha-turma'] } }]) }
+  
+        },
+        {
+          label: 'Meu desempenho',
+          command: () => { this.router.navigate(["main", { outlets: { principal: ['meu-desempenho'] } }]) }
+  
+        },
+        {
+          label: 'Sair',
+          command: () => {this.logout()}
+        }
+      ];
+    }
+    
 
   }
 

@@ -1,8 +1,8 @@
 import { TipoErro } from './tipoErro';
 import { Document, Collection, ignore, date } from './firestore/document';
 import Submissao from './submissao';
-import Query from 'mobile/src/odm/query';
 import { forkJoin, Observable } from 'rxjs';
+import Query from './firestore/query';
 
 
 @Collection("errosEstudantes")

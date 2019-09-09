@@ -18,18 +18,13 @@ export class MenuEstudanteComponent implements OnInit {
   ngOnInit() {
     this.items = [
       {
-        label: 'Estudantes',
-        command: () => { this.router.navigate(["main", { outlets: { principal: ['listagem-estudantes'] } }]) }
+        label: 'Planejamentos',
+        command: () => { this.router.navigate(["main", { outlets: { principal: ['listagem-planejamento'] } }]) }
 
       },
       {
-        label: 'Assuntos',
-        command: () => { this.router.navigate(["main", { outlets: { principal: ['listagem-assuntos'] } }]) }
-
-      },
-      {
-        label: 'Sair',
-        command: () => {this.logout()}
+        label: 'Minha turma',
+        command: () => { this.router.navigate(["main", { outlets: { principal: ['minha-turma'] } }]) }
 
       },
     ];

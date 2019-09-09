@@ -11,9 +11,12 @@ import { ToastModule } from 'primeng/toast';
 import { ListarEstudantesComponent } from './listar-estudantes/listar-estudantes.component';
 import { TableModule } from 'primeng/table';
 import { SrlModule } from '../srl/srl.module';
+import { ListarTurmaComponent } from './listar-turma/listar-turma.component';
+import {ContextMenuModule,MenuItem} from 'primeng/primeng';
+
 
 @NgModule({
-  declarations: [VisualizarTurmaComponent, CadastrarEstudantesComponent, CadastrarTurmaComponent, ListarEstudantesComponent],
+  declarations: [ListarTurmaComponent, VisualizarTurmaComponent, CadastrarEstudantesComponent, CadastrarTurmaComponent, ListarEstudantesComponent],
   imports: [
     CsclModule,
     CommonModule,
@@ -23,7 +26,8 @@ import { SrlModule } from '../srl/srl.module';
     ToastModule,
     InputTextModule,
     TableModule,
-    SrlModule
+    SrlModule,
+    ContextMenuModule
   ],
   exports:[VisualizarTurmaComponent, ListarEstudantesComponent]
 })

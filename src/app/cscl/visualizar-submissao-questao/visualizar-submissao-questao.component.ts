@@ -7,20 +7,16 @@ import { Assunto } from 'src/app/model/assunto';
 import Usuario from 'src/app/model/usuario';
 
 @Component({
-  selector: 'app-listar-submissao-questao',
-  templateUrl: './listar-submissao-questao.component.html',
-  styleUrls: ['./listar-submissao-questao.component.css']
+  selector: 'app-visualizar-submissao-questao',
+  templateUrl: './visualizar-submissao-questao.component.html',
+  styleUrls: ['./visualizar-submissao-questao.component.css']
 })
-export class ListarSubmissaoQuestaoComponent implements OnInit {
- private submissaoId;
+export class VisualizarSubmissaoQuestaoComponent implements OnInit {
  private submissao;
  private usuario;
+ private questao;
  private  dataFormatada;
  
-  
-  
-
-
   constructor(private messageService: MessageService,private router:Router, public login:LoginService,private route: ActivatedRoute) {
     this.submissao= new Submissao (null,null,null,[]);
     this.usuario = new Usuario (null,null,null,null);
@@ -29,27 +25,17 @@ export class ListarSubmissaoQuestaoComponent implements OnInit {
   ngOnInit() {
 
     this.route.params.subscribe(params => {
-      this.submissaoId=params['submissaoId'];
 
-      Submissao.get(this.submissaoId).subscribe( resultado => {
-
+      Submissao.get(params['submissaoId']).subscribe( resultado => {
+        
         this.submissao =resultado;
         this.formatarData(this.submissao.data);
-        this.buscarEstudante(this.submissao.estudanteId);
+        Usuario.get(this.submissao.estudanteId).subscribe(resultado=>{this.usuario=resultado});
         
       });
-    });
-
-    
-    
+    });    
     
   }
-
-
-  buscarEstudante(estudanteId){
-      Usuario.get(estudanteId).subscribe(resultado=>{this.usuario=resultado});
-  }
-
 
   
    

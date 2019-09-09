@@ -205,8 +205,11 @@ export class EditorProgramacaoComponent implements OnInit {
   
         }, err => {
   
-          this.prepararMensagemExceptionHttp(err);
-  
+          
+          submissao.invalidar();
+          submissao.save().subscribe(resultado=>{
+            this.prepararMensagemExceptionHttp(err);
+          })
   
         }, () => {
           _this.pausaIde = false;
@@ -215,6 +218,8 @@ export class EditorProgramacaoComponent implements OnInit {
     }
 
   }
+
+  
 
   prepararMensagemExceptionHttp(erro) {
     if (erro.name == "HttpErrorResponse" && erro.status == 0) {

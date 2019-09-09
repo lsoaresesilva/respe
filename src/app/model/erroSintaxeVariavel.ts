@@ -4,35 +4,36 @@ import Codigo from './codigo';
 import { TipoErro } from './tipoErro';
 import Estudante from './estudante';
 import Submissao from './submissao';
+import ErroSintaxeCondicional from './erroSintaxeCondiconal';
 
-export default class ErroSintaxeVariavel extends ErroSintaxe{
+export default class ErroSintaxeVariavel extends ErroSintaxe {
 
-    static erros(submissao:Submissao):Erro[]{
-        let erros:Erro[] = [];
+    static erros(submissao: Submissao): Erro[] {
+        let erros: Erro[] = [];
         let linhasCodigo = submissao.codigo.linhasAlgoritmo();
-        
+
         for (let i = 0; i < linhasCodigo.length; i++) {
-            let numeroLinha = i+1;
+            let numeroLinha = i + 1;
             let linhaCodigo = linhasCodigo[i];
 
-            
 
-            if(ErroSintaxeVariavel.numeroDecimalComVirgula(linhaCodigo)){
-                erros.push(new Erro(null, numeroLinha, "Você declarou uma variável com número decimal e utilizou , (vírgula) quando deveria ter usado . (ponto). Erro na linha: "+numeroLinha, TipoErro.numeroDecimalComVirgula, submissao));
+
+            if (ErroSintaxeVariavel.numeroDecimalComVirgula(linhaCodigo)) {
+                erros.push(new Erro(null, numeroLinha, "Você declarou uma variável com número decimal e utilizou , (vírgula) quando deveria ter usado . (ponto). Erro na linha: " + numeroLinha, TipoErro.numeroDecimalComVirgula, submissao));
             }
 
-            if(ErroSintaxeVariavel.variavelDeclaradaComDoisIguais(linhaCodigo)){
-                erros.push(new Erro(null, numeroLinha, "Você declarou uma variável com dois == (igualdades) quando deveria ter usado apenas um =. Erro na linha: "+numeroLinha, TipoErro.declaracaoVariavelComDoisIguais, submissao));
+            if (ErroSintaxeVariavel.variavelDeclaradaComDoisIguais(linhaCodigo)) {
+                erros.push(new Erro(null, numeroLinha, "Você declarou uma variável com dois == (igualdades) quando deveria ter usado apenas um =. Erro na linha: " + numeroLinha, TipoErro.declaracaoVariavelComDoisIguais, submissao));
             }
 
-            if(ErroSintaxeVariavel.nomeVariavelComEspaco(linhaCodigo)){
-                erros.push(new Erro(null, numeroLinha, "Você utilizou espaço no nome de uma variável e isso não é permitido. Erro na linha: "+numeroLinha, TipoErro.espacoNoNomeVariavel, submissao));
+            if (ErroSintaxeVariavel.nomeVariavelComEspaco(linhaCodigo)) {
+                erros.push(new Erro(null, numeroLinha, "Você utilizou espaço no nome de uma variável e isso não é permitido. Erro na linha: " + numeroLinha, TipoErro.espacoNoNomeVariavel, submissao));
             }
         }
 
         let variaveisNaoDeclaradas = ErroSintaxeVariavel.variaveisNaoDeclaradas(submissao.codigo);
-        variaveisNaoDeclaradas.forEach(variavel=>{
-            erros.push(new Erro(null, variavel.linha, "Você tentou utilizar a variável: '"+variavel.nome+"' que não foi criada. Erro na linha: "+variavel.linha, TipoErro.variavelNaoDeclarada, submissao));
+        variaveisNaoDeclaradas.forEach(variavel => {
+            erros.push(new Erro(null, variavel.linha, "Você tentou utilizar a variável: '" + variavel.nome + "' que não foi criada. Erro na linha: " + variavel.linha, TipoErro.variavelNaoDeclarada, submissao));
         })
 
 
@@ -52,7 +53,7 @@ export default class ErroSintaxeVariavel extends ErroSintaxe{
         }
 
         return false;
-        
+
     }
 
     static variavelDeclaradaComDoisIguais(linha) {
@@ -66,7 +67,7 @@ export default class ErroSintaxeVariavel extends ErroSintaxe{
 
             return false;
         }
-        
+
         return false;
     }
 
@@ -87,6 +88,29 @@ export default class ErroSintaxeVariavel extends ErroSintaxe{
         return false;*/
     }
 
+    static isVariavelIncluida(variavel, variaveis){
+        
+        variaveis.forEach(variavelIncluida=>{
+        
+            if(variavel == variavelIncluida.nome){
+                return true;
+            }
+        })
+        
+        
+
+        return false;
+    }
+
+    static isVariavelNumerica(variavel){
+        let regex = /[0-9]+/g;
+        if(regex.exec(variavel) == null){ // não é um número 
+            return false;
+        }
+
+        return true;
+    }
+
 
     private static identificarVariaveisUtilizadas(codigo) {
 
@@ -97,15 +121,33 @@ export default class ErroSintaxeVariavel extends ErroSintaxe{
         for (let i = 0; i < linhasCodigo.length; i++) {
             // =[\s.]*[^0-9\"\'][a-zA-z0-9(]*
             let resultado = undefined
-            
-            // SE tiver sinais de operação +, -, * e / deve dividir a setença
-            resultado = linhasCodigo[i].match(/=[\s.]*(?:\(|\+|\-|\/|\*)/);
-            if(resultado != undefined && resultado.length > 0){
-                let linhaCodigo = linhasCodigo[i]
-                let atribuicao = linhaCodigo.match(/=[\s.]*(.*)/);
-                if(atribuicao != undefined && atribuicao.length > 0){
-                    // SE tiver () ou os sinais de operação então deve removê-los para restar apenas as variáveis
-                    // deve remover os (
+
+            // Verificar o uso de variáveis em condições:
+            if (ErroSintaxeCondicional.isConditional(linhasCodigo[i])) {
+                let regex = /\bif\s(\w*)\s*(?:={2}|>|>=|<|<=|!=)\s*([a-zA-Z0-9\"\',]+)\s*/g 
+                let consultaDeclaracaoCondicao = regex.exec(linhasCodigo[i]);
+                if (consultaDeclaracaoCondicao != null && consultaDeclaracaoCondicao.length > 0) {
+                    for(let j = 1; j < consultaDeclaracaoCondicao.length; j++){
+                        if(!this.isVariavelNumerica(consultaDeclaracaoCondicao[j])){
+                            if(!this.isVariavelIncluida(consultaDeclaracaoCondicao[j], variaveisUtilizadas)){
+                                variaveisUtilizadas.push({ nome: consultaDeclaracaoCondicao[j], linha: i+1 });
+                            }
+                        }
+                        
+                    }
+                    
+                }
+            } else {
+                // TODO: verificar o uso em repetições
+
+                // SE tiver sinais de operação +, -, * e / deve dividir a setença
+                resultado = linhasCodigo[i].match(/=[\s.]*(?:\(|\+|\-|\/|\*)/);
+                if (resultado != undefined && resultado.length > 0) {
+                    let linhaCodigo = linhasCodigo[i]
+                    let atribuicao = linhaCodigo.match(/=[\s.]*(.*)/);
+                    if (atribuicao != undefined && atribuicao.length > 0) {
+                        // SE tiver () ou os sinais de operação então deve removê-los para restar apenas as variáveis
+                        // deve remover os (
                         atribuicao[1] = atribuicao[1].replace(/\(/, "")
                         atribuicao[1] = atribuicao[1].replace(/\)/, "")
                         atribuicao[1] = atribuicao[1].replace(/\+/, "_____")
@@ -113,36 +155,41 @@ export default class ErroSintaxeVariavel extends ErroSintaxe{
                         atribuicao[1] = atribuicao[1].replace(/\*/, "_____")
                         atribuicao[1] = atribuicao[1].replace(/\//, "_____")
                         atribuicao[1] = atribuicao[1].split("_____");
-                        atribuicao[1].forEach(dado=>{
-                            if(dado.search("[a-zA-Z]") != -1){
+                        atribuicao[1].forEach(dado => {
+                            if (dado.search("[a-zA-Z]") != -1) {
+                                // TODO: fazer uma verificação para ver se a variável já está no array
                                 variaveisUtilizadas.push({ nome: dado, linha: i + 1 });
                             }
                         })
-                }
-            }else{
-                
+                    }
+                } else {
 
-                resultado = linhasCodigo[i].match(/=[\s.]*(?![0-9\"\',\[])[a-zA-z0-9(]*/);
 
-                if (resultado != undefined && resultado.length > 0) {
-                    
+                    resultado = linhasCodigo[i].match(/=[\s.]*(?![0-9\"\',\[])[a-zA-z0-9(]*/);
 
-                    let nomeVariavel = resultado[0].replace(/=\s*/, "");
-                    if (nomeVariavel != "") { // a REGEX retorna =\s, assim ao fazer o replace acima sobra vazio
-                        // se tiver input então ignora
-                        if (nomeVariavel.search(/input\(/) == -1) {
-                            
-                            
-                            // SE variável não estiver em variaveisDeclaradas ENTÃO adicione ao array variaveisDeclaradas// mais de uma vez significa que foi atribuído um valor à ela.
-                            if (!variaveisUtilizadas.includes(nomeVariavel)) {
-                                variaveisUtilizadas.push({ nome: nomeVariavel, linha: i + 1 });
+                    if (resultado != undefined && resultado.length > 0) {
+
+
+                        let nomeVariavel = resultado[0].replace(/=\s*/, "");
+                        if (nomeVariavel != "") { // a REGEX retorna =\s, assim ao fazer o replace acima sobra vazio
+                            // se tiver input então ignora
+                            if (nomeVariavel.search(/input\(/) == -1) {
+
+
+                                // SE variável não estiver em variaveisDeclaradas ENTÃO adicione ao array variaveisDeclaradas// mais de uma vez significa que foi atribuído um valor à ela.
+                                if (!variaveisUtilizadas.includes(nomeVariavel)) {
+                                    variaveisUtilizadas.push({ nome: nomeVariavel, linha: i + 1 });
+                                }
                             }
                         }
-                    }
 
+                    }
                 }
             }
-            
+
+
+
+
 
         }
 
