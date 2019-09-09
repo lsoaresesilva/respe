@@ -1,7 +1,7 @@
 import { Document, Collection, date } from './firestore/document';
 import { Observable } from 'rxjs';
 import Query from './firestore/query';
-import { PerfilUsuario } from './perfilUsuario';
+import { PerfilUsuario } from './enums/perfilUsuario';
 import { sha256 } from 'js-sha256';
 import TempoOnline from './tempoOnline';
 

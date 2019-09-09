@@ -99,9 +99,9 @@ class Juiz():
                             if erro.possuiErroExecucao(msgRetornoAlgoritmo):
                                 raise JuizError(
                                     "O código apresentou o seguinte erro '"+erro.tipo+"' na linha "+erro.linha)
-                        except ErroProgramacaoError:  # Não há erro, verificar o resultado test de testcase normalmente
-                            resultadoTeste = self.compararSaidaEsperadaComSaidaAlgoritmo(
-                                msgRetornoAlgoritmo, teste["saida"])
+                            else:  # Não há erro, verificar o resultado test de testcase normalmente
+                                resultadoTeste = self.compararSaidaEsperadaComSaidaAlgoritmo(
+                                    msgRetornoAlgoritmo, teste["saida"])
                         finally:
                             child.close()
                     except OSError as e:

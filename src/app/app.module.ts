@@ -22,6 +22,7 @@ import { BrowserModule } from '@angular/platform-browser';
 import { DocumentModule } from './model/firestore/document.module';
 import { PostagensTurmaGuard } from './guards/postagensTurma.guard';
 import { TurmaModule } from './turma/turma.module';
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 
 
 
@@ -46,6 +47,7 @@ import { TurmaModule } from './turma/turma.module';
     AngularFirestoreModule,
     InputTextModule,
     MenubarModule,
+    BrowserAnimationsModule
   ],
   providers: [AuthGuard,PostagensTurmaGuard],
   bootstrap: [AppComponent]

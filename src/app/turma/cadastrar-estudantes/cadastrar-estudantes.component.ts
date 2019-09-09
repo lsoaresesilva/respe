@@ -2,7 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { Router, ActivatedRoute } from '@angular/router';
 import { MessageService } from 'primeng/api';
 import Usuario from 'src/app/model/usuario';
-import { PerfilUsuario } from 'src/app/model/perfilUsuario';
+import { PerfilUsuario } from 'src/app/model/enums/perfilUsuario';
 import Turma from 'src/app/model/turma';
 import Estudante from 'src/app/model/estudante';
 

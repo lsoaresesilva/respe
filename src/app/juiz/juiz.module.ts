@@ -22,7 +22,6 @@ import { SrlModule } from '../srl/srl.module';
 import { EditorProgramacaoComponent } from './editor-programacao/editor-programacao.component';
 import { DadosQuestaoComponent } from './dados-questao/dados-questao.component';
 
-import { ListarTurmaComponent } from './listar-turma/listar-turma.component';
 import {AutoCompleteModule} from 'primeng/autocomplete';
 import {ToastModule} from 'primeng/toast';
 import {InputTextModule} from 'primeng/inputtext';
@@ -51,7 +50,7 @@ import {ConfirmDialogModule} from 'primeng/confirmdialog';
 import {ConfirmationService} from 'primeng/api';
 import { VisualizarPerfilEstudanteComponent } from './visualizar-perfil-estudante/visualizar-perfil-estudante.component';
 import {ScrollPanelModule} from 'primeng/scrollpanel';
-import { CsclModule } from '../cscl/cscl.module';
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 
 
 
@@ -65,8 +64,7 @@ import { CsclModule } from '../cscl/cscl.module';
     ListarQuestoesComponent, 
     DadosQuestaoComponent, 
     EditorProgramacaoComponent, 
-    EditorProgramacaoComponent, 
-    ListarTurmaComponent, 
+    EditorProgramacaoComponent,
     VisualizarExecucacao, 
     ListarAssuntosComponent,
     VisualizarAssuntoComponent,
@@ -91,6 +89,7 @@ import { CsclModule } from '../cscl/cscl.module';
     ButtonModule,
     DropdownModule,
     FormsModule,
+    BrowserAnimationsModule,
     ReactiveFormsModule,
     SpinnerModule,
     InputTextareaModule,
@@ -120,7 +119,6 @@ import { CsclModule } from '../cscl/cscl.module';
     CadastrarQuestoesComponent,
     ListarQuestoesComponent,
     CadastrarTesteCaseComponent,
-    ListarTurmaComponent,
     CadastrarAssuntosComponent,
     ListarAssuntosComponent,
     VisualizarAssuntoComponent,
