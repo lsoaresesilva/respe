@@ -52,7 +52,7 @@ describe("Testes de análise de sintaxe para variáveis", ()=>{
         expect(ErroSintaxeVariavel.variavelDeclaradaComDoisIguais(linhasCodigo[3])).toBeFalsy()
     })
 
-    it("Deve identificar variáveis que tenham espaço em seu nome", ()=>{
+    /*it("Deve identificar variáveis que tenham espaço em seu nome", ()=>{
         let c = new Codigo();
         let algoritmo = "nome = 'leonardo'\nnome do leonardo = 'leo'\nnome pessoa = 'leonardo'\ idade = 31"
         c.setAlgoritmo(algoritmo);
@@ -63,5 +63,38 @@ describe("Testes de análise de sintaxe para variáveis", ()=>{
         expect(ErroSintaxeVariavel.nomeVariavelComEspaco(linhasCodigo[2])).toBeTruthy()
         expect(ErroSintaxeVariavel.nomeVariavelComEspaco(linhasCodigo[3])).toBeFalsy()
         
+    })*/
+
+    it("Deve identificar as variáveis utilizadas em uma condição", ()=>{
+        let linha = "if x == 2"
+        let linha2 = "if x > a"
+        expect(ErroSintaxeVariavel.getVariaveisCondicao(linha)).toEqual(["x"]);
+        expect(ErroSintaxeVariavel.getVariaveisCondicao(linha2)).toEqual(["x", "a"]);
     })
+
+    it("Deve identificar as variáveis em uma operação matemática", ()=>{
+        let linha = "x = x + 2"
+        let linha2 = "z = z*3"
+        let linha3 = "z = a / d"
+        let linha4 = "z = (a / d)+c"
+        let linha5 = "z = a / d+3"
+        expect(ErroSintaxeVariavel.getVariaveisOperacaoMatematica(linha)).toEqual(["x"]);
+        expect(ErroSintaxeVariavel.getVariaveisOperacaoMatematica(linha2)).toEqual(["z"]);
+        expect(ErroSintaxeVariavel.getVariaveisOperacaoMatematica(linha3)).toEqual(["a", "d"]);
+        expect(ErroSintaxeVariavel.getVariaveisOperacaoMatematica(linha4)).toEqual(["a", "d", "c"]);
+        expect(ErroSintaxeVariavel.getVariaveisOperacaoMatematica(linha5)).toEqual(["a", "d"]);
+    })
+
+    it("Deve identificar as variáveis com atribuição simples", ()=>{
+        let linha = "x = z";
+        expect(ErroSintaxeVariavel.getVariaveisAtribuicaoSimples(linha)).toEqual(["z"]);
+    });
+
+    /*it("Deve identificar variáveis utilizadas em um algoritmo", ()=>{
+        let c = new Codigo();
+        let algoritmo = "nome = 'leonardo'\nprint(c)\nsomar(2,a)"
+        c.setAlgoritmo(algoritmo);
+        expect(ErroSintaxeVariavel.identificarVariaveisUtilizadas(c)).toEqual(["nome", "c", "a"]);
+    })*/
+
 })
