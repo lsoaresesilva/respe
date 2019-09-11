@@ -6,21 +6,24 @@
 </p-dialog>
 
 
-<p-table [value]="planejamentos">
+<p-table [value]="planejamentos" [(contextMenuSelection)]="selectedPlanejamento" [contextMenu]="cm">
   <ng-template pTemplate="header">
       <tr>
           <th>Assunto</th>
           <th>Horas de estudo/semana</th>
       </tr>
   </ng-template>
-  <ng-template pTemplate="body" let-planejamento>
-      <tr>
+  <ng-template pTemplate="body" let-rowData let-planejamento>
+      <tr [pContextMenuRow]="rowData">
           <td><a (click)="abrirPlanejamento(planejamento)">{{planejamento.assunto.nome}}</a></td>
           <td>{{planejamento.tempoEstudo}} horas/semana</td>
       </tr>
   </ng-template>
 </p-table>
 
+<p-contextMenu #cm [model]="items"></p-contextMenu> 
+
 <br><button pButton type="button" (click)="criarPlanejamento()" label="Novo" ></button>
+<p-toast [style]="{marginTop: '80px'}"></p-toast>
 
 
