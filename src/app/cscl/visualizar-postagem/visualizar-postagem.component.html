@@ -11,8 +11,8 @@
 
 
 <span class="ui-float-label">
-    <textarea [rows]="6" [cols]="200" pInputTextarea autoResize="autoResize" [(ngModel)]="resposta.texto"></textarea> 
-    <label for="float-input">Comentário..</label>
+    <textarea [rows]="6" [cols]="82" pInputTextarea autoResize="autoResize" [(ngModel)]="resposta.texto"></textarea> 
+    <label for="float-input">Responder...</label>
 </span>
 
 
@@ -38,7 +38,7 @@
 
 
 
-    <div class="ui-g-1"></div>
+    <!-- <div class="ui-g-1"></div>
     <div class="ui-g-8 data-view">
         <p-dataView #dv [value]="respostas" [rows]="20" paginatorPosition="both" filterBy="brand" [sortField]="sortField"
             [sortOrder]="sortOrder">
@@ -68,4 +68,26 @@
             </ng-template>
         </p-dataView>        
     </div>
-    <div class="ui-g-2"></div>
+    <div class="ui-g-2"></div> -->
+
+
+
+    <div class="ui-g"></div>
+    <div class="ui-g-12 data-view">
+        <p-dataView #dv [value]="respostas" [rows]="20" paginatorPosition="both" [sortOrder]="resposta?.dataCriacao">
+            <p-header>
+                Comentários anteriores:
+            </p-header>
+            <ng-template let-resposta pTemplate="listItem">
+                <div class="ui-g" style="padding: 20px;border-bottom: 1px solid #d9d9d9">
+                        <div class="ui-g-10">
+                   
+                            <div class="ui-g-1"> <b>{{resposta.estudante.nome}}</b></div> <br>
+                            <div class="ui-g-9"> {{resposta.texto}}</div>
+
+                           
+                        </div>
+                </div>
+            </ng-template>
+        </p-dataView>        
+    </div>

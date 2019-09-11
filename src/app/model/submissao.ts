@@ -54,8 +54,6 @@ export default class Submissao extends Document {
     }
 
     static getRecentePorQuestao(questao: Questao, estudante: Usuario) {
-        console.log(questao);
-        console.log(estudante);
         
         return new Observable(observer => {
             if(questao == null || typeof questao.id == null || estudante == null || typeof estudante.pk != "function"){
