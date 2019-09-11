@@ -1,20 +1,18 @@
+ <h2>Algoritmos de outros estudantes</h2> 
 
+ <p-messages [(value)]="msgs"></p-messages>
 
-
- <p>Visualizar a resposta de qual estudante?</p> 
-
-
-<p-table [value]="submissoesDaQuestao" [(contextMenuSelection)]="selectedEstudante" [contextMenu]="cm">
+<p-table [value]="submissoesDaQuestao">
     <ng-template pTemplate="header">
         <tr>
-            <th>Nome</th>
+            <th>#</th>
             <th>Visualizar Resposta</th>
 
         </tr>
     </ng-template>
-    <ng-template pTemplate="body" let-rowData let-submissao>
+    <ng-template pTemplate="body" let-rowData let-submissao let-i="rowIndex">
         <tr [pContextMenuRow]="rowData">
-            <td (click)="visualizarSubmissao(submissao)">{{submissao.estudante}}</td>
+            <td (click)="visualizarSubmissao(submissao)">{{i}}</td>
             <button pButton  (click)="visualizarSubmissao(submissao)">Visualizar</button>
         </tr>
     </ng-template>

@@ -11,14 +11,16 @@ import { TableModule } from 'primeng/table';
 import { SliderModule } from 'primeng/slider';
 
 import { AutoReflexaoComponent } from './auto-reflexao/auto-reflexao.component';
+
 import { ButtonModule } from 'primeng/button';
 import {ToastModule} from 'primeng/toast';
 import {TabViewModule} from 'primeng/tabview';
 import {DialogModule} from 'primeng/dialog';
+import {CardModule} from 'primeng/card';
 
 
 import { PaginaNaoEncontradaComponent } from '../geral-module/pagina-nao-encontrada/pagina-nao-encontrada.component';
-import { RiscoEstudanteComponent } from './monitoramento/risco-estudante/risco-estudante.component';
+import { RiscoEstudanteComponent } from './monitoramento/card-risco-estudante/card-risco-estudante.component';
 import {ProgressBarModule} from 'primeng/progressbar';
 import { ListarPlanejamentosComponent } from './planejamento/listar-planejamentos/listar-planejamentos.component';
 import { VisualizarPlanejamentoComponent } from './planejamento/vizualizar-planejamento/visualizar-planejamento.component';
@@ -34,6 +36,9 @@ import { MonitorarPlanejamentoComponent } from './monitoramento/monitorar-planej
 import { AcompanharDesempenhoComponent } from './monitoramento/acompanhar-desempenho/acompanhar-desempenho.component';
 import { ErrosProgramacaoComponent } from './monitoramento/erros-programacao/erros-programacao.component';
 import { PercentualErrorQuotientComponent } from './monitoramento/percentual-error-quotient/percentual-error-quotient.component';
+import { CardDesempenhoComponent } from './monitoramento/card-desempenho/card-desempenho.component';
+import { CardErrosProgramacaoPizzaComponent } from './monitoramento/card-erros-programacao-pizza/card-erros-programacao-pizza.component';
+import { CardHistoricoErrosComponent } from './monitoramento/card-historico-erros/card-historico-erros.component';
 
 
 @NgModule({
@@ -50,8 +55,10 @@ import { PercentualErrorQuotientComponent } from './monitoramento/percentual-err
     MonitorarPlanejamentoComponent,
     AcompanharDesempenhoComponent,
     ErrosProgramacaoComponent,
-    RiscoEstudanteComponent,
-    PercentualErrorQuotientComponent
+    PercentualErrorQuotientComponent,
+    CardDesempenhoComponent,
+    CardErrosProgramacaoPizzaComponent,
+    CardHistoricoErrosComponent
   ],
   imports: [
     JuizModule,
@@ -77,13 +84,8 @@ import { PercentualErrorQuotientComponent } from './monitoramento/percentual-err
     TreeTableModule,
     RadioButtonModule,
     ChartModule,
-    DialogModule
-    
-    
-    
-    
-
-    
+    DialogModule,
+    CardModule
   ],
   providers:[],
   exports:[RiscoEstudanteComponent, PercentualErrorQuotientComponent]

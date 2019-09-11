@@ -1,7 +1,6 @@
 import { Document, Collection } from './firestore/document'
 import { Util } from './util';
 
-@Collection("testsCases")
 export default class TestCase {
     entradas: String[];
     saida: String;

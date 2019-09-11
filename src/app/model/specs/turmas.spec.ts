@@ -9,7 +9,7 @@ import Turma from '../turma';
 import Estudante from '../estudante';
 import { forkJoin } from 'rxjs';
 import Usuario from '../usuario';
-import { PerfilUsuario } from '../perfilUsuario';
+import { PerfilUsuario } from '../enums/perfilUsuario';
 
 describe("Testes de turma", ()=>{
 

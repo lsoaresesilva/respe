@@ -6,6 +6,7 @@ import { Observable, forkJoin } from 'rxjs';
 import Query from './firestore/query';
 import Usuario from './usuario';
 import ResultadoTestCase from './resultadoTestCase';
+import { Util } from './util';
 
 @Collection("submissoes")
 export default class Submissao extends Document {
@@ -40,50 +41,135 @@ export default class Submissao extends Document {
         return document;
     }
 
-    isComSucesso(){
+
+    /**
+     * Invalida a submissão (informando que os resultados do testcase são falsos) quando há um erro no algoritmo.
+     */
+    invalidar(){
+        this.questao.testsCases.forEach(testCase=>{
+            this.resultadosTestsCases.push(new ResultadoTestCase(null, false, null, testCase));
+        })
+    }
+
+    isComSucesso() {
         if (this.resultadosTestsCases != null && this.resultadosTestsCases.length > 0) {
             let sucesso = true;
             this.resultadosTestsCases.forEach(resultadoTestCase => {
-                if(!resultadoTestCase.status)
-                sucesso = false;
+                if (!resultadoTestCase.status)
+                    sucesso = false;
             });
             return sucesso;
-        }else{
+        } else {
             return null;
         }
     }
 
-    static getRecentePorQuestao(questao: Questao, estudante: Usuario) {
+
+    /**
+     * Recupera todos os usuários que realizaram submissão 
+     * @param questao 
+     */
+    static getSubmissoesRecentesTodosUsuarios(questao: Questao, usuarioLogado: Usuario):Observable<any[]> {
+        return new Observable(observer=>{
+            Submissao.getAll(new Query("questaoId", "==", questao.id)).subscribe(resultado => {
+                //eliminar a submissao do próprio estudante
+                let submissoes = resultado.filter((sub) => {
+                    if (sub.estudanteId !== (usuarioLogado.pk())) { return true }
+                });
+    
+                submissoes = this.filtrarSubmissoesConcluidas(submissoes);
+                submissoes = this.agruparPorEstudante(submissoes);
+                observer.next(submissoes);
+                observer.complete();
+            });
+        })
+
         
-        return new Observable(observer => {
-            if(questao == null || typeof questao.id == null || estudante == null || typeof estudante.pk != "function"){
-                observer.error(new Error("Questão ou estudante não podem ser vazios"));
-            }else{
-                Submissao.getAll([new Query("estudanteId", "==", estudante.pk()), new Query("questaoId", "==", questao.id)]).subscribe(submissoes => {
-                    let submissaoRecente = null;
-                    if (submissoes.length != 0) {
-                        if (submissoes.length == 1) {
-                            submissaoRecente = submissoes[0];
-                        } else {
-                            submissoes.forEach(submissao => {
-                                if (submissaoRecente == null) {
-                                    submissaoRecente = submissao;
-                                } else {
-                                    if (submissaoRecente.data.toDate().getTime() <= submissao.data.toDate().getTime()) {
-                                        submissaoRecente = submissao;
-                                    }
-                                }
-                            })
+    }
+
+    private static agruparPorEstudante(submissoes:Submissao[]){
+        let submissoesAgrupadas = {}
+        submissoes.forEach(submissao=>{
+            if(submissoesAgrupadas[submissao["estudanteId"]] == undefined){
+                submissoesAgrupadas[submissao["estudanteId"]] = [];
+                
+            }
+
+            submissoesAgrupadas[submissao["estudanteId"]].push(submissao)
+                
+        })
+
+        let submissoesRecentesAgrupadas = [];
+
+        Object.keys(submissoesAgrupadas).forEach(estudanteId=>{
+            submissoesRecentesAgrupadas.push(this.filtrarRecente(submissoesAgrupadas[estudanteId]));
+        })
+
+        return submissoesRecentesAgrupadas;
+    }
+
+    private static filtrarSubmissoesConcluidas(submissoesQuestao = []) {
+
+        // Filtrando todas as submissões que o seu resultadosTestsCase não seja undefined.
+        let submissaoFiltrada = submissoesQuestao.filter(submissao => {
+            return submissao.resultadosTestsCases !== undefined
+
+        }).filter(submissao => { // Filtrando toda as submissões que tem todos os seus testsCases com status true (significa que a questão foi finalizada)
+
+            // Retorna um array vazio caso o resultadosTestsCases tenha todos os elementos com status true. Caso não, o array vai retornar 
+            // com pelo menos um elemento com status false
+            let filterFalseTestsCases = submissao.resultadosTestsCases.filter(el => el.status === false)
+
+            // Se a submissão tiver todos seus status true, então retorne-a
+            if (filterFalseTestsCases.length === 0) { return submissao }
+
+
+        });
+
+        return submissaoFiltrada;
+    }
+
+    private static filtrarRecente(submissoes = []) {
+
+        let submissaoRecente = null;
+        if (submissoes.length != 0) {
+            if (submissoes.length == 1) {
+                submissaoRecente = submissoes[0];
+            } else {
+                submissoes.forEach(submissao => {
+                    if (submissaoRecente == null) {
+                        submissaoRecente = submissao;
+                    } else {
+                        if (submissaoRecente.data.toDate().getTime() <= submissao.data.toDate().getTime()) {
+                            submissaoRecente = submissao;
                         }
                     }
+                })
+            }
+        }
 
-                    
-    
+        return submissaoRecente;
+    }
+
+
+    /**
+     * Recupera a submissão mais recente de um estudante para uma questão.
+     */
+    static getRecentePorQuestao(questao: Questao, estudante: Usuario) {
+
+        return new Observable(observer => {
+            if (questao == null || typeof questao.id == null || estudante == null || typeof estudante.pk != "function") {
+                observer.error(new Error("Questão ou estudante não podem ser vazios"));
+            } else {
+                Submissao.getAll([new Query("estudanteId", "==", estudante.pk()), new Query("questaoId", "==", questao.id)]).subscribe(submissoes => {
+
+                    let submissaoRecente = this.filtrarRecente(submissoes)
+
                     observer.next(submissaoRecente);
                     observer.complete();
                 })
             }
-            
+
         })
 
     }
@@ -119,18 +205,18 @@ export default class Submissao extends Document {
                     forkJoin(erros).subscribe(erros => {
 
                         erros.forEach(erro => {
-                            if(erro["forEach"] != undefined){
-                                erro["forEach"](e=>{
-                                    for(let i = 0; i < submissoes.length; i++){
-                                        if( e.submissaoId == submissoes[i].id){
+                            if (erro["forEach"] != undefined) {
+                                erro["forEach"](e => {
+                                    for (let i = 0; i < submissoes.length; i++) {
+                                        if (e.submissaoId == submissoes[i].id) {
                                             submissoes[i].erros.push(e);
                                             break;
                                         }
-                                        
+
                                     }
                                 })
                             }
-                            
+
 
                         });
 
