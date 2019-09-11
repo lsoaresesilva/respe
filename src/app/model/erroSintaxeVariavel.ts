@@ -135,16 +135,29 @@ export default class ErroSintaxeVariavel extends ErroSintaxe {
         return true;
     }
 
+    static isVariavelValida(variavel){
+        if(variavel != undefined && variavel.search(/\+|\-|\*|\//) == -1 &&
+           !this.isVariavelString(variavel) &&
+           !this.isVariavelNumerica(variavel) &&
+           variavel.search(/\s/) == -1 &&
+           variavel.search(/""/) == -1 
+           )
+           return true;
+        
+
+        return false;
+    }
+
     // Verificar o uso de variáveis em condições
     static getVariaveisCondicao(linha) {
 
         let variaveis = [];
 
-        let regex = /\bif\s(\w*)\s*(?:={2}|>|>=|<|<=|!=)\s*([a-zA-Z0-9\"\',]+)\s*/g
+        let regex = /(?:\bif|\belif)(?:\s+|\()(\w+)(?:\+|\-|\*|\/)?(\w)?\s*(?:={2}|>|>=|<|<=|!=)\s*([a-zA-Z0-9\"\',]+)(?:\s*|\))/g
         let consultaDeclaracaoCondicao = regex.exec(linha);
         if (consultaDeclaracaoCondicao != null && consultaDeclaracaoCondicao.length > 0) {
             for (let j = 1; j < consultaDeclaracaoCondicao.length; j++) {
-                if (!this.isVariavelNumerica(consultaDeclaracaoCondicao[j])) {
+                if (this.isVariavelValida(consultaDeclaracaoCondicao[j])) {
                     if (!variaveis.includes(consultaDeclaracaoCondicao[j]))
                         variaveis.push(consultaDeclaracaoCondicao[j]);
                 }
@@ -243,15 +256,15 @@ export default class ErroSintaxeVariavel extends ErroSintaxe {
         let variaveisUtilizadas = [];
 
         for (let i = 0; i < linhasCodigo.length; i++) {
-            // =[\s.]*[^0-9\"\'][a-zA-z0-9(]*
-            let resultado = undefined
-
-            // Verifica as variáveis usadas em uma condição
-            if (ErroSintaxeCondicional.isConditional(linhasCodigo[i])) {
-                let variavel = this.getVariaveisCondicao(linhasCodigo[i])
-                if (!this.isVariavelIncluida(variavel, variaveisUtilizadas)) {
-                    this.incluirVariavel(variavel, i + 1, variaveisUtilizadas);
-                }
+            if(!this.isInput(linhasCodigo[i])){
+                // Verifica as variáveis usadas em uma condição   (apenas para if e elif)
+            if (ErroSintaxeCondicional.isIfOuElif(linhasCodigo[i])) {
+                let variaveis = this.getVariaveisCondicao(linhasCodigo[i])
+                variaveis.forEach(variavel => {
+                    if (!this.isVariavelIncluida(variavel, variaveisUtilizadas)) {
+                        this.incluirVariavel(variavel, i + 1, variaveisUtilizadas);
+                    }
+                });
             }else if(ErroSintaxe.isChamadaFunction(linhasCodigo[i])) { // Verifica as variáveis usadas em uma função
                 let variaveis = ErroSintaxeFuncao.getParametros(linhasCodigo[i]);
                 variaveis.forEach(variavel => {
@@ -275,6 +288,9 @@ export default class ErroSintaxeVariavel extends ErroSintaxe {
                     }
                 });
             }
+            }
+
+            
 
         }
         return variaveisUtilizadas

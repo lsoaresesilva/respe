@@ -11,14 +11,14 @@ describe("Testes de análise de sintaxe para variáveis", ()=>{
         expect(variaveisNaoDeclaradas[0].nome).toBe("a");
         expect(variaveisNaoDeclaradas[0].linha).toBe(3);
 
-        algoritmo = "x = 'leonardo'\ny = x\nz=a\na=2\ny = 2,5\n" // PROBLEMA está nesse 2,5. ele está identificando 2 como sendo uma variável que foi utilizada
+        algoritmo = "x = 'leonardo'\ny = x\nz=a\na=2\ny = 2,5\n" 
         c.setAlgoritmo(algoritmo);
         variaveisNaoDeclaradas = ErroSintaxeVariavel.variaveisNaoDeclaradas(c);
         expect(variaveisNaoDeclaradas.length).toBe(1);
         expect(variaveisNaoDeclaradas[0].nome).toBe("a");
         expect(variaveisNaoDeclaradas[0].linha).toBe(3);
 
-        algoritmo = "notaUm = 2\nnotaDois = 3\nmedia = (notaUm+notaDois)/2" // PROBLEMA está nesse 2,5. ele está identificando 2 como sendo uma variável que foi utilizada
+        algoritmo = "notaUm = 2\nnotaDois = 3\nmedia = (notaUm+notaDois)/2" 
         c.setAlgoritmo(algoritmo);
         variaveisNaoDeclaradas = ErroSintaxeVariavel.variaveisNaoDeclaradas(c);
         expect(variaveisNaoDeclaradas.length).toBe(0);
@@ -68,8 +68,10 @@ describe("Testes de análise de sintaxe para variáveis", ()=>{
     it("Deve identificar as variáveis utilizadas em uma condição", ()=>{
         let linha = "if x == 2"
         let linha2 = "if x > a"
+        let linha3 = "if a+b > c"
         expect(ErroSintaxeVariavel.getVariaveisCondicao(linha)).toEqual(["x"]);
         expect(ErroSintaxeVariavel.getVariaveisCondicao(linha2)).toEqual(["x", "a"]);
+        expect(ErroSintaxeVariavel.getVariaveisCondicao(linha3)).toEqual(["a", "b", "c"]);
     })
 
     it("Deve identificar as variáveis em uma operação matemática", ()=>{

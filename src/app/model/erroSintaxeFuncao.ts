@@ -44,6 +44,11 @@ export default class ErroSintaxeFuncao extends ErroSintaxe {
         return false;
     }
 
+    /**
+     * Retorna uma lista de parâmetros para uma chamada de uma função contida na string linha.
+     * Serão retornadas apenas variáveis, strings e números serão ignorados
+     * @param linha 
+     */
     static getParametros(linha) {
         // quebrar as vírgulas
 
@@ -56,11 +61,17 @@ export default class ErroSintaxeFuncao extends ErroSintaxe {
             parametros = parametros.map(parametro => {
                 return parametro.replace(" ", "");
             })
-
+            
+            // remover números
             parametros = parametros.filter(parametro => {
                 return (parametro.search(/^[0-9]+$/) == - 1?true:false);
             })
-            
+
+            // remover strings
+            parametros = parametros.filter(parametro => {
+                return (parametro.search(/^(\"|\')/) == - 1?true:false);
+            })
+
             return parametros;
 
         }

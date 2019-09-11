@@ -43,22 +43,22 @@ export default class ErroSintaxeCondicional extends ErroSintaxe{
         return false;
     }
 
+    static isIfOuElif(linha) {
+        return ((linha.match(/if|elif/g) || []).length == 0 ? false : true);
+    }
+
     static apenasUmaComparacao(linha){
         if (ErroSintaxe.isLinhaProgramacaoValida(linha)) {
-            if(ErroSintaxe.isConditional(linha) && (linha.match(/if|elif/g) || []).length > 0){
+            if(linha.match(/if|elif/g) || [].length > 0){
                 // \bif\s(?:\w*)\s*(?:={2}|>|>=|<|<=|!=)\s*([a-zA-Z0-9\"]+)\s*:
                 
                 // TODO: if(a+b > c): <==== essa comparação está caindo nessa verificação
                 // Verificar se é um if simples, sem AND e/ou OR
                 if( linha.search(/(\sand\s|\sor\s)/) == -1){
                     //let regex = /\bif\s(?:\w*)\s*(?:={2}|>|>=|<|<=|!=)\s*([a-zA-Z0-9\"\',]+)\s*/g // Usava essa..
-                    let regex = /\bif\s(?:\w*(?:\+|\-|\*|\\|)\w*)\s*(?:={2}|>|>=|<|<=|!=)\s*([a-zA-Z0-9\"\',]+)\s*/g;
-                    let resultado = regex.exec(linha)
-                    if (resultado != null && resultado.length > 0) {
-                        return false;
-                    }
 
-                    return true;
+                    // Verifica se o IF/ELIF está correto
+                    return linha.search(/(?:\bif|\belif)+(?: |\()(?:\w)+\s*(?:\+|\-|\*|\\|){1} *\w* *(?:={2}|>|>=|<|<=|!=|\=)+ *(?:[a-zA-Z0-9\"\',]+) */) == 0?false:true
                 } else{
                     // TODO: fazer isso para quando tiver operação com and e/ou OR
                 }
