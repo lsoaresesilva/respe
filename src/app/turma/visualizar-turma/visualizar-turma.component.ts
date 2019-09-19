@@ -16,9 +16,10 @@ import { Observable } from 'rxjs';
 export class VisualizarTurmaComponent implements OnInit {
 
   turma$?;
+  usuario;
 
   constructor(private route:ActivatedRoute, private router:Router, private login:LoginService){
-    
+    this.usuario = this.login.getUsuarioLogado();
   }
 
   ngOnInit() {
@@ -46,8 +47,13 @@ export class VisualizarTurmaComponent implements OnInit {
   }
 
   visualizarEstudantes(turma){
-    this.router.navigate(["main", { outlets: { principal: ['listagem-estudantes', turma.codigo] } }]);
+    this.router.navigate(["main", { outlets: { principal: ['listagem-estudantes', turma.pk()] } }]);
   }
 
-  
+  adicionarMaterial(turma){
+    this.router.navigate(["main", { outlets: { principal: ['envio-material', turma.pk()] } }]);
+  }
+  listarMateriais(turma){
+    this.router.navigate(["main", { outlets: { principal: ['listar-materiais', turma.pk()] } }]);
+  }
 }

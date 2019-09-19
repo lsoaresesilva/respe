@@ -1,0 +1,22 @@
+<p-toast></p-toast>
+<br/>
+<br/>
+<span class="ui-float-label">
+    <input id="float-input"  disabled type="text" size="30"  [(ngModel)]="fileName" pInputText> 
+    <label for="float-input">Nome do arquivo</label>
+</span>
+<br/>
+<br/>
+<span class="ui-float-label">
+    <input id="float-input"  disabled  type="text" size="30" [(ngModel)]= "fileDownload" pInputText> 
+    <label for="float-input">urlDowwnload</label>
+</span>
+<br/> 
+<br/>
+<span class="ui-float-label">
+    <input id="float-input"  type="text" size="30" [(ngModel)]= "descricao" pInputText> 
+    <label for="float-input">Descrição do arquivo</label>
+</span>
+<br/> 
+
+<p-fileUpload name="myfile[]" (onBeforeUpload)="upload($event)" (onSelect) = "submit($event)" ></p-fileUpload>

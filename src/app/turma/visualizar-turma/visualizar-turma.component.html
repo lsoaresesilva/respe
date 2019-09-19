@@ -8,6 +8,13 @@
         <div class="ui-g-4"><button pButton type="button" (click)="visualizarEstudantes(turma)" class="ui-button-info"
             label="Estudantes"></button></div>
         <div class="ui-g-8">
+                <div *ngIf="this.usuario.perfil == 2">
+                        <button pButton type="button" (click)="adicionarMaterial(turma)"  class="ui-button-info"  label="Adicionar material"></button>  
+                      </div>
+        </div>
+         <div class="ui-g-8">
+                        <button pButton type="button" (click)="listarMateriais(turma)"  class="ui-button-info"  label="Listar materiais"></button>  
+                      
         </div>
     </div>
     <div class="ui-g">
