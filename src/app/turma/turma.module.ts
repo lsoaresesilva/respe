@@ -22,11 +22,15 @@ import {AngularFireStorageModule} from '@angular/fire/storage';
 import {FileUploadModule} from 'primeng/fileupload';
 import { BrowserModule } from '@angular/platform-browser';
 import {FieldsetModule} from 'primeng/fieldset';
+import { EnviarMaterialComponent } from './enviar-material/enviar-material.component';
 
 
 
 @NgModule({
   declarations: [ListarTurmaComponent, VisualizarTurmaComponent, CadastrarEstudantesComponent, CadastrarTurmaComponent, ListarEstudantesComponent, EnvioMaterialComponent, ListarMateriaisComponent],
+
+
+
   imports: [
     CsclModule,
     CommonModule,
@@ -43,6 +47,8 @@ import {FieldsetModule} from 'primeng/fieldset';
     AngularFireModule.initializeApp(FirebaseConfiguracao),
     AngularFireStorageModule,
     FieldsetModule,
+    FileUploadModule,
+    TableModule,
     
   ],
   exports:[VisualizarTurmaComponent, ListarEstudantesComponent]

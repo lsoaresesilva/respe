@@ -7,12 +7,14 @@ import { LoginService } from 'src/app/login-module/login.service';
 import { AngularFireStorage } from '@angular/fire/storage';
 import Turma from 'src/app/model/turma';
 
+
 @Component({
   selector: 'app-listar-materiais',
   templateUrl: './listar-materiais.component.html',
   styleUrls: ['./listar-materiais.component.css']
 })
 export class ListarMateriaisComponent implements OnInit {
+
   materialEnviado;
   material;
   usuario;
@@ -49,6 +51,7 @@ export class ListarMateriaisComponent implements OnInit {
   }
   mensagemDelete() {
     this.messageService.add({severity:'success', summary:'Mensagem de delete.', detail:'Seu matérial foi deletado.'});
+
   }
 
 }
