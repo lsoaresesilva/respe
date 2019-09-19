@@ -23,6 +23,7 @@ import { DocumentModule } from './model/firestore/document.module';
 import { PostagensTurmaGuard } from './guards/postagensTurma.guard';
 import { TurmaModule } from './turma/turma.module';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+import { ExperimentoModule } from './experimento/experimento.module';
 
 
 
@@ -35,6 +36,7 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
   ],
   imports: [
     TurmaModule,
+    ExperimentoModule,
     SrlModule,
     CsclModule,
     DocumentModule,

@@ -39,8 +39,12 @@ import { PostagensTurmaGuard } from './guards/postagensTurma.guard';
 import { VisualizarPerfilEstudanteComponent } from './juiz/visualizar-perfil-estudante/visualizar-perfil-estudante.component';
 import { CadastrarEstudantesComponent } from './turma/cadastrar-estudantes/cadastrar-estudantes.component';
 import { AcompanharDesempenhoComponent } from './srl/monitoramento/acompanhar-desempenho/acompanhar-desempenho.component';
+<<<<<<< HEAD
 import { EnvioMaterialComponent } from './turma/envio-material/envio-material.component';
 import { ListarMateriaisComponent } from './turma/listar-materiais/listar-materiais.component';
+=======
+import { PreTesteComponent } from './experimento/pre-teste/pre-teste.component';
+>>>>>>> 4c97c4b9656d469a317dcce9a3fca7a9bb02820e
 
 
 
@@ -79,7 +83,7 @@ const routes: Routes = [
     {path:"listagem-estudantes/:codigoTurma", component:ListarEstudantesComponent, canActivate: [AuthGuard], canLoad: [AuthGuard], outlet:"principal"},
     {path:"cadastro-estudante/:codigoTurma", component:CadastrarEstudantesComponent, canActivate: [AuthGuard], canLoad: [AuthGuard], outlet:"principal"},
     {path:"cadastro-turma", component:CadastrarTurmaComponent, canActivate: [AuthGuard], canLoad: [AuthGuard], outlet:"principal"},
-    
+    {path:"pre-teste", component:PreTesteComponent, canActivate: [AuthGuard], canLoad: [AuthGuard], outlet:"principal"},
     {path:"atualizacao-turma/:id", component:CadastrarTurmaComponent, canActivate: [AuthGuard], canLoad: [AuthGuard], outlet:"principal"},
     {path:"listagem-turmas", component:ListarTurmaComponent, canActivate: [AuthGuard], canLoad: [AuthGuard], outlet:"principal"},
     {path:"visualizacao-questao/:assuntoId/:questaoId", component:VisualizarQuestaoComponent, canActivate: [AuthGuard], canLoad: [AuthGuard], outlet:"principal"},
