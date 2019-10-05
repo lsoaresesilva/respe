@@ -1,0 +1,59 @@
+
+  /* p-card{
+    
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    margin-right: -50%; 
+    transform: translate(-50%, -50%);
+    width: 50% 
+} */
+/* button{
+    width: 47%;
+    font-weight: bold;
+}  */
+
+
+:host >>> img{
+    display:flex;
+    Align-items:center;
+    max-width: 300px;
+    width:40%;
+    
+    
+}
+:host >>> .imagem{
+    margin-left: auto;
+    margin-right: auto;
+
+} 
+ :host >>> input{
+    width: 100%;
+    
+} 
+
+
+:host >>> .ui-menubar	{
+    background-color: rgb(147, 207, 129);
+} 
+
+
+:host >>> .ui-card	{ 
+    background-color:rgb(172, 241, 172);
+     background-color: rgb(193, 248, 193);
+
+}   
+
+
+h1 {
+    text-align: center;
+    font: italic small-caps bold 24px/0px "Comic Sans MS", cursive, sans-serif;
+    color: gray;
+  }
+  
+   :host >>> .logincard .ui-card {
+    max-width: 300px;
+    margin: auto;
+    background-color: #C5E1A5 !important;
+    border: 1px solid #689f38;
+  } 
