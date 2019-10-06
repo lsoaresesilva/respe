@@ -1,19 +1,4 @@
 
-  /* p-card{
-    
-    position: absolute;
-    top: 50%;
-    left: 50%;
-    margin-right: -50%; 
-    transform: translate(-50%, -50%);
-    width: 50% 
-} */
-/* button{
-    width: 47%;
-    font-weight: bold;
-}  */
-
-
 :host >>> img{
     display:flex;
     Align-items:center;
@@ -57,3 +42,16 @@ h1 {
     background-color: #C5E1A5 !important;
     border: 1px solid #689f38;
   } 
+
+.link{
+    color: #000;
+    Font-size: 13px;
+    
+   
+}
+
+button{
+    width: 100%;
+    font-weight: bold;
+}
+ 
