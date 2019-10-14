@@ -52,6 +52,11 @@ export class MainComponent implements OnInit {
     }else{
       this.itens = [
         {
+          label: 'Assuntos',
+          command: () => { this.router.navigate(["main", { outlets: { principal: ['listagem-assuntos'] } }]) }
+  
+        },
+        {
           label: 'Planejamentos',
           command: () => { this.router.navigate(["main", { outlets: { principal: ['listagem-planejamento'] } }]) }
   
