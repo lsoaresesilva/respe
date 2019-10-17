@@ -2,16 +2,13 @@
 <h1>Assuntos</h1>
 
 <div class="ui-g">
-        <div class="ui-g-4"></div>
-        <div class="ui-g-2"></div>
-        <div class="ui-g-2"></div>
-        <div class="ui-g-3">
-            <button pButton type="button" (click)="cadastrar()" label="Cadastrar"></button>
-            <!-- <p-button label="Registar exemplo de questão" (click)="registrar()"></p-button> -->
-
-        </div>
-        <div class="ui-g-1"></div>
+    <div class="ui-g-10"></div>
+    <div class="ui-g-2">
+        <button pButton type="button" (click)="cadastrar()"  class="ui-button-success ui-button-raised" label="Cadastrar"></button>
+        <!-- <p-button label="Registar exemplo de questão" (click)="registrar()"></p-button> --> 
     </div>
+        
+</div>
 
 <div *ngIf="login.getUsuarioLogado().perfil == 3">
    <p-contextMenu #cm [model]="items"></p-contextMenu>

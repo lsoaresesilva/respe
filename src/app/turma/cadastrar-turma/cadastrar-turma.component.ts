@@ -1,11 +1,12 @@
 import { Component, OnInit } from '@angular/core';
 import Turma from 'src/app/model/turma';
 
-import { MenuItem, MessageService } from 'primeng/api';
+import { MenuItem} from 'primeng/api';
 import { Router, ActivatedRoute } from '@angular/router';
 import Usuario from 'src/app/model/usuario';
 import { LoginService } from 'src/app/login-module/login.service';
 import Query from 'src/app/model/firestore/query';
+import {MessageService} from 'primeng/api';
 
 @Component({
   selector: 'app-cadastrar-turma',
@@ -39,6 +40,8 @@ export class CadastrarTurmaComponent implements OnInit {
             if (professor.email.includes(event.query)) {
               this.professores.push(professor);
             }
+          }else{
+            this.exibirMensagemProfessorAdicionado();
           }
         });
 
@@ -57,6 +60,10 @@ export class CadastrarTurmaComponent implements OnInit {
   exibirMensagemErroCadastroBancoDeDados() {
     this.messageService.add({ severity: 'erro', summary: 'Service Message', detail: 'Houve um erro ao tentar salvar no banco de dados. Tente novamente em alguns minutos.' });
   }
+  exibirMensagemProfessorAdicionado(){
+    this.messageService.add({ severity: 'erro', summary: 'Service Message', detail: 'Houve um erro em adicionar o professo.' });
+  }
+
 
 
 
@@ -77,10 +84,9 @@ export class CadastrarTurmaComponent implements OnInit {
 
   cadastrarTurma() {
     if (this.turma.validar()) {
+      this.exibirMensagemCadastroSucesso();
       this.turma.save().subscribe(resultado => {
         this.router.navigate(["main", { outlets: { principal: ['listagem-turma'] } }]);
-
-
       },
         err => {
           this.exibirMensagemErroCadastroBancoDeDados();

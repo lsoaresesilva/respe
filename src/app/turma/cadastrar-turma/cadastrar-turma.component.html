@@ -2,7 +2,7 @@
 <h2>Cadastrar uma turma</h2>
 <div class="ui-g">
     <div class="ui-g-6">
-        <p-toast [style]="{marginTop: '80px'}"></p-toast>
+        <p-toast [style]="{marginTop: '80px'}" [showTransitionOptions] = "'10ms'" [hideTransitionOptions] = "'10ms'"></p-toast>
         <span class="ui-float-label">
             <input [(ngModel)]="turma.nome" id="turma.id" type="text" size="30" pInputText>
             <label>Nome da turma</label>

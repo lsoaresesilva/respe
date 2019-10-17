@@ -25,7 +25,7 @@ import {ProgressBarModule} from 'primeng/progressbar';
 import { ListarPlanejamentosComponent } from './planejamento/listar-planejamentos/listar-planejamentos.component';
 import { VisualizarPlanejamentoComponent } from './planejamento/vizualizar-planejamento/visualizar-planejamento.component';
 import { RouterModule } from '@angular/router';
-import { CheckboxModule, InputTextModule, AccordionModule, RadioButtonModule, ChartModule } from 'primeng/primeng';
+import { CheckboxModule, InputTextModule, AccordionModule, RadioButtonModule, ChartModule, ContextMenuModule } from 'primeng/primeng';
 import {FieldsetModule} from 'primeng/fieldset';
 import { RespostaSimilarQuestaoProgramacaoComponent } from './monitoramento/resposta-similar-questao-programacao/resposta-similar-questao-programacao.component';
 import {TreeTableModule} from 'primeng/treetable';
@@ -85,7 +85,8 @@ import { CardHistoricoErrosComponent } from './monitoramento/card-historico-erro
     RadioButtonModule,
     ChartModule,
     DialogModule,
-    CardModule
+    CardModule,
+    ContextMenuModule
   ],
   providers:[],
   exports:[RiscoEstudanteComponent, PercentualErrorQuotientComponent]

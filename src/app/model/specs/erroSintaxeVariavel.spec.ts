@@ -69,9 +69,11 @@ describe("Testes de análise de sintaxe para variáveis", ()=>{
         let linha = "if x == 2"
         let linha2 = "if x > a"
         let linha3 = "if a+b > c"
+        let linha4 = "if a+b+z > 3:"
         expect(ErroSintaxeVariavel.getVariaveisCondicao(linha)).toEqual(["x"]);
         expect(ErroSintaxeVariavel.getVariaveisCondicao(linha2)).toEqual(["x", "a"]);
         expect(ErroSintaxeVariavel.getVariaveisCondicao(linha3)).toEqual(["a", "b", "c"]);
+        expect(ErroSintaxeVariavel.getVariaveisCondicao(linha4)).toEqual(["a", "b", "z"]);
     })
 
     it("Deve identificar as variáveis em uma operação matemática", ()=>{
