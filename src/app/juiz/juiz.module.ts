@@ -50,8 +50,12 @@ import {ConfirmDialogModule} from 'primeng/confirmdialog';
 import {ConfirmationService} from 'primeng/api';
 import { VisualizarPerfilEstudanteComponent } from './visualizar-perfil-estudante/visualizar-perfil-estudante.component';
 import {ScrollPanelModule} from 'primeng/scrollpanel';
+import { CsclModule } from '../cscl/cscl.module';
+import { ListarProfessoresComponent } from './listar-professores/listar-professores.component';
+
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import {CodeHighlighterModule} from 'primeng/codehighlighter';
+
 
 
 
@@ -78,6 +82,7 @@ import {CodeHighlighterModule} from 'primeng/codehighlighter';
     VisualizarPedidoAjudaComponent,
     EscolherQuestaoComponent,
     VisualizarPerfilEstudanteComponent,
+    ListarProfessoresComponent,
     
 
   ],
