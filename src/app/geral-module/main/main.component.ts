@@ -58,6 +58,7 @@ export class MainComponent implements OnInit {
         }
       ];
     }else{
+
       if(this.usuario.grupoExperimento == Groups.control){
         this.itens = [
           {
