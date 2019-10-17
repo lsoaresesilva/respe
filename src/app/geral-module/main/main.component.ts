@@ -17,7 +17,7 @@ import {Groups} from 'scientificxpjs/enum/groups';
 })
 export class MainComponent implements OnInit {
 
-  itens: MenuItem[];
+  items: MenuItem[];
   private usuario;
   visibilidadeDialog;
 

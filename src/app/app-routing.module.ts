@@ -44,6 +44,8 @@ import { PreTesteComponent } from './experimento/pre-teste/pre-teste.component';
 
 
 
+
+
 const routes: Routes = [
   {path:"main", component:MainComponent, canActivate: [AuthGuard], canLoad: [AuthGuard], children: [
     {path:"editor/:assuntoId/:questaoId", component:EditorProgramacaoComponent, outlet:"principal"},
@@ -101,7 +103,9 @@ const routes: Routes = [
     {path:"listar-postagens/:turmaId", component:ListarPostagensComponent, canActivate: [AuthGuard,TurmaGuard], canLoad: [AuthGuard,TurmaGuard], outlet:"principal"},
     {path:"visualizar-postagem/:postagemId/:turmaId", component:VisualizarPostagemComponent, canActivate: [AuthGuard,TurmaGuard], canLoad: [AuthGuard,TurmaGuard], outlet:"principal"},
     {path:"visualizacao-estudante/:id", component:VisualizarPerfilEstudanteComponent, canActivate: [AuthGuard], canLoad: [AuthGuard], outlet:"principal"},
-
+    {path:"visualizacao-turma/:turmaId", component: VisualizarTurmaComponent, canActivate: [AuthGuard], canLoad: [AuthGuard], outlet:"principal"},
+    
+  
 
 
   ]},

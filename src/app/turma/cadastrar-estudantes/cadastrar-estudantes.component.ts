@@ -20,6 +20,9 @@ export class CadastrarEstudantesComponent implements OnInit {
   constructor(public router: Router, private route: ActivatedRoute, private messageService: MessageService) {
 
   }
+  MensagemError(){
+    this.messageService.add({ severity: 'success', summary: 'Estudante cadastrado com sucesso.' });
+  }
 
   exibirMensagemCadastro() {
     this.messageService.add({ severity: 'success', summary: 'Estudante cadastrado com sucesso.' });
@@ -33,6 +36,7 @@ export class CadastrarEstudantesComponent implements OnInit {
       }
     })
   }
+
     cadastrarEstudante() {
       let resultado;
            if(this.estudante.turma.codigo == undefined ){
@@ -63,7 +67,6 @@ export class CadastrarEstudantesComponent implements OnInit {
         });
         }
         
-
 
 
 }

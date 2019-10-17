@@ -1,6 +1,10 @@
 import { Component, OnInit } from '@angular/core';
 import { MenuItem } from 'primeng/api';
 import { Router } from '@angular/router';
+
+import EstudanteTurma from 'src/app/model/estudanteTurma';
+import Query from 'src/app/model/firestore/query';
+import Turma from 'src/app/model/turma';
 import { LoginService } from 'src/app/login-module/login.service';
 
 @Component({
@@ -9,13 +13,24 @@ import { LoginService } from 'src/app/login-module/login.service';
   styleUrls: ['./menu-estudante.component.css']
 })
 export class MenuEstudanteComponent implements OnInit {
+  private usuario;
+  private estudanteTurma;
+  turmaId;
+
 
   items: MenuItem[];
   constructor(private router: Router, private login:LoginService) {
+    this.usuario = login.getUsuarioLogado();
+   
+
     
    }
 
   ngOnInit() {
+     EstudanteTurma.getAll(new Query("estudanteId", "==", this.usuario.pk())).subscribe(resultado => {
+      this.turmaId = resultado[0].turmaId;
+    });
+
     this.items = [
       {
         label: 'Planejamentos',
@@ -28,12 +43,17 @@ export class MenuEstudanteComponent implements OnInit {
 
       },
     ];
+ 
   }
   private logout() {
     if(this.login.logout()){
       return this.router.navigate([""])
     }
   }
+
+  
+    
+    
 
  
   }
