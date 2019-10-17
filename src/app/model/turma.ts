@@ -81,8 +81,9 @@ export default class Turma extends Document {
 
         return false
     }
+  
     static validarCodigo(codigo){
-        console.log(codigo)
+
         return new Observable(observer => {
         Turma.getAll(new Query("codigo", "==", codigo)).subscribe(resultado => {
             console.log(resultado)

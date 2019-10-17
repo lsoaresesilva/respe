@@ -37,37 +37,36 @@ export class CadastrarEstudantesComponent implements OnInit {
     })
   }
 
-  cadastrarEstudante() {
-   let resultado;
-    Turma.validarCodigo(this.estudante.turma.codigo).subscribe(resultadoBanco=>{
-      resultado = resultadoBanco;
-        if(resultado === false){
-        alert("codigo invalido");
-        }
-    });
-    if(this.estudante.turma.codigo == undefined ){
-      alert("É preciso informar o código de uma turma.");
-    }else{
-      this.estudante.usuario.validar().subscribe(resultado => {
-        if (resultado) {
-          
-          this.estudante.save().subscribe(resultado => {
-            //this.exibirMensagemCadastro(); <= não está funcionando
-            alert("Cadastro realizado com sucesso.")
-            this.router.navigate([""]);
-          },
-            err => {
-              this.messageService.add({ severity: 'erro', summary: 'Houve um erro:', detail: err.toString() });
+    cadastrarEstudante() {
+      let resultado;
+           if(this.estudante.turma.codigo == undefined ){
+            alert("É preciso informar o código de uma turma.");   
+          }
+          Turma.validarCodigo(this.estudante.turma.codigo).subscribe(resultadoBanco=>{
+            resultado = resultadoBanco;
+              if(resultado === false){
+              alert("codigo invalido");
+              }else{
+            this.estudante.usuario.validar().subscribe(resultado => {
+              if (resultado) {
+                
+                this.estudante.save().subscribe(resultado => {
+                  //this.exibirMensagemCadastro(); <= não está funcionando
+                  alert("Cadastro realizado com sucesso.")
+                  this.router.navigate([""]);
+                },
+                  err => {
+                    this.messageService.add({ severity: 'erro', summary: 'Houve um erro:', detail: err.toString() });
+                  });
+        
+              }
+            }, err=>{
+              alert('Houve um erro: '+err.toString());
             });
-  
+          }
+        });
         }
-      }, err=>{
-        alert('Houve um erro: '+err.toString());
-      });
-    }
-   
-
-  }
+        
 
 
 }
