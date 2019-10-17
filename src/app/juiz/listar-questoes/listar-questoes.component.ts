@@ -1,4 +1,4 @@
-import { Component, OnInit, Input } from '@angular/core';
+import { Component, OnInit, Input, OnChanges } from '@angular/core';
 import { Assunto } from 'src/app/model/assunto';
 import { MenuItem } from 'primeng/components/common/menuitem';
 import { MessageService } from 'primeng/api';
@@ -6,84 +6,109 @@ import { Questao } from 'src/app/model/questao';
 import TestCase from 'src/app/model/testCase';
 import { Router, ActivatedRoute } from '@angular/router';
 import Usuario from 'src/app/model/usuario';
-import { LoginService } from '../login.service';
+import { LoginService } from '../../login-module/login.service';
 
 @Component({
   selector: 'app-listar-questoes',
   templateUrl: './listar-questoes.component.html',
   styleUrls: ['./listar-questoes.component.css']
 })
-export class ListarQuestoesComponent implements OnInit  {
-  
+export class ListarQuestoesComponent implements OnInit, OnChanges {
+  ngOnChanges(changes: import("@angular/core").SimpleChanges): void {
+    this.isQuestaoFinalizada();
+  }
+
   @Input("assunto") assunto?;
 
-  selectedQuestao: Questao;z
+  selectedQuestao: Questao;
   items: MenuItem[];
   usuario;
 
-  constructor(private messageService: MessageService, private router:Router, private login:LoginService) { 
-    
+  questoes:Questao[]=[];
+  statusQuestoes: any[];
+
+  constructor(private messageService: MessageService, private router: Router, private login: LoginService) {
+    this.statusQuestoes = [];
   }
 
   ngOnInit() {
 
-    this.usuario = this.login.getUsuarioLogado();
-
+    Assunto.getAll().subscribe(assunto => {
+      this.ordernarPorSequencia(this.assunto.questoesProgramacao);
+    });
    
-    if(this.usuario.perfil == 3){
+    this.usuario = this.login.getUsuarioLogado();
+    this.isQuestaoFinalizada();
+
+    if (this.usuario.perfil == 3) {
       this.items = [
         { label: 'Alterar', icon: 'pi pi-check', command: (event) => this.alterar(this.selectedQuestao) },
         { label: 'Deletar', icon: 'pi pi-times', command: (event) => this.deletar(this.selectedQuestao) }
-        ];
+      ];
     }
   }
 
-  abrirEditor(questao){
-    this.router.navigate(["main", { outlets: { principal: ['editor', this.assunto.pk(), questao.id] }}]);
+
+  ordernarPorSequencia(questoes){
+    
+    questoes.sort((a, b) => a.sequencia - b.sequencia);
+    this.questoes = questoes;
+    
   }
 
-  responder(questao){
-    this.router.navigate(["main", { outlets: { principal: ['monitoramento',this.assunto.pk(), questao.id] }}]);
+
+  abrirEditor(questao) {
+    this.router.navigate(["main", { outlets: { principal: ['editor', this.assunto.pk(), questao.id] } }]);
   }
 
-  visualizar(questao){
-    this.router.navigate(["main", { outlets: { principal: ['visualizacao-questao',this.assunto.pk(), questao.id] }}]);
+  responder(questao) {
+    this.router.navigate(["main", { outlets: { principal: ['self-instruction', this.assunto.pk(), questao.id] } }]);
+  }
+
+  visualizar(questao) {
+    this.router.navigate(["main", { outlets: { principal: ['visualizacao-questao', this.assunto.pk(), questao.id] } }]);
   }
 
   alterar(questao: Questao) {
-    if(questao != undefined){
-      this.router.navigate(["main", { outlets: { principal: ['cadastro-questao', this.assunto.pk(),questao.id] } } ] );
+    if (questao != undefined) {
+      this.router.navigate(["main", { outlets: { principal: ['cadastro-questao', this.assunto.pk(), questao.id] } }]);
     }
-    
   }
- 
 
-
-
-  deletar(questao:Questao){
+  deletar(questao: Questao) {
     let index = -1;
-    for (let i=0;i<this.assunto.questoesProgramacao;i++){
-     if( this.assunto.questoeProgramacao[i].id== questao.id){
-      index = i;
-      break;
-      
-     }
+    for (let i = 0; i < this.assunto.questoesProgramacao; i++) {
+      if (this.assunto.questoeProgramacao[i].id == questao.id) {
+        index = i;
+        break;
+      }
     }
 
-    Assunto.delete(this.assunto.questoesProgramacao[index]).subscribe(resultado=>{
-     
+    Assunto.delete(this.assunto.questoesProgramacao[index]).subscribe(resultado => {
       this.messageDelete();
     });
-    this.assunto.questoesProgramacao.splice(index, 1);
-    this.messageDelete();
+    
   }
 
   messageDelete() {
-    this.messageService.add({severity:'error', summary:'Deletado!', detail:" foi excluido do banco de questões"});
+    this.messageService.add({ severity: 'error', summary: 'Deletado!', detail: " foi excluido do banco de questões" });
   }
-  messageView(){
-    this.messageService.add({severity:'info', summary:'Questao visualizado', detail:'informações sobre a questão'});
+  messageView() {
+    this.messageService.add({ severity: 'info', summary: 'Questao visualizado', detail: 'informações sobre a questão' });
   }
-  
-  
+
+  isQuestaoFinalizada() {
+    if (this.usuario != undefined) {
+      for (let i = 0; i < this.assunto.questoesProgramacao.length; i++) {
+        if (this.statusQuestoes[this.assunto.questoesProgramacao[i].id] == undefined) {
+          this.statusQuestoes[this.assunto.questoesProgramacao[i].id] = Questao.isFinalizada(this.assunto.questoesProgramacao[i], this.usuario);
+        }
+      }
+    }
+
+
+
+  }
+
+
 }

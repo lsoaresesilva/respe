@@ -1,18 +1,41 @@
-
-<div class="p-grid p-justify-center">
-  <div class="p-col-2"></div>
-  <div class="p-col-8">
-    <p-card>
-    <div class="ui-inputgroup" style="margin-bottom:20px;">
-      <span class="ui-inputgroup-addon"><i class="fa fa-user"></i>Usuário</span>
-      <input type="text" pInputText [(ngModel)]="usuario.email">
-    </div>
-    <div class="ui-inputgroup" style="margin-bottom:20px;">
-      <span class="ui-inputgroup-addon"><i class="fa fa-user"></i>Senha</span>
-      <input type="text" type="password" pPassword [(ngModel)]="usuario.senha">
-    </div>
-    <p-button label="Entrar" (click)="acessar()"></p-button>&nbsp;&nbsp;&nbsp;<p-button label="Cadastrar" (click)="cadastrar()"></p-button>
-  </p-card>
+<p-toast></p-toast>
+<div class="p-grid">
+  <div class="p-col-12" style="text-align: center">
+    <i class="pi pi-desktop" style="font-size: 10em; color: gray;"></i>
   </div>
-  <div class="p-col-2"></div>
+  <div class="p-col-12">
+    <h1>Let's code</h1>
+  </div>
+  <div class="p-col-12">
+    <p-card class="logincard">
+      
+      <div class="p-grid">
+        <div class="p-col-12">
+          <div class="ui-inputgroup">
+            <span class="ui-inputgroup-addon"><i class="pi pi-user"></i></span>
+            <input type="text"  [(ngModel)]="usuario.email" pInputText placeholder="Email">         
+          </div>
+        </div>
+        <div class="p-col-12">
+          <div class="ui-inputgroup">
+            <span class="ui-inputgroup-addon"><i class="pi pi-key"></i></span>
+            <input type="password"  [(ngModel)]="usuario.senha" pInputText placeholder="Senha" pPassword />       
+          </div>
+        </div>
+        <div class="p-col-12">
+            <a class= "link"  (click)="cadastrar()" >Criar uma conta</a>
+          </div>
+        <div class="p-col-12">
+          <button pButton (click)="acessar()" type="button" label="Entrar" class="ui-button-success ui-button-raised" ></button>
+        </div>
+        <!-- <div class="p-col-12">
+          <button pButton (click)="cadastrar()" type="button" label="Inscreve-se" class="ui-button-secondary ui-button-raised"></button>
+        </div> -->
+      </div>
+
+
+
+
+    </p-card>
+  </div>
 </div>

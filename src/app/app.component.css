@@ -1,0 +1,23 @@
+:host >>> .ui-table	{
+    background-color: #C5E1A5 !important;
+    border: 1px solid #689f38;
+} 
+
+:host >>> .ui-menubar	{
+  background-color: rgb(216, 235, 195) !important;
+  border: 1px solid #689f38;
+}  
+
+h1 {
+  text-align: center;
+  font: italic small-caps bold 24px/0px "Comic Sans MS", cursive, sans-serif;
+  color: gray;
+}
+
+:host >>> .logincard .ui-card {
+  max-width: 300px;
+  margin: auto;
+  background-color: #C5E1A5 !important;
+  border: 1px solid #689f38;
+} 
+

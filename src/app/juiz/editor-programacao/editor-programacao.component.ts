@@ -14,7 +14,7 @@ import Query from 'src/app/model/firestore/query';
 import PedidoAjuda from 'src/app/model/pedidoAjuda';
 import { Util } from 'src/app/model/util';
 import { Assunto } from 'src/app/model/assunto';
-import { LoginService } from '../login.service';
+import { LoginService } from '../../login-module/login.service';
 
 declare var editor: any;
 declare function carregarIde(readOnly, callback, instance, codigo): any;
@@ -50,7 +50,7 @@ export class EditorProgramacaoComponent implements OnInit {
   }
 
   /**
-   * Salva o código do estudante automaticamente a cada 2 minutos.
+   * Salva o código do estudante automaticamente a cada 5 minutos.
    */
   salvarAutomaticamente() {
     let __this = this;
@@ -60,7 +60,7 @@ export class EditorProgramacaoComponent implements OnInit {
         // TODO: mostrar mensagem que o código foi salvo automaticamente.
       });
 
-    }, 120000)
+    }, 300000)
   }
 
   ngOnInit() {
@@ -120,6 +120,7 @@ export class EditorProgramacaoComponent implements OnInit {
   prepararSubmissao(): Submissao {
     this.editorCodigo.codigo.setAlgoritmo(editor.getValue());
     let submissao = new Submissao(null, this.editorCodigo.codigo, this.login.getUsuarioLogado(), this.questao);
+  
     return submissao;
   }
 
@@ -195,8 +196,11 @@ export class EditorProgramacaoComponent implements OnInit {
   
         }, err => {
   
-          this.prepararMensagemExceptionHttp(err);
-  
+          
+          submissao.invalidar();
+          submissao.save().subscribe(resultado=>{
+            this.prepararMensagemExceptionHttp(err);
+          })
   
         }, () => {
           _this.pausaIde = false;
@@ -205,6 +209,8 @@ export class EditorProgramacaoComponent implements OnInit {
     }
 
   }
+
+  
 
   prepararMensagemExceptionHttp(erro) {
     if (erro.name == "HttpErrorResponse" && erro.status == 0) {
