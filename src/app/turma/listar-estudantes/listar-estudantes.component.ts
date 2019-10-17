@@ -28,8 +28,15 @@ export class ListarEstudantesComponent implements OnInit {
   ngOnInit() {
     this.route.params.subscribe(params => {
       this.turma = new Turma(null, null, null, null);
-      this.turma.codigo = params['codigoTurma']
+      
+      if(params['codigoTurma'] != null){
+        this.turma.codigo = params['codigoTurma']
       this.buscarEstudante(this.turma)
+      }else{
+        Usuario.getAll(new Query("perfil", "==", PerfilUsuario.estudante)).subscribe(estudantes=>{
+          this.estudantes = estudantes;
+        })
+      }
 
     });
   }

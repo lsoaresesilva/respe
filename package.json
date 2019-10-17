@@ -21,6 +21,7 @@
     "@angular/platform-browser": "~7.1.0",
     "@angular/platform-browser-dynamic": "~7.1.0",
     "@angular/router": "~7.1.0",
+    "@babel/plugin-transform-modules-commonjs": "^7.6.0",
     "chart.js": "^2.7.3",
     "core-js": "^2.5.4",
     "firebase": "^5.8.6",
@@ -28,7 +29,9 @@
     "primeflex": "^1.0.0-rc.1",
     "primeicons": "^1.0.0",
     "primeng": "^7.1.0-rc.1",
+    "prismjs": "^1.17.1",
     "rxjs": "~6.5.0",
+    "scientificxpjs": "0.0.1-b",
     "tslib": "^1.9.0",
     "zone.js": "~0.8.26"
   },

@@ -2,9 +2,15 @@
 
 <h1>{{questao?.nomeCurto}}</h1>
 
-
 <p-fieldset legend="Questão: {{questao?.sequencia}}">
-  {{questao?.enunciado}}
+  
+
+  <div *ngIf="questao?.hasCode(); else semCodigo" [innerHtml]="gerarHtmlTextoComCodigo(questao)">
+    
+  </div>
+  <ng-template #semCodigo>
+    {{questao?.enunciado}}
+  </ng-template>
 </p-fieldset>
 <br>
 <br>
@@ -28,6 +34,6 @@
     <br>
 
 
-    <p-confirmDialog header="Confirmação" icon="pi pi-exclamation-triangle"></p-confirmDialog>
+    <p-confirmDialog header="Tem certeza da resposta?" icon="pi pi-exclamation-triangle"></p-confirmDialog>
     <button [disabled]="respostaUsuarioBanco != undefined" type="text" (click)="confirmar()" pButton icon="pi pi-check"
       class="ui-button-success" label="Responder"></button>

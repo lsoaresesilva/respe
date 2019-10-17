@@ -7,7 +7,7 @@ import Query from 'src/app/model/firestore/query';
 import { forkJoin } from 'rxjs';
 import { LoginService } from 'src/app/login-module/login.service';
 import { MessageService, MenuItem } from 'primeng/api';
-//import { MessageService } from 'primeng/primeng';
+
 
 @Component({
   selector: 'app-listar-planejamentos',
@@ -22,21 +22,20 @@ export class ListarPlanejamentosComponent implements OnInit {
   selectedPlanejamento: Planejamento;
   items: MenuItem[];
 
-  constructor(private router: Router, private login:LoginService,private messageService: MessageService) { 
-    this.usuario = login.getUsuarioLogado();
+
+  constructor(private router: Router, private login:LoginService, private messageService: MessageService) { 
+    this.usuario= this.login.getUsuarioLogado();
     this.visibilidadeDialogPlanejamento = false;
 
   }
 
   ngOnInit() {
 
-    
-      this.items = [
+    this.items = [
       { label: 'Alterar', icon: 'pi pi-check', command: (event) => this.alterar(this.selectedPlanejamento) },
       { label: 'Deletar', icon: 'pi pi-times', command: (event) => this.deletar(this.selectedPlanejamento) },
-    
+
       ];
-      
     this.getPlanejamentos();
     this.exibirDialogPlanejamento();
   }
@@ -90,22 +89,24 @@ export class ListarPlanejamentosComponent implements OnInit {
     this.router.navigate(["main", { outlets: { principal: ['cadastro-planejamento'] } }])
   }
 
-  alterar(planejamento: Planejamento) {
-    if(planejamento != undefined){
-      this.router.navigate(["main", { outlets: { principal: ['atualizacao-planejamento', planejamento.pk()] } } ] );
-    }
-    
-  }
 
   deletar(planejamento:Planejamento) {
-     Planejamento.delete(planejamento.pk()).subscribe(resultado=>{
-      Planejamento.getAll(new Query("estudanteId", "==",this.usuario.pk())).subscribe(planejamentosCadastrados => {
-     this.planejamentos = planejamentosCadastrados });
-      this.messageDeletar();
-    });
-  }  
+    Planejamento.delete(planejamento.pk()).subscribe(resultado=>{
+     Planejamento.getAll(new Query("estudanteId", "==",this.usuario.pk())).subscribe(planejamentosCadastrados => {
+    this.planejamentos = planejamentosCadastrados });
+     this.messageDeletar();
+   });
+ }  
 
-  messageDeletar() {
-    this.messageService.add({severity:'error', summary:'Deletado!', detail:"Esse planejamento foi apagado!"});
+ messageDeletar() {
+   this.messageService.add({severity:'error', summary:'Deletado!', detail:"Esse planejamento foi apagado!"});
+ }
+
+
+ alterar(planejamento: Planejamento) {
+  if(planejamento != undefined){
+    this.router.navigate(["main", { outlets: { principal: ['atualizacao-planejamento', planejamento.pk()] } } ] );
   }
+
+}
 }

@@ -4,6 +4,7 @@ import Erro from './erro';
 import { TipoErro } from './tipoErro';
 import Estudante from './estudante';
 import Submissao from './submissao';
+import ErroSintaxeVariavel from './erroSintaxeVariavel';
 
 export default class ErroSintaxeFuncao extends ErroSintaxe {
 
@@ -44,6 +45,11 @@ export default class ErroSintaxeFuncao extends ErroSintaxe {
         return false;
     }
 
+    /**
+     * Retorna uma lista de parâmetros para uma chamada de uma função contida na string linha.
+     * Serão retornadas apenas variáveis, strings e números serão ignorados
+     * @param linha 
+     */
     static getParametros(linha) {
         // quebrar as vírgulas
 
@@ -56,11 +62,31 @@ export default class ErroSintaxeFuncao extends ErroSintaxe {
             parametros = parametros.map(parametro => {
                 return parametro.replace(" ", "");
             })
-
+            
+            // remover números
             parametros = parametros.filter(parametro => {
                 return (parametro.search(/^[0-9]+$/) == - 1?true:false);
             })
+
+            // remover strings
+            parametros = parametros.filter(parametro => {
+                return (parametro.search(/^(\"|\')/) == - 1?true:false);
+            })
+
+            // Verificar se há operações matemáticas, se houver, quebrar
+            let variaveis = [];
+            parametros = parametros.filter(parametro => {
+                if( ErroSintaxeVariavel.isOperacaoMatematica(parametro)){
+                    variaveis = variaveis.concat(ErroSintaxeVariavel.getVariaveisMatematicas(parametro));
+                    return false;
+                }
+
+                return true;
+            });
+
+            parametros = parametros.concat(variaveis);
             
+
             return parametros;
 
         }

@@ -1,8 +1,9 @@
+<p-toast [style]="{marginTop: '80px'}"></p-toast>
 <h1>Meus planejamentos de estudo</h1>
 
 <p-dialog [modal]="true" [(visible)]="visibilidadeDialogPlanejamento" header="Planeje o seus estudos!" #dialogPlanejamento [style]="{width: '400px', height: '200px'}">
   <span style="font-weight: bold">Você sabia?</span> Para alcançar boas notas é fundamental planejar sua rotina de estudos.
-  Você precisa conhecer o conteúdo que irá estudar, definir quanto tempo irá se dedicar e também refletir sobre como estudará (qual material vai utilizar para estudar, se fará sozinho ou em grupo, onde estudará, entre outras informações que possam ajudá-lo a orgnizar o seu ensino).  
+  Você precisa conhecer o conteúdo que irá estudar, definir quanto tempo irá se dedicar e também refletir sobre como estudará (qual material vai utilizar para estudar, se fará sozinho ou em grupo, onde estudará, em qual horário, entre outras informações que possam ajudá-lo a organizar o seu ensino).  
 </p-dialog>
 
 
@@ -11,19 +12,24 @@
       <tr>
           <th>Assunto</th>
           <th>Horas de estudo/semana</th>
+          <th>Excluir</th>
       </tr>
   </ng-template>
-  <ng-template pTemplate="body" let-rowData let-planejamento>
-      <tr [pContextMenuRow]="rowData">
-          <td><a (click)="abrirPlanejamento(planejamento)">{{planejamento.assunto.nome}}</a></td>
+
+  <ng-template pTemplate="body" let-planejamento>
+      <tr>
+          <td><a (click)="abrirPlanejamento(planejamento)" style="cursor:pointer">{{planejamento.assunto.nome}}</a></td>
           <td>{{planejamento.tempoEstudo}} horas/semana</td>
+          <td> <button pButton type="button" (click)="criarPlanejamento()" label="X" class= "ui-button-danger ui-button-raised"></button></td>
       </tr>
   </ng-template>
 </p-table>
 
 <p-contextMenu #cm [model]="items"></p-contextMenu> 
 
-<br><button pButton type="button" (click)="criarPlanejamento()" label="Novo" ></button>
-<p-toast [style]="{marginTop: '80px'}"></p-toast>
+
+
+<br><button pButton type="button" (click)="criarPlanejamento()" label="Novo" class="ui-button-success ui-button-raised"></button>
+
 
 

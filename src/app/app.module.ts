@@ -20,13 +20,17 @@ import { AuthGuard } from './guards/auth.guard';
 import { CsclModule } from './cscl/cscl.module';
 import { BrowserModule } from '@angular/platform-browser';
 import { DocumentModule } from './model/firestore/document.module';
-import { PostagensTurmaGuard } from './guards/postagensTurma.guard';
 import { TurmaModule } from './turma/turma.module';
+import { TurmaGuard } from './guards/acessoTurma.guard';
+import { MessageService } from 'primeng/api';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+import { ExperimentoModule } from './experimento/experimento.module';
+import { CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
 
 
 
 @NgModule({
+  schemas: [ CUSTOM_ELEMENTS_SCHEMA ],
   declarations: [
     AppComponent,
     MainComponent,
@@ -35,6 +39,7 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
   ],
   imports: [
     TurmaModule,
+    ExperimentoModule,
     SrlModule,
     CsclModule,
     DocumentModule,
@@ -49,7 +54,7 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
     MenubarModule,
     BrowserAnimationsModule
   ],
-  providers: [AuthGuard,PostagensTurmaGuard],
+  providers: [AuthGuard,TurmaGuard,MessageService],
   bootstrap: [AppComponent]
 })
 export class AppModule { }
