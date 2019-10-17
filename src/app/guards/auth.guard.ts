@@ -32,15 +32,6 @@ export class AuthGuard implements CanActivate, CanLoad {
     return this.verificarAcesso();
   }
 
-  acessoPostagens(
-    route: ActivatedRouteSnapshot,
-    state: RouterStateSnapshot
-  ) : Observable<boolean> | boolean{
-
-    
-    return this.VerificarUsuarioPertenceTurma()
-  }
-
   canLoad(route: Route): boolean | Observable<boolean> | Promise<boolean> {
     console.log('verificando se o usario pode acessar o modulo!');
     return this.verificarAcesso();
@@ -54,30 +45,7 @@ export class AuthGuard implements CanActivate, CanLoad {
       return false;
   }
 
-  VerificarUsuarioPertenceTurma(){
-    let usuario = this.login.getUsuarioLogado();
-    let turmaId ;
-    let turma:Turma;
-
-    this.route.params.subscribe(params=> { turmaId = params["turmaId"];
-      Turma.get(turmaId).subscribe(turmaBanco =>{
-          turmaBanco=turma;
-     
-          turma.estudantes.forEach(estudante =>{
-
-              if(estudante == usuario.pk()){
-                return true;
-              } 
-              this.router.navigate([""]);
-              return false;
-          });
-      });
-
-    });
-
-   this.router.navigate([""]);
-   return false;
-  }
+ 
 
   
 }

@@ -135,15 +135,19 @@ export default class ErroSintaxeVariavel extends ErroSintaxe {
         return true;
     }
 
-    static isVariavelValida(variavel){
-        if(variavel != undefined && variavel.search(/\+|\-|\*|\//) == -1 &&
-           !this.isVariavelString(variavel) &&
-           !this.isVariavelNumerica(variavel) &&
-           variavel.search(/\s/) == -1 &&
-           variavel.search(/""/) == -1 
-           )
-           return true;
-        
+    /**
+     * Uma variável é considerada válida quando ela não é uma string, número ou sinal matemático.
+     * @param variavel 
+     */
+    static isVariavelValida(variavel) {
+        if (variavel != undefined && variavel.search(/\+|\-|\*|\//) == -1 &&
+            !this.isVariavelString(variavel) &&
+            !this.isVariavelNumerica(variavel) &&
+            variavel.search(/\s/) == -1 &&
+            variavel.search(/""/) == -1
+        )
+            return true;
+
 
         return false;
     }
@@ -153,16 +157,29 @@ export default class ErroSintaxeVariavel extends ErroSintaxe {
 
         let variaveis = [];
 
-        let regex = /(?:\bif|\belif)(?:\s+|\()(\w+)(?:\+|\-|\*|\/)?(\w)?\s*(?:={2}|>|>=|<|<=|!=)\s*([a-zA-Z0-9\"\',]+)(?:\s*|\))/g
+        if(ErroSintaxeVariavel.isConditional(linha)){
+            variaveis = ErroSintaxeCondicional.getVariaveisCondicao(linha);
+        }
+        /*let regex = /(?:\bif|\belif)(?:\s+|\()(\w+)(?:\+|\-|\*|\/)?(\w)?\s*(?:={2}|>|>=|<|<=|!=)\s*([a-zA-Z0-9\"\',]+)(?:\s*|\))/g
         let consultaDeclaracaoCondicao = regex.exec(linha);
         if (consultaDeclaracaoCondicao != null && consultaDeclaracaoCondicao.length > 0) {
             for (let j = 1; j < consultaDeclaracaoCondicao.length; j++) {
-                if (this.isVariavelValida(consultaDeclaracaoCondicao[j])) {
-                    if (!variaveis.includes(consultaDeclaracaoCondicao[j]))
-                        variaveis.push(consultaDeclaracaoCondicao[j]);
+                if (this.isOperacaoMatematica(consultaDeclaracaoCondicao[j])) {
+                    let variaveisIdentificadas = variaveis.concat(ErroSintaxeVariavel.getVariaveisMatematicas(consultaDeclaracaoCondicao[j]));
+                    variaveisIdentificadas.forEach(variavel=>{
+                        if (this.isVariavelValida(variavel) && !variaveis.includes(variavel))
+                            variaveis.push(variavel);
+                    })
+                } else {
+                    if (this.isVariavelValida(consultaDeclaracaoCondicao[j])) {
+
+                        if (!variaveis.includes(consultaDeclaracaoCondicao[j]))
+                            variaveis.push(consultaDeclaracaoCondicao[j]);
+                    }
                 }
+
             }
-        }
+        }*/
 
         return variaveis;
     }
@@ -185,7 +202,59 @@ export default class ErroSintaxeVariavel extends ErroSintaxe {
         return variavel;
     }
 
-    // Retorna uma lista de variáveis em uma linha que contenha uma declaração/atribuicao de varíavel
+    static isOperacaoMatematica(linha) {
+        let resultado = linha.match(/(\(|\+|\-|\/|\*)+/)
+        if (resultado != undefined && resultado.length > 0)
+            return true;
+        return false;
+    }
+
+    /**
+     * Retorna uma lista de variáveis a partir de uma operação matemática.
+     * Por exemplo:
+     * x+y
+     * Retornará as variáveis x e y.
+     * TODO: Verificar como mesclar com a função abaixo
+     * @param linha
+     */
+    static getVariaveisMatematicas(linha) {
+        let variaveis = [];
+        if (this.isOperacaoMatematica(linha)) {
+            let resultado = linha.match(/(.+)\s*(?:\(|\+|\-|\/|\*)+\s*(\w+)/);
+            if (resultado != null && resultado.length > 0) {
+
+                for (let i = 1; i < resultado.length; i++) {
+                    if (!this.isVariavelNumerica(resultado[i])) {
+                        // TODO: se for uma variável matemática, recursivar aqui
+                        if (this.isOperacaoMatematica(resultado[i])) {
+                            let variaveisIdentificadas = this.getVariaveisMatematicas(resultado[i]);
+                            variaveisIdentificadas.forEach(variavel => {
+                                if (!variaveis.includes(variavel))
+                                    variaveis.push(variavel);
+                            })
+                        } else {
+                            resultado[i] = this.removerEspacosVariavel(resultado[i]);
+                            if (!variaveis.includes(resultado[i]))
+                                variaveis.push(resultado[i]);
+                        }
+
+
+
+                    }
+                }
+            }
+        }
+
+        return variaveis;
+    }
+
+    /**
+     * Retorna uma lista de variáveis em uma linha que contenha uma declaração/atribuicao de varíavel.
+     * Por exemplo:
+     * x = y+2
+     * Retornará a variável y
+     * @param linha 
+     */
     // TODO: Não está pegando variável da divisão: (notaUm+notaDois)/x <- não está pegando x
     static getVariaveisOperacaoMatematica(linha) {
         let variaveis = [];
@@ -218,11 +287,11 @@ export default class ErroSintaxeVariavel extends ErroSintaxe {
         return variaveis;
     }
 
-    static isInput(linha){
-        return linha.search(/input\(/) == -1?false:true;
+    static isInput(linha) {
+        return linha.search(/input\(/) == -1 ? false : true;
     }
 
-   
+
 
     static getVariaveisAtribuicaoSimples(linha) {
         let variaveis = [];
@@ -233,12 +302,12 @@ export default class ErroSintaxeVariavel extends ErroSintaxe {
 
             resultado[0] = resultado[0].replace(/=\s*/, "");
             //resultado[0].forEach(variavel => {
-                if (!this.isVariavelNumerica(resultado[0])) {
-                    
-                    let variavel = this.removerEspacosVariavel(resultado[0]);
-                    if (!variaveis.includes(variavel))
-                        variaveis.push(variavel);
-                }
+            if (!this.isVariavelNumerica(resultado[0])) {
+
+                let variavel = this.removerEspacosVariavel(resultado[0]);
+                if (!variaveis.includes(variavel))
+                    variaveis.push(variavel);
+            }
             //})
 
 
@@ -256,41 +325,41 @@ export default class ErroSintaxeVariavel extends ErroSintaxe {
         let variaveisUtilizadas = [];
 
         for (let i = 0; i < linhasCodigo.length; i++) {
-            if(!this.isInput(linhasCodigo[i])){
+            if (!this.isInput(linhasCodigo[i])) {
                 // Verifica as variáveis usadas em uma condição   (apenas para if e elif)
-            if (ErroSintaxeCondicional.isIfOuElif(linhasCodigo[i])) {
-                let variaveis = this.getVariaveisCondicao(linhasCodigo[i])
-                variaveis.forEach(variavel => {
-                    if (!this.isVariavelIncluida(variavel, variaveisUtilizadas)) {
-                        this.incluirVariavel(variavel, i + 1, variaveisUtilizadas);
-                    }
-                });
-            }else if(ErroSintaxe.isChamadaFunction(linhasCodigo[i])) { // Verifica as variáveis usadas em uma função
-                let variaveis = ErroSintaxeFuncao.getParametros(linhasCodigo[i]);
-                variaveis.forEach(variavel => {
-                    if (!this.isVariavelIncluida(variavel, variaveisUtilizadas)) {
-                        this.incluirVariavel(variavel, i + 1, variaveisUtilizadas);
-                    }
-                });
-            }else{
+                if (ErroSintaxeCondicional.isIfOuElif(linhasCodigo[i])) {
+                    let variaveis = this.getVariaveisCondicao(linhasCodigo[i])
+                    variaveis.forEach(variavel => {
+                        if (!this.isVariavelIncluida(variavel, variaveisUtilizadas)) {
+                            this.incluirVariavel(variavel, i + 1, variaveisUtilizadas);
+                        }
+                    });
+                } else if (ErroSintaxe.isChamadaFunction(linhasCodigo[i])) { // Verifica as variáveis usadas em uma função
+                    let variaveis = ErroSintaxeFuncao.getParametros(linhasCodigo[i]);
+                    variaveis.forEach(variavel => {
+                        if (!this.isVariavelIncluida(variavel, variaveisUtilizadas)) {
+                            this.incluirVariavel(variavel, i + 1, variaveisUtilizadas);
+                        }
+                    });
+                } else {
                     // SE tiver sinais de operação +, -, * e / deve dividir a setença
-                let variaveis = this.getVariaveisOperacaoMatematica(linhasCodigo[i]);
-                variaveis.forEach(variavel => {
-                    if (!this.isVariavelIncluida(variavel, variaveisUtilizadas)) {
-                        this.incluirVariavel(variavel, i + 1, variaveisUtilizadas);
-                    }
-                });
+                    let variaveis = this.getVariaveisOperacaoMatematica(linhasCodigo[i]);
+                    variaveis.forEach(variavel => {
+                        if (!this.isVariavelIncluida(variavel, variaveisUtilizadas)) {
+                            this.incluirVariavel(variavel, i + 1, variaveisUtilizadas);
+                        }
+                    });
 
-                variaveis = this.getVariaveisAtribuicaoSimples(linhasCodigo[i]);
-                variaveis.forEach(variavel => {
-                    if (!this.isVariavelIncluida(variavel, variaveisUtilizadas)) {
-                        this.incluirVariavel(variavel, i + 1, variaveisUtilizadas);
-                    }
-                });
-            }
+                    variaveis = this.getVariaveisAtribuicaoSimples(linhasCodigo[i]);
+                    variaveis.forEach(variavel => {
+                        if (!this.isVariavelIncluida(variavel, variaveisUtilizadas)) {
+                            this.incluirVariavel(variavel, i + 1, variaveisUtilizadas);
+                        }
+                    });
+                }
             }
 
-            
+
 
         }
         return variaveisUtilizadas

@@ -1,3 +1,4 @@
+
 <div class="p-grid" style="margin: 10px 10px 10px 10px">
   <div class="p-col-12" style="background-color: #B5E0F9">
     <button type="button" (click)="executar()" pButton label="Executar"
@@ -9,10 +10,15 @@
       *ngIf="!modoVisualizacao && this.questao != undefined" lass="ui-button-secondary"></button>
     <button type="button" (click)="listarSubmissao()" pButton label="Visualizar resposta"
       lass="ui-button-secondary"></button>
+
     <button type="button" (click)="enviarErroEditor()" pButton label="Problema no Editor"
       lass="ui-button-danger"></button>
     <!--<button type="button" (click)="visualizarCodigoSimilar(questao)" pButton
       label="Visualizar exemplo de código"></button>-->
+
+  
+
+      <button type="button" onclick="TogetherJS(this); return false;" pButton label="Responder Em Grupo"></button>
   </div>
 </div>
 <div class="p-grid" style="margin: 10px 10px 10px 10px">

@@ -86,6 +86,7 @@ export class CadastrarQuestoesComponent implements OnInit {
 
 
     if (this.questao.validar()) { 
+      this.messageCadastro();
 
       this.questao.assuntos = this.questao.assuntos.map(assunto =>{
         if(typeof assunto === "string")

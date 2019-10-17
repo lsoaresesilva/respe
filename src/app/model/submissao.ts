@@ -64,6 +64,7 @@ export default class Submissao extends Document {
         }
     }
 
+
     /**
      * Recupera todos os usuários que realizaram submissão 
      * @param questao 
@@ -82,6 +83,7 @@ export default class Submissao extends Document {
                 observer.complete();
             });
         })
+
         
     }
 

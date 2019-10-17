@@ -47,7 +47,6 @@ export class VisualizarPerfilEstudanteComponent implements OnInit {
     questoes.forEach(questao =>{
       Questao.isFinalizada(questao, this.usuario).subscribe(porcentagem=>{
         questao.respostaUsuario = porcentagem;
-        console.log("oi")
       });
     })
   

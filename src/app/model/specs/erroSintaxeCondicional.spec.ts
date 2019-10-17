@@ -21,6 +21,22 @@ describe("Testes para identificar erros de sintaxe em condições", ()=>{
         expect(ErroSintaxeCondicional.apenasUmaComparacao(linhasCodigo[8])).toBeFalsy()
     })
 
+    it("Deve identificar condições (com and e or) que foram comparadas com apenas uma = em ", ()=>{
+        let c = new Codigo();
+        let algoritmo = "if x > y and z < a:\nif x > y and z:\nif x > y and a > b and c > d\nif x > y or a > b\nelif x > a:\nif a > b or a <\nif x+y+z > a and x:\nif x+y+z >\nif a+b+z > 3 and x > 2:"
+        c.setAlgoritmo(algoritmo);
+        let linhasCodigo = c.linhasAlgoritmo();
+        expect(ErroSintaxeCondicional.apenasUmaComparacao(linhasCodigo[0])).toBeFalsy();
+        expect(ErroSintaxeCondicional.apenasUmaComparacao(linhasCodigo[1])).toBeTruthy();
+        expect(ErroSintaxeCondicional.apenasUmaComparacao(linhasCodigo[2])).toBeFalsy();
+        expect(ErroSintaxeCondicional.apenasUmaComparacao(linhasCodigo[3])).toBeFalsy();
+        expect(ErroSintaxeCondicional.apenasUmaComparacao(linhasCodigo[4])).toBeFalsy();
+        expect(ErroSintaxeCondicional.apenasUmaComparacao(linhasCodigo[5])).toBeTruthy()
+        expect(ErroSintaxeCondicional.apenasUmaComparacao(linhasCodigo[6])).toBeTruthy();
+        expect(ErroSintaxeCondicional.apenasUmaComparacao(linhasCodigo[7])).toBeTruthy();
+        expect(ErroSintaxeCondicional.apenasUmaComparacao(linhasCodigo[8])).toBeFalsy();
+    })
+
 
     it("Deve identificar condições que foram comparadas com apenas uma =", ()=>{
         let c = new Codigo();
