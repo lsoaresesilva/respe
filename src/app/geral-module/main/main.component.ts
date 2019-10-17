@@ -5,6 +5,8 @@ import Usuario from 'src/app/model/usuario';
 import { LoginService } from 'src/app/login-module/login.service';
 import geradorCodigo from 'src/app/util/geradorCodigo';
 import GeradorCodigo from 'src/app/util/geradorCodigo';
+import EstudanteTurma from 'src/app/model/estudanteTurma';
+import Query from 'src/app/model/firestore/query';
 import { RespostaQuestaoExperimento } from 'src/app/model/experimento/respostaQuestaoExperimento';
 import { PreTesteComponent } from 'src/app/experimento/pre-teste/pre-teste.component';
 import PosTeste from 'src/app/model/experimento/posTeste';
@@ -17,7 +19,7 @@ import {Groups} from 'scientificxpjs/enum/groups';
 })
 export class MainComponent implements OnInit {
 
-  items: MenuItem[];
+  itens: MenuItem[];
   private usuario;
   visibilidadeDialog;
 

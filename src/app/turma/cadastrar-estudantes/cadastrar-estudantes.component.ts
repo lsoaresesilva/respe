@@ -27,6 +27,9 @@ export class CadastrarEstudantesComponent implements OnInit {
   exibirMensagemCadastro() {
     this.messageService.add({ severity: 'success', summary: 'Estudante cadastrado com sucesso.' });
   }
+  exibirMensagemCodigoInvalido() {
+    this.messageService.add({ severity: 'success', summary: 'É preciso informar o código de uma turma.' });
+  }
 
   ngOnInit() {
     this.estudante = new Estudante(new Turma(null, null, null, null), new Usuario(null, null, null, PerfilUsuario.estudante));
