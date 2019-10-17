@@ -31,6 +31,10 @@ export default abstract class ErroSintaxe{
         return ((linha.match(/def/g) || []).length == 0 ? false : true);
     }
 
+    static isChamadaFunction(linha) {
+        return ((linha.match(/\w+\(.*\)/g) || []).length == 0 ? false : true);
+    }
+
     static isConditional(linha) {
         return ((linha.match(/if|else|elif/g) || []).length == 0 ? false : true);
     }

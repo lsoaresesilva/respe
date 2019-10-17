@@ -3,7 +3,9 @@ import { UsuarioService } from '../usuario.service';
 import Usuario from '../../model/usuario';
 import { Router } from '@angular/router';
 import { LoginService } from 'src/app/login-module/login.service';
-import {MessageService} from 'primeng/api';
+import {Experiment} from 'scientificxpjs/experiment'
+import { MessageService } from 'primeng/primeng';
+
 
 @Component({
   selector: 'app-login',
@@ -27,13 +29,19 @@ export class LoginComponent implements OnInit {
   acessar(){
     let t = this;
     this.login.logar(this.usuario).subscribe(resultado=>{
-      if( resultado )
+      /**/
+      Experiment.login(this.usuario.grupoExperimento).subscribe(resultado=>{
+        this.redirecionar(resultado);
+      })
+    })
+  }
+
+  redirecionar(resultado){
+    if( resultado )
         this.router.navigateByUrl("/main");
       else{
-        this.loginIncorreto();
-
+        alert("Usuário ou senha inválidos. Você tem certeza que fez o cadastro?") // TODO: mudar para o message service
       }
-    })
   }
 
   cadastrar(){

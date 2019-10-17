@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ViewChild } from '@angular/core';
 import { MenuItem } from 'primeng/components/common/menuitem';
 import { Router } from '@angular/router';
 import Usuario from 'src/app/model/usuario';
@@ -7,6 +7,10 @@ import geradorCodigo from 'src/app/util/geradorCodigo';
 import GeradorCodigo from 'src/app/util/geradorCodigo';
 import EstudanteTurma from 'src/app/model/estudanteTurma';
 import Query from 'src/app/model/firestore/query';
+import { RespostaQuestaoExperimento } from 'src/app/model/experimento/respostaQuestaoExperimento';
+import { PreTesteComponent } from 'src/app/experimento/pre-teste/pre-teste.component';
+import PosTeste from 'src/app/model/experimento/posTeste';
+import {Groups} from 'scientificxpjs/enum/groups';
 
 @Component({
   selector: 'app-main',
@@ -17,46 +21,103 @@ export class MainComponent implements OnInit {
 
   itens: MenuItem[];
   private usuario;
-  private estudanteTurma;
-  turmaId;
+  visibilidadeDialog;
 
 
   constructor(private router: Router, private login:LoginService) { 
     this.usuario = this.login.getUsuarioLogado();
   }
 
-  ngOnInit() {
-        EstudanteTurma.getAll(new Query("estudanteId", "==", this.usuario.pk())).subscribe(resultado => {
-      this.turmaId = resultado[0].turmaId;
-    });
-
-    this.itens = [
-      {
-        label: 'Planejamento',
-        command: () => { this.router.navigate(["main", { outlets: { principal: ['listagem-planejamento'] } }]) }
-
-      },
-      {
-        label: 'Turmas',
-        command: () => { this.router.navigate(["main", { outlets: { principal: ['listagem-turmas'] } }]) }
-
-      },
-      {
-        label: 'Estudantes',
-        command: () => { this.router.navigate(["main", { outlets: { principal: ['listagem-estudantes', this.turmaId] } }]) }
-
-      },
-      {
-        label: 'Assuntos',
-        command: () => { this.router.navigate(["main", { outlets: { principal: ['listagem-assuntos'] } }]) }
-
-      },
-      {
-        label: 'Logout',
-        command: () => {this.logout()}
+  criarMenu(){
+    if(this.usuario.perfil == 3){
+      this.itens = [
+        {
+          label: 'Turmas',
+          command: () => { this.router.navigate(["main", { outlets: { principal: ['listagem-turmas'] } }]) }
+  
+        },
+        {
+          label: 'Estudantes',
+          command: () => { this.router.navigate(["main", { outlets: { principal: ['listagem-estudantes'] } }]) }
+  
+        },
+        {
+          label: 'Professores',
+          command: () => { this.router.navigate(["main", { outlets: { principal: ['listagem-estudantes'] } }]) }
+  
+        },
+        {
+          label: 'Assuntos',
+          command: () => { this.router.navigate(["main", { outlets: { principal: ['listagem-assuntos'] } }]) }
+  
+        },
+        
+        {
+          label: 'Sair',
+          command: () => {this.logout()}
+        }
+      ];
+    }else{
+      if(this.usuario.grupoExperimento == Groups.control){
+        this.itens = [
+          {
+            label: 'Assuntos',
+            command: () => { this.router.navigate(["main", { outlets: { principal: ['listagem-assuntos'] } }]) }
+    
+          },
+          {
+            label: 'Sair',
+            command: () => {this.logout()}
+          }
+        ];
+      }else{
+        this.itens = [
+          {
+            label: 'Planejamentos',
+            command: () => { this.router.navigate(["main", { outlets: { principal: ['listagem-planejamento'] } }]) }
+    
+          },
+          {
+            label: 'Minha turma',
+            command: () => { this.router.navigate(["main", { outlets: { principal: ['minha-turma'] } }]) }
+    
+          },
+          {
+            label: 'Meu desempenho',
+            command: () => { this.router.navigate(["main", { outlets: { principal: ['meu-desempenho'] } }]) }
+    
+          },
+          {
+            label: 'Sair',
+            command: () => {this.logout()}
+          }
+        ];
       }
-    ];
+      
+    }
+  }
 
+  ngOnInit() {
+    this.criarMenu();
+    this.apresentarPretest();
+    
+  }
+
+  apresentarPretest(){
+    RespostaQuestaoExperimento.isFinalizado(this.login.getUsuarioLogado()).subscribe(resultado=>{
+      if(resultado){
+        this.apresentarPostest();
+      }else{
+        this.visibilidadeDialog = !resultado;
+      }
+      
+    })
+  }
+
+  apresentarPostest(){
+    PosTeste.apresentar(this.login.getUsuarioLogado()).subscribe(resultado=>{
+      this.visibilidadeDialog = resultado;
+    })
   }
 
   private logout() {

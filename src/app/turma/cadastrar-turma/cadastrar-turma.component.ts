@@ -1,11 +1,12 @@
 import { Component, OnInit } from '@angular/core';
 import Turma from 'src/app/model/turma';
 
-import { MenuItem, MessageService } from 'primeng/api';
+import { MenuItem} from 'primeng/api';
 import { Router, ActivatedRoute } from '@angular/router';
 import Usuario from 'src/app/model/usuario';
 import { LoginService } from 'src/app/login-module/login.service';
 import Query from 'src/app/model/firestore/query';
+import {MessageService} from 'primeng/api';
 
 @Component({
   selector: 'app-cadastrar-turma',
@@ -86,8 +87,6 @@ export class CadastrarTurmaComponent implements OnInit {
       this.exibirMensagemCadastroSucesso();
       this.turma.save().subscribe(resultado => {
         this.router.navigate(["main", { outlets: { principal: ['listagem-turma'] } }]);
-
-
       },
         err => {
           this.exibirMensagemErroCadastroBancoDeDados();

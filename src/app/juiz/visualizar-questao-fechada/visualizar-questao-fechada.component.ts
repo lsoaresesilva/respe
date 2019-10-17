@@ -6,6 +6,8 @@ import { LoginService } from '../../login-module/login.service';
 import { RespostaQuestaoFechada } from 'src/app/model/respostaQuestaoFechada';
 import { MessageService, ConfirmationService } from 'primeng/api';
 import Alternativa from 'src/app/model/alternativa';
+import { Planejamento } from 'src/app/model/planejamento';
+import { DomSanitizer } from '@angular/platform-browser';
 
 @Component({
   selector: 'app-visualizar-questao-fechada',
@@ -21,14 +23,34 @@ export class VisualizarQuestaoFechadaComponent implements OnInit {
   private usuario;
   private id;
 
-  constructor(private route: ActivatedRoute, private router: Router, private login: LoginService, private messageService: MessageService, private confirmationService: ConfirmationService) {
+  constructor(private sanitizer: DomSanitizer, private route: ActivatedRoute, private router: Router, private login: LoginService, private messageService: MessageService, private confirmationService: ConfirmationService) {
     this.questao = new QuestaoFechada(this.id, null, null, null, [], [], null);
     this.usuario = login.getUsuarioLogado();
     this.respostaQuestaoFechada = new RespostaQuestaoFechada(null, this.login.getUsuarioLogado(), null, this.questao);
   }
 
-  carregarQuestao(assunto, questao){
+  selecionarAlternativa(alternativa){
+    this.respostaQuestaoFechada.alternativa = alternativa;
+  }
+
+  gerarHtmlTextoComCodigo(questao){
     
+    if(questao.hasCode()){
+
+      let texto = questao.enunciado.replace("'''python", "<pre><code class='language-python' pCode>").replace("'''", "</code></pre>")
+      return this.sanitizer.bypassSecurityTrustHtml(texto);
+      /*let texto = questao.extrairTextoComCodigo();
+      if(texto.length > 2){
+        let html = "<span>"+texto[0]+"</span><br/><pre><code class='language-python' pCode>"+texto[1]+"</code></pre><br/>"
+        if(texto.length == 3){
+          html += "<span>"+texto[2]+"</span>"
+        }
+
+        return html;
+      }else{
+        return texto[0]
+      }*/
+    }
   }
 
   ngOnInit() {
@@ -36,16 +58,18 @@ export class VisualizarQuestaoFechadaComponent implements OnInit {
     this.route.params.subscribe(params => {
       this.id = params["questaoId"]
       if (params["assuntoId"] != undefined && params["questaoId"] != undefined) {
+        
+        
+        
         Assunto.get(params["assuntoId"]).subscribe(assunto => {
           
           if (assunto["questoesFechadas"] != undefined && assunto["questoesFechadas"].length > 0) {
             this.questao = assunto["getQuestaoFechadaById"](params["questaoId"]);
-            this.respostaQuestaoFechada.getRespostaQuestaoEstudante(this.questao, this.usuario).subscribe(respostaUsuario => {
+            RespostaQuestaoFechada.getRespostaQuestaoEstudante(this.questao, this.usuario).subscribe(respostaUsuario => {
               this.respostaUsuarioBanco = respostaUsuario
         
               if (respostaUsuario != null) {
-        
-                this.respostaQuestaoFechada.resposta = respostaUsuario;
+                this.respostaQuestaoFechada = respostaUsuario;
                 this.mostrar = true;
               }
         
@@ -69,8 +93,8 @@ export class VisualizarQuestaoFechadaComponent implements OnInit {
 
   confirmar() {
 
-    if (this.respostaQuestaoFechada.resposta == null) {
-      this.messageService.add({ severity: 'info', summary: 'ops...', detail: "É preciso marca alguma alternativa!" });
+    if (this.respostaQuestaoFechada.alternativa == null) {
+      this.messageService.add({ severity: 'info', summary: 'ops...', detail: "É preciso selecionar uma alternativa!" });
     }
 
     else if (this.respostaUsuarioBanco != undefined) {
@@ -79,7 +103,9 @@ export class VisualizarQuestaoFechadaComponent implements OnInit {
 
     else {
       this.confirmationService.confirm({
-        message: 'Você não poderá responder essa questão novamente,tem certeza da resposta?',
+        message: 'Você não poderá responder essa questão novamente.',
+        acceptLabel:"Sim",
+        rejectLabel:"Não",
         accept: () => {
           this.responder();
         }
@@ -95,9 +121,9 @@ export class VisualizarQuestaoFechadaComponent implements OnInit {
 
     this.respostaQuestaoFechada.save().subscribe(resultado => {
       this.mostrar = true;
-      let resposta = this.questao.getAlternativaCerta();
+      let alternativaCerta = this.questao.getAlternativaCerta();
 
-      if (this.respostaQuestaoFechada.resposta == resposta) {
+      if (this.respostaQuestaoFechada.alternativa.id == alternativaCerta.id) {
         this.messageService.add({ severity: 'success', summary: 'Parabéns!', detail: " Você acertou essa questão!" });
       }
       else {

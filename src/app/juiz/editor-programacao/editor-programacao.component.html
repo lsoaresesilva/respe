@@ -1,21 +1,50 @@
-<div class="p-grid" style="margin-top:10px">
-  <div class="p-col-3">
-      <button type="button" (click)="listarSubmissao()" pButton label="Visualizar resposta para a questão"></button>
-  </div>
-  <div class="p-col-3">
-      <button type="button" (click)="visualizarCodigoSimilar(questao)" pButton label="Visualizar exemplo de código"></button>
+<div class="p-grid" style="margin: 10px 10px 10px 10px">
+  <div class="p-col-12" style="background-color: #B5E0F9">
+    <button type="button" (click)="executar()" pButton label="Executar"
+      *ngIf="!modoVisualizacao && this.questao != undefined" icon="pi pi-play" iconPos="left"
+      class="ui-button-success"></button>
+    <button type="button" (click)="voltarParaModoExecucao()" pButton label="Voltar ao modo execução"
+      *ngIf="modoVisualizacao"></button>
+    <button type="button" (click)="visualizarExecucacao()" pButton label="Vizualizar execução"
+      *ngIf="!modoVisualizacao && this.questao != undefined" lass="ui-button-secondary"></button>
+    <button type="button" (click)="listarSubmissao()" pButton label="Visualizar resposta"
+      lass="ui-button-secondary"></button>
+    <!--<button type="button" (click)="visualizarCodigoSimilar(questao)" pButton
+      label="Visualizar exemplo de código"></button>-->
   </div>
 </div>
-<div class="p-grid">
+<div class="p-grid" style="margin: 10px 10px 10px 10px">
+
+
   <div class="p-col-3">
-    <h3>Questão</h3>
+    <dados-questao [questao]="questao"></dados-questao>
   </div>
+
   <div class="p-col-6">
-    <h3>Algoritmo</h3>
+    <div class="p-grid">
+      <div class="p-col-12">
+        <div id="container" style="height:600px;border:1px solid grey; position:relative;"></div>
+        <div *ngIf="modoVisualizacao==false" style="margin-top:10px;">
+          <app-visualizar-testes *ngIf="questao != undefined" [testsCases]="questao.testsCases" [submissao]="submissao">
+          </app-visualizar-testes>
+
+        </div>
+      </div>
+    </div>
+
   </div>
+
   <div class="p-col-3">
-    <div>
-      <h3>Execução</h3>
+
+    <div class="saida" style="min-height:80%;">
+      <div style="background-color:#F8E6E0;" *ngIf="modoVisualizacao==false">
+        <span [innerHTML]="erroLinguagemProgramacao" style="padding:20px;"></span>
+
+      </div>
+      <div *ngIf="modoVisualizacao  == true" >
+        <visualizar-execucao [traceExecucao]="traceExecucao" (mudancaLinha)="atualizarLinhaEditor($event)">
+        </visualizar-execucao>
+      </div>
     </div>
   </div>
 </div>
@@ -32,62 +61,3 @@
     class="ui-button-secondary"></button>
 
 </p-dialog>
-
-
-<div class="p-grid">
-  <div class="p-col-3" style="background-color:#ffffe6">
-    <dados-questao [questao]="questao"></dados-questao>
-  </div>
-  <!-- Editor de programação -->
-  <div class="p-col-6">
-    <div class="p-grid">
-      <div class="p-col-12">
-        <div id="container" style="height:600px;border:1px solid grey; position:relative;"></div>
-      </div>
-    </div>
-    <div class="p-grid">
-      <div class="p-col-2">
-        <button type="button" (click)="executar()" pButton label="Executar"
-          *ngIf="!modoVisualizacao && this.questao != undefined"></button>
-      </div>
-      <div class="p-col-5">
-        <button type="button" (click)="voltarParaModoExecucao()" pButton label="Voltar ao modo execução"
-          *ngIf="modoVisualizacao"></button>
-        <button type="button" (click)="visualizarExecucacao()" pButton label="Vizualizar execução"
-          *ngIf="!modoVisualizacao && this.questao != undefined"></button>
-      </div>
-      <div class="p-col-2">
-
-      </div>
-    </div>
-    <div class="p-grid">
-      <div class="p-col-12" *ngIf="modoVisualizacao==false">
-        <app-visualizar-testes *ngIf="questao != undefined" [testsCases]="questao.testsCases" [submissao]="submissao">
-        </app-visualizar-testes>
-      </div>
-    </div>
-  </div>
-  <!-- Erro de linguagem de programação -->
-  <div class="p-col-3" *ngIf="modoVisualizacao==false">
-
-    <div class="saida" style="min-height:80%;">
-      <div style="background-color:#F8E6E0;">
-        <span [innerHTML]="erroLinguagemProgramacao" style="padding:20px;"></span>
-      </div>
-    </div>
-  </div>
-
-  <div class="p-col-3">
-
-    <visualizar-execucao *ngIf="modoVisualizacao  == true" [traceExecucao]="traceExecucao"
-      (mudancaLinha)="atualizarLinhaEditor($event)"></visualizar-execucao>
-  </div>
-</div>
-
-<div class="p-grid">
-
-
-  <div class="p-col-1">
-
-  </div>
-</div>

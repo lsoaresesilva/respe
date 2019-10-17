@@ -4,7 +4,7 @@ import { MenuItem, MessageService } from 'primeng/api';
 import { Router, ActivatedRoute } from '@angular/router';
 import Usuario from 'src/app/model/usuario';
 import Query from 'src/app/model/firestore/query';
-import { PerfilUsuario } from 'src/app/model/perfilUsuario';
+import { PerfilUsuario } from 'src/app/model/enums/perfilUsuario';
 import EstudanteTurma from 'src/app/model/estudanteTurma';
 import Turma from 'src/app/model/turma';
 import Estudante from 'src/app/model/estudante';
@@ -28,8 +28,15 @@ export class ListarEstudantesComponent implements OnInit {
   ngOnInit() {
     this.route.params.subscribe(params => {
       this.turma = new Turma(null, null, null, null);
-      this.turma.codigo = params['codigoTurma']
+      
+      if(params['codigoTurma'] != null){
+        this.turma.codigo = params['codigoTurma']
       this.buscarEstudante(this.turma)
+      }else{
+        Usuario.getAll(new Query("perfil", "==", PerfilUsuario.estudante)).subscribe(estudantes=>{
+          this.estudantes = estudantes;
+        })
+      }
 
     });
   }
@@ -69,6 +76,6 @@ export class ListarEstudantesComponent implements OnInit {
   }
 
   cadastrarEstudante() {
-    this.router.navigate(["main", { outlets: { principal: ['cadastro-estudante', this.turma.pk()] } }]);
+    this.router.navigate(["main", { outlets: { principal: ['cadastro-estudante', this.turma.codigo] } }]);
   }
 }

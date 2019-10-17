@@ -1,25 +1,24 @@
 import { Document, Collection } from './firestore/document';
 import { Observable, forkJoin } from 'rxjs';
-import AssuntoQuestao from './assuntoQuestao';
-import Query from './firestore/query';
-import { MaterialEstudo } from './materialEstudo';
 import { Questao } from './questao';
-import ResultadoTestCase from './resultadoTestCase';
 import Usuario from './usuario';
 import Submissao from './submissao';
 import { Util } from './util';
 import QuestaoFechada from './questaoFechada';
+import { RespostaQuestaoFechada } from './respostaQuestaoFechada';
 
 @Collection("assuntos")
 export class Assunto extends Document {
 
     questoesProgramacao;
     questoesFechadas;
+    objetivosEducacionais:[];
 
     constructor(id, public nome) {
         super(id);
         this.questoesFechadas = [];
         this.questoesProgramacao = [];
+        this.objetivosEducacionais = [];
     }
 
     objectToDocument() {
@@ -41,6 +40,10 @@ export class Assunto extends Document {
             })
 
             document["questoesFechadas"] = questoesFechadas;
+        }
+
+        if( this.objetivosEducacionais.length > 0){
+            document["questoeobjetivosEducacionaissFechadas"] = this.objetivosEducacionais;
         }
 
         return document;
@@ -81,50 +84,9 @@ export class Assunto extends Document {
 
     }
 
-    getQuestao(questaoId) {
-        if (this.questoesProgramacao != undefined && this.questoesProgramacao.length > 0) {
-            this.questoesProgramacao.forEach(questao => {
-                if (questao.id == questaoId) {
-                    return questao;
-                }
-            })
-        }
-
-        return null;
-    }
-
-
-    static delete(id) {
+    static isQuestoesProgramacaoFinalizadas(assunto: Assunto, estudante, margemAceitavel = 0.6) {
         return new Observable(observer => {
-            super.delete(id).subscribe(resultadoDelete => {
-                AssuntoQuestao.getAll(new Query("assuntoId", "==", id)).subscribe(resultados => {
-                    let delecoes = [];
-                    resultados.forEach(assuntoQuestao => {
-                        delecoes.push(AssuntoQuestao.delete(assuntoQuestao.pk()));
-                    })
-
-                    if (delecoes.length > 0)
-                        forkJoin(delecoes).subscribe(resultados => {
-                            observer.next();
-                            observer.complete();
-                        }, err => {
-                            observer.error(err);
-                        })
-                    else {
-                        observer.next();
-                        observer.complete();
-                    }
-                })
-            })
-        }
-        );
-    }
-
-
-
-    static isFinalizado(assunto: Assunto, estudante, margemAceitavel = 0.6) {
-        return new Observable(observer => {
-            this.calcularPercentualConclusaoQuestoes(assunto, estudante, margemAceitavel).subscribe(percentual => {
+            this.calcularPercentualConclusaoQuestoesProgramacao(assunto, estudante, margemAceitavel).subscribe(percentual => {
                 if (percentual >= margemAceitavel) {
                     observer.next(true);
                     observer.complete();
@@ -145,6 +107,26 @@ export class Assunto extends Document {
         return true;
     }
 
+    calcularPercentualConclusao(usuario){
+        return new Observable(observer=>{
+            forkJoin([Assunto.calcularPercentualConclusaoQuestoesFechadas(this, usuario), Assunto.calcularPercentualConclusaoQuestoesProgramacao(this, usuario, 0.6)]).subscribe(resultado=>{
+                let percentualConclusao = 0;
+                resultado.forEach(percentual=>{
+                    percentualConclusao += percentual;
+                });
+
+                percentualConclusao /= 2;
+                observer.next(percentualConclusao*100);
+                observer.complete();
+            })
+        })
+    }
+
+    /**
+     * Recupera as submissões mais recentes do estudante. As submissões são referentes a diferentes questões de programação.
+     * @param assunto 
+     * @param usuario 
+     */
     static getTodasSubmissoesProgramacaoPorEstudante(assunto, usuario) {
         let submissoes = {}
         assunto.questoesProgramacao.forEach(questao => {
@@ -158,13 +140,49 @@ export class Assunto extends Document {
         return submissoes;
     }
 
+    static calcularPercentualConclusaoQuestoesFechadas(assunto: Assunto, usuario: Usuario): Observable<number> {
+        // Recuperar todas as questões de um assunto
+        return new Observable(observer => {
+            let totalRespostas = 0;
+            let respostas = [];
+            assunto.questoesFechadas.forEach(questao => {
+                // Recuperar todas as respostas às questões fechadas
+
+                respostas.push(RespostaQuestaoFechada.getRespostaQuestaoEstudante(questao, usuario));
+            });
+
+            if (respostas.length > 0 && assunto.questoesFechadas.length == respostas.length) {
+                forkJoin(respostas).subscribe(respostas => {
+
+                    for(let i = 0; i < assunto.questoesFechadas.length; i++){
+                        if (respostas[i] != null) {
+                            //let resultado = QuestaoFechada.isRespostaCorreta(assunto.questoesFechadas[i], respostas[i]);
+                            //if (resultado) {
+                                totalRespostas++;
+                            //}
+                        }
+                    }
+                    
+                    let percentual = totalRespostas / assunto.questoesFechadas.length;
+                    observer.next(percentual);
+                    observer.complete();
+                })
+            } else {
+                observer.next(0);
+                observer.complete();
+            }
+        })
+
+
+    }
+
     /**
-     * Calcula o percentual de questões de um assunto que o estudante resolveu.
+     * Calcula o percentual de questões de programação que o estudante resolveu.
      * @param assunto 
      * @param usuario 
      * @param margemAceitavel 
      */
-    static calcularPercentualConclusaoQuestoes(assunto: Assunto, usuario: Usuario, margemAceitavel): Observable<number> {
+    static calcularPercentualConclusaoQuestoesProgramacao(assunto: Assunto, usuario: Usuario, margemAceitavel): Observable<number> {
         // Pegar todas as questões de um assunto
         return new Observable(observer => {
             if (assunto != undefined && usuario != undefined) {
@@ -184,7 +202,7 @@ export class Assunto extends Document {
                                     if (questaoId == questao.id) {
                                         let totalTestsCases = questao.testsCases.length;
                                         let totalAcertos = 0;
-                                        if (s[questaoId] != null && s[questaoId].resultadosTestsCases != null) {
+                                        if (s[questaoId] != null && s[questaoId].resultadosTestsCases.length != 0) {
                                             s[questaoId].resultadosTestsCases.forEach(resultadoTestCase => {
                                                 if (resultadoTestCase.status)
                                                     totalAcertos++;
@@ -206,10 +224,6 @@ export class Assunto extends Document {
                             observer.next(0);
                             observer.complete();
                         }
-
-
-
-
 
                     });
                 } else {

@@ -9,6 +9,8 @@ import { RespostaQuestaoFechada } from 'src/app/model/respostaQuestaoFechada';
 import Query from 'src/app/model/firestore/query';
 import { Observable } from 'rxjs';
 import Alternativa from 'src/app/model/alternativa';
+import { Questao } from 'src/app/model/questao';
+import { forEach } from '@angular/router/src/utils/collection';
 
 @Component({
   selector: 'app-listar-questoes-fechadas',
@@ -63,12 +65,21 @@ export class ListarQuestoesFechadasComponent implements OnInit {
         if (respostaUsuario.questaoId == this.assunto.questoesFechadas[i].id) {
           this.respostasAluno[i] = QuestaoFechada.isRespostaCorreta(this.assunto.questoesFechadas[i], respostaUsuario);
         }
+        
+        if (this.respostasAluno[i] == undefined)
+          this.respostasAluno[i] = "Responder";
       });
-
-      if (this.respostasAluno[i] == undefined)
-        this.respostasAluno[i] = "Responder";
-    }
+    this.ordernarPorSequencia(questoes);
+    
+    
   }
+ 
+  ordernarPorSequencia(questoes:QuestaoFechada[]){
+    questoes.sort((a, b) => a.sequencia - b.sequencia);
+    this.questoes= questoes;
+  }
+  
+
 
   deletar(questao: QuestaoFechada) {
     let index = -1;

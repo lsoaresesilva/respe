@@ -1,71 +1,52 @@
-
- 
-
-<h1>{{postagem.titulo}}</h1>
-
-
-
-<p-card>
-  {{postagem.texto}}
-</p-card>
-
-
-<span class="ui-float-label">
-    <textarea [rows]="6" [cols]="200" pInputTextarea autoResize="autoResize" [(ngModel)]="resposta.texto"></textarea> 
-    <label for="float-input">Comentário..</label>
-</span>
-
-
-
-
-
-<div class="ui-g">
-        <div class="ui-g-4"></div>
-        <div class="ui-g-2"></div>
-        <div class="ui-g-2"></div>
-        <div class="ui-g-3">
-                <button  pButton type="button" label="Responder" (click)="responder()" class="ui-button-rounded ui-button-success"></button>
-            
-        </div>
-        <div class="ui-g-1"></div>
-    </div>
-
-
-
-<br>
-<br>
-
-
-
-
-    <div class="ui-g-1"></div>
-    <div class="ui-g-8 data-view">
-        <p-dataView #dv [value]="respostas" [rows]="20" paginatorPosition="both" filterBy="brand" [sortField]="sortField"
-            [sortOrder]="sortOrder">
+<div class="p-grid" style="margin-top: 10px;">
+    <div class="p-col-10">
+        <p-card>
             <p-header>
-                Outros Comentários...
+                {{postagem.titulo}}
             </p-header>
-            <ng-template let-resposta pTemplate="listItem">
-                <div class="ui-g" style="padding: 20px;border-bottom: 1px solid #d9d9d9">
-                        
-                    <div class="ui-g-6">
-                      
-                        <div class="ui-g">
-                            <div class="ui-g-6"> <b>{{resposta.estudante.nome}}</b></div>
-                            <div class="ui-g-10 ui-sm-6"></div>
-
-                            <div class="ui-sm-6"> {{resposta.texto}}</div>
-                            <div class="ui-g-10 ui-sm-6"></div>
-
-                           
-                        </div>
-                       
-                    </div>
-                
-                    <div class="ui-g-6">
-                    </div>
-                </div>
-            </ng-template>
-        </p-dataView>        
+            {{postagem.texto}}
+        </p-card>
     </div>
-    <div class="ui-g-2"></div>
+</div>
+
+<div class="p-grid">
+    <div class="p-col-10">
+        <p-table #dv [value]="respostas" [rows]="20" paginatorPosition="both" filterBy="brand" [sortField]="sortField"
+            [sortOrder]="sortOrder">
+            <ng-template pTemplate="header">
+                <tr>
+                    <th style="width:85%">Comentário</th>
+                    <th>Estudante</th>
+                </tr>
+            </ng-template>
+            <ng-template let-resposta pTemplate="body">
+                <tr>
+                    <td>
+                        <span style="font-weight: bold">{{resposta.texto}}</span><br>
+                    </td>
+                    <td>
+                        <span>{{resposta.estudante.nome}}</span>
+                    </td>
+                </tr>
+            </ng-template>
+
+        </p-table>
+    </div>
+</div>
+
+<div class="p-grid">
+    <div class="p-col-10">
+        <span class="ui-float-label">
+            <textarea [rows]="6" [cols]="180" pInputTextarea autoResize="autoResize"
+                [(ngModel)]="resposta.texto"></textarea>
+            <label for="float-input">Comentário..</label>
+
+        </span>
+    </div>
+</div>
+<div class="p-grid">
+    <div class="p-col-10">
+        <button pButton type="button" label="Responder" (click)="responder()"
+            class="ui-button-rounded ui-button-success"></button>
+    </div>
+</div>

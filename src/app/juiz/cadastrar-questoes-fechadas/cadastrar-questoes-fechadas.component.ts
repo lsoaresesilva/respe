@@ -3,7 +3,7 @@ import { SelectItem, MessageService } from 'primeng/api';
 import { Router, ActivatedRoute } from '@angular/router';
 import QuestaoFechada from 'src/app/model/questaoFechada';
 import { Assunto } from 'src/app/model/assunto';
-import { Dificuldade } from 'src/app/model/dificuldade';
+import { Dificuldade } from 'src/app/model/enums/dificuldade';
 import Alternativa from 'src/app/model/alternativa';
 
 @Component({
@@ -68,6 +68,7 @@ export class CadastrarQuestoesFechadasComponent implements OnInit {
   cadastrar() {
     
      if (this.questao.validar()) { 
+       this.messageCadastro();
 
 
       if(this.assunto.questoesFechadas == null)
