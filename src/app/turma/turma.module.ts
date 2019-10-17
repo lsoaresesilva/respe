@@ -6,13 +6,17 @@ import { ButtonModule } from 'primeng/button';
 import { CadastrarEstudantesComponent } from './cadastrar-estudantes/cadastrar-estudantes.component';
 import { CadastrarTurmaComponent } from './cadastrar-turma/cadastrar-turma.component';
 import { FormsModule } from '@angular/forms';
-import { AutoCompleteModule, InputTextModule } from 'primeng/primeng';
+import { AutoCompleteModule, InputTextModule, CardModule } from 'primeng/primeng';
+import { ToastModule } from 'primeng/toast';
 import { ListarEstudantesComponent } from './listar-estudantes/listar-estudantes.component';
 import { TableModule } from 'primeng/table';
-import {ToastModule} from 'primeng/toast';
+import { SrlModule } from '../srl/srl.module';
+import { ListarTurmaComponent } from './listar-turma/listar-turma.component';
+import {ContextMenuModule,MenuItem} from 'primeng/primeng';
+
 
 @NgModule({
-  declarations: [VisualizarTurmaComponent, CadastrarEstudantesComponent, CadastrarTurmaComponent, ListarEstudantesComponent],
+  declarations: [ListarTurmaComponent, VisualizarTurmaComponent, CadastrarEstudantesComponent, CadastrarTurmaComponent, ListarEstudantesComponent],
   imports: [
     CsclModule,
     CommonModule,
@@ -22,6 +26,9 @@ import {ToastModule} from 'primeng/toast';
     ToastModule,
     InputTextModule,
     TableModule,
+    SrlModule,
+    ContextMenuModule,
+    CardModule
   ],
   exports:[VisualizarTurmaComponent, ListarEstudantesComponent]
 })

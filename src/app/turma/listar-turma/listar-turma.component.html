@@ -1,0 +1,30 @@
+
+
+<h1>Turmas</h1>
+
+
+<div class="ui-g">
+    <div class="ui-g-4"></div>
+    <div class="ui-g-2"></div>
+    <div class="ui-g-2"></div>
+    <div class="ui-g-3">
+        <button pButton label="Cadastrar" (click)="cadastrar()"></button>
+    </div>
+    <div class="ui-g-1"></div>
+</div>
+
+<p-table [value]="turmas"  [(contextMenuSelection)]="selectedTurma" [contextMenu]="cm">
+   <ng-template pTemplate="header">
+       
+   </ng-template>
+   <ng-template pTemplate="body" let-rowData let-turma>
+       <tr [pContextMenuRow]="rowData">
+        <td><a (click)="visualizarTurma(turma)">{{turma.nome}}</a></td>
+
+          
+           
+          
+       </tr>
+   </ng-template>
+</p-table> 
+<p-contextMenu #cm [model]="items"></p-contextMenu>   

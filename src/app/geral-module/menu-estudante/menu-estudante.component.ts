@@ -33,23 +33,13 @@ export class MenuEstudanteComponent implements OnInit {
 
     this.items = [
       {
-        label: 'Planejamento',
+        label: 'Planejamentos',
         command: () => { this.router.navigate(["main", { outlets: { principal: ['listagem-planejamento'] } }]) }
 
       },
       {
-        label: 'Assuntos',
-        command: () => { this.router.navigate(["main", { outlets: { principal: ['listagem-assuntos'] } }]) }
-
-      },
-      {
         label: 'Minha turma',
-        command: () => { this.router.navigate(["main", { outlets: { principal: ['visualizacao-turma',this.turmaId] } }]) }
-        
-      },
-      {
-        label: 'Sair',
-        command: () => {this.logout()}
+        command: () => { this.router.navigate(["main", { outlets: { principal: ['minha-turma'] } }]) }
 
       },
     ];

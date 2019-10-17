@@ -7,7 +7,6 @@ import Query from './firestore/query';
 import * as firebase from 'firebase';
 import { Util } from './util';
 
-@Collection("resultadoTestCase")
 export default class ResultadoTestCase {
     // TODO: incluir a submissão
 

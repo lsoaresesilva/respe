@@ -2,22 +2,23 @@ import { Collection, Document, date } from './firestore/document';
 import Usuario from './usuario';
 import { Questao } from './questao';
 import Query from './firestore/query';
-import { RespostaSimilarQuestaoProgramacaoComponent } from '../srl/resposta-similar-questao-programacao/resposta-similar-questao-programacao.component';
+import { RespostaSimilarQuestaoProgramacaoComponent } from '../srl/monitoramento/resposta-similar-questao-programacao/resposta-similar-questao-programacao.component';
 import { observable, Observable } from 'rxjs';
+import Alternativa from './alternativa';
 
 
 
 @Collection("respostaQuestaoFechada")
 export class RespostaQuestaoFechada extends Document {
     estudante: Usuario;
-    resposta: String;
+    alternativa: Alternativa;
     questao: Questao;
 
-    constructor(public id, estudante, resposta, questao) {
+    constructor(public id, estudante, alternativa, questao) {
         super(id);
 
         this.estudante = estudante;
-        this.resposta = resposta;
+        this.alternativa = alternativa;
         this.questao = questao;
 
     }
@@ -26,17 +27,34 @@ export class RespostaQuestaoFechada extends Document {
         let document = super.objectToDocument()
         document["usuarioId"] = this.estudante.pk();
         document["questaoId"] = this.questao.id;
+        document["alternativaId"] = this.alternativa.id;
         return document;
     }
 
+   
+    static getAll(query): Observable<any[]>{
+        return new Observable(observer=>{
+            super.getAll(query).subscribe(respostas=>{
+                respostas.forEach(resposta=>{
+                    resposta["alternativa"] = new Alternativa(resposta["alternativaId"], null, null);
+                });
 
-    getRespostaQuestaoEstudante(questao, usuario): Observable<String> {
+                observer.next(respostas);
+                observer.complete();
+            }, err=>{
+                observer.error(err);
+            });
+        })
+        
+    }
+
+    static getRespostaQuestaoEstudante(questao, usuario): Observable<String> {
         return new Observable(observer => {
 
             RespostaQuestaoFechada.getAll([new Query("usuarioId", "==", usuario.pk()), new Query("questaoId", "==", questao.id)]).subscribe(respostaSalva => {
 
                 if(respostaSalva.length > 0){
-                    observer.next(respostaSalva[0].resposta);
+                    observer.next(respostaSalva[0]);
                 }else{
                     observer.next(null);
                 }

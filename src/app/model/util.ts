@@ -1,4 +1,4 @@
-export class Util{
+export class Util {
 
 
     /**
@@ -7,8 +7,8 @@ export class Util{
      * @param obj 
      */
     static isObjectEmpty(obj) {
-        for(var key in obj) {
-            if(obj.hasOwnProperty(key))
+        for (var key in obj) {
+            if (obj.hasOwnProperty(key))
                 return false;
         }
         return true;
@@ -24,4 +24,11 @@ export class Util{
             return v.toString(16);
         });
     }
+
+    static diffBetweenDates(dateOne, dateTwo){
+        return  Math.floor((Date.UTC(dateTwo.getFullYear(), dateTwo.getMonth(), dateTwo.getDate()) - Date.UTC(dateOne.getFullYear(), dateOne.getMonth(), dateOne.getDate()) ) /(1000 * 60 * 60 * 24));
+    }
+
+
+
 }

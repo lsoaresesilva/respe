@@ -1,4 +1,4 @@
-import { Dificuldade } from './dificuldade';
+import { Dificuldade } from './enums/dificuldade';
 import Alternativa from './alternativa';
 import { Util } from './util';
 import { RespostaQuestaoFechada } from './respostaQuestaoFechada';
@@ -9,7 +9,7 @@ import { Observable } from 'rxjs';
 export default class QuestaoFechada {
 
   constructor(public id, public nomeCurto, public enunciado, public dificuldade: Dificuldade, public sequencia, public alternativas: Alternativa[], public respostaQuestao: String) {
-    if (this.id == null) {
+    if (id == null) {
       this.id = Util.uuidv4();
     } else {
       this.id = id;
@@ -73,33 +73,84 @@ export default class QuestaoFechada {
 
   }
 
-  static usuarioRespondeu(estudante, questao){
-    return new Observable(observer=>{
+  /**
+   * Verifica se o usuário respondeu uma questão.
+   * @param estudante 
+   * @param questao 
+   */
+  static usuarioRespondeu(estudante, questao) {
+    return new Observable(observer => {
       RespostaQuestaoFechada.getAll([new Query("usuarioId", "==", estudante.pk()), new Query("questaoId", "==", questao.id)]).subscribe(respostasAluno => {
-        (respostasAluno.length == 0?observer.next(false):observer.next(true));
+        (respostasAluno.length == 0 ? observer.next(false) : observer.next(true));
         observer.complete();
       });
     })
-    
+
   }
 
-  getAlternativaCerta(){
-    for(let i =0; i<this.alternativas.length;i++){
-        if(this.alternativas[i].isVerdadeira== true){
-           return this.alternativas[i].id;
-        }
+  /**
+   * Retorna a alternativa correta para uma questão.
+   */
+  getAlternativaCerta() {
+    for (let i = 0; i < this.alternativas.length; i++) {
+      if (this.alternativas[i].isVerdadeira == true) {
+        return this.alternativas[i];
+      }
     }
   }
 
-  static isRespostaCorreta(questao, resposta){
+  /**
+   * Verifica se o estudante respondeu corretamente (true) ou incorretamente (false) uma questão.
+   * @param questao 
+   * @param resposta 
+   */
+  static isRespostaCorreta(questao, resposta) {
     let alternativaCorreta = questao.getAlternativaCerta();
-    
-    if( alternativaCorreta == resposta.resposta)
-      return true;
+    if (alternativaCorreta != null) {
+      if (alternativaCorreta.id == resposta.alternativa.id)
+        return true;
+    }
 
     return false;
   }
 
+  hasCode() {
+    if(this.enunciado != null){
+      return this.enunciado.search("'''python") != -1 ? true : false;
+    }
+    
+  }
 
+  extrairCodigo() {
+    // deve começar após '''python
+    // deve terminar em '''
+    let codigos = [];
+    if (this.hasCode()) {
+      let regex = /'''python[\n|\r](.*)[\r|\n]'''/;
+      let resultado = regex.exec(this.enunciado);
+      if (resultado != null && resultado.length > 0) {
+        for(let i = 1; i < resultado.length; i++){
+          codigos.push(resultado[i]);
+        }
+      }
+    }
+
+    return codigos;
+  }
+
+  extrairTextoComCodigo() {
+    let texto = []
+    if (this.hasCode()) {
+      let regex = /(.*)[\r|\n]*'''python\n([\s\S\w])*?(?=''')[\r|\n]*(.*)/;
+      let resultado = regex.exec(this.enunciado);
+      if (resultado != null && resultado.length > 2) {
+        for(let i = 1; i < resultado.length; i++){
+          texto.push(resultado[i]);
+        }
+      }
+    }
+
+    return texto;
+  }
 
 }

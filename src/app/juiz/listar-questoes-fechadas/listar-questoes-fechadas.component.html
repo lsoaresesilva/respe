@@ -12,12 +12,12 @@
             </ng-template>
             <ng-template pTemplate="body" let-rowData let-questao let-resposta let-i="rowIndex">
                 <tr [pContextMenuRow]="rowData">
-                    <td (click)="visualizar(questao)">{{questao.nomeCurto}}</td>
+                    <td (click)="visualizar(questao)" style="cursor: pointer">{{questao.nomeCurto}}</td>
                     <td><button [disabled]="respostasAluno[i] == false" pButton type="button" label="Responder"
                             (click)="visualizar(questao)" class="ui-button-rounded ui-button-success"></button></td>
                     <td>
-                        <span *ngIf="respostasAluno[i] == null else status">Falta responder</span>
-                        <ng-template #status>{{respostasAluno[i]?"Acerto":"Erro"}}</ng-template>
+                        <span *ngIf="respostasAluno[i] == 'Responder' else status">Falta responder</span>
+                        <ng-template #status>{{respostasAluno[i]?"Correto":"Incorreto"}}</ng-template>
                     </td>
                 </tr>
             </ng-template>

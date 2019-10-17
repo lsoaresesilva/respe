@@ -12,20 +12,26 @@ import { Assunto } from "../assunto";
 
 import { Questao } from "../questao";
 
-import { Dificuldade } from "../dificuldade";
+import { Dificuldade } from "../enums/dificuldade";
 
 import TestCase from "../testCase";
 import ResultadoTestCase from '../resultadoTestCase';
 import { forkJoin } from 'rxjs';
 import Estudante from '../estudante';
 import Usuario from '../usuario';
+import QuestaoFechada from '../questaoFechada';
+import { PerfilUsuario } from '../enums/perfilUsuario';
+import { RespostaQuestaoFechada } from '../respostaQuestaoFechada';
+import Alternativa from '../alternativa';
+import Submissao from '../submissao';
+import Codigo from '../codigo';
 
 describe("Testes de questão", () => {
 
     let app: firebase.app.App;
     let afs: AngularFirestore;
 
-/*
+
     beforeAll(() => {
         jasmine.DEFAULT_TIMEOUT_INTERVAL = 1200000;
         TestBed.configureTestingModule({
@@ -43,8 +49,103 @@ describe("Testes de questão", () => {
 
     });
 
+    it("Deve calcular o percentual de questões fechadas que foram resolvidas", (done)=>{
+        let a = new Assunto(null, "Condições");
+        let qf1 = new QuestaoFechada(null, "bla", "", Dificuldade.dificil, 1, [new Alternativa(123, "texto", true)], "");
+        let qf2 = new QuestaoFechada(678910, "ble", "", Dificuldade.dificil, 1, null, "");
+        a.questoesFechadas.push(qf1);
+        a.questoesFechadas.push(qf2);
+        let u = new Usuario(null, "leo@leo.com", "", PerfilUsuario.estudante);
+        let rqf1 = new RespostaQuestaoFechada(null, u, new Alternativa(123, "", true), qf1);
+        forkJoin([a.save(), u.save()]).subscribe(resultado=>{
+            rqf1.save().subscribe(res=>{
+                Assunto.calcularPercentualConclusaoQuestoesFechadas(a, u).subscribe(calculo=>{
+                    expect(calculo).toBe(0.5);
+                    forkJoin([Assunto.delete(a.pk()), Usuario.delete(u.pk()), RespostaQuestaoFechada.delete(rqf1.pk())]).subscribe(res=>{
+                        done();
+                    })
+                });
+            })
+        })
+        
+    });
+
+    it("Deve calcular o percentual de conclusão de uma questão de programação.", (done)=>{
+        let a = new Assunto(null, "Condições");
+        let u = new Usuario(null, "leo@leo.com", "", PerfilUsuario.estudante);
+        let q = new Questao(null, "nome", "enunciado", Dificuldade.facil, 1, a, [a], []);
+
+        let t = new TestCase(null, ["a", "b"], "c")
+        let t1 = new TestCase(null, ["d", "e"], "a")
+        let testsCases = [t, t1]
+
+        q.testsCases = testsCases;
+
+        a.questoesProgramacao.push(q);
+        
+        let rt = new ResultadoTestCase(null, true, "t", t)
+        let rt2 = new ResultadoTestCase(null, true, "t1",t1);
+        let s = new Submissao(null, new Codigo(), u, q);
+        s.resultadosTestsCases.push(rt);
+        s.resultadosTestsCases.push(rt2);
+
+        forkJoin([a.save(), u.save()]).subscribe(resultado=>{
+            s.save().subscribe(res=>{
+
+                Assunto.calcularPercentualConclusaoQuestoesProgramacao(a, u, 0.6).subscribe(calculo=>{
+                    expect(calculo).toBe(1);
+                    forkJoin([Assunto.delete(a.pk()), Usuario.delete(u.pk()), Submissao.delete(s.pk())]).subscribe(res=>{
+                        done();
+                    })
+                });
+            })
+        })
+        
+    });
+
+    it("Deve calcular o percentual de conclusão de um assunto.", (done)=>{
+        let a = new Assunto(null, "Condições");
+        let qf1 = new QuestaoFechada(null, "bla", "", Dificuldade.dificil, 1, [new Alternativa(123, "texto", true)], "");
+        let qf2 = new QuestaoFechada(678910, "ble", "", Dificuldade.dificil, 1, null, "");
+        a.questoesFechadas.push(qf1);
+        a.questoesFechadas.push(qf2);
+        let u = new Usuario(null, "leo@leo.com", "", PerfilUsuario.estudante);
+        let rqf1 = new RespostaQuestaoFechada(null, u, new Alternativa(123, "", true), qf1);
+
+
+        let q = new Questao(null, "nome", "enunciado", Dificuldade.facil, 1, a, [a], []);
+
+        let t = new TestCase(null, ["a", "b"], "c")
+        let t1 = new TestCase(null, ["d", "e"], "a")
+        let testsCases = [t, t1]
+
+        q.testsCases = testsCases;
+
+        a.questoesProgramacao.push(q);
+        
+        let rt = new ResultadoTestCase(null, true, "t", t)
+        let rt2 = new ResultadoTestCase(null, true, "t1",t1);
+        let s = new Submissao(null, new Codigo(), u, q);
+        s.resultadosTestsCases.push(rt);
+        s.resultadosTestsCases.push(rt2);
+        
+        forkJoin([a.save(), u.save()]).subscribe(resultado=>{
+            forkJoin([rqf1.save(), s.save()]).subscribe(res=>{
+
+                a.calcularPercentualConclusao(u).subscribe(calculo=>{
+                    expect(calculo).toBe(0.75);
+                    forkJoin([Assunto.delete(a.pk()), Usuario.delete(u.pk()), RespostaQuestaoFechada.delete(rqf1.pk())]).subscribe(res=>{
+                        done();
+                    })
+                });
+            })
+        })
+        
+    });
+
+    /*
     it("deve resultar em true para uma questão que teve todos os tests cases respondidos", (done) => {
-        let a = new Assunto(null, "umAssunto", null, null, null);
+        let a = new Assunto(null, "umAssunto");
         a.save().subscribe(resultado => {
             let q = new Questao(null, "nome", "enunciado", Dificuldade.facil, 1, a, [a], []);
 
