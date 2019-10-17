@@ -51,7 +51,7 @@ import {ConfirmationService} from 'primeng/api';
 import { VisualizarPerfilEstudanteComponent } from './visualizar-perfil-estudante/visualizar-perfil-estudante.component';
 import {ScrollPanelModule} from 'primeng/scrollpanel';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
-
+import {CodeHighlighterModule} from 'primeng/codehighlighter';
 
 
 
@@ -92,6 +92,7 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
     BrowserAnimationsModule,
     ReactiveFormsModule,
     SpinnerModule,
+    CodeHighlighterModule,
     InputTextareaModule,
     CheckboxModule,
     ContextMenuModule,

@@ -35,16 +35,17 @@ export class CadastrarEstudantesComponent implements OnInit {
   }
 
   cadastrarEstudante() {
-    if(this.estudante.turma.codigo == undefined){
+    if(this.estudante.turma.codigo == undefined || this.estudante.turma.codigo == ""){
       alert("É preciso informar o código de uma turma.")
     }
     this.estudante.usuario.validar().subscribe(resultado => {
       if (resultado) {
         
-        this.estudante.save().subscribe(resultado => {
+        this.estudante.save().subscribe(estudante => {
           //this.exibirMensagemCadastro(); <= não está funcionando
           alert("Cadastro realizado com sucesso.")
           this.router.navigate([""]);
+          
         },
           err => {
             this.messageService.add({ severity: 'erro', summary: 'Houve um erro:', detail: err.toString() });

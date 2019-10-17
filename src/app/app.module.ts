@@ -24,10 +24,12 @@ import { PostagensTurmaGuard } from './guards/postagensTurma.guard';
 import { TurmaModule } from './turma/turma.module';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { ExperimentoModule } from './experimento/experimento.module';
+import { CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
 
 
 
 @NgModule({
+  schemas: [ CUSTOM_ELEMENTS_SCHEMA ],
   declarations: [
     AppComponent,
     MainComponent,

@@ -8,6 +8,7 @@ import GeradorCodigo from 'src/app/util/geradorCodigo';
 import { RespostaQuestaoExperimento } from 'src/app/model/experimento/respostaQuestaoExperimento';
 import { PreTesteComponent } from 'src/app/experimento/pre-teste/pre-teste.component';
 import PosTeste from 'src/app/model/experimento/posTeste';
+import {Groups} from 'scientificxpjs/enum/groups';
 
 @Component({
   selector: 'app-main',
@@ -39,6 +40,11 @@ export class MainComponent implements OnInit {
   
         },
         {
+          label: 'Professores',
+          command: () => { this.router.navigate(["main", { outlets: { principal: ['listagem-estudantes'] } }]) }
+  
+        },
+        {
           label: 'Assuntos',
           command: () => { this.router.navigate(["main", { outlets: { principal: ['listagem-assuntos'] } }]) }
   
@@ -50,27 +56,42 @@ export class MainComponent implements OnInit {
         }
       ];
     }else{
-      this.itens = [
-        {
-          label: 'Planejamentos',
-          command: () => { this.router.navigate(["main", { outlets: { principal: ['listagem-planejamento'] } }]) }
-  
-        },
-        {
-          label: 'Minha turma',
-          command: () => { this.router.navigate(["main", { outlets: { principal: ['minha-turma'] } }]) }
-  
-        },
-        {
-          label: 'Meu desempenho',
-          command: () => { this.router.navigate(["main", { outlets: { principal: ['meu-desempenho'] } }]) }
-  
-        },
-        {
-          label: 'Sair',
-          command: () => {this.logout()}
-        }
-      ];
+      if(this.usuario.grupoExperimento == Groups.control){
+        this.itens = [
+          {
+            label: 'Assuntos',
+            command: () => { this.router.navigate(["main", { outlets: { principal: ['listagem-assuntos'] } }]) }
+    
+          },
+          {
+            label: 'Sair',
+            command: () => {this.logout()}
+          }
+        ];
+      }else{
+        this.itens = [
+          {
+            label: 'Planejamentos',
+            command: () => { this.router.navigate(["main", { outlets: { principal: ['listagem-planejamento'] } }]) }
+    
+          },
+          {
+            label: 'Minha turma',
+            command: () => { this.router.navigate(["main", { outlets: { principal: ['minha-turma'] } }]) }
+    
+          },
+          {
+            label: 'Meu desempenho',
+            command: () => { this.router.navigate(["main", { outlets: { principal: ['meu-desempenho'] } }]) }
+    
+          },
+          {
+            label: 'Sair',
+            command: () => {this.logout()}
+          }
+        ];
+      }
+      
     }
   }
 

@@ -4,6 +4,7 @@ import Query from './firestore/query';
 import { PerfilUsuario } from './enums/perfilUsuario';
 import { sha256 } from 'js-sha256';
 import TempoOnline from './tempoOnline';
+import { Experiment } from 'scientificxpjs/experiment';
 
 
 @Collection("usuarios")
@@ -13,6 +14,7 @@ export default class Usuario extends Document{
     database;
     nome;
     minutos;
+    grupoExperimento;
 
     constructor(id, public email, public senha, public perfil:PerfilUsuario) {
         super(id);
@@ -29,6 +31,21 @@ export default class Usuario extends Document{
 
     stringfiy(){
         return { id: this.pk(), email:this.email, senha:this.senha, perfil: this.perfil, minutos:this.minutos}
+    }
+
+    save():Observable<Usuario>{
+
+        return new Observable(observer=>{
+            Usuario.count().subscribe(contagem=>{
+                this.grupoExperimento = Experiment.assignToGroup(contagem);
+                super.save().subscribe(result=>{
+                    observer.next(result);
+                    observer.complete();
+                })
+            }, err=>{
+                observer.error(err);
+            })
+        })
     }
 
     atualizarTempo(){

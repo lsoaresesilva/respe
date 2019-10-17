@@ -27,9 +27,11 @@
               "node_modules/primeflex/primeflex.css",
               "node_modules/primeicons/primeicons.css",
               "node_modules/primeng/resources/themes/nova-light/theme.css",
-              "node_modules/primeng/resources/primeng.min.css"
+              "node_modules/primeng/resources/primeng.min.css",
+              "node_modules/prismjs/themes/prism.css"
             ],
             "scripts": [
+              "node_modules/prismjs/prism.js",
               "src/js/skulpt.min.js",
               "src/js/skulpt-stdlib.js",
               "src/js/ide.js",
