@@ -78,24 +78,24 @@ export default class QuestaoFechada {
    * @param estudante 
    * @param questao 
    */
-  static usuarioRespondeu(estudante, questao){
-    return new Observable(observer=>{
+  static usuarioRespondeu(estudante, questao) {
+    return new Observable(observer => {
       RespostaQuestaoFechada.getAll([new Query("usuarioId", "==", estudante.pk()), new Query("questaoId", "==", questao.id)]).subscribe(respostasAluno => {
-        (respostasAluno.length == 0?observer.next(false):observer.next(true));
+        (respostasAluno.length == 0 ? observer.next(false) : observer.next(true));
         observer.complete();
       });
     })
-    
+
   }
 
   /**
    * Retorna a alternativa correta para uma questão.
    */
-  getAlternativaCerta(){
-    for(let i =0; i<this.alternativas.length;i++){
-        if(this.alternativas[i].isVerdadeira== true){
-           return this.alternativas[i];
-        }
+  getAlternativaCerta() {
+    for (let i = 0; i < this.alternativas.length; i++) {
+      if (this.alternativas[i].isVerdadeira == true) {
+        return this.alternativas[i];
+      }
     }
   }
 
@@ -104,14 +104,53 @@ export default class QuestaoFechada {
    * @param questao 
    * @param resposta 
    */
-  static isRespostaCorreta(questao, resposta){
+  static isRespostaCorreta(questao, resposta) {
     let alternativaCorreta = questao.getAlternativaCerta();
-    if( alternativaCorreta != null ){
-      if( alternativaCorreta.id == resposta.alternativa.id)
+    if (alternativaCorreta != null) {
+      if (alternativaCorreta.id == resposta.alternativa.id)
         return true;
     }
 
     return false;
+  }
+
+  hasCode() {
+    if(this.enunciado != null){
+      return this.enunciado.search("'''python") != -1 ? true : false;
+    }
+    
+  }
+
+  extrairCodigo() {
+    // deve começar após '''python
+    // deve terminar em '''
+    let codigos = [];
+    if (this.hasCode()) {
+      let regex = /'''python[\n|\r](.*)[\r|\n]'''/;
+      let resultado = regex.exec(this.enunciado);
+      if (resultado != null && resultado.length > 0) {
+        for(let i = 1; i < resultado.length; i++){
+          codigos.push(resultado[i]);
+        }
+      }
+    }
+
+    return codigos;
+  }
+
+  extrairTextoComCodigo() {
+    let texto = []
+    if (this.hasCode()) {
+      let regex = /(.*)[\r|\n]*'''python\n([\s\S\w])*?(?=''')[\r|\n]*(.*)/;
+      let resultado = regex.exec(this.enunciado);
+      if (resultado != null && resultado.length > 2) {
+        for(let i = 1; i < resultado.length; i++){
+          texto.push(resultado[i]);
+        }
+      }
+    }
+
+    return texto;
   }
 
 }

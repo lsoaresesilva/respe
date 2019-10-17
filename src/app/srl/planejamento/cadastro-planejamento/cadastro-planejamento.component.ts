@@ -4,7 +4,7 @@ import { Assunto } from '../../../model/assunto';
 import { Planejamento } from '../../../model/planejamento';
 import Estudante from '../../../model/estudante';
 import { Dificuldade } from '../../../model/enums/dificuldade';
-import { Router } from '@angular/router';
+import { Router, ActivatedRoute } from '@angular/router';
 import Usuario from 'src/app/model/usuario';
 import { LoginService } from 'src/app/login-module/login.service';
 import { MessageService } from 'primeng/primeng';
@@ -20,13 +20,16 @@ export class CadastroPlanejamentoComponent implements OnInit {
   assuntos;
   index: number = 0;
   planejamento: Planejamento;
+  id;
+  isAlterar;
 
 
 
   constructor(
     private messageService: MessageService,
     private router: Router,
-    private login: LoginService
+    private login: LoginService,
+    private route: ActivatedRoute
   ) {
     // TODO: carregar do login
     this.planejamento = new Planejamento(null, this.login.getUsuarioLogado(), null, 0, "", 0, "", false, null);
@@ -46,6 +49,21 @@ export class CadastroPlanejamentoComponent implements OnInit {
   }
 
   ngOnInit() {
+
+
+   
+    this.route.params.subscribe(params=> {this.id = params["id"];
+      if(this.id!=undefined){
+        this.isAlterar=true;
+       Planejamento.get(this.id).subscribe(resultado =>{
+          this.planejamento = resultado;
+          this.planejamento.estudante = this.login.getUsuarioLogado();
+        
+        })
+      }
+      
+    });
+
 
     Assunto.getAll().subscribe(assuntos => {
 

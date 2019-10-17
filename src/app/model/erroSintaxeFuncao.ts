@@ -4,6 +4,7 @@ import Erro from './erro';
 import { TipoErro } from './tipoErro';
 import Estudante from './estudante';
 import Submissao from './submissao';
+import ErroSintaxeVariavel from './erroSintaxeVariavel';
 
 export default class ErroSintaxeFuncao extends ErroSintaxe {
 
@@ -71,6 +72,20 @@ export default class ErroSintaxeFuncao extends ErroSintaxe {
             parametros = parametros.filter(parametro => {
                 return (parametro.search(/^(\"|\')/) == - 1?true:false);
             })
+
+            // Verificar se há operações matemáticas, se houver, quebrar
+            let variaveis = [];
+            parametros = parametros.filter(parametro => {
+                if( ErroSintaxeVariavel.isOperacaoMatematica(parametro)){
+                    variaveis = variaveis.concat(ErroSintaxeVariavel.getVariaveisMatematicas(parametro));
+                    return false;
+                }
+
+                return true;
+            });
+
+            parametros = parametros.concat(variaveis);
+            
 
             return parametros;
 

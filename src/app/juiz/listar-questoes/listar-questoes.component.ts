@@ -23,6 +23,8 @@ export class ListarQuestoesComponent implements OnInit, OnChanges {
   selectedQuestao: Questao;
   items: MenuItem[];
   usuario;
+
+  questoes:Questao[]=[];
   statusQuestoes: any[];
 
   constructor(private messageService: MessageService, private router: Router, private login: LoginService) {
@@ -31,6 +33,10 @@ export class ListarQuestoesComponent implements OnInit, OnChanges {
 
   ngOnInit() {
 
+    Assunto.getAll().subscribe(assunto => {
+      this.ordernarPorSequencia(this.assunto.questoesProgramacao);
+    });
+   
     this.usuario = this.login.getUsuarioLogado();
     this.isQuestaoFinalizada();
 
@@ -41,6 +47,15 @@ export class ListarQuestoesComponent implements OnInit, OnChanges {
       ];
     }
   }
+
+
+  ordernarPorSequencia(questoes){
+    
+    questoes.sort((a, b) => a.sequencia - b.sequencia);
+    this.questoes = questoes;
+    
+  }
+
 
   abrirEditor(questao) {
     this.router.navigate(["main", { outlets: { principal: ['editor', this.assunto.pk(), questao.id] } }]);

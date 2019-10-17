@@ -19,25 +19,19 @@
   </ng-template>
   <ng-template pTemplate="body" let-teste>
       <tr>
-          <td >{{teste.entradas}}</td>
+          <td>
+            <span *ngFor="let entrada of teste.entradas; let i = index">
+            Entrada {{i+1}}: {{entrada}}<br/>
+            </span>
+          </td>
           <td>{{teste.saida}}</td>
          
       </tr>
   </ng-template>
 </p-table>
+<button type="text" (click)="responder(questao)" pButton icon="pi pi-check" class="ui-button-success"label="Responder"></button>
 
 
 
  <app-listar-estudantes-submissao [questaoId]="questao?.id" ></app-listar-estudantes-submissao> 
  
- 
-
- <div class="ui-g">
-  <div class="ui-g-4"></div>
-  <div class="ui-g-2"></div>
-  <div class="ui-g-2"></div>
-  <div class="ui-g-3">
-    <button type="text" (click)="responder(questao)" pButton icon="pi pi-check" class="ui-button-success"label="Responder"></button>
-  </div>
-  <div class="ui-g-1"></div>
-</div>
