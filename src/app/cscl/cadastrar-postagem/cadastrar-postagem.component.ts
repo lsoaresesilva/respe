@@ -53,8 +53,6 @@ export class CadastrarPostagemComponent implements OnInit {
    }
  
    cadastrar() {
-     console.log(this.postagem);
- 
      if (this.postagem.validar()) {
        
        this.postagem.save().subscribe(resultado => {
