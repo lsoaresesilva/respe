@@ -34,6 +34,7 @@
               "src/js/skulpt-stdlib.js",
               "src/js/ide.js",
               "src/js/visualizacaoConteudo.js",
+              "src/js/analyticsEstudante.js",
               "./node_modules/chart.js/dist/Chart.js"
             ]
           },

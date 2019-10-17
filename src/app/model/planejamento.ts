@@ -1,10 +1,12 @@
 import Usuario from './usuario';
 import { Assunto } from './assunto';
-import { Document, Collection } from './firestore/document';
-import { Dificuldade } from './dificuldade';
+import { Document, Collection, ignore } from './firestore/document';
+import { Dificuldade } from './enums/dificuldade';
 import { Observable, forkJoin } from 'rxjs';
 import AutoReflexao from './autoReflexao';
 import Estudante from './estudante';
+import Query from './firestore/query';
+import { Util } from './util';
 
 @Collection("planejamentos")
 export class Planejamento extends Document {
@@ -14,6 +16,8 @@ export class Planejamento extends Document {
   importanciaAssunto;
   dificuldadeConteudo: Dificuldade;
   estrategiaRealizacaoEstudo;
+  @ignore()
+  percentualConclusao;
 
   constructor(id, estudante, assunto, tempoEstudo, importanciaAssunto, dificuldadeConteudo, estrategiaRealizacaoEstudo, public status, public autoReflexao) {
     super(id);
@@ -29,7 +33,7 @@ export class Planejamento extends Document {
     let document = super.objectToDocument()
     document["estudanteId"] = this.estudante.pk();
     document["assuntoId"] = this.assunto.pk();
-    if(this.autoReflexao != null){
+    if (this.autoReflexao != null) {
       document["autoReflexao"] = this.autoReflexao.objectToDocument();
     }
 
@@ -37,23 +41,35 @@ export class Planejamento extends Document {
   }
 
   validar() {
-    if (this.assunto == null || this.dificuldadeConteudo == 0 || this.estrategiaRealizacaoEstudo == "" || this.importanciaAssunto == "") {
 
-      return false;
+    return new Observable(observer => {
+      if (this.assunto == null || this.dificuldadeConteudo == 0 || this.estrategiaRealizacaoEstudo == "" || this.importanciaAssunto == "") {
+        observer.error(new Error("É preciso preencher todos os campos."))
+      } else {
+        Planejamento.getAll([new Query("estudanteId", "==", this.estudante.pk()), new Query("assuntoId", "==", this.assunto.pk())]).subscribe(planejamento=>{
+          if(planejamento.length == 0){
+            observer.next(true);
+            observer.complete();
+          }else{
+            observer.error(new Error("Já existe um planejamento cadastrado para este assunto."));
+          }
+        })
+        
+      }
+    });
 
-    } else {
-      return true;
-    }
+
   }
 
-  
+
 
   static getAll(query): Observable<any[]> {
     return new Observable(observer => {
       super.getAll(query).subscribe(planejamentos => {
         let consultas: any = {};
         planejamentos.forEach(planejamento => {
-          planejamento["estudante"] = new Usuario(planejamento["estudanteId"], null, null, null);
+
+          planejamento["estudante"] = new Estudante(planejamento["estudanteId"], null);
           planejamento["autoReflexao"] = new AutoReflexao(planejamento["estudanteId"], null, null, null);
 
           if (planejamento["assuntoId"] != undefined && consultas[planejamento["assuntoId"]] == undefined) {
@@ -62,21 +78,28 @@ export class Planejamento extends Document {
           }
         })
 
-        forkJoin(consultas).subscribe(assuntos => {
-          for (let id in assuntos) {
-            planejamentos.forEach(planejamento => {
-              if (planejamento["assuntoId"] == id) {
-                planejamento.assunto = assuntos[id];
-              }
-            });
-
-          }
-
+        if( !Util.isObjectEmpty(consultas) ){
+          forkJoin(consultas).subscribe(assuntos => {
+            for (let id in assuntos) {
+              planejamentos.forEach(planejamento => {
+                if (planejamento["assuntoId"] == id) {
+                  planejamento.assunto = assuntos[id];
+                }
+              });
+  
+            }
+  
+            observer.next(planejamentos);
+            observer.complete();
+          }, err => {
+            observer.error(err);
+          })
+        }else{
           observer.next(planejamentos);
           observer.complete();
-        }, err => {
-          observer.error(err);
-        })
+        }
+
+        
       }, err => {
         observer.error(err);
       })
@@ -87,7 +110,7 @@ export class Planejamento extends Document {
     return new Observable(observer => {
       super.get(id).subscribe(planejamento => {
 
-        planejamento["estudante"] = new Usuario(planejamento["estudanteId"], null, null, null);
+        planejamento["estudante"] = new Estudante(planejamento["estudanteId"], null);
 
         if (planejamento["assuntoId"] != undefined) {
 

@@ -6,7 +6,7 @@ describe("Testes para identificar erros de sintaxe em condições", ()=>{
 
     it("Deve identificar condições com sintaxe inválida", ()=>{
         let c = new Codigo();
-        let algoritmo = "if nome == 'leonardo':\nif idade >:\nif idade > 18:\nif idade <=:\nif idade <= 18:\nif idade = \nif idade > 2 and nome == 'leonardo'\nif salario > 950,30:\n"
+        let algoritmo = "if nome == 'leonardo':\nif idade >:\nif idade > 18:\nif idade <=:\nif idade <= 18:\nif idade = \nif idade > 2 and nome == 'leonardo'\nif salario > 950,30\nif idade = 10"
         
         c.setAlgoritmo(algoritmo);
         let linhasCodigo = c.linhasAlgoritmo();
@@ -18,6 +18,7 @@ describe("Testes para identificar erros de sintaxe em condições", ()=>{
         expect(ErroSintaxeCondicional.apenasUmaComparacao(linhasCodigo[4])).toBeFalsy()
         expect(ErroSintaxeCondicional.apenasUmaComparacao(linhasCodigo[5])).toBeTruthy()
         expect(ErroSintaxeCondicional.apenasUmaComparacao(linhasCodigo[7])).toBeFalsy()
+        expect(ErroSintaxeCondicional.apenasUmaComparacao(linhasCodigo[8])).toBeFalsy()
     })
 
 

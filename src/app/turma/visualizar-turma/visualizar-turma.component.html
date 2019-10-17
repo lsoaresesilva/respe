@@ -1,8 +1,13 @@
 <div *ngIf="turma$ | async as turma" style="margin-top:10px;">
     <div class="ui-g">
-        <div class="ui-g-4"><span class="cabecalho">{{turma.nome}}</span></div>
-        <div class="ui-g-8"><button pButton type="button" (click)="visualizarEstudantes(turma)" class="ui-button-info"
-                label="Estudantes"></button>
+        <div class="ui-g-8"><span class="cabecalho">{{turma.nome}} - {{turma.codigo}}</span></div>
+        <div class="ui-g-4">
+        </div>
+    </div>
+    <div class="ui-g">
+        <div class="ui-g-4"><button pButton type="button" (click)="visualizarEstudantes(turma)" class="ui-button-info"
+            label="Estudantes"></button></div>
+        <div class="ui-g-8">
         </div>
     </div>
     <div class="ui-g">

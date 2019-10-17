@@ -15,6 +15,8 @@ import { TipoErro } from '../tipoErro';
 import { forkJoin } from 'rxjs';
 import Usuario from '../usuario';
 import Codigo from '../codigo';
+import TestCase from '../testCase';
+import ResultadoTestCase from '../resultadoTestCase';
 
 describe("Testes de Submissão", ()=>{
 
@@ -40,10 +42,11 @@ describe("Testes de Submissão", ()=>{
     });
 
     it("Deve carregar uma submissão com erro", (done)=>{
-        let algoritmo = "x = 2\ny = c";
         let estudante = new Usuario("CvsVQsPKIExzNWFh2TWW", null, null, null);
-        let questao = new Questao("LwC2ItAVtfkDhcE9jvpT", null, null, null, null, null, []);
-        let submissao = new Submissao(null, new Codigo().algoritmo, estudante, questao);
+        let questao = new Questao("LwC2ItAVtfkDhcE9jvpT", null, null, null, null, null, [], null);
+        let c = new Codigo();
+        c.algoritmo = "x = 2\ny = c";
+        let submissao = new Submissao(null, c, estudante, questao);
         let x = submissao.erros;
         submissao.save().subscribe(resultado=>{
             let erro = new Erro(null, 2, null, TipoErro.variavelNaoDeclarada, resultado);
@@ -60,12 +63,14 @@ describe("Testes de Submissão", ()=>{
         })
     })
 
+    
     it("Deve carregar uma submissão mais recente", (done)=>{
-        let algoritmo = "x = 2\ny = x";
+        let c = new Codigo();
+        c.algoritmo = "x = 2\ny = c";
         let estudante = new Usuario("CvsVQsPKIExzNWFh2TWW", null, null, null);
-        let questao = new Questao("LwC2ItAVtfkDhcE9jvpT", null, null, null, null, null, []);
-        let s1 = new Submissao(null, new Codigo().algoritmo, estudante, questao);
-        let s2 = new Submissao(null, new Codigo().algoritmo, estudante, questao);
+        let questao = new Questao("LwC2ItAVtfkDhcE9jvpT", null, null, null, null, null, [], null);
+        let s1 = new Submissao(null, c, estudante, questao);
+        let s2 = new Submissao(null, c, estudante, questao);
         let x = s1.erros;
     
         s1.save().subscribe(resultado=>{
@@ -77,6 +82,46 @@ describe("Testes de Submissão", ()=>{
                     })
                     done();
                 })
+            })
+        })
+    })
+
+    it("Deve carregar as submissões de uma questão", (done)=>{
+
+        let c = new Codigo();
+        c.algoritmo = "x = 2\ny = c";
+
+        let e1 = new Usuario("123", null, null, null);
+        let e2 = new Usuario("456", null, null, null);
+        let e3 = new Usuario("789", null, null, null);
+
+        let t1 = new TestCase(null, [1,2], 3);
+        let t2 = new TestCase(null, [2,2], 4);
+
+        let questao = new Questao("LwC2ItAVtfkDhcE9jvpT", null, null, null, null, null, [t1, t2], null);
+        let s1 = new Submissao(null, c, e1, questao);
+        let rt1s1 = new ResultadoTestCase(null, true, null, t1);
+        let rt2s1 = new ResultadoTestCase(null, true, null, t2);
+        s1.resultadosTestsCases = [rt1s1, rt2s1];
+
+        let s2 = new Submissao(null, c, e2, questao); 
+        let rt1s2 = new ResultadoTestCase(null, true, null, t1);
+        let rt2s2 = new ResultadoTestCase(null, true, null, t2);
+        s2.resultadosTestsCases = [rt1s2, rt2s2];
+
+        let s3 = new Submissao(null, c, e3, questao); 
+        let rt1s3 = new ResultadoTestCase(null, true, null, t1);
+        let rt2s3 = new ResultadoTestCase(null, false, null, t2);
+        s3.resultadosTestsCases = [rt1s3, rt2s3];
+        
+        forkJoin([s1.save(), s2.save(), s3.save()]).subscribe(resultado=>{
+            Submissao.getSubmissoesRecentesTodosUsuarios(questao, e1).subscribe(submissoes=>{
+                expect(submissoes.length).toBe(1);
+                expect(submissoes[0].pk()).toBe(s2.pk());
+                forkJoin([Submissao.delete(s1.pk()), Submissao.delete(s2.pk()), Submissao.delete(s3.pk())]).subscribe(r=>{
+                    done()
+                })
+                
             })
         })
     })

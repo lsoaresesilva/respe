@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { MenuItem } from 'primeng/api';
 import { Router } from '@angular/router';
-import { LoginService } from 'src/app/juiz/login.service';
+import { LoginService } from 'src/app/login-module/login.service';
 
 @Component({
   selector: 'app-menu-estudante',
@@ -18,23 +18,13 @@ export class MenuEstudanteComponent implements OnInit {
   ngOnInit() {
     this.items = [
       {
-        label: 'Estudantes',
-        command: () => { this.router.navigate(["main", { outlets: { principal: ['listagem-estudantes'] } }]) }
+        label: 'Planejamentos',
+        command: () => { this.router.navigate(["main", { outlets: { principal: ['listagem-planejamento'] } }]) }
 
       },
       {
-        label: 'Assuntos',
-        command: () => { this.router.navigate(["main", { outlets: { principal: ['listagem-assuntos'] } }]) }
-
-      },
-      {
-        label: 'Turmas',
-        command: () => { this.router.navigate(["main", { outlets: { principal: ['listagem-turmas'] } }]) }
-
-      },
-      {
-        label: 'Logout',
-        command: () => {this.logout()}
+        label: 'Minha turma',
+        command: () => { this.router.navigate(["main", { outlets: { principal: ['minha-turma'] } }]) }
 
       },
     ];

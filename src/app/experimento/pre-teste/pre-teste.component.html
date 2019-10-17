@@ -1,0 +1,15 @@
+<p-dialog header="Como está o seu desempenho?" [(visible)]="visibilidade" [modal]="true" [closable]="false">
+  Respondendo as questões abaixo você ajudará nossa plataforma a identificar quais áreas você apresenta maior
+  dificuldade e assim oferecer uma experiência educacional personalizada às suas necessidades.<br />
+  <span style="font-weight: bold">Atenção:</span> antes de utilizar a plataforma é preciso respondê-las.
+  <div *ngIf="questoes != null;">
+    <app-questao *ngFor="let questao of questoes; let i = index" [questao]="questao" [respostaQuestao]="respostas[i]">
+    </app-questao>
+  </div>
+  <p-footer>
+    <button onClick="alert('Você precisa responder as questões para utilizar a plataforma')" pButton label="Fechar"></button>
+    <button type="text" (click)="salvar()" pButton icon="pi pi-check" class="ui-button-success"
+      label="Responder"></button>
+  </p-footer>
+
+</p-dialog>
