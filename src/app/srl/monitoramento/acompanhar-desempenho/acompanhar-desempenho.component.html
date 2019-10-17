@@ -1,0 +1,27 @@
+<h1>Seu desempenho em programação</h1>
+
+<div class="p-grid">
+    <div class="p-col-6">
+        <div class="p-grid">
+            <div class="p-col-6">
+                <app-card-desempenho *ngIf="errorQuotient != null" [errorQuotient]="errorQuotient">
+                </app-card-desempenho>
+            </div>
+            <div class="p-col-6">
+                <card-risco-estudante *ngIf="errorQuotient != null" [errorQuotient]="errorQuotient">
+                </card-risco-estudante>
+            </div>
+        </div>
+        <div class="p-grid">
+            <div class="p-col-12">
+                    <app-card-erros-programacao-pizza [erros]="erros" *ngIf="erros"></app-card-erros-programacao-pizza>
+            </div>
+
+        </div>
+    </div>
+    <div class="p-col-6" *ngIf="erros != undefined">
+            <app-card-historico-erros *ngIf="erros != undefined" [erros]="erros">
+                </app-card-historico-erros>
+        
+    </div>
+</div>

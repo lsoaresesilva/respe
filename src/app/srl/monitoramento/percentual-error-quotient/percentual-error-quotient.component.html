@@ -1,0 +1,4 @@
+<div *ngIf="percentual != null; else msgFaltaDados">
+  <p-progressBar class="barra-progresso" [value]="percentual"></p-progressBar>
+</div>
+<ng-template #msgFaltaDados>O estudante não realizou atividades de programação</ng-template>

@@ -7,7 +7,7 @@ import { Assunto } from '../assunto';
 import Estudante from '../estudante';
 import AutoReflexao from '../autoReflexao';
 import { Questao } from '../questao';
-import { Dificuldade } from '../dificuldade';
+import { Dificuldade } from '../enums/dificuldade';
 import { AutoInstrucao } from '../autoInstrucao';
 
 
@@ -35,8 +35,8 @@ describe("Testes de Auto instrução", ()=>{
       });
 
     it("deve salvar uma Autoinstrução", (done)=>{
-        let e = new Estudante("12345", null, null);
-        let q = new Questao("123456", "nomeCurto", "enunciado", Dificuldade.facil, 1, [], []);
+        let e = new Estudante("12345", null);
+        let q = new Questao("123456", "nomeCurto", "enunciado", Dificuldade.facil, 1, [], [], null);
         let autoInstrucao = new AutoInstrucao(null, e, q, "problema", "variaveis", "condicoes", "repeticoes", "funcoes", "vetores");
         autoInstrucao.save().subscribe(resposta=>{
             expect(resposta["id"]).toBeDefined();
@@ -47,8 +47,8 @@ describe("Testes de Auto instrução", ()=>{
     })
 
     it("Deve gerar um document a partir de um objeto", ()=>{
-        let e = new Estudante("12345", null, null);
-        let q = new Questao("123456", "nomeCurto", "enunciado", Dificuldade.facil, 1, [], []);
+        let e = new Estudante("12345", null);
+        let q = new Questao("123456", "nomeCurto", "enunciado", Dificuldade.facil, 1, [], [], null);
         let autoInstrucao = new AutoInstrucao(null, e, q, "problema", "variaveis", "condicoes", "repeticoes", "funcoes", "vetores");
         expect(autoInstrucao.objectToDocument()).toEqual({estudanteId:"12345", questaoId:"123456", problema:"problema", variaveis:"variaveis", condicoes:"condicoes", repeticoes:"repeticoes", funcoes:"funcoes", vetores:"vetores"})
     })

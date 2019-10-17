@@ -37,7 +37,6 @@ export class VisualizarQuestaoComponent implements OnInit {
             assunto["questoesProgramacao"].forEach(questao => {
               if (questao.id == params["questaoId"]) {
                 this.questao = questao;
-                console.log(this.questao);
               }
             });
           }
@@ -58,7 +57,7 @@ export class VisualizarQuestaoComponent implements OnInit {
 
 
   responder(questao){
-    this.router.navigate(["main", { outlets: { principal: ['monitoramento', this.assunto.pk(), questao.id] }}]);
+    this.router.navigate(["main", { outlets: { principal: ['self-instruction', this.assunto.pk(), questao.id] }}]);
   }
   alterarQuestao(questao: Questao) {
     if (questao != undefined) {

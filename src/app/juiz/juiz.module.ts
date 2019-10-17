@@ -22,7 +22,6 @@ import { SrlModule } from '../srl/srl.module';
 import { EditorProgramacaoComponent } from './editor-programacao/editor-programacao.component';
 import { DadosQuestaoComponent } from './dados-questao/dados-questao.component';
 
-import { ListarTurmaComponent } from './listar-turma/listar-turma.component';
 import {AutoCompleteModule} from 'primeng/autocomplete';
 import {ToastModule} from 'primeng/toast';
 import {InputTextModule} from 'primeng/inputtext';
@@ -36,7 +35,7 @@ import { ListarAssuntosComponent } from './listar-assuntos/listar-assuntos.compo
 import { VisualizarAssuntoComponent } from './visualizar-assunto/visualizar-assunto.component';
 import { ListarPedidosAjudaComponent } from './listar-pedidos-ajuda/listar-pedidos-ajuda.component';
 import { VisualizarPedidoAjudaComponent } from './visualizar-pedido-ajuda/visualizar-pedido-ajuda.component';
-import { LoginService } from './login.service';
+import { LoginService } from '../login-module/login.service';
 import { EditorService } from './editor.service';
 
 import { CadastrarAlternativasComponent } from './cadastrar-alternativas/cadastrar-alternativas.component';
@@ -54,6 +53,9 @@ import {ScrollPanelModule} from 'primeng/scrollpanel';
 import { CsclModule } from '../cscl/cscl.module';
 import { ListarProfessoresComponent } from './listar-professores/listar-professores.component';
 
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+import {CodeHighlighterModule} from 'primeng/codehighlighter';
+
 
 
 
@@ -66,8 +68,7 @@ import { ListarProfessoresComponent } from './listar-professores/listar-professo
     ListarQuestoesComponent, 
     DadosQuestaoComponent, 
     EditorProgramacaoComponent, 
-    EditorProgramacaoComponent, 
-    ListarTurmaComponent, 
+    EditorProgramacaoComponent,
     VisualizarExecucacao, 
     ListarAssuntosComponent,
     VisualizarAssuntoComponent,
@@ -93,15 +94,16 @@ import { ListarProfessoresComponent } from './listar-professores/listar-professo
     ButtonModule,
     DropdownModule,
     FormsModule,
+    BrowserAnimationsModule,
     ReactiveFormsModule,
     SpinnerModule,
+    CodeHighlighterModule,
     InputTextareaModule,
     CheckboxModule,
     ContextMenuModule,
     HttpClientModule,
     ProgressSpinnerModule,
     AnalyticsModule,
-    SrlModule,
     AutoCompleteModule,
     ToastModule,
     InputTextModule,
@@ -123,7 +125,6 @@ import { ListarProfessoresComponent } from './listar-professores/listar-professo
     CadastrarQuestoesComponent,
     ListarQuestoesComponent,
     CadastrarTesteCaseComponent,
-    ListarTurmaComponent,
     CadastrarAssuntosComponent,
     ListarAssuntosComponent,
     VisualizarAssuntoComponent,

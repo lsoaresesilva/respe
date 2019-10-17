@@ -2,7 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { Router, ActivatedRoute } from '@angular/router';
 import { MessageService } from 'primeng/api';
 import Usuario from 'src/app/model/usuario';
-import { PerfilUsuario } from 'src/app/model/perfilUsuario';
+import { PerfilUsuario } from 'src/app/model/enums/perfilUsuario';
 import Turma from 'src/app/model/turma';
 import Estudante from 'src/app/model/estudante';
 
@@ -27,19 +27,25 @@ export class CadastrarEstudantesComponent implements OnInit {
 
   ngOnInit() {
     this.estudante = new Estudante(new Turma(null, null, null, null), new Usuario(null, null, null, PerfilUsuario.estudante));
+    this.route.params.subscribe(parametros=>{
+      if(parametros["codigoTurma"] != undefined){
+        this.estudante.turma.codigo = parametros["codigoTurma"];
+      }
+    })
   }
 
   cadastrarEstudante() {
-    if(this.estudante.turma.codigo == undefined){
+    if(this.estudante.turma.codigo == undefined || this.estudante.turma.codigo == ""){
       alert("É preciso informar o código de uma turma.")
     }
     this.estudante.usuario.validar().subscribe(resultado => {
       if (resultado) {
         
-        this.estudante.save().subscribe(resultado => {
+        this.estudante.save().subscribe(estudante => {
           //this.exibirMensagemCadastro(); <= não está funcionando
           alert("Cadastro realizado com sucesso.")
           this.router.navigate([""]);
+          
         },
           err => {
             this.messageService.add({ severity: 'erro', summary: 'Houve um erro:', detail: err.toString() });
