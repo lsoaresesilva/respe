@@ -8,6 +8,8 @@ import Query from 'src/app/model/firestore/query';
 import { Observable } from 'rxjs';
 
 
+
+
 @Component({
   selector: 'app-visualizar-turma',
   templateUrl: './visualizar-turma.component.html',
@@ -16,12 +18,14 @@ import { Observable } from 'rxjs';
 export class VisualizarTurmaComponent implements OnInit {
 
   turma$?;
+
   private usuario;
   minhaTurma;
-  
 
   constructor(private route:ActivatedRoute, private router:Router, private login:LoginService){
-    
+    this.usuario = this.login.getUsuarioLogado();
+ 
+
   }
 
   ngOnInit() {
@@ -52,6 +56,15 @@ export class VisualizarTurmaComponent implements OnInit {
   visualizarEstudantes(minhaTurma){
     this.router.navigate(["main", { outlets: { principal: ['listagem-estudantes', minhaTurma.codigo] } }]);
   }
+  enviarMaterial(turma){
+    this.router.navigate(["main", { outlets: { principal: ['enviar-material', turma.pk()] } }]);
 
-  
+  }
+
+  adicionarMaterial(turma){
+    this.router.navigate(["main", { outlets: { principal: ['envio-material', turma.pk()] } }]);
+  }
+  listarMateriais(turma){
+    this.router.navigate(["main", { outlets: { principal: ['listar-materiais', turma.pk()] } }]);
+  }
 }
