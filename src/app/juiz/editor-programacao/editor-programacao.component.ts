@@ -15,6 +15,9 @@ import PedidoAjuda from 'src/app/model/pedidoAjuda';
 import { Util } from 'src/app/model/util';
 import { Assunto } from 'src/app/model/assunto';
 import { LoginService } from '../../login-module/login.service';
+
+import ErroEditor from 'src/app/model/erroEditor';
+
 import { FormBuilder } from '@angular/forms';
 
 declare var editor: any;
@@ -303,6 +306,16 @@ export class EditorProgramacaoComponent implements OnInit {
     this.router.navigate(["main", { outlets: { principal: ['exibir-codigo',questao.id] } } ] );
   }
 
+  enviarErroEditor(){
+    let submissao = this.prepararSubmissao();
+    submissao.save().subscribe(submissao =>{
+      let errorEditor = new ErroEditor(null,submissao.pk());
+      errorEditor.save().subscribe(erro=>{
+        alert("Erro notificado com sucesso. Obrigado!");
+      });
+    });
+
+  }
   change(event){
     event.preventDefault();
     console.log("DOM value changed" ,event);
