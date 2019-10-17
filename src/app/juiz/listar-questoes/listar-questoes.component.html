@@ -5,7 +5,7 @@
     
 
 
-    <p-table [value]="assunto?.questoesProgramacao" [(contextMenuSelection)]="selectedQuestao" [contextMenu]="cm">
+    <p-table [value]="questoes" [(contextMenuSelection)]="selectedQuestao" [contextMenu]="cm">
         <ng-template pTemplate="header">
             <tr>
                 <th>Questões Programação</th>
@@ -14,7 +14,7 @@
         </ng-template>
         <ng-template pTemplate="body" let-rowData let-questao>
             <tr [pContextMenuRow]="rowData">
-                <td (click)="visualizar(questao)">{{questao.nomeCurto}}</td>
+                <td (click)="visualizar(questao)" style="cursor: pointer">{{questao.nomeCurto}}</td>
                 <td>{{statusQuestoes[questao.id] | async}}%</td>
             </tr>
         </ng-template>

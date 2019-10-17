@@ -1,19 +1,19 @@
 import { Util } from './util';
 
-export default class Alternativa{
-    constructor(public id, public texto, public isVerdadeira){
-        if(this.id == null){
+export default class Alternativa {
+    constructor(public id, public texto, public isVerdadeira) {
+        if (id == null) {
             this.id = Util.uuidv4();
-        }else{
+        } else {
             this.id = id;
         }
         this.texto = texto;
         this.isVerdadeira = isVerdadeira;
     }
 
-    objectToDocument(){
+    objectToDocument() {
         let document = {}
-        
+
         document["id"] = this.id;
         document["texto"] = this.texto;
         document["isVerdadeira"] = this.isVerdadeira;
@@ -25,11 +25,11 @@ export default class Alternativa{
      * Constrói objetos a partir do atributo array de uma document
      * @param alternativas 
      */
-    static construir(alternativas:any[]){
-        let objetosAlternativas:Alternativa[] = [];
+    static construir(alternativas: any[]) {
+        let objetosAlternativas: Alternativa[] = [];
 
-        if(alternativas != null){
-            alternativas.forEach(alternativa=>{
+        if (alternativas != null) {
+            alternativas.forEach(alternativa => {
                 objetosAlternativas.push(new Alternativa(alternativa.id, alternativa.texto, alternativa.isVerdadeira));
             })
         }
@@ -39,14 +39,14 @@ export default class Alternativa{
 
 
     validar() {
-        if (this.texto == undefined || this.texto == null || this.isVerdadeira == null || this.isVerdadeira == undefined ) {
-          return false;
+        if (this.texto == undefined || this.texto == null || this.isVerdadeira == null || this.isVerdadeira == undefined) {
+            return false;
         }
         return true;
-     }
+    }
 
 
-   
+
 
     static validarAlternativas(alternativa: Alternativa[]) {
         for (let i = 0; i < alternativa.length; i++) {
@@ -56,16 +56,16 @@ export default class Alternativa{
         }
         return true;
     }
-    
 
-   static calcularQuantasAlternativasCertas(alternativas:Alternativa[]){
-        let quantDeAlternativaCerta=0;
-        for(let i=0;i<alternativas.length;i++){
-          if(alternativas[i].isVerdadeira== true){
-           quantDeAlternativaCerta ++;
-          }
+
+    static calcularQuantasAlternativasCertas(alternativas: Alternativa[]) {
+        let quantDeAlternativaCerta = 0;
+        for (let i = 0; i < alternativas.length; i++) {
+            if (alternativas[i].isVerdadeira == true) {
+                quantDeAlternativaCerta++;
+            }
         }
-      return quantDeAlternativaCerta;
+        return quantDeAlternativaCerta;
     }
-    
+
 }

@@ -10,7 +10,7 @@ export enum TipoErro {
   faltaDoisPontosCondicao = 9,
   faltaDoisPontosFuncao = 10,
   numeroDecimalComVirgulaTexto = "Número decimal com vírgula",
-  declaracaoVariavelComDoisIgualsTexto = "Declaração de variável com ==",
+  declaracaoVariavelComDoisIguaisTexto = "Declaração de variável com ==",
   espacoNoNomeVariavelTexto = "Variável com espaço no nome",
   variavelNaoDeclaradaTexto = "Uso de variável não declarada",
   faltaParentesisTexto = "Falta de parêntesis em funções",

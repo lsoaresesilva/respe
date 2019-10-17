@@ -8,13 +8,13 @@
         <tr>
             <th>Nome</th>
             <th>Error Quotient</th>
-            <th>% dos acertos</th>
 
         </tr>
     </ng-template>
     <ng-template pTemplate="body" let-rowData let-estudante>
         <tr [pContextMenuRow]="rowData">
             <td><a (click)="abrirPerfilEstudante(estudante)">{{estudante.nome}}</a></td>
+            <td><app-percentual-error-quotient [estudante]="estudante"></app-percentual-error-quotient></td>
         </tr>
     </ng-template>
 </p-table>

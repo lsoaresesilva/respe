@@ -2,37 +2,38 @@
 
 <h1>{{questao?.nomeCurto}}</h1>
 
+<p-fieldset legend="Questão: {{questao?.sequencia}}">
+  
 
- <p-fieldset legend="Questão: {{questao?.sequencia}}">
-  {{questao?.enunciado}}
-</p-fieldset>
- <br>
- <br>
-
- <p-radioButton *ngFor="let alternativa of questao.alternativas" class= "alternativa" name="{{alternativa.nome}}" value= "{{alternativa.id}}"
-
- [(ngModel)]="respostaQuestaoFechada.resposta" label="{{alternativa.texto}}"  inputId= "{{alternativa.id}}"></p-radioButton>
-
-<br>
- <div class="p-grid">
-  <div class="p-col-12">
-    <div *ngIf="mostrar">
-        <p-card>
-          <p>{{questao?.respostaQuestao}}</p>
-        </p-card>
-    </div>
+  <div *ngIf="questao?.hasCode(); else semCodigo" [innerHtml]="gerarHtmlTextoComCodigo(questao)">
     
   </div>
+  <ng-template #semCodigo>
+    {{questao?.enunciado}}
+  </ng-template>
+</p-fieldset>
+<br>
+<br>
+
+<p-radioButton *ngFor="let alternativa of questao.alternativas" name="alternativas" class="alternativa"
+  value="{{alternativa.id}}" (onClick)="selecionarAlternativa(alternativa)" label="{{alternativa.texto}}"
+  inputId="{{alternativa.id}}"></p-radioButton>
+
+<br>
+<div class="p-grid">
   <div class="p-col-12">
- <br>
- <br>
-    
+    <div *ngIf="mostrar">
+      <p-card>
+        <p>{{questao?.respostaQuestao}}</p>
+      </p-card>
+    </div>
 
-<p-confirmDialog header="Confirmação" icon="pi pi-exclamation-triangle"></p-confirmDialog>
-<button [disabled]="respostaUsuarioBanco != undefined" type="text" (click)="confirmar()" pButton icon="pi pi-check" class="ui-button-success"label="Responder"></button>
-    
-  
- 
+  </div>
+  <div class="p-col-12">
+    <br>
+    <br>
 
 
- 
+    <p-confirmDialog header="Tem certeza da resposta?" icon="pi pi-exclamation-triangle"></p-confirmDialog>
+    <button [disabled]="respostaUsuarioBanco != undefined" type="text" (click)="confirmar()" pButton icon="pi pi-check"
+      class="ui-button-success" label="Responder"></button>

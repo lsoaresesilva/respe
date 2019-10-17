@@ -1,0 +1,13 @@
+<div *ngIf="planejamento != null && planejamento.assunto != null">
+    <button *ngIf="isFinalizado" pButton label="Revisar progresso" (click)="iniciarAutoReflexao()"></button>
+
+    <h3>Seu progresso:</h3>
+
+    <app-monitorar-planejamento [planejamento]="planejamento"></app-monitorar-planejamento>
+
+    <p *ngIf="planejamento.assunto.objetivosEducacionais.length > 0">
+        Os objetivos educacionais desse assunto são: <span *ngFor="let objetivo of planejamento.assunto.objetivosEducacionais">{{objetivo}}</span>
+    </p>
+
+    <app-visualizar-assunto [assunto]="planejamento.assunto"></app-visualizar-assunto>
+</div>
