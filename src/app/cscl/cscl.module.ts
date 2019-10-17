@@ -14,25 +14,32 @@ import { VisualizarConteudoComponent } from './visualizar-conteudo/visualizar-co
 import { EscapeHtmlPipe } from '../pipes/keep-html.pipe';
 import { ConteudoProgramacaoComponent } from './conteudo-programacao/conteudo-programacao.component';
 import { SanitizeHtmlDirective } from '../pipes/sanitize.directive';
-import { ListarSubmissaoQuestaoComponent } from './listar-submissao-questao/listar-submissao-questao.component';
+import { VisualizarSubmissaoQuestaoComponent } from './visualizar-submissao-questao/visualizar-submissao-questao.component';
 import { TableModule } from 'primeng/table';
 import { ListarEstudantesSubmissaoComponent } from './listar-estudantes-submissao/listar-estudantes-submissao.component';
 import { ListarPostagensComponent } from './listar-postagens/listar-postagens.component';
 import { CadastrarPostagemComponent } from './cadastrar-postagem/cadastrar-postagem.component';
 import { VisualizarPostagemComponent } from './visualizar-postagem/visualizar-postagem.component';
-import { ToastModule } from 'primeng/toast';
+
 import { DataViewModule } from 'primeng/dataview';
-import { CardModule } from 'primeng/card';
+
 import { JuizModule } from '../juiz/juiz.module';
 
+import {MessagesModule} from 'primeng/messages';
+import {MessageModule} from 'primeng/message';
+import { CardModule } from 'primeng/card';
+import { ToastModule } from 'primeng/toast';
+
 @NgModule({
-  declarations: [ComentariosCodigoComponent, BoxComentarioComponent, BoxNovoComentarioComponent, VisualizarConteudoComponent, EscapeHtmlPipe, SanitizeHtmlDirective, ConteudoProgramacaoComponent, ListarSubmissaoQuestaoComponent,ListarEstudantesSubmissaoComponent, ListarPostagensComponent, CadastrarPostagemComponent, VisualizarPostagemComponent],
+  declarations: [ComentariosCodigoComponent, BoxComentarioComponent, BoxNovoComentarioComponent, VisualizarConteudoComponent, EscapeHtmlPipe, SanitizeHtmlDirective, ConteudoProgramacaoComponent, VisualizarSubmissaoQuestaoComponent,ListarEstudantesSubmissaoComponent, ListarPostagensComponent, CadastrarPostagemComponent, VisualizarPostagemComponent],
  
   imports: [
     JuizModule,
     CommonModule,
     InputTextareaModule,
     DialogModule,
+    MessagesModule,
+    MessageModule,
     ButtonModule,
     FormsModule,
     OverlayPanelModule,
@@ -44,7 +51,7 @@ import { JuizModule } from '../juiz/juiz.module';
     
   ],
 
-  exports:[ListarPostagensComponent, ComentariosCodigoComponent, VisualizarConteudoComponent,ListarSubmissaoQuestaoComponent,ListarEstudantesSubmissaoComponent]
+  exports:[ListarPostagensComponent, ComentariosCodigoComponent, VisualizarConteudoComponent,VisualizarSubmissaoQuestaoComponent,ListarEstudantesSubmissaoComponent]
 
  
 })

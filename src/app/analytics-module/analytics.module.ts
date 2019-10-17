@@ -3,15 +3,15 @@ import { CommonModule } from '@angular/common';
 import { AngularFirestoreModule } from '@angular/fire/firestore';
 
 import {ChartModule} from 'primeng/chart';
-import { ErrosProgramacaoComponent } from './erros-programacao/erros-programacao.component';
+import { ErrosProgramacaoComponent } from '../srl/monitoramento/erros-programacao/erros-programacao.component';
 
 @NgModule({
-  declarations: [ErrosProgramacaoComponent],
+  declarations: [],
   imports: [
     CommonModule,
     AngularFirestoreModule,
     ChartModule
   ],
-  exports:[ErrosProgramacaoComponent]
+  exports:[]
 })
 export class AnalyticsModule { }

@@ -26,23 +26,40 @@ export class Tutor{
 
     }
 
+    /**
+     * Prepara a submissão para ser salva. Todos os tests cases serão inválidados, pois a submissão é referente a um erro.
+     */
+    salvarSubmissao(){
+        let resultadosTestCase = [];
+        this.submissao.questao.testsCases.forEach(testCase=>{
+            resultadosTestCase.push(new ResultadoTestCase(null, false, "", testCase));
+        });
+
+        this.submissao.resultadosTestsCases = resultadosTestCase;
+
+        return this.submissao.save();
+    }
+
 
     salvarErros(){
         let resultados;
         return new Observable(observer=>{
-            let operacoesSalvar = []
-            this.erros.forEach(erro=>{
-                operacoesSalvar.push(erro.save())
+            let operacoesSalvar = [];
+            this.salvarSubmissao().subscribe(resultado=>{
+                this.erros.forEach(erro=>{
+                    operacoesSalvar.push(erro.save())
+                })
+    
+                forkJoin(operacoesSalvar).subscribe(errosSalvos=>{
+                    resultados = errosSalvos;
+                }, err=>{
+                    observer.error(err);
+                }, ()=>{
+                    observer.next(resultados);
+                    observer.complete();
+                })
             })
-
-            forkJoin(operacoesSalvar).subscribe(errosSalvos=>{
-                resultados = errosSalvos;
-            }, err=>{
-                observer.error(err);
-            }, ()=>{
-                observer.next(resultados);
-                observer.complete();
-            })
+            
         })
     }
 
@@ -97,9 +114,7 @@ export class Tutor{
             throw new Error("Estudante precisa ser informado para calcular o Error Quotient.");
         }
 
-        // Pegar todas as submissòes
         
-        // TODO: dar um order by data em submissões, pois pode ser que não pegue na ordem em que foram adicionados.
         // formar pares
         if(submissoes.length > 1){
             let scores = [];
@@ -125,6 +140,19 @@ export class Tutor{
             return null;
         }
                 
+    }
+
+    static desempenhoEstudante(errorQuotient){
+
+        if(errorQuotient >= 0.0 && errorQuotient <= 0.25){
+            return "Excelente";
+        }else if(errorQuotient > 0.25 && errorQuotient <= 0.50){
+            return "Bem";
+        }else if(errorQuotient > 0.50 && errorQuotient <= 0.70){
+            return "Razoável";
+        }else if(errorQuotient > 0.75){
+            return "Precisa melhorar (cuidado)";
+        }
     }
 
     static errorQuotient(submissaoUm, submissaoDois){

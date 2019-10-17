@@ -23,10 +23,14 @@ import { DocumentModule } from './model/firestore/document.module';
 import { TurmaModule } from './turma/turma.module';
 import { TurmaGuard } from './guards/acessoTurma.guard';
 import { MessageService } from 'primeng/api';
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+import { ExperimentoModule } from './experimento/experimento.module';
+import { CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
 
 
 
 @NgModule({
+  schemas: [ CUSTOM_ELEMENTS_SCHEMA ],
   declarations: [
     AppComponent,
     MainComponent,
@@ -35,6 +39,7 @@ import { MessageService } from 'primeng/api';
   ],
   imports: [
     TurmaModule,
+    ExperimentoModule,
     SrlModule,
     CsclModule,
     DocumentModule,
@@ -47,6 +52,7 @@ import { MessageService } from 'primeng/api';
     AngularFirestoreModule,
     InputTextModule,
     MenubarModule,
+    BrowserAnimationsModule
   ],
   providers: [AuthGuard,TurmaGuard,MessageService],
   bootstrap: [AppComponent]

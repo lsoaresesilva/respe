@@ -1,8 +1,10 @@
 import { Document, Collection, date } from './firestore/document';
 import { Observable } from 'rxjs';
 import Query from './firestore/query';
-import { PerfilUsuario } from './perfilUsuario';
+import { PerfilUsuario } from './enums/perfilUsuario';
 import { sha256 } from 'js-sha256';
+import TempoOnline from './tempoOnline';
+import { Experiment } from 'scientificxpjs/experiment';
 
 
 @Collection("usuarios")
@@ -11,6 +13,8 @@ export default class Usuario extends Document{
     @date()
     database;
     nome;
+    minutos;
+    grupoExperimento;
 
     constructor(id, public email, public senha, public perfil:PerfilUsuario) {
         super(id);
@@ -20,7 +24,44 @@ export default class Usuario extends Document{
     objectToDocument(){
         let document = super.objectToDocument();
         document["senha"] = sha256(this.senha);
+
+
         return document;
+    }
+
+    stringfiy(){
+        return { id: this.pk(), email:this.email, senha:this.senha, perfil: this.perfil, minutos:this.minutos}
+    }
+
+    save():Observable<Usuario>{
+
+        return new Observable(observer=>{
+            Usuario.count().subscribe(contagem=>{
+                this.grupoExperimento = Experiment.assignToGroup(contagem);
+                super.save().subscribe(result=>{
+                    observer.next(result);
+                    observer.complete();
+                })
+            }, err=>{
+                observer.error(err);
+            })
+        })
+    }
+
+    atualizarTempo(){
+        return new Observable(observer=>{
+            Usuario.get(this.pk()).subscribe(usuarioLogado=>{
+                this.minutos = usuarioLogado["minutos"] + this.minutos;
+                this.save().subscribe(resultado=>{
+                    observer.next(true);
+                    observer.complete();
+                }, err=>{
+                    observer.error(err);
+                })
+            }, err=>{
+                observer.error(err);
+            })
+        })
     }
 
     validar(){
@@ -38,10 +79,26 @@ export default class Usuario extends Document{
                     observer.error(new Error("Já existe um usuário cadastrado com este e-mail."))
                 }   
             })
-        })
-        
+        })  
+    }
 
-       
+    static logar(query):Observable<Usuario>{
+        return new Observable(observer=>{
+            let usuario = null;
+            super.getAll(query).subscribe(usuarios=>{
+                if (usuarios.length > 0) {
+                    usuario = new Usuario(usuarios[0].id, usuarios[0].email, usuarios[0].senha, usuarios[0].perfil );
+                    usuario.minutos = 0;
+                    observer.next(usuario);
+                }else{
+                    observer.next(null);
+                    
+                }
+                observer.complete();
+            }, err=>{
+                observer.error(err);
+            })
+        })
     }
 
 

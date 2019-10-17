@@ -31,4 +31,9 @@ describe("Testes para identificar erros de sintaxe em condições", ()=>{
         
     });
 
+    it("Deve retornar uma lista de parâmetros para uma função", ()=>{
+        let linha = "somar(a, 2,c,d)"
+        expect(ErroSintaxeFuncao.getParametros(linha)).toEqual(["a", "c", "d"]);
+    })
+
 })

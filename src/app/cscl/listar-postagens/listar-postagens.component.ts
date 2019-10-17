@@ -1,7 +1,7 @@
 import { Component, OnInit, Input, OnChanges } from '@angular/core';
 import Postagem from 'src/app/model/postagem';
 import Query from 'src/app/model/firestore/query';
-import { LoginService } from 'src/app/juiz/login.service';
+import { LoginService } from 'src/app/login-module/login.service';
 import Usuario from 'src/app/model/usuario';
 import { Router } from '@angular/router';
 

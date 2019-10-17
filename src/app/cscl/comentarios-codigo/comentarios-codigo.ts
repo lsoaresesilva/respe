@@ -4,7 +4,7 @@ import Query from 'src/app/model/firestore/query';
 import Usuario from 'src/app/model/usuario';
 import Submissao from 'src/app/model/submissao';
 import { ActivatedRoute } from '@angular/router';
-import { LoginService } from 'src/app/juiz/login.service';
+import { LoginService } from 'src/app/login-module/login.service';
 
 declare var dialogEmExibicao: any;
 declare function obterPosicoesBotaoCriarComentario(): any;

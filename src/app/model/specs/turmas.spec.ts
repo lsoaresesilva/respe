@@ -8,6 +8,8 @@ import Query from '../firestore/query';
 import Turma from '../turma';
 import Estudante from '../estudante';
 import { forkJoin } from 'rxjs';
+import Usuario from '../usuario';
+import { PerfilUsuario } from '../enums/perfilUsuario';
 
 describe("Testes de turma", ()=>{
 
@@ -33,15 +35,15 @@ describe("Testes de turma", ()=>{
       });
 
       it("deve carregar um estudante com seus alunos", (done)=>{
-        let e = new Estudante(null, "oi", null);
-        let e2 = new Estudante(null, "olá", null);
+        let e = new Usuario(null, "", "", PerfilUsuario.estudante);
+        let e2 = new Usuario(null, "", "", PerfilUsuario.estudante);
         let t = new Turma(null, "turma", [e, e2], null);
 
         forkJoin([e.save(), e2.save()]).subscribe(resultado=>{
           t.save().subscribe(r=>{
             Turma.get(t.pk()).subscribe(turma=>{
               expect(turma["estudantes"].length).toBe(2);
-              forkJoin([Estudante.delete(e.pk()), Estudante.delete(e2.pk()), Turma.delete(t.pk())]).subscribe(res=>{
+              forkJoin([Usuario.delete(e.pk()), Usuario.delete(e2.pk()), Turma.delete(t.pk())]).subscribe(res=>{
                 done();
               })
             });

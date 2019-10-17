@@ -4,7 +4,7 @@ import Postagem from 'src/app/model/postagem';
 import Usuario from 'src/app/model/usuario';
 import RespostaPostagem from 'src/app/model/respostaPostagem';
 import Query from 'src/app/model/firestore/query';
-import { LoginService } from 'src/app/juiz/login.service';
+import { LoginService } from 'src/app/login-module/login.service';
 import { MessageService } from 'primeng/api';
 
 @Component({
