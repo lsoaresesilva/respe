@@ -14,11 +14,14 @@ import Estudante from 'src/app/model/estudante';
 })
 export class CadastrarEstudantesComponent implements OnInit {
 
-  id; 
+  id;
   estudante;
 
   constructor(public router: Router, private route: ActivatedRoute, private messageService: MessageService) {
 
+  }
+  MensagemError() {
+    this.messageService.add({ severity: 'success', summary: 'Estudante cadastrado com sucesso.' });
   }
 
   exibirMensagemCadastro() {
@@ -27,42 +30,44 @@ export class CadastrarEstudantesComponent implements OnInit {
 
   ngOnInit() {
     this.estudante = new Estudante(new Turma(null, null, null, null), new Usuario(null, null, null, PerfilUsuario.estudante));
-    this.route.params.subscribe(parametros=>{
-      if(parametros["codigoTurma"] != undefined){
+    this.route.params.subscribe(parametros => {
+      if (parametros["codigoTurma"] != undefined) {
         this.estudante.turma.codigo = parametros["codigoTurma"];
       }
     })
   }
-    cadastrarEstudante() {
-      let resultado;
-           if(this.estudante.turma.codigo == undefined ){
-            alert("É preciso informar o código de uma turma.");   
-          }
-          Turma.validarCodigo(this.estudante.turma.codigo).subscribe(resultadoBanco=>{
-            resultado = resultadoBanco;
-              if(resultado === false){
-              alert("codigo invalido");
-              }else{
-            this.estudante.usuario.validar().subscribe(resultado => {
-              if (resultado) {
-                
-                this.estudante.save().subscribe(resultado => {
-                  //this.exibirMensagemCadastro(); <= não está funcionando
-                  alert("Cadastro realizado com sucesso.")
-                  this.router.navigate([""]);
-                },
-                  err => {
-                    this.messageService.add({ severity: 'erro', summary: 'Houve um erro:', detail: err.toString() });
-                  });
-        
-              }
-            }, err=>{
-              alert('Houve um erro: '+err.toString());
-            });
-          }
-        });
+  cadastrarEstudante() {
+    let resultado;
+    if (this.estudante.turma.codigo == undefined) {
+      alert("É preciso informar o código de uma turma.");
+    }else{
+      Turma.validarCodigo(this.estudante.turma.codigo).subscribe(resultadoBanco => {
+        resultado = resultadoBanco;
+        if (resultado === false) {
+          alert("codigo invalido");
+        } else {
+          this.estudante.usuario.validar().subscribe(resultado => {
+            if (resultado) {
+  
+              this.estudante.save().subscribe(resultado => {
+                //this.exibirMensagemCadastro(); <= não está funcionando
+                alert("Cadastro realizado com sucesso.")
+                this.router.navigate([""]);
+              },
+                err => {
+                  this.messageService.add({ severity: 'erro', summary: 'Houve um erro:', detail: err.toString() });
+                });
+  
+            }
+          }, err => {
+            alert('Houve um erro: ' + err.toString());
+          });
         }
-        
+      });
+    }
+    
+  }
+
 
 
 

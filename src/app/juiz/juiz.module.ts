@@ -59,8 +59,6 @@ import {CodeHighlighterModule} from 'primeng/codehighlighter';
 
 
 
-
-
 @NgModule({
   declarations: [
     VisualizarTestesComponent, 
@@ -83,8 +81,12 @@ import {CodeHighlighterModule} from 'primeng/codehighlighter';
     VisualizarPedidoAjudaComponent,
     EscolherQuestaoComponent,
     VisualizarPerfilEstudanteComponent,
+<<<<<<< HEAD
+   
+=======
     ListarTurmaProfessorComponent,
     ListarProfessoresComponent,
+>>>>>>> master
     
 
   ],

@@ -16,6 +16,9 @@ import { Observable } from 'rxjs';
 export class VisualizarTurmaComponent implements OnInit {
 
   turma$?;
+  private usuario;
+  minhaTurma;
+  
 
   constructor(private route:ActivatedRoute, private router:Router, private login:LoginService){
     
@@ -42,11 +45,12 @@ export class VisualizarTurmaComponent implements OnInit {
       
 
     });
+   
 
   }
 
-  visualizarEstudantes(turma){
-    this.router.navigate(["main", { outlets: { principal: ['listagem-estudantes', turma.codigo] } }]);
+  visualizarEstudantes(minhaTurma){
+    this.router.navigate(["main", { outlets: { principal: ['listagem-estudantes', minhaTurma.codigo] } }]);
   }
 
   
