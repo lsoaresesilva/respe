@@ -3,13 +3,14 @@ import Usuario from '../model/usuario';
 import { Observable } from 'rxjs';
 import Query from '../model/firestore/query';
 import { sha256 } from 'js-sha256';
+import { MessageService } from 'primeng/api';
 
 @Injectable({
   providedIn: 'root'
 })
 export class LoginService {
 
-  constructor() { }
+  constructor(private messageService:MessageService) { }
 
   getUsuarioLogado() {
     if (this.isUsuarioLogado()) {
@@ -48,7 +49,18 @@ export class LoginService {
       });
     });
   }
+ 
 
+  validarLogin(usuario:Usuario){
+    if(usuario.email == "" || usuario.senha == "" || usuario.email == null || usuario.senha == null || usuario.email == undefined || usuario.senha == undefined){
+      this.messageService.add({severity:'warn', summary:'Falha ao entrar', detail: "Certifique-se de preencher os campos!"});
+      return false;
+    }
+    else{
+      return true;
+    }
+
+  }
 
 
   logout() {

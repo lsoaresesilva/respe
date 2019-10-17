@@ -1,5 +1,5 @@
-/* You can add global styles to this file, and also import other style files */
-.cabecalho{
+  /* You can add global styles to this file, and also import other style files  */
+ .cabecalho{
     font-size: 26pt;
     font-weight: bold;
 }
@@ -22,8 +22,36 @@
     
 }
 
+
 .barra-progresso .ui-progressbar .ui-progressbar-value{
     background-image: linear-gradient(to right, green , red); /* Standard syntax (must be last) */
     
+   } 
+
+   h1 {
+    text-align: center;
+    font: italic small-caps bold 24px/0px "Comic Sans MS", cursive, sans-serif;
+    color: gray;
+  } 
+ 
+ .table{
+    background-color: rgb(193, 248, 193);
+} 
+
+ p {
+    font-family: Lato;
+  }
+
+input{
+    width: 20%;
+    
+} 
+
+.link{
+    color: #000;
+    Font-size: 13px;
 }
 
+button{
+    font-weight: bold;
+}
