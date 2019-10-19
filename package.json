@@ -31,7 +31,6 @@
     "primeng": "^7.1.0-rc.1",
     "prismjs": "^1.17.1",
     "rxjs": "~6.5.0",
-    "scientificxpjs": "0.0.1-b",
     "tslib": "^1.9.0",
     "zone.js": "~0.8.26"
   },

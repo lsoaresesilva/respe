@@ -15,6 +15,7 @@
           <th>Excluir</th>
       </tr>
   </ng-template>
+
   <ng-template pTemplate="body" let-planejamento>
       <tr>
           <td><a (click)="abrirPlanejamento(planejamento)" style="cursor:pointer">{{planejamento.assunto.nome}}</a></td>
@@ -26,6 +27,9 @@
 
 <p-contextMenu #cm [model]="items"></p-contextMenu> 
 
+
+
 <br><button pButton type="button" (click)="criarPlanejamento()" label="Novo" class="ui-button-success ui-button-raised"></button>
+
 
 

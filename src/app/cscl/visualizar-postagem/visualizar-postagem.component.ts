@@ -20,25 +20,25 @@ export class VisualizarPostagemComponent implements OnInit {
   resposta;
 
   constructor(private router:Router,private route: ActivatedRoute,private login:LoginService,private messageService: MessageService) { 
-    this.resposta = new RespostaPostagem(null, null,null,null,null);
-    this.postagem = new Postagem(null, null,null,null,null);
+    
   }
 
   ngOnInit() {
+    this.resposta = new RespostaPostagem(null,null,null,null);
+    this.postagem = new Postagem(null, null,null,null,null);
 
-    // id,texto,postagemId,dataCriacao,estudanteId
    
     this.route.params.subscribe(params => {
       this.id=params['postagemId'];
       Postagem.get(this.id).subscribe(postagem=>{
         this.postagem = postagem;
-        this.resposta = new RespostaPostagem(null, null,this.postagem.id,null,this.login.getUsuarioLogado().pk());
+        this.resposta = new RespostaPostagem( null,null,this.postagem.id,this.login.getUsuarioLogado().pk());
         Usuario.get(this.postagem.estudanteId).subscribe(estudante =>{this.estudante= estudante});
         RespostaPostagem.getAll(new Query("postagemId","==",this.postagem.id)).subscribe(respostas =>{
           this.respostas = respostas
 
           this.respostas.forEach(resposta => {
-            resposta.estudante = new Usuario(null,null,null,null);
+           resposta.estudante = new Usuario(null,null,null,null);
 
             Usuario.get(resposta.estudanteId).subscribe(estudante =>{
               resposta.estudante = estudante;
@@ -78,11 +78,23 @@ export class VisualizarPostagemComponent implements OnInit {
     if (this.resposta.validar()) {
 
       this.resposta.save().subscribe(resultado => {
-
-        
+       
+        //atualizar respostas
         RespostaPostagem.getAll(new Query("postagemId","==",this.postagem.id)).subscribe(respostas =>{
-         
-        this.respostas = respostas});
+          this.respostas = respostas
+
+          this.respostas.forEach(resposta => {
+           resposta.estudante = new Usuario(null,null,null,null);
+
+            Usuario.get(resposta.estudanteId).subscribe(estudante =>{
+              resposta.estudante = estudante;
+            });
+          
+          });
+
+        });
+       
+       
           this.resposta.id = null;
           this.resposta.texto = null; 
         //this.resposta = new RespostaPostagem(null, null,null,null,null);

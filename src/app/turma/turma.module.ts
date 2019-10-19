@@ -15,11 +15,23 @@ import { ListarTurmaComponent } from './listar-turma/listar-turma.component';
 import {ContextMenuModule,MenuItem} from 'primeng/primeng';
 import { ListarTurmaProfessorComponent } from './listar-turma-professor/listar-turma-professor.component';
 import { ListarProfessoresComponent } from './listar-professores/listar-professores.component';
+import { EnvioMaterialComponent } from './envio-material/envio-material.component';
+import { ListarMateriaisComponent } from './listar-materiais/listar-materiais.component';
+import { FirebaseConfiguracao } from '../../environments/firebase';
+import {StorageBucket} from '@angular/fire/storage';
+import { AngularFireModule } from '@angular/fire';
+import {AngularFireStorageModule} from '@angular/fire/storage';
+import {FileUploadModule} from 'primeng/fileupload';
+import { BrowserModule } from '@angular/platform-browser';
+import {FieldsetModule} from 'primeng/fieldset';
+import { EnviarMaterialComponent } from './enviar-material/enviar-material.component';
 
 
 @NgModule({
-  declarations: [ListarTurmaComponent, ListarTurmaProfessorComponent,
-    ListarProfessoresComponent, VisualizarTurmaComponent, CadastrarEstudantesComponent, CadastrarTurmaComponent, ListarEstudantesComponent],
+  declarations: [ListarTurmaComponent, ListarTurmaProfessorComponent, ListarTurmaComponent, VisualizarTurmaComponent, CadastrarEstudantesComponent, CadastrarTurmaComponent, ListarEstudantesComponent, EnvioMaterialComponent, ListarMateriaisComponent],
+
+
+
   imports: [
     CsclModule,
     CommonModule,
@@ -31,7 +43,15 @@ import { ListarProfessoresComponent } from './listar-professores/listar-professo
     TableModule,
     SrlModule,
     ContextMenuModule,
+    FileUploadModule,
+    BrowserModule,
+    AngularFireModule.initializeApp(FirebaseConfiguracao),
+    AngularFireStorageModule,
+    FieldsetModule,
+    FileUploadModule,
+    TableModule,
     CardModule
+
   ],
   exports:[VisualizarTurmaComponent, ListarEstudantesComponent]
 })

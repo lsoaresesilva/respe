@@ -8,6 +8,7 @@ import { forkJoin } from 'rxjs';
 import { LoginService } from 'src/app/login-module/login.service';
 import { MessageService, MenuItem } from 'primeng/api';
 
+
 @Component({
   selector: 'app-listar-planejamentos',
   templateUrl: './listar-planejamentos.component.html',
@@ -21,14 +22,15 @@ export class ListarPlanejamentosComponent implements OnInit {
   selectedPlanejamento: Planejamento;
   items: MenuItem[];
 
+
   constructor(private router: Router, private login:LoginService, private messageService: MessageService) { 
     this.usuario= this.login.getUsuarioLogado();
-
     this.visibilidadeDialogPlanejamento = false;
 
   }
 
   ngOnInit() {
+
     this.items = [
       { label: 'Alterar', icon: 'pi pi-check', command: (event) => this.alterar(this.selectedPlanejamento) },
       { label: 'Deletar', icon: 'pi pi-times', command: (event) => this.deletar(this.selectedPlanejamento) },
@@ -86,6 +88,7 @@ export class ListarPlanejamentosComponent implements OnInit {
   criarPlanejamento() {
     this.router.navigate(["main", { outlets: { principal: ['cadastro-planejamento'] } }])
   }
+
 
   deletar(planejamento:Planejamento) {
     Planejamento.delete(planejamento.pk()).subscribe(resultado=>{

@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, NgZone, ElementRef, Renderer, ChangeDetectorRef, ApplicationRef } from '@angular/core';
 import Editor from 'src/app/model/editor';
 
 import { Questao } from 'src/app/model/questao';
@@ -16,6 +16,10 @@ import { Util } from 'src/app/model/util';
 import { Assunto } from 'src/app/model/assunto';
 import { LoginService } from '../../login-module/login.service';
 
+import ErroEditor from 'src/app/model/erroEditor';
+
+import { FormBuilder } from '@angular/forms';
+
 declare var editor: any;
 declare function carregarIde(readOnly, callback, instance, codigo): any;
 
@@ -25,6 +29,7 @@ declare function carregarIde(readOnly, callback, instance, codigo): any;
   styleUrls: ['./editor-programacao.component.css']
 })
 export class EditorProgramacaoComponent implements OnInit {
+  [x: string]: any;
 
   assunto;
   editorCodigo?: Editor;
@@ -42,10 +47,17 @@ export class EditorProgramacaoComponent implements OnInit {
   traceExecucao;
 
 
-  constructor(private http: HttpClient, private route: ActivatedRoute, private login: LoginService,private router:Router) {
+  constructor(private http: HttpClient, private route: ActivatedRoute, private login: LoginService,private router:Router,private formBuilder: FormBuilder,private elementRef: ElementRef,private _renderer: Renderer,private cdr:ChangeDetectorRef,private  app:ApplicationRef,private zone:NgZone) {
     this.pausaIde = true;
     this.erroLinguagemProgramacao = "";
     this.statusExecucao = "";
+
+
+    zone.runOutsideAngular(() =>{
+
+      window.document.addEventListener('change', this.change.bind(this));
+
+  })
 
   }
 
@@ -293,4 +305,32 @@ export class EditorProgramacaoComponent implements OnInit {
   visualizarCodigoSimilar(questao){
     this.router.navigate(["main", { outlets: { principal: ['exibir-codigo',questao.id] } } ] );
   }
+
+  enviarErroEditor(){
+    let submissao = this.prepararSubmissao();
+    submissao.save().subscribe(submissao =>{
+      let errorEditor = new ErroEditor(null,submissao.pk());
+      errorEditor.save().subscribe(erro=>{
+        alert("Erro notificado com sucesso. Obrigado!");
+      });
+    });
+
+  }
+  change(event){
+    event.preventDefault();
+    console.log("DOM value changed" ,event);
+    console.log("component value", this.elementRef.nativeElement);
+    this.zone.run(() => { console.log('Do change detection here');
+    //this.cdr.detectChanges();
+    if(this.elementRef.nativeElement.querySelectorAll('input')[0].outerHTML === event.target.outerHTML)
+    {
+        console.log('Inside value updation');
+        
+        this.customerForm.controls['name'].setValue(event.target.value);
+    }
+});
+    setTimeout(() =>{
+        this.cdr.markForCheck();
+    })
+}
 }

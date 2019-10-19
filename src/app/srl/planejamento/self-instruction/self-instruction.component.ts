@@ -35,6 +35,7 @@ export class SelfInstructionComponent implements OnInit {
   }
 
   ngOnInit() {
+    this.autoInstrucao = new AutoInstrucao(null, this.login.getUsuarioLogado(), this.questao, null, null, null, null, null, null);
     this.getQuestao();
    
   }
