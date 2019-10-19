@@ -3,7 +3,7 @@ import { UsuarioService } from '../usuario.service';
 import Usuario from '../../model/usuario';
 import { Router } from '@angular/router';
 import { LoginService } from 'src/app/login-module/login.service';
-import {Experiment} from 'scientificxpjs/experiment'
+//import {Experiment} from 'scientificxpjs/experiment'
 import { MessageService } from 'primeng/primeng';
 
 
@@ -30,9 +30,10 @@ export class LoginComponent implements OnInit {
     let t = this;
     this.login.logar(this.usuario).subscribe(resultado=>{
       /**/
-      Experiment.login(this.usuario.grupoExperimento).subscribe(resultado=>{
+      this.redirecionar(resultado);
+      /*Experiment.login(this.usuario.grupoExperimento).subscribe(resultado=>{
         this.redirecionar(resultado);
-      })
+      })*/
     })
   }
 

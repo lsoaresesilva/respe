@@ -3,9 +3,8 @@ import Usuario from 'src/app/model/usuario';
 import { MenuItem, MessageService } from 'primeng/api';
 import { ActivatedRoute, Router } from '@angular/router';
 import Turma from 'src/app/model/turma';
-import { PerfilUsuario } from 'src/app/model/perfilUsuario';
 import Query from 'src/app/model/firestore/query';
-import { LoginService } from '../login.service';
+import { LoginService } from 'src/app/login-module/login.service';
 
 @Component({
   selector: 'app-listar-professores',

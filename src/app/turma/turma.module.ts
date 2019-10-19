@@ -13,10 +13,13 @@ import { TableModule } from 'primeng/table';
 import { SrlModule } from '../srl/srl.module';
 import { ListarTurmaComponent } from './listar-turma/listar-turma.component';
 import {ContextMenuModule,MenuItem} from 'primeng/primeng';
+import { ListarTurmaProfessorComponent } from './listar-turma-professor/listar-turma-professor.component';
+import { ListarProfessoresComponent } from './listar-professores/listar-professores.component';
 
 
 @NgModule({
-  declarations: [ListarTurmaComponent, VisualizarTurmaComponent, CadastrarEstudantesComponent, CadastrarTurmaComponent, ListarEstudantesComponent],
+  declarations: [ListarTurmaComponent, ListarTurmaProfessorComponent,
+    ListarProfessoresComponent, VisualizarTurmaComponent, CadastrarEstudantesComponent, CadastrarTurmaComponent, ListarEstudantesComponent],
   imports: [
     CsclModule,
     CommonModule,

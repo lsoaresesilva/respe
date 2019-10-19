@@ -2,15 +2,13 @@ import { Injectable, OnDestroy } from '@angular/core';
 import { CanActivate } from '@angular/router/src/utils/preactivation';
 import { ActivatedRouteSnapshot, RouterStateSnapshot, Router, CanLoad, Route } from '@angular/router';
 import { Observable } from 'rxjs';
-import Usuario from '../model/usuario';
-import { containsElement } from '@angular/animations/browser/src/render/shared';
-import { LoginService } from '../juiz/login.service';
 import Turma from '../model/turma';
 import EstudanteTurma from '../model/estudanteTurma';
 import Query from '../model/firestore/query';
 import {Component} from '@angular/core';
 import {Message} from 'primeng//api';
 import {MessageService} from 'primeng/api';
+import { LoginService } from '../login-module/login.service';
 
 @Injectable({
     providedIn: 'root'

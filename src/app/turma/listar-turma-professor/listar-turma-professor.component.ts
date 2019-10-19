@@ -1,10 +1,10 @@
 import { Component, OnInit } from '@angular/core';
 import Turma from 'src/app/model/turma';
 import { ActivatedRoute } from '@angular/router';
-import { LoginService } from '../login.service';
 import Query from 'src/app/model/firestore/query';
 import { Collection } from 'src/app/model/firestore/document';
 import Usuario from 'src/app/model/usuario';
+import { LoginService } from 'src/app/login-module/login.service';
 
 @Component({
   selector: 'app-listar-turma-professor',

@@ -35,6 +35,8 @@ export class ListarQuestoesFechadasComponent implements OnInit {
       this.carregarStatusRespostasAluno(respostasAluno);
     });
 
+    this.ordernarPorSequencia(this.assunto.questoesFechadas);
+
     if (this.login.getUsuarioLogado().perfil == 3) {
       this.items = [
         { label: 'Alterar', icon: 'pi pi-check', command: (event) => this.alterar(this.selectedQuestao) },
@@ -65,20 +67,22 @@ export class ListarQuestoesFechadasComponent implements OnInit {
         if (respostaUsuario.questaoId == this.assunto.questoesFechadas[i].id) {
           this.respostasAluno[i] = QuestaoFechada.isRespostaCorreta(this.assunto.questoesFechadas[i], respostaUsuario);
         }
-        
+
         if (this.respostasAluno[i] == undefined)
           this.respostasAluno[i] = "Responder";
       });
-    this.ordernarPorSequencia(questoes);
-    
-    
+
+      
+
+
+    }
   }
- 
-  ordernarPorSequencia(questoes:QuestaoFechada[]){
+
+  ordernarPorSequencia(questoes: QuestaoFechada[]) {
     questoes.sort((a, b) => a.sequencia - b.sequencia);
-    this.questoes= questoes;
+    this.assunto.questoesFechadas = questoes;
   }
-  
+
 
 
   deletar(questao: QuestaoFechada) {
@@ -95,7 +99,7 @@ export class ListarQuestoesFechadasComponent implements OnInit {
 
       this.messageDelete();
     });
-    
+
   }
 
   messageDelete() {

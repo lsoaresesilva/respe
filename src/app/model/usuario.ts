@@ -4,7 +4,7 @@ import Query from './firestore/query';
 import { PerfilUsuario } from './enums/perfilUsuario';
 import { sha256 } from 'js-sha256';
 import TempoOnline from './tempoOnline';
-import { Experiment } from 'scientificxpjs/experiment';
+//import { Experiment } from 'scientificxpjs/experiment';
 
 
 @Collection("usuarios")
@@ -37,7 +37,7 @@ export default class Usuario extends Document{
 
         return new Observable(observer=>{
             Usuario.count().subscribe(contagem=>{
-                this.grupoExperimento = Experiment.assignToGroup(contagem);
+                this.grupoExperimento = 1;//Experiment.assignToGroup(contagem);
                 super.save().subscribe(result=>{
                     observer.next(result);
                     observer.complete();
@@ -85,7 +85,7 @@ export default class Usuario extends Document{
     static logar(query):Observable<Usuario>{
         return new Observable(observer=>{
             let usuario = null;
-            super.getAll(query).subscribe(usuarios=>{
+            Usuario.getAll(query).subscribe(usuarios=>{
                 if (usuarios.length > 0) {
                     usuario = new Usuario(usuarios[0].id, usuarios[0].email, usuarios[0].senha, usuarios[0].perfil );
                     usuario.minutos = 0;
