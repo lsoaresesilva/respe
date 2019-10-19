@@ -29,30 +29,6 @@
     
    } 
 
-   h1 {
-    text-align: center;
-    font: italic small-caps bold 24px/0px "Comic Sans MS", cursive, sans-serif;
-    color: gray;
-  } 
- 
- .table{
-    background-color: rgb(193, 248, 193);
-} 
-
- p {
-    font-family: Lato;
+   body{
+    margin:0px;
   }
-
-input{
-    width: 20%;
-    
-} 
-
-.link{
-    color: #000;
-    Font-size: 13px;
-}
-
-button{
-    font-weight: bold;
-}
