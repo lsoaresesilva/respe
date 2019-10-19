@@ -5,7 +5,7 @@ import { Observable } from 'rxjs';
 import { finalize } from 'rxjs/operators';
 import { LoginService } from 'src/app/login-module/login.service';
 import Turma from 'src/app/model/turma';
-import Query from 'mobile/src/odm/query';
+
 import { ActivatedRoute, Router } from '@angular/router';
 import { MessageService } from 'primeng/api';
 import { MaterialEnviado } from 'src/app/model/materialEnviado';

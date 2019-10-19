@@ -18,7 +18,7 @@
 
   <ng-template pTemplate="body" let-planejamento>
       <tr>
-          <td><a (click)="abrirPlanejamento(planejamento)" style="cursor:pointer">{{planejamento.assunto.nome}}</a></td>
+          <td (click)="abrirPlanejamento(planejamento)" style="cursor:pointer">{{planejamento.assunto.nome}}</td>
           <td>{{planejamento.tempoEstudo}} horas/semana</td>
           <td> <button pButton type="button" (click)="criarPlanejamento()" label="X" class= "ui-button-danger ui-button-raised"></button></td>
       </tr>

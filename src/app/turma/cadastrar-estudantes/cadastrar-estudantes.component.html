@@ -1,73 +1,63 @@
-<p-toast [style]="{marginTop: '80px'}" [showTransitionOptions] = "'10ms'" [hideTransitionOptions] = "'10ms'"></p-toast>
 
- <!--
-<h1> Cadastro de estudante</h1>
+<p-toast></p-toast>
 
-<span class="ui-float-label">
-  <input  [(ngModel)]= "estudante.turma.codigo" type="text" size="6" pInputText>
-<label>Nº da turma</label>
-</span>
-<br/> 
-<span class="ui-float-label">
-    <input  [(ngModel)]= "estudante.usuario.nome"  id ="EstudanteNome" type="text" size="30" pInputText>
-  <label>Nome</label>
-</span>
-<br/> 
-<span class="ui-float-label">
-    <input [(ngModel)]= "estudante.usuario.email"  id ="EstudanteEmail" type="text" size="30" pInputText>
-  <label>E-mail</label>
-</span>
-<br/>
-<span class="ui-float-label" *ngIf="isAtualizacao == undefined">
-    <input  [(ngModel)]= "estudante.usuario.senha"  id ="EstudanteSenha" type="password" size="30" pInputText>
-  <label>Senha</label>
-</span>
+<div class="container">
 
- 
-<br/> 
-<button pButton type="button" label= "Salvar" (click) = 'cadastrarEstudante()' ></button>   -->
-
-<div class="p-grid">
-  <div class="p-col-12" style="text-align: center">
-    <i class="pi pi-desktop" style="font-size: 10em; color: gray;"></i>
-  </div>
-  <div class="p-col-12">
-    <h1>Cadastro de estudante</h1>
-  </div>
+  <div class="login-section">
+          
+<div class="p-grid form">
+  <div class="p-col-12 row-title"> Faça seu cadastro</div>
   
-  <div class="p-col-12">
-    <p-card class="logincard">
-      
-       <div class="p-grid">
-        <div class="p-col-12">
-            <span class="ui-float-label">
-              <input  [(ngModel)]= "estudante.turma.codigo" type="text" size="6" pInputText>
-              <label>Nº da turma</label>
-            </span>
-        </div>
-        <div class="p-col-12">
-            <span class="ui-float-label">
-              <input  [(ngModel)]= "estudante.usuario.nome"  id ="EstudanteNome" type="text" size="30" pInputText>
-              <label>Nome</label>
-            </span>
-        </div>
-        <div class="p-col-12">
-          <span class="ui-float-label">
-            <input [(ngModel)]= "estudante.usuario.email"  id ="EstudanteEmail" type="text" size="30" pInputText>
-              <label>E-mail</label>
-            </span>
-        </div>
-        <div class="p-col-12">
-            <span class="ui-float-label" *ngIf="isAtualizacao == undefined">
-              <input  [(ngModel)]= "estudante.usuario.senha"  id ="EstudanteSenha" type="password" size="30" pInputText>
-              <label>Senha</label>
-            </span>
-          </div>
-          <div class="p-col-12">
-              <button pButton type="button" label="Salvar" (click)="cadastrarEstudante()" class="ui-button-raised ui-button-success"></button>
-          </div>
-      </div>
+  <div class= "container-painel">
 
-    </p-card>
+    
+     <div class="p-col-12">
+         <span class="ui-float-label">
+           <input  [(ngModel)]= "estudante.turma.codigo" type="text" size="6" pInputText>
+           <label>Nº da turma</label>
+         </span>
+     </div>
+     <div class="p-col-12">
+         <span class="ui-float-label">
+           <input  [(ngModel)]= "estudante.usuario.nome"  id ="EstudanteNome" type="text" size="30" pInputText>
+           <label>Nome</label>
+         </span>
+     </div>
+     <div class="p-col-12">
+       <span class="ui-float-label">
+         <input [(ngModel)]= "estudante.usuario.email"  id ="EstudanteEmail" type="text" size="30" pInputText>
+           <label>E-mail</label>
+         </span>
+     </div>
+     <div class="p-col-12">
+         <span class="ui-float-label" *ngIf="isAtualizacao == undefined">
+           <input  [(ngModel)]= "estudante.usuario.senha"  id ="EstudanteSenha" type="password" size="30" pInputText>
+           <label>Senha</label>
+         </span>
+      </div>
+       <div class="p-col-12">
+           <button pButton type="button" label="Salvar" (click)="cadastrarEstudante()" class="ui-button-raised "></button>
+       </div>
+   </div>
+
+
   </div>
+
 </div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
