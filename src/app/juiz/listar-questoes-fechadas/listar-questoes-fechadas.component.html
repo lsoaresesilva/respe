@@ -1,28 +1,28 @@
 <p-toast [style]="{marginTop: '80px'}"></p-toast>
 
 <div *ngIf="respostasAluno != undefined">
-    <p-card>
-        <p-table [value]="assunto.questoesFechadas" [(contextMenuSelection)]="selectedQuestao" [contextMenu]="cm">
-            <ng-template pTemplate="header">
-                <tr>
-                    <th>Questões Fechadas</th>
-                    <th>Ação</th>
-                    <th>Status</th>
-                </tr>
-            </ng-template>
-            <ng-template pTemplate="body" let-rowData let-questao let-resposta let-i="rowIndex">
-                <tr [pContextMenuRow]="rowData">
-                    <td (click)="visualizar(questao)" style="cursor: pointer">{{questao.nomeCurto}}</td>
-                    <td><button [disabled]="respostasAluno[i] == false" pButton type="button" label="Responder"
+
+     <p-table [value]="assunto.questoesFechadas" [(contextMenuSelection)]="selectedQuestao" [contextMenu]="cm">
+        <ng-template pTemplate="header">
+            <tr>
+                <th>Questões Fechadas</th>
+                <th>Ação</th>
+                <th>Status</th>
+            </tr>
+        </ng-template>
+        <ng-template pTemplate="body" let-rowData let-questao let-resposta let-i="rowIndex">
+            <tr [pContextMenuRow]="rowData">
+                <td (click)="visualizar(questao)" style="cursor: pointer">{{questao.nomeCurto}}</td>
+                <td><button [disabled]="respostasAluno[i] == false" pButton type="button" label="Responder"
                             (click)="visualizar(questao)" class="ui-button-rounded ui-button-success"></button></td>
-                    <td>
-                        <span *ngIf="respostasAluno[i] == 'Responder' else status">Falta responder</span>
-                        <ng-template #status>{{respostasAluno[i]?"Correto":"Incorreto"}}</ng-template>
-                    </td>
-                </tr>
-            </ng-template>
-        </p-table>
-    </p-card>
+                <td>
+                    <span *ngIf="respostasAluno[i] == 'Responder' else status">Falta responder</span>
+                    <ng-template #status>{{respostasAluno[i]?"Correto":"Incorreto"}}</ng-template>
+                </td>
+            </tr>
+        </ng-template>
+    </p-table>
+    
 </div>
 
 

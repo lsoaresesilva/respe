@@ -1,8 +1,4 @@
-
-
 <p-toast [style]="{marginTop: '80px'}" position="top-right"></p-toast>
-<p-card title="Lista das Questoes com Programação">
-    
 
 
     <p-table [value]="questoes" [(contextMenuSelection)]="selectedQuestao" [contextMenu]="cm">
@@ -20,9 +16,9 @@
         </ng-template>
     </p-table>
 
-    <p-contextMenu #cm [model]="items"  ></p-contextMenu>
+<p-contextMenu #cm [model]="items"  ></p-contextMenu>
     
-</p-card>
+
 
 
 
