@@ -63,16 +63,18 @@ export class ListarQuestoesFechadasComponent implements OnInit {
     this.respostasAluno = [];
 
     for (let i = 0; i < this.assunto.questoesFechadas.length; i++) {
+      if (this.respostasAluno[i] == undefined)
+        this.respostasAluno[i] = "Responder";
+
       respostasAlunoUsuario.map(respostaUsuario => {
         if (respostaUsuario.questaoId == this.assunto.questoesFechadas[i].id) {
           this.respostasAluno[i] = QuestaoFechada.isRespostaCorreta(this.assunto.questoesFechadas[i], respostaUsuario);
         }
 
-        if (this.respostasAluno[i] == undefined)
-          this.respostasAluno[i] = "Responder";
+
       });
 
-      
+
 
 
     }
