@@ -40,21 +40,20 @@ export class CadastrarEstudantesComponent implements OnInit {
     })
   }
   cadastrarEstudante() {
-    let resultado;
     if (this.estudante.turma.codigo == undefined) {
       alert("É preciso informar o código de uma turma.");
     }else{
-      Turma.validarCodigo(this.estudante.turma.codigo).subscribe(resultadoBanco => {
-        resultado = resultadoBanco;
+      Turma.validarCodigo(this.estudante.turma.codigo).subscribe(resultado => {
+        
         if (resultado === false) {
-          alert("codigo invalido");
+          
+          this.messageService.add({ severity: 'erro', summary: 'Houve um erro:', detail: "Não existe uma turma cadastrada com este código." });
         } else {
           this.estudante.usuario.validar().subscribe(resultado => {
             if (resultado) {
   
               this.estudante.save().subscribe(resultado => {
-                //this.exibirMensagemCadastro(); <= não está funcionando
-                alert("Cadastro realizado com sucesso.")
+                this.messageService.add({ severity: 'success', summary: 'Bem vindo!', detail: "Cadastro realizado com sucesso." });
                 this.router.navigate([""]);
               },
                 err => {
