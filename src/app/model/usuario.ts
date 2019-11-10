@@ -3,8 +3,8 @@ import { Observable } from 'rxjs';
 import Query from './firestore/query';
 import { PerfilUsuario } from './enums/perfilUsuario';
 import { sha256 } from 'js-sha256';
-import TempoOnline from './tempoOnline';
-//import { Experiment } from 'scientificxpjs/experiment';
+import Experiment from './experimento/lib/experiment';
+import { Groups } from './experimento/lib/enum/groups';
 
 
 @Collection("usuarios")
@@ -14,9 +14,8 @@ export default class Usuario extends Document{
     database;
     nome;
     minutos;
-    grupoExperimento;
 
-    constructor(id, public email, public senha, public perfil:PerfilUsuario) {
+    constructor(id, public email, public senha, public perfil:PerfilUsuario, public grupoExperimento:Groups) {
         super(id);
             
     }
@@ -30,14 +29,15 @@ export default class Usuario extends Document{
     }
 
     stringfiy(){
-        return { id: this.pk(), email:this.email, senha:this.senha, perfil: this.perfil, minutos:this.minutos}
+        return { id: this.pk(), email:this.email, senha:this.senha, perfil: this.perfil, minutos:this.minutos, grupoExperimento:this.grupoExperimento}
     }
 
     save():Observable<Usuario>{
 
         return new Observable(observer=>{
             Usuario.count().subscribe(contagem=>{
-                this.grupoExperimento = 1;//Experiment.assignToGroup(contagem);
+                //this.grupoExperimento = 1;//
+                this.grupoExperimento = Experiment.assignToGroup(contagem);
                 super.save().subscribe(result=>{
                     observer.next(result);
                     observer.complete();
@@ -87,7 +87,7 @@ export default class Usuario extends Document{
             let usuario = null;
             Usuario.getAll(query).subscribe(usuarios=>{
                 if (usuarios.length > 0) {
-                    usuario = new Usuario(usuarios[0].id, usuarios[0].email, usuarios[0].senha, usuarios[0].perfil );
+                    usuario = new Usuario(usuarios[0].id, usuarios[0].email, usuarios[0].senha, usuarios[0].perfil, usuarios[0].grupoExperimento );
                     usuario.minutos = 0;
                     observer.next(usuario);
                 }else{

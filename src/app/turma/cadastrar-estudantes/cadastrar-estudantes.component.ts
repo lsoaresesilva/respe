@@ -32,7 +32,7 @@ export class CadastrarEstudantesComponent implements OnInit {
   }
 
   ngOnInit() {
-    this.estudante = new Estudante(new Turma(null, null, null, null), new Usuario(null, null, null, PerfilUsuario.estudante));
+    this.estudante = new Estudante(new Turma(null, null, null, null), new Usuario(null, null, null, PerfilUsuario.estudante, null));
     this.route.params.subscribe(parametros => {
       if (parametros["codigoTurma"] != undefined) {
         this.estudante.turma.codigo = parametros["codigoTurma"];
@@ -53,6 +53,7 @@ export class CadastrarEstudantesComponent implements OnInit {
             if (resultado) {
   
               this.estudante.save().subscribe(resultado => {
+                alert("Cadastro realizado com sucesso.")
                 this.messageService.add({ severity: 'success', summary: 'Bem vindo!', detail: "Cadastro realizado com sucesso." });
                 this.router.navigate([""]);
               },

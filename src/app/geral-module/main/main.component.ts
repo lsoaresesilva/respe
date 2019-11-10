@@ -10,7 +10,7 @@ import Query from 'src/app/model/firestore/query';
 import { RespostaQuestaoExperimento } from 'src/app/model/experimento/respostaQuestaoExperimento';
 import { PreTesteComponent } from 'src/app/experimento/pre-teste/pre-teste.component';
 import PosTeste from 'src/app/model/experimento/posTeste';
-//import {Groups} from 'scientificxpjs/enum/groups';
+import { Groups } from 'src/app/model/experimento/lib/enum/groups';
 
 @Component({
   selector: 'app-main',
@@ -58,7 +58,7 @@ export class MainComponent implements OnInit {
         }
       ];
     }else{
-      if(this.usuario.grupoExperimento == 1/*Groups.control*/){
+      if(this.usuario.grupoExperimento == Groups.control){
         this.itens = [
           {
             label: 'Assuntos',

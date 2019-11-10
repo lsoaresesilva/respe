@@ -25,7 +25,7 @@ export class VisualizarPerfilEstudanteComponent implements OnInit {
 
 
   constructor(private route: ActivatedRoute, private login:LoginService) {
-    this.estudante = new Usuario(null,null,null,null); 
+    this.estudante = new Usuario(null,null,null,null, null); 
     this.usuario = this.login.getUsuarioLogado();
     
    

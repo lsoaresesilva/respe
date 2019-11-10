@@ -4,7 +4,7 @@ import { browser, by } from 'protractor';
 describe('workspace-project App', () => {
   let page: LoginPage;
 
-  /*beforeAll(() => {
+  beforeAll(() => {
     page = new LoginPage();
     page.navigateTo();
   });
@@ -27,5 +27,13 @@ describe('workspace-project App', () => {
     page.getButtonCadastro().click();
     expect(browser.driver.getCurrentUrl()).toContain('/cadastro-estudante');
     expect(browser.driver.findElement(by.id("codigo-turma")).isDisplayed()).toBeTruthy();
-  })*/
+  })
+
+  it("Deve emitir um alerta quando nenhum campo for preenchido", ()=>{
+
+  })
+
+  it("Deve emitir um alerta quando o usuário/senha não estiverem corretos", ()=>{
+    
+  })
 });

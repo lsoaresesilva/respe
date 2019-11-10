@@ -5,6 +5,8 @@ import { Questao } from 'src/app/model/questao';
 import Submissao from 'src/app/model/submissao';
 import { Menu } from 'primeng/primeng';
 import { Assunto } from 'src/app/model/assunto';
+import { LoginService } from 'src/app/login-module/login.service';
+import { Groups } from 'src/app/model/experimento/lib/enum/groups';
 
 @Component({
   selector: 'app-visualizar-questao',
@@ -22,7 +24,7 @@ export class VisualizarQuestaoComponent implements OnInit {
   private questoes = [];
 
 
-  constructor(private route: ActivatedRoute, private router: Router) {
+  constructor(private route: ActivatedRoute, private router: Router, private loginService:LoginService) {
     this.questao = new Questao(null, null, null, null, null, [], [],null);
 
   }
@@ -57,7 +59,13 @@ export class VisualizarQuestaoComponent implements OnInit {
 
 
   responder(questao){
+    if(this.loginService.getUsuarioLogado().grupoExperimento == Groups.control){
+      this.router.navigate(["main", { outlets: { principal: ['editor', this.assunto.pk(), questao.id] }}]);
+      return; 
+    }
+
     this.router.navigate(["main", { outlets: { principal: ['self-instruction', this.assunto.pk(), questao.id] }}]);
+    
   }
   alterarQuestao(questao: Questao) {
     if (questao != undefined) {

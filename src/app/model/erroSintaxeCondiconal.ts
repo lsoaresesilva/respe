@@ -67,7 +67,8 @@ export default class ErroSintaxeCondicional extends ErroSintaxe {
                 if (linha.length == 3)
                     pos = 2;
 
-                linha[0] = linha[0].replace(/if|elif|\s/, "").replace(/ /g, "");
+                linha[0] = linha[0].replace(/(if|elif)\s/, "");
+                linha[0] = linha[0].replace(/ /g, "");
                 linha[pos] = linha[pos].replace(/\:|\s/, "").replace(/ /g, "");
                 if(ErroSintaxeVariavel.isOperacaoMatematica(linha[0])){
                     let variaveisSeparadas = ErroSintaxeVariavel.getVariaveisMatematicas(linha[0]);

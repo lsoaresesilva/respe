@@ -1,4 +1,3 @@
-
 <div class="p-grid" style="margin: 10px 10px 10px 10px">
   <div class="p-col-12" style="background-color: #B5E0F9">
     <button type="button" (click)="executar()" pButton label="Executar"
@@ -11,14 +10,15 @@
     <button type="button" (click)="listarSubmissao()" pButton label="Visualizar resposta"
       lass="ui-button-secondary"></button>
 
-    <button type="button" (click)="enviarErroEditor()" pButton label="Problema no Editor"
+    <button type="button" (click)="enviarErroEditor()" pButton label="Há um problema no Editor?"
       lass="ui-button-danger"></button>
     <!--<button type="button" (click)="visualizarCodigoSimilar(questao)" pButton
       label="Visualizar exemplo de código"></button>-->
 
-  
 
+    <ng-template *ngIf="login.getUsuarioLogado().grupoExperimento != 4">
       <button type="button" onclick="TogetherJS(this); return false;" pButton label="Responder Em Grupo"></button>
+    </ng-template>
   </div>
 </div>
 <div class="p-grid" style="margin: 10px 10px 10px 10px">
@@ -49,7 +49,7 @@
         <span [innerHTML]="erroLinguagemProgramacao" style="padding:20px;"></span>
 
       </div>
-      <div *ngIf="modoVisualizacao  == true" >
+      <div *ngIf="modoVisualizacao  == true">
         <visualizar-execucao [traceExecucao]="traceExecucao" (mudancaLinha)="atualizarLinhaEditor($event)">
         </visualizar-execucao>
       </div>

@@ -26,7 +26,7 @@ export class CadastrarTurmaComponent implements OnInit {
 
   ngOnInit() {
     this.turma = new Turma(null, null, [], null);
-    this.professor = new Usuario(null, null, null, null);
+    this.professor = new Usuario(null, null, null, null, null);
     this.estudantes = [];
 
   }

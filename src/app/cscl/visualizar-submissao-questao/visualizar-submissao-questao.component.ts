@@ -19,7 +19,7 @@ export class VisualizarSubmissaoQuestaoComponent implements OnInit {
  
   constructor(private messageService: MessageService,private router:Router, public login:LoginService,private route: ActivatedRoute) {
     this.submissao= new Submissao (null,null,null,[]);
-    this.usuario = new Usuario (null,null,null,null);
+    this.usuario = new Usuario (null,null,null,null, null);
    }
 
   ngOnInit() {

@@ -16,7 +16,7 @@ export class LoginService {
     if (this.isUsuarioLogado()) {
       let json = JSON.parse(sessionStorage.getItem("usuario"));
       if (json.id != undefined && json.perfil != undefined) {
-        let usuario = new Usuario(json.id, json.email, json.senha, json.perfil);
+        let usuario = new Usuario(json.id, json.email, json.senha, json.perfil, json.grupoExperimento);
         usuario.minutos = json.minutos;
         return usuario;
       } else {

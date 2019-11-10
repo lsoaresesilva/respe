@@ -28,7 +28,7 @@ class Juiz():
     # Formata os inputs que serão utilizados na visualização do algoritmo.
     def prepararInputs(self, entradas):
         inputs = ""
-        
+
         for entrada in entradas:
             # Verificar se é um número
             numeroApenas = re.search("^[0-9]*$", entrada)
@@ -37,37 +37,38 @@ class Juiz():
             else:
                 inputs += '"'+entrada+'"'+','
 
-        inputs = inputs[:-1] # remove a , que foi acrescentada a mais.
+        inputs = inputs[:-1]  # remove a , que foi acrescentada a mais.
 
         return "'["+inputs+"]'"
-
 
     def executarVisualizacao(self, arquivo):
         jsonTrace = ""
 
-        
         teste = self.submissao.questao["testsCases"][0]
         if teste != None:
             inputs = self.prepararInputs(teste["entradas"])
         # TODO: colocar tudo dentro do if, se n tiver teste, n tem como visualizar.
 
         if arquivo.is_arquivo_valido():
-            if self.matchInputCodigo(teste["entradas"]):
-                path = os.path.dirname(os.path.realpath(__file__))
-                path = path+'/pythontutor/generate_json_trace.py'
-                comando = 'python3 '+path+' '+arquivo.nome()+' -i '+inputs
-                child = pexpect.spawn('python3 '+path+' '+arquivo.nome()+' -i '+inputs) #BUG: tem de recuperar o dir do projeto.. para poder executar
-                child.expect(pexpect.EOF)
-                jsonTrace = child.before.decode("utf-8")
-                erro = ErroProgramacao(jsonTrace)
-                if erro.possuiErroVisualizacao() == False:
-                    return jsonTrace
-                else:
-                    raise JuizError("O código apresentou o seguinte erro '"+erro.tipo)
-
+            #if self.matchInputCodigo(teste["entradas"]):
+            path = os.path.dirname(os.path.realpath(__file__))
+            path = path+'/pythontutor/generate_json_trace.py'
+            comando = 'python3 '+path+' '+arquivo.nome()+' -i '+inputs
+            # BUG: tem de recuperar o dir do projeto.. para poder executar
+            child = pexpect.spawn(
+                'python3 '+path+' '+arquivo.nome()+' -i '+inputs)
+            child.expect(pexpect.EOF)
+            jsonTrace = child.before.decode("utf-8")
+            erro = ErroProgramacao(jsonTrace)
+            if erro.possuiErroVisualizacao() == False:
+                return jsonTrace
             else:
                 raise JuizError(
-                    "A quantidade de inputs em seu código é menor/maior que a quantidade de entradas")
+                    "O código apresentou o seguinte erro '"+erro.tipo)
+
+            #else:
+            #    raise JuizError(
+            #        "A quantidade de inputs em seu código é menor/maior que a quantidade de entradas")
         else:
             raise JuizError("O arquivo de código não foi encontrado.")
 
@@ -76,40 +77,41 @@ class Juiz():
     def executarTestes(self, arquivo):
         resultados = []
         resultadoTeste = False
-        msgRetornoAlgoritmo =  ""
+        msgRetornoAlgoritmo = ""
 
         for teste in self.submissao.questao["testsCases"]:
             print(teste["entradas"])
             if arquivo.is_arquivo_valido():
-                if self.matchInputCodigo(teste["entradas"]):
+                #if self.matchInputCodigo(teste["entradas"]):
 
-                    child = pexpect.spawn('python3 '+arquivo.nome())
+                child = pexpect.spawn('python3 '+arquivo.nome())
 
+                try:
+
+                    for entradas in teste["entradas"]:
+                        child.expect(".*")
+                        child.sendline(entradas)
+
+                    child.expect(pexpect.EOF)
+                    msgRetornoAlgoritmo = child.before.decode("utf-8")
+                    # TODO: verificar se há erro no código
                     try:
+                        erro = ErroProgramacao(msgRetornoAlgoritmo)
+                        if erro.possuiErroExecucao(msgRetornoAlgoritmo):
+                            raise JuizError(
+                                "O código apresentou o seguinte erro '"+erro.tipo+"' na linha "+erro.linha)
+                        else:  # Não há erro, verificar o resultado test de testcase normalmente
+                            resultadoTeste = self.compararSaidaEsperadaComSaidaAlgoritmo(
+                                msgRetornoAlgoritmo, teste["saida"])
+                    finally:
+                        child.close()
+                except OSError as e:
+                    # TODO: melhorar a mensagem para indicar qual o problema
+                    raise JuizError("O código possui um erro.")
 
-                        for entradas in teste["entradas"]:
-                            child.expect(".*")
-                            child.sendline(entradas)
-
-                        child.expect(pexpect.EOF)
-                        msgRetornoAlgoritmo = child.before.decode("utf-8")
-                        # TODO: verificar se há erro no código
-                        try:
-                            erro = ErroProgramacao(msgRetornoAlgoritmo)
-                            if erro.possuiErroExecucao(msgRetornoAlgoritmo):
-                                raise JuizError(
-                                    "O código apresentou o seguinte erro '"+erro.tipo+"' na linha "+erro.linha)
-                            else:  # Não há erro, verificar o resultado test de testcase normalmente
-                                resultadoTeste = self.compararSaidaEsperadaComSaidaAlgoritmo(
-                                    msgRetornoAlgoritmo, teste["saida"])
-                        finally:
-                            child.close()
-                    except OSError as e:
-                        raise JuizError("O código possui um erro.") #TODO: melhorar a mensagem para indicar qual o problema
-
-                else:
-                    raise JuizError(
-                        "A quantidade de inputs em seu código é menor que a quantidade de entradas")
+                #else:
+                #    raise JuizError(
+                #        "A quantidade de inputs em seu código é menor que a quantidade de entradas")
 
                 resultado = ResultadoTestCase(None, teste, self.respostaAlgoritmo(
                     msgRetornoAlgoritmo, teste["entradas"]), resultadoTeste)

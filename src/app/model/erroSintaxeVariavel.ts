@@ -73,9 +73,6 @@ export default class ErroSintaxeVariavel extends ErroSintaxe {
         return false;
     }
 
-    static getVariavel(linha) {
-
-    }
 
     static nomeVariavelComEspaco(linha) {
 
@@ -105,15 +102,17 @@ export default class ErroSintaxeVariavel extends ErroSintaxe {
      */
     static isVariavelIncluida(variavel, variaveis) {
 
-        variaveis.forEach(variavelIncluida => {
-
-            if (variavel == variavelIncluida.nome) {
-                return true;
+        if(Array.isArray(variaveis)){
+            for(let i = 0; i < variaveis.length; i++){
+                if (variavel == variaveis[i].nome) {
+                    return true;
+                }
             }
-        })
-
-
+        }
+        
         return false;
+
+
     }
 
     /**
@@ -157,7 +156,7 @@ export default class ErroSintaxeVariavel extends ErroSintaxe {
 
         let variaveis = [];
 
-        if(ErroSintaxeVariavel.isConditional(linha)){
+        if (ErroSintaxeVariavel.isConditional(linha)) {
             variaveis = ErroSintaxeCondicional.getVariaveisCondicao(linha);
         }
         /*let regex = /(?:\bif|\belif)(?:\s+|\()(\w+)(?:\+|\-|\*|\/)?(\w)?\s*(?:={2}|>|>=|<|<=|!=)\s*([a-zA-Z0-9\"\',]+)(?:\s*|\))/g
@@ -214,7 +213,7 @@ export default class ErroSintaxeVariavel extends ErroSintaxe {
      * Por exemplo:
      * x+y
      * Retornará as variáveis x e y.
-     * TODO: Verificar como mesclar com a função abaixo
+     * TODO: Incrementos realizados com += -= *= ou /= não são identificados como variáveis que estão sendo utilizadas
      * @param linha
      */
     static getVariaveisMatematicas(linha) {
@@ -291,14 +290,11 @@ export default class ErroSintaxeVariavel extends ErroSintaxe {
         return linha.search(/input\(/) == -1 ? false : true;
     }
 
-
-
     static getVariaveisAtribuicaoSimples(linha) {
         let variaveis = [];
         let resultado = linha.match(/=[\s]*(?![0-9\"\',\[\()])[a-zA-z0-9(]*/);
 
         if (resultado != undefined && resultado.length > 0 && resultado[0].replace(/=\s*/, "") != "") {
-
 
             resultado[0] = resultado[0].replace(/=\s*/, "");
             //resultado[0].forEach(variavel => {
@@ -326,7 +322,13 @@ export default class ErroSintaxeVariavel extends ErroSintaxe {
 
         for (let i = 0; i < linhasCodigo.length; i++) {
             if (!this.isInput(linhasCodigo[i])) {
-                // Verifica as variáveis usadas em uma condição   (apenas para if e elif)
+                /*if (this.isInput(linhasCodigo[i])) {
+                    let variavel = this.getVariavel(linhasCodigo[i])
+                    if (!this.isVariavelIncluida(variavel, variaveisUtilizadas)) {
+                        this.incluirVariavel(variavel, i + 1, variaveisUtilizadas);
+                    }
+                }// Verifica as variáveis usadas em uma condição   (apenas para if e elif)
+                else*/
                 if (ErroSintaxeCondicional.isIfOuElif(linhasCodigo[i])) {
                     let variaveis = this.getVariaveisCondicao(linhasCodigo[i])
                     variaveis.forEach(variavel => {
@@ -359,10 +361,22 @@ export default class ErroSintaxeVariavel extends ErroSintaxe {
                 }
             }
 
-
-
+            
         }
+
         return variaveisUtilizadas
+    }
+
+    private static getVariavel(linha) {
+        // REGEX: ([a-zA-Z])*.*= // TODO: está pegando apenas variáveis que não tem números
+        let resultado = linha.match(/([a-zA-Z])*.*=/);
+
+        if (resultado != undefined && resultado.length > 0) {
+            let nomeVariavel = resultado[0].replace(/\s*(|\+|\-|\*|\\)=/, "").trim();
+            return nomeVariavel;
+        }
+
+        return null;
     }
 
     private static identificarVariaveisDeclaradas(codigo) {
@@ -373,13 +387,20 @@ export default class ErroSintaxeVariavel extends ErroSintaxe {
 
         for (let i = 0; i < linhasCodigo.length; i++) {
             // REGEX: ([a-zA-Z])*.*= // TODO: está pegando apenas variáveis que não tem números
-            let resultado = linhasCodigo[i].match(/([a-zA-Z])*.*=/);
+            /*let resultado = linhasCodigo[i].match(/([a-zA-Z])*.*=/);
 
             if (resultado != undefined && resultado.length > 0) {
                 let nomeVariavel = resultado[0].replace(/\s*=/, "");
                 // SE variável não estiver em variaveisUtilizadas ENTÃO adicione ao array variaveisUtilizadas
                 if (!variaveisDeclaradas.includes(nomeVariavel)) {
                     variaveisDeclaradas.push({ nome: nomeVariavel, linha: i + 1 });
+                }
+            }*/
+
+            let variavel = this.getVariavel(linhasCodigo[i]);
+            if( variavel != null){
+                if (!this.isVariavelIncluida(variavel, variaveisDeclaradas)) {
+                    variaveisDeclaradas.push({ nome: variavel, linha: i + 1 });
                 }
             }
 

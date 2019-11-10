@@ -121,12 +121,7 @@ describe('Testes E2E de cadastro de estudante', () => {
               done();
             })
           });
-
-          
-          
-
       }, 5000)
-
 
     });
   })
