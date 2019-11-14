@@ -6,7 +6,7 @@ import { CadastroPlanejamentoComponent } from './srl/planejamento/cadastro-plane
 import { AutoReflexaoComponent } from './srl/auto-reflexao/auto-reflexao.component';
 import { AuthGuard } from './guards/auth.guard';
 import { PaginaNaoEncontradaComponent } from './geral-module/pagina-nao-encontrada/pagina-nao-encontrada.component';
-import { EditorProgramacaoComponent } from './juiz/editor-programacao/editor-programacao.component';
+import { ResponderQuestaoProgramacao } from './juiz/editor/responder-questao-programacao/responder-questao-programacao.component';
 import { ComentariosCodigoComponent } from './cscl/comentarios-codigo/comentarios-codigo';
 import { VisualizarConteudoComponent } from './cscl/visualizar-conteudo/visualizar-conteudo.component';
 import { CadastrarQuestoesComponent } from './juiz/cadastrar-questoes/cadastrar-questoes.component';
@@ -43,6 +43,7 @@ import { EnvioMaterialComponent } from './turma/envio-material/envio-material.co
 import { PreTesteComponent } from './experimento/pre-teste/pre-teste.component';
 import { EnviarMaterialComponent } from './turma/enviar-material/enviar-material.component';
 import { ListarMateriaisComponent } from './turma/listar-materiais/listar-materiais.component';
+import { SubsecaoComponent } from './livro/subsecao/subsecao.component';
 
 
 
@@ -52,8 +53,8 @@ import { ListarMateriaisComponent } from './turma/listar-materiais/listar-materi
 
 const routes: Routes = [
   {path:"main", component:MainComponent, canActivate: [AuthGuard], canLoad: [AuthGuard], children: [
-    {path:"editor/:assuntoId/:questaoId", component:EditorProgramacaoComponent, outlet:"principal"},
-
+    {path:"editor/:assuntoId/:questaoId", component:ResponderQuestaoProgramacao, outlet:"principal"},
+    {path:"subsecao", component:SubsecaoComponent, outlet:"principal"},
     /** SRL */
 
     /** Monitoramento */

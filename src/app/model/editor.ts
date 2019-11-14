@@ -61,7 +61,13 @@ export default class Editor {
         editor.deltaDecorations(this.configuracao.decorations, [{ range: new monaco.Range(1, 1, 1, 1), options: {} }]);
     }
 
-    
+    destacarErros(erros){
+        if(Array.isArray(erros) && erros.length > 0){
+            erros.forEach(erro=>{
+                this.destacarLinha(erro.linha, "erro");
+            })
+        }
+    }
 
 
 

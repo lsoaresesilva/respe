@@ -26,6 +26,7 @@ import { MessageService } from 'primeng/api';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { ExperimentoModule } from './experimento/experimento.module';
 import { CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
+import { LivroModule } from './livro/livro.module';
 
 
 
@@ -38,6 +39,7 @@ import { CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
 
   ],
   imports: [
+    LivroModule,
     TurmaModule,
     ExperimentoModule,
     SrlModule,

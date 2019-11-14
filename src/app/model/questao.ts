@@ -163,4 +163,24 @@ export class Questao {
     }
     return true;
   }
+
+  static getByAssuntoQuestao(assuntoQuestao) {
+    return new Observable(observer => {
+      assuntoQuestao = assuntoQuestao.split("/");
+      let assuntoId = assuntoQuestao[0];
+      let questaoId = assuntoQuestao[1];
+      if (assuntoId != null && questaoId != null) {
+        Assunto.get(assuntoId).subscribe(assunto => {
+          let questao = assunto["getQuestaoProgramacaoById"](questaoId);
+          observer.next(questao);
+          observer.complete();
+        }, err=>{
+          observer.error(err);
+        })
+      }else{
+        observer.error(new Error("É preciso informar um assunto e questão no formato: assunto-id/questao-id"));
+      }
+    })
+
+  }
 }

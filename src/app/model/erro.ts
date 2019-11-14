@@ -27,6 +27,8 @@ export default class Erro extends Document{
         return document;
     }
 
+    
+
     static getAllErrosEstudante(usuario){
 
         return new Observable(observer=>{

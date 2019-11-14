@@ -12,19 +12,13 @@ import { Assunto } from './assunto';
 
 export class Tutor{
 
-    erros:Erro[];
-
     constructor(private submissao:Submissao){
-        this.erros = []
-    }
-
-    analisar(){
         
-        this.erros = this.erros.concat(ErroSintaxeVariavel.erros(this.submissao));
-        this.erros = this.erros.concat(ErroSintaxeCondicional.erros(this.submissao));
-        this.erros = this.erros.concat(ErroSintaxeFuncao.erros(this.submissao));
-
     }
+
+    
+
+    
 
     /**
      * Prepara a submissão para ser salva. Todos os tests cases serão inválidados, pois a submissão é referente a um erro.
@@ -41,35 +35,9 @@ export class Tutor{
     }
 
 
-    salvarErros(){
-        let resultados;
-        return new Observable(observer=>{
-            let operacoesSalvar = [];
-            this.salvarSubmissao().subscribe(resultado=>{
-                this.erros.forEach(erro=>{
-                    operacoesSalvar.push(erro.save())
-                })
     
-                forkJoin(operacoesSalvar).subscribe(errosSalvos=>{
-                    resultados = errosSalvos;
-                }, err=>{
-                    observer.error(err);
-                }, ()=>{
-                    observer.next(resultados);
-                    observer.complete();
-                })
-            })
-            
-        })
-    }
 
-    hasErrors(){
-        if(this.erros.length > 0){
-            return true;
-        }
-
-        return false;
-    }
+    
 
 
     static mediaTestsCases(estudante:Estudante){

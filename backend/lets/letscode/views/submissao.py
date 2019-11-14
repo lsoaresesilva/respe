@@ -41,8 +41,11 @@ class SubmissaoView(APIView):
                 juiz = Juiz(submissao)
                 arquivo = ArquivoSubmissao(submissao.codigo)
                 
-                if request.data["tipo"] == "execução":
+                if request.data["tipo"] == "testes":
                     submissao.resultadosTestsCases = juiz.executarTestes(arquivo)
+                    json = submissao.toJson()
+                elif request.data["tipo"] == "execução":
+                    submissao.saida = juiz.executar(arquivo)
                     json = submissao.toJson()
                 else:
                     json = juiz.executarVisualizacao(arquivo)

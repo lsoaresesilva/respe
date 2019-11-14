@@ -5,6 +5,7 @@ import { RespostaQuestaoFechada } from './respostaQuestaoFechada';
 import Query from './firestore/query';
 import Usuario from './usuario';
 import { Observable } from 'rxjs';
+import { Assunto } from './assunto';
 
 export default class QuestaoFechada {
 
@@ -115,10 +116,10 @@ export default class QuestaoFechada {
   }
 
   hasCode() {
-    if(this.enunciado != null){
+    if (this.enunciado != null) {
       return this.enunciado.search("'''python") != -1 ? true : false;
     }
-    
+
   }
 
   extrairCodigo() {
@@ -129,7 +130,7 @@ export default class QuestaoFechada {
       let regex = /'''python[\n|\r](.*)[\r|\n]'''/;
       let resultado = regex.exec(this.enunciado);
       if (resultado != null && resultado.length > 0) {
-        for(let i = 1; i < resultado.length; i++){
+        for (let i = 1; i < resultado.length; i++) {
           codigos.push(resultado[i]);
         }
       }
@@ -144,13 +145,33 @@ export default class QuestaoFechada {
       let regex = /(.*)[\r|\n]*'''python\n([\s\S\w])*?(?=''')[\r|\n]*(.*)/;
       let resultado = regex.exec(this.enunciado);
       if (resultado != null && resultado.length > 2) {
-        for(let i = 1; i < resultado.length; i++){
+        for (let i = 1; i < resultado.length; i++) {
           texto.push(resultado[i]);
         }
       }
     }
 
     return texto;
+  }
+
+  static getByAssuntoQuestao(assuntoQuestao) {
+    return new Observable(observer => {
+      assuntoQuestao = assuntoQuestao.split("/");
+      let assuntoId = assuntoQuestao[0];
+      let questaoId = assuntoQuestao[1];
+      if (assuntoId != null && questaoId != null) {
+        Assunto.get(assuntoId).subscribe(assunto => {
+          let questao = assunto["getQuestaoFechadaById"](questaoId);
+          observer.next(questao);
+          observer.complete();
+        }, err=>{
+          observer.error(err);
+        })
+      }else{
+        observer.error(new Error("É preciso informar um assunto e questão no formato: assunto-id/questao-id"));
+      }
+    })
+
   }
 
 }

@@ -74,6 +74,19 @@ class Juiz():
 
         return jsonTrace
 
+    # Execução de código python em que não há testscases
+    def executar(self, arquivo):
+
+        if arquivo.is_arquivo_valido():
+            msgRetornoAlgoritmo = ""
+            child = pexpect.spawn('python3 '+arquivo.nome())
+            child.expect(pexpect.EOF)
+            msgRetornoAlgoritmo = child.before.decode("utf-8")
+
+            return msgRetornoAlgoritmo
+        else:
+            raise JuizError("O arquivo de código não foi encontrado.")
+
     def executarTestes(self, arquivo):
         resultados = []
         resultadoTeste = False
@@ -132,7 +145,7 @@ class Juiz():
     def obterTextosInput(self):
 
         textosInput = []
-        inputs = re.findall("input\((.*[^\(\)])\)", self.submissao.codigo) 
+        inputs = re.findall("input\((.*[^\(\)])\)", self.submissao.codigo)
         if inputs and len(inputs) > 0:
             for textoInput in inputs:
 

@@ -19,7 +19,7 @@ import { CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
 import {ProgressSpinnerModule} from 'primeng/progressspinner';
 import { AnalyticsModule } from '../analytics-module/analytics.module';
 import { SrlModule } from '../srl/srl.module';
-import { EditorProgramacaoComponent } from './editor-programacao/editor-programacao.component';
+import { ResponderQuestaoProgramacao } from './editor/responder-questao-programacao/responder-questao-programacao.component';
 import { DadosQuestaoComponent } from './dados-questao/dados-questao.component';
 
 import {AutoCompleteModule} from 'primeng/autocomplete';
@@ -56,8 +56,9 @@ import { ListarProfessoresComponent } from '../turma/listar-professores/listar-p
 
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import {CodeHighlighterModule} from 'primeng/codehighlighter';
-
-
+import { EditorProgramacaoComponent } from './editor/editor-programacao/editor-programacao.component';
+import { ResponderQuestaoProgramacaoLiteComponent } from './editor/responder-questao-programacao-lite/responder-questao-programacao-lite.component';
+import { ConsoleComponent } from './editor/console/console.component';
 
 @NgModule({
   declarations: [
@@ -66,8 +67,8 @@ import {CodeHighlighterModule} from 'primeng/codehighlighter';
     CadastrarTesteCaseComponent, 
     ListarQuestoesComponent, 
     DadosQuestaoComponent, 
-    EditorProgramacaoComponent, 
-    EditorProgramacaoComponent,
+    ResponderQuestaoProgramacao, 
+    ResponderQuestaoProgramacao,
     VisualizarExecucacao, 
     ListarAssuntosComponent,
     VisualizarAssuntoComponent,
@@ -80,7 +81,10 @@ import {CodeHighlighterModule} from 'primeng/codehighlighter';
     ListarPedidosAjudaComponent,
     VisualizarPedidoAjudaComponent,
     EscolherQuestaoComponent,
-    VisualizarPerfilEstudanteComponent
+    VisualizarPerfilEstudanteComponent,
+    EditorProgramacaoComponent,
+    ResponderQuestaoProgramacaoLiteComponent,
+    ConsoleComponent
   ],
 
 
@@ -127,8 +131,8 @@ import {CodeHighlighterModule} from 'primeng/codehighlighter';
     CadastrarQuestoesFechadasComponent,
     ListarQuestoesFechadasComponent,
     VisualizarQuestaoFechadaComponent,
-    VisualizarPerfilEstudanteComponent
-    //CadastrarAlternativasComponent
+    VisualizarPerfilEstudanteComponent,
+    ResponderQuestaoProgramacaoLiteComponent
 
   ],
 

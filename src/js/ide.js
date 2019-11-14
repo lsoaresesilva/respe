@@ -10,6 +10,33 @@ function prepararCodigo(codigo){
     }
 }
 
+/*
+callbackExecucaoPython = null;
+
+function outf(text) { 
+    callbackExecucaoPython(text);
+} 
+
+function executarPython(cb){
+    let codigo = editor.getValue();
+    if(cb != null){
+        callbackExecucaoPython = cb
+    }
+
+    Sk.pre = "output";
+    Sk.configure({output:outf});
+    var myPromise = Sk.misceval.asyncToPromise(function() {
+        return Sk.importMainWithBody("<stdin>", false, codigo, true);
+    });
+    myPromise.then(function(mod) {
+        console.log('success');
+    },
+        function(err) {
+        console.log(err.toString());
+    }); 
+    
+}
+*/
 // TODO: usar Observable para disparar quando o editor estiver pronto. Assim o model Editor pode ter acesso à instância do mônico quando ela estiver pronta.
 function carregarIde(readOnly, callback=null, instance=null, codigo){
 
@@ -25,7 +52,6 @@ function carregarIde(readOnly, callback=null, instance=null, codigo){
                 readOnly:readOnly
 
             });
-
 
 
             // TODO: modificar para colocar em outra função exclusiva de comentário e só aparecer para comentários

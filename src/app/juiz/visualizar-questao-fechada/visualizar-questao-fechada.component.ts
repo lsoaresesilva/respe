@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, Input } from '@angular/core';
 import QuestaoFechada from 'src/app/model/questaoFechada';
 import { Router, ActivatedRoute } from '@angular/router';
 import { Assunto } from 'src/app/model/assunto';
@@ -16,7 +16,7 @@ import { DomSanitizer } from '@angular/platform-browser';
 })
 export class VisualizarQuestaoFechadaComponent implements OnInit {
 
-  private questao;
+  @Input("questao") questao;
   private respostaQuestaoFechada;
   private mostrar;
   private respostaUsuarioBanco;
@@ -24,7 +24,7 @@ export class VisualizarQuestaoFechadaComponent implements OnInit {
   private id;
 
   constructor(private sanitizer: DomSanitizer, private route: ActivatedRoute, private router: Router, private login: LoginService, private messageService: MessageService, private confirmationService: ConfirmationService) {
-    this.questao = new QuestaoFechada(this.id, null, null, null, [], [], null);
+    
     this.usuario = login.getUsuarioLogado();
     this.respostaQuestaoFechada = new RespostaQuestaoFechada(null, this.login.getUsuarioLogado(), null, this.questao);
   }
@@ -55,33 +55,36 @@ export class VisualizarQuestaoFechadaComponent implements OnInit {
 
   ngOnInit() {
 
-    this.route.params.subscribe(params => {
-      this.id = params["questaoId"]
-      if (params["assuntoId"] != undefined && params["questaoId"] != undefined) {
-        
-        
-        
-        Assunto.get(params["assuntoId"]).subscribe(assunto => {
+    if(this.questao == null){
+      this.route.params.subscribe(params => {
+        this.id = params["questaoId"]
+        if (params["assuntoId"] != undefined && params["questaoId"] != undefined) {
           
-          if (assunto["questoesFechadas"] != undefined && assunto["questoesFechadas"].length > 0) {
-            this.questao = assunto["getQuestaoFechadaById"](params["questaoId"]);
-            RespostaQuestaoFechada.getRespostaQuestaoEstudante(this.questao, this.usuario).subscribe(respostaUsuario => {
-              this.respostaUsuarioBanco = respostaUsuario
-        
-              if (respostaUsuario != null) {
-                this.respostaQuestaoFechada = respostaUsuario;
-                this.mostrar = true;
-              }
-        
-            });
-          }
-        });
-
-      } else {
-        throw new Error("Não é possível visualizar uma questão, pois não foram passados os identificadores de assunto e questão.")
-      }
-
-    });
+          
+          
+          Assunto.get(params["assuntoId"]).subscribe(assunto => {
+            
+            if (assunto["questoesFechadas"] != undefined && assunto["questoesFechadas"].length > 0) {
+              this.questao = assunto["getQuestaoFechadaById"](params["questaoId"]);
+              RespostaQuestaoFechada.getRespostaQuestaoEstudante(this.questao, this.usuario).subscribe(respostaUsuario => {
+                this.respostaUsuarioBanco = respostaUsuario
+          
+                if (respostaUsuario != null) {
+                  this.respostaQuestaoFechada = respostaUsuario;
+                  this.mostrar = true;
+                }
+          
+              });
+            }
+          });
+  
+        } else {
+          throw new Error("Não é possível visualizar uma questão, pois não foram passados os identificadores de assunto e questão.")
+        }
+  
+      });
+    }
+    
 
 
     

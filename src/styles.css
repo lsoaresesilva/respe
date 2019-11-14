@@ -18,8 +18,10 @@
 
 .saida {
     border:1px solid black;
+    background-color: moccasin;
     width:100%;
     height: 80%;
+    padding: 10px;
     
 }
 

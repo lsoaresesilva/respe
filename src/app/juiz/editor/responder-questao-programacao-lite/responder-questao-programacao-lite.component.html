@@ -1,0 +1,9 @@
+<dados-questao [questao]="questao"></dados-questao>
+
+<app-editor-programacao [assunto]="assunto" [questao]="questao" [liteMode]="true" (onSubmit)="onSubmit($event)"
+        (onError)="onError($event)"></app-editor-programacao>
+
+<app-visualizar-testes *ngIf="questao != null && questao.testsCases.length != 0" [testsCases]="questao.testsCases" [submissao]="submissao">
+    </app-visualizar-testes>
+
+<app-console *ngIf="submissao != null" [submissao]="submissao"></app-console>

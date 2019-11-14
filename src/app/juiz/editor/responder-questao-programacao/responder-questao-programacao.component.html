@@ -1,0 +1,71 @@
+<div *ngIf="questao != null; else loading">
+  <div class="p-grid" style="margin: 10px 10px 10px 10px">
+    <div class="p-col-12" style="background-color: #B5E0F9">
+
+      <button type="button" (click)="voltarParaModoExecucao()" pButton label="Voltar ao modo execução"
+        *ngIf="modoVisualizacao"></button>
+      <button type="button" (click)="visualizarExecucacao()" pButton label="Vizualizar execução"
+        *ngIf="!modoVisualizacao && this.questao != undefined" lass="ui-button-secondary"></button>
+      <button type="button" (click)="listarSubmissao()" pButton label="Visualizar resposta"
+        lass="ui-button-secondary"></button>
+
+      <button type="button" (click)="enviarErroEditor()" pButton label="Há um problema no Editor?"
+        lass="ui-button-danger"></button>
+      <!--<button type="button" (click)="visualizarCodigoSimilar(questao)" pButton
+      label="Visualizar exemplo de código"></button>-->
+
+
+      <ng-template *ngIf="login.getUsuarioLogado().grupoExperimento != 4">
+        <button type="button" onclick="TogetherJS(this); return false;" pButton label="Responder Em Grupo"></button>
+      </ng-template>
+    </div>
+  </div>
+  <div class="p-grid" style="margin: 10px 10px 10px 10px">
+
+
+    <div class="p-col-3">
+      <dados-questao [questao]="questao"></dados-questao>
+    </div>
+
+    <div class="p-col-6">
+      <div class="p-grid">
+        <div class="p-col-12">
+          <app-editor-programacao [questao]="questao" [assunto]="assunto" (onError)="onEditorError($event)">
+          </app-editor-programacao>
+          <div *ngIf="modoVisualizacao==false" style="margin-top:10px;">
+            <app-visualizar-testes *ngIf="questao != undefined" [testsCases]="questao.testsCases"
+              [submissao]="submissao">
+            </app-visualizar-testes>
+
+          </div>
+
+        </div>
+      </div>
+
+    </div>
+
+    <div class="p-col-3">
+      <div *ngIf="modoVisualizacao  == false; else visualizacao">
+        <app-console [submissao]="submissao"></app-console>
+      </div>
+      <ng-template #visualizacao>
+        <visualizar-execucao [traceExecucao]="traceExecucao" (mudancaLinha)="atualizarLinhaEditor($event)">
+        </visualizar-execucao>
+      </ng-template>
+    </div>
+  </div>
+</div>
+<ng-template #loading>Carregando questão...</ng-template>
+
+<p-dialog header="Indique o motivo do pedido de ajuda (dúvida):" [(visible)]="dialogPedirAjuda">
+
+  <span class="ui-float-label">
+    <textarea pInputTextarea autoResize="autoResize" [cols]="44" [(ngModel)]="duvida"></textarea>
+    <label for="float-input">Digite o motivo</label>
+  </span>
+  <button type="button" pButton icon="pi pi-check" (click)="dialogPedirAjuda=false; enviarPedidoDeAjuda();"
+    label="Enviar"></button>
+  <button type="button" pButton icon="pi pi-close" (click)="dialogPedirAjuda=false;" label="Cancelar"
+    class="ui-button-secondary"></button>
+
+</p-dialog>

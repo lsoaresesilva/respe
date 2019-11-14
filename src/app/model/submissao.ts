@@ -1,12 +1,15 @@
 import { Questao } from './questao';
 import Codigo from './codigo';
-import { Document, Collection, date } from './firestore/document';
+import { Document, Collection, date, ignore } from './firestore/document';
 import Erro from './erro';
 import { Observable, forkJoin } from 'rxjs';
 import Query from './firestore/query';
 import Usuario from './usuario';
 import ResultadoTestCase from './resultadoTestCase';
 import { Util } from './util';
+import ErroSintaxeVariavel from './erroSintaxeVariavel';
+import ErroSintaxeCondicional from './erroSintaxeCondiconal';
+import ErroSintaxeFuncao from './erroSintaxeFuncao';
 
 @Collection("submissoes")
 export default class Submissao extends Document {
@@ -17,6 +20,8 @@ export default class Submissao extends Document {
     questao: Questao;
     erros: Erro[];
     resultadosTestsCases: ResultadoTestCase[];
+    @ignore()
+    saida
 
     constructor(id, public codigo: Codigo, estudante, questao) {
         super(id);
@@ -24,6 +29,23 @@ export default class Submissao extends Document {
         this.questao = questao;
         this.erros = [];
         this.resultadosTestsCases = [];
+        
+    }
+
+    analisarErros(){
+        
+        this.erros = this.erros.concat(ErroSintaxeVariavel.erros(this));
+        this.erros = this.erros.concat(ErroSintaxeCondicional.erros(this));
+        this.erros = this.erros.concat(ErroSintaxeFuncao.erros(this));
+
+    }
+
+    hasErrors(){
+        if(this.erros.length > 0){
+            return true;
+        }
+
+        return false;
     }
 
     objectToDocument() {
@@ -40,6 +62,32 @@ export default class Submissao extends Document {
         }
         return document;
     }
+
+    save():Observable<any>{
+        let resultados;
+        return new Observable(observer=>{
+            let operacoesSalvar = [];
+            super.save().subscribe(resultado=>{
+                this.erros.forEach(erro=>{
+                    operacoesSalvar.push(erro.save())
+                })
+    
+                forkJoin(operacoesSalvar).subscribe(errosSalvos=>{
+                    resultados = errosSalvos;
+                }, err=>{
+                    observer.error(err);
+                }, ()=>{
+                    observer.next(resultado);
+                    observer.complete();
+                })
+            })
+            
+        })
+    }
+
+    /*static salvarErros(erros){
+        
+    }*/
 
 
     /**
@@ -239,6 +287,7 @@ export default class Submissao extends Document {
             })
         })
     }
+
 
 
 }
