@@ -1,24 +1,16 @@
-<p-toast></p-toast>
+<p-toast [style]="{marginTop: '80px'}"></p-toast>
 <h1>Assuntos</h1>
 
 <div class="ui-g">
     <div class="ui-g-10"></div>
     <div class="ui-g-2">
-        <button pButton type="button" (click)="cadastrar()"  class="ui-button-success ui-button-raised" label="Cadastrar"></button>
-        <!-- <p-button label="Registar exemplo de questão" (click)="registrar()"></p-button> --> 
+        <button pButton label="Cadastrar" (click)="cadastrar()"></button>
+         <!-- <p-button label="Registar exemplo de questão" (click)="registrar()"></p-button> --> 
     </div>
-        
 </div>
-
-<div *ngIf="login.getUsuarioLogado().perfil == 3">
-   <p-contextMenu #cm [model]="items"></p-contextMenu>
-</div>
-
-<p-toast [style]="{marginTop: '80px'}"></p-toast>
 
 <p-table [value]="assuntos" [(contextMenuSelection)]="selectedAssunto" [contextMenu]="cm">
     <ng-template pTemplate="header">
-       
     </ng-template>
     <ng-template pTemplate="body" let-rowData let-assunto>
         <tr [pContextMenuRow]="rowData">
@@ -27,4 +19,9 @@
     </ng-template>
 </p-table>
 
-<p-contextMenu #cm [model]="items"></p-contextMenu>   
+
+<div *ngIf="login.getUsuarioLogado().perfil == 3">
+    <p-contextMenu #cm [model]="items"></p-contextMenu>
+</div>
+
+ 

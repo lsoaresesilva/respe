@@ -33,7 +33,7 @@ export class AuthGuard implements CanActivate, CanLoad {
   }
 
   canLoad(route: Route): boolean | Observable<boolean> | Promise<boolean> {
-    console.log('verificando se o usario pode acessar o modulo!');
+    console.log('verificando se o usuário pode acessar o modulo!');
     return this.verificarAcesso();
   }
 
@@ -44,8 +44,5 @@ export class AuthGuard implements CanActivate, CanLoad {
       this.router.navigate([""]);
       return false;
   }
-
- 
-
   
 }

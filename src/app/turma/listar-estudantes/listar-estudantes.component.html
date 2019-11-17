@@ -1,14 +1,18 @@
-<h2>Estudantes</h2>
 <p-toast [style]="{marginTop: '80px'}"></p-toast>
-<div>
-    <button pButton label="Cadastrar" (click)="cadastrarEstudante()"></button>
+<h1>Estudantes</h1>
+
+<div class="ui-g">
+    <div class="ui-g-10"></div>
+    <div class="ui-g-2">
+        <button pButton label="Cadastrar" (click)="cadastrarEstudante()"></button>
+    </div>
 </div>
+
 <p-table [value]="estudantes" [(contextMenuSelection)]="selectedEstudante"  [contextMenu]="cm">
    <ng-template pTemplate="header">
         <tr>
             <th>Nome</th>
             <th>Error Quotient</th>
-
         </tr>
     </ng-template>
     <ng-template pTemplate="body" let-rowData let-estudante>

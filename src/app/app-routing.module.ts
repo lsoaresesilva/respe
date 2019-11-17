@@ -44,6 +44,8 @@ import { PreTesteComponent } from './experimento/pre-teste/pre-teste.component';
 import { EnviarMaterialComponent } from './turma/enviar-material/enviar-material.component';
 import { ListarMateriaisComponent } from './turma/listar-materiais/listar-materiais.component';
 import { SubsecaoComponent } from './livro/subsecao/subsecao.component';
+import { HomeComponent } from './geral-module/home/home.component';
+
 
 
 
@@ -60,7 +62,6 @@ const routes: Routes = [
     /** Monitoramento */
 
     {path:"meu-desempenho", component:AcompanharDesempenhoComponent, outlet:"principal"},
-    
     {path:"comentario-codigo/:id", component:ComentariosCodigoComponent, outlet:"principal"},
     {path:"visualizarConteudo", component:VisualizarConteudoComponent, outlet:"principal"},
     {path:"visualizacao-planejamento/:id", component:VisualizarPlanejamentoComponent, canActivate: [AuthGuard], canLoad: [AuthGuard], outlet:"principal"},
@@ -108,18 +109,18 @@ const routes: Routes = [
     {path:"listar-postagens/:turmaId", component:ListarPostagensComponent, canActivate: [AuthGuard,TurmaGuard], canLoad: [AuthGuard,TurmaGuard], outlet:"principal"},
     {path:"visualizar-postagem/:postagemId/:turmaId", component:VisualizarPostagemComponent, canActivate: [AuthGuard,TurmaGuard], canLoad: [AuthGuard,TurmaGuard], outlet:"principal"},
     {path:"visualizacao-estudante/:id", component:VisualizarPerfilEstudanteComponent, canActivate: [AuthGuard], canLoad: [AuthGuard], outlet:"principal"},
-
     {path:"envio-material/:turmaId", component:EnvioMaterialComponent, canActivate: [AuthGuard], canLoad: [AuthGuard], outlet:"principal"},
     {path:"listar-materiais/:turmaId", component:ListarMateriaisComponent, canActivate: [AuthGuard], canLoad: [AuthGuard], outlet:"principal"},
-
     {path:"visualizacao-turma/:turmaId", component: VisualizarTurmaComponent, canActivate: [AuthGuard], canLoad: [AuthGuard], outlet:"principal"},
-
+    {path:"home", component: HomeComponent, canActivate: [AuthGuard], canLoad: [AuthGuard], outlet:"principal"},
+    
+    
   ]},
 
   {path:"", component:LoginComponent},
+
   
   {path:"cadastro-estudante", component:CadastrarEstudantesComponent},
-  
   {path:"**", component:PaginaNaoEncontradaComponent},
   
   

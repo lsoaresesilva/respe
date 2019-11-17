@@ -31,6 +31,13 @@
     
    } 
 
-   body{
+body{
     margin:0px;
+} 
+
+
+h1 {
+    text-align: center;
+    font: italic small-caps bold 24px/0px "Comic Sans MS", cursive, sans-serif;
+    color: gray;
   }
