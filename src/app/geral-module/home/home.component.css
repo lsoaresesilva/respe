@@ -12,7 +12,7 @@ body {
 
 .tela {
     
-    background-image: url('../../../assets/backgroud.png');
+    /* background-image: url('../../../assets/backgroud.png'); */
     margin :0;
     height: 100vh;
     display: flex;
