@@ -1,7 +1,4 @@
 
-body{
-    background-color: blue !important ;
-}
 
 h1 {
     font-size: 50px;
@@ -14,6 +11,12 @@ h1 {
     margin: center
 }
 
+.ui-menu .ui-menuitem-link:hover, body .ui-menubar .ui-menuitem-link:hover, body .ui-tieredmenu .ui-menuitem-link:hover, body .ui-contextmenu .ui-menuitem-link:hover, body .ui-megamenu .ui-menuitem-link:hover, body .ui-slidemenu .ui-menuitem-link:hover{
+    background-color: #0d476e !important;
+    height: 100%;
+}
 
-
-
+/* .ui-g-1 {
+    width: 8.3333%;
+    display: none;
+} */

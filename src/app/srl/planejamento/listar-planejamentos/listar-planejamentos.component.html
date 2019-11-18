@@ -6,6 +6,12 @@
   Você precisa conhecer o conteúdo que irá estudar, definir quanto tempo irá se dedicar e também refletir sobre como estudará (qual material vai utilizar para estudar, se fará sozinho ou em grupo, onde estudará, em qual horário, entre outras informações que possam ajudá-lo a organizar o seu aprendizado).  
 </p-dialog>
 
+<div class="ui-g">
+    <div class="ui-g-10"></div>
+    <div class="ui-g-2">
+        <button pButton type="button" (click)="criarPlanejamento()" label="Novo" class="ui-button-success ui-button-raised"></button>
+    </div>
+</div>
 
 <p-table [value]="planejamentos" [(contextMenuSelection)]="selectedPlanejamento" [contextMenu]="cm">
   <ng-template pTemplate="header">
@@ -29,7 +35,6 @@
 
 
 
-<br><button pButton type="button" (click)="criarPlanejamento()" label="Novo" class="ui-button-success ui-button-raised"></button>
 
 
 

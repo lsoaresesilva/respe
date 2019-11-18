@@ -42,7 +42,7 @@ describe("Testes de Submissão", ()=>{
     });
 
     it("Deve carregar uma submissão com erro", (done)=>{
-        let estudante = new Usuario("CvsVQsPKIExzNWFh2TWW", null, null, null);
+        let estudante = new Usuario("CvsVQsPKIExzNWFh2TWW", null, null, null,null);
         let questao = new Questao("LwC2ItAVtfkDhcE9jvpT", null, null, null, null, null, [], null);
         let c = new Codigo();
         c.algoritmo = "x = 2\ny = c";
@@ -67,7 +67,7 @@ describe("Testes de Submissão", ()=>{
     it("Deve carregar uma submissão mais recente", (done)=>{
         let c = new Codigo();
         c.algoritmo = "x = 2\ny = c";
-        let estudante = new Usuario("CvsVQsPKIExzNWFh2TWW", null, null, null);
+        let estudante = new Usuario("CvsVQsPKIExzNWFh2TWW", null, null, null,null);
         let questao = new Questao("LwC2ItAVtfkDhcE9jvpT", null, null, null, null, null, [], null);
         let s1 = new Submissao(null, c, estudante, questao);
         let s2 = new Submissao(null, c, estudante, questao);
@@ -91,9 +91,9 @@ describe("Testes de Submissão", ()=>{
         let c = new Codigo();
         c.algoritmo = "x = 2\ny = c";
 
-        let e1 = new Usuario("123", null, null, null);
-        let e2 = new Usuario("456", null, null, null);
-        let e3 = new Usuario("789", null, null, null);
+        let e1 = new Usuario("123", null, null, null,null);
+        let e2 = new Usuario("456", null, null, null,null);
+        let e3 = new Usuario("789", null, null, null,null);
 
         let t1 = new TestCase(null, [1,2], 3);
         let t2 = new TestCase(null, [2,2], 4);

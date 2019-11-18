@@ -11,26 +11,44 @@ body {
 }
 
 .tela {
-    background-image: linear-gradient(0deg,rgba(12, 153, 255, 0.79),#051119),url('https://images.unsplash.com/photo-1522202176988-66273c2fd55f?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=1502&q=80');
+    
+    background-image: url('../../../assets/backgroud.png');
     margin :0;
     height: 100vh;
     display: flex;
     align-items: center;
     justify-content: center;
+    color: #4f4f4e;
+    left: 0;
+    position: absolute;
+    width: 100%;
+    height: calc(100% - 68px);
     
    
 }
 
+
+.ui-g-1, .ui-g-2, .ui-g-3, .ui-g-4, .ui-g-5, .ui-g-6, .ui-g-7, .ui-g-8, .ui-g-9, .ui-g-10, .ui-g-11, .ui-g-12 {
+    padding: 0 !important;
+}
+
+.ui-g-1, .ui-g-2, .ui-g-3, .ui-g-4, .ui-g-5, .ui-g-6, .ui-g-7, .ui-g-8, .ui-g-9, .ui-g-10, .ui-g-11, .ui-g-12 {
+   margin: 0px !important;
+    padding: 0;
+}
+
+
+
 .titulo {
     font-size: 50px;
-    color: #fff;
+    color: #61615f;
     font-family: arial;
     font-size: 75px;
     margin: center;
    
 }
 
- @media screen and (max-width: 1130px) {
+ /* @media screen and (max-width: 1130px) {
     .respon {
         display: none !important;
     }            
@@ -40,7 +58,15 @@ body {
     .login-section {
         margin: 0px 50px;
     }
-} 
+}  */
+
+.ui-g-1 {
+    width: 8.3333%;
+    display: none !important;
+}
 
 
+.ui-g-1, .ui-g-2, .ui-g-3, .ui-g-4, .ui-g-5, .ui-g-6, .ui-g-7, .ui-g-8, .ui-g-9, .ui-g-10, .ui-g-11, .ui-g-12 {
+    padding: 0 !important;
+}
 

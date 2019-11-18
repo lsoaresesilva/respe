@@ -36,8 +36,15 @@ body{
 } 
 
 
-h1 {
+/* h1 {
     text-align: center;
     font: italic small-caps bold 24px/0px "Comic Sans MS", cursive, sans-serif;
     color: gray;
-  }
+  } */
+
+  h1 {
+    text-align: center;
+    font-weight: 500;
+    color: #434343;
+    font-family: Arial;
+}
