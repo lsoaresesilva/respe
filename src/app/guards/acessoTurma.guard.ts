@@ -57,6 +57,8 @@ export class TurmaGuard implements CanActivate,CanLoad {
      if(usuario != null && this.turmaId != null){
       EstudanteTurma.getAll([new Query("estudanteId", "==",usuario.pk()),new Query("turmaId", "==",this.turmaId)]).subscribe(resultado => {
        
+        console.log(usuario.pk());
+        console.log(this.turmaId);
         if(resultado.length === 0){
           this.messageService.add({severity:'warning', summary:'Não autorizado', detail: "Apenas pessoas dessa turma tem permissão!"});
           alert("Só pessoas dessa turma tem permissão!");
