@@ -25,20 +25,28 @@ export class EditorProgramacaoComponent implements OnInit {
   assunto;
   @Input()
   liteMode; // define que o editor executará em um modo de aparência menor.
+  @Input()
+  modoVisualizacao;
+
   submissao;
+  editorCodigo?: Editor;
+  
   @Output()
   onError: EventEmitter<any>;
   @Output()
   onSubmit: EventEmitter<any>;
   @Output()
   onSubmitError: EventEmitter<any>;
-  editorCodigo?: Editor;
+  @Output()
+  onVisualization: EventEmitter<any>;
+  
 
   constructor(private http: HttpClient, private login: LoginService) {
 
     this.onError = new EventEmitter();
     this.onSubmit = new EventEmitter();
-    this.onSubmitError = new EventEmitter;
+    this.onSubmitError = new EventEmitter();
+    this.onVisualization = new EventEmitter();
 
   }
 
@@ -69,6 +77,14 @@ export class EditorProgramacaoComponent implements OnInit {
 
 
 
+  }
+
+  visualizarExecucacao(){
+    this.onVisualization.emit(true);
+  }
+
+  voltarParaModoExecucao(){
+    this.onVisualization.emit(false);
   }
 
 

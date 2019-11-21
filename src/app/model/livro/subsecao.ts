@@ -6,7 +6,7 @@ import Query from '../firestore/query';
 @Collection("subsecoes")
 export default class SubSecao extends Document{
 
-    constructor(id, secao, sequencia){
+    constructor(id, secao, sequencia){ // TODO: colocar as chaves que ligam
         super(id);
     }
 
@@ -24,5 +24,36 @@ export default class SubSecao extends Document{
                 observer.error(err);
             });
         });
+    }
+
+    static getAll(query):Observable<any>{{
+
+        return new Observable(observer=>{
+            super.getAll(query).subscribe(subsecoes=>{
+                subsecoes = SubSecao.ordenar(subsecoes);
+                observer.next(subsecoes);
+                observer.complete();
+            }, err=>{
+                observer.error(err);
+            })
+        });
+
+    }}
+
+    static ordenar(sequencias:Sequencia[]){
+        if(Array.isArray(sequencias) ){
+            sequencias.sort(function(a,b){
+                if(a.sequencia < b.sequencia){
+                    return -1;
+                }else if(a.sequencia > b.sequencia){
+                    return 1;
+                }else{
+                    return 0;
+                }
+            })
+        
+        }
+
+        return sequencias;
     }
 }

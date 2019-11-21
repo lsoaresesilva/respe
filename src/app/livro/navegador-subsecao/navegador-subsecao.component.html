@@ -1,0 +1,12 @@
+
+<div style="display: flex">
+  <div style="flex-grow: 1" *ngIf="livroService.getAnterior(subsecoes, subsecao) | async as subSecaoAnterior">
+    <a>{{subSecaoAnterior.nome}}</a>
+  </div>
+
+  <div style="flex-grow: 2"></div>
+
+  <div style="flex-grow: 1" *ngIf="livroService.getProxima(subsecoes, subsecao) | async as subSecaoProxima">
+    <a>{{subSecaoProxima.nome}}</a>
+  </div>
+</div>

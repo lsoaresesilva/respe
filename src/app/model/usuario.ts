@@ -78,6 +78,8 @@ export default class Usuario extends Document{
                 }else{
                     observer.error(new Error("Já existe um usuário cadastrado com este e-mail."))
                 }   
+            }, err=>{
+                observer.error(err);
             })
         })  
     }
@@ -104,15 +106,20 @@ export default class Usuario extends Document{
 
     isEmailCadastrado(){
         return new Observable(observer=>{
-            Usuario.getAll(new Query("email","==",this.email)).subscribe(usuarios=> { 
-                if (usuarios.length==1){
-                    observer.next(true);
-                }else{
-                    observer.next(false);
-                }
-
-                observer.complete();
-            });
+            if(this.email != null){
+                Usuario.getAll(new Query("email","==",this.email)).subscribe(usuarios=> { 
+                    if (usuarios.length==1){
+                        observer.next(true);
+                    }else{
+                        observer.next(false);
+                    }
+    
+                    observer.complete();
+                });
+            }else{
+                observer.error(new Error("É preciso informar um e-mail válido."))
+            }
+            
         })
         
     }

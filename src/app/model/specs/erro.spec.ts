@@ -37,7 +37,7 @@ describe("Testes para a classe de Erro", ()=>{
     });
 
     it("Deve retornar os erros das submissões de um estudante", (done)=>{
-        let u = new Usuario(null, "", "", PerfilUsuario.estudante);
+        let u = new Usuario(null, "", "", PerfilUsuario.estudante, 0);
         let q = new Questao(12345, "", "", Dificuldade.dificil, 1, [], [], "");
         let s1 = new Submissao(null, new Codigo(), u, q);
         let s2 = new Submissao(null, new Codigo(), u, q);

@@ -8,10 +8,10 @@ import { Questao } from '../questao';
 @Collection("sequencias")
 export default class Sequencia extends Document{
 
-    @ignore()
-    sequencias;
+    //@ignore()
+    //sequencias;
 
-    constructor(id, subsecao, objeto, tipoObjeto){
+    constructor(id, public subsecao, public objeto, public tipoObjeto, public sequencia){
         super(id);
     }
 
@@ -42,6 +42,8 @@ export default class Sequencia extends Document{
                             })
                         })
 
+                        sequenciasBanco = Sequencia.ordenar(sequenciasBanco);
+
                         observer.next(sequenciasBanco);
                         observer.complete();
                         
@@ -70,5 +72,22 @@ export default class Sequencia extends Document{
             })
             
         });
+    }
+
+    static ordenar(sequencias:Sequencia[]){
+        if(Array.isArray(sequencias) ){
+            sequencias.sort(function(a,b){
+                if(a.sequencia < b.sequencia){
+                    return -1;
+                }else if(a.sequencia > b.sequencia){
+                    return 1;
+                }else{
+                    return 0;
+                }
+            })
+        
+        }
+
+        return sequencias;
     }
 }

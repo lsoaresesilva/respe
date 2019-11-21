@@ -83,7 +83,7 @@ describe("Testes de questão", () => {
 
   it("Deve indicar que a questão foi concluída pelo estudante", (done) => {
     
-    let u = new Usuario("12345", null, null, null);
+    let u = new Usuario("12345", null, null, null, 0);
     
     let a = new Assunto(null, "umAssunto");
     let q = new Questao("54321", "nome", "enunciado", Dificuldade.facil, 1, [a], [], null);

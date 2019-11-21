@@ -6,13 +6,17 @@
 
 <h4>Testscases</h4>
 
-<div *ngFor="let testCase of questao?.testsCases">
-    <h5>Entradas:</h5>
-    <div>
-        <p *ngFor="let entrada of testCase.entradas">
-            {{entrada}}
-        </p>
-    </div>
-    <h5>Saída:</h5>
-    <p>{{testCase.saida}}</p>
-</div>
+<p-table [value]="questao?.testsCases">
+    <ng-template pTemplate="header">
+        <tr>
+            <th>Entradas</th>
+            <th>Saída esperada</th>
+        </tr>
+    </ng-template>
+    <ng-template pTemplate="body" let-testCase let-i="rowIndex">
+        <tr>
+            <td>{{testCase.entradas}}</td>
+            <td>{{testCase.saida}}</td>
+        </tr>
+    </ng-template>
+  </p-table>
