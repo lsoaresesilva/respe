@@ -9,6 +9,11 @@ import {ButtonModule} from 'primeng/button';
 import {InputTextModule} from 'primeng/inputtext';
 import {CardModule} from 'primeng/card';
 import { ToastModule } from 'primeng/toast';
+import { AngularFireAuthModule } from "@angular/fire/auth";
+import { AngularFirestoreModule } from '@angular/fire/firestore';
+import { AngularFireModule } from '@angular/fire';
+import { BrowserModule } from '@angular/platform-browser';
+import { config } from 'process';
 
 @NgModule({
   declarations: [
@@ -20,7 +25,13 @@ import { ToastModule } from 'primeng/toast';
     ButtonModule,
     InputTextModule,
     CardModule,
-    ToastModule
+    ToastModule,
+    AngularFireAuthModule,
+    AngularFireAuthModule,
+    BrowserModule,
+    AngularFireModule.initializeApp(config),
+    AngularFirestoreModule,
+    AngularFireAuthModule,
     
   ],
   providers: [UsuarioService]

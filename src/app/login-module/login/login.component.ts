@@ -16,7 +16,7 @@ export class LoginComponent implements OnInit {
 
   usuario:Usuario;
 
-  constructor(private loginService:UsuarioService, private router:Router, private login:LoginService, private messageService: MessageService) { 
+  constructor(private loginService:LoginService, private router:Router, private login:LoginService, private messageService: MessageService) { 
     this.usuario = new Usuario(null, null, null, 0, null);
   }
 
@@ -47,6 +47,14 @@ export class LoginComponent implements OnInit {
 
   cadastrar(){
     this.router.navigate(["cadastro-estudante"])
+  }
+
+  logarComGoogle(){
+    this.loginService.logarComGoogle();
+  }
+
+  logarComFacebook(){
+    this.loginService.logarComFacebook();
   }
 
 }

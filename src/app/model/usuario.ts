@@ -16,8 +16,7 @@ export default class Usuario extends Document{
     minutos;
 
     constructor(id, public email, public senha, public perfil:PerfilUsuario, public grupoExperimento:Groups) {
-        super(id);
-            
+        super(id);   
     }
 
     objectToDocument(){
