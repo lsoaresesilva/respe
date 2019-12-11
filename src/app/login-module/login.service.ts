@@ -55,7 +55,7 @@ export class LoginService {
     return new Observable(observer => {
       Usuario.logar(new Query("email", "==", usuario.email)).subscribe(usuarioLogado => {
         if (usuarioLogado != null) {
-          // this.criarSessao(usuarioLogado);
+          this.Sessao(usuarioLogado);
           observer.next(true);
           observer.complete();
         } else {
@@ -87,9 +87,12 @@ export class LoginService {
       });
     });
   }
+  Sessao(usuario){
+    sessionStorage.setItem('usuario', JSON.stringify(usuario.stringfiy()));
+  }
 
 
-logarComGoogle(usuario: Usuario){
+logarComGoogle(){
   return this._firebaseAuth.auth.signInWithPopup(
     new firebase.auth.GoogleAuthProvider()
     ).then((res) => {
@@ -100,6 +103,7 @@ logarComGoogle(usuario: Usuario){
        return new Observable(observer => {
          
         Usuario.logar([new Query("email", "==", user.email), new Query("senha", "==", sha256("000"))]).subscribe(usuarioLogado => {
+          
            if (usuarioLogado != null){
            
       
