@@ -56,17 +56,13 @@ export class ListarQuestoesComponent implements OnInit, OnChanges {
     
   }
 
-
-  abrirEditor(questao) {
-    this.router.navigate(["main", { outlets: { principal: ['editor', this.assunto.pk(), questao.id] } }]);
-  }
-
-  responder(questao) {
-    this.router.navigate(["main", { outlets: { principal: ['self-instruction', this.assunto.pk(), questao.id] } }]);
-  }
-
   visualizar(questao) {
-    this.router.navigate(["main", { outlets: { principal: ['visualizacao-questao', this.assunto.pk(), questao.id] } }]);
+    if(this.usuario.grupoExperimento == 4){
+      this.router.navigate(["main", { outlets: { principal: ['editor', this.assunto.pk(), questao.id] } }]);
+    }else{
+      this.router.navigate(["main", { outlets: { principal: ['visualizacao-questao', this.assunto.pk(), questao.id] } }]);
+    } 
+    
   }
 
   alterar(questao: Questao) {

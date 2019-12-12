@@ -62,34 +62,37 @@ export class MainComponent implements OnInit {
         this.itens = [
           {
             label: 'Assuntos',
-            command: () => { this.router.navigate(["main", { outlets: { principal: ['listagem-assuntos'] } }]) }
+            command: () => { this.router.navigate(["main", { outlets: { principal: ['listagem-assuntos'] } }]) },
+            id:'assuntosMenu'
     
           },
           {
             label: 'Sair',
-            command: () => {this.logout()}
+            command: () => {this.logout()},
+            id:'sairMenu',
           }
         ];
       }else{
         this.itens = [
           {
             label: 'Planejamentos',
-            command: () => { this.router.navigate(["main", { outlets: { principal: ['listagem-planejamento'] } }]) }
-    
+            command: () => { this.router.navigate(["main", { outlets: { principal: ['listagem-planejamento'] } }]) },
+            id:'planejamentoMenu'
           },
-          {
+          /*{
             label: 'Minha turma',
-            command: () => { this.router.navigate(["main", { outlets: { principal: ['minha-turma'] } }]) }
+            command: () => { this.router.navigate(["main", { outlets: { principal: ['minha-turma'] } }]) },
     
-          },
+          },*/
           {
             label: 'Meu desempenho',
-            command: () => { this.router.navigate(["main", { outlets: { principal: ['meu-desempenho'] } }]) }
-    
+            command: () => { this.router.navigate(["main", { outlets: { principal: ['meu-desempenho'] } }]) },
+            id:'meuDesempenhoMenu',
           },
           {
             label: 'Sair',
-            command: () => {this.logout()}
+            command: () => {this.logout()},
+            id:'sairMenu',
           }
         ];
       }

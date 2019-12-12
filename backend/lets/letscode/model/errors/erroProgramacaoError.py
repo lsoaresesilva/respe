@@ -1,2 +1,0 @@
-class ErroProgramacaoError(Exception):
-    pass

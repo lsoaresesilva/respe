@@ -10,12 +10,12 @@ import { MessageService } from 'primeng/api';
 })
 export class LoginService {
 
-  constructor(private messageService:MessageService) { }
+  constructor(private messageService: MessageService) { }
 
   getUsuarioLogado() {
     if (this.isUsuarioLogado()) {
       let json = JSON.parse(sessionStorage.getItem("usuario"));
-      if (json.id != undefined && json.perfil != undefined) {
+      if (json.id != undefined) {
         let usuario = new Usuario(json.id, json.email, json.senha, json.perfil, json.grupoExperimento);
         usuario.minutos = json.minutos;
         return usuario;
@@ -32,12 +32,34 @@ export class LoginService {
     return sessionStorage.getItem("usuario") != undefined ? true : false;
   }
 
-  logar(usuario: Usuario) {
+  criarSessao(usuario: Usuario) {
+    sessionStorage.setItem('usuario', JSON.stringify(usuario.stringfiy()));
+  }
 
+  logarFacebook(usuario) {
+    return new Observable(observer => {
+      Usuario.logar(new Query("email", "==", usuario.email)).subscribe(usuarioLogado => {
+        if (usuarioLogado != null) {
+          this.criarSessao(usuarioLogado);
+          observer.next(true);
+          observer.complete();
+        } else {
+          observer.next(false);
+          observer.complete();
+        }
+      }, err => {
+        alert("Erro ao tentar realizar login: " + err.toString());
+      });
+    })
+
+  }
+
+  logar(usuario: Usuario) {
+    console.log(sha256(usuario.senha))
     return new Observable(observer => {
       Usuario.logar([new Query("email", "==", usuario.email), new Query("senha", "==", sha256(usuario.senha))]).subscribe(usuarioLogado => {
         if (usuarioLogado != null) {
-          sessionStorage.setItem('usuario', JSON.stringify(usuarioLogado.stringfiy()));
+          this.criarSessao(usuarioLogado);
           observer.next(true);
           observer.complete();
         } else {
@@ -49,14 +71,14 @@ export class LoginService {
       });
     });
   }
- 
 
-  validarLogin(usuario:Usuario){
-    if(usuario.email == "" || usuario.senha == "" || usuario.email == null || usuario.senha == null || usuario.email == undefined || usuario.senha == undefined){
-      this.messageService.add({severity:'warn', summary:'Falha ao entrar', detail: "Certifique-se de preencher os campos!"});
+
+  validarLogin(usuario: Usuario) {
+    if (usuario.email == "" || usuario.senha == "" || usuario.email == null || usuario.senha == null || usuario.email == undefined || usuario.senha == undefined) {
+      this.messageService.add({ severity: 'warn', summary: 'Falha ao entrar', detail: "Certifique-se de preencher os campos!" });
       return false;
     }
-    else{
+    else {
       return true;
     }
 

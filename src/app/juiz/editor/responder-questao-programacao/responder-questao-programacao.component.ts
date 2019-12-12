@@ -109,12 +109,8 @@ export class ResponderQuestaoProgramacao implements OnInit {
   }
 
   onVisualization(visualizacao){
-    this.modoVisualizacao = visualizacao;
-    if(visualizacao){
-      this.visualizarExecucacao();
-    }else{
-      this.voltarParaModoExecucao();
-    }
+    this.modoVisualizacao = visualizacao.modoVisualizacao;
+    this.traceExecucao = visualizacao.trace;
   }
 
 
@@ -131,36 +127,10 @@ export class ResponderQuestaoProgramacao implements OnInit {
     this.editorCodigo.destacarLinha(linha, "possivelSolucao");
   }
 
-  visualizarExecucacao() {
-    let submissao = this.prepararSubmissao()
-    submissao.save().subscribe(resultado => {
-      this.submissao = resultado;
-      let httpOptions = {
-        headers: new HttpHeaders({
-          'Content-Type': 'application/json'
-        })
-      }
-      // TODO: definir um timedout
-      let json = this.construirJson(submissao, "visualização");
-
-      this.http.post("http://127.0.0.1:8000/codigo/", json, httpOptions).subscribe(resposta => {
-
-        resposta = resposta.replace("script str", "")
-
-        let jsonTrace = JSON.parse(resposta);
-        this.traceExecucao = jsonTrace;
-        this.modoVisualizacao = true;
-        this.erroLinguagemProgramacao = "";
-      }, err => {
-        this.prepararMensagemExceptionHttp(err);
-      });
-    })
-
-
-  }
+  
 
   voltarParaModoExecucao() {
-    this.editorCodigo.limparCores();
+    
     this.modoVisualizacao = false;
   }
 

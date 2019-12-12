@@ -30,7 +30,7 @@ export class EditorProgramacaoComponent implements OnInit {
 
   submissao;
   editorCodigo?: Editor;
-  
+
   @Output()
   onError: EventEmitter<any>;
   @Output()
@@ -39,9 +39,9 @@ export class EditorProgramacaoComponent implements OnInit {
   onSubmitError: EventEmitter<any>;
   @Output()
   onVisualization: EventEmitter<any>;
-  
 
-  constructor(private http: HttpClient, private login: LoginService) {
+
+  constructor(private http: HttpClient, public login: LoginService) {
 
     this.onError = new EventEmitter();
     this.onSubmit = new EventEmitter();
@@ -63,7 +63,7 @@ export class EditorProgramacaoComponent implements OnInit {
         this.submissao = submissao;
         if (this.submissao != null) {
           this.editorCodigo.codigo.algoritmo = this.submissao["codigo"];
-          if(editor != null)
+          if (editor != null)
             editor.setValue(this.editorCodigo.codigo.algoritmo);
         }
 
@@ -73,18 +73,45 @@ export class EditorProgramacaoComponent implements OnInit {
 
 
     }
-
-
-
-
   }
 
-  visualizarExecucacao(){
-    this.onVisualization.emit(true);
+  visualizarExecucacao(modoVisualizacao, trace) {
+    this.onVisualization.emit({ modoVisualizacao: modoVisualizacao, trace:trace});
   }
 
-  voltarParaModoExecucao(){
+  voltarParaModoExecucao() {
     this.onVisualization.emit(false);
+  }
+
+  visualizar(status) {
+    if (status) {
+      let submissao = this.prepararSubmissao()
+      submissao.save().subscribe(resultado => {
+        this.submissao = resultado;
+        let httpOptions = {
+          headers: new HttpHeaders({
+            'Content-Type': 'application/json'
+          })
+        }
+        // TODO: definir um timedout
+        let json = this.submissao.construirJson(this.questao, "visualização");
+
+        this.http.post("http://127.0.0.1:8000/codigo/", json, httpOptions).subscribe(resposta => {
+
+          let respostaParser: string = String(resposta).replace("script str", "")
+          
+          this.visualizarExecucacao(true, JSON.parse(respostaParser)); // TODO:
+        }, err => {
+          //this.prepararMensagemExceptionHttp(err);
+        });
+      })
+    }else{
+      this.editorCodigo.limparCores();
+      this.visualizarExecucacao(false, null);
+    }
+
+
+
   }
 
 
@@ -106,23 +133,23 @@ export class EditorProgramacaoComponent implements OnInit {
         this.gerenciarErro(submissao);
       } else {
         let tipoExecucao = ""
-        if(this.questao.testsCases.length != 0){
+        if (this.questao.testsCases.length != 0) {
           tipoExecucao = "testes"
-        }else{
+        } else {
           tipoExecucao = "execução"
         }
 
-        let json = this.construirJson(submissao, tipoExecucao);
-        
+        let json = this.submissao.construirJson(this.questao, tipoExecucao);
+
         let url = "http://127.0.0.1:8000/codigo/"
         this.http.post<any>(url, json, httpOptions).subscribe(resposta => { // TODO: mudar o endereço para o real
           let consultas = []
-          if(tipoExecucao == "testes"){
+          if (tipoExecucao == "testes") {
             submissao.resultadosTestsCases = ResultadoTestCase.construir(resposta.resultados);
-          }else if(tipoExecucao == "execução"){
-            submissao.saida = resposta.saida
           }
-          
+
+          submissao.saida = resposta.saida
+
           submissao.save().subscribe(resultado => { // salva novamente, pois agora há dados sobre os resultadosTestsCases
             this.submissao = resultado;
 
@@ -145,7 +172,7 @@ export class EditorProgramacaoComponent implements OnInit {
         }, () => {
           //_this.pausaIde = false;
         })
-        
+
       }
     })
 
@@ -154,15 +181,7 @@ export class EditorProgramacaoComponent implements OnInit {
 
   }
 
-  construirJson(submissao, tipo) {
-    let json = {}
-    json["submissao"] = submissao.objectToDocument();
-    json["tipo"] = tipo;
-    json["assunto"] = this.assunto.objectToDocument();
-    json["questao"] = this.questao.objectToDocument();
-
-    return json;
-  }
+  
 
   /**
    * Constrói uma submissão que será salva no banco de dados.

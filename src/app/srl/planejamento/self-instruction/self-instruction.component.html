@@ -1,20 +1,20 @@
 
 
 <p-fieldset legend="Questão: {{questao?.sequencia}}">
-    {{questao?.enunciado}}
+    <span id="enunciado">{{questao?.enunciado}}</span>
   </p-fieldset>
 
-<p-accordion>
-    <p-accordionTab header="Qual problema você espera resolver com esse algoritmo?">
+<p-accordion id="self-instructions">
+    <p-accordionTab header="Qual problema você espera resolver com esse algoritmo?" id="problema">
         <textarea [rows]="5" [cols]="150" pInputTextarea autoResize="autoResize" [(ngModel)]="autoInstrucao.problema"></textarea>
     </p-accordionTab>
 
-    <p-accordionTab header="Quais as variáveis que precisam ser criadas para resolver esse problema?">
+    <p-accordionTab header="Quais as variáveis que precisam ser criadas para resolver esse problema?" id="variaveis">
         <textarea [rows]="5" [cols]="150" pInputTextarea autoResize="autoResize" [(ngModel)]="autoInstrucao.variaveis"></textarea>
     </p-accordionTab>
 
     <div *ngIf="condicoes">
-        <p-accordionTab header="Quais as condições que são necessárias para resolver esse problema?">
+        <p-accordionTab header="Quais as condições que são necessárias para resolver esse problema?" id="condições">
             <textarea [rows]="5" [cols]="150" pInputTextarea autoResize="autoResize" [(ngModel)]="autoInstrucao.condicoes"></textarea> 
         </p-accordionTab>
     </div>

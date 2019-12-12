@@ -67,6 +67,20 @@ export class Questao {
     return document;
   }
 
+  toJson(){
+    let ts = []
+
+    if (this.testsCases != null && this.testsCases.length > 0) {
+      this.testsCases.forEach(testCase => {
+        ts.push(testCase.objectToDocument());
+      })
+    }
+
+    return {
+      testsCases:ts
+    }
+  }
+
   buscarAssuntos(assuntoPrincipal): Observable<any[]> {
     return new Observable(observer => {
       let consultaAssuntos = [];
@@ -76,10 +90,10 @@ export class Questao {
 
       if (this.assuntos != null) {
         this.assuntos.forEach(assunto => {
-          consultaAssuntos.push(Assunto.get(assunto));
+          if( assunto.id != undefined)
+            consultaAssuntos.push(Assunto.get(assunto.id));
         });
       }
-
 
       if (consultaAssuntos.length > 0) {
         forkJoin(consultaAssuntos).subscribe(assuntosRecuperados => {

@@ -1,2 +1,0 @@
-class TestQuestao():
-    pass

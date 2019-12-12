@@ -11,7 +11,7 @@ import { Groups } from './experimento/lib/enum/groups';
 export default class Usuario extends Document{
 
     @date()
-    database;
+    data;
     nome;
     minutos;
 

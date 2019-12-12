@@ -1,10 +1,10 @@
-<div *ngIf="!modoVisualizacao && this.questao != undefined">
-      <button type="button" (click)="executar()" pButton label="Executar" icon="pi pi-play" iconPos="left"
+<div *ngIf="this.questao != undefined">
+      <button *ngIf="modoVisualizacao == false" type="button" (click)="executar()" pButton label="Executar" icon="pi pi-play" iconPos="left"
             class="ui-button-success"></button>
-      <button type="button" (click)="voltarParaModoExecucao()" pButton label="Voltar ao modo execução"
-            *ngIf="modoVisualizacao"></button>
-      <button type="button" (click)="visualizarExecucacao()" pButton label="Vizualizar execução"
-            *ngIf="!modoVisualizacao" lass="ui-button-secondary"></button>
+      <button *ngIf="this.login.getUsuarioLogado().grupoExperimento != 4 && modoVisualizacao == true" type="button"
+            (click)="visualizar(false)" pButton label="Voltar ao modo execução" ></button>
+      <button *ngIf="this.login.getUsuarioLogado().grupoExperimento != 4  && modoVisualizacao == false" type="button"
+            (click)="visualizar(true)" pButton label="Vizualizar execução"></button>
       <div id="container" [ngStyle]="{'height':liteMode === true?'300px':'600px'}"
             style="border:1px solid grey; position:relative;"></div>
 </div>

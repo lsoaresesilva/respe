@@ -29,7 +29,7 @@
     <div class="p-col-6">
       <div class="p-grid">
         <div class="p-col-12">
-          <app-editor-programacao [questao]="questao" [assunto]="assunto" (onError)="onEditorError($event)" (onVisualization)="onVisualization($event)">
+          <app-editor-programacao [modoVisualizacao]="modoVisualizacao" [questao]="questao" [assunto]="assunto" (onError)="onEditorError($event)" (onVisualization)="onVisualization($event)">
           </app-editor-programacao>
           <div *ngIf="modoVisualizacao==false" style="margin-top:10px;">
             <app-visualizar-testes [testsCases]="questao.testsCases"

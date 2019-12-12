@@ -44,6 +44,7 @@ import { PreTesteComponent } from './experimento/pre-teste/pre-teste.component';
 import { EnviarMaterialComponent } from './turma/enviar-material/enviar-material.component';
 import { ListarMateriaisComponent } from './turma/listar-materiais/listar-materiais.component';
 import { SubsecaoComponent } from './livro/subsecao/subsecao.component';
+import { ExperimentoGuard } from './guards/experimento.guard';
 
 
 
@@ -97,7 +98,7 @@ const routes: Routes = [
     {path:"escolher-questao/:assuntoId", component:EscolherQuestaoComponent, canActivate: [AuthGuard], canLoad: [AuthGuard], outlet:"principal"},
     {path:"visualizar-submissao-questao/:submissaoId", component:VisualizarSubmissaoQuestaoComponent, canActivate: [AuthGuard], canLoad: [AuthGuard], outlet:"principal"},
     {path:"visualizacao-assunto/:id", component:VisualizarAssuntoComponent, canActivate: [AuthGuard], canLoad: [AuthGuard], outlet:"principal"},
-    {path:"self-instruction/:assuntoId/:questaoId", component:SelfInstructionComponent, canActivate: [AuthGuard], canLoad: [AuthGuard], outlet:"principal"},
+    {path:"self-instruction/:assuntoId/:questaoId", component:SelfInstructionComponent, canActivate: [AuthGuard, ExperimentoGuard], canLoad: [AuthGuard], outlet:"principal"},
     {path:"estudantes-questao/:assuntoId/:questaoId", component:ListarEstudantesSubmissaoComponent, canActivate: [AuthGuard], canLoad: [AuthGuard], outlet:"principal"},
     {path:"codigo-similar", component:RespostaSimilarQuestaoProgramacaoComponent, canActivate: [AuthGuard], canLoad: [AuthGuard], outlet:"principal"},
     {path:"exibir-codigo/:questaoId", component: ExibirSolucaoComponent, canActivate: [AuthGuard], canLoad: [AuthGuard], outlet:"principal"},

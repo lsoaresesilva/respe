@@ -29,11 +29,11 @@ describe('workspace-project App', () => {
     expect(browser.driver.findElement(by.id("codigo-turma")).isDisplayed()).toBeTruthy();
   })
 
-  it("Deve emitir um alerta quando nenhum campo for preenchido", ()=>{
+  /*it("Deve emitir um alerta quando nenhum campo for preenchido", ()=>{
 
   })
 
   it("Deve emitir um alerta quando o usuário/senha não estiverem corretos", ()=>{
     
-  })
+  })*/
 });

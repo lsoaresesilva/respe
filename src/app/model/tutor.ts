@@ -9,36 +9,13 @@ import Submissao from './submissao';
 import ResultadoTestCase from './resultadoTestCase';
 import Query from './firestore/query';
 import { Assunto } from './assunto';
+import Usuario from './usuario';
 
 export class Tutor{
 
     constructor(private submissao:Submissao){
         
     }
-
-    
-
-    
-
-    /**
-     * Prepara a submissão para ser salva. Todos os tests cases serão inválidados, pois a submissão é referente a um erro.
-     */
-    salvarSubmissao(){
-        let resultadosTestCase = [];
-        this.submissao.questao.testsCases.forEach(testCase=>{
-            resultadosTestCase.push(new ResultadoTestCase(null, false, "", testCase));
-        });
-
-        this.submissao.resultadosTestsCases = resultadosTestCase;
-
-        return this.submissao.save();
-    }
-
-
-    
-
-    
-
 
     static mediaTestsCases(estudante:Estudante){
         
@@ -89,41 +66,33 @@ export class Tutor{
 
             for(let i = 0; i < submissoes.length; i++){
                 if( i % 2 == 0){
-                    let score = this.errorQuotient(submissoes[i], submissoes[i+1]);
+                    let score = this.getEQ(submissoes[i], submissoes[i+1]);
                     if(score != null)
                         scores.push(score);
                     
                 }
             }
 
-            let errorQuotient = 0;
+            let calcularErrorQuotient = 0;
             scores.forEach(score=>{
-                errorQuotient += score;
+                calcularErrorQuotient += score;
             })
 
-            errorQuotient = errorQuotient/scores.length;
+            calcularErrorQuotient = calcularErrorQuotient/scores.length;
 
-            return errorQuotient;
+            return calcularErrorQuotient;
         }else{
             return null;
         }
                 
-    }
+    }  
 
-    static desempenhoEstudante(errorQuotient){
-
-        if(errorQuotient >= 0.0 && errorQuotient <= 0.25){
-            return "Excelente";
-        }else if(errorQuotient > 0.25 && errorQuotient <= 0.50){
-            return "Bem";
-        }else if(errorQuotient > 0.50 && errorQuotient <= 0.70){
-            return "Razoável";
-        }else if(errorQuotient > 0.75){
-            return "Precisa melhorar (cuidado)";
-        }
-    }
-
-    static errorQuotient(submissaoUm, submissaoDois){
+    /**
+     * Calcula o ErrorQuotient entre duas submissões.
+     * @param submissaoUm 
+     * @param submissaoDois 
+     */
+    static getEQ(submissaoUm, submissaoDois){
         
         if(submissaoUm == undefined || submissaoDois == undefined || submissaoDois == null || submissaoUm == null)
             return null;
@@ -151,7 +120,30 @@ export class Tutor{
         return score/11;
     }
 
-    static calcularPercentualQuestoes(assunto:Assunto){
+    static getDesempenhoEstudante(estudante:Usuario){
+        return new Observable(observer=>{
+            Assunto.getAll().subscribe(assuntos=>{
+                let percentuaisQuestoesRespondidasPorAssunto = {}
+                if(Array.isArray(assuntos) && assuntos.length > 0){
+                    assuntos.forEach(assunto=>{
+                        percentuaisQuestoesRespondidasPorAssunto[assunto.nome] = Assunto.calcularPercentualConclusaoQuestoesProgramacao(assunto, estudante, 0.6);
+                    })
+                    
+                    if(Object.keys(percentuaisQuestoesRespondidasPorAssunto).length > 0){
+                        forkJoin(percentuaisQuestoesRespondidasPorAssunto).subscribe(percentuais=>{
+                            observer.next(percentuais);
+                            observer.complete();
+                        })
+                    }
+                }else{
+                    observer.next([]);
+                    observer.complete();
+                }
+            }, err=>{
+                observer.error(err);
+            })
+        })
+        
 
     }
     

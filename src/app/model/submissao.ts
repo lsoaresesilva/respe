@@ -54,6 +54,9 @@ export default class Submissao extends Document {
         document["questaoId"] = this.questao.id;
         document["codigo"] = this.codigo.algoritmo;
         if (this.resultadosTestsCases != null && this.resultadosTestsCases.length > 0) {
+
+        }
+        if (this.resultadosTestsCases != null && this.resultadosTestsCases.length > 0) {
             let resultadoTestsCases = [];
             this.resultadosTestsCases.forEach(resultadoTestCase => {
                 resultadoTestsCases.push(resultadoTestCase.objectToDocument());
@@ -62,6 +65,24 @@ export default class Submissao extends Document {
         }
         return document;
     }
+
+    toJson(){
+        return {
+            algoritmo:this.codigo
+        }
+    }
+
+    /**
+     * Constrói o JSON que será enviado ao backend.
+     */
+    construirJson(questao:Questao, tipo) {
+        let json = {}
+        json["submissao"] = this.toJson()
+        json["tipo"] = tipo;
+        json["questao"] = questao.toJson();
+    
+        return json;
+      }
 
     save():Observable<any>{
         let resultados;
