@@ -1,10 +1,11 @@
 :host >>> .ui-table	{
-  border: 1px solid #689f38;
+  border: 1px solid  #1b95e0;
 } 
 
 :host >>> .ui-menubar	{
 height: 60px;
-background: #33691e !important;
+background: #1b95e0;
+/* background: #33691e !important; */
 border: none;
 display: flex;
 align-items: center;
