@@ -21,8 +21,6 @@ export class CadastrarQuestoesComponent implements OnInit {
   dificuldades: SelectItem[];
   assuntos;
   isAlterar:Boolean=false;
-  x: string[] = ['5pC18pGdOEao1nzvvd55','e4J7VID1wSHMPmV7pTai'];
-  
  
 
   constructor(private router: Router, private activatedRoute: ActivatedRoute, private messageService: MessageService) {
