@@ -4,13 +4,16 @@ import { Observable } from 'rxjs';
 import Query from '../model/firestore/query';
 import { sha256 } from 'js-sha256';
 import { MessageService } from 'primeng/api';
+import { AngularFireAuth } from '@angular/fire/auth';
+import * as firebase from 'firebase/app';
+import { Router } from '@angular/router';
 
 @Injectable({
   providedIn: 'root'
 })
 export class LoginService {
 
-  constructor(private messageService:MessageService) { }
+  constructor(private messageService:MessageService, public afAuth: AngularFireAuth, private router: Router) { }
 
   getUsuarioLogado() {
     if (this.isUsuarioLogado()) {
@@ -47,6 +50,33 @@ export class LoginService {
       }, err => {
         alert("Erro ao tentar realizar login: " + err.toString());
       });
+    });
+  }
+  Sessao(usuario){
+    sessionStorage.setItem('usuario', JSON.stringify(usuario.stringfiy()));
+  }
+  GoogleLogin(){
+  
+      return new Observable (observer  =>  {
+        alert(observer)
+      let provider = new firebase.auth.GoogleAuthProvider();
+      provider.addScope('profile');
+      provider.addScope('email');
+      this.afAuth.auth.signInWithPopup(provider).then(
+        res => {
+            Usuario.logar(new Query("email", "==", res.user.email)).subscribe(usuarioLogado => {
+              if (usuarioLogado != null) {
+                      this.Sessao(usuarioLogado);
+                      observer.next(true);
+                      observer.complete();
+                    } else {
+                      observer.next(false);
+                      observer.complete();
+                    }
+                  }, err => {
+                    alert("Erro ao tentar realizar login: " + err.toString());
+                  });
+                });
     });
   }
  
