@@ -1,11 +1,10 @@
 :host >>> .ui-table	{
-  border: 1px solid  #1b95e0;
+  border: 1px solid  #144b6d;
 } 
 
 :host >>> .ui-menubar	{
 height: 60px;
-background: #1b95e0;
-/* background: #33691e !important; */
+background: #0c4f7c;
 border: none;
 display: flex;
 align-items: center;
@@ -16,11 +15,12 @@ border-radius: 0px;
 color: #fff !important;
 }
 
-h1 {
-text-align: center;
-font: italic small-caps bold 24px/0px "Comic Sans MS", cursive, sans-serif;
-color: gray;
+
+.ui-menu .ui-menuitem-link:hover, body .ui-menubar .ui-menuitem-link:hover, body .ui-tieredmenu .ui-menuitem-link:hover, body .ui-contextmenu .ui-menuitem-link:hover, body .ui-megamenu .ui-menuitem-link:hover, body .ui-slidemenu .ui-menuitem-link:hover{
+  background-color: #0d476e !important;
+  height: 100%;
 }
+
 
 :host >>> .logincard .ui-card {
 margin: auto;
@@ -37,6 +37,15 @@ color:white !important;
 a {
 color: #333333;
 }
+
+p {
+  font-family: Lato;
+}
+
+body{
+  background-color: white;
+}
+
 
 
 

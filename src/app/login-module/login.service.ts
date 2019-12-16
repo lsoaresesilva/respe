@@ -4,6 +4,9 @@ import { Observable } from 'rxjs';
 import Query from '../model/firestore/query';
 import { sha256 } from 'js-sha256';
 import { MessageService } from 'primeng/api';
+import { AngularFireAuth } from '@angular/fire/auth';
+import * as firebase from 'firebase/app';
+import { Router } from '@angular/router';
 
 @Injectable({
   providedIn: 'root'

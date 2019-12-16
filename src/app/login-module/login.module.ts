@@ -9,6 +9,7 @@ import {ButtonModule} from 'primeng/button';
 import {InputTextModule} from 'primeng/inputtext';
 import {CardModule} from 'primeng/card';
 import { ToastModule } from 'primeng/toast';
+import { config } from 'process';
 
 @NgModule({
   declarations: [
@@ -20,7 +21,10 @@ import { ToastModule } from 'primeng/toast';
     ButtonModule,
     InputTextModule,
     CardModule,
-    ToastModule
+    ToastModule,
+  
+
+
     
   ],
   providers: [UsuarioService]

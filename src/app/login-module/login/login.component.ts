@@ -38,11 +38,11 @@ export class LoginComponent implements OnInit {
   }
 
   redirecionar(resultado){
-    if( resultado )
-        this.router.navigateByUrl("/main");
-      else{
-        alert("Usuário ou senha inválidos. Você tem certeza que fez o cadastro?") // TODO: mudar para o message service
-      }
+    if(resultado)
+    this.router.navigate(["main", { outlets: { principal: ['home'] } }]);
+    else{
+      alert("Usuário ou senha inválidos. Você tem certeza que fez o cadastro?") // TODO: mudar para o message service
+    }
   }
 
   cadastrar(){

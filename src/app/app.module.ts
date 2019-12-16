@@ -1,14 +1,8 @@
 import { NgModule } from '@angular/core';
-
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
-
 import {InputTextModule} from 'primeng/inputtext';
 import {MenubarModule} from 'primeng/menubar';
-
-import { AngularFireModule } from '@angular/fire';
-import { AngularFirestoreModule } from '@angular/fire/firestore';
-
 import { FirebaseConfiguracao } from 'src/environments/firebase';
 import { LoginModule } from './login-module/login.module';
 import { MainComponent } from './geral-module/main/main.component';
@@ -27,6 +21,12 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { ExperimentoModule } from './experimento/experimento.module';
 import { CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
 import { LivroModule } from './livro/livro.module';
+import { AngularFireModule } from '@angular/fire';
+import { AngularFirestoreModule } from '@angular/fire/firestore';
+import { AngularFireAuthModule } from '@angular/fire/auth';
+import { environment } from '../environments/environment';
+
+
 
 
 
@@ -54,7 +54,12 @@ import { LivroModule } from './livro/livro.module';
     AngularFirestoreModule,
     InputTextModule,
     MenubarModule,
-    BrowserAnimationsModule
+    BrowserAnimationsModule,
+    AngularFireAuthModule,
+    //AngularFireModule.initializeApp(environment.firebase),
+    
+
+   
   ],
   providers: [AuthGuard,TurmaGuard,MessageService],
   bootstrap: [AppComponent]

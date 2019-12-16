@@ -1,8 +1,12 @@
 
 <h1> {{assunto.nome}}</h1>
-<div>
-    <button pButton type="button" (click)="cadastrar()" class="ui-button-success" label= "Nova Questão" *ngIf="login.getUsuarioLogado().perfil == 3"></button> 
+<div class="ui-g">
+    <div class="ui-g-10"></div>
+    <div class="ui-g-2">
+        <button pButton label="Nova Questão" (click)="cadastrar()" *ngIf="login.getUsuarioLogado().perfil == 3"></button>
+    </div>
 </div>
+
 
 <h2>Atividades</h2>
 

@@ -55,7 +55,7 @@ describe("Testes de questão", () => {
         let qf2 = new QuestaoFechada(678910, "ble", "", Dificuldade.dificil, 1, null, "");
         a.questoesFechadas.push(qf1);
         a.questoesFechadas.push(qf2);
-        let u = new Usuario(null, "leo@leo.com", "", PerfilUsuario.estudante, 0);
+        let u = new Usuario(null, "leo@leo.com", "", PerfilUsuario.estudante,null);
         let rqf1 = new RespostaQuestaoFechada(null, u, new Alternativa(123, "", true), qf1);
         forkJoin([a.save(), u.save()]).subscribe(resultado=>{
             rqf1.save().subscribe(res=>{

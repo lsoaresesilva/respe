@@ -1,38 +1,63 @@
 <div *ngIf="turma$ | async as turma" style="margin-top:10px;">
-    <!-- <div *ngIf="this.usuario.perfil == 2"> -->
-        <!-- <button pButton type="button" (click)="enviarMaterial(turma)" class="ui-button-info"
-                    label="Adicionar material"></button> -->
-      <!-- </div> -->
+   
+    
+    <h1>{{turma.nome}} </h1> 
+        
+
     <div class="ui-g">
-<<<<<<< HEAD
-        <div class="ui-g-8"><span class="cabecalho">{{turma.nome}} - {{turma.codigo}}</span></div>
-        <div class="ui-g-4">
-        </div>
+            <div class="ui-g-8"> </div>
+            <div class="ui-g-4">  
+             <div  *ngIf="this.usuario.perfil == 2"> <button  pButton type="button" (click)="adicionarMaterial(turma)"  class="ui-button-info"  label="Adicionar material"></button>  </div>   
+                <button pButton type="button" (click)="listarMateriais(turma)"  class="ui-button-info"  label="Listar materiais"></button> 
+                <button pButton type="button" (click)="visualizarEstudantes(turma)" class="ui-button-info" label="Estudantes"></button>   
+            
+            </div>
     </div>
-    <div class="ui-g">
-        <div class="ui-g-4"><button pButton type="button" (click)="visualizarEstudantes(turma)" class="ui-button-info"
-            label="Estudantes"></button></div>
-        <div class="ui-g-8">
-                <div *ngIf="this.usuario.perfil == 2">
-                        <button pButton type="button" (click)="adicionarMaterial(turma)"  class="ui-button-info"  label="Adicionar material"></button>  
-                      </div>
+
+
+
+
+
+
+
+
+
+
+
+
+            <!-- <div *ngIf="this.usuario.perfil == 2">
+                    <button pButton type="button" (click)="adicionarMaterial(turma)"  class="ui-button-info"  label="Adicionar material"></button> 
+                 </div>
+      
+
+        <div class="ui-g-6">
+                <div class="ui-g-6"><button pButton type="button" (click)="visualizarEstudantes(turma)" class="ui-button-info" label="Estudantes"></button>
+                </div>
+            <div>
+                <button pButton type="button" (click)="listarMateriais(turma)"  class="ui-button-info"  label="Listar materiais"></button>  
+            </div>
         </div>
-         <div class="ui-g-8">
-                        <button pButton type="button" (click)="listarMateriais(turma)"  class="ui-button-info"  label="Listar materiais"></button>  
-                      
-=======
-        <div class="ui-g-4"><span class="cabecalho">{{turma.nome}}</span></div>
-        <div class="ui-g-8"><button pButton type="button" (click)="visualizarEstudantes(turma)" class="ui-button-info btn-main"
-                label="Estudantes"></button>
-                <button pButton type="button" (click)="enviarMaterial(turma)" class="ui-button-info btn-main"
-                    label="Adicionar material"></button>
->>>>>>> 6e923641d1552483e07b38604f004d24cff14bce
-        </div>
-    </div>
+    </div> -->
+
     <div class="ui-g">
         <div class="ui-g-12">
             <app-listar-postagens [turma]="turma"></app-listar-postagens>
         </div>
-
     </div>
 </div>
+
+
+
+
+ <!-- <div *ngIf="this.usuario.perfil == 2"> -->
+        <!-- <button pButton type="button" (click)="enviarMaterial(turma)" class="ui-button-info"
+                    label="Adicionar material"></button> -->
+      <!-- </div> -->
+
+
+
+ <!-- <div class="ui-g-4"><span class="cabecalho">{{turma.nome}}</span></div>
+        <div class="ui-g-8"><button pButton type="button" (click)="visualizarEstudantes(turma)" class="ui-button-info btn-main"
+                label="Estudantes"></button>
+                <button pButton type="button" (click)="enviarMaterial(turma)" class="ui-button-info btn-main"
+                    label="Adicionar material"></button> -->
