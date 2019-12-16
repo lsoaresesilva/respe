@@ -39,7 +39,8 @@ import { PercentualErrorQuotientComponent } from './monitoramento/percentual-err
 import { CardDesempenhoComponent } from './monitoramento/card-desempenho/card-desempenho.component';
 import { CardErrosProgramacaoPizzaComponent } from './monitoramento/card-erros-programacao-pizza/card-erros-programacao-pizza.component';
 import { CardHistoricoErrosComponent } from './monitoramento/card-historico-erros/card-historico-erros.component';
-
+import {MessagesModule} from 'primeng/messages';
+import {MessageModule} from 'primeng/message';
 
 @NgModule({
   declarations: [
@@ -61,6 +62,8 @@ import { CardHistoricoErrosComponent } from './monitoramento/card-historico-erro
     CardHistoricoErrosComponent
   ],
   imports: [
+    MessagesModule,
+    MessageModule,
     JuizModule,
     CommonModule,
     CheckboxModule,

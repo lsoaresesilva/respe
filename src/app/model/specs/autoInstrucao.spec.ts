@@ -34,7 +34,7 @@ describe("Testes de Auto instrução", ()=>{
         
       });
 
-    it("deve salvar uma Autoinstrução", (done)=>{
+    /*it("deve salvar uma Autoinstrução", (done)=>{
         let e = new Estudante("12345", null);
         let q = new Questao("123456", "nomeCurto", "enunciado", Dificuldade.facil, 1, [], [], null);
         let autoInstrucao = new AutoInstrucao(null, e, q, "problema", "variaveis", "condicoes", "repeticoes", "funcoes", "vetores");
@@ -51,6 +51,28 @@ describe("Testes de Auto instrução", ()=>{
         let q = new Questao("123456", "nomeCurto", "enunciado", Dificuldade.facil, 1, [], [], null);
         let autoInstrucao = new AutoInstrucao(null, e, q, "problema", "variaveis", "condicoes", "repeticoes", "funcoes", "vetores");
         expect(autoInstrucao.objectToDocument()).toEqual({estudanteId:"12345", questaoId:"123456", problema:"problema", variaveis:"variaveis", condicoes:"condicoes", repeticoes:"repeticoes", funcoes:"funcoes", vetores:"vetores"})
+    })*/
+
+    it("Deve validar se uma autoinstrução é válida, ou seja, está com os dados preenchidos corretamente", ()=>{
+      let ac:Assunto = new Assunto(null, "Condições");
+      let af:Assunto = new Assunto(null, "Funções");
+      let ar:Assunto = new Assunto(null, "Repetições");
+      let q:Questao = new Questao(null, "", "", "", "", [ac, af], null, null);
+      ar.questoesProgramacao.push(q);
+      let autoinstrucao1:AutoInstrucao = new AutoInstrucao(null, null, q, "", "", "", "", "", "");
+      expect(autoinstrucao1.isValido(ar)).toBeFalse();
+      let autoinstrucao2:AutoInstrucao = new AutoInstrucao(null, null, q, "a", "b", "c", "d", "e", "f");
+      expect(autoinstrucao2.isValido(ar)).toBeTrue();
+
+      let q2:Questao = new Questao(null, "", "", "", "", [ac], null, null);
+      ar.questoesProgramacao.push(q2);
+
+      let autoinstrucao3:AutoInstrucao = new AutoInstrucao(null, null, q2, "a", "b", "c", "d", "", "");
+      expect(autoinstrucao3.isValido(ar)).toBeTrue();
+
+      let autoinstrucao4:AutoInstrucao = new AutoInstrucao(null, null, q2, "a", "b", "c", "", "", "");
+      expect(autoinstrucao4.isValido(ar)).toBeFalsy();
+
     })
 
 });

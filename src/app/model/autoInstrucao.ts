@@ -6,6 +6,7 @@ import { Dificuldade } from './enums/dificuldade';
 import { Questao } from './questao';
 import { Observable } from 'rxjs';
 import Query from './firestore/query';
+import { Assuntos } from './enums/assuntos';
 
 @Collection("autoInstrucao")
 export class AutoInstrucao extends Document{
@@ -37,7 +38,7 @@ export class AutoInstrucao extends Document{
         return document;
     }
 
-    static getAutoInstrucao(estudanteId, questaoId) :Observable <AutoInstrucao>{
+    static getByEstudanteQuestao(estudanteId, questaoId) :Observable <AutoInstrucao>{
         
         return new Observable (observer =>{
 
@@ -52,5 +53,54 @@ export class AutoInstrucao extends Document{
             });
 
         });
+    }
+
+
+
+    isValido(assuntoPrincipal){
+
+        let condicoes;
+        let funcoes;
+        let repeticoes;
+        let vetores;
+
+        let assuntosRelacionados = [];
+        assuntosRelacionados = assuntosRelacionados.concat(assuntoPrincipal, this.questao.assuntos);
+
+        assuntosRelacionados.forEach(assunto=>{
+            switch (assunto.nome) {
+                case Assuntos.repeticoes: {
+                  repeticoes = true;
+                  break;
+                }
+                case Assuntos.condicoes: {
+                  condicoes = true;
+                  break;
+                }
+                case Assuntos.funcoes: {
+                  funcoes = true;
+                  break;
+                }
+                case Assuntos.vetores: {
+                  vetores = true;
+                  break;
+                }
+              }
+        });
+
+        let isValido = true;
+
+        if(
+           (this.problema == undefined || this.problema == "") ||
+           (this.variaveis == undefined || this.variaveis == "") ||
+           (condicoes == true && (this.condicoes == undefined || this.condicoes == "")) || 
+           (funcoes == true && (this.funcoes == undefined || this.funcoes == "")) ||
+           (repeticoes == true && (this.repeticoes == undefined || this.repeticoes == "")) ||
+           (vetores == true && (this.vetores == undefined || this.vetores == ""))
+           ){
+            isValido = false;
+        }
+
+        return isValido;
     }
 }

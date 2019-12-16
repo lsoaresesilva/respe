@@ -1,8 +1,9 @@
 
+<p-messages [(value)]="msgs"></p-messages>
+
 <div *ngIf="questao != undefined" style="margin-bottom:20px;">
     <app-visualizar-questao [questao]="questao"></app-visualizar-questao>
 </div>
-
 
 <p-accordion id="self-instructions">
     <p-accordionTab header="Qual problema você espera resolver com esse algoritmo?" id="problema">

@@ -3,13 +3,10 @@ import { browser, by, protractor } from 'protractor';
 import { MainPage } from '../main/main.po';
 import LoginServiceMock from '../utility/login.service';
 import { Groups } from '../../../src/app/model/experimento/lib/enum/groups';
-import { inject } from '@angular/core/testing';
-import { AngularFirestore } from '@angular/fire/firestore';
-import { of } from 'rxjs';
-import { Planejamento } from 'src/app/model/planejamento';
-import Usuario from 'src/app/model/usuario';
-import { PerfilUsuario } from 'src/app/model/enums/perfilUsuario';
-import { Assunto } from 'src/app/model/assunto';
+import { Planejamento } from '../../../src/app/model/planejamento';
+import Usuario from '../../../src/app/model/usuario';
+import { PerfilUsuario } from '../../../src/app/model/enums/perfilUsuario';
+import { Assunto } from '../../../src/app/model/assunto';
 
 describe('Listagem planejamento', () => {
     let page: ListagemPlanejamentoPage;
@@ -95,7 +92,7 @@ describe('Listagem planejamento', () => {
                 })
             }, 2000)
         })
-    });*/
+    });
 
     it("Deve listar os planejamentos cadastrados", (done)=>{
         let e = new Usuario(null, null, null, PerfilUsuario.estudante, Groups.experimentalA);
@@ -115,6 +112,6 @@ describe('Listagem planejamento', () => {
             })
         })
         
-    })
+    })*/
 
 });

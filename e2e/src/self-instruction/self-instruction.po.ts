@@ -2,45 +2,49 @@ import { browser, by, element } from 'protractor';
 import { LoginPage } from '../login/login.po';
 
 export class SelfInstructionPage {
+  
+  getMensagemErro(): any {
+    return element(by.id("mensagemErro"));
+  }
 
-  navigateTo(){
+  navigateTo() {
     return browser.get("/main/(principal:self-instruction/PU0EstYupXgDZ2a57X0X/c4e98001-f1fb-4de3-979e-55718edb92d2)");
   }
-  
 
-  getResponderBtn(){
+
+  getResponderBtn() {
     return element(by.id("responderBtn"));
   }
 
-  getQuestaoEnunciado(){
+  getQuestaoEnunciado() {
     return element(by.id("enunciado"));
   }
 
-  getSelfInstructions(){
+  getSelfInstructions() {
     return element(by.id("self-instructions"));
   }
 
-  getProblemaAccordion(){
+  getProblemaAccordion() {
     return element(by.id("problema"));
   }
-  
-  getVariaveisAccordion(){
+
+  getVariaveisAccordion() {
     return element(by.id("variaveis"));
   }
 
-  getCondicoesAccordion(){
+  getCondicoesAccordion() {
     return element(by.id("condições"));
   }
 
-  getRepeticoesAccordion(){
+  getRepeticoesAccordion() {
     return element(by.id("repetições"));
   }
 
-  getFuncoesAccordion(){
+  getFuncoesAccordion() {
     return element(by.id("funções"));
   }
 
-  getArrayAccordion(){
+  getArrayAccordion() {
     return element(by.id("funções"));
   }
 }

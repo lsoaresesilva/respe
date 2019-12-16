@@ -3,7 +3,7 @@ import { Observable, forkJoin } from 'rxjs';
 import EstudanteTurma from './estudanteTurma';
 import Usuario from './usuario';
 import GeradorCodigo from '../util/geradorCodigo';
-import Query from 'src/app/model/firestore/query';
+import Query from './firestore/query';
 
 @Collection("turmas")
 export default class Turma extends Document {

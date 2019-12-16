@@ -17,9 +17,7 @@ export class SelfInstructionComponent implements OnInit {
   private autoInstrucao:AutoInstrucao;
   private questao;
   private assunto;
-  private usuario;
-  
-  private assuntos;
+  msgs;
   condicoes;
   repeticoes;
   funcoes;
@@ -27,7 +25,7 @@ export class SelfInstructionComponent implements OnInit {
 
   constructor(private route: ActivatedRoute, private router: Router, private login: LoginService) {
     this.questao = new Questao(null, null, null, null, null, [], [], null);
-    
+    this.msgs = [];
     this.condicoes = false;
     this.repeticoes = false;
     this.funcoes = false;
@@ -68,7 +66,7 @@ export class SelfInstructionComponent implements OnInit {
   }
   
   getAutoInstrucao(){
-    AutoInstrucao.getAutoInstrucao(this.login.getUsuarioLogado().pk(), this.questao.id).subscribe(autoInstrucao =>{
+    AutoInstrucao.getByEstudanteQuestao(this.login.getUsuarioLogado().pk(), this.questao.id).subscribe(autoInstrucao =>{
 
       if(autoInstrucao != null){
         this.autoInstrucao = autoInstrucao;
@@ -79,16 +77,17 @@ export class SelfInstructionComponent implements OnInit {
   }
 
   salvar(){ 
-    this.autoInstrucao.save().subscribe(resultado => {
-      this.router.navigate(["main", { outlets: { principal: ['editor', this.assunto.pk(),this.questao.id] }}]);
-
-      },err => {
-      alert("Ocorreu um problema, tente novamente!");
-    });
-   
+    if(this.autoInstrucao.isValido(this.assunto)){
+      this.autoInstrucao.save().subscribe(resultado => {
+        this.router.navigate(["main", { outlets: { principal: ['editor', this.assunto.pk(),this.questao.id] }}]);
+  
+        },err => {
+          this.msgs.push({severity:'error', summary:'Falha ao salvar', detail:'Houve um problema no servidor. Tente novamente em alguns instantes.'});
+      });
+    }else{
+      this.msgs.push({severity:'error', summary:'Falha ao salvar', detail:'Antes de avançar é preciso responder todas as perguntas.'});
+    }
   } 
-
-   
 
   apresentarPerguntas(assuntos) {
     assuntos.forEach(assunto => {
