@@ -7,6 +7,7 @@ import TestCase from 'src/app/model/testCase';
 import { Router, ActivatedRoute } from '@angular/router';
 import Usuario from 'src/app/model/usuario';
 import { LoginService } from '../../login-module/login.service';
+import { Groups } from 'src/app/model/experimento/lib/enum/groups';
 
 @Component({
   selector: 'app-listar-questoes',
@@ -57,11 +58,12 @@ export class ListarQuestoesComponent implements OnInit, OnChanges {
   }
 
   visualizar(questao) {
-    if(this.usuario.grupoExperimento == 4){
-      this.router.navigate(["main", { outlets: { principal: ['editor', this.assunto.pk(), questao.id] } }]);
-    }else{
-      this.router.navigate(["main", { outlets: { principal: ['visualizacao-questao', this.assunto.pk(), questao.id] } }]);
-    } 
+    if(this.login.getUsuarioLogado().grupoExperimento == Groups.control){
+      this.router.navigate(["main", { outlets: { principal: ['editor', this.assunto.pk(), questao.id] }}]);
+      return; 
+    }
+
+    this.router.navigate(["main", { outlets: { principal: ['self-instruction', this.assunto.pk(), questao.id] }}]);
     
   }
 

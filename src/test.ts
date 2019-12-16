@@ -16,6 +16,6 @@ getTestBed().initTestEnvironment(
 );
 // Then we find all the tests.
 //const context = require.context('./', true, /\.spec\.ts$/);
-const context = require.context('./', true, /livro.service.spec\.ts$/);
+const context = require.context('./', true, /test_example.spec\.ts$/);
 // And load the modules.
 context.keys().map(context);

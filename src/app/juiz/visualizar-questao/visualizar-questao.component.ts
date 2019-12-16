@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, Input } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { MessageService, MenuItem } from 'primeng/api';
 import { Questao } from 'src/app/model/questao';
@@ -17,6 +17,7 @@ export class VisualizarQuestaoComponent implements OnInit {
 
 
 
+  @Input()
   private questao?;
   private id: number;
   private sub: any;
@@ -45,7 +46,9 @@ export class VisualizarQuestaoComponent implements OnInit {
           });
         
       } else {
-        throw new Error("Não é possível visualizar uma questão, pois não foram passados os identificadores de assunto e questão.")
+        if(this.questao == undefined){
+          throw new Error("Não é possível visualizar uma questão, pois não foram passados os identificadores de assunto e questão.")
+        }
       }
 
     });

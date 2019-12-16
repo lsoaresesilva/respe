@@ -86,7 +86,8 @@ export class Questao {
       let consultaAssuntos = [];
       let assuntosQuestao = [];
 
-      assuntosQuestao.push(assuntoPrincipal); //incluindo o assunto principal à lista de questões
+      if(assuntoPrincipal != undefined)
+        assuntosQuestao.push(assuntoPrincipal); //incluindo o assunto principal à lista de questões
 
       if (this.assuntos != null) {
         this.assuntos.forEach(assunto => {
@@ -97,7 +98,7 @@ export class Questao {
 
       if (consultaAssuntos.length > 0) {
         forkJoin(consultaAssuntos).subscribe(assuntosRecuperados => {
-          assuntosQuestao.concat(assuntosRecuperados);
+          assuntosQuestao = assuntosQuestao.concat(assuntosRecuperados);
           observer.next(assuntosQuestao);
           observer.complete();
         }, err => {

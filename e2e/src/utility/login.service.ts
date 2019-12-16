@@ -2,8 +2,8 @@ import { browser } from 'protractor';
 
 export default class LoginServiceMock{
     
-    static logar(){
-        let usuario = '{"id":"12345", "grupoExperimento":1}'
+    static logar(grupo, id=12345){
+        let usuario = '{"id":"'+id+'", "grupoExperimento":'+grupo+'}'
         let script = "return window.sessionStorage.setItem('usuario', '"+usuario+"');"
         browser.executeScript(script);
     }

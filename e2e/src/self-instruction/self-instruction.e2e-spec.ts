@@ -91,7 +91,7 @@ describe('Testes na página Self-instruction', () => {
                 
             })
         })
-    })*/
+    })
 
     it("Deve apresentar o acordion de condições para uma questão que tenha condição", (done)=>{
         browser.get("/").then(()=>{
@@ -100,7 +100,55 @@ describe('Testes na página Self-instruction', () => {
             page.navigateTo().then(()=>{
             
                 setTimeout(function(){
-                    expect(page.getCondicoesAccordion().isPresent()).toBeTruthy();
+                    expect(page.getCondicoesAccordion().isDisplayed()).toBeTruthy();
+                    done();
+                }, 2000)
+                
+                
+            })
+        })
+    })
+
+    it("Deve apresentar o acordion de repetições para uma questão que tenha repetição", (done)=>{
+        browser.get("/").then(()=>{
+            browser.sleep(1000);
+            LoginServiceMock.logar();
+            page.navigateTo().then(()=>{
+            
+                setTimeout(function(){
+                    expect(page.getRepeticoesAccordion().isDisplayed()).toBeTruthy();
+                    done();
+                }, 2000)
+                
+                
+            })
+        })
+    })
+
+    it("Deve apresentar o acordion de funções para uma questão que tenha funções", (done)=>{
+        browser.get("/").then(()=>{
+            browser.sleep(1000);
+            LoginServiceMock.logar();
+            page.navigateTo().then(()=>{
+            
+                setTimeout(function(){
+                    expect(page.getFuncoesAccordion().isPresent()).toBeFalsy();
+                    done();
+                }, 2000)
+                
+                
+            })
+        })
+    })*/
+
+    it("Deve apresentar o acordion de array para uma questão que tenha array", (done)=>{
+        browser.get("/").then(()=>{
+            browser.sleep(1000);
+            LoginServiceMock.logar();
+            page.navigateTo().then(()=>{
+            
+                setTimeout(function(){
+                    expect(page.getArrayAccordion().isPresent()).toBeFalsy();
                     done();
                 }, 2000)
                 

@@ -31,4 +31,16 @@ export class SelfInstructionPage {
   getCondicoesAccordion(){
     return element(by.id("condições"));
   }
+
+  getRepeticoesAccordion(){
+    return element(by.id("repetições"));
+  }
+
+  getFuncoesAccordion(){
+    return element(by.id("funções"));
+  }
+
+  getArrayAccordion(){
+    return element(by.id("funções"));
+  }
 }

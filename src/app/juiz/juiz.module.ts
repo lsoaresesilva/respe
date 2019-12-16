@@ -132,8 +132,8 @@ import { ConsoleComponent } from './editor/console/console.component';
     ListarQuestoesFechadasComponent,
     VisualizarQuestaoFechadaComponent,
     VisualizarPerfilEstudanteComponent,
-    ResponderQuestaoProgramacaoLiteComponent
-
+    ResponderQuestaoProgramacaoLiteComponent,
+    VisualizarQuestaoComponent
   ],
 
   providers: [MessageService, LoginService, EditorService,ConfirmationService],

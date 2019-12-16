@@ -66,7 +66,7 @@ const routes: Routes = [
     {path:"visualizarConteudo", component:VisualizarConteudoComponent, outlet:"principal"},
     {path:"visualizacao-planejamento/:id", component:VisualizarPlanejamentoComponent, canActivate: [AuthGuard], canLoad: [AuthGuard], outlet:"principal"},
     {path:"cadastro-planejamento", component:CadastroPlanejamentoComponent, canActivate: [AuthGuard], canLoad: [AuthGuard], outlet:"principal"},
-    {path:"listagem-planejamento", component:ListarPlanejamentosComponent, canActivate: [AuthGuard], canLoad: [AuthGuard], outlet:"principal"},
+    {path:"listagem-planejamento", component:ListarPlanejamentosComponent, canActivate: [AuthGuard, ExperimentoGuard], outlet:"principal"},
     {path:"srl-autoreflexao/:id", component:AutoReflexaoComponent, canActivate: [AuthGuard], canLoad: [AuthGuard], outlet:"principal"},
     {path:"cadastro-questao/:assuntoId", component:CadastrarQuestoesComponent, canActivate: [AuthGuard], canLoad: [AuthGuard], outlet:"principal"},
     {path:"cadastro-questao/:assuntoId/:questaoId", component:CadastrarQuestoesComponent, canActivate: [AuthGuard], canLoad: [AuthGuard], outlet:"principal"},
