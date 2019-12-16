@@ -9,12 +9,12 @@ import {InputTextModule} from 'primeng/inputtext';
 import {CardModule} from 'primeng/card';
 import { ToastModule } from 'primeng/toast';
 import { config } from 'process';
-import { CadastrarCodigoTurmaComponent } from './cadastrar-codigo-turma/cadastrar-codigo-turma.component';
+
 
 @NgModule({
   declarations: [
     LoginComponent,
-    CadastrarCodigoTurmaComponent
+   
   ],
   imports: [
     CommonModule,
