@@ -1,0 +1,144 @@
+
+:host >>> input{
+    width: 100%;
+} 
+   
+.link{
+    text-align: right;
+    color: #000;
+    Font-size: 13px;
+    display: flex;
+    justify-content: flex-end;
+    width: 100%;
+    margin: 0px 7px;
+}
+
+button{
+    width: 100%;
+    font-weight: bold;
+}
+body {
+    height: 100vh;
+     background-image: url('https://images.unsplash.com/photo-1522202176988-66273c2fd55f?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=1502&q=80') !important;
+}
+
+ a {
+   color: #333333;
+}
+
+.row-input {
+    margin: 2px 0px;
+} 
+
+.row-title{
+    font-size: 37px;
+    font-family: arial;
+    text-align: center;
+    font-weight: bold;
+    color: #444;
+    margin: 11px 0px;
+}
+
+.row-btn {
+    margin-top: 40px; 
+} 
+
+body {
+    margin: 0;
+    padding: 0;
+    font-family: Arial, Helvetica, sans-serif;
+}
+
+.container {
+    background-image: linear-gradient(0deg,rgba(12, 153, 255, 0.79),#051119),url('https://images.unsplash.com/photo-1522202176988-66273c2fd55f?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=1502&q=80');    width: 100vw;
+    width: 100vw;
+    height: 100vh;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    box-shadow: 1px 1px 4px #383838;
+}
+
+.container {
+    justify-content: center;
+}
+
+.container-painel{
+    width:100%;
+}
+
+.hero-section {
+    width: 500px;
+    height: 100vh;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    margin-left: 50px;
+    color: #fff;
+}
+
+.login-section {
+    background: rgb(255, 255, 255);
+    width: 500px;
+    height: 500px;
+    margin-right: 50px;
+    border-radius: 10px;
+    
+    display: flex;
+}
+
+.hero-section__title {
+    font-size: 50px;
+    margin-block-start: 0;
+    margin-block-end: 0;
+    color: #fff;
+    font-family: arial;
+    text-align: start;
+    font-size: 75px;
+    margin: 19px 0px
+}
+
+.hero-section__subtitle {
+    font-size: 16px;
+}
+
+.hero-section__container-info {
+    margin: 36px 0px;
+}
+
+.hero-section__card-info {
+    display: flex;
+    margin: 10px 0px;
+    width: 500px;
+    display: flex;
+    align-items: center;
+}
+
+.hero-section__about-card-icon {
+    width: 80px;
+    height: 80px;
+    background: rgb(255, 255, 255);
+    border-radius: 40px;
+}
+
+.hero-section__about-card-info {
+    width: 400px;
+    padding-left: 10px;
+}
+
+.footer-link {
+    bottom: 20px;
+    position: absolute;
+}
+
+.footer-link a {
+    text-decoration: none;
+    color: #fff;
+    margin: 0px 10px;
+}
+
+
+.form{
+    margin: 30px;
+}
+

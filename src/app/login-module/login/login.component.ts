@@ -5,6 +5,7 @@ import { Router } from '@angular/router';
 import { LoginService } from 'src/app/login-module/login.service';
 //import {Experiment} from 'scientificxpjs/experiment'
 import { MessageService } from 'primeng/primeng';
+import Query from 'src/app/model/firestore/query';
 
 
 @Component({
@@ -48,5 +49,32 @@ export class LoginComponent implements OnInit {
   cadastrar(){
     this.router.navigate(["cadastro-estudante"])
   }
+
+
+
+  signInWithGoogle() {
+    this.login.signInWithGoogle()
+      .then((res) => {
+        if(res != undefined){
+          Usuario.logar(new Query ('email', "==", res.user.email)).subscribe(usuarioLogado =>{
+            if(usuarioLogado != undefined){
+                this.login.criarSessao(usuarioLogado);
+                this.router.navigate(["main", { outlets: { principal: ['home'] } }]);          
+            }else{
+                this.router.navigate(["cadastro-estudante",res.user.email,res.user.displayName])
+            }
+          }),err =>{
+              alert("erro ao tentar realizar login:" + err.string())
+            }
+
+        }
+      })
+      .catch((err) => console.log(err));
+    }
+
+
+
+
+ 
 
 }

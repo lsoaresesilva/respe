@@ -37,6 +37,12 @@ export class CadastrarEstudantesComponent implements OnInit {
       if (parametros["codigoTurma"] != undefined) {
         this.estudante.turma.codigo = parametros["codigoTurma"];
       }
+
+      if(parametros["email"] && parametros["nome"] != undefined){
+        this.estudante.usuario.nome = parametros["nome"];
+        this.estudante.usuario.email = parametros["email"];
+       
+      }
     })
   }
   cadastrarEstudante() {
@@ -47,7 +53,7 @@ export class CadastrarEstudantesComponent implements OnInit {
         
         if (resultado === false) {
           
-          this.messageService.add({ severity: 'erro', summary: 'Houve um erro:', detail: "Não existe uma turma cadastrada com este código." });
+          this.messageService.add({ severity: 'error', summary: 'Houve um erro:', detail: "Não existe uma turma cadastrada com este código." });
         } else {
           this.estudante.usuario.validar().subscribe(resultado => {
             if (resultado) {

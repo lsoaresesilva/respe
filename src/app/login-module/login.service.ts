@@ -7,13 +7,14 @@ import { MessageService } from 'primeng/api';
 import { AngularFireAuth } from '@angular/fire/auth';
 import * as firebase from 'firebase/app';
 import { Router } from '@angular/router';
+import { AngularFirestore } from '@angular/fire/firestore';
 
 @Injectable({
   providedIn: 'root'
 })
 export class LoginService {
 
-  constructor(private messageService: MessageService) { }
+  constructor(private messageService: MessageService,private firebaseAuth: AngularFireAuth, private angularfire: AngularFirestore,private router: Router) { }
 
   getUsuarioLogado() {
     if (this.isUsuarioLogado()) {
@@ -87,6 +88,53 @@ export class LoginService {
 
   }
 
+  
+  signInWithFacebook() {
+		return this.firebaseAuth.auth.signInWithPopup(
+			new firebase.auth.FacebookAuthProvider()
+		)
+  }
+
+  signInWithGoogle() {
+		return this.firebaseAuth.auth.signInWithPopup(
+			new firebase.auth.GoogleAuthProvider()
+		)
+	}
+
+
+  // googleLogin(){
+  //   return new Observable (observer =>{
+  //     let provider = new firebase.auth.GoogleAuthProvider();
+  //     provider.addScope('profile');
+  //     provider.addScope("email");
+  //     this.firebaseAuth.auth.signInWithPopup(provider).then(
+  //       res =>{
+  //         Usuario.logar(new Query ('email', "==", res.user.email)).subscribe(usuarioLogado =>{
+  //           if(usuarioLogado != null){
+  //            this.criarSessao(usuarioLogado);
+
+  //            observer.next(true);
+  //            observer.complete();
+  //           }else{
+  //             observer.next(false);
+  //             observer.complete();
+  //           }
+  //         }),err =>{
+  //         alert("erro ao tentar realizar login:" + err.string())
+  //       }
+
+  //     })
+  //   });
+
+  // }
+
+
+
+  
+  logout1() {
+		this.firebaseAuth.auth.signOut()
+			.then((res) => this.router.navigate(['/']));
+	}
 
   logout() {
     sessionStorage.removeItem("usuario");

@@ -6,23 +6,7 @@
         <button *ngIf="login.getUsuarioLogado().perfil == 3" pButton type="button" (click)="cadastrar()" class="ui-button-success ui-button-raised"
             label="Cadastrar"></button></div>
     <div class="ui-g-2">
-<<<<<<< HEAD
 
-        <!-- <p-button label="Registar exemplo de questão" (click)="registrar()"></p-button> -->
-    </div>
-
-</div>
-
-<div *ngIf="login.getUsuarioLogado().perfil == 3">
-    <p-contextMenu #cm [model]="items"></p-contextMenu>
-</div>
-
-<p-toast [style]="{marginTop: '80px'}"></p-toast>
-
-<p-table [value]="assuntos" [(contextMenuSelection)]="selectedAssunto" [contextMenu]="cm">
-    <ng-template pTemplate="header">
-
-=======
         <button pButton label="Cadastrar" (click)="cadastrar()"></button>
          <!-- <p-button label="Registar exemplo de questão" (click)="registrar()"></p-button> --> 
     </div>
@@ -30,7 +14,7 @@
 
 <p-table [value]="assuntos" [(contextMenuSelection)]="selectedAssunto" [contextMenu]="cm">
     <ng-template pTemplate="header">
->>>>>>> 65e455eced8b7fb0d8ca79d5e15ad7b7d1d93bae
+
     </ng-template>
     <ng-template pTemplate="body" let-rowData let-assunto>
         <tr [pContextMenuRow]="rowData">
@@ -39,13 +23,5 @@
     </ng-template>
 </p-table>
 
-<<<<<<< HEAD
+
 <p-contextMenu #cm [model]="items"></p-contextMenu>
-=======
-
-<div *ngIf="login.getUsuarioLogado().perfil == 3">
-    <p-contextMenu #cm [model]="items"></p-contextMenu>
-</div>
-
- 
->>>>>>> 65e455eced8b7fb0d8ca79d5e15ad7b7d1d93bae
