@@ -37,5 +37,5 @@
 
 
     <p-confirmDialog header="Tem certeza da resposta?" icon="pi pi-exclamation-triangle"></p-confirmDialog>
-    <button [disabled]="respostaUsuarioBanco != undefined" type="text" (click)="confirmar()" pButton icon="pi pi-check"
-      class="ui-button-success" label="Responder"></button>
+    <button type="text" (click)="confirmar()" pButton icon="pi pi-check"
+      class="ui-button-success" label="Responder" [disabled]="respostaQuestaoFechada.pk() != undefined"></button>
