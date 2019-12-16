@@ -101,35 +101,6 @@ export class LoginService {
 		)
 	}
 
-
-  // googleLogin(){
-  //   return new Observable (observer =>{
-  //     let provider = new firebase.auth.GoogleAuthProvider();
-  //     provider.addScope('profile');
-  //     provider.addScope("email");
-  //     this.firebaseAuth.auth.signInWithPopup(provider).then(
-  //       res =>{
-  //         Usuario.logar(new Query ('email', "==", res.user.email)).subscribe(usuarioLogado =>{
-  //           if(usuarioLogado != null){
-  //            this.criarSessao(usuarioLogado);
-
-  //            observer.next(true);
-  //            observer.complete();
-  //           }else{
-  //             observer.next(false);
-  //             observer.complete();
-  //           }
-  //         }),err =>{
-  //         alert("erro ao tentar realizar login:" + err.string())
-  //       }
-
-  //     })
-  //   });
-
-  // }
-
-
-
   
   logout1() {
 		this.firebaseAuth.auth.signOut()

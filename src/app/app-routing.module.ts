@@ -45,7 +45,6 @@ import { EnviarMaterialComponent } from './turma/enviar-material/enviar-material
 import { ListarMateriaisComponent } from './turma/listar-materiais/listar-materiais.component';
 import { SubsecaoComponent } from './livro/subsecao/subsecao.component';
 import { ExperimentoGuard } from './guards/experimento.guard';
-import { CadastrarCodigoTurmaComponent } from './login-module/cadastrar-codigo-turma/cadastrar-codigo-turma.component';
 
 
 
@@ -54,7 +53,6 @@ import { CadastrarCodigoTurmaComponent } from './login-module/cadastrar-codigo-t
 
 
 const routes: Routes = [
-  {path:"cadastro-codigo-turma", component: CadastrarCodigoTurmaComponent},
   {path:"main", component:MainComponent, canActivate: [AuthGuard], canLoad: [AuthGuard], children: [
     {path:"editor/:assuntoId/:questaoId", component:ResponderQuestaoProgramacao, outlet:"principal"},
     {path:"subsecao", component:SubsecaoComponent, outlet:"principal"},
