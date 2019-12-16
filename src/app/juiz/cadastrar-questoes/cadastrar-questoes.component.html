@@ -13,15 +13,15 @@
 
 
     <h3 class="first">Título (curto) </h3>
-    <input id="nomeCurto" type="text" [(ngModel)]="questao.nomeCurto" pInputText />
+    <input id="titulo" type="text" [(ngModel)]="questao.nomeCurto" pInputText />
 
 
     <h3 class="first">Enunciado</h3>
-    <textarea [rows]="6" [cols]="60" pInputTextarea autoResize="autoResize" [(ngModel)]="questao.enunciado"></textarea>
+    <textarea  id="enunciado"   [rows]="6"  [cols]="60" pInputTextarea autoResize="autoResize" [(ngModel)]="questao.enunciado"></textarea>
 
     <div class="ui-g" style="width:250px;margin-bottom:10px">
       <h3>Assuntos</h3>
-      <div class="ui-g-12"> <p-checkbox *ngFor="let assunto of assuntos" class="assuntos" name="{{assunto.nome}}" value= "{{assunto.id}}"
+      <div class="ui-g-12"> <p-checkbox id= "assuntos" *ngFor="let assunto of assuntos" class="assuntos" name="{{assunto.nome}}" value= "{{assunto.id}}"
        [(ngModel)]="questao.assuntos" label="{{assunto.nome}}" inputId= "{{assunto.id}}"></p-checkbox>
       </div>
     </div>
@@ -29,19 +29,19 @@
 
 
     <h3 class="first">Sequência</h3>
-    <p-spinner size="15" [min]="0" [(ngModel)]="questao.sequencia"></p-spinner>
+    <p-spinner id="sequencia" size="15" [min]="0" [(ngModel)]="questao.sequencia"></p-spinner>
 
     <h3 class="first">Dificuldade</h3>
-    <p-dropdown [options]="dificuldades" [(ngModel)]="questao.dificuldade"></p-dropdown>
+    <p-dropdown id= "dificuldade" [options]="dificuldades" [(ngModel)]="questao.dificuldade"></p-dropdown>
 
     <h3>Tests cases</h3>
-    <p-button label="Novo test case" (click)="adicionarTestCase()"></p-button>
+    <p-button   id="criarTestCase" label="Novo test case" (click)="adicionarTestCase()"></p-button>
     <app-cadastrar-teste-case *ngFor="let testCase of questao.testsCases" [testCase]="testCase">
     </app-cadastrar-teste-case>
 
     <br />
 
   </div>
-  <div class="p-col-12"><button pButton type="button" label="Cadastrar" (click)="cadastrar()"></button>
+  <div class="p-col-12"><button  id="cadastrar" pButton type="button" label="Cadastrar" (click)="cadastrar()"></button>
   </div>
 </div>

@@ -49,11 +49,13 @@ describe('Testes E2E de cadastro de estudante', () => {
     expect(page.getInputEmailEstudante().isPresent()).toBeTruthy();
   });
 
-  it('deve verificar se há um botão de cadasro do estudante', () => {
+  //teste 1
+  it('deve verificar se há um botão de cadastro do estudante', () => {
 
     expect(page.getButtonCadastrar().isPresent()).toBeTruthy();
   });
 
+  //teste 2
   it('deve efetivar um cadastro de estudante', (done) => {
     let contador;
     firestore.count("usuarios").subscribe(contagemAnterior => {
@@ -77,11 +79,9 @@ describe('Testes E2E de cadastro de estudante', () => {
 
       });
     })
-
-
-    //expect(page.getButtonCadastrar().isPresent()).toBeTruthy();
   });
 
+  //teste 3
   it("Deve apresentar uma mensagem de erro ao não informar os inputs obrigatórios", () => {
     page.navigateTo();
     page.getInputCodigoTurma().sendKeys("12345");
@@ -91,6 +91,7 @@ describe('Testes E2E de cadastro de estudante', () => {
     });
   })
 
+  //teste 4
   it("Deve apresentar uma mensagem de erro quando não houver uma turma cadastrada com o código informado", () => {
     page.navigateTo();
     page.getInputCodigoTurma().sendKeys("abc");
@@ -100,6 +101,7 @@ describe('Testes E2E de cadastro de estudante', () => {
     });
   })
 
+  //teste 5
   it("Deve apresentar uma mensagem de erro quando tentar cadastrar e já houver um usuário cadastrado", (done) => {
     page.navigateTo();
     page.getInputCodigoTurma().sendKeys("12345");
@@ -115,6 +117,7 @@ describe('Testes E2E de cadastro de estudante', () => {
           page.getInputNome().sendKeys("Teste com o Protractor");
           page.getInputSenha().sendKeys("12345");
           page.getButtonCadastrar().click().then(resultado => {
+            
             let EC = protractor.ExpectedConditions;
             expect(EC.alertIsPresent()).toBeTruthy();
             firestore.deleteLatest("usuarios").subscribe(res => {

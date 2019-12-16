@@ -2,12 +2,11 @@
 
 <div *ngIf="respostasAluno != undefined">
 
-    <p-table [value]="assunto.questoesFechadas" [(contextMenuSelection)]="selectedQuestao" [contextMenu]="cm">
+    <p-table id="tabela" [value]="assunto.questoesFechadas" [(contextMenuSelection)]="selectedQuestao" [contextMenu]="cm">
         <ng-template pTemplate="header">
             <tr>
                 <th>Ação</th>
                 <th>Questões Fechadas</th>
-
                 <th>Status</th>
             </tr>
         </ng-template>
