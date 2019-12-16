@@ -14,10 +14,12 @@
 </p-fieldset>
 <br>
 <br>
-
-<p-radioButton *ngFor="let alternativa of questao.alternativas" name="alternativas" class="alternativa"
+<div>
+  <p-radioButton *ngFor="let alternativa of questao.alternativas" name="alternativas" class="alternativa"
   value="{{alternativa.id}}" (onClick)="selecionarAlternativa(alternativa)" label="{{alternativa.texto}}"
-  inputId="{{alternativa.id}}" [(ngModel)]="respostaQuestaoFechada.alternativaId"></p-radioButton>
+  inputId="{{alternativa.id}}" [(ngModel)]="respostaQuestaoFechada.alternativaId" [disabled]="respostaQuestaoFechada.pk() != undefined"></p-radioButton>
+</div>
+
 
 <br>
 <div class="p-grid">
