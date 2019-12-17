@@ -59,6 +59,7 @@ export class LoginService {
   }
 
   logar(usuario: Usuario) {
+    
     return new Observable(observer => {
       Usuario.logar([new Query("email", "==", usuario.email), new Query("senha", "==", sha256(usuario.senha))]).subscribe(usuarioLogado => {
         if (usuarioLogado != null) {
