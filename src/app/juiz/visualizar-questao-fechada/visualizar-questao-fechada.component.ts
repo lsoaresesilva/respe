@@ -24,7 +24,7 @@ export class VisualizarQuestaoFechadaComponent implements OnInit {
   private id;
 
   constructor(private sanitizer: DomSanitizer, private route: ActivatedRoute, private router: Router, private login: LoginService, private messageService: MessageService, private confirmationService: ConfirmationService) {
-    
+   
     this.usuario = login.getUsuarioLogado();
     this.respostaQuestaoFechada = new RespostaQuestaoFechada(null, this.login.getUsuarioLogado(), null, this.questao);
   }
