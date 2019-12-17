@@ -36,8 +36,8 @@ export class VisualizarQuestaoFechadaComponent implements OnInit {
   gerarHtmlTextoComCodigo(questao){
     
     if(questao.hasCode()){
-
-      let texto = questao.enunciado.replace("'''python", "<pre><code class='language-python' pCode>").replace("'''", "</code></pre>")
+      
+      let texto = questao.enunciado.replace(new RegExp("'''python", 'g'), "<pre><code class='language-python' style='display: block; white-space: pre-wrap;' pCode>").replace(new RegExp("'''", 'g'), "</code></pre>");
       return this.sanitizer.bypassSecurityTrustHtml(texto);
       /*let texto = questao.extrairTextoComCodigo();
       if(texto.length > 2){

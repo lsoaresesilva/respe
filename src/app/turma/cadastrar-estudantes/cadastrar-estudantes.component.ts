@@ -46,15 +46,16 @@ export class CadastrarEstudantesComponent implements OnInit {
       Turma.validarCodigo(this.estudante.turma.codigo).subscribe(resultado => {
         
         if (resultado === false) {
-          
-          this.messageService.add({ severity: 'erro', summary: 'Houve um erro:', detail: "Não existe uma turma cadastrada com este código." });
+          // TODO: utilizar o Toast do Primeng
+          alert("Não existe uma turma cadastrada com este código.")
+          //this.messageService.add({ key:"cadastro-estudante", severity: 'erro', summary: 'Houve um erro:', detail: "Não existe uma turma cadastrada com este código." });
         } else {
           this.estudante.usuario.validar().subscribe(resultado => {
             if (resultado) {
   
               this.estudante.save().subscribe(resultado => {
                 alert("Cadastro realizado com sucesso.")
-                this.messageService.add({ severity: 'success', summary: 'Bem vindo!', detail: "Cadastro realizado com sucesso." });
+                //this.messageService.add({ severity: 'success', summary: 'Bem vindo!', detail: "Cadastro realizado com sucesso." });
                 this.router.navigate([""]);
               },
                 err => {

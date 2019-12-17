@@ -15,7 +15,7 @@ export class LoginService {
 
   constructor(private messageService: MessageService) { }
 
-  getUsuarioLogado() {
+  getUsuarioLogado():Usuario {
     if (this.isUsuarioLogado()) {
       let json = JSON.parse(sessionStorage.getItem("usuario"));
       if (json.id != undefined) {

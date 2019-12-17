@@ -1,4 +1,4 @@
-import { Component, OnInit, Input, Output, EventEmitter } from '@angular/core';
+import { Component, OnInit, Input, Output, EventEmitter, AfterViewChecked } from '@angular/core';
 import { HttpHeaders, HttpClient } from '@angular/common/http';
 import { Tutor } from 'src/app/model/tutor';
 import Submissao from 'src/app/model/submissao';
@@ -18,6 +18,7 @@ declare function carregarIde(readOnly, callback, instance, codigo): any;
   styleUrls: ['./editor-programacao.component.css']
 })
 export class EditorProgramacaoComponent implements OnInit {
+  
 
   @Input()
   questao;
@@ -48,7 +49,10 @@ export class EditorProgramacaoComponent implements OnInit {
     this.onSubmitError = new EventEmitter();
     this.onVisualization = new EventEmitter();
 
+
+
   }
+
 
   ngOnInit() {
 
@@ -94,7 +98,7 @@ export class EditorProgramacaoComponent implements OnInit {
           })
         }
         // TODO: definir um timedout
-        let json = this.submissao.construirJson(this.questao, "visualização");
+        let json = submissao.construirJson(this.questao, "visualização");
 
         this.http.post("http://127.0.0.1:8000/codigo/", json, httpOptions).subscribe(resposta => {
 
@@ -139,7 +143,7 @@ export class EditorProgramacaoComponent implements OnInit {
           tipoExecucao = "execução"
         }
 
-        let json = this.submissao.construirJson(this.questao, tipoExecucao);
+        let json = submissao.construirJson(this.questao, tipoExecucao);
 
         let url = "http://127.0.0.1:8000/codigo/"
         this.http.post<any>(url, json, httpOptions).subscribe(resposta => { // TODO: mudar o endereço para o real
