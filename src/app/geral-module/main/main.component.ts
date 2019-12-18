@@ -94,11 +94,11 @@ export class MainComponent implements OnInit {
             command: () => { this.router.navigate(["main", { outlets: { principal: ['listagem-planejamento'] } }]) },
             id: 'planejamentoMenu'
           },
-          /*{
+          {
             label: 'Minha turma',
             command: () => { this.router.navigate(["main", { outlets: { principal: ['minha-turma'] } }]) },
     
-          },*/
+           },
           {
             label: 'Meu desempenho',
             command: () => { this.router.navigate(["main", { outlets: { principal: ['meu-desempenho'] } }]) },

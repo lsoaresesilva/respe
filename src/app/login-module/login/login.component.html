@@ -56,7 +56,7 @@
                 </div>
         
                 <div class="p-col-12 row-link" class="link">
-                    <a class= ""  (click)="cadastrar()" >Esqueceu a senha?</a>
+                    <!-- <a class= ""  (click)="cadastrar()" >Esqueceu a senha?</a> -->
                   </div>
                 <div class="p-col-12 row-btn">
                   <button pButton id="loginBtn" (click)="acessar()" type="button" label="Entrar" class=" ui-button-raised" ></button>
@@ -64,9 +64,11 @@
                 <div class="p-col-12">
                   <button pButton id="cadastro" (click)="cadastrar()" type="button" label="Inscreve-se" class="ui-button-secondary ui-button-raised"></button>
                 </div> 
-                    <div class="p-col-12">
-                  <button pButton id="Google" (click)="logarComGoogle()" type="button" label="Login com Google" class="ui-button-secondary ui-button-raised"></button>
-                  
+                <div class="p-col-12">
+                  <button pButton id="Login com o Google" (click)="signInWithGoogle()" type="button" label="Login com Google" class="ui-button-raised">
+                    <i class="fab fa-google"></i>
+                  </button> 
+                    
                 </div>
               </div>
         </div>
@@ -74,7 +76,7 @@
     </div>
 
 
-
+    
 
 
 

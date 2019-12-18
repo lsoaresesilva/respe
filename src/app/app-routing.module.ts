@@ -101,12 +101,12 @@ const routes: Routes = [
     {path:"estudantes-questao/:assuntoId/:questaoId", component:ListarEstudantesSubmissaoComponent, canActivate: [AuthGuard], canLoad: [AuthGuard], outlet:"principal"},
     {path:"codigo-similar", component:RespostaSimilarQuestaoProgramacaoComponent, canActivate: [AuthGuard], canLoad: [AuthGuard], outlet:"principal"},
     {path:"exibir-codigo/:questaoId", component: ExibirSolucaoComponent, canActivate: [AuthGuard], canLoad: [AuthGuard], outlet:"principal"},
-    {path:"visualizacao-turma/:turmaId", component:VisualizarTurmaComponent, canActivate: [AuthGuard,TurmaGuard], canLoad: [AuthGuard,TurmaGuard], outlet:"principal"},
+    {path:"visualizacao-turma/:turmaId", component:VisualizarTurmaComponent, canActivate: [AuthGuard], canLoad: [AuthGuard], outlet:"principal"},
     {path:"minha-turma", component:VisualizarTurmaComponent, canActivate: [AuthGuard], canLoad: [AuthGuard], outlet:"principal"},
     {path:"cadastrar-postagem/:turmaId/:postagemId", component:CadastrarPostagemComponent, canActivate: [AuthGuard], canLoad: [AuthGuard], outlet:"principal"},
-    {path:"cadastrar-postagem/:turmaId", component:CadastrarPostagemComponent, canActivate: [AuthGuard,TurmaGuard], canLoad: [AuthGuard,TurmaGuard], outlet:"principal"},
-    {path:"listar-postagens/:turmaId", component:ListarPostagensComponent, canActivate: [AuthGuard,TurmaGuard], canLoad: [AuthGuard,TurmaGuard], outlet:"principal"},
-    {path:"visualizar-postagem/:postagemId/:turmaId", component:VisualizarPostagemComponent, canActivate: [AuthGuard,TurmaGuard], canLoad: [AuthGuard,TurmaGuard], outlet:"principal"},
+    {path:"cadastrar-postagem/:turmaId", component:CadastrarPostagemComponent, canActivate: [AuthGuard], canLoad: [AuthGuard], outlet:"principal"},
+    {path:"listar-postagens/:turmaId", component:ListarPostagensComponent, canActivate: [AuthGuard], canLoad: [AuthGuard], outlet:"principal"},
+    {path:"visualizar-postagem/:postagemId/:turmaId", component:VisualizarPostagemComponent, canActivate: [AuthGuard], canLoad: [AuthGuard], outlet:"principal"},
     {path:"visualizacao-estudante/:id", component:VisualizarPerfilEstudanteComponent, canActivate: [AuthGuard], canLoad: [AuthGuard], outlet:"principal"},
     {path:"envio-material/:turmaId", component:EnvioMaterialComponent, canActivate: [AuthGuard], canLoad: [AuthGuard], outlet:"principal"},
     {path:"listar-materiais/:turmaId", component:ListarMateriaisComponent, canActivate: [AuthGuard], canLoad: [AuthGuard], outlet:"principal"},
@@ -120,7 +120,9 @@ const routes: Routes = [
 
   
   {path:"cadastro-estudante", component:CadastrarEstudantesComponent},
+  {path:"cadastro-estudante/:email/:nome", component:CadastrarEstudantesComponent},
   {path:"**", component:PaginaNaoEncontradaComponent},
+  
   
   
 

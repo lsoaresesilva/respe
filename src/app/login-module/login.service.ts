@@ -7,13 +7,14 @@ import { MessageService } from 'primeng/api';
 import { AngularFireAuth } from '@angular/fire/auth';
 import * as firebase from 'firebase/app';
 import { Router } from '@angular/router';
+import { AngularFirestore } from '@angular/fire/firestore';
 
 @Injectable({
   providedIn: 'root'
 })
 export class LoginService {
 
-  constructor(private messageService: MessageService) { }
+  constructor(private messageService: MessageService,private firebaseAuth: AngularFireAuth, private angularfire: AngularFirestore,private router: Router) { }
 
   getUsuarioLogado():Usuario {
     if (this.isUsuarioLogado()) {
@@ -58,7 +59,7 @@ export class LoginService {
   }
 
   logar(usuario: Usuario) {
-    console.log(sha256(usuario.senha))
+    
     return new Observable(observer => {
       Usuario.logar([new Query("email", "==", usuario.email), new Query("senha", "==", sha256(usuario.senha))]).subscribe(usuarioLogado => {
         if (usuarioLogado != null) {
@@ -87,6 +88,24 @@ export class LoginService {
 
   }
 
+  
+  signInWithFacebook() {
+		return this.firebaseAuth.auth.signInWithPopup(
+			new firebase.auth.FacebookAuthProvider()
+		)
+  }
+
+  signInWithGoogle() {
+		return this.firebaseAuth.auth.signInWithPopup(
+			new firebase.auth.GoogleAuthProvider()
+		)
+	}
+
+  
+  logout1() {
+		this.firebaseAuth.auth.signOut()
+			.then((res) => this.router.navigate(['/']));
+	}
 
   logout() {
     sessionStorage.removeItem("usuario");

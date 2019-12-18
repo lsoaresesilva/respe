@@ -7,9 +7,11 @@ import AutoReflexao from './autoReflexao';
 import Estudante from './estudante';
 import Query from './firestore/query';
 import { Util } from './util';
+import { ConsoleComponent } from '../juiz/editor/console/console.component';
 
 @Collection("planejamentos")
 export class Planejamento extends Document {
+
   estudante: Usuario;
   assunto: Assunto;
   tempoEstudo;
@@ -41,7 +43,7 @@ export class Planejamento extends Document {
   }
 
   validar() {
-
+    let planejamentoFixo;
     return new Observable(observer => {
       if (this.assunto == null || this.dificuldadeConteudo == 0 || this.estrategiaRealizacaoEstudo == "" || this.importanciaAssunto == "") {
         observer.error(new Error("É preciso preencher todos os campos."))
@@ -49,8 +51,16 @@ export class Planejamento extends Document {
         Planejamento.getAll([new Query("estudanteId", "==", this.estudante.pk()), new Query("assuntoId", "==", this.assunto.pk())]).subscribe(planejamento=>{
           if(planejamento.length == 0){
             observer.next(true);
+            observer.complete()  
+          }
+          
+         else if(this.pk()== planejamento[0].id){
+            observer.next(true);
             observer.complete();
-          }else{
+          }
+          
+          
+          else{
             observer.error(new Error("Já existe um planejamento cadastrado para este assunto."));
           }
         })

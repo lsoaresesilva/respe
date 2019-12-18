@@ -14,6 +14,7 @@
           <th>Assunto</th>
           <th>Horas de estudo/semana</th>
           <th>Excluir</th>
+          <th>Alterar</th>
       </tr>
   </ng-template>
 
@@ -21,7 +22,8 @@
       <tr id="planejamento{{i}}">
           <td (click)="abrirPlanejamento(planejamento)" style="cursor:pointer">{{planejamento.assunto.nome}}</td>
           <td>{{planejamento.tempoEstudo}} horas/semana</td>
-          <td> <button pButton type="button" (click)="criarPlanejamento()" label="X" class= "ui-button-danger ui-button-raised"></button></td>
+          <td> <button pButton type="button" (click)="deletar(planejamento)" label="Deletar" class= "ui-button-danger ui-button-raised"> <i class="fas fa-backspace"></i></button></td>
+          <td> <button pButton type="button" (click)="alterar(planejamento)" label="Atualizar" class= "ui-button-secondary ui-button-raised"> <i class="fas fa-edit"></i></button></td>
       </tr>
   </ng-template>
 </p-table>
