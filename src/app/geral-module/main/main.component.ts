@@ -23,6 +23,7 @@ export class MainComponent implements OnInit {
   itens: MenuItem[];
   private usuario;
   visibilidadeDialog;
+  turmaId= "Dz2HI3Sc9xGZr1X1i1QC";
 
 
   constructor(private router: Router, private login: LoginService) {
@@ -96,7 +97,8 @@ export class MainComponent implements OnInit {
           },
           {
             label: 'Minha turma',
-            command: () => { this.router.navigate(["main", { outlets: { principal: ['minha-turma'] } }]) },
+            command: () => { this.router.navigate(["main", { outlets: { principal: ['visualizacao-turma/',this.turmaId]} }]) },
+
     
            },
           {
