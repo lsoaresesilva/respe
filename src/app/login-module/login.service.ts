@@ -109,8 +109,7 @@ export class LoginService {
 
   logout() {
     sessionStorage.removeItem("usuario");
-    this.firebaseAuth.auth.signOut()
-    .then((res) => this.router.navigate(['/']));
+     this.router.navigate(['/']);
 
   }
 }

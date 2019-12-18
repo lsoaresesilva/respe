@@ -132,7 +132,7 @@ export default class Usuario extends Document {
                 if (resultado.length > 0) {
                     Turma.getAll(new Query("turma", "==", resultado[0]["turmaId"])).subscribe(turma => {
                         if (turma.length > 0) {
-
+                        console.log(resultado[0]["turmaId"]);
                             observer.next(turma[0]);
                             observer.complete();
                         }
