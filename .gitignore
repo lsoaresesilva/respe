@@ -10,7 +10,7 @@
 
 # Configuração do Firebase
 
-/src/environments/firebase.ts
+/src/environments
 
 # profiling files
 chrome-profiler-events.json

@@ -34,17 +34,7 @@ export class VisualizarTurmaComponent implements OnInit {
       if(params["turmaId"] != null){
         this.turma$ = Turma.get(params["turmaId"])
       }else{
-        EstudanteTurma.getAll(new Query("estudanteId", "==", this.login.getUsuarioLogado().pk())).subscribe(resultado=>{
-          if( resultado.length > 0)
-            Turma.getAll(new Query("codigo", "==", resultado[0]["turmaId"])).subscribe(turma=>{
-              if(turma.length > 0){
-                this.turma$ = new Observable(observer=>{
-                  observer.next(turma[0]);
-                  observer.complete();
-                })
-              }
-            });
-        })
+        this.turma$ = this.usuario.getTurma();
       }
       
 

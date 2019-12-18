@@ -45,8 +45,9 @@ function carregarIde(readOnly, callback=null, instance=null, codigo){
             
             //var appRoot = document.createElement("app-root"); 
             //document.getElementById("body").appendChild(appRoot);
-            if(document.getElementById('container') != undefined){
-                editor = monaco.editor.create(document.getElementById('container'), {
+            let container = document.getElementById('container'); 
+            if(container != undefined){
+                editor = monaco.editor.create(container, {
                 value: prepararCodigo(codigo).join('\n'),
                 language: 'python',
                 readOnly:readOnly

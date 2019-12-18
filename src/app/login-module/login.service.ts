@@ -16,7 +16,7 @@ export class LoginService {
 
   constructor(private messageService: MessageService,private firebaseAuth: AngularFireAuth, private angularfire: AngularFirestore,private router: Router) { }
 
-  getUsuarioLogado() {
+  getUsuarioLogado():Usuario {
     if (this.isUsuarioLogado()) {
       let json = JSON.parse(sessionStorage.getItem("usuario"));
       if (json.id != undefined) {
