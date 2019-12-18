@@ -15,10 +15,12 @@ import {MessageService} from 'primeng/api';
 })
 export class CadastrarTurmaComponent implements OnInit {
 
-  turma: Turma;
+  turma;
   estudantes;
   professor;
   professores: Usuario[];
+  id;
+  addBotao = false;
 
   constructor(public router: Router, private messageService: MessageService, private route: ActivatedRoute, private login: LoginService) {
 
@@ -28,6 +30,7 @@ export class CadastrarTurmaComponent implements OnInit {
     this.turma = new Turma(null, null, [], null);
     this.professor = new Usuario(null, null, null, null, null);
     this.estudantes = [];
+
 
   }
 
@@ -61,7 +64,7 @@ export class CadastrarTurmaComponent implements OnInit {
     this.messageService.add({ severity: 'erro', summary: 'Service Message', detail: 'Houve um erro ao tentar salvar no banco de dados. Tente novamente em alguns minutos.' });
   }
   exibirMensagemProfessorAdicionado(){
-    this.messageService.add({ severity: 'erro', summary: 'Service Message', detail: 'Houve um erro em adicionar o professo.' });
+    this.messageService.add({ severity: 'error', summary: 'Service Message', detail: 'é preciso cliacar no botão adicionar' });
   }
 
 
@@ -74,7 +77,13 @@ export class CadastrarTurmaComponent implements OnInit {
 
 
   adicionarProfessor() {
-    this.turma.professor = this.professor;
+    if(this.professor==" " || this.professor == null || this.professor == undefined){
+      this.exibirMensagemProfessorAdicionado();
+    }
+    else{
+     this.addBotao=true;
+      this.turma.professor = this.professor;
+    }
   }
 
 
@@ -86,7 +95,7 @@ export class CadastrarTurmaComponent implements OnInit {
     if (this.turma.validar()) {
       this.exibirMensagemCadastroSucesso();
       this.turma.save().subscribe(resultado => {
-        this.router.navigate(["main", { outlets: { principal: ['listagem-turma'] } }]);
+        this.router.navigate(["main", { outlets: { principal: ['listagem-turmas'] } }]);
       },
         err => {
           this.exibirMensagemErroCadastroBancoDeDados();

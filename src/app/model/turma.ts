@@ -10,10 +10,12 @@ export default class Turma extends Document {
     id;
     estudantes: Usuario[];
     codigo;
+   
 
-    constructor(id, public nome, estudantes, public professor: Usuario) {
+    constructor(id, public nome, estudantes, public professor:Usuario) {
         super(id);
         this.estudantes = estudantes;
+       
     }
 
     objectToDocument() {
@@ -29,6 +31,7 @@ export default class Turma extends Document {
                 let consultas = [];
                 this.estudantes.forEach(estudante => {
                     consultas.push(new EstudanteTurma(null, estudante, this).save());
+                   
                 })
 
                 if (consultas.length > 0) {
@@ -76,10 +79,12 @@ export default class Turma extends Document {
     // }
 
     validar() {
-        if (this.professor != undefined && this.nome != undefined && this.nome != "")
-            return true;
-
-        return false
+        if (this.professor == undefined || this.nome == undefined || this.nome == null || this.nome ==""){
+            return false;
+        }
+        else{
+               return true;
+           }
     }
   
     static validarCodigo(codigo){

@@ -27,6 +27,7 @@ export class ListarProfessoresComponent implements OnInit {
     Usuario.getAll(new Query("perfil", "==", 2)).subscribe(professores=>{this.professores = professores});
     
     if(this.usuario.perfil == 3){
+      
     this.items = [
     { label: 'Deletar', icon: 'pi pi-times', command: (event) => this.deletar(this.selectedProfessor) },
   

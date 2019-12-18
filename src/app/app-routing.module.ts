@@ -45,6 +45,7 @@ import { EnviarMaterialComponent } from './turma/enviar-material/enviar-material
 import { ListarMateriaisComponent } from './turma/listar-materiais/listar-materiais.component';
 import { SubsecaoComponent } from './livro/subsecao/subsecao.component';
 import { ExperimentoGuard } from './guards/experimento.guard';
+import { ListarProfessoresComponent } from './turma/listar-professores/listar-professores.component';
 
 
 
@@ -113,7 +114,8 @@ const routes: Routes = [
     {path:"visualizacao-turma/:turmaId", component: VisualizarTurmaComponent, canActivate: [AuthGuard], canLoad: [AuthGuard], outlet:"principal"},
     //{path:"home", component: HomeComponent, canActivate: [AuthGuard], canLoad: [AuthGuard], outlet:"principal"},
     
-    
+    {path:"atualizacao-turma/:id", component:CadastrarTurmaComponent, canActivate: [AuthGuard], canLoad: [AuthGuard], outlet:"principal"},
+    {path:"professores", component:ListarProfessoresComponent, canActivate: [AuthGuard], canLoad: [AuthGuard], outlet:"principal"},
   ]},
 
   {path:"", component:LoginComponent},

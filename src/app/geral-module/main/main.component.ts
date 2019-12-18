@@ -11,7 +11,6 @@ import { RespostaQuestaoExperimento } from 'src/app/model/experimento/respostaQu
 import { PreTesteComponent } from 'src/app/experimento/pre-teste/pre-teste.component';
 import PosTeste from 'src/app/model/experimento/posTeste';
 import { Groups } from 'src/app/model/experimento/lib/enum/groups';
-import { PerfilUsuario } from 'src/app/model/enums/perfilUsuario';
 
 @Component({
   selector: 'app-main',
@@ -25,74 +24,60 @@ export class MainComponent implements OnInit {
   visibilidadeDialog;
 
 
-  constructor(private router: Router, private login: LoginService) {
+  constructor(private router: Router, private login:LoginService) { 
     this.usuario = this.login.getUsuarioLogado();
   }
 
-  criarMenu() {
-    if (this.usuario.perfil == PerfilUsuario.admin) {
+  criarMenu(){
+    if(this.usuario.perfil == 3){
       this.itens = [
         {
           label: 'Turmas',
           command: () => { this.router.navigate(["main", { outlets: { principal: ['listagem-turmas'] } }]) }
-
+  
         },
         {
           label: 'Estudantes',
           command: () => { this.router.navigate(["main", { outlets: { principal: ['listagem-estudantes'] } }]) }
-
+  
         },
         {
           label: 'Professores',
-          command: () => { this.router.navigate(["main", { outlets: { principal: ['listagem-estudantes'] } }]) }
-
+          command: () => { this.router.navigate(["main", { outlets: { principal: ['professores'] } }]) }
+  
         },
         {
           label: 'Assuntos',
           command: () => { this.router.navigate(["main", { outlets: { principal: ['listagem-assuntos'] } }]) }
-
-        },
-
-        {
-          label: 'Sair',
-          command: () => { this.logout() }
-        }
-      ];
-    } else if (this.usuario.perfil == PerfilUsuario.professor) {
-      this.itens = [
-        {
-          label: 'Turmas',
-          command: () => { this.router.navigate(["main", { outlets: { principal: ['listagem-turmas'] } }]) }
   
         },
+        
         {
           label: 'Sair',
           command: () => {this.logout()}
-  
-        },
+        }
       ];
-    } else {
-
-      if (this.usuario.grupoExperimento == Groups.control){
+    }else{
+      if(this.usuario.grupoExperimento == Groups.control){
         this.itens = [
           {
             label: 'Assuntos',
             command: () => { this.router.navigate(["main", { outlets: { principal: ['listagem-assuntos'] } }]) },
-            id: 'assuntosMenu'
-
+            id:'assuntosMenu'
+    
           },
           {
             label: 'Sair',
-            command: () => { this.logout() },
-            id: 'sairMenu',
+            command: () => {this.logout()},
+            id:'sairMenu',
           }
         ];
-      }else {
+      }else{
         this.itens = [
           {
             label: 'Planejamentos',
             command: () => { this.router.navigate(["main", { outlets: { principal: ['listagem-planejamento'] } }]) },
-            id: 'planejamentoMenu'
+            id:'planejamentoMenu'
           },
           {
             label: 'Minha turma',
@@ -102,46 +87,44 @@ export class MainComponent implements OnInit {
           {
             label: 'Meu desempenho',
             command: () => { this.router.navigate(["main", { outlets: { principal: ['meu-desempenho'] } }]) },
-            id: 'meuDesempenhoMenu',
+            id:'meuDesempenhoMenu',
           },
           {
             label: 'Sair',
-            command: () => { this.logout() },
-            id: 'sairMenu',
+            command: () => {this.logout()},
+            id:'sairMenu',
           }
         ];
       }
-
+      
     }
   }
 
   ngOnInit() {
     this.criarMenu();
     this.apresentarPretest();
-
+    
   }
 
-  apresentarPretest() {
-    RespostaQuestaoExperimento.isFinalizado(this.login.getUsuarioLogado()).subscribe(resultado => {
-      if (resultado) {
+  apresentarPretest(){
+    RespostaQuestaoExperimento.isFinalizado(this.login.getUsuarioLogado()).subscribe(resultado=>{
+      if(resultado){
         this.apresentarPostest();
-      } else {
+      }else{
         this.visibilidadeDialog = !resultado;
       }
-
+      
     })
   }
 
-  apresentarPostest() {
-    PosTeste.apresentar(this.login.getUsuarioLogado()).subscribe(resultado => {
+  apresentarPostest(){
+    PosTeste.apresentar(this.login.getUsuarioLogado()).subscribe(resultado=>{
       this.visibilidadeDialog = resultado;
     })
   }
 
   private logout() {
-    if (this.login.logout()) {
-      return this.router.navigate([""])
-    }
+    this.login.logout();
   }
 
 

@@ -5,6 +5,7 @@ import Submissao from 'src/app/model/submissao';
 import Editor from 'src/app/model/editor';
 import ResultadoTestCase from 'src/app/model/resultadoTestCase';
 import { LoginService } from 'src/app/login-module/login.service';
+import { Router, RouterLinkActive, ActivatedRoute } from '@angular/router';
 
 /**
  * Executa um javascript ide.js para acoplar o editor VStudio.
@@ -42,7 +43,7 @@ export class EditorProgramacaoComponent implements OnInit {
   onVisualization: EventEmitter<any>;
 
 
-  constructor(private http: HttpClient, public login: LoginService) {
+  constructor(private http: HttpClient, public login: LoginService, public router: Router, private activatedRoute: ActivatedRoute) {
 
     this.onError = new EventEmitter();
     this.onSubmit = new EventEmitter();
@@ -56,6 +57,7 @@ export class EditorProgramacaoComponent implements OnInit {
 
   ngOnInit() {
 
+   this.carregarAssunto();
 
     this.editorCodigo = Editor.getInstance();
     this.editorCodigo.codigo.algoritmo = "";
@@ -217,4 +219,18 @@ export class EditorProgramacaoComponent implements OnInit {
     this.editorCodigo.destacarErros(submissao.erros);
   }
 
+  carregarAssunto(){
+    this.activatedRoute.params
+    .subscribe(params => {
+      this.questao.assuntoPrincipal=params["assuntoId"];
+      if (params["assuntoId"] != undefined) {
+        this.assunto = params["assuntoId"]
+      }
+    });
+
+  }
+
+  listarSubmissao(){
+    this.router.navigate(["main", { outlets: { principal: ['estudantes-questao', this.assunto,this.questao.id] } } ] );
+  }
 }

@@ -35,9 +35,6 @@ export class CadastrarQuestoesComponent implements OnInit {
 
     this.activatedRoute.params
       .subscribe(params => {
-
-        console.log(params["assuntoId"]);
-        console.log(params["questaoId"]);
         this.questao.assuntoPrincipal=params["assuntoId"];
         if (params["assuntoId"] != undefined) {
           Assunto.get(params["assuntoId"]).subscribe(assunto => {

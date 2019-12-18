@@ -28,7 +28,7 @@ import { EnviarMaterialComponent } from './enviar-material/enviar-material.compo
 
 
 @NgModule({
-  declarations: [ListarTurmaComponent, ListarTurmaProfessorComponent, ListarTurmaComponent, VisualizarTurmaComponent, CadastrarEstudantesComponent, CadastrarTurmaComponent, ListarEstudantesComponent, EnvioMaterialComponent, ListarMateriaisComponent],
+  declarations: [ListarTurmaComponent, ListarTurmaProfessorComponent, ListarTurmaComponent, VisualizarTurmaComponent, CadastrarEstudantesComponent, CadastrarTurmaComponent, ListarEstudantesComponent, EnvioMaterialComponent, ListarMateriaisComponent,ListarProfessoresComponent],
 
 
 
@@ -53,6 +53,6 @@ import { EnviarMaterialComponent } from './enviar-material/enviar-material.compo
     CardModule
 
   ],
-  exports:[VisualizarTurmaComponent, ListarEstudantesComponent]
+  exports:[VisualizarTurmaComponent, ListarEstudantesComponent,ListarProfessoresComponent]
 })
 export class TurmaModule { }

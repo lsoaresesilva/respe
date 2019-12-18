@@ -1,10 +1,6 @@
-<p-toast></p-toast>
-<h1>Professor</h1>
-<div *ngIf="login.getUsuarioLogado().perfil == 3">
-   <p-contextMenu #cm [model]="items"></p-contextMenu>
-</div>
-
 <p-toast [style]="{marginTop: '80px'}"></p-toast>
+<h1>Professor</h1>
+
 
 <p-table [value]="professores" [(contextMenuSelection)]="selectedProfessor" [contextMenu]="cm">
     <ng-template pTemplate="header">
@@ -17,4 +13,15 @@
     </ng-template>
 </p-table>
 
-<p-contextMenu #cm [model]="items"></p-contextMenu>   
+<p-contextMenu #cm [model]="items"></p-contextMenu>    
+
+
+
+
+
+
+
+
+
+
+
