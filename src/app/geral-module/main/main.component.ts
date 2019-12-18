@@ -43,7 +43,7 @@ export class MainComponent implements OnInit {
         },
         {
           label: 'Professores',
-          command: () => { this.router.navigate(["main", { outlets: { principal: ['listagem-estudantes'] } }]) }
+          command: () => { this.router.navigate(["main", { outlets: { principal: ['professores'] } }]) }
   
         },
         {

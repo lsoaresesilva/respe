@@ -27,23 +27,26 @@ export class ListarTurmaComponent implements OnInit {
     Turma.getAll().subscribe(turma => { this.turmas = turma });
 
     if(this.usuario.perfil == 3){
+
     this.items = [
-      { label: 'Vizualizar', icon: 'pi pi-search', command: (event) => this.visualizar(this.selectedTurma) },
-      { label: 'Apagar', icon: 'pi pi-times', command: (event) => this.deletar(this.selectedTurma) },
-      { label: 'Alterar', icon: '°', command: (event) => this.atualizar(this.selectedTurma) }
+      { label: 'Atualizar', icon: 'pi pi-check', command: (event) => this.atualizar(this.selectedTurma) },
+      { label: 'Deletar', icon: 'pi pi-times', command: (event) => this.deletar(this.selectedTurma) }
     ];
   }
+
+  
   
   }
   // abrirPostagensTurma(turma){
   //   this.router.navigate(['main', { outlets: { principal: ['listar-postagens', turma.pk()] } }]);
   // }
-  visualizar(turma: Turma) {
-    this.messageService.add({ severity: 'info', summary: 'Estudante selecionado', detail: turma.nome});
 
-  }
+  
+
   atualizar(turma: Turma) {
-    this.router.navigate(["main", { outlets: { principal: ['atualizacao-turma', turma.pk()] } }]);
+    if(Turma != undefined){
+      this.router.navigate(["main", { outlets: { principal: ['atualizacao-turma', turma.pk()] } } ] );
+    }
   }
 
   cadastrar() {
@@ -56,10 +59,13 @@ export class ListarTurmaComponent implements OnInit {
 
   deletar(turma: Turma) {
     Turma.delete(turma.pk()).subscribe(resultado => {
-      // TODO: usar o message service
       Turma.getAll().subscribe(turma => { this.turmas = turma });
     });
+   this.messageDeletar();
+  }
 
+  messageDeletar() {
+    this.messageService.add({severity:'error', summary:'Deletado!', detail:"Essa turma foi apagada!"});
   }
 }
 
