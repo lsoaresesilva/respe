@@ -102,13 +102,15 @@ export class LoginService {
 	}
 
   
-  logout1() {
-		this.firebaseAuth.auth.signOut()
-			.then((res) => this.router.navigate(['/']));
-	}
+  // logout1() {
+	// 	this.firebaseAuth.auth.signOut()
+	// 		.then((res) => this.router.navigate(['/']));
+	// }
 
   logout() {
     sessionStorage.removeItem("usuario");
-    return true;
+    this.firebaseAuth.auth.signOut()
+    .then((res) => this.router.navigate(['/']));
+
   }
 }

@@ -24,10 +24,11 @@ export class LoginComponent implements OnInit {
   ngOnInit() {
   }
   loginIncorreto(){
-    this.messageService.add({severity:'success', summary:'Inválido!', detail:'Usuário ou senha inválidos'});
+    this.messageService.add({severity:'error', summary:'Inválido!', detail:'Usuário ou senha inválidos'});
   }
 
   acessar(){
+    if(this.login.validarLogin(this.usuario)){
     let t = this;
     this.login.logar(this.usuario).subscribe(resultado=>{
       /**/
@@ -37,12 +38,13 @@ export class LoginComponent implements OnInit {
       })*/
     })
   }
+  }
 
   redirecionar(resultado){
     if(resultado)
     this.router.navigate(["main", { outlets: { principal: ['home'] } }]);
     else{
-      alert("Usuário ou senha inválidos. Você tem certeza que fez o cadastro?") // TODO: mudar para o message service
+      this.loginIncorreto();
     }
   }
 

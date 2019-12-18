@@ -16,6 +16,7 @@ export class VisualizarSubmissaoQuestaoComponent implements OnInit {
  private usuario;
  private questao;
  private  dataFormatada;
+ private nome;
  
   constructor(private messageService: MessageService,private router:Router, public login:LoginService,private route: ActivatedRoute) {
     this.submissao= new Submissao (null,null,null,[]);
@@ -30,7 +31,11 @@ export class VisualizarSubmissaoQuestaoComponent implements OnInit {
         
         this.submissao =resultado;
         this.formatarData(this.submissao.data);
+        this.nome
         Usuario.get(this.submissao.estudanteId).subscribe(resultado=>{this.usuario=resultado});
+       console.log(this.submissao.id);
+   
+       
         
       });
     });    

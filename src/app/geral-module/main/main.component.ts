@@ -124,9 +124,8 @@ export class MainComponent implements OnInit {
   }
 
   private logout() {
-    if(this.login.logout()){
-      return this.router.navigate([""])
-    }
+   
+    this.login.logout();
   }
 
 
