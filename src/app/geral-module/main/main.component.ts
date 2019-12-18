@@ -124,7 +124,6 @@ export class MainComponent implements OnInit {
   }
 
   private logout() {
-   
     this.login.logout();
   }
 

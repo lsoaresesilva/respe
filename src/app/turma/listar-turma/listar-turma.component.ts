@@ -29,7 +29,6 @@ export class ListarTurmaComponent implements OnInit {
     if(this.usuario.perfil == 3){
 
     this.items = [
-      { label: 'Atualizar', icon: 'pi pi-check', command: (event) => this.atualizar(this.selectedTurma) },
       { label: 'Deletar', icon: 'pi pi-times', command: (event) => this.deletar(this.selectedTurma) }
     ];
   }

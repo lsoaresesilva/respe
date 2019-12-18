@@ -10,6 +10,7 @@
 
       <button *ngIf="this.login.getUsuarioLogado().grupoExperimento != 4  && modoVisualizacao == false" type="button"
             (click)="visualizar(true)" pButton label="Vizualizar execução"></button>
-      <div id="container" [ngStyle]="{'height':liteMode === true?'300px':'600px'}"
-            style="border:1px solid grey; position:relative;"></div>
 </div>
+
+<div id="container" [ngStyle]="{'height':liteMode === true?'300px':'600px'}"
+            style="border:1px solid grey; position:relative;"></div>
