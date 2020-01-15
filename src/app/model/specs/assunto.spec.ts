@@ -49,7 +49,7 @@ describe("Testes de questão", () => {
 
     });
 
-    it("Deve calcular o percentual de questões fechadas que foram resolvidas", (done)=>{
+    /*it("Deve calcular o percentual de questões fechadas que foram resolvidas", (done)=>{
         let a = new Assunto(null, "Condições");
         let qf1 = new QuestaoFechada(null, "bla", "", Dificuldade.dificil, 1, [new Alternativa(123, "texto", true)], "");
         let qf2 = new QuestaoFechada(678910, "ble", "", Dificuldade.dificil, 1, null, "");
@@ -141,7 +141,25 @@ describe("Testes de questão", () => {
             })
         })
         
-    });
+    });*/
+
+    it("Deve ordenar um array de assuntos seguindo a ordem estabelecida na disciplina", ()=>{
+        
+        let a = new Assunto(null, "assuntoA");
+        a.sequencia = 1;
+        let b = new Assunto(null, "assuntoB");
+        b.sequencia = 2;
+        let c = new Assunto(null, "assuntoC");
+        c.sequencia = 3;
+
+
+        let arrayAssuntos = [c, b, a];
+
+        arrayAssuntos = Assunto.ordenar(arrayAssuntos);
+        expect(arrayAssuntos[0].nome).toEqual("assuntoA");
+        expect(arrayAssuntos[1].nome).toEqual("assuntoB");
+        expect(arrayAssuntos[2].nome).toEqual("assuntoC");
+    })
 
     /*
     it("deve resultar em true para uma questão que teve todos os tests cases respondidos", (done) => {

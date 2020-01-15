@@ -36,6 +36,9 @@ export class CadastroPlanejamentoComponent implements OnInit {
   }
 
   prepararAssuntos(assuntos) {
+    
+    assuntos = Assunto.ordenar(assuntos);
+
     let opcoesAssuntos = [
       { label: 'Selecione um Assunto', value: null },
     ];

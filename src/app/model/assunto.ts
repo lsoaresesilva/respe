@@ -6,10 +6,12 @@ import Submissao from './submissao';
 import { Util } from './util';
 import QuestaoFechada from './questaoFechada';
 import { RespostaQuestaoFechada } from './respostaQuestaoFechada';
+import { Assuntos } from './enums/assuntos';
 
 @Collection("assuntos")
 export class Assunto extends Document {
 
+    sequencia;
     questoesProgramacao;
     questoesFechadas;
     objetivosEducacionais:[];
@@ -235,5 +237,44 @@ export class Assunto extends Document {
 
         })
 
+    }
+
+    static ordenar(arrayAssuntos:Assunto[]){
+
+        let assuntos = [];
+
+        arrayAssuntos.forEach(assunto=>{
+            let sequencia = assunto["sequencia"]-1 // O índice do array começa em 0 e as ordens das disciplinas em 1.
+            assuntos[sequencia] = assunto;
+            ///assuntos.splice(ordem, 0, assunto)
+            /*if(assunto["nome"] == Assuntos.variaveis ){
+                //assuntos[0] = assunto;
+                assuntos.splice(ordem, 0, assunto)
+            }else if(assunto["nome"] == Assuntos.condicoes){
+                //assuntos[1] = assunto;
+                assuntos.splice(ordem, 0, assunto)
+            }else if(assunto["nome"] == Assuntos.repeticoes){
+                //assuntos[2] = assunto;
+                assuntos.splice(ordem, 0, assunto)
+            }else if(assunto["nome"] == Assuntos.funcoes){
+                //assuntos[3] = assunto;
+                assuntos.splice(ordem, 0, assunto)
+            }else if(assunto["nome"] == Assuntos.vetores){
+                //assuntos[4] = assunto;
+                assuntos.splice(ordem, 0, assunto)
+            }*/
+        })
+
+        /*arrayAssuntos.sort(function(assuntoA, assuntoB){
+            if(assuntoA["nome"] < assuntoB["nome"]){
+                return -1;
+            }else if(assuntoA["nome"] > assuntoB["nome"]){
+                return 1;
+            }
+
+            return 0;
+        })*/
+
+        return assuntos;
     }
 }
