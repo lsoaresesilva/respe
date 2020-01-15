@@ -11,6 +11,7 @@ import { LoginService } from '../../../login-module/login.service';
 import ErroEditor from 'src/app/model/erroEditor';
 
 import { FormBuilder } from '@angular/forms';
+import Submissao from 'src/app/model/submissao';
 
 
 
@@ -61,10 +62,21 @@ export class ResponderQuestaoProgramacao implements OnInit {
       if (params["assuntoId"] != undefined && params["questaoId"] != undefined) {
         Assunto.get(params["assuntoId"]).subscribe(assunto => {
           this.assunto = assunto;
+
           if (assunto["questoesProgramacao"] != undefined && assunto["questoesProgramacao"].length > 0) {
             assunto["questoesProgramacao"].forEach(questao => {
               if (questao.id == params["questaoId"]) {
                 this.questao = questao;
+                
+                if (this.login.getUsuarioLogado() != null) {
+                  Submissao.getRecentePorQuestao(this.questao, this.login.getUsuarioLogado()).subscribe(submissao => {
+            
+                    this.submissao = submissao;
+                    //this.pausaIde = false;
+                  })
+            
+            
+                }
               }
             })
 

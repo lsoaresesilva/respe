@@ -61,21 +61,10 @@ export class EditorProgramacaoComponent implements OnInit {
     this.editorCodigo.codigo.algoritmo = "";
     let usuario = this.login.getUsuarioLogado();
     carregarIde(false, null, null, this.editorCodigo.codigo.algoritmo);
-    if (usuario != null) {
-      Submissao.getRecentePorQuestao(this.questao, usuario).subscribe(submissao => {
-
-        this.submissao = submissao;
-        if (this.submissao != null) {
-          this.editorCodigo.codigo.algoritmo = this.submissao["codigo"];
-          if (editor != null)
-            editor.setValue(this.editorCodigo.codigo.algoritmo);
-        }
-
-
-        //this.pausaIde = false;
-      })
-
-
+    if (this.submissao != null) {
+      this.editorCodigo.codigo.algoritmo = this.submissao["codigo"];
+      if (editor != null)
+        editor.setValue(this.editorCodigo.codigo.algoritmo);
     }
   }
 

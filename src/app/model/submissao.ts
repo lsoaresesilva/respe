@@ -68,7 +68,7 @@ export default class Submissao extends Document {
 
     toJson(){
         return {
-            algoritmo:this.codigo
+            codigo:this.codigo.algoritmo
         }
     }
 
