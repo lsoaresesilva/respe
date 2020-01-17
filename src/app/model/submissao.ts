@@ -1,5 +1,4 @@
 import { Questao } from './questao';
-import Codigo from './codigo';
 import { Document, Collection, date, ignore } from './firestore/document';
 import Erro from './erro';
 import { Observable, forkJoin } from 'rxjs';
@@ -23,7 +22,7 @@ export default class Submissao extends Document {
     @ignore()
     saida
 
-    constructor(id, public codigo: Codigo, estudante, questao) {
+    constructor(id, public codigo: string, estudante, questao) {
         super(id);
         this.estudante = estudante;
         this.questao = questao;
@@ -52,7 +51,7 @@ export default class Submissao extends Document {
         let document = super.objectToDocument();
         document["estudanteId"] = this.estudante.pk();
         document["questaoId"] = this.questao.id;
-        document["codigo"] = this.codigo.algoritmo;
+        document["codigo"] = this.codigo;
         if (this.resultadosTestsCases != null && this.resultadosTestsCases.length > 0) {
 
         }
@@ -68,7 +67,7 @@ export default class Submissao extends Document {
 
     toJson(){
         return {
-            codigo:this.codigo.algoritmo
+            codigo:this.codigo
         }
     }
 
@@ -246,6 +245,7 @@ export default class Submissao extends Document {
         return new Observable(observer => {
             super.get(id).subscribe(submissao => {
                 submissao["resultadosTestsCases"] = ResultadoTestCase.construir(submissao["resultadosTestsCases"]);
+        
                 Erro.getAll(new Query("submissaoId", "==", submissao["id"])).subscribe(erros => {
                     submissao["erros"] = erros;
                 }, err => {
@@ -310,5 +310,10 @@ export default class Submissao extends Document {
     }
 
 
-
+    linhasAlgoritmo(){
+        if(this.codigo != undefined)
+          return this.codigo.split("\n");
+        
+        return [];
+      }
 }

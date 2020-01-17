@@ -1,6 +1,5 @@
 import ErroSintaxe from './erroSintaxe';
 import Erro from './erro';
-import Codigo from './codigo';
 import { TipoErro } from './tipoErro';
 import Estudante from './estudante';
 import Submissao from './submissao';
@@ -12,7 +11,7 @@ export default class ErroSintaxeVariavel extends ErroSintaxe {
 
     static erros(submissao: Submissao): Erro[] {
         let erros: Erro[] = [];
-        let linhasCodigo = submissao.codigo.linhasAlgoritmo();
+        let linhasCodigo = submissao.linhasAlgoritmo();
 
         for (let i = 0; i < linhasCodigo.length; i++) {
             let numeroLinha = i + 1;
@@ -33,7 +32,7 @@ export default class ErroSintaxeVariavel extends ErroSintaxe {
             }
         }
 
-        let variaveisNaoDeclaradas = ErroSintaxeVariavel.variaveisNaoDeclaradas(submissao.codigo);
+        let variaveisNaoDeclaradas = ErroSintaxeVariavel.variaveisNaoDeclaradas(submissao);
         variaveisNaoDeclaradas.forEach(variavel => {
             erros.push(new Erro(null, variavel.linha, "Você tentou utilizar a variável: '" + variavel.nome + "' que não foi criada. Erro na linha: " + variavel.linha, TipoErro.variavelNaoDeclarada, submissao));
         })
@@ -314,9 +313,9 @@ export default class ErroSintaxeVariavel extends ErroSintaxe {
     }
 
 
-    static identificarVariaveisUtilizadas(codigo) {
+    static identificarVariaveisUtilizadas(submissao) {
 
-        let linhasCodigo = codigo.linhasAlgoritmo();
+        let linhasCodigo = submissao.linhasAlgoritmo();
 
         let variaveisUtilizadas = [];
 
@@ -379,9 +378,9 @@ export default class ErroSintaxeVariavel extends ErroSintaxe {
         return null;
     }
 
-    private static identificarVariaveisDeclaradas(codigo) {
+    private static identificarVariaveisDeclaradas(submissao) {
 
-        let linhasCodigo = codigo.linhasAlgoritmo();
+        let linhasCodigo = submissao.linhasAlgoritmo();
 
         let variaveisDeclaradas = [];
 
@@ -409,12 +408,12 @@ export default class ErroSintaxeVariavel extends ErroSintaxe {
         return variaveisDeclaradas;
     }
 
-    static variaveisNaoDeclaradas(codigo) {
+    static variaveisNaoDeclaradas(submissao) {
 
         let variaveisNaoDeclaradas = [];
 
-        let variaveisUtilizadas = this.identificarVariaveisUtilizadas(codigo);
-        let variaveisDeclaradas = this.identificarVariaveisDeclaradas(codigo);
+        let variaveisUtilizadas = this.identificarVariaveisUtilizadas(submissao);
+        let variaveisDeclaradas = this.identificarVariaveisDeclaradas(submissao);
 
         variaveisUtilizadas.forEach(variavel => {
             let utilizada = false;

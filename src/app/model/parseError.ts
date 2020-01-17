@@ -1,12 +1,10 @@
 
-import Codigo from './codigo';
-
 export class ParseError {
 
     erros;
     codigo;
 
-    constructor(codigo: Codigo) {
+    constructor(codigo) {
         //super(erro);
       //  this.erros = ParseError.localizar(codigo);
     }

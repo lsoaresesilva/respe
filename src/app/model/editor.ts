@@ -1,12 +1,5 @@
-import Codigo from './codigo';
-import ErroFactory from './erroFactory';
-import SolucaoFactory from './solucaoFactory';
-import { Observable } from 'rxjs';
+
 import ConfiguracaoEditor from './configuracaoEditor';
-import Usuario from './usuario';
-import Submissao from './submissao';
-import Estudante from './estudante';
-import { Questao } from './questao';
 declare var monaco: any;
 declare var editor: any;
 
@@ -15,7 +8,7 @@ export default class Editor {
 
     saida: string;
     erroProgramacao:string;
-    codigo: Codigo;
+    codigo;
     
     configuracao:ConfiguracaoEditor;
 
@@ -23,7 +16,7 @@ export default class Editor {
 
     private constructor() {
         //this.editor = editor;
-        this.codigo = new Codigo();
+        this.codigo = ""
         this.configuracao = new ConfiguracaoEditor();
         
     }
@@ -45,16 +38,6 @@ export default class Editor {
             this.configuracao.decorations.push(editor.deltaDecorations([], [{ range: new monaco.Range(linha, 1, linha, lineLength), options: { isWholeLine: true, inlineClassName: (status == "erro" ? 'erro' : "possivelSolucao") } }]));
         }
 
-    }
-
-    prepararSaidaErro(erro) {
-        
-        let solucao = SolucaoFactory.check(erro, Editor.getInstance().codigo);
-        this.saida = erro.mensagem();
-        this.saida += "<br/><br/>";
-        this.saida += solucao.mensagem();
-        this.destacarLinha(erro.linha, "erro");
-        this.destacarLinha(solucao.linha, "sucesso");
     }
 
     limparCores() {

@@ -58,13 +58,12 @@ export class EditorProgramacaoComponent implements OnInit {
 
 
     this.editorCodigo = Editor.getInstance();
-    this.editorCodigo.codigo.algoritmo = "";
     let usuario = this.login.getUsuarioLogado();
-    carregarIde(false, null, null, this.editorCodigo.codigo.algoritmo);
+    carregarIde(false, null, null, this.editorCodigo.codigo);
     if (this.submissao != null) {
-      this.editorCodigo.codigo.algoritmo = this.submissao["codigo"];
+      this.editorCodigo.codigo = this.submissao["codigo"];
       if (editor != null)
-        editor.setValue(this.editorCodigo.codigo.algoritmo);
+        editor.setValue(this.editorCodigo.codigo);
     }
   }
 
@@ -180,7 +179,7 @@ export class EditorProgramacaoComponent implements OnInit {
    * Constrói uma submissão que será salva no banco de dados.
    */
   prepararSubmissao(): Submissao {
-    this.editorCodigo.codigo.setAlgoritmo(editor.getValue());
+    this.editorCodigo.codigo = editor.getValue();
     let submissao = new Submissao(null, this.editorCodigo.codigo, this.login.getUsuarioLogado(), this.questao);
     submissao.analisarErros();
     return submissao;

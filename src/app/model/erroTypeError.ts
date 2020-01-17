@@ -1,5 +1,4 @@
 import ErroSintaxe from './erroSintaxe';
-import Codigo from './codigo';
 import Erro from './erro';
 import { TipoErro } from './tipoErro';
 import Estudante from './estudante';
@@ -9,7 +8,7 @@ export default class ErroTypeError extends ErroSintaxe{
 
     static erros(submissao:Submissao):Erro[]{
         let erros:Erro[] = [];
-        let linhasCodigo = submissao.codigo.linhasAlgoritmo();
+        let linhasCodigo = submissao.linhasAlgoritmo();
 
         for (let i = 0; i < linhasCodigo.length; i++) {
             let numeroLinha = i+1;

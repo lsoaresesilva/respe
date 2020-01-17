@@ -1,5 +1,4 @@
 import ErroSintaxeVariavel from './erroSintaxeVariavel';
-import Codigo from './codigo';
 import ErroSintaxeCondicional from './erroSintaxeCondiconal';
 import ErroSintaxeFuncao from './erroSintaxeFuncao';
 import Estudante from './estudante';
