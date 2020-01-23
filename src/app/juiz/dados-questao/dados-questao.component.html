@@ -15,7 +15,9 @@
     </ng-template>
     <ng-template pTemplate="body" let-testCase let-i="rowIndex">
         <tr>
-            <td>{{testCase.entradas}}</td>
+            <td>
+                <app-apresentacao-entradas-testcase [entradas]="testCase.entradas"></app-apresentacao-entradas-testcase>
+            </td>
             <td>{{testCase.saida}}</td>
         </tr>
     </ng-template>

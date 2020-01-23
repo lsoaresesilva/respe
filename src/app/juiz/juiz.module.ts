@@ -59,6 +59,8 @@ import {CodeHighlighterModule} from 'primeng/codehighlighter';
 import { EditorProgramacaoComponent } from './editor/editor-programacao/editor-programacao.component';
 import { ResponderQuestaoProgramacaoLiteComponent } from './editor/responder-questao-programacao-lite/responder-questao-programacao-lite.component';
 import { ConsoleComponent } from './editor/console/console.component';
+import { BreadcrumbAssuntoComponent } from './breadcrumb-assunto/breadcrumb-assunto.component';
+import { ApresentacaoEntradasTestcaseComponent } from './apresentacao-entradas-testcase/apresentacao-entradas-testcase.component';
 
 @NgModule({
   declarations: [
@@ -84,7 +86,9 @@ import { ConsoleComponent } from './editor/console/console.component';
     VisualizarPerfilEstudanteComponent,
     EditorProgramacaoComponent,
     ResponderQuestaoProgramacaoLiteComponent,
-    ConsoleComponent
+    ConsoleComponent,
+    BreadcrumbAssuntoComponent,
+    ApresentacaoEntradasTestcaseComponent
   ],
 
 

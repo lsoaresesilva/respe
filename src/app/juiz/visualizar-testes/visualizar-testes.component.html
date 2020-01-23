@@ -5,17 +5,17 @@
 <p-table [value]="testsCases">
   <ng-template pTemplate="header">
       <tr>
-          <th>#</th>
           <th>Entradas</th>
           <th>Saída esperada</th>
-          <th>Concluído</th>
+          <th>Status</th>
           <th>Resposta do algoritmo</th>
       </tr>
   </ng-template>
   <ng-template pTemplate="body" let-testCase let-i="rowIndex">
       <tr>
-          <td>{{i+1}}</td>
-          <td>{{testCase.entradas}}</td>
+          <td>
+              <app-apresentacao-entradas-testcase [entradas]="testCase.entradas"></app-apresentacao-entradas-testcase>
+          </td>
           <td>{{testCase.saida}}</td>
           <td >{{testCase.resultadoTestCase?.status == true?"Correto":"Incorreto"}}</td>
           <td>{{testCase.resultadoTestCase?.respostaAlgoritmo}}</td>

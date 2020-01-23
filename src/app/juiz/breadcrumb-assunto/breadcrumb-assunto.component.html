@@ -1,0 +1,11 @@
+<div *ngIf="usuario.grupoExperimento != 4;else grupoControle">
+
+  <div *ngIf="planejamento != null">
+    <a [routerLink]="['/main', { outlets: { principal: ['visualizacao-planejamento',planejamento.id] } }]">{{assunto.nome}}</a> -> {{questao.nomeCurto}}
+  </div>
+</div>
+<ng-template #grupoControle>
+  <div *ngIf="assunto != null">
+    <a [routerLink]="['/main', { outlets: { principal: ['visualizacao-assunto',assunto.pk()] } }]">{{assunto.nome}}</a> -> {{questao.nomeCurto}}
+  </div>
+</ng-template>

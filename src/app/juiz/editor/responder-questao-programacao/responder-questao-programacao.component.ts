@@ -26,7 +26,6 @@ export class ResponderQuestaoProgramacao implements OnInit {
   assunto;
 
   pausaIde;
-  erroLinguagemProgramacao;
   questao?;
   statusExecucao;
   resultadosTestsCases;
@@ -41,7 +40,6 @@ export class ResponderQuestaoProgramacao implements OnInit {
 
   constructor(private route: ActivatedRoute, public login: LoginService, private router: Router, private formBuilder: FormBuilder, private elementRef: ElementRef, private _renderer: Renderer, private cdr: ChangeDetectorRef, private app: ApplicationRef, private zone: NgZone) {
     this.pausaIde = true;
-    this.erroLinguagemProgramacao = "";
     this.statusExecucao = "";
 
 
@@ -108,16 +106,7 @@ export class ResponderQuestaoProgramacao implements OnInit {
   }
 
   onEditorSubmit(submissao) {
-    this.erroLinguagemProgramacao = "";
     this.submissao = submissao;
-  }
-
-  onEditorSubmitError(erro) {
-    if (erro.name == "HttpErrorResponse" && erro.status == 0) {
-      this.erroLinguagemProgramacao = "O servidor está fora do ar."
-    } else if (erro.status == 500 && erro.error != undefined) {
-      this.erroLinguagemProgramacao = erro.error.erro;
-    }
   }
 
   onVisualization(visualizacao){

@@ -1,5 +1,9 @@
 <div *ngIf="questao != null; else loading">
+
   <div class="p-grid" style="margin: 10px 10px 10px 10px">
+
+    <app-breadcrumb-assunto [assunto]="assunto" [questao]="questao"></app-breadcrumb-assunto>
+
     <div class="p-col-12">
 
       
@@ -29,13 +33,15 @@
     <div class="p-col-6">
       <div class="p-grid">
         <div class="p-col-12">
-          <app-editor-programacao [modoVisualizacao]="modoVisualizacao" [questao]="questao" [assunto]="assunto" (onError)="onEditorError($event)" (onVisualization)="onVisualization($event)">
+          <app-editor-programacao [modoVisualizacao]="modoVisualizacao" [submissao]="submissao" 
+                                  [questao]="questao" [assunto]="assunto" 
+                                  (onError)="onEditorError($event)" 
+                                  (onVisualization)="onVisualization($event)"
+                                  (onSubmit)="onEditorSubmit($event)">
           </app-editor-programacao>
           <div *ngIf="modoVisualizacao==false" style="margin-top:10px;">
-            <app-visualizar-testes [testsCases]="questao.testsCases"
-              [submissao]="submissao">
-            </app-visualizar-testes>
-
+            
+            <app-console [submissao]="submissao"></app-console>
           </div>
 
         </div>
@@ -45,7 +51,9 @@
 
     <div class="p-col-3">
       <div *ngIf="modoVisualizacao  == false; else visualizacao">
-        <app-console [submissao]="submissao"></app-console>
+        <app-visualizar-testes [testsCases]="questao.testsCases"
+              [submissao]="submissao">
+            </app-visualizar-testes>
       </div>
       <ng-template #visualizacao>
         <visualizar-execucao [traceExecucao]="traceExecucao" (mudancaLinha)="atualizarLinhaEditor($event)">

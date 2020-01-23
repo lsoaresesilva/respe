@@ -1,4 +1,4 @@
-import { Component, OnInit, Input, Output, EventEmitter, AfterViewChecked } from '@angular/core';
+import { Component, OnInit, Input, Output, EventEmitter, AfterViewChecked, AfterViewInit } from '@angular/core';
 import { HttpHeaders, HttpClient } from '@angular/common/http';
 import { Tutor } from 'src/app/model/tutor';
 import Submissao from 'src/app/model/submissao';
@@ -17,7 +17,20 @@ declare function carregarIde(readOnly, callback, instance, codigo): any;
   templateUrl: './editor-programacao.component.html',
   styleUrls: ['./editor-programacao.component.css']
 })
-export class EditorProgramacaoComponent implements OnInit {
+export class EditorProgramacaoComponent implements OnInit, AfterViewInit {
+  
+  ngAfterViewInit(): void {
+    console.log("Initializing editor")
+    this.editorCodigo = Editor.getInstance();
+    this.editorCodigo.codigo = ""
+    let usuario = this.login.getUsuarioLogado();
+    carregarIde(false, null, null, this.editorCodigo.codigo);
+    if (this.submissao != null) {
+      this.editorCodigo.codigo = this.submissao["codigo"];
+      if (editor != null)
+        editor.setValue(this.editorCodigo.codigo);
+    }
+  }
   
 
   @Input()
@@ -37,8 +50,6 @@ export class EditorProgramacaoComponent implements OnInit {
   @Output()
   onSubmit: EventEmitter<any>;
   @Output()
-  onSubmitError: EventEmitter<any>;
-  @Output()
   onVisualization: EventEmitter<any>;
 
 
@@ -46,7 +57,6 @@ export class EditorProgramacaoComponent implements OnInit {
 
     this.onError = new EventEmitter();
     this.onSubmit = new EventEmitter();
-    this.onSubmitError = new EventEmitter();
     this.onVisualization = new EventEmitter();
 
 
@@ -57,14 +67,7 @@ export class EditorProgramacaoComponent implements OnInit {
   ngOnInit() {
 
 
-    this.editorCodigo = Editor.getInstance();
-    let usuario = this.login.getUsuarioLogado();
-    carregarIde(false, null, null, this.editorCodigo.codigo);
-    if (this.submissao != null) {
-      this.editorCodigo.codigo = this.submissao["codigo"];
-      if (editor != null)
-        editor.setValue(this.editorCodigo.codigo);
-    }
+    
   }
 
   visualizarExecucacao(modoVisualizacao, trace) {
@@ -121,8 +124,10 @@ export class EditorProgramacaoComponent implements OnInit {
     let _this = this;
 
     submissao.save().subscribe(resultado => {
+      this.submissao = resultado;
       if (submissao.hasErrors()) {
-        this.gerenciarErro(submissao);
+        this.destacarErros(submissao);
+        this.onError.emit(this.submissao);
       } else {
         let tipoExecucao = ""
         if (this.questao.testsCases.length != 0) {
@@ -157,8 +162,10 @@ export class EditorProgramacaoComponent implements OnInit {
 
 
           submissao.invalidar();
+          submissao.incluirErroServidor(err);
           submissao.save().subscribe(resultado => {
-            this.onSubmitError.emit(err);
+            this.submissao = resultado;
+            this.destacarErros(submissao);
           })
 
         }, () => {
@@ -168,12 +175,7 @@ export class EditorProgramacaoComponent implements OnInit {
       }
     })
 
-
-
-
   }
-
-  
 
   /**
    * Constrói uma submissão que será salva no banco de dados.
@@ -199,10 +201,11 @@ export class EditorProgramacaoComponent implements OnInit {
     }, 300000)
   }
 
-  gerenciarErro(submissao) {
-    this.onError.emit(submissao);
+  destacarErros(erros) {
+    
     this.editorCodigo.limparCores();
-    this.editorCodigo.destacarErros(submissao.erros);
+    this.editorCodigo.destacarErros(this.submissao.erros);
   }
+
 
 }
