@@ -10,7 +10,7 @@ import { AngularFireModule, FirebaseApp } from '@angular/fire';
 import { FirebaseConfiguracao } from 'src/environments/firebase';
 import ResultadoTestCase from '../resultadoTestCase';
 import { forkJoin } from 'rxjs';
-import Erro from '../erro';
+import Erro from '../errors/erro';
 import { isNull } from '@angular/compiler/src/output/output_ast';
 
 describe("Testes de TUTOR", ()=>{

@@ -2,7 +2,7 @@ import Submissao from "../submissao";
 import Codigo from '../codigo';
 import Usuario from '../usuario';
 import { PerfilUsuario } from '../enums/perfilUsuario';
-import Erro from '../erro';
+import Erro from '../errors/erro';
 import { TipoErro } from '../tipoErro';
 import { forkJoin } from 'rxjs';
 import { AngularFirestore, AngularFirestoreModule } from '@angular/fire/firestore';

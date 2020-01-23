@@ -1,5 +1,5 @@
 import Erro from './erro';
-import Submissao from './submissao';
+import Submissao from '../submissao';
 
 export default abstract class ErroSintaxe{
 

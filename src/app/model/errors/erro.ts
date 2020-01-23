@@ -1,8 +1,8 @@
-import { TipoErro } from './tipoErro';
-import { Document, Collection, ignore, date } from './firestore/document';
-import Submissao from './submissao';
+import { TipoErro } from '../tipoErro';
+import { Document, Collection, ignore, date } from '../firestore/document';
+import Submissao from '../submissao';
 import { forkJoin, Observable } from 'rxjs';
-import Query from './firestore/query';
+import Query from '../firestore/query';
 
 
 @Collection("errosEstudantes")

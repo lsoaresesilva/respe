@@ -1,12 +1,8 @@
-import ErroSintaxeVariavel from './erroSintaxeVariavel';
-import ErroSintaxeCondicional from './erroSintaxeCondiconal';
-import ErroSintaxeFuncao from './erroSintaxeFuncao';
-import Estudante from './estudante';
-import Erro from './erro';
+
+import Estudante from './errors/erroSintaxeFuncao'
+import Erro from './errors/erro';
 import { Observable, forkJoin } from 'rxjs';
 import Submissao from './submissao';
-import ResultadoTestCase from './resultadoTestCase';
-import Query from './firestore/query';
 import { Assunto } from './assunto';
 import Usuario from './usuario';
 
@@ -15,7 +11,7 @@ export class Tutor{
     constructor(private submissao:Submissao){
         
     }
-
+    
     static mediaTestsCases(estudante:Estudante){
         
         return new Observable(observer=>{

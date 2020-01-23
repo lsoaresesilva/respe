@@ -19,5 +19,6 @@ export enum TipoErro {
   comparacaoApenasUmaIgualdadeTexto = "IF com apenas um =",
   faltaDoisPontosCondicaoTexto = "Falta dois pontos no IF",
   faltaDoisPontosFuncaoTexto = "Falta dois pontos na função",
+  erroServidor = "Problema no servidor."
   
 }

@@ -3,7 +3,7 @@ import { LoginService } from 'src/app/login-module/login.service';
 import Submissao from 'src/app/model/submissao';
 import { Tutor } from 'src/app/model/tutor';
 import Query from 'src/app/model/firestore/query';
-import Erro from 'src/app/model/erro';
+import Erro from 'src/app/model/errors/erro';
 
 @Component({
   selector: 'app-acompanhar-desempenho',

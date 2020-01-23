@@ -10,7 +10,7 @@ import { FirebaseConfiguracao } from "src/environments/firebase";
 import Submissao from '../submissao';
 import Estudante from '../estudante';
 import { Questao } from '../questao';
-import Erro from '../erro';
+import Erro from '../errors/erro';
 import { TipoErro } from '../tipoErro';
 import { forkJoin } from 'rxjs';
 import Usuario from '../usuario';

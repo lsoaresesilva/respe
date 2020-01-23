@@ -1,4 +1,4 @@
-import ErroSintaxeCondicional from "../erroSintaxeCondiconal";
+import ErroSintaxeCondicional from "../errors/erroSintaxeCondiconal";
 import Codigo from '../codigo';
 
 describe("Testes para identificar erros de sintaxe em condições", ()=>{

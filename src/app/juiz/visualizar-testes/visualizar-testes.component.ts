@@ -8,6 +8,7 @@ import { forkJoin, Observable } from 'rxjs';
   styleUrls: ['./visualizar-testes.component.css']
 })
 export class VisualizarTestesComponent implements OnInit, OnChanges {
+  
   ngOnChanges(changes: import("@angular/core").SimpleChanges): void { // PROBLEMA: mudou a estrutura, não há mais resultado test case. apenas submissao
     
     

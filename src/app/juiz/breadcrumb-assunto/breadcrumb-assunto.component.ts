@@ -24,9 +24,6 @@ export class BreadcrumbAssuntoComponent implements OnInit {
 
   ngOnInit() {
     this.usuario = this.login.getUsuarioLogado();
-    console.log(this.usuario.grupoExperimento)
-    console.log(Groups.control)
-    console.log(this.usuario.grupoExperimento != Groups.control)
     if(this.usuario.grupoExperimento != Groups.control){
       if(this.assunto != null){
         Planejamento.getByAssunto(this.assunto, this.usuario).subscribe(planejamento=>{

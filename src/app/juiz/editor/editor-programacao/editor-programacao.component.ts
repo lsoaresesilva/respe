@@ -17,21 +17,17 @@ declare function carregarIde(readOnly, callback, instance, codigo): any;
   templateUrl: './editor-programacao.component.html',
   styleUrls: ['./editor-programacao.component.css']
 })
-export class EditorProgramacaoComponent implements OnInit, AfterViewInit {
-  
+export class EditorProgramacaoComponent implements AfterViewInit {
+
   ngAfterViewInit(): void {
-    console.log("Initializing editor")
+
     this.editorCodigo = Editor.getInstance();
     this.editorCodigo.codigo = ""
     let usuario = this.login.getUsuarioLogado();
     carregarIde(false, null, null, this.editorCodigo.codigo);
-    if (this.submissao != null) {
-      this.editorCodigo.codigo = this.submissao["codigo"];
-      if (editor != null)
-        editor.setValue(this.editorCodigo.codigo);
-    }
+    
   }
-  
+
 
   @Input()
   questao;
@@ -42,7 +38,24 @@ export class EditorProgramacaoComponent implements OnInit, AfterViewInit {
   @Input()
   modoVisualizacao;
 
-  submissao;
+  @Input() set submissao(value) {
+    this._submissao = value;
+    if (this._submissao != null) {
+      this.editorCodigo.codigo = this._submissao["codigo"];
+      if (editor != null)
+        editor.setValue(this.editorCodigo.codigo);
+    }
+
+  }
+
+  get submissao() {
+
+    return this._submissao;
+
+  }
+
+  _submissao;
+
   editorCodigo?: Editor;
 
   @Output()
@@ -54,24 +67,13 @@ export class EditorProgramacaoComponent implements OnInit, AfterViewInit {
 
 
   constructor(private http: HttpClient, public login: LoginService) {
-
     this.onError = new EventEmitter();
     this.onSubmit = new EventEmitter();
     this.onVisualization = new EventEmitter();
-
-
-
-  }
-
-
-  ngOnInit() {
-
-
-    
   }
 
   visualizarExecucacao(modoVisualizacao, trace) {
-    this.onVisualization.emit({ modoVisualizacao: modoVisualizacao, trace:trace});
+    this.onVisualization.emit({ modoVisualizacao: modoVisualizacao, trace: trace });
   }
 
   voltarParaModoExecucao() {
@@ -80,8 +82,8 @@ export class EditorProgramacaoComponent implements OnInit, AfterViewInit {
 
   visualizar(status) {
     if (status) {
-      let submissao = this.prepararSubmissao()
-      submissao.save().subscribe(resultado => {
+      this.prepararSubmissao()
+      this.submissao.save().subscribe(resultado => {
         this.submissao = resultado;
         let httpOptions = {
           headers: new HttpHeaders({
@@ -89,23 +91,21 @@ export class EditorProgramacaoComponent implements OnInit, AfterViewInit {
           })
         }
         // TODO: definir um timedout
-        let json = submissao.construirJson(this.questao, "visualização");
+        let json = this.submissao.construirJson(this.questao, "visualização");
 
         this.http.post("http://127.0.0.1:8000/codigo/", json, httpOptions).subscribe(resposta => {
 
           let respostaParser: string = String(resposta).replace("script str", "")
-          
+
           this.visualizarExecucacao(true, JSON.parse(respostaParser)); // TODO:
         }, err => {
           //this.prepararMensagemExceptionHttp(err);
         });
       })
-    }else{
+    } else {
       this.editorCodigo.limparCores();
       this.visualizarExecucacao(false, null);
     }
-
-
 
   }
 
@@ -113,7 +113,9 @@ export class EditorProgramacaoComponent implements OnInit, AfterViewInit {
   executar() {
     //this.pausaIde = true;
 
-    let submissao = this.prepararSubmissao();
+    this.prepararSubmissao();
+
+    this.submissao.analisarErros();
 
     let httpOptions = {
       headers: new HttpHeaders({
@@ -123,10 +125,11 @@ export class EditorProgramacaoComponent implements OnInit, AfterViewInit {
 
     let _this = this;
 
-    submissao.save().subscribe(resultado => {
+    this.submissao.save().subscribe(resultado => {
+      this.onSubmit.emit(this._submissao);
       this.submissao = resultado;
-      if (submissao.hasErrors()) {
-        this.destacarErros(submissao);
+      if (this.submissao.hasErrors()) {
+        this.destacarErros(this.submissao);
         this.onError.emit(this.submissao);
       } else {
         let tipoExecucao = ""
@@ -136,36 +139,36 @@ export class EditorProgramacaoComponent implements OnInit, AfterViewInit {
           tipoExecucao = "execução"
         }
 
-        let json = submissao.construirJson(this.questao, tipoExecucao);
+        let json = this.submissao.construirJson(this.questao, tipoExecucao);
 
         let url = "http://127.0.0.1:8000/codigo/"
         this.http.post<any>(url, json, httpOptions).subscribe(resposta => { // TODO: mudar o endereço para o real
           let consultas = []
           if (tipoExecucao == "testes") {
-            submissao.resultadosTestsCases = ResultadoTestCase.construir(resposta.resultados);
+            this.submissao.resultadosTestsCases = ResultadoTestCase.construir(resposta.resultados);
           }
 
-          submissao.saida = resposta.saida
+          this.submissao.saida = resposta.saida
 
-          submissao.save().subscribe(resultado => { // salva novamente, pois agora há dados sobre os resultadosTestsCases
+          this.submissao.save().subscribe(resultado => { // salva novamente, pois agora há dados sobre os resultadosTestsCases
             this.submissao = resultado;
-
+            this.onSubmit.emit(this._submissao);
           })
 
 
           this.editorCodigo.limparCores();
-          this.submissao = submissao;
 
-          this.onSubmit.emit(this.submissao);
+          
 
         }, err => {
 
 
-          submissao.invalidar();
-          submissao.incluirErroServidor(err);
-          submissao.save().subscribe(resultado => {
+          this.submissao.invalidar();
+          this.submissao.incluirErroServidor(err);
+          this.submissao.save().subscribe(resultado => {
             this.submissao = resultado;
-            this.destacarErros(submissao);
+            this.onSubmit.emit(this._submissao);
+            this.destacarErros(this.submissao);
           })
 
         }, () => {
@@ -180,21 +183,23 @@ export class EditorProgramacaoComponent implements OnInit, AfterViewInit {
   /**
    * Constrói uma submissão que será salva no banco de dados.
    */
-  prepararSubmissao(): Submissao {
+  prepararSubmissao() {
     this.editorCodigo.codigo = editor.getValue();
-    let submissao = new Submissao(null, this.editorCodigo.codigo, this.login.getUsuarioLogado(), this.questao);
-    submissao.analisarErros();
-    return submissao;
+    this.submissao.codigo = this.editorCodigo.codigo;
+    this.submissao.questao = this.questao;
+    this.submissao.estudante = this.login.getUsuarioLogado();
+    
   }
 
   /**
    * Salva o código do estudante automaticamente a cada 5 minutos.
+   * OBS: Não está em uso, será refatorado para evitar overhead no BD.
    */
   salvarAutomaticamente() {
     let __this = this;
     setInterval(function () {
-      let submissao = __this.prepararSubmissao();
-      submissao.save().subscribe(resultado => {
+      __this.prepararSubmissao();
+      this.submissao.save().subscribe(resultado => {
         // TODO: mostrar mensagem que o código foi salvo automaticamente.
       });
 
@@ -202,7 +207,7 @@ export class EditorProgramacaoComponent implements OnInit, AfterViewInit {
   }
 
   destacarErros(erros) {
-    
+
     this.editorCodigo.limparCores();
     this.editorCodigo.destacarErros(this.submissao.erros);
   }

@@ -145,4 +145,25 @@ export class Planejamento extends Document {
 
   }
 
+  static getByAssunto(assunto:Assunto, usuario:Usuario){
+    return new Observable(observer=>{
+      if(assunto != null && usuario != null){
+        this.getAll([new Query("assuntoId", "==", assunto.pk()), new Query("estudanteId", "==", usuario.pk())]).subscribe(planejamento=>{
+          if(planejamento.length > 0){
+            observer.next(planejamento[0]);
+          }else{
+            observer.next(planejamento);
+  
+          }
+  
+          observer.complete();
+        })
+      }else{
+        observer.error(new Error("É preciso informar o assunto e usuário."));
+      }
+      
+    })
+    
+  }
+
 }

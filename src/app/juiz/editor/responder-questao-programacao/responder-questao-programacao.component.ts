@@ -102,11 +102,13 @@ export class ResponderQuestaoProgramacao implements OnInit {
   }
 
   onEditorError(submissao) {
-    this.submissao = submissao;
+    this.submissao = this.prepararSubmissao(submissao);
   }
 
   onEditorSubmit(submissao) {
-    this.submissao = submissao;
+    
+    this.submissao = this.prepararSubmissao(submissao);
+      
   }
 
   onVisualization(visualizacao){
@@ -163,7 +165,7 @@ export class ResponderQuestaoProgramacao implements OnInit {
     this.router.navigate(["main", { outlets: { principal: ['exibir-codigo', questao.id] } }]);
   }
 
-  enviarErroEditor() {
+  /*enviarErroEditor() {
     let submissao = this.prepararSubmissao();
     submissao.save().subscribe(submissao => {
       let errorEditor = new ErroEditor(null, submissao.pk());
@@ -172,6 +174,26 @@ export class ResponderQuestaoProgramacao implements OnInit {
       });
     });
 
+  }*/
+
+  /**
+   * ngOnChanges é usado pelos child-components para receberem atualização da submissão. No entanto, seu comportamento (disparo de notificações de mudança) não funciona quando apenas um atributo do objeto é alterado.
+   * Este método força uma clonagem do objeto, fazendo com que o ngOnChanges detecte que é um novo objeto e assim realize a atualização.
+   * @param submissao 
+   */
+  prepararSubmissao(submissao){
+    if(submissao != undefined){
+      let _submissaoClone = new Submissao(submissao.pk(), submissao.codigo, submissao.estudante, submissao.questao);
+      _submissaoClone["estudanteId"] = submissao.estudanteId;
+      _submissaoClone["assuntoId"] = submissao.assuntoId;
+      _submissaoClone.data = submissao.data;
+      _submissaoClone.erros = submissao.erros;
+      _submissaoClone.resultadosTestsCases = submissao.resultadosTestsCases;
+      _submissaoClone.saida = submissao.saida;
+      return _submissaoClone;
+    }
+
+    return null;
   }
 
   /*change(event){

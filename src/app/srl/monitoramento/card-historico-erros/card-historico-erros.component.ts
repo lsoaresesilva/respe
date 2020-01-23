@@ -1,5 +1,5 @@
 import { Component, OnInit, Input } from '@angular/core';
-import Erro from 'src/app/model/erro';
+import Erro from 'src/app/model/errors/erro';
 
 @Component({
   selector: 'app-card-historico-erros',

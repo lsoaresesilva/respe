@@ -1,5 +1,5 @@
 import Codigo from "../codigo";
-import ErroSintaxeFuncao from '../erroSintaxeFuncao';
+import ErroSintaxeFuncao from '../errors/erroSintaxeFuncao';
 
 describe("Testes para identificar erros de sintaxe em condições", ()=>{
 
