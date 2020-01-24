@@ -23,6 +23,8 @@ export default class Submissao extends Document {
     resultadosTestsCases: ResultadoTestCase[];
     @ignore()
     saida
+    @ignore()
+    erroServidor;
 
     constructor(id, public codigo: string, estudante, questao) {
         super(id);
@@ -330,7 +332,10 @@ export default class Submissao extends Document {
             mensagem = erro.error.mensagem;
         }
 
-        let erroServidor = new ErroServidor(null, -1, mensagem, TipoErro.erroServidor, this);
-        this.erros.push(erroServidor);
+        this.erroServidor = new ErroServidor(null, -1, mensagem, TipoErro.erroServidor, this);
+    }
+
+    limparErroServidor(){
+        this.erroServidor = null;
     }
 }

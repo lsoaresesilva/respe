@@ -190,6 +190,7 @@ export class ResponderQuestaoProgramacao implements OnInit {
       _submissaoClone.erros = submissao.erros;
       _submissaoClone.resultadosTestsCases = submissao.resultadosTestsCases;
       _submissaoClone.saida = submissao.saida;
+      _submissaoClone.erroServidor = submissao.erroServidor;
       return _submissaoClone;
     }
 

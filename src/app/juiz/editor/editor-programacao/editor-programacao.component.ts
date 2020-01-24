@@ -143,7 +143,9 @@ export class EditorProgramacaoComponent implements AfterViewInit {
 
         let url = "http://127.0.0.1:8000/codigo/"
         this.http.post<any>(url, json, httpOptions).subscribe(resposta => { // TODO: mudar o endereço para o real
-          let consultas = []
+          
+          this.submissao.limparErroServidor();
+
           if (tipoExecucao == "testes") {
             this.submissao.resultadosTestsCases = ResultadoTestCase.construir(resposta.resultados);
           }
@@ -188,7 +190,6 @@ export class EditorProgramacaoComponent implements AfterViewInit {
    */
   prepararSubmissao() {
 
-
     this.editorCodigo.codigo = editor.getValue();
 
     if(this.submissao == null){
@@ -198,10 +199,6 @@ export class EditorProgramacaoComponent implements AfterViewInit {
       this.submissao.questao = this.questao;
       this.submissao.estudante = this.login.getUsuarioLogado();
     }
-
-    
-   
-    
   }
 
   /**
