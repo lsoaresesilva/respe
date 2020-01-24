@@ -331,6 +331,6 @@ export default class Submissao extends Document {
         }
 
         let erroServidor = new ErroServidor(null, -1, mensagem, TipoErro.erroServidor, this);
-        this.erros.push(erro);
+        this.erros.push(erroServidor);
     }
 }

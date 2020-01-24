@@ -41,7 +41,7 @@ export class ResponderQuestaoProgramacao implements OnInit {
   constructor(private route: ActivatedRoute, public login: LoginService, private router: Router, private formBuilder: FormBuilder, private elementRef: ElementRef, private _renderer: Renderer, private cdr: ChangeDetectorRef, private app: ApplicationRef, private zone: NgZone) {
     this.pausaIde = true;
     this.statusExecucao = "";
-
+    
 
     // Para o editor colaborativo
     /*zone.runOutsideAngular(() => {

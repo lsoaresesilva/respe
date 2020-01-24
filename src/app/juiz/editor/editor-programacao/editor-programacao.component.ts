@@ -168,7 +168,10 @@ export class EditorProgramacaoComponent implements AfterViewInit {
           this.submissao.save().subscribe(resultado => {
             this.submissao = resultado;
             this.onSubmit.emit(this._submissao);
-            this.destacarErros(this.submissao);
+            if (err.name != "HttpErrorResponse"){
+              this.destacarErros(this.submissao);
+            }
+            
           })
 
         }, () => {
@@ -184,10 +187,20 @@ export class EditorProgramacaoComponent implements AfterViewInit {
    * Constrói uma submissão que será salva no banco de dados.
    */
   prepararSubmissao() {
+
+
     this.editorCodigo.codigo = editor.getValue();
-    this.submissao.codigo = this.editorCodigo.codigo;
-    this.submissao.questao = this.questao;
-    this.submissao.estudante = this.login.getUsuarioLogado();
+
+    if(this.submissao == null){
+      this.submissao = new Submissao(null, editor.getValue(), this.login.getUsuarioLogado(), this.questao)
+    }else{
+      this.submissao.codigo = this.editorCodigo.codigo;
+      this.submissao.questao = this.questao;
+      this.submissao.estudante = this.login.getUsuarioLogado();
+    }
+
+    
+   
     
   }
 
