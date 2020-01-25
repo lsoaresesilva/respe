@@ -43,10 +43,13 @@ export class VisualizarPerfilEstudanteComponent implements OnInit {
       })
     });
   }
+
+
+  
   porcetagemEstudante(questoes){
     questoes.forEach(questao =>{
       Questao.isFinalizada(questao, this.usuario).subscribe(porcentagem=>{
-        questao.respostaUsuario = porcentagem;
+        //questao.respostaUsuario = porcentagem;
       });
     })
   

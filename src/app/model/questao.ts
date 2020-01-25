@@ -1,5 +1,5 @@
 import { Assunto } from './assunto';
-import { Document, Collection } from './firestore/document';
+import { Document, Collection, ignore } from './firestore/document';
 import { Observable, forkJoin } from 'rxjs';
 import { Dificuldade } from "./enums/dificuldade"
 import TestCase from './testCase';
@@ -17,9 +17,9 @@ export class Questao {
   assuntos: any[];
   sequencia: number;
   testsCases: TestCase[];
-  respostaUsuario: String;
+  algoritmoInicial;
 
-  constructor(public id, nomeCurto, enunciado, dificuldade, sequencia, assuntos, testsCases, respostaUsuario) {
+  constructor(public id, nomeCurto, enunciado, dificuldade, sequencia, assuntos, testsCases, algoritmoInicial) {
     if (id == null)
       this.id = Util.uuidv4();
     else {
@@ -31,7 +31,7 @@ export class Questao {
     this.sequencia = sequencia;
     this.assuntos = assuntos;
     this.testsCases = testsCases;
-    this.respostaUsuario = respostaUsuario;
+    this.algoritmoInicial = algoritmoInicial;
   }
 
   objectToDocument() {
@@ -41,6 +41,7 @@ export class Questao {
     document["nomeCurto"] = this.nomeCurto;
     document["enunciado"] = this.enunciado;
     document["dificuldade"] = this.dificuldade;
+    document["algoritmoInicial"] = this.algoritmoInicial;
 
 
     if (this.assuntos != null && this.assuntos.length > 0) {
@@ -53,7 +54,7 @@ export class Questao {
     }
 
     document["sequencia"] = this.sequencia;
-    document["respostaUsuario"] = this.respostaUsuario;
+    
 
     if (this.testsCases != null && this.testsCases.length > 0) {
       let ts = [];
@@ -162,7 +163,7 @@ export class Questao {
 
         questao.testsCases = TestCase.construir(questao.testsCases);
 
-        objetosQuestoes.push(new Questao(questao.id, questao.nomeCurto, questao.enunciado, questao.dificuldade, questao.sequencia, questao.assuntos, questao.testsCases, questao.respostaUsuario));
+        objetosQuestoes.push(new Questao(questao.id, questao.nomeCurto, questao.enunciado, questao.dificuldade, questao.sequencia, questao.assuntos, questao.testsCases, questao.algoritmoInicial));
       })
     }
 

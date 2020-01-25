@@ -22,7 +22,12 @@ export class EditorProgramacaoComponent implements AfterViewInit {
   ngAfterViewInit(): void {
 
     this.editorCodigo = Editor.getInstance();
-    this.editorCodigo.codigo = ""
+    if(this.questao != null && this.questao.algoritmoInicial != null){
+      this.editorCodigo.codigo = this.questao.algoritmoInicial;
+    }else{
+      this.editorCodigo.codigo = ""
+    }
+    
     let usuario = this.login.getUsuarioLogado();
     carregarIde(false, null, null, this.editorCodigo.codigo);
     

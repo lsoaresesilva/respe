@@ -26,7 +26,7 @@ export class VisualizarQuestaoComponent implements OnInit {
 
 
   constructor(private route: ActivatedRoute, private router: Router, private loginService:LoginService) {
-    this.questao = new Questao(null, null, null, null, null, [], [],null);
+    this.questao = new Questao(null, null, null, null, null, [], [], null);
 
   }
 

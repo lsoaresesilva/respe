@@ -262,8 +262,8 @@ export default class ErroSintaxeVariavel extends ErroSintaxe {
             if (atribuicao != undefined && atribuicao.length == 2) {
                 // SE tiver () ou os sinais de operação então deve removê-los para restar apenas as variáveis
                 // deve remover os (
-                atribuicao[1] = atribuicao[1].replace(/\(/, "")
-                atribuicao[1] = atribuicao[1].replace(/\)/, "")
+                atribuicao[1] = atribuicao[1].replace(/\(/g, "")
+                atribuicao[1] = atribuicao[1].replace(/\)/g, "")
                 atribuicao[1] = atribuicao[1].replace(/\+/, "_____")
                 atribuicao[1] = atribuicao[1].replace(/\-/, "_____")
                 atribuicao[1] = atribuicao[1].replace(/\*/, "_____")
