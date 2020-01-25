@@ -23,7 +23,7 @@ export class EditorProgramacaoComponent implements AfterViewInit {
 
     this.editorCodigo = Editor.getInstance();
     if(this.questao != null && this.questao.algoritmoInicial != null){
-      this.editorCodigo.codigo = this.questao.algoritmoInicial;
+      this.editorCodigo.codigo = this.questao.algoritmoInicial.join("\n");
     }else{
       this.editorCodigo.codigo = ""
     }
