@@ -61,6 +61,7 @@ import { ResponderQuestaoProgramacaoLiteComponent } from './editor/responder-que
 import { ConsoleComponent } from './editor/console/console.component';
 import { BreadcrumbAssuntoComponent } from './breadcrumb-assunto/breadcrumb-assunto.component';
 import { ApresentacaoEntradasTestcaseComponent } from './apresentacao-entradas-testcase/apresentacao-entradas-testcase.component';
+import { EscapeHtmlPipe } from '../pipes/keep-html.pipe';
 
 @NgModule({
   declarations: [
@@ -88,7 +89,8 @@ import { ApresentacaoEntradasTestcaseComponent } from './apresentacao-entradas-t
     ResponderQuestaoProgramacaoLiteComponent,
     ConsoleComponent,
     BreadcrumbAssuntoComponent,
-    ApresentacaoEntradasTestcaseComponent
+    ApresentacaoEntradasTestcaseComponent,
+    EscapeHtmlPipe
   ],
 
 

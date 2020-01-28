@@ -25,15 +25,15 @@ export class CardHistoricoErrosComponent implements OnInit {
         }]
     };
 
-    let dadosProcessados = Erro.calcularFrequenciaPorTipoErro(this.erros);
+    /*let dadosProcessados = Erro.calcularFrequenciaPorTipoErro(this.erros);
     let ranking = Erro.rankErros(dadosProcessados);
     let dadosHistograma = Erro.calcularHistogramaPorRank(ranking, this.erros);
-    this.construirGraficoBarras(dadosHistograma, ranking);
+    this.construirGraficoBarras(dadosHistograma, ranking);*/
   }
 
   construirGraficoBarras(dadosHistograma, ranking) {
 
-    let labels = []
+    /*let labels = []
     let labelTop1 = Erro.getTextoErro(ranking.top1.tipo)
     let corTop1 = Erro.getCorErro(ranking.top1.tipo)
     let labelTop2 = Erro.getTextoErro(ranking.top2.tipo)
@@ -98,7 +98,7 @@ export class CardHistoricoErrosComponent implements OnInit {
           backgroundColor: corTop3
         }
       ]
-    };
+    };*/
 
   }
 

@@ -1,6 +1,6 @@
 import { ErroCompilacao } from './erroCompilacao';
 
-export class TypeError extends ErroCompilacao{
+export default class TypeError extends ErroCompilacao{
     
     // TypeError: unsupported operand type(s) for Sub: 'int' and 'str' on line 3
 
@@ -9,7 +9,7 @@ export class TypeError extends ErroCompilacao{
     }
 
     getMensagem() {
-        return "Você tentou realizar uma operação matemática em duas variáveis de tipos diferentes, na linha "+this.linha;
+        return "Há um problema no seu código na linha "+this.linha+". As possíveis causas, podem ser: 1) você tentou realizar uma operação matemática em duas variáveis de tipos diferentes";
     }
 
     

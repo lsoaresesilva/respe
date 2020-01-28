@@ -31,7 +31,7 @@ import { CardModule } from 'primeng/card';
 import { ToastModule } from 'primeng/toast';
 
 @NgModule({
-  declarations: [ComentariosCodigoComponent, BoxComentarioComponent, BoxNovoComentarioComponent, VisualizarConteudoComponent, EscapeHtmlPipe, SanitizeHtmlDirective, ConteudoProgramacaoComponent, VisualizarSubmissaoQuestaoComponent,ListarEstudantesSubmissaoComponent, ListarPostagensComponent, CadastrarPostagemComponent, VisualizarPostagemComponent],
+  declarations: [ComentariosCodigoComponent, BoxComentarioComponent, BoxNovoComentarioComponent, VisualizarConteudoComponent, SanitizeHtmlDirective, ConteudoProgramacaoComponent, VisualizarSubmissaoQuestaoComponent,ListarEstudantesSubmissaoComponent, ListarPostagensComponent, CadastrarPostagemComponent, VisualizarPostagemComponent],
  
   imports: [
     JuizModule,

@@ -4,6 +4,7 @@ import Submissao from 'src/app/model/submissao';
 import { Tutor } from 'src/app/model/tutor';
 import Query from 'src/app/model/firestore/query';
 import Erro from 'src/app/model/errors/erro';
+import { ErroCompilacao } from 'src/app/model/errors/analise-compilacao/erroCompilacao';
 
 @Component({
   selector: 'app-acompanhar-desempenho',
@@ -24,8 +25,8 @@ export class AcompanharDesempenhoComponent implements OnInit {
       this.errorQuotient = Tutor.calcularErrorQuotient(submissoes);
 
     })
-
-    Erro.getAllErrosEstudante(this.loginService.getUsuarioLogado()).subscribe(resultados => {
+    ErroCompilacao.getAllErrosEstudante(this.loginService.getUsuarioLogado()).subscribe(resultados => {
+    //Erro.getAllErrosEstudante(this.loginService.getUsuarioLogado()).subscribe(resultados => {
       
       this.erros = resultados;
       /*let ranking = Erro.rankErros(dados);

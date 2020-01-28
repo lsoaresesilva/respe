@@ -1,6 +1,9 @@
 import { Component, OnInit, Input } from '@angular/core';
 import Erro from 'src/app/model/errors/erro';
 import { TipoErro } from 'src/app/model/tipoErro';
+import { ErroCompilacao } from 'src/app/model/errors/analise-compilacao/erroCompilacao';
+import { LabelCategoriasErros } from 'src/app/model/errors/enum/labelCategoriasErro';
+import { CategoriaErro } from 'src/app/model/errors/enum/categoriasErro';
 
 @Component({
   selector: 'app-card-erros-programacao-pizza',
@@ -27,13 +30,55 @@ export class CardErrosProgramacaoPizzaComponent implements OnInit {
     };
   
     if(this.erros != undefined){
-      this.dadosProcessados = Erro.calcularFrequenciaPorTipoErro(this.erros);
+      this.dadosProcessados = ErroCompilacao.calcularFrequenciaPorTipoErro(this.erros);
       this.construirGraficoPizza();
     }
       
   }
 
   construirGraficoPizza() {
+    // TODO: Colocar os objetos da função calcularFrequencia em um array. Percorrer o array nessa lista.
+    let labels = [];
+    let backgroundColors = []
+    let data = []
+
+    Object.keys(this.dadosProcessados).forEach(chave=>{
+      if(this.dadosProcessados[chave] > 0){
+        labels.push(LabelCategoriasErros[chave]);
+        backgroundColors.push(this.getCorErro(CategoriaErro[chave]));
+        data.push(this.dadosProcessados[chave]);
+      }
+    })
+
+    this.grafico = {
+      data: data,
+      labels: labels,
+      datasets: [
+        {
+          data: data,
+          backgroundColor: backgroundColors
+        }]
+    };
+
+  }
+
+  getCorErro(tipo){
+    switch(tipo){
+        case 1:
+            return "#FFBF00";
+        case 2:
+            return "#80FF00";
+        case 3:
+            return "#A9F5F2";
+        case 4:
+            return "#08298A";
+        
+        default:
+            return "";
+    }
+}
+
+  /*construirGraficoPizza() {
 
 
 
@@ -95,6 +140,6 @@ export class CardErrosProgramacaoPizzaComponent implements OnInit {
         }]
     };
 
-  }
+  }*/
 
 }

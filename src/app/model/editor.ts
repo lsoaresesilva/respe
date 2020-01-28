@@ -30,11 +30,19 @@ export default class Editor {
 
 
     destacarLinha(linha, status) {
-        if (linha != NaN && linha != 0 && linha != undefined) {
-            linha = parseInt(linha);
-            const lineLength = editor.getModel().getLineLength(linha);
 
-            this.configuracao.decorations.push(editor.deltaDecorations([], [{ range: new monaco.Range(linha, 1, linha, lineLength), options: { isWholeLine: true, inlineClassName: (status == "erro" ? 'erro' : "possivelSolucao") } }]));
+        if (linha != NaN && linha != undefined) {
+            linha = parseInt(linha);
+            if (linha > 0 && editor.getModel().getLineCount() <= linha) {
+                const lineLength = editor.getModel().getLineLength(linha);
+
+
+                let x = editor.deltaDecorations(
+                    editor.getModel().getAllDecorations(),
+                    [{ range: new monaco.Range(linha, 1, linha, lineLength), options: { isWholeLine: true, className: (status == "erro" ? 'erro' : "possivelSolucao") } }]
+                )
+            }
+            //this.configuracao.decorations.push(editor.deltaDecorations([], ));
         }
 
     }

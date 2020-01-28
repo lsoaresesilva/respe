@@ -67,14 +67,15 @@ export default abstract class Erro extends Document{
 
         if(erros != undefined && erros.length > 0){
             
-            erros.forEach(erro=>{
+            /*erros.forEach(erro=>{
                 if( primeiroErro == null )
                     primeiroErro = erro;
                 else{
                     //if(erro.linha < primeiroErro.linha)
                     //    primeiroErro = erro
                 }
-            })
+            })*/
+            primeiroErro = erros[0];
         }
 
         return primeiroErro;
@@ -167,32 +168,7 @@ export default abstract class Erro extends Document{
         }
     }
 
-    static getCorErro(tipo){
-        switch(tipo){
-            case 1:
-                return "#FFBF00";
-            case 2:
-                return "#80FF00";
-            case 3:
-                return "#A9F5F2";
-            case 4:
-                return "#08298A";
-            case 5:
-                return "#BCA9F5";
-            case 6:
-                return "#8904B1";
-            case 7:
-                return "#F5A9D0";
-            case 8:
-                return "#F6CECE";
-            case 9:
-                return "#A9F5BC";
-            case 10:
-                return "#996633";
-            default:
-                return "";
-        }
-    }
+   
 
     static calcularHistogramaPorRank(ranking, dados){
 
@@ -223,7 +199,10 @@ export default abstract class Erro extends Document{
         return resultados;
     }
 
-    static calcularFrequenciaPorTipoErro(dados): any {
+    
+
+    // TODO: Não está sendo utilizado, pois essa funcionalidade de identificar os problemas foi desativada.
+    /*static calcularFrequenciaPorTipoErro(dados): any {
         
         let resultados = {};
 
@@ -275,5 +254,5 @@ export default abstract class Erro extends Document{
                       variavelNaoDeclarada:variavelNaoDeclarada};
             
         return resultados;
-    }
+    }*/
 }

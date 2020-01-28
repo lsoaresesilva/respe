@@ -1,9 +1,14 @@
 import { Component, OnInit, OnChanges, Input } from '@angular/core';
+import { LabelCategoriasErros } from 'src/app/model/errors/enum/labelCategoriasErro';
+
+import { getLabelPorCategoriaNumero } from 'src/app/model/errors/enum/labelCategoriasErro';
+import { EscapeHtmlPipe } from 'src/app/pipes/keep-html.pipe';
 
 @Component({
   selector: 'app-console',
   templateUrl: './console.component.html',
-  styleUrls: ['./console.component.css']
+  styleUrls: ['./console.component.css'],
+  providers:[EscapeHtmlPipe]
 })
 export class ConsoleComponent{
 
@@ -12,13 +17,8 @@ export class ConsoleComponent{
 
   constructor() { }
 
-  /*apresentarErros(){
-    if (this.submissao != null && this.submissao.erros != undefined && this.submissao.erros.length > 0) {
-      this.submissao.erros.forEach(erro => {
-        this.mensagem += erro.mensagem + "<br>";
-        
-      });
-    }
-  }*/
+  getLabelCategoriaErro(categoria){
+    return getLabelPorCategoriaNumero(categoria);
+  }
 
 }

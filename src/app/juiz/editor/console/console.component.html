@@ -1,9 +1,28 @@
 <div class="saida" style="min-height:80%;">
   <div *ngIf="submissao != null">
 
-    <span *ngFor="let erro of submissao.erros" style="padding:20px;">
-      {{ erro.getMensagem() }}
-    </span>
+    <div *ngIf="submissao.erros.length > 0">
+    <p-table [value]="submissao.erros" autoLayout="true">
+      <ng-template pTemplate="header">
+          <tr>
+              <th>Tipo do erro</th>
+              <th>Linha</th>
+              <th>Descrição</th>
+          </tr>
+      </ng-template>
+      <ng-template pTemplate="body" let-erro>
+          <tr>
+              <td>
+                {{ getLabelCategoriaErro(erro.categoria) }}
+              </td>
+              <td>{{ erro.linha }}</td>
+              <td><span [innerHtml]="erro.getMensagem() | keepHtml"></span></td>
+             
+          </tr>
+      </ng-template>
+    </p-table>
+
+    
     
     <p *ngFor="let s of submissao.saida">
       {{ s }}
