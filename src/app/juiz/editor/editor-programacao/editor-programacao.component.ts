@@ -5,6 +5,8 @@ import Submissao from 'src/app/model/submissao';
 import Editor from 'src/app/model/editor';
 import ResultadoTestCase from 'src/app/model/resultadoTestCase';
 import { LoginService } from 'src/app/login-module/login.service';
+import { ErroCompilacao } from 'src/app/model/errors/analise-compilacao/erroCompilacao';
+import ErroCompilacaoFactory from 'src/app/model/errors/analise-compilacao/erroCompilacaoFactory';
 
 /**
  * Executa um javascript ide.js para acoplar o editor VStudio.
@@ -22,18 +24,19 @@ export class EditorProgramacaoComponent implements AfterViewInit {
   ngAfterViewInit(): void {
 
     this.editorCodigo = Editor.getInstance();
-    if(this.questao != null && this.questao.algoritmoInicial != null){
+    if (this.questao != null && this.questao.algoritmoInicial != null) {
       this.editorCodigo.codigo = this.questao.algoritmoInicial.join("\n");
-    }else{
+    } else {
       this.editorCodigo.codigo = ""
     }
-    
+
     let usuario = this.login.getUsuarioLogado();
     carregarIde(false, null, null, this.editorCodigo.codigo);
-    
+
   }
 
-
+  @Input()
+  console;
   @Input()
   questao;
   @Input()
@@ -116,11 +119,11 @@ export class EditorProgramacaoComponent implements AfterViewInit {
 
 
   executar() {
-    //this.pausaIde = true;
+    //this.pausaIde = true; // TODO: esse código está comentado, pois a função de pausar a IDE durante o envio não está funcionando.
 
-    this.prepararSubmissao();
+    let submissao = this.prepararSubmissao();
 
-    this.submissao.analisarErros();
+    //this.submissao.analisarErros(); // TODO: esse código está comentado, pois a função de analisar os erros do estudante estão com bugs.
 
     let httpOptions = {
       headers: new HttpHeaders({
@@ -128,65 +131,49 @@ export class EditorProgramacaoComponent implements AfterViewInit {
       })
     }
 
-    let _this = this;
 
-    this.submissao.save().subscribe(resultado => {
-      this.onSubmit.emit(this._submissao);
-      this.submissao = resultado;
-      if (this.submissao.hasErrors()) {
-        this.destacarErros(this.submissao);
-        this.onError.emit(this.submissao);
-      } else {
-        let tipoExecucao = ""
-        if (this.questao.testsCases.length != 0) {
-          tipoExecucao = "testes"
-        } else {
-          tipoExecucao = "execução"
-        }
 
-        let json = this.submissao.construirJson(this.questao, tipoExecucao);
+    /*if (this.submissao.hasErrors()) {
+      this.destacarErros(this.submissao);
+      this.onError.emit(this.submissao);
+    } else {*/
+    let tipoExecucao = Editor.getTipoExecucao(this.questao);
 
-        let url = "http://127.0.0.1:8000/codigo/"
-        this.http.post<any>(url, json, httpOptions).subscribe(resposta => { // TODO: mudar o endereço para o real
+    let json = submissao.construirJson(this.questao, tipoExecucao);
+
+    let url = "http://127.0.0.1:8000/codigo/"
+    this.http.post<any>(url, json, httpOptions).subscribe(resposta => { // TODO: mudar o endereço para o real
+
+  
+      submissao.processarRespostaServidor(resposta).subscribe(resultado=>{
+        this.submissao = resultado;
+        this.onSubmit.emit(this._submissao);
+        this.editorCodigo.limparCores();
+      })
+
+    }, err => {
+
+      // Construir objeto Console
+      // TODO: Fazer algo se for servidor fora do ar
+      if (err.error.mensagem == null) {
+        
+      }else{
+        submissao.processarErroServidor(err.error.mensagem).subscribe(resultado=>{
           
-          this.submissao.limparErroServidor();
-
-          if (tipoExecucao == "testes") {
-            this.submissao.resultadosTestsCases = ResultadoTestCase.construir(resposta.resultados);
-          }
-
-          this.submissao.saida = resposta.saida
-
-          this.submissao.save().subscribe(resultado => { // salva novamente, pois agora há dados sobre os resultadosTestsCases
-            this.submissao = resultado;
-            this.onSubmit.emit(this._submissao);
-          })
-
-
-          this.editorCodigo.limparCores();
-
-          
-
-        }, err => {
-
-
-          this.submissao.invalidar();
-          this.submissao.incluirErroServidor(err);
-          this.submissao.save().subscribe(resultado => {
-            this.submissao = resultado;
-            this.onSubmit.emit(this._submissao);
-            if (err.name != "HttpErrorResponse"){
-              this.destacarErros(this.submissao);
-            }
-            
-          })
-
-        }, () => {
-          //_this.pausaIde = false;
+          this.submissao = resultado;
+          this.destacarErros(this.submissao);
+          this.onError.emit(this._submissao);
         })
-
       }
+
+      
+
+    }, () => {
+      //_this.pausaIde = false;
     })
+
+    //}
+
 
   }
 
@@ -196,14 +183,8 @@ export class EditorProgramacaoComponent implements AfterViewInit {
   prepararSubmissao() {
 
     this.editorCodigo.codigo = editor.getValue();
-
-    if(this.submissao == null){
-      this.submissao = new Submissao(null, editor.getValue(), this.login.getUsuarioLogado(), this.questao)
-    }else{
-      this.submissao.codigo = this.editorCodigo.codigo;
-      this.submissao.questao = this.questao;
-      this.submissao.estudante = this.login.getUsuarioLogado();
-    }
+    let submissao = new Submissao(null, editor.getValue(), this.login.getUsuarioLogado(), this.questao)
+    return submissao;
   }
 
   /**

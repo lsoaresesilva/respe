@@ -12,6 +12,7 @@ import ErroEditor from 'src/app/model/erroEditor';
 
 import { FormBuilder } from '@angular/forms';
 import Submissao from 'src/app/model/submissao';
+import ConsoleEditor from 'src/app/model/consoleEditor';
 
 
 
@@ -25,10 +26,11 @@ export class ResponderQuestaoProgramacao implements OnInit {
 
   assunto;
 
+  consoleEditor;
+
   pausaIde;
   questao?;
   statusExecucao;
-  resultadosTestsCases;
   modoVisualizacao: boolean = false;
   submissao;
   dialogPedirAjuda: boolean = false;
@@ -41,7 +43,7 @@ export class ResponderQuestaoProgramacao implements OnInit {
   constructor(private route: ActivatedRoute, public login: LoginService, private router: Router, private formBuilder: FormBuilder, private elementRef: ElementRef, private _renderer: Renderer, private cdr: ChangeDetectorRef, private app: ApplicationRef, private zone: NgZone) {
     this.pausaIde = true;
     this.statusExecucao = "";
-    
+    this.console = new ConsoleEditor();
 
     // Para o editor colaborativo
     /*zone.runOutsideAngular(() => {
@@ -190,7 +192,6 @@ export class ResponderQuestaoProgramacao implements OnInit {
       _submissaoClone.erros = submissao.erros;
       _submissaoClone.resultadosTestsCases = submissao.resultadosTestsCases;
       _submissaoClone.saida = submissao.saida;
-      _submissaoClone.erroServidor = submissao.erroServidor;
       return _submissaoClone;
     }
 

@@ -1,5 +1,5 @@
 
-import Estudante from './errors/erroSintaxeFuncao'
+import Estudante from './errors/analise-pre-compilacao/erroSintaxeFuncao'
 import Erro from './errors/erro';
 import { Observable, forkJoin } from 'rxjs';
 import Submissao from './submissao';

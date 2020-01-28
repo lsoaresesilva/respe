@@ -1,11 +1,11 @@
 import ErroSintaxe from './erroSintaxe';
-import Erro from './erro';
-import { TipoErro } from '../tipoErro';
-import Estudante from '../estudante';
-import Submissao from '../submissao';
+import Erro from '../erro';
+import { TipoErro } from '../../tipoErro';
+import Estudante from '../../estudante';
+import Submissao from '../../submissao';
 import ErroSintaxeCondicional from './erroSintaxeCondiconal';
 import ErroSintaxeFuncao from './erroSintaxeFuncao';
-import { Util } from '../util';
+import { Util } from '../../util';
 
 export default class ErroSintaxeVariavel extends ErroSintaxe {
 
@@ -19,7 +19,7 @@ export default class ErroSintaxeVariavel extends ErroSintaxe {
 
 
 
-            if (ErroSintaxeVariavel.numeroDecimalComVirgula(linhaCodigo)) {
+            /*if (ErroSintaxeVariavel.numeroDecimalComVirgula(linhaCodigo)) {
                 erros.push(new Erro(null, numeroLinha, "Você declarou uma variável com número decimal e utilizou , (vírgula) quando deveria ter usado . (ponto). Erro na linha: " + numeroLinha, TipoErro.numeroDecimalComVirgula, submissao));
             }
 
@@ -29,12 +29,12 @@ export default class ErroSintaxeVariavel extends ErroSintaxe {
 
             if (ErroSintaxeVariavel.nomeVariavelComEspaco(linhaCodigo)) {
                 erros.push(new Erro(null, numeroLinha, "Você utilizou espaço no nome de uma variável e isso não é permitido. Erro na linha: " + numeroLinha, TipoErro.espacoNoNomeVariavel, submissao));
-            }
+            }*/
         }
 
         let variaveisNaoDeclaradas = ErroSintaxeVariavel.variaveisNaoDeclaradas(submissao);
         variaveisNaoDeclaradas.forEach(variavel => {
-            erros.push(new Erro(null, variavel.linha, "Você tentou utilizar a variável: '" + variavel.nome + "' que não foi criada. Erro na linha: " + variavel.linha, TipoErro.variavelNaoDeclarada, submissao));
+            //erros.push(new Erro(null, variavel.linha, "Você tentou utilizar a variável: '" + variavel.nome + "' que não foi criada. Erro na linha: " + variavel.linha, TipoErro.variavelNaoDeclarada, submissao));
         })
 
 

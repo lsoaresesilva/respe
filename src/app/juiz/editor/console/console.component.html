@@ -2,11 +2,9 @@
   <div *ngIf="submissao != null">
 
     <span *ngFor="let erro of submissao.erros" style="padding:20px;">
-      {{ erro.mensagem }}
+      {{ erro.getMensagem() }}
     </span>
-    <span *ngIf="submissao.erroServidor != null">
-      {{ submissao.erroServidor.mensagem }}
-    </span>
+    
     <p *ngFor="let s of submissao.saida">
       {{ s }}
     </p>

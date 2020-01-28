@@ -6,11 +6,13 @@ import Query from './firestore/query';
 import Usuario from './usuario';
 import ResultadoTestCase from './resultadoTestCase';
 import { Util } from './util';
-import ErroSintaxeVariavel from './errors/erroSintaxeVariavel';
-import ErroSintaxeCondicional from './errors/erroSintaxeCondiconal';
-import ErroSintaxeFuncao from './errors/erroSintaxeFuncao';
-import ErroServidor from './errors/erroServidor';
+import ErroSintaxeVariavel from './errors/analise-pre-compilacao/erroSintaxeVariavel';
+import ErroSintaxeCondicional from './errors/analise-pre-compilacao/erroSintaxeCondiconal';
+import ErroSintaxeFuncao from './errors/analise-pre-compilacao/erroSintaxeFuncao';
+import ErroServidor from './errors/analise-pre-compilacao/erroServidor';
 import { TipoErro } from './tipoErro';
+import ErroCompilacaoFactory from './errors/analise-compilacao/erroCompilacaoFactory';
+import { ErroCompilacao } from './errors/analise-compilacao/erroCompilacao';
 
 @Collection("submissoes")
 export default class Submissao extends Document {
@@ -23,8 +25,6 @@ export default class Submissao extends Document {
     resultadosTestsCases: ResultadoTestCase[];
     @ignore()
     saida
-    @ignore()
-    erroServidor;
 
     constructor(id, public codigo: string, estudante, questao) {
         super(id);
@@ -35,7 +35,7 @@ export default class Submissao extends Document {
 
     }
 
-    analisarErros() {
+    /*analisarErros() {
         this.erros = [];
         this.erros = this.erros.concat(ErroSintaxeVariavel.erros(this));
         this.erros = this.erros.concat(ErroSintaxeCondicional.erros(this));
@@ -50,7 +50,7 @@ export default class Submissao extends Document {
         }
 
         return false;
-    }
+    }*/
 
     objectToDocument() {
         let document = super.objectToDocument();
@@ -115,14 +115,7 @@ export default class Submissao extends Document {
     }*/
 
 
-    /**
-     * Invalida a submissão (informando que os resultados do testcase são falsos) quando há um erro no algoritmo.
-     */
-    invalidar() {
-        this.questao.testsCases.forEach(testCase => {
-            this.resultadosTestsCases.push(new ResultadoTestCase(null, false, null, testCase));
-        })
-    }
+    
 
     isComSucesso() {
         if (this.resultadosTestsCases != null && this.resultadosTestsCases.length > 0) {
@@ -251,7 +244,7 @@ export default class Submissao extends Document {
             super.get(id).subscribe(submissao => {
                 submissao["resultadosTestsCases"] = ResultadoTestCase.construir(submissao["resultadosTestsCases"]);
 
-                Erro.getAll(new Query("submissaoId", "==", submissao["id"])).subscribe(erros => {
+                ErroCompilacao.getAll(new Query("submissaoId", "==", submissao["id"])).subscribe(erros => {
                     submissao["erros"] = erros;
                 }, err => {
 
@@ -270,7 +263,7 @@ export default class Submissao extends Document {
             super.getAll(queries).subscribe(submissoes => {
                 let erros: any[] = [];
                 submissoes.forEach(submissao => {
-                    erros.push(Erro.getAll(new Query("submissaoId", "==", submissao.pk())));
+                    erros.push(ErroCompilacao.getAll(new Query("submissaoId", "==", submissao.pk())));
                     submissao.resultadosTestsCases = ResultadoTestCase.construir(submissao.resultadosTestsCases);
 
                 })
@@ -282,7 +275,7 @@ export default class Submissao extends Document {
                             if (erro["forEach"] != undefined) {
                                 erro["forEach"](e => {
                                     for (let i = 0; i < submissoes.length; i++) {
-                                        if (e.submissaoId == submissoes[i].id) {
+                                        if (e.submissao.pk() == submissoes[i].id) {
                                             submissoes[i].erros.push(e);
                                             break;
                                         }
@@ -322,20 +315,52 @@ export default class Submissao extends Document {
         return [];
     }
 
-    incluirErroServidor(erro){
-
-        let mensagem = ""
-
-        if (erro.name == "HttpErrorResponse" && erro.status == 0) {
-            mensagem = "O servidor está fora do ar."
-          } else if (erro.status == 500 && erro.error != undefined) {
-            mensagem = erro.error.mensagem;
-        }
-
-        this.erroServidor = new ErroServidor(null, -1, mensagem, TipoErro.erroServidor, this);
+    processarRespostaServidor(resposta){
+        return new Observable(observer=>{
+            this.resultadosTestsCases = ResultadoTestCase.construir(resposta.resultados);
+            this.saida = resposta.saida
+            this.save().subscribe(resultado => { // salva novamente, pois agora há dados sobre os resultadosTestsCases
+                observer.next(resultado);
+                observer.complete();
+                
+              })
+        })
     }
 
-    limparErroServidor(){
-        this.erroServidor = null;
+
+    /**
+     * Houve um erro de programação ao submeter o algoritmo, realiza os procedimentos adequados a partir disto.
+     * @param resposta 
+     */
+    processarErroServidor(resposta){
+        return new Observable(observer=>{
+            this.invalidarResultadosTestCases();
+            if(ErroCompilacao.isErro(resposta)){
+                let erroCompilacao = ErroCompilacaoFactory.construir(resposta, this);
+                if(erroCompilacao != null)
+                    this.erros.push(erroCompilacao);
+            }else{
+                // TODO: servidor fora do ar
+            }
+
+            this.save().subscribe(resultado=>{
+                observer.next(resultado);
+                observer.complete();
+            })
+            
+
+        })
+
+        
     }
+
+    /**
+     * Anula os testscases quando há um erro no algoritmo/servidor.
+     */
+    invalidarResultadosTestCases() {
+        this.questao.testsCases.forEach(testCase => {
+            this.resultadosTestsCases.push(new ResultadoTestCase(null, false, null, testCase));
+        })
+    }
+
 }

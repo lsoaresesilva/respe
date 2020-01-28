@@ -5,15 +5,10 @@ import { Component, OnInit, OnChanges, Input } from '@angular/core';
   templateUrl: './console.component.html',
   styleUrls: ['./console.component.css']
 })
-export class ConsoleComponent implements OnChanges {
+export class ConsoleComponent{
 
   @Input()
   submissao;
-  
-  ngOnChanges(changes: import("@angular/core").SimpleChanges): void {
-    //this.apresentarErros();
-    console.log("");
-  }
 
   constructor() { }
 

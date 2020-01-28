@@ -35,7 +35,8 @@
         <div class="p-col-12">
           <app-editor-programacao [modoVisualizacao]="modoVisualizacao" 
                                   [submissao]="submissao" 
-                                  [questao]="questao" [assunto]="assunto" 
+                                  [questao]="questao" 
+                                  [assunto]="assunto"
                                   (onError)="onEditorError($event)" 
                                   (onVisualization)="onVisualization($event)"
                                   (onSubmit)="onEditorSubmit($event)">

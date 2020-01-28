@@ -3,31 +3,36 @@ import { Document, Collection, ignore, date } from '../firestore/document';
 import Submissao from '../submissao';
 import { forkJoin, Observable } from 'rxjs';
 import Query from '../firestore/query';
+import { ErroCompilacao } from './analise-compilacao/erroCompilacao';
+import { CategoriaErro } from './enum/categoriasErro';
+import NameError from './analise-compilacao/nameError';
 
 
 @Collection("errosEstudantes")
-export default class Erro extends Document{
+export default abstract class Erro extends Document{
 
-    linha;
     @date()
     data;
     @ignore()
     mensagem
 
-    constructor(id, linha, mensagem, public tipo:TipoErro, public submissao:Submissao){
+    constructor(id, public traceback, public submissao:Submissao){
         super(id);
-        this.linha = linha;
-        this.mensagem = mensagem;
         
     }
 
     objectToDocument(){
         let document = super.objectToDocument();
-        document["submissaoId"] = this.submissao.pk();
+        if(this.submissao != null)
+            document["submissaoId"] = this.submissao.pk();
+        else{
+            document["submissaoId"] = this["submissaoId"];
+        }
         return document;
+
     }
 
-    
+   
 
     static getAllErrosEstudante(usuario){
 
@@ -66,8 +71,8 @@ export default class Erro extends Document{
                 if( primeiroErro == null )
                     primeiroErro = erro;
                 else{
-                    if(erro.linha < primeiroErro.linha)
-                        primeiroErro = erro
+                    //if(erro.linha < primeiroErro.linha)
+                    //    primeiroErro = erro
                 }
             })
         }

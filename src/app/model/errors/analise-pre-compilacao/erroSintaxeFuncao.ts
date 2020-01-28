@@ -1,8 +1,8 @@
 import ErroSintaxe from './erroSintaxe';
-import Erro from './erro';
-import { TipoErro } from '../tipoErro';
-import Estudante from '../estudante';
-import Submissao from '../submissao';
+import Erro from '../erro';
+import { TipoErro } from '../../tipoErro';
+import Estudante from '../../estudante';
+import Submissao from '../../submissao';
 import ErroSintaxeVariavel from './erroSintaxeVariavel';
 
 export default class ErroSintaxeFuncao extends ErroSintaxe {
@@ -16,7 +16,7 @@ export default class ErroSintaxeFuncao extends ErroSintaxe {
             let linhaCodigo = linhasCodigo[i];
 
 
-            if (ErroSintaxeFuncao.faltaParentese(linhaCodigo)) {
+            /*if (ErroSintaxeFuncao.faltaParentese(linhaCodigo)) {
                 erros.push(new Erro(null, numeroLinha, "Você esqueceu de um parêntesis na declaração/uso de uma função. Erro na linha: " + numeroLinha, TipoErro.faltaParentesis, submissao));
             }
 
@@ -26,7 +26,7 @@ export default class ErroSintaxeFuncao extends ErroSintaxe {
 
             if (ErroSintaxeFuncao.ausenciaDeDoisPontos(linhaCodigo)) {
                 erros.push(new Erro(null, numeroLinha, "Ao criar uma função é preciso incluir : (dois pontos) ao término da instrução. Por exemplo: def nome-funcao(): . Erro na linha: " + numeroLinha, TipoErro.faltaDoisPontosFuncao, submissao));
-            }
+            }*/
 
 
         }

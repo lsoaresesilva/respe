@@ -1,7 +1,7 @@
 import ErroSintaxe from './erroSintaxe';
-import Erro from './erro';
-import { TipoErro } from '../tipoErro';
-import Submissao from '../submissao';
+import Erro from '../erro';
+import { TipoErro } from '../../tipoErro';
+import Submissao from '../../submissao';
 import ErroSintaxeVariavel from './erroSintaxeVariavel';
 
 export default class ErroSintaxeCondicional extends ErroSintaxe {
@@ -16,7 +16,7 @@ export default class ErroSintaxeCondicional extends ErroSintaxe {
 
             // Se tiver mais de um operador matemático, então não deve fazer essa verificação
 
-            if (ErroSintaxeCondicional.apenasUmaComparacao(linhaCodigo)) {
+            /*if (ErroSintaxeCondicional.apenasUmaComparacao(linhaCodigo)) {
                 erros.push(new Erro(null, numeroLinha, "Em uma condição é preciso comparar um par de informações, mas você escreveu apenas um dado. Erro na linha: " + numeroLinha, TipoErro.parDadosComparacao, submissao));
             }
 
@@ -26,7 +26,7 @@ export default class ErroSintaxeCondicional extends ErroSintaxe {
 
             if (ErroSintaxeCondicional.ausenciaDeDoisPontos(linhaCodigo)) {
                 erros.push(new Erro(null, numeroLinha, "Em uma condição é preciso incluir : (dois pontos) ao término da instrução. Por exemplo: if idade > 18: . Erro na linha: " + numeroLinha, TipoErro.faltaDoisPontosCondicao, submissao));
-            }
+            }*/
         }
 
         return erros;

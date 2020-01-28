@@ -1,4 +1,3 @@
-import ErroFactory from './erroFactory';
 import { Observable } from 'rxjs';
 
 declare var Sk: any;
@@ -60,14 +59,14 @@ export default class PythonInterpreter{
                 observer.next();
                 observer.complete();
             }, function (err) {
-                let erro = ErroFactory.create(err.toString());
+                //let erro = ErroFactory.create(err.toString());
 
                 //envioCodigo.status = false;
                 //envioCodigo.erro = erro.toFireStore();
 
                 //_this.prepararSaidaErro(erro);
 
-                observer.next(erro);
+                observer.next();
                 observer.complete();
             });
         });

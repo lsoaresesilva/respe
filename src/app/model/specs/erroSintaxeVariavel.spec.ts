@@ -1,4 +1,4 @@
-import ErroSintaxeVariavel from "../errors/erroSintaxeVariavel";
+import ErroSintaxeVariavel from "../errors/analise-pre-compilacao/erroSintaxeVariavel";
 import Codigo from '../codigo';
 
 describe("Testes de análise de sintaxe para variáveis", ()=>{
