@@ -1,12 +1,6 @@
 import { ListagemPlanejamentoPage } from './listagem-planejamento.po';
 import { browser, by, protractor } from 'protractor';
 import { MainPage } from '../main/main.po';
-import LoginServiceMock from '../utility/login.service';
-import { Groups } from '../../../src/app/model/experimento/lib/enum/groups';
-import { Planejamento } from '../../../src/app/model/planejamento';
-import Usuario from '../../../src/app/model/usuario';
-import { PerfilUsuario } from '../../../src/app/model/enums/perfilUsuario';
-import { Assunto } from '../../../src/app/model/assunto';
 
 describe('Listagem planejamento', () => {
     let page: ListagemPlanejamentoPage;

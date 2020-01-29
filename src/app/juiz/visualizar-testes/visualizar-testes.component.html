@@ -1,4 +1,6 @@
-<button style="margin-bottom: 10px;" label="{{submissao.isComSucesso()?'Sucesso':'O algoritmo não está correto.'}}"
+<button style="margin-bottom: 10px;" 
+        id="statusExecucaoAlgoritmo"
+        label="{{submissao.isComSucesso()?'Sucesso':'O algoritmo não está correto.'}}"
       *ngIf="submissao != undefined && submissao.isComSucesso() != null" 
       [ngClass]="{'ui-button-success':submissao.isComSucesso(), 'ui-button-danger':!submissao.isComSucesso()}" pButton></button>
 

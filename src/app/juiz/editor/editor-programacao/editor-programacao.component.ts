@@ -123,56 +123,62 @@ export class EditorProgramacaoComponent implements AfterViewInit {
 
     let submissao = this.prepararSubmissao();
 
-    //this.submissao.analisarErros(); // TODO: esse código está comentado, pois a função de analisar os erros do estudante estão com bugs.
+    if (submissao.validar()) {
+      //this.submissao.analisarErros(); // TODO: esse código está comentado, pois a função de analisar os erros do estudante estão com bugs.
 
-    let httpOptions = {
-      headers: new HttpHeaders({
-        'Content-Type': 'application/json'
-      })
-    }
-
-
-
-    /*if (this.submissao.hasErrors()) {
-      this.destacarErros(this.submissao);
-      this.onError.emit(this.submissao);
-    } else {*/
-    let tipoExecucao = Editor.getTipoExecucao(this.questao);
-
-    let json = submissao.construirJson(this.questao, tipoExecucao);
-
-    let url = "http://127.0.0.1:8000/codigo/"
-    this.http.post<any>(url, json, httpOptions).subscribe(resposta => { // TODO: mudar o endereço para o real
-
-  
-      submissao.processarRespostaServidor(resposta).subscribe(resultado=>{
-        this.submissao = resultado;
-        this.onSubmit.emit(this._submissao);
-        this.editorCodigo.limparCores();
-      })
-
-    }, err => {
-
-      // Construir objeto Console
-      // TODO: Fazer algo se for servidor fora do ar
-      if (err.error.mensagem == null) {
-        
-      }else{
-        submissao.processarErroServidor(err.error.mensagem).subscribe(resultado=>{
-          
-          this.submissao = resultado;
-          this.destacarErros(this.submissao);
-          this.onError.emit(this._submissao);
+      let httpOptions = {
+        headers: new HttpHeaders({
+          'Content-Type': 'application/json'
         })
       }
 
-      
 
-    }, () => {
-      //_this.pausaIde = false;
-    })
 
-    //}
+      /*if (this.submissao.hasErrors()) {
+        this.destacarErros(this.submissao);
+        this.onError.emit(this.submissao);
+      } else {*/
+      let tipoExecucao = Editor.getTipoExecucao(this.questao);
+
+      let json = submissao.construirJson(this.questao, tipoExecucao);
+
+      let url = "http://127.0.0.1:8000/codigo/"
+      this.http.post<any>(url, json, httpOptions).subscribe(resposta => { // TODO: mudar o endereço para o real
+
+
+        submissao.processarRespostaServidor(resposta).subscribe(resultado => {
+          this.submissao = resultado;
+          this.onSubmit.emit(this._submissao);
+          this.editorCodigo.limparCores();
+        })
+
+      }, err => {
+
+        // Construir objeto Console
+        // TODO: Fazer algo se for servidor fora do ar
+        if (err.error.mensagem == null) {
+
+        } else {
+          submissao.processarErroServidor(err.error.mensagem).subscribe(resultado => {
+
+            this.submissao = resultado;
+            this.destacarErros(this.submissao);
+            this.onError.emit(this._submissao);
+          })
+        }
+
+
+
+      }, () => {
+        //_this.pausaIde = false;
+      })
+
+      //}
+
+    }else{
+      alert("Não há algoritmo a ser executado.")
+    }
+
 
 
   }

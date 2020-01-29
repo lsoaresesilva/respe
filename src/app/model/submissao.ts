@@ -363,4 +363,11 @@ export default class Submissao extends Document {
         })
     }
 
+    validar(){
+        if(this.codigo == "")
+            return false;
+
+        return true;
+    }
+
 }
