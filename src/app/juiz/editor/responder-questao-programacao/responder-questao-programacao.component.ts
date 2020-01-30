@@ -13,6 +13,7 @@ import ErroEditor from 'src/app/model/erroEditor';
 import { FormBuilder } from '@angular/forms';
 import Submissao from 'src/app/model/submissao';
 import ConsoleEditor from 'src/app/model/consoleEditor';
+import ErroServidor from 'src/app/model/errors/erroServidor';
 
 
 
@@ -26,7 +27,7 @@ export class ResponderQuestaoProgramacao implements OnInit {
 
   assunto;
 
-  consoleEditor;
+  consoleEditor:ConsoleEditor;
 
   pausaIde;
   questao?;
@@ -43,7 +44,7 @@ export class ResponderQuestaoProgramacao implements OnInit {
   constructor(private route: ActivatedRoute, public login: LoginService, private router: Router, private formBuilder: FormBuilder, private elementRef: ElementRef, private _renderer: Renderer, private cdr: ChangeDetectorRef, private app: ApplicationRef, private zone: NgZone) {
     this.pausaIde = true;
     this.statusExecucao = "";
-    this.console = new ConsoleEditor();
+    this.consoleEditor = new ConsoleEditor();
 
     // Para o editor colaborativo
     /*zone.runOutsideAngular(() => {
@@ -53,8 +54,6 @@ export class ResponderQuestaoProgramacao implements OnInit {
     })*/ 
 
   }
-
-  
 
   ngOnInit() {
 
@@ -105,12 +104,20 @@ export class ResponderQuestaoProgramacao implements OnInit {
 
   onEditorError(submissao) {
     this.submissao = this.prepararSubmissao(submissao);
+    this.consoleEditor.erroServidor = null;
+    this.consoleEditor.submissao = this.submissao;
   }
 
   onEditorSubmit(submissao) {
     
     this.submissao = this.prepararSubmissao(submissao);
-      
+    this.consoleEditor.erroServidor = null;
+    this.consoleEditor.submissao = this.submissao;
+  }
+
+  onServidorError(erroServidor){
+    let erro = ErroServidor.construir(erroServidor);
+    this.consoleEditor.erroServidor = erro;
   }
 
   onVisualization(visualizacao){

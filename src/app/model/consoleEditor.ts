@@ -8,6 +8,6 @@
 
  export default class ConsoleEditor{
 
-    errosCompilacao;
+    erroServidor;
     submissao;
  }

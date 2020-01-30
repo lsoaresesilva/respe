@@ -17,7 +17,7 @@ export class Questao {
   assuntos: any[];
   sequencia: number;
   testsCases: TestCase[];
-  algoritmoInicial;
+  algoritmoInicial = "";
 
   constructor(public id, nomeCurto, enunciado, dificuldade, sequencia, assuntos, testsCases, algoritmoInicial) {
     if (id == null)
@@ -41,7 +41,8 @@ export class Questao {
     document["nomeCurto"] = this.nomeCurto;
     document["enunciado"] = this.enunciado;
     document["dificuldade"] = this.dificuldade;
-    document["algoritmoInicial"] = this.algoritmoInicial;
+    if(this.algoritmoInicial != undefined)
+      document["algoritmoInicial"] = this.algoritmoInicial;
 
 
     if (this.assuntos != null && this.assuntos.length > 0) {
@@ -144,7 +145,7 @@ export class Questao {
   }
 
   /**
-     * Constrói objetos TestsCases a partir do atributo testsCases de uma questão (que é um array)
+     * Constrói objetos Questao a partir do atributo questoes de um assunto (que é um array)
      * @param testsCases 
      */
   static construir(questoes: any[]) {

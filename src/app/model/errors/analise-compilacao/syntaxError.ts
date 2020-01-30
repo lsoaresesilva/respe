@@ -11,7 +11,7 @@ export default class SyntaxError extends ErroCompilacao{
     
     
     getMensagem() {
-        return "Há um problema no seu código na linha "+this.linha+". As possíveis causas podem ser: 1) Você utilizou uma condição e está comparando as variáveis/valores com apenas uma igualdade."
+        return "Há um problema no seu código na linha "+this.linha+". As possíveis causas podem ser:<br/>1) Você utilizou uma condição e está comparando as variáveis/valores com apenas uma igualdade.; ou <br/>2) Você utilizou uma condição e não informou a variável/valor em uma comparação."
     }
 
 }

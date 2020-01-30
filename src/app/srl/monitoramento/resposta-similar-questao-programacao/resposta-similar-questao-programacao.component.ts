@@ -19,7 +19,7 @@ export class RespostaSimilarQuestaoProgramacaoComponent implements OnInit {
   
 
   constructor( private router: Router) {
-    this.questao= new Questao(null,null,null,null,null,null,null, null)
+    this.questao= new Questao(null,null,null,null,null,null,null, "")
     this.modeloRespostaQuestao= new ModeloRespostaQuestao (null,null,this.questao);
    }
 

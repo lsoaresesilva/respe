@@ -11,6 +11,8 @@
         <tr>
             <th>Entradas</th>
             <th>Saída esperada</th>
+            <th>Status</th>
+            <th>Saída algoritmo</th>
         </tr>
     </ng-template>
     <ng-template pTemplate="body" let-testCase let-i="rowIndex">
@@ -19,6 +21,18 @@
                 <app-apresentacao-entradas-testcase [entradas]="testCase.entradas"></app-apresentacao-entradas-testcase>
             </td>
             <td>{{testCase.saida}}</td>
+            <td>
+                <span *ngIf="submissao != null">
+                    {{testCase.resultado.status == true?"Correto":"Incorreto"}}
+                </span>
+            </td>
+            <td>
+                <div *ngIf="submissao != null">
+                    <span *ngFor="let resposta of testCase.resultado.respostaAlgoritmo">
+                        {{resposta}}<br />
+                    </span>
+                </div>
+            </td>
         </tr>
     </ng-template>
-  </p-table>
+</p-table>

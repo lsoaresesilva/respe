@@ -1,27 +1,3 @@
-<button style="margin-bottom: 10px;" 
-        id="statusExecucaoAlgoritmo"
-        label="{{submissao.isComSucesso()?'Sucesso':'O algoritmo não está correto.'}}"
-      *ngIf="submissao != undefined && submissao.isComSucesso() != null" 
-      [ngClass]="{'ui-button-success':submissao.isComSucesso(), 'ui-button-danger':!submissao.isComSucesso()}" pButton></button>
 
-<p-table [value]="testsCases">
-  <ng-template pTemplate="header">
-      <tr>
-          <th>Entradas</th>
-          <th>Saída esperada</th>
-          <th>Status</th>
-          <th>Resposta do algoritmo</th>
-      </tr>
-  </ng-template>
-  <ng-template pTemplate="body" let-testCase let-i="rowIndex">
-      <tr>
-          <td>
-              <app-apresentacao-entradas-testcase [entradas]="testCase.entradas"></app-apresentacao-entradas-testcase>
-          </td>
-          <td>{{testCase.saida}}</td>
-          <td >{{testCase.resultadoTestCase?.status == true?"Correto":"Incorreto"}}</td>
-          <td>{{testCase.resultadoTestCase?.respostaAlgoritmo}}</td>
-      </tr>
-  </ng-template>
-</p-table>
+
 

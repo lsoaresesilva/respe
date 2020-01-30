@@ -12,6 +12,7 @@ import ErroCompilacaoFactory from 'src/app/model/errors/analise-compilacao/erroC
  * Executa um javascript ide.js para acoplar o editor VStudio.
  */
 declare var editor: any;
+declare var monaco: any;
 declare function carregarIde(readOnly, callback, instance, codigo): any;
 
 @Component({
@@ -24,7 +25,8 @@ export class EditorProgramacaoComponent implements AfterViewInit {
   ngAfterViewInit(): void {
 
     this.editorCodigo = Editor.getInstance();
-    if (this.questao != null && this.questao.algoritmoInicial != null) {
+    if (this.questao != null && this.questao.algoritmoInicial != null && this.questao.algoritmoInicial != "" &&
+        Array.isArray(this.questao.algoritmo)) {
       this.editorCodigo.codigo = this.questao.algoritmoInicial.join("\n");
     } else {
       this.editorCodigo.codigo = ""
@@ -71,6 +73,8 @@ export class EditorProgramacaoComponent implements AfterViewInit {
   @Output()
   onSubmit: EventEmitter<any>;
   @Output()
+  onServidorError: EventEmitter<any>;
+  @Output()
   onVisualization: EventEmitter<any>;
 
 
@@ -78,6 +82,7 @@ export class EditorProgramacaoComponent implements AfterViewInit {
     this.onError = new EventEmitter();
     this.onSubmit = new EventEmitter();
     this.onVisualization = new EventEmitter();
+    this.onServidorError = new EventEmitter();
   }
 
   visualizarExecucacao(modoVisualizacao, trace) {
@@ -132,6 +137,9 @@ export class EditorProgramacaoComponent implements AfterViewInit {
         })
       }
 
+      var decorations = editor.deltaDecorations([], [
+        { range: new monaco.Range(1,1,1,16), options: { isWholeLine: true, linesDecorationsClassName: 'erro' }},
+    ]);
 
 
       /*if (this.submissao.hasErrors()) {
@@ -157,7 +165,7 @@ export class EditorProgramacaoComponent implements AfterViewInit {
         // Construir objeto Console
         // TODO: Fazer algo se for servidor fora do ar
         if (err.error.mensagem == null) {
-
+          this.onServidorError.emit(err);
         } else {
           submissao.processarErroServidor(err.error.mensagem).subscribe(resultado => {
 

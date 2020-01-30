@@ -54,6 +54,7 @@ function carregarIde(readOnly, callback=null, instance=null, codigo){
 
             });
 
+            
 
             // TODO: modificar para colocar em outra função exclusiva de comentário e só aparecer para comentários
             var div = document.getElementById('iconeNovoComentario');

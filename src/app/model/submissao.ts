@@ -9,7 +9,7 @@ import { Util } from './util';
 import ErroSintaxeVariavel from './errors/analise-pre-compilacao/erroSintaxeVariavel';
 import ErroSintaxeCondicional from './errors/analise-pre-compilacao/erroSintaxeCondiconal';
 import ErroSintaxeFuncao from './errors/analise-pre-compilacao/erroSintaxeFuncao';
-import ErroServidor from './errors/analise-pre-compilacao/erroServidor';
+import ErroServidor from './errors/erroServidor';
 import { TipoErro } from './tipoErro';
 import ErroCompilacaoFactory from './errors/analise-compilacao/erroCompilacaoFactory';
 import { ErroCompilacao } from './errors/analise-compilacao/erroCompilacao';
@@ -318,7 +318,7 @@ export default class Submissao extends Document {
     processarRespostaServidor(resposta){
         return new Observable(observer=>{
             this.resultadosTestsCases = ResultadoTestCase.construir(resposta.resultados);
-            this.saida = resposta.saida
+            //this.saida = resposta.saida
             this.save().subscribe(resultado => { // salva novamente, pois agora há dados sobre os resultadosTestsCases
                 observer.next(resultado);
                 observer.complete();
@@ -368,6 +368,44 @@ export default class Submissao extends Document {
             return false;
 
         return true;
+    }
+
+    getStatusTestCase(testCase){
+        if(this.resultadosTestsCases.length > 0){
+            let resultado = false;
+            for(let i = 0; i < this.resultadosTestsCases.length; i++){
+                if(this.resultadosTestsCases[i].testCase != null){
+                    if(this.resultadosTestsCases[i].testCase.id == testCase.id){
+                        resultado = this.resultadosTestsCases[i].status;
+                        break;
+                    }
+                        
+                }
+            }
+
+            return resultado;
+        }
+
+        return null;
+    }
+    
+    getResultadoTestcase(testCase){
+        if(this.resultadosTestsCases.length > 0){
+            let resultado = null;
+            for(let i = 0; i < this.resultadosTestsCases.length; i++){
+                if(this.resultadosTestsCases[i].testCase != null){
+                    if(this.resultadosTestsCases[i].testCase.id == testCase.id){
+                        resultado = this.resultadosTestsCases[i];
+                        break;
+                    }
+                        
+                }
+            }
+
+            return resultado;
+        }
+
+        return null;
     }
 
 }

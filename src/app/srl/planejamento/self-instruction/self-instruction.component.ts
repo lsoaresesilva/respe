@@ -24,7 +24,7 @@ export class SelfInstructionComponent implements OnInit {
   vetores;
 
   constructor(private route: ActivatedRoute, private router: Router, private login: LoginService) {
-    this.questao = new Questao(null, null, null, null, null, [], [], null);
+    this.questao = new Questao(null, null, null, null, null, [], [], "");
     this.msgs = [];
     this.condicoes = false;
     this.repeticoes = false;

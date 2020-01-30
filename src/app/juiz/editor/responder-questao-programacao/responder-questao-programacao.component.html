@@ -6,7 +6,7 @@
 
     <div class="p-col-12">
 
-      
+
       <ng-template *ngIf="login.getUsuarioLogado().grupoExperimento != 4">
         <button type="button" (click)="listarSubmissao()" pButton label="Visualizar resposta"
           lass="ui-button-secondary"></button>
@@ -27,30 +27,26 @@
 
 
     <div class="p-col-3">
-      <dados-questao [questao]="questao"></dados-questao>
+      <dados-questao [questao]="questao" [submissao]="submissao"></dados-questao>
     </div>
 
-    <div class="p-col-6">
+    <div class="p-col-9">
       <div class="p-grid">
         <div class="p-col-12">
-          <app-editor-programacao [modoVisualizacao]="modoVisualizacao" 
-                                  [submissao]="submissao" 
-                                  [questao]="questao" 
-                                  [assunto]="assunto"
-                                  (onError)="onEditorError($event)" 
-                                  (onVisualization)="onVisualization($event)"
-                                  (onSubmit)="onEditorSubmit($event)">
+          <app-editor-programacao [modoVisualizacao]="modoVisualizacao" [submissao]="submissao" [questao]="questao"
+            [assunto]="assunto" (onError)="onEditorError($event)" (onVisualization)="onVisualization($event)"
+            (onServidorError)="onServidorError($event)" (onSubmit)="onEditorSubmit($event)">
           </app-editor-programacao>
           <div *ngIf="modoVisualizacao==false" style="margin-top:10px;">
-            
-            <app-console [submissao]="submissao"></app-console>
+
+            <app-console [submissao]="submissao" [consoleEditor]="consoleEditor"></app-console>
           </div>
 
         </div>
       </div>
 
     </div>
-
+    <!-- PRECISA VER SE HAVERÁ ESSA COLUNA NO EDITOR. ELA SÓ FAZ SENTIDO EXISTIR POR CONTA DA VISUALIZAÇÃO DE ALGORITMOS, VER OUTRO LUGAR PARA COLOCAR.
     <div class="p-col-3">
       <div *ngIf="modoVisualizacao  == false; else visualizacao">
         <app-visualizar-testes [testsCases]="questao.testsCases"
@@ -62,6 +58,7 @@
         </visualizar-execucao>
       </ng-template>
     </div>
+    -->
   </div>
 </div>
 <ng-template #loading>Carregando questão...</ng-template>
