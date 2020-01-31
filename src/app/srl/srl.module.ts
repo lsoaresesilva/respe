@@ -41,6 +41,11 @@ import { CardErrosProgramacaoPizzaComponent } from './monitoramento/card-erros-p
 import { CardHistoricoErrosComponent } from './monitoramento/card-historico-erros/card-historico-erros.component';
 import {MessagesModule} from 'primeng/messages';
 import {MessageModule} from 'primeng/message';
+import { TipsRegulacaoComponent } from './monitoramento/tips-regulacao/tips-regulacao.component';
+
+import { EscapeHtmlPipe } from '../pipes/keep-html.pipe';
+import { SharedPipesModule } from '../pipes/shared-pipes.module';
+
 
 @NgModule({
   declarations: [
@@ -59,7 +64,8 @@ import {MessageModule} from 'primeng/message';
     PercentualErrorQuotientComponent,
     CardDesempenhoComponent,
     CardErrosProgramacaoPizzaComponent,
-    CardHistoricoErrosComponent
+    CardHistoricoErrosComponent,
+    TipsRegulacaoComponent,
   ],
   imports: [
     MessagesModule,
@@ -89,10 +95,11 @@ import {MessageModule} from 'primeng/message';
     ChartModule,
     DialogModule,
     CardModule,
-    ContextMenuModule
+    ContextMenuModule,
+    SharedPipesModule
   ],
   providers:[],
-  exports:[RiscoEstudanteComponent, PercentualErrorQuotientComponent]
+  exports:[RiscoEstudanteComponent, PercentualErrorQuotientComponent, TipsRegulacaoComponent]
 
 })
 export class SrlModule { }

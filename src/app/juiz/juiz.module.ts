@@ -62,6 +62,7 @@ import { ConsoleComponent } from './editor/console/console.component';
 import { BreadcrumbAssuntoComponent } from './breadcrumb-assunto/breadcrumb-assunto.component';
 import { ApresentacaoEntradasTestcaseComponent } from './apresentacao-entradas-testcase/apresentacao-entradas-testcase.component';
 import { EscapeHtmlPipe } from '../pipes/keep-html.pipe';
+import { SharedPipesModule } from '../pipes/shared-pipes.module';
 
 @NgModule({
   declarations: [
@@ -89,8 +90,7 @@ import { EscapeHtmlPipe } from '../pipes/keep-html.pipe';
     ResponderQuestaoProgramacaoLiteComponent,
     ConsoleComponent,
     BreadcrumbAssuntoComponent,
-    ApresentacaoEntradasTestcaseComponent,
-    EscapeHtmlPipe
+    ApresentacaoEntradasTestcaseComponent
   ],
 
 
@@ -119,11 +119,8 @@ import { EscapeHtmlPipe } from '../pipes/keep-html.pipe';
     FieldsetModule,
     InputMaskModule,
     ConfirmDialogModule,
-    ScrollPanelModule
-
-    
-    
-    
+    ScrollPanelModule,
+    SharedPipesModule
   ],
   exports:[
     VisualizarTestesComponent,

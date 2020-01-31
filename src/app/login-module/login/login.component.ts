@@ -23,6 +23,7 @@ export class LoginComponent implements OnInit {
 
   ngOnInit() {
   }
+  
   loginIncorreto(){
     this.messageService.add({severity:'success', summary:'Inválido!', detail:'Usuário ou senha inválidos'});
   }

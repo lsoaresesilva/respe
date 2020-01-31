@@ -1,0 +1,3 @@
+<p-dialog header="Você sabia?" [(visible)]="display" *ngIf="tip != null" [style]="{width: '500px'}"[modal]="true">
+  <span [innerHTML]="tip.texto | keepHtml"></span>
+</p-dialog>

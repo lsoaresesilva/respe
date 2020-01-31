@@ -26,6 +26,7 @@ import { AngularFirestoreModule } from '@angular/fire/firestore';
 import { AngularFireAuthModule } from '@angular/fire/auth';
 import { environment } from '../environments/environment';
 import { EscapeHtmlPipe } from './pipes/keep-html.pipe';
+import { SharedPipesModule } from './pipes/shared-pipes.module';
 
 
 
@@ -35,11 +36,12 @@ import { EscapeHtmlPipe } from './pipes/keep-html.pipe';
   schemas: [ CUSTOM_ELEMENTS_SCHEMA ],
   declarations: [
     AppComponent,
-    MainComponent,
+    MainComponent
     
 
   ],
   imports: [
+    JuizModule,
     LivroModule,
     TurmaModule,
     ExperimentoModule,
@@ -58,12 +60,13 @@ import { EscapeHtmlPipe } from './pipes/keep-html.pipe';
     BrowserAnimationsModule,
     AngularFireAuthModule,
     //AngularFireModule.initializeApp(environment.firebase),
-    
+    SharedPipesModule
 
    
   ],
   providers: [AuthGuard,TurmaGuard,MessageService],
-  bootstrap: [AppComponent]
+  bootstrap: [AppComponent],
+  exports:[EscapeHtmlPipe]
 })
 export class AppModule { }
 

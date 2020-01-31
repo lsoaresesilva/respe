@@ -9,6 +9,7 @@ import {InputTextModule} from 'primeng/inputtext';
 import {CardModule} from 'primeng/card';
 import { ToastModule } from 'primeng/toast';
 import { config } from 'process';
+import { SrlModule } from '../srl/srl.module';
 
 
 @NgModule({
@@ -22,7 +23,8 @@ import { config } from 'process';
     InputTextModule,
     CardModule,
     ToastModule,
-    ButtonModule
+    ButtonModule,
+    SrlModule
   
 
 
