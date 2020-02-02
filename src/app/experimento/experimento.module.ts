@@ -5,16 +5,21 @@ import { QuestaoComponent } from './questao/questao.component';
 import { ButtonModule } from 'primeng/button';
 import { FieldsetModule, RadioButtonModule } from 'primeng/primeng';
 import {DialogModule} from 'primeng/dialog';
+import { QuestionarioAutorregulacaoComponent } from './questionario-autorregulacao/questionario-autorregulacao.component';
+import { FormsModule } from '@angular/forms';
+import {ScrollPanelModule} from 'primeng/scrollpanel';
 
 @NgModule({
-  declarations: [PreTesteComponent, QuestaoComponent],
+  declarations: [PreTesteComponent, QuestaoComponent, QuestionarioAutorregulacaoComponent],
   imports: [
     CommonModule,
     ButtonModule,
     FieldsetModule,
     RadioButtonModule,
-    DialogModule
+    DialogModule,
+    FormsModule,
+    ScrollPanelModule
   ],
-  exports: [PreTesteComponent]
+  exports: [QuestionarioAutorregulacaoComponent]
 })
 export class ExperimentoModule { }

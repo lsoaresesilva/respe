@@ -1,6 +1,6 @@
 import { Component, OnInit, Input } from '@angular/core';
-import QuestaoExperimento from 'src/app/model/experimento/questaoExperimento';
-import { RespostaQuestaoExperimento } from 'src/app/model/experimento/respostaQuestaoExperimento';
+import QuestaoExperimento from 'src/app/model/experimento/old_check_to_delete/questaoExperimento';
+import { RespostaQuestaoExperimento } from 'src/app/model/experimento/old_check_to_delete/respostaQuestaoExperimento';
 import { forkJoin } from 'rxjs';
 
 @Component({

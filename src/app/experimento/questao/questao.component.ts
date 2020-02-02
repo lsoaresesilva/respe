@@ -1,6 +1,6 @@
 import { Component, OnInit, Input, Output } from '@angular/core';
 import { Questao } from 'src/app/model/questao';
-import { RespostaQuestaoExperimento } from 'src/app/model/experimento/respostaQuestaoExperimento';
+import { RespostaQuestaoExperimento } from 'src/app/model/experimento/old_check_to_delete/respostaQuestaoExperimento';
 import { LoginService } from 'src/app/login-module/login.service';
 
 @Component({
