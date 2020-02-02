@@ -3,9 +3,7 @@ import { MenuItem } from 'primeng/primeng';
 
 @Component({
   selector: 'app-visualizar-testes-cases',
-  templateUrl: './visualizar-testes-cases.component.html',
-  styleUrls: ['./visualizar-testes-cases.component.css']
-})
+  templateUrl: './visualizar-testes-cases.component.html'})
 export class VisualizarTestesCasesComponent implements OnInit {
 
   @Input("testesCases") testesCases: any;
