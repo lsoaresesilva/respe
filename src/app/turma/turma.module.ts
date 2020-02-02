@@ -28,7 +28,7 @@ import { EnviarMaterialComponent } from './enviar-material/enviar-material.compo
 
 
 @NgModule({
-  declarations: [ListarTurmaComponent, ListarTurmaProfessorComponent, ListarTurmaComponent, VisualizarTurmaComponent, CadastrarEstudantesComponent, CadastrarTurmaComponent, ListarEstudantesComponent, EnvioMaterialComponent, ListarMateriaisComponent],
+  declarations: [EnviarMaterialComponent, ListarProfessoresComponent, ListarTurmaComponent, ListarTurmaProfessorComponent, ListarTurmaComponent, VisualizarTurmaComponent, CadastrarEstudantesComponent, CadastrarTurmaComponent, ListarEstudantesComponent, EnvioMaterialComponent, ListarMateriaisComponent],
 
 
 
