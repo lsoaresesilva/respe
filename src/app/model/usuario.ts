@@ -3,8 +3,8 @@ import { Observable } from 'rxjs';
 import Query from './firestore/query';
 import { PerfilUsuario } from './enums/perfilUsuario';
 import { sha256 } from 'js-sha256';
-import Experiment from './experimento/lib/experiment';
-import { Groups } from './experimento/lib/enum/groups';
+import Experiment from './experimento/experiment';
+import { Groups } from './experimento/groups';
 import EstudanteTurma from './estudanteTurma';
 import Turma from './turma';
 

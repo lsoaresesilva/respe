@@ -7,10 +7,10 @@ import geradorCodigo from 'src/app/util/geradorCodigo';
 import GeradorCodigo from 'src/app/util/geradorCodigo';
 import EstudanteTurma from 'src/app/model/estudanteTurma';
 import Query from 'src/app/model/firestore/query';
-import { RespostaQuestaoExperimento } from 'src/app/model/experimento/respostaQuestaoExperimento';
+import { RespostaQuestaoExperimento } from 'src/app/model/experimento/old_check_to_delete/respostaQuestaoExperimento';
 import { PreTesteComponent } from 'src/app/experimento/pre-teste/pre-teste.component';
-import PosTeste from 'src/app/model/experimento/posTeste';
-import { Groups } from 'src/app/model/experimento/lib/enum/groups';
+import PosTeste from 'src/app/model/experimento/old_check_to_delete/posTeste';
+import { Groups } from 'src/app/model/experimento/groups';
 import { PerfilUsuario } from 'src/app/model/enums/perfilUsuario';
 
 @Component({

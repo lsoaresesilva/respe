@@ -4,7 +4,7 @@ import { MainPage } from '../main/main.po';
 import JasmineExpect from "jasmine-expect";
 import LoginServiceMock from '../utility/login.service';
 import { LoginService } from 'src/app/login-module/login.service';
-import { Groups } from '../../../src/app/model/experimento/lib/enum/groups';
+import { Groups } from '../../../src/app/model/experimento/groups';
 
 describe('Testes na página Self-instruction', () => {
     let page: SelfInstructionPage;

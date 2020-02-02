@@ -8,7 +8,7 @@ import { AngularFireModule, FirebaseApp } from '@angular/fire';
 import { FirebaseConfiguracao } from '../../../src/environments/firebase';
 import { BrowserDynamicTestingModule, platformBrowserDynamicTesting } from '@angular/platform-browser-dynamic/testing';
 import DocumentFirestoreTest from '../utility/document';
-import { Groups } from '../../../src/app/model/experimento/lib/enum/groups';
+import { Groups } from '../../../src/app/model/experimento/groups';
 
 browser.waitForAngularEnabled(false);
 

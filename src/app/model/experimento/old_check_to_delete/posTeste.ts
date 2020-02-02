@@ -1,10 +1,10 @@
 import { RespostaQuestaoExperimento } from './respostaQuestaoExperimento';
-import Usuario from '../usuario';
-import Query from '../firestore/query';
+import Usuario from '../../usuario';
+import Query from '../../firestore/query';
 import { Observable, forkJoin } from 'rxjs';
 import QuestaoExperimento from './questaoExperimento';
 import { TipoQuestaoExperimento } from './tipoQuestaoExperimento';
-import { Util } from '../util';
+import { Util } from '../../util';
 
 export default class PosTeste {
 

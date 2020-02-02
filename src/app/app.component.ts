@@ -1,7 +1,7 @@
 import { Component, OnDestroy } from '@angular/core';
 import Usuario from './model/usuario';
-import Experiment from './model/experimento/lib/experiment';
-import { configuracao } from './model/experimento/lib/config';
+import Experiment from './model/experimento/experiment';
+import { configuracao } from './model/experimento/old_check_to_delete/config';
 
 @Component({
   selector: 'app-root',

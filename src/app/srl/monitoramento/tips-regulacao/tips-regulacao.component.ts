@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { LoginService } from 'src/app/login-module/login.service';
-import { Groups } from 'src/app/model/experimento/lib/enum/groups';
+import { Groups } from 'src/app/model/experimento/groups';
 import TipAutorregulacao from 'src/app/model/srl/tipAutorregulacao';
 
 @Component({

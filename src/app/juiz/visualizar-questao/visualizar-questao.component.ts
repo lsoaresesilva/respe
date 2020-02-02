@@ -6,7 +6,7 @@ import Submissao from 'src/app/model/submissao';
 import { Menu } from 'primeng/primeng';
 import { Assunto } from 'src/app/model/assunto';
 import { LoginService } from 'src/app/login-module/login.service';
-import { Groups } from 'src/app/model/experimento/lib/enum/groups';
+import { Groups } from 'src/app/model/experimento/groups';
 
 @Component({
   selector: 'app-visualizar-questao',

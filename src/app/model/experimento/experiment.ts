@@ -1,5 +1,5 @@
-import { Groups } from './enum/groups';
-import { ExperimentType } from './enum/experimentType';
+import { Groups } from './groups';
+import { ExperimentType } from './experimentType';
 
 export default class Experiment {
 

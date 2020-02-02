@@ -1,9 +1,9 @@
-import { Document, Collection, date } from '../firestore/document';
-import Usuario from '../usuario';
-import Query from '../firestore/query';
+import { Document, Collection, date } from '../../firestore/document';
+import Usuario from '../../usuario';
+import Query from '../../firestore/query';
 import QuestaoExperimento from './questaoExperimento';
 import { Observable } from 'rxjs';
-import { Util } from '../util';
+import { Util } from '../../util';
 
 @Collection("respostasExperimento")
 export class RespostaQuestaoExperimento extends Document{

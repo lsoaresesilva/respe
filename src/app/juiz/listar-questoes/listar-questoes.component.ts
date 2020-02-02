@@ -7,7 +7,7 @@ import TestCase from 'src/app/model/testCase';
 import { Router, ActivatedRoute } from '@angular/router';
 import Usuario from 'src/app/model/usuario';
 import { LoginService } from '../../login-module/login.service';
-import { Groups } from 'src/app/model/experimento/lib/enum/groups';
+import { Groups } from 'src/app/model/experimento/groups';
 
 @Component({
   selector: 'app-listar-questoes',

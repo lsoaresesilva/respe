@@ -1,5 +1,5 @@
-import { Collection, Document } from '../firestore/document';
-import Alternativa from '../alternativa';
+import { Collection, Document } from '../../firestore/document';
+import Alternativa from '../../alternativa';
 import { TipoQuestaoExperimento } from './tipoQuestaoExperimento';
 
 @Collection("questoesExperimento")

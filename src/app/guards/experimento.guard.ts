@@ -3,7 +3,7 @@ import { CanActivate } from '@angular/router/src/utils/preactivation';
 import { CanLoad, ActivatedRouteSnapshot, Router, RouterStateSnapshot } from '@angular/router';
 import { LoginService } from '../login-module/login.service';
 import { Observable } from 'rxjs';
-import { Groups } from '../model/experimento/lib/enum/groups';
+import { Groups } from '../model/experimento/groups';
 
 @Injectable({
   providedIn: 'root'
