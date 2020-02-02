@@ -12,10 +12,9 @@ import Usuario from 'src/app/model/usuario';
   styleUrls: ['./visualizar-submissao-questao.component.css']
 })
 export class VisualizarSubmissaoQuestaoComponent implements OnInit {
- private submissao;
- private usuario;
- private questao;
- private  dataFormatada;
+ submissao;
+ usuario;
+ dataFormatada;
  
   constructor(private messageService: MessageService,private router:Router, public login:LoginService,private route: ActivatedRoute) {
     this.submissao= new Submissao (null,null,null,[]);

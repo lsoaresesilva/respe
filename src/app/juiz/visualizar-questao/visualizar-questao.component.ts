@@ -18,11 +18,8 @@ export class VisualizarQuestaoComponent implements OnInit {
 
 
   @Input()
-  private questao?;
-  private id: number;
-  private sub: any;
-  private assunto;
-  private questoes = [];
+  questao?;
+  assunto;
 
 
   constructor(private route: ActivatedRoute, private router: Router, private loginService:LoginService) {

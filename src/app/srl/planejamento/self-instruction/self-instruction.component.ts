@@ -14,9 +14,9 @@ import { Assuntos } from 'src/app/model/enums/assuntos';
 export class SelfInstructionComponent implements OnInit {
 
 
-  private autoInstrucao:AutoInstrucao;
-  private questao;
-  private assunto;
+  autoInstrucao:AutoInstrucao;
+  questao;
+  assunto;
   msgs;
   condicoes;
   repeticoes;

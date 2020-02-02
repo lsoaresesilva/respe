@@ -22,6 +22,7 @@ export class ComentariosCodigoComponent implements OnInit {
   visibilidade:boolean;
   linhaComentario;
   submissao;
+  questao;
 
 
   constructor(private activatedRoute:ActivatedRoute, private login:LoginService) {

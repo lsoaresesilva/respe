@@ -15,29 +15,21 @@ import Query from 'src/app/model/firestore/query';
 export class VisualizarPerfilEstudanteComponent implements OnInit {
   @Input("assunto") assunto?;
   estudante;
-  id: any;
-  questao;
   questoes : Questao [] = [];
   submissoes: any[];
-  private usuario;
   respostaUsuario;
   
 
 
   constructor(private route: ActivatedRoute, private login:LoginService) {
     this.estudante = new Usuario(null,null,null,null, null); 
-    this.usuario = this.login.getUsuarioLogado();
-    
-   
-    
   }
 
   ngOnInit() {
     this.route.params.subscribe(params => {
-      this.id = params['id'];
-    Usuario.get(this.id).subscribe (estudante =>{this.estudante = estudante
+    Usuario.get(params['id']).subscribe (estudante =>{this.estudante = estudante
       });
-      Submissao.getAll (new Query("estudanteId", "==", this.id)).subscribe (resultado => {
+      Submissao.getAll (new Query("estudanteId", "==", params['id'])).subscribe (resultado => {
         this.submissoes = resultado;
         this.buscarQuestoes(resultado); 
       })
@@ -48,7 +40,7 @@ export class VisualizarPerfilEstudanteComponent implements OnInit {
   
   porcetagemEstudante(questoes){
     questoes.forEach(questao =>{
-      Questao.isFinalizada(questao, this.usuario).subscribe(porcentagem=>{
+      Questao.isFinalizada(questao, this.login.getUsuarioLogado()).subscribe(porcentagem=>{
         //questao.respostaUsuario = porcentagem;
       });
     })

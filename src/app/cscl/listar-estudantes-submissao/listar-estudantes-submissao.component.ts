@@ -14,7 +14,7 @@ import { LoginService } from 'src/app/login-module/login.service';
 })
 export class ListarEstudantesSubmissaoComponent implements OnInit {
 
-  private submissoesDaQuestao;
+  submissoesDaQuestao;
   msgs = [{severity:'info', summary:'Precisando de ajuda?', detail:'Listamos abaixo algoritmos criados por outros estudantes e que estão implementados corretamente. Caso não consiga resolver a questão, utilize-os como aprendizado.'}]
 
   constructor(private router: Router, private route: ActivatedRoute, private login: LoginService) {

@@ -1,6 +1,6 @@
 <h3> <p>{{estudante.nome}}</p> </h3>
 <p-toast [style]="{marginTop: '80px'}"></p-toast>
-<p-table [value]="questoes"[contextMenu]="cm">
+<p-table [value]="questoes">
     <ng-template pTemplate="header">
         <tr>
             <th>Questão</th>
@@ -18,4 +18,3 @@
         </tr>
     </ng-template>
 </p-table>
-<p-contextMenu #cm [model]="items"></p-contextMenu>
