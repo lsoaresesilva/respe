@@ -22,6 +22,8 @@ declare function carregarIde(readOnly, callback, instance, codigo): any;
 })
 export class EditorProgramacaoComponent implements AfterViewInit {
 
+  URL = "http://35.193.38.224:8000/";
+
   ngAfterViewInit(): void {
 
     this.editorCodigo = Editor.getInstance();
@@ -106,7 +108,7 @@ export class EditorProgramacaoComponent implements AfterViewInit {
         // TODO: definir um timedout
         let json = this.submissao.construirJson(this.questao, "visualização");
 
-        this.http.post("http://127.0.0.1:8000/codigo/", json, httpOptions).subscribe(resposta => {
+        this.http.post(this.URL+"codigo/", json, httpOptions).subscribe(resposta => {
 
           let respostaParser: string = String(resposta).replace("script str", "")
 
@@ -150,7 +152,7 @@ export class EditorProgramacaoComponent implements AfterViewInit {
 
       let json = submissao.construirJson(this.questao, tipoExecucao);
 
-      let url = "http://127.0.0.1:8000/codigo/"
+      let url = this.URL+"codigo/"
       this.http.post<any>(url, json, httpOptions).subscribe(resposta => { // TODO: mudar o endereço para o real
 
 
