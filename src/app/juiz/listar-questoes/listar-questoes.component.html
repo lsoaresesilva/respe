@@ -1,30 +1,19 @@
 <p-toast [style]="{marginTop: '80px'}" position="top-right"></p-toast>
 
 
-    <p-table [value]="questoes" [(contextMenuSelection)]="selectedQuestao" [contextMenu]="cm" autoLayout="true">
-        <ng-template pTemplate="header">
-            <tr>
-                <th>Questões Programação</th>
-                <th>Status de conclusão</th>
-            </tr>
-        </ng-template>
-        <ng-template pTemplate="body" let-rowData let-questao>
-            <tr [pContextMenuRow]="rowData">
-                <td (click)="visualizar(questao)" style="cursor: pointer">{{questao.nomeCurto}}</td>
-                <td>{{statusQuestoes[questao.id] | async}}%</td>
-            </tr>
-        </ng-template>
-    </p-table>
+<p-table id="tabelaQuestoesProgramacao" [value]="questoes" [(contextMenuSelection)]="selectedQuestao" [contextMenu]="cm" autoLayout="true">
+    <ng-template pTemplate="header">
+        <tr>
+            <th>Questões Programação</th>
+            <th id="statusQuestoesProgramacao">Status de conclusão</th>
+        </tr>
+    </ng-template>
+    <ng-template pTemplate="body" let-rowData let-questao>
+        <tr [pContextMenuRow]="rowData">
+            <td (click)="visualizar(questao)" style="cursor: pointer">{{questao.nomeCurto}}</td>
+            <td>{{statusQuestoes[questao.id] | async}}%</td>
+        </tr>
+    </ng-template>
+</p-table>
 
-<p-contextMenu #cm [model]="items"  ></p-contextMenu>
-    
-
-
-
-
-
-
-
-
-
-
+<p-contextMenu #cm [model]="items"></p-contextMenu>

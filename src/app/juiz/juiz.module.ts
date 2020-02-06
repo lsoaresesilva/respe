@@ -53,7 +53,7 @@ import {ScrollPanelModule} from 'primeng/scrollpanel';
 import { CsclModule } from '../cscl/cscl.module';
 import { ListarTurmaProfessorComponent } from '../turma/listar-turma-professor/listar-turma-professor.component';
 import { ListarProfessoresComponent } from '../turma/listar-professores/listar-professores.component';
-
+import {PanelModule} from 'primeng/panel';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import {CodeHighlighterModule} from 'primeng/codehighlighter';
 import { EditorProgramacaoComponent } from './editor/editor-programacao/editor-programacao.component';
@@ -97,6 +97,7 @@ import { SharedPipesModule } from '../pipes/shared-pipes.module';
   imports: [
     CommonModule,
     TableModule,
+    PanelModule,
     ButtonModule,
     DropdownModule,
     FormsModule,

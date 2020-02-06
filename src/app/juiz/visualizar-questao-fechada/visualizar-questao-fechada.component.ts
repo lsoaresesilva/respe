@@ -16,16 +16,16 @@ import { DomSanitizer } from '@angular/platform-browser';
 })
 export class VisualizarQuestaoFechadaComponent implements OnInit {
 
-  @Input("questao") questao;
-  private respostaQuestaoFechada;
-  private mostrar;
-  private respostaUsuarioBanco;
-  private usuario;
-  private id;
+  @Input() 
+  questao;
+  
+  respostaQuestaoFechada;
+  mostrar;
+  respostaUsuarioBanco;
+  assunto;
 
   constructor(private sanitizer: DomSanitizer, private route: ActivatedRoute, private router: Router, private login: LoginService, private messageService: MessageService, private confirmationService: ConfirmationService) {
    
-    this.usuario = login.getUsuarioLogado();
     this.respostaQuestaoFechada = new RespostaQuestaoFechada(null, this.login.getUsuarioLogado(), null, this.questao);
   }
 
@@ -57,16 +57,15 @@ export class VisualizarQuestaoFechadaComponent implements OnInit {
 
     if(this.questao == null){
       this.route.params.subscribe(params => {
-        this.id = params["questaoId"]
         if (params["assuntoId"] != undefined && params["questaoId"] != undefined) {
           
           
           
           Assunto.get(params["assuntoId"]).subscribe(assunto => {
-            
+            this.assunto = assunto;
             if (assunto["questoesFechadas"] != undefined && assunto["questoesFechadas"].length > 0) {
               this.questao = assunto["getQuestaoFechadaById"](params["questaoId"]);
-              RespostaQuestaoFechada.getRespostaQuestaoEstudante(this.questao, this.usuario).subscribe(respostaUsuario => {
+              RespostaQuestaoFechada.getRespostaQuestaoEstudante(this.questao, this.login.getUsuarioLogado()).subscribe(respostaUsuario => {
                 this.respostaUsuarioBanco = respostaUsuario
           
                 if (respostaUsuario != null) {

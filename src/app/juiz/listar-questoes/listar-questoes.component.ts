@@ -1,4 +1,4 @@
-import { Component, OnInit, Input, OnChanges } from '@angular/core';
+import { Component, OnInit, Input, OnChanges, AfterViewInit } from '@angular/core';
 import { Assunto } from 'src/app/model/assunto';
 import { MenuItem } from 'primeng/components/common/menuitem';
 import { MessageService } from 'primeng/api';
@@ -8,13 +8,17 @@ import { Router, ActivatedRoute } from '@angular/router';
 import Usuario from 'src/app/model/usuario';
 import { LoginService } from '../../login-module/login.service';
 import { Groups } from 'src/app/model/experimento/groups';
+import { ApresentacaoService } from 'src/app/geral-module/apresentacao.service';
 
 @Component({
   selector: 'app-listar-questoes',
   templateUrl: './listar-questoes.component.html',
   styleUrls: ['./listar-questoes.component.css']
 })
-export class ListarQuestoesComponent implements OnInit, OnChanges {
+export class ListarQuestoesComponent implements OnInit, OnChanges, AfterViewInit {
+  ngAfterViewInit(): void {
+    this.apresentacao.apresentarAssunto(this.usuario);
+  }
   ngOnChanges(changes: import("@angular/core").SimpleChanges): void {
     this.isQuestaoFinalizada();
   }
@@ -28,7 +32,7 @@ export class ListarQuestoesComponent implements OnInit, OnChanges {
   questoes:Questao[]=[];
   statusQuestoes: any[];
 
-  constructor(private messageService: MessageService, private router: Router, private login: LoginService) {
+  constructor(private messageService: MessageService, private router: Router, private login: LoginService, private apresentacao:ApresentacaoService) {
     this.statusQuestoes = [];
   }
 

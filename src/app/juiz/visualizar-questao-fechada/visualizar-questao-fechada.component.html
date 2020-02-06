@@ -1,6 +1,9 @@
 <p-toast></p-toast>
 
 <div *ngIf="questao != undefined">
+
+  <app-breadcrumb-assunto [assunto]="assunto" [questao]="questao"></app-breadcrumb-assunto>
+
   <h1>{{questao?.nomeCurto}}</h1>
 
   <p-fieldset legend="Questão: {{questao?.sequencia}}">

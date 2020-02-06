@@ -30,7 +30,7 @@
     "intro.js": "^2.9.3",
     "js-sha256": "^0.9.0",
     "marked": "^0.7.0",
-    "primeflex": "^1.0.0-rc.1",
+    "primeflex": "^1.0.0",
     "primeicons": "^1.0.0",
     "primeng": "^7.1.0-rc.1",
     "prismjs": "^1.17.1",

@@ -126,7 +126,7 @@ export class MainComponent implements OnInit, AfterViewInit {
 
   ngOnInit() {
     this.criarMenu();
-    this.apresentarPretest();
+    //this.apresentarPretest();
 
   }
 

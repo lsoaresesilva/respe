@@ -7,8 +7,8 @@ export default class IndentationError extends ErroCompilacao{
     @ignore()
     nomeVariavel;
 
-    constructor(id, traceback, submissao){
-        super(id, traceback, submissao);
+    constructor(id, traceback){
+        super(id, traceback);
     }
 
     

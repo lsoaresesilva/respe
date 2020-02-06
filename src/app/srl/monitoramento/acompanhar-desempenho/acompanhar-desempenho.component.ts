@@ -22,17 +22,17 @@ export class AcompanharDesempenhoComponent implements OnInit {
 
   ngOnInit() {
     Submissao.getAll(new Query("estudanteId", "==", this.loginService.getUsuarioLogado().pk()), "data").subscribe(submissoes => {
-      this.errorQuotient = Tutor.calcularErrorQuotient(submissoes);
+      //this.errorQuotient = Tutor.calcularErrorQuotient(submissoes);
 
     })
-    ErroCompilacao.getAllErrosEstudante(this.loginService.getUsuarioLogado()).subscribe(resultados => {
+    /*ErroCompilacao.getAllErrosEstudante(this.loginService.getUsuarioLogado()).subscribe(resultados => {
     //Erro.getAllErrosEstudante(this.loginService.getUsuarioLogado()).subscribe(resultados => {
       
       this.erros = resultados;
-      /*let ranking = Erro.rankErros(dados);
+      let ranking = Erro.rankErros(dados);
       let dadosHistograma = Erro.calcularHistogramaPorRank(ranking, resultados);
-      this.construirGraficoBarras(dadosHistograma, ranking);*/
-    })
+      this.construirGraficoBarras(dadosHistograma, ranking);
+    })*/
   }
 
 }

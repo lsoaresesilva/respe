@@ -6,9 +6,10 @@ import { Groups } from '../model/experimento/groups';
 
 declare var intro: any;
 
-enum TiposApresentacao{
+enum TiposApresentacao {
   inicializacao = "apresentacaoInicializacao",
-  editor = "apresentacaoEditor"
+  editor = "apresentacaoEditor",
+  assunto = "apresentacaoAssunto"
 }
 
 @Injectable({
@@ -22,7 +23,7 @@ export class ApresentacaoService {
 
   criarOpcoesIntroJS(usuario, opcoesIntro) {
     if (usuario.perfil != PerfilUsuario.admin && usuario.perfil != PerfilUsuario.professor) {
-      
+
 
       if (intro != null) {
         intro.setOption("nextLabel", " Próximo ");
@@ -37,7 +38,7 @@ export class ApresentacaoService {
     }
   }
 
-  apresentarEditor(usuario){
+  apresentarEditor(usuario) {
     if (this.apresentou(usuario, TiposApresentacao.editor) == false && usuario != null) {
       this.salvarDadosApresentacao(usuario, TiposApresentacao.editor);
       let opcoesIntro = {
@@ -58,12 +59,12 @@ export class ApresentacaoService {
             element: document.getElementById('btnExecutar'),
             intro: "<h3>Para executar o seu algoritmo</h3><p>Ao pressionar este botão o seu algoritmo será executado e você poderá visualizar a resposta produzida por ele na tabela de casos de teste.</p>"
           },
-          
+
           {
             element: document.getElementById('consoleProgramacao'),
             intro: "<h3>Console de programação</h3><p>Aqui irão aparecer mensagens de erro, caso o seu algoritmo possua algum problema.</p>"
           },
-          
+
         ]
       }
       this.criarOpcoesIntroJS(usuario, opcoesIntro);
@@ -107,20 +108,57 @@ export class ApresentacaoService {
 
   }
 
-  salvarDadosApresentacao(usuario, apresentacao){
-    let usuariosQueJaReceberamApresentacao:any = [];
+  apresentarAssunto(usuario: Usuario) {
+    //if (this.apresentou(usuario, TiposApresentacao.assunto) == false && usuario != null) {
+    //  this.salvarDadosApresentacao(usuario, TiposApresentacao.assunto);
+      let opcoesIntro = {}
+
+
+      opcoesIntro = {
+        steps: [
+          {
+            element: document.getElementById('tabelaQuestoesProgramacao'),
+            intro: "<h3>Questões de programação</h3><p>As questões de programação que você pode responder são apresentadas nesta tabela.</p>"
+          },
+          {
+            element: document.getElementById('statusQuestoesProgramacao'),
+            intro: "<h3>Status de conclusão</h3><p>Representa o % de conclusão que você alcançou para a questão.</p>"
+          },
+          {
+            element: document.getElementById('tabelaQuestoesFechadas'),
+            intro: "<h3>Questões fechadas</h3><p>São perguntas sobre o assunto que você deve assinalar a resposta correta.</p>"
+          },
+
+        ]
+      }
+
+      if(usuario.grupoExperimento != Groups.control){
+        opcoesIntro["steps"].push({
+          element: document.getElementById('progressoPlanejamento'),
+          intro: "<h3>Seu progresso no assunto</h3><p>Quanto mais questões fechadas e exercícios de programação você resolver, maior será o seu progresso e as chances de alcançar uma boa nota na disciplina.</p>"
+        })
+      }
+
+      this.criarOpcoesIntroJS(usuario, opcoesIntro);
+    //}
+
+  }
+
+
+  salvarDadosApresentacao(usuario, apresentacao) {
+    let usuariosQueJaReceberamApresentacao: any = [];
     let dadosApresentacao = localStorage.getItem(apresentacao);
-    if(dadosApresentacao == null){
+    if (dadosApresentacao == null) {
       usuariosQueJaReceberamApresentacao = [usuario.pk()];
-    }else{
+    } else {
       dadosApresentacao = JSON.parse(dadosApresentacao);
       usuariosQueJaReceberamApresentacao = dadosApresentacao["usuarios"];
-      if(Array.isArray(usuariosQueJaReceberamApresentacao)){
+      if (Array.isArray(usuariosQueJaReceberamApresentacao)) {
         usuariosQueJaReceberamApresentacao.push(usuario.pk());
       }
     }
 
-    localStorage.setItem(apresentacao, JSON.stringify({usuarios:usuariosQueJaReceberamApresentacao }));
+    localStorage.setItem(apresentacao, JSON.stringify({ usuarios: usuariosQueJaReceberamApresentacao }));
   }
 
   apresentou(usuario, apresentacao): boolean {

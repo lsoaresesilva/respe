@@ -4,29 +4,15 @@
   </div>
   <div *ngIf="consoleEditor.submissao != null">
 
-    <div *ngIf="consoleEditor.submissao.erros.length > 0">
-      <p-table [value]="consoleEditor.submissao.erros" autoLayout="true">
-        <ng-template pTemplate="header">
-          <tr>
-            <th>Tipo do erro</th>
-            <th>Linha</th>
-            <th>Descrição</th>
-          </tr>
-        </ng-template>
-        <ng-template pTemplate="body" let-erro>
-          <tr>
-            <td>
-              {{ getLabelCategoriaErro(erro.categoria) }}
-            </td>
-            <td>{{ erro.linha }}</td>
-            <td><span [innerHtml]="erro.getMensagem() | keepHtml"></span></td>
+    <div *ngIf="consoleEditor.submissao.erro != null">
 
-          </tr>
-        </ng-template>
-      </p-table>
+      <p-panel header="{{getLabelCategoriaErro(consoleEditor.submissao.erro.categoria)}} - na linha {{consoleEditor.submissao.erro.linha}}">
+        <span [innerHtml]="consoleEditor.submissao.erro.getMensagem() | keepHtml"></span>
+      </p-panel>
+
 
 
     </div>
-    
-    
+
+
   </div>

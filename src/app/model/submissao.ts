@@ -5,12 +5,6 @@ import { Observable, forkJoin } from 'rxjs';
 import Query from './firestore/query';
 import Usuario from './usuario';
 import ResultadoTestCase from './resultadoTestCase';
-import { Util } from './util';
-import ErroSintaxeVariavel from './errors/analise-pre-compilacao/erroSintaxeVariavel';
-import ErroSintaxeCondicional from './errors/analise-pre-compilacao/erroSintaxeCondiconal';
-import ErroSintaxeFuncao from './errors/analise-pre-compilacao/erroSintaxeFuncao';
-import ErroServidor from './errors/erroServidor';
-import { TipoErro } from './tipoErro';
 import ErroCompilacaoFactory from './errors/analise-compilacao/erroCompilacaoFactory';
 import { ErroCompilacao } from './errors/analise-compilacao/erroCompilacao';
 
@@ -21,7 +15,7 @@ export default class Submissao extends Document {
     data;
     estudante: Usuario;
     questao: Questao;
-    erros: Erro[]; // TODO: incluir o erro no próprio document
+    erro; // TODO: incluir o erro no próprio document
     resultadosTestsCases: ResultadoTestCase[];
     @ignore()
     saida
@@ -30,7 +24,7 @@ export default class Submissao extends Document {
         super(id);
         this.estudante = estudante;
         this.questao = questao;
-        this.erros = [];
+        this.erro = null;
         this.resultadosTestsCases = [];
 
     }
@@ -57,8 +51,9 @@ export default class Submissao extends Document {
         document["estudanteId"] = this.estudante.pk();
         document["questaoId"] = this.questao.id;
         document["codigo"] = this.codigo;
-        if (this.resultadosTestsCases != null && this.resultadosTestsCases.length > 0) {
-
+        if (this.erro != null && this.erro instanceof ErroCompilacao) {
+           
+            document["erro"] = this.erro.objectToDocument();
         }
         if (this.resultadosTestsCases != null && this.resultadosTestsCases.length > 0) {
             let resultadoTestsCases = [];
@@ -87,35 +82,6 @@ export default class Submissao extends Document {
 
         return json;
     }
-
-    save(): Observable<any> {
-        let resultados;
-        return new Observable(observer => {
-            let operacoesSalvar = [];
-            super.save().subscribe(resultado => {
-                this.erros.forEach(erro => {
-                    operacoesSalvar.push(erro.save())
-                })
-
-                forkJoin(operacoesSalvar).subscribe(errosSalvos => {
-                    resultados = errosSalvos;
-                }, err => {
-                    observer.error(err);
-                }, () => {
-                    observer.next(resultado);
-                    observer.complete();
-                })
-            })
-
-        })
-    }
-
-    /*static salvarErros(erros){
-        
-    }*/
-
-
-    
 
     isComSucesso() {
         if (this.resultadosTestsCases != null && this.resultadosTestsCases.length > 0) {
@@ -243,15 +209,17 @@ export default class Submissao extends Document {
         return new Observable(observer => {
             super.get(id).subscribe(submissao => {
                 submissao["resultadosTestsCases"] = ResultadoTestCase.construir(submissao["resultadosTestsCases"]);
-
-                ErroCompilacao.getAll(new Query("submissaoId", "==", submissao["id"])).subscribe(erros => {
+                submissao["erro"] = ErroCompilacaoFactory.construirPorDocument(submissao["erro"]);
+                observer.next(submissao);
+                observer.complete();
+                /*ErroCompilacao.getAll(new Query("submissaoId", "==", submissao["id"])).subscribe(erros => {
                     submissao["erros"] = erros;
                 }, err => {
 
                 }, () => {
                     observer.next(submissao);
                     observer.complete();
-                });
+                });*/
             }, err => {
                 observer.error(err);
             })
@@ -261,44 +229,15 @@ export default class Submissao extends Document {
     static getAll(queries = null, orderBy = null) {
         return new Observable<any[]>(observer => {
             super.getAll(queries).subscribe(submissoes => {
-                let erros: any[] = [];
+                //let erros: any[] = [];
                 submissoes.forEach(submissao => {
-                    erros.push(ErroCompilacao.getAll(new Query("submissaoId", "==", submissao.pk())));
+                    //erros.push(ErroCompilacao.getAll(new Query("submissaoId", "==", submissao.pk())));
                     submissao.resultadosTestsCases = ResultadoTestCase.construir(submissao.resultadosTestsCases);
-
+                    submissao["erro"] = ErroCompilacaoFactory.construirPorDocument(submissao["erro"]);
                 })
 
-                if (erros.length > 0) {
-                    forkJoin(erros).subscribe(erros => {
-
-                        erros.forEach(erro => {
-                            if (erro["forEach"] != undefined) {
-                                erro["forEach"](e => {
-                                    for (let i = 0; i < submissoes.length; i++) {
-                                        if (e.submissao.pk() == submissoes[i].id) {
-                                            submissoes[i].erros.push(e);
-                                            break;
-                                        }
-
-                                    }
-                                })
-                            }
-
-
-                        });
-
-
-
-                    }, err => {
-
-                    }, () => {
-                        observer.next(submissoes);
-                        observer.complete();
-                    });
-                } else {
-                    observer.next(submissoes);
-                    observer.complete();
-                }
+                observer.next(submissoes);
+                observer.complete();
 
 
             }, err => {
@@ -336,19 +275,14 @@ export default class Submissao extends Document {
         return new Observable(observer=>{
             this.invalidarResultadosTestCases();
             if(ErroCompilacao.isErro(resposta)){
-                let erroCompilacao = ErroCompilacaoFactory.construir(resposta, this);
-                if(erroCompilacao != null)
-                    this.erros.push(erroCompilacao);
-            }else{
-                // TODO: servidor fora do ar
+                this.erro = ErroCompilacaoFactory.construir(resposta);
+                
+
+                this.save().subscribe(resultado=>{
+                    observer.next(resultado);
+                    observer.complete();
+                })
             }
-
-            this.save().subscribe(resultado=>{
-                observer.next(resultado);
-                observer.complete();
-            })
-            
-
         })
 
         

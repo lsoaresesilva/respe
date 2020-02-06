@@ -213,7 +213,7 @@ export class ResponderQuestaoProgramacao implements OnInit, AfterViewInit {
       _submissaoClone["estudanteId"] = submissao.estudanteId;
       _submissaoClone["assuntoId"] = submissao.assuntoId;
       _submissaoClone.data = submissao.data;
-      _submissaoClone.erros = submissao.erros;
+      _submissaoClone.erro = submissao.erro;
       _submissaoClone.resultadosTestsCases = submissao.resultadosTestsCases;
       _submissaoClone.saida = submissao.saida;
       return _submissaoClone;

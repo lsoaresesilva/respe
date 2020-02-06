@@ -139,9 +139,9 @@ export class EditorProgramacaoComponent implements AfterViewInit {
         })
       }
 
-      var decorations = editor.deltaDecorations([], [
+      /*var decorations = editor.deltaDecorations([], [
         { range: new monaco.Range(1,1,1,16), options: { isWholeLine: true, linesDecorationsClassName: 'erro' }},
-    ]);
+    ]);*/ // TIrar daqui, apenas foi um teste
 
 
       /*if (this.submissao.hasErrors()) {

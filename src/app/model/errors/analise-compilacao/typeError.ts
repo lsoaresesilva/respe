@@ -4,8 +4,8 @@ export default class TypeError extends ErroCompilacao{
     
     // TypeError: unsupported operand type(s) for Sub: 'int' and 'str' on line 3
 
-    constructor(id, erro, submissao){
-        super(id, erro, submissao);
+    constructor(id, erro){
+        super(id, erro);
     }
 
     getMensagem() {

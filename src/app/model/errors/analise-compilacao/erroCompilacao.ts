@@ -6,58 +6,30 @@ import NameError from './nameError';
 import Submissao from '../../submissao';
 import ErroCompilacaoFactory from './erroCompilacaoFactory';
 import Query from '../../firestore/query';
+import { Util } from '../../util';
 
-@Collection("errosCompilacao")
-export abstract class ErroCompilacao extends Document {
+export abstract class ErroCompilacao {
 
-    @date()
+    id;
     data;
-    @ignore()
     linha;
-    @ignore()
     categoria;
 
-    protected constructor(id, public traceback, public submissao) {
-        super(id);
+    protected constructor(id, public traceback) {
+        if (id == null)
+            this.id = Util.uuidv4();
+        else {
+            this.id = id;
+        }
         this.linha = ErroCompilacao.getLinha(traceback);
         this.categoria = ErroCompilacao.getCategoria(traceback);
     }
 
-    objectToDocument() {
-        let document = super.objectToDocument();
-        if (this.submissao != null)
-            document["submissaoId"] = this.submissao.pk();
-        else {
-            document["submissaoId"] = this["submissaoId"];
-        }
-        return document;
-
+    objectToDocument(){
+        return {id:this.id, traceback:this.traceback};
     }
 
     abstract getMensagem();
-
-    static getAll(query): Observable<any[]> {
-        return new Observable(observer => {
-            super.getAll(query).subscribe(resultados => {
-                let erros = []
-                if (resultados.length > 0) {
-
-
-                    resultados.forEach(resultado => {
-                        let erro = ErroCompilacaoFactory.construir(resultado["traceback"], new Submissao(resultado["submissaoId"], null, null, null));
-
-                        erros.push(erro);
-                    })
-
-
-                }
-
-                observer.next(erros);
-                observer.complete();
-            })
-        })
-
-    }
 
     static getLinha(traceback) {
         if (traceback != null) {
@@ -112,8 +84,8 @@ export abstract class ErroCompilacao extends Document {
 
 
     static getAllErrosEstudante(usuario) {
-
-        return new Observable(observer => {
+        // TODO: Talvez seja preciso refatorar para filtrar das submissões do estudante apenas os erros.
+        /*return new Observable(observer => {
             Submissao.getAll(new Query("estudanteId", "==", usuario.pk())).subscribe(submissoes => {
                 let erros = [];
                 submissoes.forEach(submissao => {
@@ -131,7 +103,7 @@ export abstract class ErroCompilacao extends Document {
                     observer.complete();
                 }
             });
-        });
+        });*/
     }
 
     static calcularFrequenciaPorTipoErro(erros): any {
@@ -155,11 +127,13 @@ export abstract class ErroCompilacao extends Document {
             }
         })
 
-        resultados = {nameError:nameError,
-                      syntaxError:syntaxError,
-                      typeError:typeError,
-                      indentationError:indentationError};
-  
+        resultados = {
+            nameError: nameError,
+            syntaxError: syntaxError,
+            typeError: typeError,
+            indentationError: indentationError
+        };
+
         return resultados;
     }
 
