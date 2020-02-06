@@ -19,42 +19,46 @@ export class MenuEstudanteComponent implements OnInit {
 
 
   items: MenuItem[];
-  constructor(private router: Router, private login:LoginService) {
+  constructor(private router: Router, private login: LoginService) {
     this.usuario = login.getUsuarioLogado();
-   
 
-    
-   }
+
+
+  }
 
   ngOnInit() {
-     EstudanteTurma.getAll(new Query("estudanteId", "==", this.usuario.pk())).subscribe(resultado => {
+    /*EstudanteTurma.getAll(new Query("estudanteId", "==", this.usuario.pk())).subscribe(resultado => {
       this.turmaId = resultado[0].turmaId;
-    });
+    });*/
 
     this.items = [
       {
         label: 'Planejamentos',
-        command: () => { this.router.navigate(["main", { outlets: { principal: ['listagem-planejamento'] } }]) }
-
+        command: () => { this.router.navigate(["main", { outlets: { principal: ['listagem-planejamento'] } }]) },
+        id: 'planejamentoMenu'
       },
       {
         label: 'Minha turma',
-        command: () => { this.router.navigate(["main", { outlets: { principal: ['minha-turma'] } }]) }
+        command: () => { this.router.navigate(["main", { outlets: { principal: ['minha-turma'] } }]) },
 
       },
+      {
+        label: 'Meu desempenho',
+        command: () => { this.router.navigate(["main", { outlets: { principal: ['meu-desempenho'] } }]) },
+        id: 'meuDesempenhoMenu',
+      },
+      {
+        label: 'Sair',
+        command: () => { this.logout() },
+        id: 'sairMenu',
+      }
     ];
- 
   }
-  private logout() {
-    if(this.login.logout()){
+
+  logout() {
+    if (this.login.logout()) {
       return this.router.navigate([""])
     }
   }
+}
 
-  
-    
-    
-
- 
-  }
-  

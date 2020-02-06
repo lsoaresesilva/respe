@@ -37,6 +37,8 @@ function executarPython(cb){
     
 }
 */
+var intro = introJs();
+
 // TODO: usar Observable para disparar quando o editor estiver pronto. Assim o model Editor pode ter acesso à instância do mônico quando ela estiver pronta.
 function carregarIde(readOnly, callback=null, instance=null, codigo){
 

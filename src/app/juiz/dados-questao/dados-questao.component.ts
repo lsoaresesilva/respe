@@ -1,13 +1,15 @@
-import { Component, OnInit, Input } from '@angular/core';
+import { Component, OnInit, Input, AfterViewInit } from '@angular/core';
 import { Questao } from 'src/app/model/questao';
 import Submissao from 'src/app/model/submissao';
+import { LoginService } from 'src/app/login-module/login.service';
+import { ApresentacaoService } from 'src/app/geral-module/apresentacao.service';
 
 @Component({
   selector: 'dados-questao',
   templateUrl: './dados-questao.component.html',
   styleUrls: ['./dados-questao.component.css']
 })
-export class DadosQuestaoComponent implements OnInit {
+export class DadosQuestaoComponent implements AfterViewInit {
 
   @Input()
   questao?:Questao;
@@ -15,7 +17,7 @@ export class DadosQuestaoComponent implements OnInit {
   @Input()
   submissao?:Submissao;
 
-  constructor() { 
+  constructor(private login:LoginService, private apresentacao:ApresentacaoService) { 
 
   }
 
@@ -33,7 +35,8 @@ export class DadosQuestaoComponent implements OnInit {
     }
   }
 
-  ngOnInit() {
+  ngAfterViewInit() {
+    this.apresentacao.apresentarEditor(this.login.getUsuarioLogado());
   }
 
 

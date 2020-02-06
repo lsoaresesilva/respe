@@ -40,7 +40,8 @@
               "node_modules/primeicons/primeicons.css",
               "node_modules/primeng/resources/themes/nova-light/theme.css",
               "node_modules/primeng/resources/primeng.min.css",
-              "node_modules/prismjs/themes/prism.css"
+              "node_modules/prismjs/themes/prism.css",
+              "node_modules/intro.js/introjs.css"
             ],
             "scripts": [
               "node_modules/prismjs/prism.js",
@@ -50,6 +51,7 @@
               "src/js/visualizacaoConteudo.js",
               "src/js/analyticsEstudante.js",
               "./node_modules/chart.js/dist/Chart.js"
+              
             ]
           },
           "configurations": {

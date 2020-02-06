@@ -6,6 +6,7 @@ import { MenuAdmComponent } from './menu-adm/menu-adm.component';
 import { MenuProfessorComponent } from './menu-professor/menu-professor.component';
 import { HomeComponent } from './home/home.component';
 import { ExperimentoModule } from '../experimento/experimento.module';
+import { ApresentacaoService } from './apresentacao.service';
 
 
 @NgModule({
@@ -15,7 +16,7 @@ import { ExperimentoModule } from '../experimento/experimento.module';
     MenubarModule,
     ExperimentoModule
   ],
-  providers:[],
+  providers:[ApresentacaoService],
   exports :[MenuEstudanteComponent, MenuAdmComponent,  MenuProfessorComponent]
 })
 export class GeralModuleModule { }

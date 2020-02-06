@@ -27,13 +27,13 @@
 
 
     <div class="p-col-3">
-      <dados-questao [questao]="questao" [submissao]="submissao"></dados-questao>
+      <dados-questao [questao]="questao" [submissao]="submissao" id="dadosQuestao"></dados-questao>
     </div>
 
     <div class="p-col-9">
       <div class="p-grid">
         <div class="p-col-12">
-          <app-editor-programacao [modoVisualizacao]="modoVisualizacao" [submissao]="submissao" [questao]="questao"
+          <app-editor-programacao id="editorProgramacao" [modoVisualizacao]="modoVisualizacao" [submissao]="submissao" [questao]="questao"
             [assunto]="assunto" (onError)="onEditorError($event)" (onVisualization)="onVisualization($event)"
             (onServidorError)="onServidorError($event)" (onSubmit)="onEditorSubmit($event)">
           </app-editor-programacao>

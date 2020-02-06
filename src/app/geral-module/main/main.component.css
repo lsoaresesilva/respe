@@ -1,5 +1,9 @@
-
-
+::ng-deep .introjs-skipbutton{
+    visibility: hidden !important;
+    }
+    ::ng-deep .introjs-donebutton{
+    visibility: visible !important;
+    }
 h1 {
     font-size: 50px;
     margin-block-start: 0;

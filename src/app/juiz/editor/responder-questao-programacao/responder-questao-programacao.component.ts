@@ -1,4 +1,4 @@
-import { Component, OnInit, NgZone, ElementRef, Renderer, ChangeDetectorRef, ApplicationRef } from '@angular/core';
+import { Component, OnInit, NgZone, ElementRef, Renderer, ChangeDetectorRef, ApplicationRef, AfterViewInit } from '@angular/core';
 import Editor from 'src/app/model/editor';
 
 import { HttpHeaders, HttpClient } from '@angular/common/http';
@@ -14,6 +14,8 @@ import { FormBuilder } from '@angular/forms';
 import Submissao from 'src/app/model/submissao';
 import ConsoleEditor from 'src/app/model/consoleEditor';
 import ErroServidor from 'src/app/model/errors/erroServidor';
+import { ApresentacaoService } from 'src/app/geral-module/apresentacao.service';
+import { Observable } from 'rxjs';
 
 
 
@@ -22,7 +24,8 @@ import ErroServidor from 'src/app/model/errors/erroServidor';
   templateUrl: './responder-questao-programacao.component.html',
   styleUrls: ['./responder-questao-programacao.component.css']
 })
-export class ResponderQuestaoProgramacao implements OnInit {
+export class ResponderQuestaoProgramacao implements OnInit, AfterViewInit {
+  
   [x: string]: any;
 
   assunto;
@@ -37,14 +40,21 @@ export class ResponderQuestaoProgramacao implements OnInit {
   dialogPedirAjuda: boolean = false;
   duvida: string = "";
 
+  observableQuestao:Observable<any>;
+
   // TODO: mover para um componente próprio
   traceExecucao;
 
 
-  constructor(private route: ActivatedRoute, public login: LoginService, private router: Router, private formBuilder: FormBuilder, private elementRef: ElementRef, private _renderer: Renderer, private cdr: ChangeDetectorRef, private app: ApplicationRef, private zone: NgZone) {
+  constructor(private route: ActivatedRoute, public login: LoginService, 
+              private router: Router, private apresentacao:ApresentacaoService) {
     this.pausaIde = true;
     this.statusExecucao = "";
     this.consoleEditor = new ConsoleEditor();
+    this.observableQuestao = new Observable(observer=>{
+      observer.next();
+      observer.complete();
+    });
 
     // Para o editor colaborativo
     /*zone.runOutsideAngular(() => {
@@ -53,6 +63,11 @@ export class ResponderQuestaoProgramacao implements OnInit {
 
     })*/ 
 
+  }
+
+  ngAfterViewInit(): void {
+  
+    
   }
 
   ngOnInit() {
@@ -66,6 +81,8 @@ export class ResponderQuestaoProgramacao implements OnInit {
             assunto["questoesProgramacao"].forEach(questao => {
               if (questao.id == params["questaoId"]) {
                 this.questao = questao;
+
+                
                 
                 if (this.login.getUsuarioLogado() != null) {
                   Submissao.getRecentePorQuestao(this.questao, this.login.getUsuarioLogado()).subscribe(submissao => {

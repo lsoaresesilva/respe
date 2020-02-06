@@ -22,7 +22,7 @@ declare function carregarIde(readOnly, callback, instance, codigo): any;
 })
 export class EditorProgramacaoComponent implements AfterViewInit {
 
-  URL = "http://35.193.38.224:8000/";
+  URL = "http://35.208.64.26:8000/";
 
   ngAfterViewInit(): void {
 

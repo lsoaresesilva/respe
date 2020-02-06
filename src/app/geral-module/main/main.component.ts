@@ -1,4 +1,4 @@
-import { Component, OnInit, ViewChild } from '@angular/core';
+import { Component, OnInit, ViewChild, AfterViewInit } from '@angular/core';
 import { MenuItem } from 'primeng/components/common/menuitem';
 import { Router } from '@angular/router';
 import Usuario from 'src/app/model/usuario';
@@ -12,22 +12,31 @@ import { PreTesteComponent } from 'src/app/experimento/pre-teste/pre-teste.compo
 import PosTeste from 'src/app/model/experimento/old_check_to_delete/posTeste';
 import { Groups } from 'src/app/model/experimento/groups';
 import { PerfilUsuario } from 'src/app/model/enums/perfilUsuario';
+import { ApresentacaoService } from '../apresentacao.service';
+
+
+
 
 @Component({
   selector: 'app-main',
   templateUrl: './main.component.html',
   styleUrls: ['./main.component.css']
 })
-export class MainComponent implements OnInit {
+export class MainComponent implements OnInit, AfterViewInit {
+  ngAfterViewInit(): void {
+    this.apresentacao.apresentarInicializacao(this.usuario);
+  }
 
   itens: MenuItem[];
   private usuario;
   visibilidadeDialog;
 
 
-  constructor(private router: Router, private login: LoginService) {
+  constructor(private router: Router, private login: LoginService, private apresentacao:ApresentacaoService) {
     this.usuario = this.login.getUsuarioLogado();
+
   }
+
 
   criarMenu() {
     if (this.usuario.perfil == PerfilUsuario.admin) {
@@ -63,17 +72,17 @@ export class MainComponent implements OnInit {
         {
           label: 'Turmas',
           command: () => { this.router.navigate(["main", { outlets: { principal: ['listagem-turmas'] } }]) }
-  
+
         },
         {
           label: 'Sair',
-          command: () => {this.logout()}
-  
+          command: () => { this.logout() }
+
         },
       ];
     } else {
 
-      if (this.usuario.grupoExperimento == Groups.control){
+      if (this.usuario.grupoExperimento == Groups.control) {
         this.itens = [
           {
             label: 'Assuntos',
@@ -87,18 +96,18 @@ export class MainComponent implements OnInit {
             id: 'sairMenu',
           }
         ];
-      }else {
+      } else {
         this.itens = [
           {
             label: 'Planejamentos',
             command: () => { this.router.navigate(["main", { outlets: { principal: ['listagem-planejamento'] } }]) },
             id: 'planejamentoMenu'
-          },
+          },/*
           {
             label: 'Minha turma',
             command: () => { this.router.navigate(["main", { outlets: { principal: ['minha-turma'] } }]) },
     
-           },
+           },*/
           {
             label: 'Meu desempenho',
             command: () => { this.router.navigate(["main", { outlets: { principal: ['meu-desempenho'] } }]) },
