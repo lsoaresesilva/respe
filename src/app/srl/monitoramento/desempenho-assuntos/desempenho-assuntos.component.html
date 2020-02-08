@@ -1,0 +1,16 @@
+<h2>Progresso nos assuntos</h2>
+<p-table [value]="assuntos" >
+  <ng-template pTemplate="header">
+      <tr>
+          <th>Assunto</th>
+          <th>% de conclusão</th>
+      </tr>
+  </ng-template>
+
+  <ng-template pTemplate="body" let-assunto let-i="rowIndex">
+      <tr>
+          <td>{{assunto.nome}}</td>
+          <td><p-progressBar id="progressoPlanejamento" [value]="assunto.percentual"></p-progressBar></td>
+      </tr>
+  </ng-template>
+</p-table>

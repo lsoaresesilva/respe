@@ -1,4 +1,5 @@
-<h1>Seu desempenho em programação</h1>
+<div *ngIf="possuiSubmissoes == true;">
+    <h1>Seu desempenho em programação</h1>
 
 
     <!--
@@ -15,15 +16,21 @@
          -->
     <div class="p-grid">
         <div class="p-col-3">
+            <app-desempenho-assuntos></app-desempenho-assuntos>
+        </div>
+        <div class="p-col-3">
             <app-card-erros-programacao-pizza [erros]="erros" *ngIf="erros"></app-card-erros-programacao-pizza>
         </div>
-        <div class="p-col-9" *ngIf="erros != undefined">
+        <div class="p-col-6">
             <app-card-historico-erros *ngIf="erros != undefined" [erros]="erros">
             </app-card-historico-erros>
         </div>
     </div>
+
     <div class="p-grid">
-        <div class="p-col-12">
-           <app-analise-desempenho-estudante [erros]="erros"></app-analise-desempenho-estudante>
+        <div class="p-col-12" *ngIf="erros != undefined">
+            <app-analise-desempenho-estudante [erros]="erros"></app-analise-desempenho-estudante>
+
         </div>
     </div>
+</div>

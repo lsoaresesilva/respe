@@ -10,9 +10,13 @@ import { LoginService } from 'src/app/login-module/login.service';
 })
 export class MonitorarPlanejamentoComponent implements OnChanges {
   ngOnChanges(changes: import("@angular/core").SimpleChanges): void {
-    this.planejamento.assunto.calcularPercentualConclusao(this.loginService.getUsuarioLogado()).subscribe(percentual=>{
-      this.planejamento.percentualConclusao = percentual;
-    })
+    let usuario = this.loginService.getUsuarioLogado();
+    if(this.planejamento.assunto != null && usuario != null){
+      Assunto.calcularPercentualConclusao(this.planejamento.assunto, usuario).subscribe(percentual=>{
+        this.planejamento.percentualConclusao = percentual;
+      })
+    }
+    
   }
 
 
