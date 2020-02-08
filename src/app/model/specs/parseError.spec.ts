@@ -1,4 +1,4 @@
-import Codigo from "../codigo";
+
 import { ParseError } from '../parseError';
 
 describe("Testes da funcionalidade de identificação dos erros de sintaxe", ()=>{

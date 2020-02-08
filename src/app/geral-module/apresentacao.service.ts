@@ -17,7 +17,7 @@ enum TiposApresentacao {
 })
 export class ApresentacaoService {
 
-
+  DEBUG = true;
 
   constructor() { }
 
@@ -109,8 +109,8 @@ export class ApresentacaoService {
   }
 
   apresentarAssunto(usuario: Usuario) {
-    //if (this.apresentou(usuario, TiposApresentacao.assunto) == false && usuario != null) {
-    //  this.salvarDadosApresentacao(usuario, TiposApresentacao.assunto);
+    if (this.apresentou(usuario, TiposApresentacao.assunto) == false && usuario != null) {
+      this.salvarDadosApresentacao(usuario, TiposApresentacao.assunto);
       let opcoesIntro = {}
 
 
@@ -132,7 +132,7 @@ export class ApresentacaoService {
         ]
       }
 
-      if(usuario.grupoExperimento != Groups.control){
+      if (usuario.grupoExperimento != Groups.control) {
         opcoesIntro["steps"].push({
           element: document.getElementById('progressoPlanejamento'),
           intro: "<h3>Seu progresso no assunto</h3><p>Quanto mais questões fechadas e exercícios de programação você resolver, maior será o seu progresso e as chances de alcançar uma boa nota na disciplina.</p>"
@@ -140,7 +140,7 @@ export class ApresentacaoService {
       }
 
       this.criarOpcoesIntroJS(usuario, opcoesIntro);
-    //}
+    }
 
   }
 
@@ -162,15 +162,22 @@ export class ApresentacaoService {
   }
 
   apresentou(usuario, apresentacao): boolean {
-    let dadosApresentacao = localStorage.getItem(apresentacao);
-    if (dadosApresentacao != null) {
-      dadosApresentacao = JSON.parse(dadosApresentacao);
-      if (Array.isArray(dadosApresentacao["usuarios"]) && dadosApresentacao["usuarios"].includes(usuario.pk()))
-        return true;
-      return false;
+
+    if (this.DEBUG) {
+      return true;
     } else {
-      return false;
+      let dadosApresentacao = localStorage.getItem(apresentacao);
+      if (dadosApresentacao != null) {
+        dadosApresentacao = JSON.parse(dadosApresentacao);
+        if (Array.isArray(dadosApresentacao["usuarios"]) && dadosApresentacao["usuarios"].includes(usuario.pk()))
+          return true;
+        return false;
+      } else {
+        return false;
+      }
     }
+
+
   }
 
 }

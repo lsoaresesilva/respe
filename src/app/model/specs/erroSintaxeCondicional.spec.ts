@@ -1,6 +1,5 @@
 import ErroSintaxeCondicional from "../errors/analise-pre-compilacao/erroSintaxeCondiconal";
-import Codigo from '../codigo';
-
+/*
 describe("Testes para identificar erros de sintaxe em condições", ()=>{
 
 
@@ -50,4 +49,4 @@ describe("Testes para identificar erros de sintaxe em condições", ()=>{
         expect(ErroSintaxeCondicional.comparacaoCondicaoApenasUmaIgualdade(linhasCodigo[3])).toBeFalsy();
         
     })
-});
+});*/

@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, Input } from '@angular/core';
 import { LoginService } from 'src/app/login-module/login.service';
 import QuestionarioAutorregulacao from 'src/app/model/experimento/questionarioAutorregulacao';
 
@@ -9,27 +9,23 @@ import QuestionarioAutorregulacao from 'src/app/model/experimento/questionarioAu
 })
 export class QuestionarioAutorregulacaoComponent implements OnInit {
 
-  visibilidade;
+  @Input()
+  visibilidadeQuestionario;
   respostasQuestionarioAutorregulacao:QuestionarioAutorregulacao;
 
   constructor(public login:LoginService) { 
-    this.visibilidade = false;
     this.respostasQuestionarioAutorregulacao = new QuestionarioAutorregulacao(null, this.login.getUsuarioLogado());
   }
 
   ngOnInit() {
     // Verificar se o usuário deve responder ao questionário
-    QuestionarioAutorregulacao.getByUsuario(this.login.getUsuarioLogado()).subscribe(resultado=>{
-      this.visibilidade = false;
-    }, err=>{
-      this.visibilidade = true;
-    })
+    
   }
 
   salvar(){
     if(this.respostasQuestionarioAutorregulacao.validar()){
       this.respostasQuestionarioAutorregulacao.save().subscribe(resultado=>{
-        this.visibilidade = false;
+        this.visibilidadeQuestionario = false;
         alert("Obrigado por responder ao questionário.");
       }, err=>{
         alert("Falha ao salvar suas respostas. Tente novamente em alguns minutos.")

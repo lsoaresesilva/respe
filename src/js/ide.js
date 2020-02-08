@@ -40,7 +40,7 @@ function executarPython(cb){
 var intro = introJs();
 
 // TODO: usar Observable para disparar quando o editor estiver pronto. Assim o model Editor pode ter acesso à instância do mônico quando ela estiver pronta.
-function carregarIde(readOnly, callback=null, instance=null, codigo){
+function carregarIde(readOnly, callback=null, instance=null, callbackOnEditorLoad=null, codigo){
 
 
         require(['vs/editor/editor.main'], function () {
@@ -56,7 +56,7 @@ function carregarIde(readOnly, callback=null, instance=null, codigo){
 
             });
 
-            
+            callbackOnEditorLoad(instance, editor);
 
             // TODO: modificar para colocar em outra função exclusiva de comentário e só aparecer para comentários
             var div = document.getElementById('iconeNovoComentario');

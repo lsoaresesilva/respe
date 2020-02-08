@@ -41,12 +41,12 @@ describe('Listagem planejamento', () => {
                                 expect(page.getStatusExecucao().getText()).toEqual("Sucesso");
 
                                 done();
-                            }, 6000)
+                            }, 4000)
 
                         });
 
 
-                    }, 5000)
+                    }, 4000)
                 })
             }, 2000)
         })

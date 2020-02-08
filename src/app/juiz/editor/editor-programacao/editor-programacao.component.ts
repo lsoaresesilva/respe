@@ -1,4 +1,4 @@
-import { Component, OnInit, Input, Output, EventEmitter, AfterViewChecked, AfterViewInit } from '@angular/core';
+import { Component, OnInit, Input, Output, EventEmitter, AfterViewChecked, AfterViewInit, OnChanges } from '@angular/core';
 import { HttpHeaders, HttpClient } from '@angular/common/http';
 import { Tutor } from 'src/app/model/tutor';
 import Submissao from 'src/app/model/submissao';
@@ -11,33 +11,21 @@ import ErroCompilacaoFactory from 'src/app/model/errors/analise-compilacao/erroC
 /**
  * Executa um javascript ide.js para acoplar o editor VStudio.
  */
-declare var editor: any;
+//declare var editor: any;
 declare var monaco: any;
-declare function carregarIde(readOnly, callback, instance, codigo): any;
+declare function carregarIde(readOnly, callback, instance, callbackOnEditorLoad, codigo): any;
 
 @Component({
   selector: 'app-editor-programacao',
   templateUrl: './editor-programacao.component.html',
   styleUrls: ['./editor-programacao.component.css']
 })
-export class EditorProgramacaoComponent implements AfterViewInit {
+export class EditorProgramacaoComponent implements AfterViewInit, OnChanges {
+  
 
   URL = "http://35.208.64.26:8000/";
 
-  ngAfterViewInit(): void {
-
-    this.editorCodigo = Editor.getInstance();
-    if (this.questao != null && this.questao.algoritmoInicial != null && this.questao.algoritmoInicial != "" &&
-        Array.isArray(this.questao.algoritmo)) {
-      this.editorCodigo.codigo = this.questao.algoritmoInicial.join("\n");
-    } else {
-      this.editorCodigo.codigo = ""
-    }
-
-    let usuario = this.login.getUsuarioLogado();
-    carregarIde(false, null, null, this.editorCodigo.codigo);
-
-  }
+  editor; // instância do Mônaco Editor. Carregado por meio do arquivo ide.js
 
   @Input()
   console;
@@ -52,12 +40,7 @@ export class EditorProgramacaoComponent implements AfterViewInit {
 
   @Input() set submissao(value) {
     this._submissao = value;
-    if (this._submissao != null) {
-      this.editorCodigo.codigo = this._submissao["codigo"];
-      if (editor != null)
-        editor.setValue(this.editorCodigo.codigo);
-    }
-
+    this.atualizarEditorComSubmissao();
   }
 
   get submissao() {
@@ -85,6 +68,38 @@ export class EditorProgramacaoComponent implements AfterViewInit {
     this.onSubmit = new EventEmitter();
     this.onVisualization = new EventEmitter();
     this.onServidorError = new EventEmitter();
+  }
+
+  ngOnChanges(changes: import("@angular/core").SimpleChanges): void {
+    this.atualizarEditorComSubmissao();
+  }
+
+  ngAfterViewInit(): void {
+
+    this.editorCodigo = Editor.getInstance();
+    if (this.questao != null && this.questao.algoritmoInicial != null && this.questao.algoritmoInicial != "" &&
+        Array.isArray(this.questao.algoritmo)) {
+      this.editorCodigo.codigo = this.questao.algoritmoInicial.join("\n");
+    } else {
+      this.editorCodigo.codigo = ""
+    }
+
+    let usuario = this.login.getUsuarioLogado();
+    carregarIde(false, null, this, this.carregarEditor, this.editorCodigo.codigo);
+
+  }
+
+  atualizarEditorComSubmissao(){
+    if (this._submissao != null) {
+      this.editorCodigo.codigo = this._submissao["codigo"];
+      if (this.editor != null)
+        this.editor.setValue(this.editorCodigo.codigo);
+    }
+  }
+
+  carregarEditor(editorProgramacaoComponentInstance, editor){
+    editorProgramacaoComponentInstance.editor = editor;
+    editorProgramacaoComponentInstance.atualizarEditorComSubmissao();
   }
 
   visualizarExecucacao(modoVisualizacao, trace) {
@@ -164,8 +179,6 @@ export class EditorProgramacaoComponent implements AfterViewInit {
 
       }, err => {
 
-        // Construir objeto Console
-        // TODO: Fazer algo se for servidor fora do ar
         if (err.error.mensagem == null) {
           this.onServidorError.emit(err);
         } else {
@@ -198,8 +211,8 @@ export class EditorProgramacaoComponent implements AfterViewInit {
    */
   prepararSubmissao() {
 
-    this.editorCodigo.codigo = editor.getValue();
-    let submissao = new Submissao(null, editor.getValue(), this.login.getUsuarioLogado(), this.questao)
+    this.editorCodigo.codigo = this.editor.getValue();
+    let submissao = new Submissao(null, this.editor.getValue(), this.login.getUsuarioLogado(), this.questao)
     return submissao;
   }
 

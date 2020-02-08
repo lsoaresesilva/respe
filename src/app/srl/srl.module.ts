@@ -34,7 +34,6 @@ import {} from 'primeng/radiobutton';
 import { JuizModule } from '../juiz/juiz.module';
 import { MonitorarPlanejamentoComponent } from './monitoramento/monitorar-planejamento/monitorar-planejamento.component';
 import { AcompanharDesempenhoComponent } from './monitoramento/acompanhar-desempenho/acompanhar-desempenho.component';
-import { ErrosProgramacaoComponent } from './monitoramento/erros-programacao/erros-programacao.component';
 import { PercentualErrorQuotientComponent } from './monitoramento/percentual-error-quotient/percentual-error-quotient.component';
 import { CardDesempenhoComponent } from './monitoramento/card-desempenho/card-desempenho.component';
 import { CardErrosProgramacaoPizzaComponent } from './monitoramento/card-erros-programacao-pizza/card-erros-programacao-pizza.component';
@@ -45,6 +44,7 @@ import { TipsRegulacaoComponent } from './monitoramento/tips-regulacao/tips-regu
 
 import { EscapeHtmlPipe } from '../pipes/keep-html.pipe';
 import { SharedPipesModule } from '../pipes/shared-pipes.module';
+import { AnaliseDesempenhoEstudanteComponent } from './monitoramento/analise-desempenho-estudante/analise-desempenho-estudante.component';
 
 
 @NgModule({
@@ -60,12 +60,12 @@ import { SharedPipesModule } from '../pipes/shared-pipes.module';
     ExibirSolucaoComponent,
     MonitorarPlanejamentoComponent,
     AcompanharDesempenhoComponent,
-    ErrosProgramacaoComponent,
     PercentualErrorQuotientComponent,
     CardDesempenhoComponent,
     CardErrosProgramacaoPizzaComponent,
     CardHistoricoErrosComponent,
     TipsRegulacaoComponent,
+    AnaliseDesempenhoEstudanteComponent,
   ],
   imports: [
     MessagesModule,

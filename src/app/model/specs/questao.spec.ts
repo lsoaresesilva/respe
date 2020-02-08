@@ -11,7 +11,6 @@ import TestCase from '../testCase';
 import { forkJoin } from 'rxjs';
 import Submissao from '../submissao';
 import Usuario from '../usuario';
-import Codigo from '../codigo';
 import ResultadoTestCase from '../resultadoTestCase';
 import { Assuntos } from '../enums/assuntos';
 
@@ -96,9 +95,7 @@ describe("Testes de questão", () => {
     a.questoesProgramacao = []
     a.questoesProgramacao.push(q);
 
-    let c = new Codigo();
-    c.algoritmo = "bla";
-    let s = new Submissao(null, c, u, q);
+    let s = new Submissao(null, "bla", u, q);
     s.resultadosTestsCases = [];
     s.resultadosTestsCases.push(new ResultadoTestCase(null, true, "c", t))
     s.resultadosTestsCases.push(new ResultadoTestCase(null, true, "a", t1))

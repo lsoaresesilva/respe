@@ -64,7 +64,4 @@ export default class QuestionarioAutorregulacao extends Document{
         return false;
     }
 
-    static getByUsuario(usuario:Usuario){
-        return QuestionarioAutorregulacao.getByQuery(new Query("usuarioId", "==", usuario.pk()));
-    }
 }

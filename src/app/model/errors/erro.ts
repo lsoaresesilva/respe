@@ -104,42 +104,7 @@ export default abstract class Erro extends Document{
         ranking[top].total = erro.total;
     }
 
-    static rankErros(dados){
-        let ranking = {top1:{tipo:undefined, total:0}, top2:{tipo:undefined, total:0}, top3:{tipo:undefined, total:0}}
-        if( dados != undefined){
-
-            let top1 = {}
-            let top2 = {}
-            let top3 = {}
-            
-            for (let key in dados) {
-                if(dados[key] != 0){
-                    if(ranking.top1.total < dados[key]){
-                        //let oldRank1 = {total:ranking.top1.total, tipo:ranking.top1.tipo}
-                        /*ranking.top1.total = dados[key];
-                        ranking.top1.tipo = TipoErro[key];*/
-
-                        // verificar se pode ir para o rank 2 ou rank 3
-                        /*if(ranking.top2.total < oldRank1.){
-
-                        }*/
-
-                        Erro.atualizarRank(ranking, "top1", {tipo:key, total:dados[key]})
-                    }else if(ranking.top2.total < dados[key]){
-                        /*ranking.top2.total = dados[key];
-                        ranking.top2.tipo = TipoErro[key];*/
-                        Erro.atualizarRank(ranking, "top2", {tipo:key, total:dados[key]})
-                    }else if(ranking.top3.total < dados[key]){
-                        ranking.top3.total = dados[key];
-                        ranking.top3.tipo = TipoErro[key];
-                    }
-                }
-            }
-        }
-
-       return ranking;
-        
-    }
+    
 
     static getTextoErro(tipo){
         switch(tipo){
@@ -170,34 +135,7 @@ export default abstract class Erro extends Document{
 
    
 
-    static calcularHistogramaPorRank(ranking, dados){
-
-        let resultados = {}
-
-        if( ranking != undefined && dados != undefined && dados.length > 0){
-            
-            dados.forEach(erro=>{
-
-                
-                let d = erro.data.toDate();
-                let mes = d.getMonth();
-                if( resultados[mes] == undefined ){
-                    resultados[mes] = {top1:{total:0}, top2:{total:0}, top3:{total:0}}
-                    
-                }
-
-                if(erro.tipo == ranking.top1.tipo)
-                    resultados[mes].top1.total += 1;
-                else if(erro.tipo == ranking.top2.tipo)
-                    resultados[mes].top2.total += 1;
-                else if(erro.tipo == ranking.top3.tipo)
-                    resultados[mes].top3.total += 1;
-            });
-
-        }
-
-        return resultados;
-    }
+    
 
     
 

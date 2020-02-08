@@ -1,5 +1,5 @@
 
-import { CategoriaErro } from '../enum/categoriasErro';
+import { CategoriaErro, getCategoriaPorInstancia } from '../enum/categoriasErro';
 import { Document, Collection, date, ignore } from '../../firestore/document';
 import { Observable, forkJoin } from 'rxjs';
 import NameError from './nameError';
@@ -7,6 +7,10 @@ import Submissao from '../../submissao';
 import ErroCompilacaoFactory from './erroCompilacaoFactory';
 import Query from '../../firestore/query';
 import { Util } from '../../util';
+
+
+import * as firebase from 'firebase';
+import HistogramaErroData from './frequenciaErro';
 
 export abstract class ErroCompilacao {
 
@@ -26,7 +30,7 @@ export abstract class ErroCompilacao {
     }
 
     objectToDocument(){
-        return {id:this.id, traceback:this.traceback};
+        return {id:this.id, traceback:this.traceback, data:firebase.firestore.FieldValue.serverTimestamp()};
     }
 
     abstract getMensagem();
@@ -58,9 +62,13 @@ export abstract class ErroCompilacao {
     }
 
 
+    /**
+     * Retorna a categoria do erro cometido pelo estudante a partir do traceback de sua submissão.
+     * @param traceback 
+     */
     static getCategoria(traceback) {
         if (traceback != null) {
-            let padrao = /([a-zA-Z]+):/;
+            let padrao = /([a-zA-Z]+Erro[a-z]+):/;
             let consulta = traceback.match(padrao);
 
             if (consulta != null) {
@@ -82,59 +90,97 @@ export abstract class ErroCompilacao {
 
     }
 
+    /**
+     * Extrai todos os erros cometidos pelo estudante em suas submissões.
+     * @param submissoes 
+     */
+    static getAllErros(submissoes){
+        let erros = []
+        submissoes.forEach(submissao=>{
+            if(submissao.erro != null && submissao.erro instanceof ErroCompilacao){
+                erros.push(submissao.erro);
+            }
+        });
 
-    static getAllErrosEstudante(usuario) {
-        // TODO: Talvez seja preciso refatorar para filtrar das submissões do estudante apenas os erros.
-        /*return new Observable(observer => {
-            Submissao.getAll(new Query("estudanteId", "==", usuario.pk())).subscribe(submissoes => {
-                let erros = [];
-                submissoes.forEach(submissao => {
-                    erros.push(ErroCompilacao.getAll(new Query("submissaoId", "==", submissao.pk())));
-                });
-
-                if (erros.length > 0) {
-                    forkJoin(erros).subscribe(resultados => {
-
-                        observer.next(resultados["flat"]()); // O método flat é utilizado para transformar um array que possui n arrays, cada um com uma quantidade x de erros para cada submissão, em um único array.
-                        observer.complete();
-                    })
-                } else {
-                    observer.next(erros);
-                    observer.complete();
-                }
-            });
-        });*/
+        return erros;
     }
 
-    static calcularFrequenciaPorTipoErro(erros): any {
-        let resultados = {};
+    static getCorErro(categoria){
+        switch(categoria){
+            case CategoriaErro.nameError:
+                return "#FFBF00";
+            case CategoriaErro.indentationError:
+                return "#80FF00";
+            case CategoriaErro.syntaxError:
+                return "#A9F5F2";
+            case CategoriaErro.typeError:
+                return "#08298A";
+            
+            default:
+                return "";
+        }
+    }
 
-        let nameError = 0;
-        let syntaxError = 0;
-        let typeError = 0;
-        let indentationError = 0;
+    static calcularFrequenciaPorMes(erros){
+        let resultados = [];
+        erros.forEach(erro=>{
+            if(erro != null && erro instanceof ErroCompilacao){
+                let data = erro.data.toDate();
+                let mes = data.getMonth();
+                let categoriaErro = getCategoriaPorInstancia(erro);
 
-        erros.forEach(erro => {
+                if( resultados[mes] == undefined ){
+                    resultados[mes] = []
+                }
+                
+                if(resultados[mes][categoriaErro] == undefined ){
+                    resultados[mes][categoriaErro] = new HistogramaErroData(categoriaErro);
 
-            if (erro.categoria == CategoriaErro.nameError) {
-                nameError += 1;
-            } else if (erro.categoria == CategoriaErro.syntaxError) {
-                syntaxError += 1;
-            } else if (erro.categoria == CategoriaErro.typeError) {
-                typeError += 1;
-            } else if (erro.categoria == CategoriaErro.indentationError) {
-                indentationError += 1;
+                }
+
+                if(resultados[mes][categoriaErro] instanceof HistogramaErroData)
+                    resultados[mes][categoriaErro].contagem += 1;
             }
-        })
-
-        resultados = {
-            nameError: nameError,
-            syntaxError: syntaxError,
-            typeError: typeError,
-            indentationError: indentationError
-        };
-
+        });
+        
         return resultados;
     }
+
+    
+    
+
+    /**
+     * Identifica o top 3 principais erros cometidos pelo estudante.
+     
+    static rankErros(dados){
+        let ranking = {top1:{tipo:undefined, total:0}, top2:{tipo:undefined, total:0}, top3:{tipo:undefined, total:0}}
+        if( dados != undefined){
+
+            let top1 = {}
+            let top2 = {}
+            let top3 = {}
+            
+            for (let key in dados) {
+                if(dados[key] != 0){
+                    if(ranking.top1.total < dados[key]){
+                    
+                        Erro.atualizarRank(ranking, "top1", {tipo:key, total:dados[key]})
+                    }else if(ranking.top2.total < dados[key]){
+                        
+                        Erro.atualizarRank(ranking, "top2", {tipo:key, total:dados[key]})
+                    }else if(ranking.top3.total < dados[key]){
+                        ranking.top3.total = dados[key];
+                        ranking.top3.tipo = TipoErro[key];
+                    }
+                }
+            }
+        }
+
+       return ranking;
+        
+    }
+
+    */
+    
 
 }

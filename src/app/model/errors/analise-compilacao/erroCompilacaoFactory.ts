@@ -42,11 +42,15 @@ export default class ErroCompilacaoFactory{
      */
     public static construirPorDocument(document){
         if(this.isDocumentErroCompilacaoValido(document)){
-            return this.construir(document["traceback"])
+            let erro = this.construir(document["traceback"]);
+            erro.data = document["data"]
+            return erro;
         }
 
         return null;
     }
+
+    
 
     public static isDocumentErroCompilacaoValido(document){
         if(document != null && document["traceback"] != null && document["traceback"] != "")

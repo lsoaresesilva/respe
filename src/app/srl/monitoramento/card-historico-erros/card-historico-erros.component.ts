@@ -1,5 +1,8 @@
 import { Component, OnInit, Input } from '@angular/core';
 import Erro from 'src/app/model/errors/erro';
+import HistogramaErroData from 'src/app/model/errors/analise-compilacao/frequenciaErro';
+import { getLabelPorCategoriaNumero } from 'src/app/model/errors/enum/labelCategoriasErro';
+import { ErroCompilacao } from 'src/app/model/errors/analise-compilacao/erroCompilacao';
 
 @Component({
   selector: 'app-card-historico-erros',
@@ -9,6 +12,7 @@ import Erro from 'src/app/model/errors/erro';
 export class CardHistoricoErrosComponent implements OnInit {
 
   graficoBarra;
+  opcoes;
   @Input() erros;
 
   constructor() { }
@@ -24,82 +28,105 @@ export class CardHistoricoErrosComponent implements OnInit {
           backgroundColor: []
         }]
     };
+    this.opcoes = {
+      responsive: true,
+      scales: {
+        yAxes: [{
+          ticks: {
+            beginAtZero: true,
+            minValue: 0
+          }
+        }]
+      }
+    }
+    let frequenciaErrosPorMes = ErroCompilacao.calcularFrequenciaPorMes(this.erros)
+    this.construirGraficoBarras(frequenciaErrosPorMes);
 
-    /*let dadosProcessados = Erro.calcularFrequenciaPorTipoErro(this.erros);
-    let ranking = Erro.rankErros(dadosProcessados);
-    let dadosHistograma = Erro.calcularHistogramaPorRank(ranking, this.erros);
-    this.construirGraficoBarras(dadosHistograma, ranking);*/
   }
 
-  construirGraficoBarras(dadosHistograma, ranking) {
+  construirGraficoBarras(dadosHistograma) {
 
-    /*let labels = []
-    let labelTop1 = Erro.getTextoErro(ranking.top1.tipo)
-    let corTop1 = Erro.getCorErro(ranking.top1.tipo)
-    let labelTop2 = Erro.getTextoErro(ranking.top2.tipo)
-    let corTop2 = Erro.getCorErro(ranking.top2.tipo)
-    let labelTop3 = Erro.getTextoErro(ranking.top3.tipo)
-    let corTop3 = Erro.getCorErro(ranking.top3.tipo)
+    let labels = []
+    let dataSets = []
 
-    let dataTop1 = []
-    let dataTop2 = []
-    let dataTop3 = []
 
-    for (let key in dadosHistograma) {
-      dataTop1.push(dadosHistograma[key].top1.total)
-      dataTop2.push(dadosHistograma[key].top2.total)
-      dataTop3.push(dadosHistograma[key].top3.total)
+    for (let mes in dadosHistograma) {
 
-      if (key == "0") {
+      if (mes == "0") {
         labels.push("Janeiro")
-
-      } else if (key == "1") {
+      } else if (mes == "1") {
         labels.push("Fevereiro")
-      } else if (key == "2") {
+      } else if (mes == "2") {
         labels.push("Março")
-      } else if (key == "3") {
+      } else if (mes == "3") {
         labels.push("Abril")
-      } else if (key == "4") {
+      } else if (mes == "4") {
         labels.push("Maio")
-      } else if (key == "5") {
+      } else if (mes == "5") {
         labels.push("Junho")
-      } else if (key == "6") {
+      } else if (mes == "6") {
         labels.push("Julho")
-      } else if (key == "7") {
+      } else if (mes == "7") {
         labels.push("Agosto")
-      } else if (key == "8") {
+      } else if (mes == "8") {
         labels.push("Setembro")
-      } else if (key == "9") {
+      } else if (mes == "9") {
         labels.push("Outubro")
-      } else if (key == "10") {
+      } else if (mes == "10") {
         labels.push("Novembro")
-      } else if (key == "11") {
+      } else if (mes == "11") {
         labels.push("Dezembro")
+      }
+
+      if (Array.isArray(dadosHistograma[mes])) {
+
+        for (let categoriaErro in dadosHistograma[mes]) {
+          if (dadosHistograma[mes][categoriaErro] instanceof HistogramaErroData) {
+
+            let pos = -1;
+            for (let i = 0; i < dataSets.length; i++) {
+              if (dataSets[0].label == getLabelPorCategoriaNumero(categoriaErro)) {
+                pos = i;
+              }
+            }
+
+            if (pos != -1) {
+              dataSets[pos].data.push([dadosHistograma[mes][categoriaErro].contagem]);
+            } else {
+              dataSets.push({
+                label: getLabelPorCategoriaNumero(categoriaErro),
+                data: [dadosHistograma[mes][categoriaErro].contagem],
+                backgroundColor: ErroCompilacao.getCorErro(categoriaErro)
+              })
+            }
+
+            // verificar se já tem um dataSet criado
+
+
+          }
+        }
       }
 
     }
 
+    let options = {
+      scale: {
+        xAxes: [{
+          ticks: {
+            beginAtZero: true
+          }
+        }]
+      }
+    };
+
     this.graficoBarra = {
-      labels: labels, // devem ser os meses em que foram identificados
-      datasets: [
-        {
-          data: dataTop1, // devem ter os dados de top1 para todos os meses
-          label: labelTop1, // label top1
-          backgroundColor: corTop1
-        },
-        {
-          data: dataTop2, // devem ter os dados de top1 para todos os meses
-          label: labelTop2, // label top2
-          backgroundColor: corTop2
-        },
-        {
-          data: dataTop3, // devem ter os dados de top1 para todos os meses
-          label: labelTop3, // label top3
-          backgroundColor: corTop3
-        }
-      ]
-    };*/
+      labels: labels,
+      datasets: dataSets,
+
+    };
 
   }
+
+
 
 }

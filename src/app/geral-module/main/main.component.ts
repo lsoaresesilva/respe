@@ -13,8 +13,7 @@ import PosTeste from 'src/app/model/experimento/old_check_to_delete/posTeste';
 import { Groups } from 'src/app/model/experimento/groups';
 import { PerfilUsuario } from 'src/app/model/enums/perfilUsuario';
 import { ApresentacaoService } from '../apresentacao.service';
-
-
+import QuestionarioAutorregulacao from 'src/app/model/experimento/questionarioAutorregulacao';
 
 
 @Component({
@@ -23,18 +22,18 @@ import { ApresentacaoService } from '../apresentacao.service';
   styleUrls: ['./main.component.css']
 })
 export class MainComponent implements OnInit, AfterViewInit {
-  ngAfterViewInit(): void {
-    this.apresentacao.apresentarInicializacao(this.usuario);
-  }
+  
 
   itens: MenuItem[];
   private usuario;
   visibilidadeDialog;
+  visibilidadeQuestionario: boolean;
 
 
   constructor(private router: Router, private login: LoginService, private apresentacao:ApresentacaoService) {
     this.usuario = this.login.getUsuarioLogado();
 
+    this.visibilidadeQuestionario = false;
   }
 
 
@@ -126,8 +125,21 @@ export class MainComponent implements OnInit, AfterViewInit {
 
   ngOnInit() {
     this.criarMenu();
-    //this.apresentarPretest();
+    
+    this.apresentarPretestRegulacao();
 
+  }
+
+  apresentarPretestRegulacao(){
+    
+    if(this.usuario != null && typeof this.usuario.pk === "function"){
+      QuestionarioAutorregulacao.getByQuery(new Query("usuarioId", "==", this.usuario.pk())).subscribe(resultado=>{
+        this.visibilidadeQuestionario = false;
+      }, err=>{
+        this.visibilidadeQuestionario = true;
+      })
+    }
+    
   }
 
   apresentarPretest() {
@@ -145,6 +157,10 @@ export class MainComponent implements OnInit, AfterViewInit {
     PosTeste.apresentar(this.login.getUsuarioLogado()).subscribe(resultado => {
       this.visibilidadeDialog = resultado;
     })
+  }
+
+  ngAfterViewInit(): void {
+    this.apresentacao.apresentarInicializacao(this.usuario);
   }
 
   private logout() {

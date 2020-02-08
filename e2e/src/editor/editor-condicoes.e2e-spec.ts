@@ -46,12 +46,12 @@ describe('Testes no editor com questões de condicionais', () => {
                                 expect(page.getStatusExecucao().getText()).toEqual("Sucesso");
 
                                 done();
-                            }, 5000)
+                            }, 4000)
 
                         });
 
 
-                    }, 5000)
+                    }, 4000)
                 })
             }, 2000)
         })

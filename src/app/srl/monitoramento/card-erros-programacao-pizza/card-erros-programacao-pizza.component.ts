@@ -2,8 +2,9 @@ import { Component, OnInit, Input } from '@angular/core';
 import Erro from 'src/app/model/errors/erro';
 import { TipoErro } from 'src/app/model/tipoErro';
 import { ErroCompilacao } from 'src/app/model/errors/analise-compilacao/erroCompilacao';
-import { LabelCategoriasErros } from 'src/app/model/errors/enum/labelCategoriasErro';
+import { LabelCategoriasErros, getLabelPorCategoriaNumero } from 'src/app/model/errors/enum/labelCategoriasErro';
 import { CategoriaErro } from 'src/app/model/errors/enum/categoriasErro';
+import FrequenciaErro from 'src/app/model/errors/analise-compilacao/frequenciaErro';
 
 @Component({
   selector: 'app-card-erros-programacao-pizza',
@@ -20,45 +21,39 @@ export class CardErrosProgramacaoPizzaComponent implements OnInit {
 
   ngOnInit() {
     this.grafico = {
-      data: this.dadosProcessados,
       labels: [],
-      datasets: [
-        {
-          data: this.dadosProcessados,
-          backgroundColor: []
-        }]
+      datasets:[]
     };
   
-    if(this.erros != undefined){
-      this.dadosProcessados = ErroCompilacao.calcularFrequenciaPorTipoErro(this.erros);
-      this.construirGraficoPizza();
-    }
+    let frequenciaPorTipoErro = FrequenciaErro.calcularFrequenciaPorTipoErro(this.erros);
+    this.construirGraficoPizza(frequenciaPorTipoErro);
       
   }
 
-  construirGraficoPizza() {
-    // TODO: Colocar os objetos da função calcularFrequencia em um array. Percorrer o array nessa lista.
-    let labels = [];
-    let backgroundColors = []
-    let data = []
+  construirGraficoPizza(frequencias:FrequenciaErro[]) {
 
-    Object.keys(this.dadosProcessados).forEach(chave=>{
-      if(this.dadosProcessados[chave] > 0){
-        labels.push(LabelCategoriasErros[chave]);
-        backgroundColors.push(this.getCorErro(CategoriaErro[chave]));
-        data.push(this.dadosProcessados[chave]);
-      }
-    })
+    if(frequencias != undefined && Array.isArray(frequencias)){
+      let labels = [];
+      let backgroundColors = []
+      let data = []
 
-    this.grafico = {
-      data: data,
-      labels: labels,
-      datasets: [
-        {
-          data: data,
-          backgroundColor: backgroundColors
-        }]
-    };
+      frequencias.forEach(frequencia=>{
+        labels.push(getLabelPorCategoriaNumero(frequencia.categoriaErro));
+        backgroundColors.push(ErroCompilacao.getCorErro(frequencia.categoriaErro));
+        data.push(frequencia.contagem);
+      });
+
+      this.grafico = {
+        labels: labels,
+        datasets: [
+          {
+            data: data,
+            backgroundColor: backgroundColors
+          }]
+      };
+    }
+
+    
 
   }
 

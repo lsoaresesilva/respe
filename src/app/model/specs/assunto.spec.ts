@@ -24,7 +24,6 @@ import { PerfilUsuario } from '../enums/perfilUsuario';
 import { RespostaQuestaoFechada } from '../respostaQuestaoFechada';
 import Alternativa from '../alternativa';
 import Submissao from '../submissao';
-import Codigo from '../codigo';
 
 describe("Testes de questão", () => {
 
