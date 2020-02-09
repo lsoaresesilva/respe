@@ -1,6 +1,7 @@
 import { Component, OnInit, Input } from '@angular/core';
 import { LoginService } from 'src/app/login-module/login.service';
 import QuestionarioAutorregulacao from 'src/app/model/experimento/questionarioAutorregulacao';
+import Query from 'src/app/model/firestore/query';
 
 @Component({
   selector: 'app-questionario-autorregulacao',
@@ -9,16 +10,27 @@ import QuestionarioAutorregulacao from 'src/app/model/experimento/questionarioAu
 })
 export class QuestionarioAutorregulacaoComponent implements OnInit {
 
-  @Input()
   visibilidadeQuestionario;
   respostasQuestionarioAutorregulacao:QuestionarioAutorregulacao;
 
   constructor(public login:LoginService) { 
     this.respostasQuestionarioAutorregulacao = new QuestionarioAutorregulacao(null, this.login.getUsuarioLogado());
+    this.visibilidadeQuestionario = false;
   }
 
   ngOnInit() {
-    // Verificar se o usuário deve responder ao questionário
+    this.apresentarPretestRegulacao();
+  }
+
+  apresentarPretestRegulacao(){
+    let usuario = this.login.getUsuarioLogado();
+    if(usuario != null && typeof usuario.pk === "function"){
+      QuestionarioAutorregulacao.getByQuery(new Query("usuarioId", "==", usuario.pk())).subscribe(resultado=>{
+        this.visibilidadeQuestionario = false;
+      }, err=>{
+        this.visibilidadeQuestionario = true;
+      })
+    }
     
   }
 

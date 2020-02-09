@@ -6,13 +6,14 @@ import Usuario from '../model/usuario';
 import { containsElement } from '@angular/animations/browser/src/render/shared';
 import { LoginService } from '../login-module/login.service';
 import Turma from '../model/turma';
+import { PerfilUsuario } from '../model/enums/perfilUsuario';
 
 
 @Injectable({
     providedIn: 'root'
   })
 
-export class AuthGuard implements CanActivate, CanLoad {
+export class AdminGuard implements CanActivate, CanLoad {
     
     path: ActivatedRouteSnapshot[];
     route: ActivatedRouteSnapshot;
@@ -37,7 +38,8 @@ export class AuthGuard implements CanActivate, CanLoad {
   }
 
   verificarAcesso() {
-    if (this.login.isUsuarioLogado()) {
+    let usuario = this.login.getUsuarioLogado();
+    if (usuario.perfil == PerfilUsuario.admin) {
       return true;
     }
       this.router.navigate([""]);

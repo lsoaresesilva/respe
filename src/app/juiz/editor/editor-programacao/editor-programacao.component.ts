@@ -78,7 +78,7 @@ export class EditorProgramacaoComponent implements AfterViewInit, OnChanges {
 
     this.editorCodigo = Editor.getInstance();
     if (this.questao != null && this.questao.algoritmoInicial != null && this.questao.algoritmoInicial != "" &&
-        Array.isArray(this.questao.algoritmo)) {
+        Array.isArray(this.questao.algoritmoInicial)) {
       this.editorCodigo.codigo = this.questao.algoritmoInicial.join("\n");
     } else {
       this.editorCodigo.codigo = ""

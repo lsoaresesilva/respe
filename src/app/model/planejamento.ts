@@ -18,6 +18,7 @@ export class Planejamento extends Document {
   importanciaAssunto;
   dificuldadeConteudo: Dificuldade;
   estrategiaRealizacaoEstudo;
+  motivacao;
   @ignore()
   percentualConclusao;
 
@@ -45,7 +46,7 @@ export class Planejamento extends Document {
   validar() {
     let planejamentoFixo;
     return new Observable(observer => {
-      if (this.assunto == null || this.dificuldadeConteudo == 0 || this.estrategiaRealizacaoEstudo == "" || this.importanciaAssunto == "") {
+      if (this.assunto == null || this.dificuldadeConteudo == 0 || this.estrategiaRealizacaoEstudo == "" || this.importanciaAssunto == "" || this.motivacao == 0) {
         observer.error(new Error("É preciso preencher todos os campos."))
       } else {
         Planejamento.getAll([new Query("estudanteId", "==", this.estudante.pk()), new Query("assuntoId", "==", this.assunto.pk())]).subscribe(planejamento=>{

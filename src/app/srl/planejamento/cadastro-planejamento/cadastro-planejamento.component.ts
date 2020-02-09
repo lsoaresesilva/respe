@@ -8,6 +8,7 @@ import { Router, ActivatedRoute } from '@angular/router';
 import Usuario from 'src/app/model/usuario';
 import { LoginService } from 'src/app/login-module/login.service';
 import { MessageService } from 'primeng/primeng';
+import { Motivacao } from 'src/app/model/enums/motivacao';
 //import {MessageService} from 'primeng/api';
 @Component({
   selector: 'app-cadastro-planejamento',
@@ -17,11 +18,14 @@ import { MessageService } from 'primeng/primeng';
 export class CadastroPlanejamentoComponent implements OnInit {
 
   dificuldades: SelectItem[];
+  motivacao: SelectItem[];
   assuntos;
   index: number = 0;
   planejamento: Planejamento;
   id;
   isAlterar;
+
+  dialogImportanciaAssunto = false;
 
 
 
@@ -51,6 +55,12 @@ export class CadastroPlanejamentoComponent implements OnInit {
 
   }
 
+  exibirDialogImportancia(event){
+    if(this.planejamento.assunto != null){
+      this.dialogImportanciaAssunto = true;
+    }
+  }
+
   ngOnInit() {
 
 
@@ -78,6 +88,15 @@ export class CadastroPlanejamentoComponent implements OnInit {
       { label: 'Difícil', value: Dificuldade.dificil },
       { label: 'Normal', value: Dificuldade.medio },
       { label: 'Fácil', value: Dificuldade.facil },
+    ];
+
+    this.motivacao = [
+      { label: 'Selecione um nível de motivação', value: null },
+      { label: 'Não estou', value: Motivacao.nenhuma },
+      { label: 'Pouco', value: Motivacao.pouco },
+      { label: 'Normal', value: Motivacao.normal },
+      { label: 'Estou motivado', value: Motivacao.motivado },
+      { label: 'Estou muito motivado', value: Motivacao.muitoMotivado },
     ];
   }
 

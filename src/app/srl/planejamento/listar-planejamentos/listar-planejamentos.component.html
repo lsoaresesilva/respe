@@ -1,33 +1,47 @@
 <p-toast [style]="{marginTop: '80px'}"></p-toast>
 <h1>Meus planejamentos de estudo</h1>
 
+<div class="p-grid">
+  <div class="p-col-4"></div>
+  <div class="p-col-4">
+    <button style="margin-bottom:10px;" pButton type="button" (click)="criarPlanejamento()" label="Novo" class="ui-button-success ui-button-raised"></button>
+  </div>
+</div>
+
+<div class="p-grid">
+  <div class="p-col-4"></div>
+  <div class="p-col-4">
+    <p-table [value]="planejamentos" [(contextMenuSelection)]="selectedPlanejamento" [contextMenu]="cm">
+      <ng-template pTemplate="header">
+          <tr>
+              <th>Assunto</th>
+              <th>Horas de estudo/semana</th>
+              <th>Ações</th>
+          </tr>
+      </ng-template>
+    
+      <ng-template pTemplate="body" let-planejamento let-i="rowIndex">
+          <tr id="planejamento{{i}}">
+              <td (click)="abrirPlanejamento(planejamento)" style="cursor:pointer">{{planejamento.assunto.nome}}</td>
+              <td>{{planejamento.tempoEstudo}} horas/semana</td>
+              <td> <button pButton type="button" (click)="deletar(planejamento)" label="Deletar" class= "ui-button-danger ui-button-raised"> <i class="fas fa-backspace"></i></button></td>
+              <!-- <td> <button pButton type="button" (click)="alterar(planejamento)" label="Atualizar" class= "ui-button-secondary ui-button-raised"> <i class="fas fa-edit"></i></button></td> -->
+          </tr>
+      </ng-template>
+    </p-table>
+    
+    <p-contextMenu #cm [model]="items"></p-contextMenu> 
+    
+  </div>
+</div>
+
 <p-dialog id="planejamentoDialog" [modal]="true" [(visible)]="visibilidadeDialogPlanejamento" header="Planeje o seus estudos!" #dialogPlanejamento [style]="{width: '400px', height: '200px'}">
   <span style="font-weight: bold">Você sabia?</span> Para alcançar boas notas é fundamental planejar sua rotina de estudos.
   Você precisa conhecer o conteúdo que irá estudar, definir quanto tempo irá se dedicar e também refletir sobre como estudará (qual material vai utilizar para estudar, se fará sozinho ou em grupo, onde estudará, em qual horário, entre outras informações que possam ajudá-lo a organizar o seu aprendizado).  
 </p-dialog>
 
-<button style="margin-bottom:10px;" pButton type="button" (click)="criarPlanejamento()" label="Novo" class="ui-button-success ui-button-raised"></button>
 
-<p-table [value]="planejamentos" [(contextMenuSelection)]="selectedPlanejamento" [contextMenu]="cm">
-  <ng-template pTemplate="header">
-      <tr>
-          <th>Assunto</th>
-          <th>Horas de estudo/semana</th>
-          <th>Ações</th>
-      </tr>
-  </ng-template>
 
-  <ng-template pTemplate="body" let-planejamento let-i="rowIndex">
-      <tr id="planejamento{{i}}">
-          <td (click)="abrirPlanejamento(planejamento)" style="cursor:pointer">{{planejamento.assunto.nome}}</td>
-          <td>{{planejamento.tempoEstudo}} horas/semana</td>
-          <td> <button pButton type="button" (click)="deletar(planejamento)" label="Deletar" class= "ui-button-danger ui-button-raised"> <i class="fas fa-backspace"></i></button></td>
-          <!-- <td> <button pButton type="button" (click)="alterar(planejamento)" label="Atualizar" class= "ui-button-secondary ui-button-raised"> <i class="fas fa-edit"></i></button></td> -->
-      </tr>
-  </ng-template>
-</p-table>
-
-<p-contextMenu #cm [model]="items"></p-contextMenu> 
 
 
 

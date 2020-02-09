@@ -82,11 +82,10 @@ export class ApresentacaoService {
             {
               element: document.getElementById('planejamentoMenu'),
               intro: "<h3>Aqui começam os seus estudos</h3><p>Crie um planejamento para os seus estudos e comece a responder as questões de programação.</p>"
-            },
-            {
-              element: document.getElementById('meuDesempenhoMenu'),
-              intro: "<h3>Como está seu desempenho em programação?</h3><p>Aqui podes ver informações sobre o seu desempenho, principais erros que cometeu, entre outras informações.</p>"
-            },
+            },{
+               element: document.getElementById('meuDesempenhoMenu'),
+               intro: "<h3>Como está seu desempenho em programação?</h3><p>Aqui podes ver informações sobre o seu desempenho, principais erros que cometeu, entre outras informações.</p>"
+           },
 
           ]
         }

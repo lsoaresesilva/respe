@@ -25,15 +25,14 @@ export class MainComponent implements OnInit, AfterViewInit {
   
 
   itens: MenuItem[];
-  private usuario;
-  visibilidadeDialog;
-  visibilidadeQuestionario: boolean;
+  usuario:Usuario;
+
+
+  //visibilidadeDialog;
 
 
   constructor(private router: Router, private login: LoginService, private apresentacao:ApresentacaoService) {
     this.usuario = this.login.getUsuarioLogado();
-
-    this.visibilidadeQuestionario = false;
   }
 
 
@@ -125,23 +124,13 @@ export class MainComponent implements OnInit, AfterViewInit {
 
   ngOnInit() {
     this.criarMenu();
-    
-    this.apresentarPretestRegulacao();
 
   }
 
-  apresentarPretestRegulacao(){
-    
-    if(this.usuario != null && typeof this.usuario.pk === "function"){
-      QuestionarioAutorregulacao.getByQuery(new Query("usuarioId", "==", this.usuario.pk())).subscribe(resultado=>{
-        this.visibilidadeQuestionario = false;
-      }, err=>{
-        this.visibilidadeQuestionario = true;
-      })
-    }
-    
-  }
+  
 
+
+  /*
   apresentarPretest() {
     RespostaQuestaoExperimento.isFinalizado(this.login.getUsuarioLogado()).subscribe(resultado => {
       if (resultado) {
@@ -157,7 +146,7 @@ export class MainComponent implements OnInit, AfterViewInit {
     PosTeste.apresentar(this.login.getUsuarioLogado()).subscribe(resultado => {
       this.visibilidadeDialog = resultado;
     })
-  }
+  }*/
 
   ngAfterViewInit(): void {
     this.apresentacao.apresentarInicializacao(this.usuario);

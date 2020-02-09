@@ -12,6 +12,7 @@ import { Assuntos } from './enums/assuntos';
 export class Assunto extends Document {
 
     sequencia;
+    importancia;
     questoesProgramacao;
     questoesFechadas;
     objetivosEducacionais:[];
@@ -109,16 +110,17 @@ export class Assunto extends Document {
         return true;
     }
 
-    calcularPercentualConclusao(usuario){
+    static calcularPercentualConclusao(assunto:Assunto, usuario):Observable<number>{
         return new Observable(observer=>{
-            forkJoin([Assunto.calcularPercentualConclusaoQuestoesFechadas(this, usuario), Assunto.calcularPercentualConclusaoQuestoesProgramacao(this, usuario, 0.6)]).subscribe(resultado=>{
+            forkJoin([Assunto.calcularPercentualConclusaoQuestoesFechadas(assunto, usuario), Assunto.calcularPercentualConclusaoQuestoesProgramacao(assunto, usuario, 0.6)]).subscribe(resultado=>{
                 let percentualConclusao = 0;
                 resultado.forEach(percentual=>{
                     percentualConclusao += percentual;
                 });
 
                 percentualConclusao /= 2;
-                observer.next(percentualConclusao*100);
+                percentualConclusao = Math.round(percentualConclusao*100);
+                observer.next(percentualConclusao);
                 observer.complete();
             })
         })
@@ -241,14 +243,15 @@ export class Assunto extends Document {
 
     static ordenar(arrayAssuntos:Assunto[]){
 
-        let assuntos = [];
-
-        arrayAssuntos.forEach(assunto=>{
+        /*arrayAssuntos.forEach(assunto=>{
             let sequencia = assunto["sequencia"]-1 // O índice do array começa em 0 e as ordens das disciplinas em 1.
             assuntos[sequencia] = assunto;
             
-        })
+        })*/
+        arrayAssuntos.sort(function(assuntoA, assuntoB){
+            return assuntoA.sequencia-assuntoB.sequencia; 
+        });
 
-        return assuntos;
+        return arrayAssuntos;
     }
 }

@@ -6,6 +6,7 @@ import { LoginService } from 'src/app/login-module/login.service';
 //import {Experiment} from 'scientificxpjs/experiment'
 import { MessageService } from 'primeng/primeng';
 import Query from 'src/app/model/firestore/query';
+import { Groups } from 'src/app/model/experimento/groups';
 
 
 @Component({
@@ -15,22 +16,22 @@ import Query from 'src/app/model/firestore/query';
 })
 export class LoginComponent implements OnInit {
 
-  usuario:Usuario;
+  usuario: Usuario;
 
-  constructor(private loginService:UsuarioService, private router:Router, private login:LoginService, private messageService: MessageService) { 
+  constructor(private loginService: UsuarioService, private router: Router, private login: LoginService, private messageService: MessageService) {
     this.usuario = new Usuario(null, null, null, 0, null);
   }
 
   ngOnInit() {
   }
-  
-  loginIncorreto(){
-    this.messageService.add({severity:'success', summary:'Inválido!', detail:'Usuário ou senha inválidos'});
+
+  loginIncorreto() {
+    this.messageService.add({ severity: 'success', summary: 'Inválido!', detail: 'Usuário ou senha inválidos' });
   }
 
-  acessar(){
+  acessar() {
     let t = this;
-    this.login.logar(this.usuario).subscribe(resultado=>{
+    this.login.logar(this.usuario).subscribe(resultado => {
       /**/
       this.redirecionar(resultado);
       /*Experiment.login(this.usuario.grupoExperimento).subscribe(resultado=>{
@@ -39,15 +40,20 @@ export class LoginComponent implements OnInit {
     })
   }
 
-  redirecionar(resultado){
-    if(resultado)
-    this.router.navigate(["main", { outlets: { principal: ['home'] } }]);
-    else{
+  redirecionar(resultado) {
+    if (resultado){
+      let usuario = this.login.getUsuarioLogado();
+      if(usuario.grupoExperimento == Groups.control)
+        this.router.navigate(["main", { outlets: { principal: ['listagem-assuntos'] } }]);
+      else
+        this.router.navigate(["main", { outlets: { principal: ['meu-desempenho'] } }]);
+    }
+    else {
       alert("Usuário ou senha inválidos. Você tem certeza que fez o cadastro?") // TODO: mudar para o message service
     }
   }
 
-  cadastrar(){
+  cadastrar() {
     this.router.navigate(["cadastro-estudante"])
   }
 
@@ -56,47 +62,48 @@ export class LoginComponent implements OnInit {
   signInWithGoogle() {
     this.login.signInWithGoogle()
       .then((res) => {
-        if(res != undefined){
-          Usuario.logar(new Query ('email', "==", res.user.email)).subscribe(usuarioLogado =>{
-            if(usuarioLogado != undefined){
-                this.login.criarSessao(usuarioLogado);
-                this.router.navigate(["main", { outlets: { principal: ['home'] } }]);          
-            }else{
-                this.router.navigate(["cadastro-estudante",res.user.email,res.user.displayName])
+        if (res != undefined) {
+          Usuario.logar(new Query('email', "==", res.user.email)).subscribe(usuarioLogado => {
+            if (usuarioLogado != undefined) {
+              this.login.criarSessao(usuarioLogado);
+
+              this.router.navigate(["main", { outlets: { principal: ['home'] } }]);
+            } else {
+              this.router.navigate(["cadastro-estudante", res.user.email, res.user.displayName])
             }
-          }),err =>{
-              alert("erro ao tentar realizar login:" + err.string())
-            }
+          }), err => {
+            alert("erro ao tentar realizar login:" + err.string())
+          }
 
         }
       })
       .catch((err) => console.log(err));
-    }
+  }
 
 
 
-    signInWithFacebook() {
-      this.login.signInWithFacebook()
-        .then((res) => {
-          if(res != undefined){
-            Usuario.logar(new Query ('email', "==", res.user.email)).subscribe(usuarioLogado =>{
-              if(usuarioLogado != undefined){
-                  this.login.criarSessao(usuarioLogado);
-                  this.router.navigate(["main", { outlets: { principal: ['home'] } }]);          
-              }else{
-                  this.router.navigate(["cadastro-estudante",res.user.email,res.user.displayName])
-              }
-            }),err =>{
-                alert("erro ao tentar realizar login:" + err.string())
-              }
-  
+  signInWithFacebook() {
+    this.login.signInWithFacebook()
+      .then((res) => {
+        if (res != undefined) {
+          Usuario.logar(new Query('email', "==", res.user.email)).subscribe(usuarioLogado => {
+            if (usuarioLogado != undefined) {
+              this.login.criarSessao(usuarioLogado);
+              this.router.navigate(["main", { outlets: { principal: ['home'] } }]);
+            } else {
+              this.router.navigate(["cadastro-estudante", res.user.email, res.user.displayName])
+            }
+          }), err => {
+            alert("erro ao tentar realizar login:" + err.string())
           }
-        })
-        .catch((err) => console.log(err));
-      }
+
+        }
+      })
+      .catch((err) => console.log(err));
+  }
 
 
 
- 
+
 
 }

@@ -53,18 +53,6 @@ export class ExperimentoGuard implements CanActivate {
 
   }
 
-  isRotaRestrita(rota) {
-    let rotaBloqueada = false;
-    for(let i = 0; i < this.paginasRestritas.length; i++){
-      if(rota.includes(this.paginasRestritas[i])){
-        rotaBloqueada = true;
-        break;
-      }
-    }
-
-    return rotaBloqueada;
-    
-  }
 
 
 

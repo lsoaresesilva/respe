@@ -86,8 +86,8 @@ export class ResponderQuestaoProgramacao implements OnInit, AfterViewInit {
                 
                 if (this.login.getUsuarioLogado() != null) {
                   Submissao.getRecentePorQuestao(this.questao, this.login.getUsuarioLogado()).subscribe(submissao => {
-            
-                    this.submissao = submissao;
+                    if(submissao != null)
+                      this.submissao = submissao;
                     //this.pausaIde = false;
                   })
             

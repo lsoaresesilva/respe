@@ -1,13 +1,35 @@
-<div *ngIf="planejamento != null && planejamento.assunto != null">
-    <button *ngIf="isFinalizado" pButton label="Revisar progresso" (click)="iniciarAutoReflexao()"></button>
+<div class="p-grid" *ngIf="planejamento != null && planejamento.assunto != null">
+    <div class="p-col-2"></div>
+    <div class="p-col-8">
+        <h1>{{planejamento.assunto.nome}}</h1>
+    </div>
+</div>
 
-    <h3>Seu progresso:</h3>
+<div class="p-grid" *ngIf="planejamento != null && planejamento.assunto != null">
+    <div class="p-col-2"></div>
+    <div class="p-col-8">
+        <app-monitorar-planejamento [planejamento]="planejamento"></app-monitorar-planejamento>
+    </div>
+</div>
 
-    <app-monitorar-planejamento [planejamento]="planejamento"></app-monitorar-planejamento>
+<div class="p-grid" *ngIf="planejamento != null && planejamento.assunto != null">
+    <div class="p-col-2"></div>
+    <div class="p-col-8">
+        <app-visualizar-assunto [assunto]="planejamento.assunto"></app-visualizar-assunto>
+    </div>
+</div>
+
+<div>
+    <!-- <button *ngIf="isFinalizado" pButton label="Revisar progresso" (click)="iniciarAutoReflexao()"></button> -->
+
+
+
+
 
     <p *ngIf="planejamento.assunto.objetivosEducacionais.length > 0">
-        Os objetivos educacionais desse assunto são: <span *ngFor="let objetivo of planejamento.assunto.objetivosEducacionais">{{objetivo}}</span>
+        Os objetivos educacionais desse assunto são: <span
+            *ngFor="let objetivo of planejamento.assunto.objetivosEducacionais">{{objetivo}}</span>
     </p>
 
-    <app-visualizar-assunto [assunto]="planejamento.assunto"></app-visualizar-assunto>
+    
 </div>

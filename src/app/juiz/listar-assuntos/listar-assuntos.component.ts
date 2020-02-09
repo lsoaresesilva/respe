@@ -23,7 +23,9 @@ export class ListarAssuntosComponent implements OnInit {
 
   ngOnInit() {
    
-    Assunto.getAll().subscribe(assuntos=>{this.assuntos = assuntos});
+    Assunto.getAll().subscribe(assuntos=>{
+      this.assuntos = Assunto.ordenar(assuntos);
+    });
     
     if(this.usuario.perfil == 3){
     this.items = [
