@@ -23,8 +23,9 @@ declare function carregarIde(readOnly, callback, instance, callbackOnEditorLoad,
 export class EditorProgramacaoComponent implements AfterViewInit, OnChanges {
   
 
-  URL = "http://35.208.64.26:8000/";
-
+  //URL = "http://35.208.64.26:8000/";
+  URL = "http://localhost:8000/"
+  
   editor; // instância do Mônaco Editor. Carregado por meio do arquivo ide.js
 
   @Input()
