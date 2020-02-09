@@ -23,9 +23,11 @@ declare function carregarIde(readOnly, callback, instance, callbackOnEditorLoad,
 export class EditorProgramacaoComponent implements AfterViewInit, OnChanges {
   
 
-  //URL = "http://35.208.64.26:8000/";
-  URL = "http://localhost:8000/"
+  URL = "http://35.208.64.26:8000/";
+  //URL = "http://localhost:8000/"
   
+  processandoSubmissao;
+
   editor; // instância do Mônaco Editor. Carregado por meio do arquivo ide.js
 
   @Input()
@@ -69,6 +71,7 @@ export class EditorProgramacaoComponent implements AfterViewInit, OnChanges {
     this.onSubmit = new EventEmitter();
     this.onVisualization = new EventEmitter();
     this.onServidorError = new EventEmitter();
+    this.processandoSubmissao = false;
   }
 
   ngOnChanges(changes: import("@angular/core").SimpleChanges): void {
@@ -169,9 +172,10 @@ export class EditorProgramacaoComponent implements AfterViewInit, OnChanges {
       let json = submissao.construirJson(this.questao, tipoExecucao);
 
       let url = this.URL+"codigo/"
+      this.processandoSubmissao = true;
       this.http.post<any>(url, json, httpOptions).subscribe(resposta => { // TODO: mudar o endereço para o real
 
-
+        
         submissao.processarRespostaServidor(resposta).subscribe(resultado => {
           this.submissao = resultado;
           this.onSubmit.emit(this._submissao);
@@ -179,7 +183,6 @@ export class EditorProgramacaoComponent implements AfterViewInit, OnChanges {
         })
 
       }, err => {
-
         if (err.error.mensagem == null) {
           this.onServidorError.emit(err);
         } else {
@@ -194,12 +197,13 @@ export class EditorProgramacaoComponent implements AfterViewInit, OnChanges {
 
 
       }, () => {
-        //_this.pausaIde = false;
+        this.processandoSubmissao = false;
       })
 
       //}
 
     }else{
+      this.processandoSubmissao = false;
       alert("Não há algoritmo a ser executado.")
     }
 

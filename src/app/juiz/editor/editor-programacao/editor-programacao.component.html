@@ -1,4 +1,5 @@
 <div *ngIf="this.questao != undefined">
+
       <button *ngIf="modoVisualizacao == false" 
             type="button" 
             (click)="executar()" 
@@ -18,6 +19,8 @@
       label="{{submissao.isComSucesso()?'Sucesso':'O algoritmo não está correto.'}}"
       *ngIf="submissao != undefined && submissao.isComSucesso() != null" 
       [ngClass]="{'ui-button-success':submissao.isComSucesso(), 'ui-button-danger':!submissao.isComSucesso()}" pButton></button>
+
+      <p-progressBar *ngIf="processandoSubmissao == true" mode="indeterminate" [style]="{'height': '6px', 'width':'100px'}"></p-progressBar>
     
 </div>
 

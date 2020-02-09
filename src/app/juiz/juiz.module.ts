@@ -13,7 +13,7 @@ import {CardModule} from 'primeng/card';
 import {CheckboxModule} from 'primeng/checkbox';
 import { ListarQuestoesComponent } from './listar-questoes/listar-questoes.component';
 import {MessageService} from 'primeng/api';
-import { ContextMenuModule, ContextMenu, MenuItem, MenuModule, } from 'primeng/primeng';
+import { ContextMenuModule, ContextMenu, MenuItem, MenuModule, ProgressBarModule, } from 'primeng/primeng';
 import { HttpClientModule } from '@angular/common/http';
 import { CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
 import {ProgressSpinnerModule} from 'primeng/progressspinner';
@@ -121,7 +121,8 @@ import { SharedPipesModule } from '../pipes/shared-pipes.module';
     InputMaskModule,
     ConfirmDialogModule,
     ScrollPanelModule,
-    SharedPipesModule
+    SharedPipesModule,
+    ProgressBarModule
   ],
   exports:[
     VisualizarTestesComponent,

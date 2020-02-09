@@ -55,7 +55,7 @@ describe('Listagem planejamento', () => {
     it("Testar questão Variáveis -> 1", (done) => {
         runAlgorithm("jW22yOF9a28N0aQlNNGR", "0b2920fd-565c-4dab-8c95-c7021fc0b9de", [
             "x = input()",
-            "print('O número sorteado foi:', x)"
+            "print(x)"
         ], done)
     })
 
@@ -72,7 +72,7 @@ describe('Listagem planejamento', () => {
         runAlgorithm("jW22yOF9a28N0aQlNNGR", "38bd2aec-f62f-475e-b010-20af623db20e", [
             "d = int(input())",
             "a = 3.14*d",
-            "print('A área é:', a)"
+            "print(a)"
         ], done)
     }) 
 
