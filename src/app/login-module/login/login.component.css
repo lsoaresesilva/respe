@@ -19,7 +19,8 @@ button{
 }
 body {
     height: 100vh;
-     background-image: url('https://images.unsplash.com/photo-1522202176988-66273c2fd55f?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=1502&q=80') !important;
+    background: rgb(3,135,247)  !important;
+    background: linear-gradient(90deg, rgba(3,135,247,0.5354516806722689) 0%, rgba(90,174,232,1) 35%, rgba(255,255,255,1) 100%);
 }
 
  a {
@@ -50,7 +51,8 @@ body {
 }
 
 .container {
-    background-image: linear-gradient(0deg,rgba(12, 153, 255, 0.79),#051119),url('https://images.unsplash.com/photo-1522202176988-66273c2fd55f?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=1502&q=80');
+    background: rgb(23,124,245);
+background: linear-gradient(180deg, rgba(23,124,245,0.9192051820728291) 70%, rgba(147,192,246,1) 100%);
     width: 100vw;
     height: 100vh;
     display: flex;
@@ -115,9 +117,8 @@ body {
 .hero-section__card-info {
     display: flex;
     margin: 10px 0px;
-    width: 500px;
+    width: 800px;
     display: flex;
-    align-items: center;
 }
 
 .hero-section__about-card-icon {
@@ -150,4 +151,11 @@ body {
     margin: 30px;
 }
 
+h1{
+    font-family: OpenSans,Arial,sans-serif;
+    font-weight: 700;
+    font-size: 30px;
+    line-height: 52px;
+    color: #fff;
+}
 
