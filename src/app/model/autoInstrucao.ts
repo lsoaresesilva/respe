@@ -68,7 +68,7 @@ export class AutoInstrucao extends Document{
         assuntosRelacionados = assuntosRelacionados.concat(assuntoPrincipal, this.questao.assuntos);
 
         assuntosRelacionados.forEach(assunto=>{
-            switch (assunto) {
+            switch (assunto.nome) {
 
                 case Assuntos.repeticoes: {
                   repeticoes = true;
