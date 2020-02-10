@@ -25,7 +25,7 @@ import {ProgressBarModule} from 'primeng/progressbar';
 import { ListarPlanejamentosComponent } from './planejamento/listar-planejamentos/listar-planejamentos.component';
 import { VisualizarPlanejamentoComponent } from './planejamento/vizualizar-planejamento/visualizar-planejamento.component';
 import { RouterModule } from '@angular/router';
-import { CheckboxModule, InputTextModule, AccordionModule, RadioButtonModule, ChartModule, ContextMenuModule } from 'primeng/primeng';
+import { CheckboxModule, InputTextModule, AccordionModule, RadioButtonModule, ChartModule, ContextMenuModule, MessageService } from 'primeng/primeng';
 import {FieldsetModule} from 'primeng/fieldset';
 import { RespostaSimilarQuestaoProgramacaoComponent } from './monitoramento/resposta-similar-questao-programacao/resposta-similar-questao-programacao.component';
 import {TreeTableModule} from 'primeng/treetable';
@@ -99,7 +99,7 @@ import { DesempenhoAssuntosComponent } from './monitoramento/desempenho-assuntos
     ContextMenuModule,
     SharedPipesModule
   ],
-  providers:[],
+  providers:[MessageService],
   exports:[RiscoEstudanteComponent, PercentualErrorQuotientComponent, TipsRegulacaoComponent]
 
 })

@@ -1,35 +1,39 @@
-<div class="p-grid" *ngIf="planejamento != null && planejamento.assunto != null">
-    <div class="p-col-2"></div>
-    <div class="p-col-8">
-        <h1>{{planejamento.assunto.nome}}</h1>
+<div *ngIf="planejamento != null">
+
+    <div class="p-grid" *ngIf="planejamento.assunto != null">
+        <div class="p-col-2"></div>
+        <div class="p-col-8">
+            <h1>{{planejamento.assunto.nome}}</h1>
+        </div>
     </div>
-</div>
 
-<div class="p-grid" *ngIf="planejamento != null && planejamento.assunto != null">
-    <div class="p-col-2"></div>
-    <div class="p-col-8">
-        <app-monitorar-planejamento [planejamento]="planejamento"></app-monitorar-planejamento>
+    <div class="p-grid" *ngIf="planejamento.assunto != null">
+        <div class="p-col-2"></div>
+        <div class="p-col-8">
+            <app-monitorar-planejamento [planejamento]="planejamento"></app-monitorar-planejamento>
+        </div>
     </div>
-</div>
 
-<div class="p-grid" *ngIf="planejamento != null && planejamento.assunto != null">
-    <div class="p-col-2"></div>
-    <div class="p-col-8">
-        <app-visualizar-assunto [assunto]="planejamento.assunto"></app-visualizar-assunto>
+    <div class="p-grid" *ngIf="planejamento.assunto != null">
+        <div class="p-col-2"></div>
+        <div class="p-col-8">
+            <app-visualizar-assunto [assunto]="planejamento.assunto"></app-visualizar-assunto>
+        </div>
     </div>
-</div>
 
-<div>
-    <!-- <button *ngIf="isFinalizado" pButton label="Revisar progresso" (click)="iniciarAutoReflexao()"></button> -->
-
+    <div>
+        <!-- <button *ngIf="isFinalizado" pButton label="Revisar progresso" (click)="iniciarAutoReflexao()"></button> -->
 
 
 
 
-    <p *ngIf="planejamento.assunto.objetivosEducacionais.length > 0">
-        Os objetivos educacionais desse assunto são: <span
-            *ngFor="let objetivo of planejamento.assunto.objetivosEducacionais">{{objetivo}}</span>
-    </p>
 
-    
+        <p *ngIf="planejamento.assunto.objetivosEducacionais.length > 0">
+            Os objetivos educacionais desse assunto são: <span
+                *ngFor="let objetivo of planejamento.assunto.objetivosEducacionais">{{objetivo}}</span>
+        </p>
+
+
+    </div>
+
 </div>

@@ -66,8 +66,12 @@ export class AutoInstrucao extends Document {
 
         let assuntosRelacionados = [assuntoPrincipal];
         
-        if (this.questao.assuntos != undefined) {
-            assuntosRelacionados = assuntosRelacionados.concat(this.questao.assuntos);
+        if (this.questao.assuntos != undefined && Array.isArray(this.questao.assuntos)) {
+            this.questao.assuntos.forEach(assunto=>{
+                if(assunto != null){
+                    assuntosRelacionados.push(assunto);
+                }
+            })
         }
 
         assuntosRelacionados.forEach(assunto => {

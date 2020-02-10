@@ -96,7 +96,7 @@ export class Assunto extends Document {
 
         return new Observable(observer => {
             super.get(id).subscribe(assunto => {
-                assunto["questoesProgramacao"] = Questao.construir(assunto["questoesProgramacao"]);
+                assunto["questoesProgramacao"] = Questao.construir(assunto["questoesProgramacao"], assunto);
                 assunto["questoesFechadas"] = QuestaoFechada.construir(assunto["questoesFechadas"]);
                 observer.next(assunto);
                 observer.complete();

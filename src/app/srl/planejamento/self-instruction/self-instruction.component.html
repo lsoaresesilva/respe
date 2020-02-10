@@ -1,50 +1,78 @@
+<p-toast></p-toast>
+<div *ngIf="questao != undefined">
+    <div class="p-grid">
+        <div class="p-col-2"></div>
+        <div class="p-col-8" >
+            <app-visualizar-questao [questao]="questao"></app-visualizar-questao>
+        </div>
+        <div class="p-col-2"></div>
+    </div>
+    <div class="p-grid">
+        <div class="p-col-2">
 
-<p-messages [(value)]="msgs"></p-messages>
+        </div>
+        <div class="p-col-8">
+            <div class="p-col-12">
+                <span class="ui-float-label">
+                    <h3 class="first">Qual problema você espera resolver com esse algoritmo?</h3>
+                    <textarea [rows]="3" [cols]="150" pInputTextarea autoResize="autoResize"
+                        [(ngModel)]="autoInstrucao.problema"></textarea>
 
-<div *ngIf="questao != undefined" style="margin-bottom:20px;">
-    <app-visualizar-questao [questao]="questao"></app-visualizar-questao>
-</div>
+                </span>
+            </div>
 
-<p-accordion id="self-instructions">
-    <p-accordionTab header="Qual problema você espera resolver com esse algoritmo?" id="problema">
-        <textarea [rows]="5" [cols]="150" pInputTextarea autoResize="autoResize"
-            [(ngModel)]="autoInstrucao.problema"></textarea>
-    </p-accordionTab>
+            <div class="p-col-12">
+                <span class="ui-float-label">
+                    <h3 class="first">Quais as variáveis que precisam ser criadas para resolver esse problema?</h3>
+                    <textarea [rows]="3" [cols]="150" pInputTextarea autoResize="autoResize"
+                        [(ngModel)]="autoInstrucao.variaveis"></textarea>
+                </span>
+            </div>
 
-    <p-accordionTab header="Quais as variáveis que precisam ser criadas para resolver esse problema?" id="variaveis">
-        <textarea [rows]="5" [cols]="150" pInputTextarea autoResize="autoResize"
-            [(ngModel)]="autoInstrucao.variaveis"></textarea>
-    </p-accordionTab>
+            <div class="p-col-12" *ngIf="condicoes">
+                <span class="ui-float-label">
+                    <h3 class="first">Quais as condições que são necessárias para resolver esse problema?</h3>
+                    <textarea [rows]="3" [cols]="150" pInputTextarea autoResize="autoResize"
+                        [(ngModel)]="autoInstrucao.condicoes"></textarea>
+                </span>
+            </div>
 
-    <div *ngIf="condicoes">
-        <p-accordionTab header="Quais as condições que são necessárias para resolver esse problema?" id="condições">
-            <textarea [rows]="5" [cols]="150" pInputTextarea autoResize="autoResize"
-                [(ngModel)]="autoInstrucao.condicoes"></textarea>
-        </p-accordionTab>
+            <div class="p-col-12" *ngIf="repeticoes">
+                <span class="ui-float-label">
+                    <h3 class="first">Quais as repetições que são necessárias para resolver esse problema?</h3>
+                    <textarea [rows]="3" [cols]="150" pInputTextarea autoResize="autoResize"
+                        [(ngModel)]="autoInstrucao.repeticoes"></textarea>
+                </span>
+            </div>
+
+            <div class="p-col-12" *ngIf="funcoes">
+                <span class="ui-float-label">
+                    <h3 class="first">Quais as funções que são necessárias para resolver esse problema?</h3>
+                    <textarea [rows]="3" [cols]="150" pInputTextarea autoResize="autoResize"
+                        [(ngModel)]="autoInstrucao.funcoes"></textarea>
+                </span>
+            </div>
+
+            <div class="p-col-12" *ngIf="vetores">
+                <span class="ui-float-label">
+                    <h3 class="first">Quais os vetores que são necessários para resolver esse problema?</h3>
+                    <textarea [rows]="3" [cols]="150" pInputTextarea autoResize="autoResize"
+                        [(ngModel)]="autoInstrucao.vetores"></textarea>
+                </span>
+            </div>
+        </div>
+
+        <div class="p-col-2"></div>
+
     </div>
 
-    <div *ngIf="repeticoes">
-        <p-accordionTab header="Quais as repetições que são necessárias para resolver esse problema?" id="repetições">
-            <textarea [rows]="5" [cols]="150" pInputTextarea autoResize="autoResize"
-                [(ngModel)]="autoInstrucao.repeticoes"></textarea>
-        </p-accordionTab>
-    </div>
+    <div class="p-grid">
+        <div class="p-col-2">
 
-    <div *ngIf="funcoes">
-        <p-accordionTab header="Quais as funções que são necessárias para resolver esse problema?" id="funções">
-            <textarea [rows]="5" [cols]="150" pInputTextarea autoResize="autoResize"
-                [(ngModel)]="autoInstrucao.funcoes"></textarea>
-        </p-accordionTab>
+        </div>
+        <div class="p-col-8">
+            <p-button label="Avançar" (click)="salvar()"></p-button>
+        </div>
+        <div class="p-col-2"></div>
     </div>
-
-    <div *ngIf="vetores">
-        <p-accordionTab header="Quais os vetores que são necessários para resolver esse problema?" id="array">
-            <textarea [rows]="5" [cols]="150" pInputTextarea autoResize="autoResize"
-                [(ngModel)]="autoInstrucao.vetores"></textarea>
-        </p-accordionTab>
-    </div>
-</p-accordion>
-
-<div>
-    <p-button label="Avançar" (click)="salvar()"></p-button>
 </div>

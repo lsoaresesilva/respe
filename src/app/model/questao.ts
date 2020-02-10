@@ -48,7 +48,8 @@ export class Questao {
     if (this.assuntos != null && this.assuntos.length > 0) {
       let assuntos = [];
       this.assuntos.forEach(assunto => {
-        assuntos.push(assunto.pk()); // TODO: erro aqui
+        if(assunto.pk != undefined)
+          assuntos.push(assunto.pk()); // TODO: erro aqui
       })
 
       document["assuntos"] = assuntos;
@@ -148,18 +149,21 @@ export class Questao {
      * Constrói objetos Questao a partir do atributo questoes de um assunto (que é um array)
      * @param testsCases 
      */
-  static construir(questoes: any[]) {
+  static construir(questoes: any[], assunto) {
     let objetosQuestoes: Questao[] = [];
 
     if (questoes != null) {
-      questoes.forEach(questao => {
+      questoes.forEach((questao, index) => {
         let assuntos = [];
         if (questao.assuntos != null && questao.assuntos.length > 0) {
           questao.assuntos.forEach(assunto => {
             assuntos.push(Assunto.construir(assunto)/*new Assunto(assunto, null)*/);
           })
 
-          questao.assuntos = assuntos;
+          if(assunto != null)
+            assuntos.push(assunto);
+
+          questoes[index].assuntos = assuntos;
         }
 
         questao.testsCases = TestCase.construir(questao.testsCases);
