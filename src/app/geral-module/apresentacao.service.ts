@@ -17,7 +17,7 @@ enum TiposApresentacao {
 })
 export class ApresentacaoService {
 
-  DEBUG = true;
+  DEBUG = false;
 
   constructor() { }
 
@@ -94,8 +94,8 @@ export class ApresentacaoService {
         opcoesIntro = {
           steps: [
             {
-              element: document.getElementById('assuntosMenu'),
-              intro: "Aqui começam os seus estudos, clique para selecionar o assunto que irá responder."
+              element: document.getElementById('assuntosProgramacao'),
+              intro: "Aqui começam os seus estudos, clique para selecionar o assunto que deseja aprender."
             },
 
           ]
@@ -125,7 +125,7 @@ export class ApresentacaoService {
           },
           {
             element: document.getElementById('tabelaQuestoesFechadas'),
-            intro: "<h3>Questões fechadas</h3><p>São perguntas sobre o assunto que você deve assinalar a resposta correta.</p>"
+            intro: "<h3>Questões fechadas</h3><p>São perguntas sobre o assunto com múltipla escolha.</p>"
           },
 
         ]
