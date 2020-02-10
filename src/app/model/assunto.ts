@@ -72,6 +72,26 @@ export class Assunto extends Document {
         return questaoLocalizada;
     }
 
+    /**
+     * Este método deve ser temporário, pois uma questão possui relação com assuntos, mas está sendo utilizado relação com banco de dados (usando a PK deles)
+     * No entanto, isso é custoso, pois seria preciso carregar do BD cada assunto. Para reduzir esse problema, futuramente, deve-se refatorar cada questão de programação para usar o nome que está no enumerador.
+     */
+    static construir(assunto){
+        if(assunto != null){
+            let a = new Assunto(assunto, null);
+            if(assunto == "PU0EstYupXgDZ2a57X0X") // Repetições
+                a.nome = Assuntos.repeticoes;
+            else if(assunto == "jW22yOF9a28N0aQlNNGR") // Repetições
+                a.nome = Assuntos.variaveis;
+            else if(assunto == "x6cVrs1hHkKmdRhFBpsf") // Repetições
+                a.nome = Assuntos.condicoes;
+
+            return a;
+        }
+
+        return null;
+    }
+
     static get(id) {
 
         return new Observable(observer => {

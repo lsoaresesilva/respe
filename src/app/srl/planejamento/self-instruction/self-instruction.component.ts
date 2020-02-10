@@ -49,9 +49,13 @@ export class SelfInstructionComponent implements OnInit {
                 
                 this.questao = questao;
                 this.autoInstrucao = new AutoInstrucao(null, this.login.getUsuarioLogado(), this.questao, null, null, null, null, null, null);
-                this.getAutoInstrucao();
-                this.questao.buscarAssuntos(this.assunto).subscribe(assuntos => {
-                  this.apresentarPerguntas(assuntos);
+                AutoInstrucao.getByEstudanteQuestao(this.login.getUsuarioLogado().pk(), this.questao.id).subscribe(autoInstrucao =>{
+
+                  if(autoInstrucao != null){
+                    this.autoInstrucao = autoInstrucao;
+                    this.autoInstrucao.questao = this.questao;   
+                  }
+            
                 });
 
               }
@@ -65,16 +69,6 @@ export class SelfInstructionComponent implements OnInit {
     });
   }
   
-  getAutoInstrucao(){
-    AutoInstrucao.getByEstudanteQuestao(this.login.getUsuarioLogado().pk(), this.questao.id).subscribe(autoInstrucao =>{
-
-      if(autoInstrucao != null){
-        this.autoInstrucao = autoInstrucao;
-        this.autoInstrucao.questao = this.questao;   
-      }
-
-    });
-  }
 
   salvar(){ 
     if(this.autoInstrucao.isValido(this.assunto)){

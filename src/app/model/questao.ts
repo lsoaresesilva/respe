@@ -156,7 +156,7 @@ export class Questao {
         let assuntos = [];
         if (questao.assuntos != null && questao.assuntos.length > 0) {
           questao.assuntos.forEach(assunto => {
-            assuntos.push(new Assunto(assunto, null));
+            assuntos.push(Assunto.construir(assunto)/*new Assunto(assunto, null)*/);
           })
 
           questao.assuntos = assuntos;

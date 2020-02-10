@@ -9,9 +9,9 @@ import Query from './firestore/query';
 import { Assuntos } from './enums/assuntos';
 
 @Collection("autoInstrucao")
-export class AutoInstrucao extends Document{
-    estudante:Usuario;
-    questao:Questao;
+export class AutoInstrucao extends Document {
+    estudante: Usuario;
+    questao: Questao;
     problema;
     variaveis;
     condicoes;
@@ -19,7 +19,7 @@ export class AutoInstrucao extends Document{
     funcoes;
     vetores;
 
-    constructor(id, estudante, questao, problema, variaveis, condicoes, repeticoes, funcoes, vetores){
+    constructor(id, estudante, questao, problema, variaveis, condicoes, repeticoes, funcoes, vetores) {
         super(id);
         this.estudante = estudante;
         this.questao = questao;
@@ -31,22 +31,22 @@ export class AutoInstrucao extends Document{
         this.vetores = vetores;
     }
 
-    objectToDocument(){
+    objectToDocument() {
         let document = super.objectToDocument()
         document["estudanteId"] = this.estudante.pk();
         document["questaoId"] = this.questao.id; // TODO: incluir também o assuntoID
         return document;
     }
 
-    static getByEstudanteQuestao(estudanteId, questaoId) :Observable <AutoInstrucao>{
-        
-        return new Observable (observer =>{
+    static getByEstudanteQuestao(estudanteId, questaoId): Observable<AutoInstrucao> {
 
-            AutoInstrucao.getAll([new Query("estudanteId","==",estudanteId), new Query("questaoId", "==", questaoId)]).subscribe(autoInstrucoesEstudante =>{
-                if(autoInstrucoesEstudante.length > 0){
+        return new Observable(observer => {
+
+            AutoInstrucao.getAll([new Query("estudanteId", "==", estudanteId), new Query("questaoId", "==", questaoId)]).subscribe(autoInstrucoesEstudante => {
+                if (autoInstrucoesEstudante.length > 0) {
                     autoInstrucoesEstudante[0].estudante = new Usuario(autoInstrucoesEstudante[0].estudanteId, null, null, null, null);
                     observer.next(autoInstrucoesEstudante[0]);
-                }else{
+                } else {
                     observer.next(null);
                 }
                 observer.complete();
@@ -57,48 +57,53 @@ export class AutoInstrucao extends Document{
 
 
 
-    isValido(assuntoPrincipal){
+    isValido(assuntoPrincipal) {
 
         let condicoes;
         let funcoes;
         let repeticoes;
         let vetores;
 
-        let assuntosRelacionados = [];
-        assuntosRelacionados = assuntosRelacionados.concat(assuntoPrincipal, this.questao.assuntos);
+        let assuntosRelacionados = [assuntoPrincipal];
+        
+        if (this.questao.assuntos != undefined) {
+            assuntosRelacionados = assuntosRelacionados.concat(this.questao.assuntos);
+        }
 
-        assuntosRelacionados.forEach(assunto=>{
+        assuntosRelacionados.forEach(assunto => {
             switch (assunto.nome) {
 
                 case Assuntos.repeticoes: {
-                  repeticoes = true;
-                  break;
+                    repeticoes = true;
+                    break;
                 }
                 case Assuntos.condicoes: {
-                  condicoes = true;
-                  break;
+                    condicoes = true;
+                    break;
                 }
                 case Assuntos.funcoes: {
-                  funcoes = true;
-                  break;
+                    funcoes = true;
+                    break;
                 }
                 case Assuntos.vetores: {
-                  vetores = true;
-                  break;
+                    vetores = true;
+                    break;
                 }
-              }
+            }
         });
+
+
 
         let isValido = true;
 
-        if(
-           (this.problema == undefined || this.problema == "") ||
-           (this.variaveis == undefined || this.variaveis == "") ||
-           (condicoes == true && (this.condicoes == undefined || this.condicoes == "")) || 
-           (funcoes == true && (this.funcoes == undefined || this.funcoes == "")) ||
-           (repeticoes == true && (this.repeticoes == undefined || this.repeticoes == "")) ||
-           (vetores == true && (this.vetores == undefined || this.vetores == ""))
-           ){
+        if (
+            (this.problema == undefined || this.problema == "") ||
+            (this.variaveis == undefined || this.variaveis == "") ||
+            (condicoes == true && (this.condicoes == undefined || this.condicoes == "")) ||
+            (funcoes == true && (this.funcoes == undefined || this.funcoes == "")) ||
+            (repeticoes == true && (this.repeticoes == undefined || this.repeticoes == "")) ||
+            (vetores == true && (this.vetores == undefined || this.vetores == ""))
+        ) {
             isValido = false;
         }
 
