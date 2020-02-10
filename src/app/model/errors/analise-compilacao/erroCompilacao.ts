@@ -140,19 +140,19 @@ export abstract class ErroCompilacao {
             if(erro != null && erro instanceof ErroCompilacao){
                 let data = erro.data.toDate();
                 let mes = data.getMonth();
-                let categoriaErro = getCategoriaPorInstancia(erro);
+                
 
                 if( resultados[mes] == undefined ){
                     resultados[mes] = []
                 }
                 
-                if(resultados[mes][categoriaErro] == undefined ){
-                    resultados[mes][categoriaErro] = new HistogramaErroData(categoriaErro);
+                if(resultados[mes][erro.categoria] == undefined ){
+                    resultados[mes][erro.categoria] = new HistogramaErroData(erro.categoria);
 
                 }
 
-                if(resultados[mes][categoriaErro] instanceof HistogramaErroData)
-                    resultados[mes][categoriaErro].contagem += 1;
+                if(resultados[mes][erro.categoria] instanceof HistogramaErroData)
+                    resultados[mes][erro.categoria].contagem += 1;
             }
         });
         
