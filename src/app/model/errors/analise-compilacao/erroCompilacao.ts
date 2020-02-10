@@ -106,6 +106,19 @@ export abstract class ErroCompilacao {
     }
 
     static getCorErro(categoria){
+
+        /**
+         * Referência: https://stackoverflow.com/questions/1484506/random-color-generator?page=1&tab=votes#tab-top
+         */
+        function getRandomColor() {
+            var letters = '0123456789ABCDEF';
+            var color = '#';
+            for (var i = 0; i < 6; i++) {
+              color += letters[Math.floor(Math.random() * 16)];
+            }
+            return color;
+          }
+
         switch(categoria){
             case CategoriaErro.nameError:
                 return "#FFBF00";
@@ -117,7 +130,7 @@ export abstract class ErroCompilacao {
                 return "#08298A";
             
             default:
-                return "";
+                return getRandomColor();
         }
     }
 
