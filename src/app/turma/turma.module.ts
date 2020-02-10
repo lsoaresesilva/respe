@@ -6,7 +6,7 @@ import { ButtonModule } from 'primeng/button';
 import { CadastrarEstudantesComponent } from './cadastrar-estudantes/cadastrar-estudantes.component';
 import { CadastrarTurmaComponent } from './cadastrar-turma/cadastrar-turma.component';
 import { FormsModule } from '@angular/forms';
-import { AutoCompleteModule, InputTextModule, CardModule } from 'primeng/primeng';
+import { AutoCompleteModule, InputTextModule, CardModule, DropdownModule } from 'primeng/primeng';
 import { ToastModule } from 'primeng/toast';
 import { ListarEstudantesComponent } from './listar-estudantes/listar-estudantes.component';
 import { TableModule } from 'primeng/table';
@@ -50,7 +50,8 @@ import { EnviarMaterialComponent } from './enviar-material/enviar-material.compo
     FieldsetModule,
     FileUploadModule,
     TableModule,
-    CardModule
+    CardModule,
+    DropdownModule
 
   ],
   exports:[VisualizarTurmaComponent, ListarEstudantesComponent]

@@ -16,6 +16,9 @@ export default class Usuario extends Document {
     data;
     nome;
     minutos;
+    genero;
+    conhecimentoPrevioProgramacao;
+    faixaEtaria;
 
     constructor(id, public email, public senha, public perfil: PerfilUsuario, public grupoExperimento: Groups) {
         super(id);
@@ -71,8 +74,13 @@ export default class Usuario extends Document {
         return new Observable(observer => {
             this.isEmailCadastrado().subscribe(resultado => {
                 if (!resultado) {
-                    if (this.email == null || this.email == "" || this.nome == null || this.nome == "" || this.senha == null || this.senha == "" || this.perfil == null || this.perfil <= 0) {
-                        observer.error(new Error("É preciso informar o e-mail, nome e senha para efetuar o cadastro.."))
+                    if (this.email == null || this.email == "" || 
+                        this.nome == null || this.nome == "" || 
+                        this.senha == null || this.senha == "" || 
+                        this.perfil == null || this.perfil <= 0 ||
+                        this.conhecimentoPrevioProgramacao == null || this.genero == null ||
+                        this.faixaEtaria == null) {
+                        observer.error(new Error("É preciso informar todos os dados para efetuar o cadastro."))
                     } else {
                         observer.next(true);
                         observer.complete();

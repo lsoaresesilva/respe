@@ -1,63 +1,63 @@
-
 <p-toast key="cadastro-estudante"></p-toast>
 
 <div class="container">
 
   <div class="login-section">
-          
-<div class="p-grid form">
-  <div class="p-col-12 row-title"> Faça seu cadastro</div>
-  
-  <div class= "container-painel">
 
-    
-     <div class="p-col-12">
-         <span class="ui-float-label">
-           <input id="codigo-turma"  [(ngModel)]= "estudante.turma.codigo" type="text" size="6" pInputText>
-           <label>Nº da turma</label>
-         </span>
-     </div>
-     <div class="p-col-12">
-         <span class="ui-float-label">
-           <input id="nome" [(ngModel)]= "estudante.usuario.nome"  type="text" size="30" pInputText>
-           <label>Nome</label>
-         </span>
-     </div>
-     <div class="p-col-12">
-       <span class="ui-float-label">
-         <input id="email" [(ngModel)]= "estudante.usuario.email"   type="text" size="30" pInputText>
-           <label>E-mail</label>
-         </span>
-     </div>
-     <div class="p-col-12">
-         <span class="ui-float-label">
-           <input id="senha"  [(ngModel)]= "estudante.usuario.senha"  type="password" size="30" pInputText>
-           <label>Senha</label>
-         </span>
+    <div class="p-grid form">
+      <div class="p-col-12 row-title"> Faça seu cadastro</div>
+
+      <div class="container-painel">
+
+
+        <div class="p-col-12">
+          <span class="ui-float-label">
+            <input id="codigo-turma" [(ngModel)]="estudante.turma.codigo" type="text" size="6" pInputText>
+            <label>Nº da turma</label>
+          </span>
+        </div>
+        <div class="p-col-12">
+          <span class="ui-float-label">
+            <input id="nome" [(ngModel)]="estudante.usuario.nome" type="text" size="30" pInputText>
+            <label>Nome</label>
+          </span>
+        </div>
+        <div class="p-col-12">
+          <span class="ui-float-label">
+            <p-dropdown [options]="genero" [(ngModel)]="estudante.usuario.genero"></p-dropdown>
+          </span>
+        </div>
+        <div class="p-col-12" style="margin-bottom:10px">
+          <span class="ui-float-label">
+            <p-dropdown [options]="faixaEtaria" [(ngModel)]="estudante.usuario.faixaEtaria" ></p-dropdown>
+          </span>
+        </div>
+        <div class="p-col-12">
+          <span class="ui-float-label">
+            <input id="email" [(ngModel)]="estudante.usuario.email" type="text" size="30" name="emailCadastro" pInputText>
+            <label>E-mail (será utilizado para acesso ao sistema)</label>
+          </span>
+        </div>
+        <div class="p-col-12">
+          <span class="ui-float-label">
+            <input id="senha" [(ngModel)]="estudante.usuario.senha" type="password" size="30" pInputText>
+            <label>Senha</label>
+          </span>
+        </div>
+        <div class="p-col-12">
+          <span class="ui-float-label">
+            <p-dropdown [options]="conhecimentoProgramacao" [(ngModel)]="estudante.usuario.conhecimentoPrevioProgramacao">
+            </p-dropdown>
+          </span>
+        </div>
+        <div class="p-col-12">
+          <button id="cadastrar" pButton type="button" label="Salvar" (click)="cadastrarEstudante()"
+            class="ui-button-raised "></button>
+          <div style="margin-top:10px;">Já tem uma conta? <a href="http://www.32bits.codes">Clique para login</a></div>
+        </div>
       </div>
-       <div class="p-col-12">
-           <button  id="cadastrar" pButton type="button" label="Salvar" (click)="cadastrarEstudante()" class="ui-button-raised "></button>
-       </div>
-   </div>
 
+
+    </div>
 
   </div>
-
-</div>
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-

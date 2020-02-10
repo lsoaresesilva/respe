@@ -19,8 +19,7 @@ button{
 }
 body {
     height: 100vh;
-    background: rgb(3,135,247)  !important;
-    background: linear-gradient(90deg, rgba(3,135,247,0.5354516806722689) 0%, rgba(90,174,232,1) 35%, rgba(255,255,255,1) 100%);
+    
 }
 
  a {
@@ -51,8 +50,7 @@ body {
 }
 
 .container {
-    background: rgb(23,124,245);
-background: linear-gradient(180deg, rgba(23,124,245,0.9192051820728291) 70%, rgba(147,192,246,1) 100%);
+    background: #0d476e;
     width: 100vw;
     height: 100vh;
     display: flex;

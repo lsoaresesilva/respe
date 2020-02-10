@@ -1,10 +1,13 @@
 import { Component, OnInit } from '@angular/core';
 import { Router, ActivatedRoute } from '@angular/router';
-import { MessageService } from 'primeng/api';
+import { MessageService, SelectItem } from 'primeng/api';
 import Usuario from 'src/app/model/usuario';
 import { PerfilUsuario } from 'src/app/model/enums/perfilUsuario';
 import Turma from 'src/app/model/turma';
 import Estudante from 'src/app/model/estudante';
+import { ConhecimentoProgramacao } from 'src/app/model/enums/conhecimentoProgramacao';
+import { Genero } from 'src/app/model/enums/genero';
+import { FaixaEtaria } from 'src/app/model/enums/faixaEtaria';
 
 
 @Component({
@@ -16,12 +19,36 @@ export class CadastrarEstudantesComponent implements OnInit {
 
   id;
   estudante;
+  conhecimentoProgramacao:SelectItem[];
+  genero:SelectItem[];
+  faixaEtaria:SelectItem[];
 
   constructor(public router: Router, private route: ActivatedRoute, private messageService: MessageService) {
+    this.conhecimentoProgramacao = [
+      { label: 'Qual o seu conhecimento de programação?', value: null },
+      { label: 'Nunca programei', value: ConhecimentoProgramacao.nenhum },
+      { label: 'Pouco, li algumas coisas, mas não sei programar', value: ConhecimentoProgramacao.pouco },
+      { label: 'Sei algumas coisas, já escrevi pequenos programas', value: ConhecimentoProgramacao.medio },
+      { label: 'Eu sei programar', value: ConhecimentoProgramacao.programador },
+    ];
 
-  }
-  MensagemError() {
-    this.messageService.add({ severity: 'success', summary: 'Estudante cadastrado com sucesso.' });
+    this.genero = [
+      { label: 'Qual o seu gênero?', value: null },
+      { label: 'Feminino', value: Genero.feminino },
+      { label: 'Masculino', value: Genero.feminino },
+      
+    ];
+
+    this.faixaEtaria = [
+      { label: 'Em qual faixa-etária você se encontra?', value: null },
+      { label: '14 a 17', value: FaixaEtaria.quatorzeadezessete },
+      { label: '18 a 22', value: FaixaEtaria.dezoitoavintedois },
+      { label: '23 a 27', value: FaixaEtaria.vintetresavintesete },
+      { label: '28 a 31', value: FaixaEtaria.vinteoitoatrintaum },
+      { label: '32 a 36', value: FaixaEtaria.trintadoisatrintaseis },
+      { label: '37 a 41', value: FaixaEtaria.trintaseteaquarentaum },
+      { label: '42 ou mais', value: FaixaEtaria.quarentdoismmais },
+    ];
   }
 
   exibirMensagemCadastro() {
@@ -45,6 +72,7 @@ export class CadastrarEstudantesComponent implements OnInit {
       }
     })
   }
+  
   cadastrarEstudante() {
     if (this.estudante.turma.codigo == undefined) {
       alert("É preciso informar o código de uma turma.");
