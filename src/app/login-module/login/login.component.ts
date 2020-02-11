@@ -7,6 +7,7 @@ import { LoginService } from 'src/app/login-module/login.service';
 import { MessageService } from 'primeng/primeng';
 import Query from 'src/app/model/firestore/query';
 import { Groups } from 'src/app/model/experimento/groups';
+import { PerfilUsuario } from 'src/app/model/enums/perfilUsuario';
 
 
 @Component({
@@ -27,26 +28,35 @@ export class LoginComponent implements OnInit {
 
 
   acessar() {
-    if(!this.usuario.validarLogin()){
-      this.messageService.add({ key:'loginToast', severity: 'error', summary: 'Houve um erro:', detail: 'Você não preencheu o usuário ou senha.' });
-    }else{
+    if (!this.usuario.validarLogin()) {
+      this.messageService.add({ key: 'loginToast', severity: 'error', summary: 'Houve um erro:', detail: 'Você não preencheu o usuário ou senha.' });
+    } else {
       this.login.logar(this.usuario).subscribe(resultado => {
         this.redirecionar(resultado);
       })
     }
-    
+
   }
 
   redirecionar(resultado) {
-    if (resultado){
+    if (resultado) {
       let usuario = this.login.getUsuarioLogado();
-      if(usuario.grupoExperimento == Groups.control)
-        this.router.navigate(["main", { outlets: { principal: ['listagem-assuntos'] } }]);
-      else
-        this.router.navigate(["main", { outlets: { principal: ['meu-desempenho'] } }]);
+      if (usuario.perfil == PerfilUsuario.estudante) {
+        if (usuario.grupoExperimento == Groups.control)
+          this.router.navigate(["main", { outlets: { principal: ['listagem-assuntos'] } }]);
+        else
+          this.router.navigate(["main", { outlets: { principal: ['meu-desempenho'] } }]);
+      } else if(usuario.perfil == PerfilUsuario.professor){
+        
+        this.router.navigate(["main", { outlets: { principal: ['listagem-turmas'] } }]);
+      }else if(usuario.perfil == PerfilUsuario.admin){
+        
+        this.router.navigate(["main"]);
+      }
+
     }
     else {
-      this.messageService.add({key:'loginToast', severity: 'error', summary: 'Houve um erro:', detail: 'Usuário ou senha inválidos.' });
+      this.messageService.add({ key: 'loginToast', severity: 'error', summary: 'Houve um erro:', detail: 'Usuário ou senha inválidos.' });
     }
   }
 

@@ -28,14 +28,14 @@
       <div class="p-col-12 row-input">
         <div class="ui-inputgroup">
           <span class="ui-inputgroup-addon"><i class="pi pi-user"></i></span>
-          <input type="text" id="login" [(ngModel)]="usuario.email" pInputText placeholder="Email">
+          <input type="text" id="login" [(ngModel)]="usuario.email" pInputText placeholder="Email" (keyup.enter)="acessar()">
         </div>
       </div>
 
       <div class="p-col-12 row-input">
         <div class="ui-inputgroup">
           <span class="ui-inputgroup-addon"><i class="pi pi-key"></i></span>
-          <input type="password" id="senha" [(ngModel)]="usuario.senha" pInputText placeholder="Senha" pPassword />
+          <input type="password" id="senha" [(ngModel)]="usuario.senha" pInputText placeholder="Senha" pPassword (keyup.enter)="acessar()" />
         </div>
       </div>
 

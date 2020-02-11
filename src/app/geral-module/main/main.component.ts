@@ -130,7 +130,7 @@ export class MainComponent implements OnInit {
 
   apresentarPretestRegulacao() {
     let usuario = this.login.getUsuarioLogado();
-    if (usuario != null && typeof usuario.pk === "function") {
+    if (usuario != null && typeof usuario.pk === "function" && usuario.perfil == PerfilUsuario.estudante) {
       QuestionarioAutorregulacao.getByQuery(new Query("usuarioId", "==", usuario.pk())).subscribe(resultado => {
         this.visibilidadeQuestionario = false;
         this.apresentacao.apresentarInicializacao(this.usuario);
