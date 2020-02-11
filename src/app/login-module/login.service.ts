@@ -109,6 +109,7 @@ export class LoginService {
 
   logout() {
     sessionStorage.removeItem("usuario");
+    sessionStorage.removeItem("dialogTipsAutorregulacao");
     return true;
   }
 }
