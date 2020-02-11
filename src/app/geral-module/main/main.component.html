@@ -3,7 +3,11 @@
 
 
 </div>
-<app-questionario-autorregulacao></app-questionario-autorregulacao>
+<app-questionario-autorregulacao 
+      [visibilidadeQuestionario]="visibilidadeQuestionario"
+      (onQuestionarioRespondido)="onQuestionarioRespondido($event)"
+      
+      ></app-questionario-autorregulacao>
 <app-tips-regulacao></app-tips-regulacao>
 <!-- <app-pre-teste [visibilidade]="visibilidadeDialog"></app-pre-teste>--->
 <div style="margin:20px;">

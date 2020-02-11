@@ -21,17 +21,17 @@ import QuestionarioAutorregulacao from 'src/app/model/experimento/questionarioAu
   templateUrl: './main.component.html',
   styleUrls: ['./main.component.css']
 })
-export class MainComponent implements OnInit, AfterViewInit {
-  
+export class MainComponent implements OnInit {
+
 
   itens: MenuItem[];
-  usuario:Usuario;
-
+  usuario: Usuario;
+  visibilidadeQuestionario;
 
   //visibilidadeDialog;
 
 
-  constructor(private router: Router, private login: LoginService, private apresentacao:ApresentacaoService) {
+  constructor(private router: Router, private login: LoginService, private apresentacao: ApresentacaoService) {
     this.usuario = this.login.getUsuarioLogado();
   }
 
@@ -124,10 +124,31 @@ export class MainComponent implements OnInit, AfterViewInit {
 
   ngOnInit() {
     this.criarMenu();
+    this.apresentarPretestRegulacao();
 
   }
 
-  
+  apresentarPretestRegulacao() {
+    let usuario = this.login.getUsuarioLogado();
+    if (usuario != null && typeof usuario.pk === "function") {
+      QuestionarioAutorregulacao.getByQuery(new Query("usuarioId", "==", usuario.pk())).subscribe(resultado => {
+        this.visibilidadeQuestionario = false;
+        this.apresentacao.apresentarInicializacao(this.usuario);
+      }, err => {
+        this.visibilidadeQuestionario = true;
+      })
+    }
+
+  }
+
+  onQuestionarioRespondido(resultado){
+    if(resultado){
+      this.apresentacao.apresentarInicializacao(this.usuario);
+    }
+  }
+
+
+
 
 
   /*
@@ -138,21 +159,18 @@ export class MainComponent implements OnInit, AfterViewInit {
       } else {
         this.visibilidadeDialog = !resultado;
       }
-
+  
     })
   }
-
+  
   apresentarPostest() {
     PosTeste.apresentar(this.login.getUsuarioLogado()).subscribe(resultado => {
       this.visibilidadeDialog = resultado;
     })
   }*/
 
-  ngAfterViewInit(): void {
-    this.apresentacao.apresentarInicializacao(this.usuario);
-  }
 
-  private logout() {
+  logout() {
     if (this.login.logout()) {
       return this.router.navigate([""])
     }

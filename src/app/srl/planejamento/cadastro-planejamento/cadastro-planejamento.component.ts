@@ -104,12 +104,12 @@ export class CadastroPlanejamentoComponent implements OnInit {
         this.messageService.add({ severity: 'Sucesso', summary: 'Planejamento cadastrado', detail: 'Seu planejamento foi salvo com sucesso!' });
         this.router.navigate(["main", { outlets: { principal: ['listagem-planejamento'] } }])
       }, err => {
-        this.messageService.add({ severity: 'error', summary: 'Ops...', detail: err.toString() });
+        this.messageService.add({ severity: 'error', summary: 'Houve um erro:', detail: err.toString() });
        
       })
 
     }, err => {
-      this.messageService.add({ severity: 'error', summary: 'Ops...', detail: err.toString() });
+      this.messageService.add({ severity: 'error', summary: 'Houve um erro:', detail: err.toString() });
      
     });
   }

@@ -64,4 +64,6 @@ export default class QuestionarioAutorregulacao extends Document{
         return false;
     }
 
+    
+
 }
