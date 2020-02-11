@@ -4,7 +4,6 @@ import { Document, Collection, ignore } from './firestore/document';
 import { Dificuldade } from './enums/dificuldade';
 import { Observable, forkJoin } from 'rxjs';
 import AutoReflexao from './autoReflexao';
-import Estudante from './estudante';
 import Query from './firestore/query';
 import { Util } from './util';
 import { ConsoleComponent } from '../juiz/editor/console/console.component';
@@ -80,7 +79,7 @@ export class Planejamento extends Document {
         let consultas: any = {};
         planejamentos.forEach(planejamento => {
 
-          planejamento["estudante"] = new Estudante(planejamento["estudanteId"], null);
+          planejamento["estudante"] = new Usuario(planejamento["estudanteId"], null, null, null, null);
           planejamento["autoReflexao"] = new AutoReflexao(planejamento["estudanteId"], null, null, null);
 
           if (planejamento["assuntoId"] != undefined && consultas[planejamento["assuntoId"]] == undefined) {
@@ -121,7 +120,7 @@ export class Planejamento extends Document {
     return new Observable(observer => {
       super.get(id).subscribe(planejamento => {
 
-        planejamento["estudante"] = new Estudante(planejamento["estudanteId"], null);
+        planejamento["estudante"] = new Usuario(planejamento["estudanteId"], null, null, null, null);
 
         if (planejamento["assuntoId"] != undefined) {
 

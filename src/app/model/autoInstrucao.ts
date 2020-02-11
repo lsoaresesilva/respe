@@ -1,8 +1,5 @@
 import Usuario from './usuario';
-import { Assunto } from './assunto';
-import Estudante from './estudante';
 import { Document, Collection } from './firestore/document';
-import { Dificuldade } from './enums/dificuldade';
 import { Questao } from './questao';
 import { Observable } from 'rxjs';
 import Query from './firestore/query';

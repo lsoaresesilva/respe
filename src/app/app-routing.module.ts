@@ -46,6 +46,7 @@ import { ListarMateriaisComponent } from './turma/listar-materiais/listar-materi
 import { SubsecaoComponent } from './livro/subsecao/subsecao.component';
 import { ExperimentoGuard } from './guards/experimento.guard';
 import { AdminGuard } from './guards/admin.guard';
+import { ProfessorGuard } from './guards/professor.guard';
 
 
 
@@ -83,12 +84,12 @@ const routes: Routes = [
     
     {path:"atualizacao-estudante/:id", component:CadastrarEstudantesComponent, canActivate: [AuthGuard, AdminGuard],outlet:"principal"},
     {path:"listagem-estudantes", component:ListarEstudantesComponent, canActivate: [AuthGuard,AdminGuard], outlet:"principal"},
-    {path:"listagem-estudantes/:codigoTurma", component:ListarEstudantesComponent, canActivate: [AuthGuard,AdminGuard], outlet:"principal"},
-    {path:"cadastro-estudante/:codigoTurma", component:CadastrarEstudantesComponent, canActivate: [AuthGuard, AdminGuard], outlet:"principal"},
+    {path:"listagem-estudantes/:codigoTurma", component:ListarEstudantesComponent, canActivate: [AuthGuard, ProfessorGuard], outlet:"principal"},
+    {path:"cadastro-estudante/:codigoTurma", component:CadastrarEstudantesComponent, canActivate: [AuthGuard, ProfessorGuard], outlet:"principal"},
     {path:"cadastro-turma", component:CadastrarTurmaComponent, canActivate: [AuthGuard, AdminGuard], outlet:"principal"},
     {path:"pre-teste", component:PreTesteComponent, canActivate: [AuthGuard], outlet:"principal"},
     {path:"atualizacao-turma/:id", component:CadastrarTurmaComponent, canActivate: [AuthGuard, AdminGuard], outlet:"principal"},
-    {path:"listagem-turmas", component:ListarTurmaComponent, canActivate: [AuthGuard, AdminGuard], outlet:"principal"},
+    {path:"listagem-turmas", component:ListarTurmaComponent, canActivate: [AuthGuard, ProfessorGuard], outlet:"principal"},
     {path:"visualizacao-questao/:assuntoId/:questaoId", component:VisualizarQuestaoComponent, canActivate: [AuthGuard], outlet:"principal"},
     {path:"visualizacao-questao-fechada/:assuntoId/:questaoId", component:VisualizarQuestaoFechadaComponent, canActivate: [AuthGuard], outlet:"principal"},
     {path:"atualizacao-questao-fechada/:id", component:CadastrarQuestoesFechadasComponent, canActivate: [AuthGuard], outlet:"principal"},

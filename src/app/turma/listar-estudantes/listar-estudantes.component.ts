@@ -7,7 +7,6 @@ import Query from 'src/app/model/firestore/query';
 import { PerfilUsuario } from 'src/app/model/enums/perfilUsuario';
 import EstudanteTurma from 'src/app/model/estudanteTurma';
 import Turma from 'src/app/model/turma';
-import Estudante from 'src/app/model/estudante';
 
 @Component({
   selector: 'app-listar-estudantes',
@@ -15,24 +14,23 @@ import Estudante from 'src/app/model/estudante';
   styleUrls: ['./listar-estudantes.component.css']
 })
 export class ListarEstudantesComponent implements OnInit {
-  estudantes: Estudante[];
+  estudantes: Usuario[];
   selectedEstudante: Usuario;
-  estudante: Estudante;
-  id: Estudante;
-  turma:Turma;
+  estudante: Usuario;
+  turma;
 
   constructor(private route: ActivatedRoute, private router:Router, private messageService: MessageService) {
     this.estudantes = [];
+    this.turma = new Turma(null, null, null, null);
   }
 
   ngOnInit() {
     this.route.params.subscribe(params => {
-      this.turma = new Turma(null, null, null, null);
       
       if(params['codigoTurma'] != null){
-        this.turma.codigo = params['codigoTurma']
-      this.buscarEstudante(this.turma)
-      }else{
+        this.turma.codigo = params['codigoTurma'];
+        this.buscarEstudante(params['codigoTurma'])
+      }else{ /** Significa que é uma listagem geral de estudantes. */
         Usuario.getAll(new Query("perfil", "==", PerfilUsuario.estudante)).subscribe(estudantes=>{
           this.estudantes = estudantes;
         })
@@ -41,26 +39,13 @@ export class ListarEstudantesComponent implements OnInit {
     });
   }
 
-  buscarEstudante(turma) {
-
-    Usuario.getAll(new Query("perfil", "==", PerfilUsuario.estudante)).subscribe(estudantes=>{
-      EstudanteTurma.getAll(new Query("turmaId", "==", turma.codigo)).subscribe(estudantesTurma => {
-
-        for(let i = 0; i < estudantes.length; i++){
-          for (let j = 0; j < estudantesTurma.length; j++) {
-            
-            if(estudantes[i].id == estudantesTurma[j].estudanteId){
-              this.estudantes.push(estudantes[i]);
-            }
-    
-          }
-        }
-        
-      });
-    });
-
-    
+  buscarEstudante(codigoTurma) {
+    Usuario.getAllEstudantesByTurma(codigoTurma).subscribe(estudantes=>{
+      this.estudantes = estudantes;
+    })
   }
+
+  
 
   deleteEstudante(estudante: Usuario) {
       Usuario.delete(estudante.pk()).subscribe(resultado => {
@@ -76,6 +61,7 @@ export class ListarEstudantesComponent implements OnInit {
   }
 
   cadastrarEstudante() {
-    this.router.navigate(["main", { outlets: { principal: ['cadastro-estudante', this.turma.codigo] } }]);
+    if(this.turma != null && this.turma.codigo != null)
+      this.router.navigate(["main", { outlets: { principal: ['cadastro-estudante', this.turma.codigo] } }]);
   }
 }

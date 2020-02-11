@@ -12,7 +12,7 @@ import Turma from '../model/turma';
     providedIn: 'root'
   })
 
-export class AuthGuard implements CanActivate, CanLoad {
+export class AuthGuard implements CanActivate {
     
     path: ActivatedRouteSnapshot[];
     route: ActivatedRouteSnapshot;
@@ -32,9 +32,6 @@ export class AuthGuard implements CanActivate, CanLoad {
     return this.verificarAcesso();
   }
 
-  canLoad(route: Route): boolean | Observable<boolean> | Promise<boolean> {
-    return this.verificarAcesso();
-  }
 
   verificarAcesso() {
     if (this.login.isUsuarioLogado()) {

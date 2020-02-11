@@ -1,5 +1,10 @@
-<p-toast key="cadastro-estudante"></p-toast>
-
+<p-toast [baseZIndex]="5000" [autoZIndex]="false"></p-toast>
+<p-dialog [modal]="true" header="Vamos programar?" [(visible)]="visibilidadeCadastro" (onHide)="navegarLoginSucesso()">
+  Cadastro realizado com sucesso. Você já pode fazer o login.
+  <p-footer>
+    <button pButton label="Fechar" class="ui-button-info" (click)="navegarLoginSucesso()"></button>
+  </p-footer>
+</p-dialog>
 <div class="container">
 
   <div class="login-section">
@@ -12,41 +17,41 @@
 
         <div class="p-col-12">
           <span class="ui-float-label">
-            <input id="codigo-turma" [(ngModel)]="estudante.turma.codigo" type="text" size="6" pInputText>
+            <input id="codigo-turma" [(ngModel)]="usuario.turma.codigo" type="text" size="6" pInputText>
             <label>Nº da turma</label>
           </span>
         </div>
         <div class="p-col-12">
           <span class="ui-float-label">
-            <input id="nome" [(ngModel)]="estudante.usuario.nome" type="text" size="30" pInputText>
+            <input id="nome" [(ngModel)]="usuario.nome" type="text" size="30" pInputText>
             <label>Nome</label>
           </span>
         </div>
         <div class="p-col-12">
           <span class="ui-float-label">
-            <p-dropdown [options]="genero" [(ngModel)]="estudante.usuario.genero"></p-dropdown>
+            <p-dropdown [options]="genero" [(ngModel)]="usuario.genero"></p-dropdown>
           </span>
         </div>
         <div class="p-col-12" style="margin-bottom:10px">
           <span class="ui-float-label">
-            <p-dropdown [options]="faixaEtaria" [(ngModel)]="estudante.usuario.faixaEtaria" ></p-dropdown>
+            <p-dropdown [options]="faixaEtaria" [(ngModel)]="usuario.faixaEtaria"></p-dropdown>
           </span>
         </div>
         <div class="p-col-12">
           <span class="ui-float-label">
-            <input id="email" [(ngModel)]="estudante.usuario.email" type="text" size="30" name="emailCadastro" pInputText>
+            <input id="email" [(ngModel)]="usuario.email" type="text" size="30" name="emailCadastro" pInputText>
             <label>E-mail (será utilizado para acesso ao sistema)</label>
           </span>
         </div>
         <div class="p-col-12">
           <span class="ui-float-label">
-            <input id="senha" [(ngModel)]="estudante.usuario.senha" type="password" size="30" pInputText>
+            <input id="senha" [(ngModel)]="usuario.senha" type="password" size="30" pInputText>
             <label>Senha</label>
           </span>
         </div>
         <div class="p-col-12">
           <span class="ui-float-label">
-            <p-dropdown [options]="conhecimentoProgramacao" [(ngModel)]="estudante.usuario.conhecimentoPrevioProgramacao">
+            <p-dropdown [options]="conhecimentoProgramacao" [(ngModel)]="usuario.conhecimentoPrevioProgramacao">
             </p-dropdown>
           </span>
         </div>

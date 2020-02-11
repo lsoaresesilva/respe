@@ -12,6 +12,7 @@ import Turma from './turma';
 @Collection("usuarios")
 export default class Usuario extends Document {
 
+
     @date()
     data;
     nome;
@@ -19,16 +20,41 @@ export default class Usuario extends Document {
     genero;
     conhecimentoPrevioProgramacao;
     faixaEtaria;
+    turma;
 
     constructor(id, public email, public senha, public perfil: PerfilUsuario, public grupoExperimento: Groups) {
         super(id);
 
     }
 
+    static getAllEstudantesByTurma(codigoTurma: any) {
+        return new Observable<Usuario[]>(observer=>{
+            if(codigoTurma != null){
+
+                Usuario.getAll(new Query("codigoTurma", "==", codigoTurma)).subscribe(estudantes=>{
+                    if(Array.isArray(estudantes)){
+                        estudantes = estudantes.filter(estudante=>{
+                            return estudante.perfil == PerfilUsuario.estudante;
+                        })
+
+                        observer.next(estudantes);
+                        observer.complete();
+                    }
+                })
+            }else{
+                observer.error(new Error("É preciso informar o código da turma"));
+            }
+
+        })
+        
+    }
+
     objectToDocument() {
         let document = super.objectToDocument();
         document["senha"] = sha256(this.senha);
 
+        if (this.turma != undefined && this.turma.codigo != undefined)
+            document["codigoTurma"] = this.turma.codigo;
 
         return document;
     }
@@ -37,12 +63,12 @@ export default class Usuario extends Document {
         return { id: this.pk(), email: this.email, senha: this.senha, perfil: this.perfil, minutos: this.minutos, grupoExperimento: this.grupoExperimento }
     }
 
-    save(): Observable<Usuario> {
+    save(perfil=PerfilUsuario.estudante): Observable<Usuario> {
 
         return new Observable(observer => {
             Usuario.count().subscribe(contagem => {
-                //this.grupoExperimento = 1;//
                 this.grupoExperimento = Experiment.assignToGroup(contagem);
+                this.perfil = perfil;
                 super.save().subscribe(result => {
                     observer.next(result);
                     observer.complete();
@@ -69,14 +95,22 @@ export default class Usuario extends Document {
         })
     }*/
 
+    validarLogin() {
+        if (this.email != null && this.email != "" && this.senha != null && this.senha != "") {
+            return true;
+        } else {
+            return false;
+        }
+    }
+
     validar() {
 
         return new Observable(observer => {
             this.isEmailCadastrado().subscribe(resultado => {
                 if (!resultado) {
-                    if (this.email == null || this.email == "" || 
-                        this.nome == null || this.nome == "" || 
-                        this.senha == null || this.senha == "" || 
+                    if (this.email == null || this.email == "" ||
+                        this.nome == null || this.nome == "" ||
+                        this.senha == null || this.senha == "" ||
                         this.perfil == null || this.perfil <= 0 ||
                         this.conhecimentoPrevioProgramacao == null || this.genero == null ||
                         this.faixaEtaria == null) {
@@ -101,6 +135,7 @@ export default class Usuario extends Document {
                 if (usuarios.length > 0) {
                     usuario = new Usuario(usuarios[0].id, usuarios[0].email, usuarios[0].senha, usuarios[0].perfil, usuarios[0].grupoExperimento);
                     usuario.minutos = 0;
+
                     observer.next(usuario);
                 } else {
                     observer.next(null);
@@ -134,24 +169,7 @@ export default class Usuario extends Document {
 
     }
 
-    getTurma() {
-        return new Observable(observer => {
-            EstudanteTurma.getAll(new Query("estudanteId", "==", this.pk())).subscribe(resultado => {
-                if (resultado.length > 0) {
-                    Turma.getAll(new Query("turma", "==", resultado[0]["turmaId"])).subscribe(turma => {
-                        if (turma.length > 0) {
 
-                            observer.next(turma[0]);
-                            observer.complete();
-                        }
-                    });
-                }
-
-            })
-        })
-
-
-    }
 
 
 

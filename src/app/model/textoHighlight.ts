@@ -1,11 +1,11 @@
 import { Document, Collection } from './firestore/document';
-import Estudante from './estudante';
+import Usuario from './usuario';
 
 @Collection("textosHighlight")
 export default class TextoHighlight extends Document{
 
 
-    constructor(id, private estudante:Estudante, public document, private texto:string){
+    constructor(id, private usuario:Usuario, public document, private texto:string){
         super(id);
     }
 }

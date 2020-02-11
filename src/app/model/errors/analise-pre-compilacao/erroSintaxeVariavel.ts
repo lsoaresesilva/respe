@@ -1,11 +1,8 @@
 import ErroSintaxe from './erroSintaxe';
 import Erro from '../erro';
-import { TipoErro } from '../../tipoErro';
-import Estudante from '../../estudante';
 import Submissao from '../../submissao';
 import ErroSintaxeCondicional from './erroSintaxeCondiconal';
 import ErroSintaxeFuncao from './erroSintaxeFuncao';
-import { Util } from '../../util';
 
 export default class ErroSintaxeVariavel extends ErroSintaxe {
 

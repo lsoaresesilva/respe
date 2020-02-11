@@ -34,7 +34,8 @@ export class VisualizarTurmaComponent implements OnInit {
       if(params["turmaId"] != null){
         this.turma$ = Turma.get(params["turmaId"])
       }else{
-        this.turma$ = this.usuario.getTurma();
+        if(this.usuario.turmaId != null)
+          this.turma$ = Turma.get(this.usuario.turmaId);
       }
       
 

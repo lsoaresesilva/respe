@@ -4,7 +4,6 @@ import { MessageService, SelectItem } from 'primeng/api';
 import Usuario from 'src/app/model/usuario';
 import { PerfilUsuario } from 'src/app/model/enums/perfilUsuario';
 import Turma from 'src/app/model/turma';
-import Estudante from 'src/app/model/estudante';
 import { ConhecimentoProgramacao } from 'src/app/model/enums/conhecimentoProgramacao';
 import { Genero } from 'src/app/model/enums/genero';
 import { FaixaEtaria } from 'src/app/model/enums/faixaEtaria';
@@ -18,10 +17,11 @@ import { FaixaEtaria } from 'src/app/model/enums/faixaEtaria';
 export class CadastrarEstudantesComponent implements OnInit {
 
   id;
-  estudante;
   conhecimentoProgramacao:SelectItem[];
   genero:SelectItem[];
   faixaEtaria:SelectItem[];
+  usuario;
+  visibilidadeCadastro;
 
   constructor(public router: Router, private route: ActivatedRoute, private messageService: MessageService) {
     this.conhecimentoProgramacao = [
@@ -59,46 +59,53 @@ export class CadastrarEstudantesComponent implements OnInit {
   }
 
   ngOnInit() {
-    this.estudante = new Estudante(new Turma(null, null, null, null), new Usuario(null, null, null, PerfilUsuario.estudante, null));
+    this.usuario = new Usuario(null, null, null, PerfilUsuario.professor, null);
+    this.usuario.turma = new Turma(null, null, null, null);
+    this.visibilidadeCadastro = false;
+    //background: #0d476e;
+    
+
     this.route.params.subscribe(parametros => {
       if (parametros["codigoTurma"] != undefined) {
-        this.estudante.turma.codigo = parametros["codigoTurma"];
+        
+        this.usuario.turma.codigo = parametros["codigoTurma"];
       }
 
       if(parametros["email"] && parametros["nome"] != undefined){
-        this.estudante.usuario.nome = parametros["nome"];
-        this.estudante.usuario.email = parametros["email"];
+        this.usuario.nome = parametros["nome"];
+        this.usuario.email = parametros["email"];
        
       }
     })
   }
   
   cadastrarEstudante() {
-    if (this.estudante.turma.codigo == undefined) {
-      alert("É preciso informar o código de uma turma.");
+    if (this.usuario.turma.codigo == undefined) {
+      this.messageService.add({ severity: 'error', summary: 'Houve um erro:', detail: "É preciso informar o código de uma turma." });
+      
     }else{
-      Turma.validarCodigo(this.estudante.turma.codigo).subscribe(resultado => {
+      Turma.validarCodigo(this.usuario.turma.codigo).subscribe(resultado => {
         
         if (resultado === false) {
 
-          alert("Não existe uma turma cadastrada com este código.")
-          //this.messageService.add({ key:"cadastro-estudante", severity: 'erro', summary: 'Houve um erro:', detail: "Não existe uma turma cadastrada com este código." });
+         
+          this.messageService.add({ severity: 'error', summary: 'Houve um erro:', detail: "Não existe uma turma cadastrada com este código." });
         } else {
-          this.estudante.usuario.validar().subscribe(resultado => {
+          this.usuario.validar().subscribe(resultado => {
             if (resultado) {
   
-              this.estudante.save().subscribe(resultado => {
-                alert("Cadastro realizado com sucesso.")
-                //this.messageService.add({ severity: 'success', summary: 'Bem vindo!', detail: "Cadastro realizado com sucesso." });
-                this.router.navigate([""]);
+              this.usuario.save().subscribe(resultado => {
+                //this.messageService.add({key:"loginToast", severity: 'success', summary: 'Vamos programar?!', detail: "" });
+                this.visibilidadeCadastro = true;
+                
               },
                 err => {
-                  this.messageService.add({ severity: 'erro', summary: 'Houve um erro:', detail: err.toString() });
+                  this.messageService.add({ severity: 'error', summary: 'Houve um erro:', detail: err.toString() });
                 });
   
             }
           }, err => {
-            alert('Houve um erro: ' + err.toString());
+            this.messageService.add({ severity: 'error', summary: 'Houve um erro:', detail: err.toString() });
           });
         }
       });
@@ -107,7 +114,10 @@ export class CadastrarEstudantesComponent implements OnInit {
   }
 
 
-
+  navegarLoginSucesso(){
+    this.visibilidadeCadastro = false;
+    this.router.navigate([""]);
+  }
 
 }
 

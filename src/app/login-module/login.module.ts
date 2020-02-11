@@ -10,6 +10,7 @@ import {CardModule} from 'primeng/card';
 import { ToastModule } from 'primeng/toast';
 import { config } from 'process';
 import { SrlModule } from '../srl/srl.module';
+import { MessageService } from 'primeng/api';
 
 
 @NgModule({
@@ -30,6 +31,6 @@ import { SrlModule } from '../srl/srl.module';
 
     
   ],
-  providers: [UsuarioService]
+  providers: [UsuarioService, MessageService]
 })
 export class LoginModule { }

@@ -100,7 +100,7 @@ import { DesempenhoAssuntosComponent } from './monitoramento/desempenho-assuntos
     SharedPipesModule
   ],
   providers:[MessageService],
-  exports:[RiscoEstudanteComponent, PercentualErrorQuotientComponent, TipsRegulacaoComponent]
+  exports:[RiscoEstudanteComponent, PercentualErrorQuotientComponent, TipsRegulacaoComponent, DesempenhoAssuntosComponent]
 
 })
 export class SrlModule { }

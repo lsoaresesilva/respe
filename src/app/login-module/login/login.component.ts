@@ -25,19 +25,16 @@ export class LoginComponent implements OnInit {
   ngOnInit() {
   }
 
-  loginIncorreto() {
-    this.messageService.add({ severity: 'success', summary: 'Inválido!', detail: 'Usuário ou senha inválidos' });
-  }
 
   acessar() {
-    let t = this;
-    this.login.logar(this.usuario).subscribe(resultado => {
-      /**/
-      this.redirecionar(resultado);
-      /*Experiment.login(this.usuario.grupoExperimento).subscribe(resultado=>{
+    if(!this.usuario.validarLogin()){
+      this.messageService.add({ key:'loginToast', severity: 'error', summary: 'Houve um erro:', detail: 'Você não preencheu o usuário ou senha.' });
+    }else{
+      this.login.logar(this.usuario).subscribe(resultado => {
         this.redirecionar(resultado);
-      })*/
-    })
+      })
+    }
+    
   }
 
   redirecionar(resultado) {
@@ -49,7 +46,7 @@ export class LoginComponent implements OnInit {
         this.router.navigate(["main", { outlets: { principal: ['meu-desempenho'] } }]);
     }
     else {
-      alert("Usuário ou senha inválidos. Você tem certeza que fez o cadastro?") // TODO: mudar para o message service
+      this.messageService.add({key:'loginToast', severity: 'error', summary: 'Houve um erro:', detail: 'Usuário ou senha inválidos.' });
     }
   }
 

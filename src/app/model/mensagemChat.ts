@@ -1,6 +1,5 @@
 import { Document, Collection, date } from './firestore/document';
-import Estudante from './estudante';
-import { database } from 'firebase';
+import Usuario from './usuario';
 
 @Collection("mensagensChat")
 export default class MensagemChat extends Document{
@@ -8,7 +7,7 @@ export default class MensagemChat extends Document{
     @date()
     data;
 
-    constructor(id, private estudante:Estudante, private texto){
+    constructor(id, private estudante:Usuario, private texto){
         super(id);
     }
 }

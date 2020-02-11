@@ -1,7 +1,5 @@
 import ErroSintaxe from './erroSintaxe';
 import Erro from '../erro';
-import { TipoErro } from '../../tipoErro';
-import Estudante from '../../estudante';
 import Submissao from '../../submissao';
 import ErroSintaxeVariavel from './erroSintaxeVariavel';
 
