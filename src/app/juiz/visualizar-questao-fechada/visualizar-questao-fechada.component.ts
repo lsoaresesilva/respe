@@ -82,6 +82,16 @@ export class VisualizarQuestaoFechadaComponent implements OnInit {
         }
   
       });
+    }else{
+      RespostaQuestaoFechada.getRespostaQuestaoEstudante(this.questao, this.login.getUsuarioLogado()).subscribe(respostaUsuario => {
+        this.respostaUsuarioBanco = respostaUsuario
+  
+        if (respostaUsuario != null) {
+          this.respostaQuestaoFechada = respostaUsuario;
+          this.mostrar = true;
+        }
+  
+      });
     }
     
 

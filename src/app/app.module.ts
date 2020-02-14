@@ -27,6 +27,7 @@ import { AngularFireAuthModule } from '@angular/fire/auth';
 import { environment } from '../environments/environment';
 import { EscapeHtmlPipe } from './pipes/keep-html.pipe';
 import { SharedPipesModule } from './pipes/shared-pipes.module';
+import { TypeofPipe } from './pipes/typeof.pipe';
 
 
 
@@ -66,7 +67,7 @@ import { SharedPipesModule } from './pipes/shared-pipes.module';
   ],
   providers: [AuthGuard,TurmaGuard,MessageService],
   bootstrap: [AppComponent],
-  exports:[EscapeHtmlPipe]
+  exports:[EscapeHtmlPipe, TypeofPipe]
 })
 export class AppModule { }
 

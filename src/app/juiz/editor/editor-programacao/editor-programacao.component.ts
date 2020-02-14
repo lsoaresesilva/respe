@@ -72,6 +72,7 @@ export class EditorProgramacaoComponent implements AfterViewInit, OnChanges {
     this.onVisualization = new EventEmitter();
     this.onServidorError = new EventEmitter();
     this.processandoSubmissao = false;
+    this.modoVisualizacao = false;
   }
 
   ngOnChanges(changes: import("@angular/core").SimpleChanges): void {

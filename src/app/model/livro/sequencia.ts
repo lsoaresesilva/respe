@@ -1,6 +1,5 @@
 import { Document, ignore, Collection } from '../firestore/document';
 import { Observable, forkJoin } from 'rxjs';
-import { TipoObjeto } from './tipoObjeto';
 import Texto from './texto';
 import QuestaoFechada from '../questaoFechada';
 import { Questao } from '../questao';
@@ -21,13 +20,13 @@ export default class Sequencia extends Document{
             super.getAll(query).subscribe(sequenciasBanco=>{
                 sequenciasBanco.forEach(sequencia=>{
                     let id = sequencia["objeto_id"];
-                    if(sequencia["tipo"] == TipoObjeto.texto){
+                    /*if(sequencia["tipo"] == TipoObjeto.texto){
                         objetos[sequencia.pk()] = Texto.get(id);
                     }else if(sequencia["tipo"] == TipoObjeto.questaoFechada){
                         objetos[sequencia.pk()] = QuestaoFechada.getByAssuntoQuestao(id);
                     }else if(sequencia["tipo"] == TipoObjeto.questaoProgramacao){
                         objetos[sequencia.pk()] = Questao.getByAssuntoQuestao(id);
-                    }
+                    }*/
                 })
 
                 let chaves = Object.keys(objetos)
@@ -60,13 +59,13 @@ export default class Sequencia extends Document{
     static get(id):Observable<any>{
         return new Observable(observer=>{
             super.get(id).subscribe(sequencia=>{
-                if(sequencia["tipo"] == TipoObjeto.texto){
+                /*if(sequencia["tipo"] == TipoObjeto.texto){
                     Texto.get(sequencia["objeto_id"]).subscribe(texto=>{
                         sequencia["objeto"] = texto;
                         observer.next(sequencia);
                         observer.complete();
                     })
-                }
+                }*/
     
                 
             })

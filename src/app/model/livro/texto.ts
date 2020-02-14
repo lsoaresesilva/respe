@@ -1,9 +1,9 @@
 import { Document, Collection } from '../firestore/document';
 
-@Collection("textos")
-export default class Texto extends Document{
+export default class Texto{
+    
 
-    constructor(id, conteudo){
-        super(id);
+    constructor(public sequencia, public texto){
+        
     }
 }

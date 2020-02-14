@@ -1,9 +1,9 @@
-<dados-questao [questao]="questao"></dados-questao>
+<dados-questao [questao]="questao" [submissao]="submissao" id="dadosQuestao"></dados-questao>
+<div style="margin:10px 0 10px">
 
-<app-editor-programacao [assunto]="assunto" [questao]="questao" [liteMode]="true" (onSubmit)="onSubmit($event)"
-        (onError)="onError($event)"></app-editor-programacao>
+    <app-editor-programacao [assunto]="assunto" [submissao]="submissao" [questao]="questao" [liteMode]="true"
+        (onError)="onEditorError($event)" (onServidorError)="onServidorError($event)"
+        (onSubmit)="onEditorSubmit($event)"></app-editor-programacao>
+</div>
 
-<app-visualizar-testes *ngIf="questao != null && questao.testsCases.length != 0" [testsCases]="questao.testsCases" [submissao]="submissao">
-    </app-visualizar-testes>
-
-<app-console *ngIf="submissao != null" [submissao]="submissao"></app-console>
+<app-console [submissao]="submissao" [consoleEditor]="consoleEditor"></app-console>

@@ -15,8 +15,12 @@ export class SubsecaoComponent implements OnInit {
   assunto;
 
   constructor(public livroService:LivroService) { 
-    this.subsecao$ = SubSecao.get("FvzaPQS8l2c9DYXoRaxO");
-    this.assunto = new Assunto("123456", "bla");
+
+    Assunto.get("jW22yOF9a28N0aQlNNGR").subscribe(assunto=>{
+      this.assunto = assunto;
+      this.subsecao$ = SubSecao.getWithAssunto("FvzaPQS8l2c9DYXoRaxO", this.assunto);
+    })
+    
   }
 
   ngOnInit() {
