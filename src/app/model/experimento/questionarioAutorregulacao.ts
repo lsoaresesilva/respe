@@ -1,10 +1,10 @@
-import { Collection, Document, date } from '../firestore/document';
+import DocumentNotFoundError, { Collection, Document, date } from '../firestore/document';
 import { Observable } from 'rxjs';
 import Query from '../firestore/query';
 import Usuario from '../usuario';
 
 @Collection("respostasQuestionarioAutorregulacao")
-export default class QuestionarioAutorregulacao extends Document{
+export default class QuestionarioAutorregulacao extends Document {
 
     @date()
     data;
@@ -32,38 +32,60 @@ export default class QuestionarioAutorregulacao extends Document{
     respostaPergunta21;
     respostaPergunta22;
 
-    constructor(id, public usuario){
+    constructor(id, public usuario) {
         super(id);
     }
 
-    objectToDocument(){
-        
-        if(this.validar()){
+    objectToDocument() {
+
+        if (this.validar()) {
             let document = super.objectToDocument();
             document["usuarioId"] = this.usuario.pk();
 
             return document;
-        }else{
+        } else {
             throw new Error("Não é possível salvar a resposta do questionário, pois há um erro no objeto Questionário. Faltam respostas ou o usuário logado não foi informado.")
         }
-        
+
     }
 
-    validar(){
-        if(this.respostaPergunta1 != null && this.respostaPergunta2 != null && this.respostaPergunta3 != null &&
+    validar() {
+        if (this.respostaPergunta1 != null && this.respostaPergunta2 != null && this.respostaPergunta3 != null &&
             this.respostaPergunta4 != null && this.respostaPergunta5 != null && this.respostaPergunta6 != null &&
             this.respostaPergunta7 != null && this.respostaPergunta8 != null && this.respostaPergunta9 != null &&
             this.respostaPergunta10 != null && this.respostaPergunta11 != null && this.respostaPergunta12 != null &&
             this.respostaPergunta13 != null && this.respostaPergunta14 != null && this.respostaPergunta15 != null &&
             this.respostaPergunta16 != null && this.respostaPergunta17 != null && this.respostaPergunta18 != null &&
-            this.respostaPergunta19 != null && this.respostaPergunta20 != null && this.respostaPergunta21 != null && 
-            this.respostaPergunta22 != null && this.usuario != null){
-                return true;
+            this.respostaPergunta19 != null && this.respostaPergunta20 != null && this.respostaPergunta21 != null &&
+            this.respostaPergunta22 != null && this.usuario != null) {
+            return true;
         }
 
         return false;
     }
 
+    static isRespondido(usuario) {
+        
+        return new Observable(observer => {
+            if(usuario != null && typeof usuario.pk === "function"){
+                QuestionarioAutorregulacao.getByQuery(new Query("usuarioId", "==", usuario.pk())).subscribe(resultado => {
+                    if(resultado != null)
+                        observer.next(true);
+                    else
+                        observer.next(false);
     
+                }, err => {
+                    observer.error(err);
+                }, () => {
+                    observer.complete();
+                })
+            }else{
+                observer.error(new Error("Usuário não informado."));
+            }
+            
+        })
+    }
+
+
 
 }
