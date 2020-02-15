@@ -1,6 +1,5 @@
 import { Document, Collection } from '../firestore/document';
 import { Observable } from 'rxjs';
-import Sequencia from './sequencia';
 import Query from '../firestore/query';
 import { TipoConteudoLivro } from '../enums/tipoConteudoLivro';
 import Texto from './texto';
@@ -8,6 +7,8 @@ import { Assunto } from '../assunto';
 
 @Collection("subsecoes")
 export default class SubSecao extends Document{
+
+    sequencia;
 
     constructor(id, nome, secao, conteudos){ 
         super(id);
@@ -56,24 +57,18 @@ export default class SubSecao extends Document{
                 observer.error(err);
             });
         });
-            /*Sequencia.getAll([new Query("subsecao_id", "==", id)]).subscribe(sequencias=>{
-                super.get(id).subscribe(subsecao=>{
-                    subsecao["sequencias"] = sequencias;
-                    observer.next(subsecao);
-                    observer.complete();
-                }, err=>{
-                    observer.error(err);
-                })
-            }, err=>{
-                observer.error(err);
-            });*/
     }
 
-    static getAll(query):Observable<any>{{
+    static getAllByAssunto(assunto):Observable<any>{{
 
         return new Observable(observer=>{
-            super.getAll(query).subscribe(subsecoes=>{
+            super.getAll(new Query("assuntoId", "==", assunto.pk())).subscribe(subsecoes=>{
                 subsecoes = SubSecao.ordenar(subsecoes);
+                subsecoes.forEach(subsecao=>{
+                    if(subsecao["conteudos"] != null){
+                        subsecao["conteudos"] = this.construirConteudos(subsecao["conteudos"], assunto);
+                    }
+                })
                 observer.next(subsecoes);
                 observer.complete();
             }, err=>{
@@ -83,9 +78,9 @@ export default class SubSecao extends Document{
 
     }}
 
-    static ordenar(sequencias:Sequencia[]){
-        if(Array.isArray(sequencias) ){
-            sequencias.sort(function(a,b){
+    static ordenar(subsecoes:SubSecao[]){
+        if(Array.isArray(subsecoes) ){
+            subsecoes.sort(function(a,b){
                 if(a.sequencia < b.sequencia){
                     return -1;
                 }else if(a.sequencia > b.sequencia){
@@ -97,6 +92,6 @@ export default class SubSecao extends Document{
         
         }
 
-        return sequencias;
+        return subsecoes;
     }
 }

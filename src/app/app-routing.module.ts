@@ -47,6 +47,7 @@ import { SubsecaoComponent } from './livro/subsecao/subsecao.component';
 import { ExperimentoGuard } from './guards/experimento.guard';
 import { AdminGuard } from './guards/admin.guard';
 import { ProfessorGuard } from './guards/professor.guard';
+import { VisualizarLivroComponent } from './livro/visualizar-livro/visualizar-livro.component';
 
 
 
@@ -58,6 +59,7 @@ const routes: Routes = [
   {path:"main", component:MainComponent, canActivate: [AuthGuard],children: [
     {path:"editor/:assuntoId/:questaoId", component:ResponderQuestaoProgramacao, outlet:"principal"},
     {path:"subsecao", component:SubsecaoComponent, outlet:"principal"},
+    {path:"livro", component:VisualizarLivroComponent, outlet:"principal"},
     /** SRL */
 
     /** Monitoramento */
