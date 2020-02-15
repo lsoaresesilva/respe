@@ -5,8 +5,8 @@
     <div *ngIf="(conteudo | typeof) == 'Texto'" class="conteudo">
       <app-visualizacao-texto [texto]="conteudo"></app-visualizacao-texto>
     </div>
-    <div *ngIf="(conteudo | typeof) == 'Questao'" >
-      <app-responder-questao-programacao-lite [assunto]="assunto" [questao]="conteudo" class="conteudo">
+    <div *ngIf="(conteudo | typeof) == 'Questao'" class="conteudo">
+      <app-responder-questao-programacao-lite [assunto]="assunto" [questao]="conteudo">
       </app-responder-questao-programacao-lite>
     </div>
     <div *ngIf="(conteudo | typeof) == 'QuestaoFechada'" class="conteudo">
