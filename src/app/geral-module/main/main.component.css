@@ -15,6 +15,11 @@ h1 {
     margin: center
 }
 
+
+:host ::ng-deep .ui-menuitem-text{
+    color:white !important;
+    }
+
 .ui-menu .ui-menuitem-link:hover, body .ui-menubar .ui-menuitem-link:hover, body .ui-tieredmenu .ui-menuitem-link:hover, body .ui-contextmenu .ui-menuitem-link:hover, body .ui-megamenu .ui-menuitem-link:hover, body .ui-slidemenu .ui-menuitem-link:hover{
     background-color: #0d476e !important;
     height: 100%;

@@ -52,8 +52,8 @@ export class Assunto extends Document {
         return document;
     }
 
-    getQuestaoProgramacaoById(questaoId) {
-        let questaoLocalizada = null;
+    getQuestaoProgramacaoById(questaoId):Questao {
+        let questaoLocalizada:Questao = null;
         this.questoesProgramacao.forEach(questao => {
             if (questao.id == questaoId)
                 questaoLocalizada = questao;
@@ -62,8 +62,8 @@ export class Assunto extends Document {
         return questaoLocalizada;
     }
 
-    getQuestaoFechadaById(questaoId) {
-        let questaoLocalizada = null;
+    getQuestaoFechadaById(questaoId):QuestaoFechada {
+        let questaoLocalizada:QuestaoFechada = null;
         this.questoesFechadas.forEach(questao => {
             if (questao.id == questaoId)
                 questaoLocalizada = questao;
@@ -92,12 +92,32 @@ export class Assunto extends Document {
         return null;
     }
 
+    static getAll(query=null, orderBy=null):Observable<any[]>{
+        return new Observable(observer=>{
+            super.getAll(query, orderBy).subscribe(assuntos=>{
+                assuntos.forEach(assunto=>{
+                    assunto = this.transformarQuestoes(assunto);
+                })
+                observer.next(assuntos);
+                observer.complete();
+            }, err=>{
+                observer.error(err);
+            })
+        })
+        
+    }
+
+    static transformarQuestoes(assunto){
+        assunto["questoesProgramacao"] = Questao.construir(assunto["questoesProgramacao"], assunto);
+        assunto["questoesFechadas"] = QuestaoFechada.construir(assunto["questoesFechadas"]);
+        return assunto;
+    }
+
     static get(id) {
 
         return new Observable(observer => {
             super.get(id).subscribe(assunto => {
-                assunto["questoesProgramacao"] = Questao.construir(assunto["questoesProgramacao"], assunto);
-                assunto["questoesFechadas"] = QuestaoFechada.construir(assunto["questoesFechadas"]);
+                assunto = this.transformarQuestoes(assunto);
                 observer.next(assunto);
                 observer.complete();
             }, err => {
@@ -261,7 +281,7 @@ export class Assunto extends Document {
 
     }
 
-    static ordenar(arrayAssuntos:Assunto[]){
+    static ordenar(arrayAssuntos:any[]){
 
         /*arrayAssuntos.forEach(assunto=>{
             let sequencia = assunto["sequencia"]-1 // O índice do array começa em 0 e as ordens das disciplinas em 1.

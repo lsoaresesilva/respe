@@ -1,4 +1,4 @@
-import { Component, OnInit, Input } from '@angular/core';
+import { Component, OnInit, Input, OnChanges } from '@angular/core';
 import SubSecao from 'src/app/model/livro/subsecao';
 import { Assunto } from 'src/app/model/assunto';
 import { LivroService } from '../livro.service';
@@ -8,7 +8,11 @@ import { LivroService } from '../livro.service';
   templateUrl: './subsecao.component.html',
   styleUrls: ['./subsecao.component.css']
 })
-export class SubsecaoComponent implements OnInit {
+export class SubsecaoComponent implements OnInit, OnChanges {
+  
+  ngOnChanges(changes: import("@angular/core").SimpleChanges): void {
+    let x = 0;
+  }
 
 
   @Input()
@@ -18,10 +22,7 @@ export class SubsecaoComponent implements OnInit {
 
   constructor(public livroService:LivroService) { 
 
-    /*Assunto.get("jW22yOF9a28N0aQlNNGR").subscribe(assunto=>{
-      this.assunto = assunto;
-      this.subsecao$ = SubSecao.getWithAssunto("FvzaPQS8l2c9DYXoRaxO", this.assunto);
-    })*/
+    
     
   }
 

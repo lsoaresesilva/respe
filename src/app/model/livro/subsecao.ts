@@ -9,6 +9,7 @@ import { Assunto } from '../assunto';
 export default class SubSecao extends Document{
 
     sequencia;
+    assunto;
 
     constructor(id, nome, secao, conteudos){ 
         super(id);
@@ -29,6 +30,7 @@ export default class SubSecao extends Document{
                     if(questao != null){
                         conteudos.push(questao);
                         questao["tipo"] = TipoConteudoLivro.questaoProgramacao;
+                        questao["sequencia"] = conteudo.sequencia;
                     }
 
                 }else if(conteudo.tipo == TipoConteudoLivro.questaoFechada){
@@ -36,6 +38,7 @@ export default class SubSecao extends Document{
                     if(questao != null){
                         conteudos.push(questao);
                         questao["tipo"] = TipoConteudoLivro.questaoFechada;
+                        questao["sequencia"] = conteudo.sequencia;
                     }
                 }
             })
@@ -59,6 +62,10 @@ export default class SubSecao extends Document{
         });
     }
 
+    static ordenarConteudos(conteudos:any[]){
+        return conteudos.sort((a,b)=>a.sequencia-b.sequencia);
+    }
+
     static getAllByAssunto(assunto):Observable<any>{{
 
         return new Observable(observer=>{
@@ -67,7 +74,10 @@ export default class SubSecao extends Document{
                 subsecoes.forEach(subsecao=>{
                     if(subsecao["conteudos"] != null){
                         subsecao["conteudos"] = this.construirConteudos(subsecao["conteudos"], assunto);
+                        subsecao["conteudos"] = this.ordenarConteudos(subsecao["conteudos"]);
                     }
+
+                    subsecao["assunto"] = assunto;
                 })
                 observer.next(subsecoes);
                 observer.complete();

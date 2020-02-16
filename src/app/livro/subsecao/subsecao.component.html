@@ -1,15 +1,15 @@
-<div *ngIf="subsecao$ | async as subsecao; else loading">
+<div *ngIf="subsecao != null;">
   <div>{{subsecao.sequencia}}</div>
 
   <div *ngFor="let conteudo of subsecao.conteudos">
-    <div *ngIf="(conteudo | typeof) == 'Texto'" class="conteudo">
+    <div *ngIf="conteudo.tipo == 1">
       <app-visualizacao-texto [texto]="conteudo"></app-visualizacao-texto>
     </div>
-    <div *ngIf="(conteudo | typeof) == 'Questao'" class="conteudo">
-      <app-responder-questao-programacao-lite [assunto]="assunto" [questao]="conteudo">
+    <div *ngIf="conteudo.tipo == 2">
+      <app-responder-questao-programacao-lite [assunto]="subsecao.assunto" [questao]="conteudo">
       </app-responder-questao-programacao-lite>
     </div>
-    <div *ngIf="(conteudo | typeof) == 'QuestaoFechada'" class="conteudo">
+    <div *ngIf="conteudo.tipo == 3">
       <app-visualizar-questao-fechada [questao]="conteudo"></app-visualizar-questao-fechada>
     </div>
   </div>
@@ -18,5 +18,3 @@
   </div>
   
 </div>
-
-<ng-template #loading>Carregando...</ng-template>

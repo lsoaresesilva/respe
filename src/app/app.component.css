@@ -11,9 +11,6 @@ align-items: center;
 border-radius: 0px;
 }  
 
-.ui-menuitem-text{
-color: #fff !important;
-}
 
 
 .ui-menu .ui-menuitem-link:hover, body .ui-menubar .ui-menuitem-link:hover, body .ui-tieredmenu .ui-menuitem-link:hover, body .ui-contextmenu .ui-menuitem-link:hover, body .ui-megamenu .ui-menuitem-link:hover, body .ui-slidemenu .ui-menuitem-link:hover{
@@ -30,9 +27,6 @@ display: flex;
 align-items: center;
 } 
 
-:host >>> .ui-menuitem-text{
-color:white !important;
-}
 
 a {
 color: #333333;
