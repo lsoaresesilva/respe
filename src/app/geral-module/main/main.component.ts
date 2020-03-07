@@ -144,6 +144,7 @@ export class MainComponent implements OnInit {
 
   }
 
+
   onQuestionarioRespondido(resultado){
     if(resultado){
       this.apresentacao.apresentarInicializacao(this.usuario);

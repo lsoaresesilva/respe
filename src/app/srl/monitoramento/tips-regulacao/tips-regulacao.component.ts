@@ -13,23 +13,26 @@ export class TipsRegulacaoComponent implements OnInit {
   display;
   tip;
 
-  constructor(public login:LoginService) { 
+  constructor(public login: LoginService) {
 
-    
+
 
   }
 
   ngOnInit() {
-    TipAutorregulacao.getAleatorio().subscribe(tip=>{
-      let usuario = this.login.getUsuarioLogado();
-      let dialogExibida = sessionStorage.getItem("dialogTipsAutorregulacao");
-      if(usuario != null && usuario.grupoExperimento != Groups.control && tip != null && (dialogExibida == null || dialogExibida != "true")){
-        this.display = true;
-        this.tip = tip;
-        sessionStorage.setItem('dialogTipsAutorregulacao', "true");
-      }
-      
-    })
+    let usuario = this.login.getUsuarioLogado();
+    let dialogExibida = sessionStorage.getItem("dialogTipsAutorregulacao");
+    if (usuario != null && usuario.grupoExperimento != Groups.control && (dialogExibida == null || dialogExibida != "true")) {
+      TipAutorregulacao.getAleatorio().subscribe(tip => {
+        if (tip != null) {
+          this.display = true;
+          this.tip = tip;
+          sessionStorage.setItem('dialogTipsAutorregulacao', "true");
+        }
+
+      })
+    }
+
   }
 
 }

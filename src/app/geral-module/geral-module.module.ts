@@ -7,6 +7,7 @@ import { MenuProfessorComponent } from './menu-professor/menu-professor.componen
 import { HomeComponent } from './home/home.component';
 import { ExperimentoModule } from '../experimento/experimento.module';
 import { ApresentacaoService } from './apresentacao.service';
+import { StartupService } from './startup.service';
 
 
 @NgModule({
@@ -16,7 +17,7 @@ import { ApresentacaoService } from './apresentacao.service';
     MenubarModule,
     ExperimentoModule
   ],
-  providers:[ApresentacaoService],
+  providers:[ApresentacaoService, StartupService],
   exports :[MenuEstudanteComponent, MenuAdmComponent,  MenuProfessorComponent]
 })
 export class GeralModuleModule { }

@@ -8,6 +8,7 @@ import { AngularFireAuth } from '@angular/fire/auth';
 import * as firebase from 'firebase/app';
 import { Router } from '@angular/router';
 import { AngularFirestore } from '@angular/fire/firestore';
+import RegistroLogin from '../model/registroLogin';
 
 @Injectable({
   providedIn: 'root'
@@ -64,6 +65,10 @@ export class LoginService {
       Usuario.logar([new Query("email", "==", usuario.email), new Query("senha", "==", sha256(usuario.senha))]).subscribe(usuarioLogado => {
         if (usuarioLogado != null) {
           this.criarSessao(usuarioLogado);
+          let registroLogin = new RegistroLogin(null, usuarioLogado);
+          registroLogin.save().subscribe(()=>{
+            
+          });
           observer.next(true);
           observer.complete();
         } else {

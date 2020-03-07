@@ -46,6 +46,7 @@ import { EscapeHtmlPipe } from '../pipes/keep-html.pipe';
 import { SharedPipesModule } from '../pipes/shared-pipes.module';
 import { AnaliseDesempenhoEstudanteComponent } from './monitoramento/analise-desempenho-estudante/analise-desempenho-estudante.component';
 import { DesempenhoAssuntosComponent } from './monitoramento/desempenho-assuntos/desempenho-assuntos.component';
+import { DiarioComponent } from './monitoramento/diario/diario.component';
 
 @NgModule({
   declarations: [
@@ -67,6 +68,7 @@ import { DesempenhoAssuntosComponent } from './monitoramento/desempenho-assuntos
     TipsRegulacaoComponent,
     AnaliseDesempenhoEstudanteComponent,
     DesempenhoAssuntosComponent,
+    DiarioComponent,
   ],
   imports: [
     MessagesModule,
