@@ -13,7 +13,11 @@ Organizaremos o projeto em módulos do angular. Antes de fazer qualquer código 
 # Processo de desenvolvimento 
 Em sprints e cada membro do projeto receberá uma Issue para desenvolver. O fluxo de trabalho (quadro kanban) está na seção Projects do repositório acima e deve ser utilizado.
 
-# Diagramas
+# Arquitetura do projeto
+
+https://www.lucidchart.com/documents/view/ae3fa50a-bbef-4e11-8f5a-515bc3533e6e
+
+# Diagrama de classe
 O diagrama de classes está neste link: https://www.lucidchart.com/invitations/accept/a6736d47-c33f-4f8a-bf67-03510629591b
 
 # Fluxo de telas
