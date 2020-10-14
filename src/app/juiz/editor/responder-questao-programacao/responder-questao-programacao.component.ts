@@ -1,4 +1,4 @@
-import { Component, OnInit, NgZone, ElementRef, Renderer, ChangeDetectorRef, ApplicationRef, AfterViewInit } from '@angular/core';
+import { Component, OnInit, NgZone, ElementRef, ChangeDetectorRef, ApplicationRef, AfterViewInit, Renderer2 } from '@angular/core';
 import Editor from 'src/app/model/editor';
 
 import { HttpHeaders, HttpClient } from '@angular/common/http';
