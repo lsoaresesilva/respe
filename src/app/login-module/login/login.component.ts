@@ -4,7 +4,7 @@ import Usuario from '../../model/usuario';
 import { Router } from '@angular/router';
 import { LoginService } from 'src/app/login-module/login.service';
 //import {Experiment} from 'scientificxpjs/experiment'
-import { MessageService } from 'primeng/primeng';
+import { MessageService } from 'primeng/api';
 import Query from 'src/app/model/firestore/query';
 import { Groups } from 'src/app/model/experimento/groups';
 import { PerfilUsuario } from 'src/app/model/enums/perfilUsuario';
@@ -47,10 +47,10 @@ export class LoginComponent implements OnInit {
         else
           this.router.navigate(["main", { outlets: { principal: ['meu-desempenho'] } }]);
       } else if(usuario.perfil == PerfilUsuario.professor){
-        
+
         this.router.navigate(["main", { outlets: { principal: ['listagem-turmas'] } }]);
       }else if(usuario.perfil == PerfilUsuario.admin){
-        
+
         this.router.navigate(["main"]);
       }
 
@@ -67,7 +67,7 @@ export class LoginComponent implements OnInit {
 
 
   signInWithGoogle() {
-    this.login.signInWithGoogle()
+    /* this.login.signInWithGoogle()
       .then((res) => {
         if (res != undefined) {
           Usuario.logar(new Query('email', "==", res.user.email)).subscribe(usuarioLogado => {
@@ -84,13 +84,13 @@ export class LoginComponent implements OnInit {
 
         }
       })
-      .catch((err) => console.log(err));
+      .catch((err) => console.log(err)); */
   }
 
 
 
   signInWithFacebook() {
-    this.login.signInWithFacebook()
+    /* this.login.signInWithFacebook()
       .then((res) => {
         if (res != undefined) {
           Usuario.logar(new Query('email', "==", res.user.email)).subscribe(usuarioLogado => {
@@ -106,7 +106,7 @@ export class LoginComponent implements OnInit {
 
         }
       })
-      .catch((err) => console.log(err));
+      .catch((err) => console.log(err)); */
   }
 
 

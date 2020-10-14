@@ -3,11 +3,12 @@ import { CommonModule } from '@angular/common';
 import { PreTesteComponent } from './pre-teste/pre-teste.component';
 import { QuestaoComponent } from './questao/questao.component';
 import { ButtonModule } from 'primeng/button';
-import { FieldsetModule, RadioButtonModule } from 'primeng/primeng';
 import {DialogModule} from 'primeng/dialog';
 import { QuestionarioAutorregulacaoComponent } from './questionario-autorregulacao/questionario-autorregulacao.component';
 import { FormsModule } from '@angular/forms';
 import {ScrollPanelModule} from 'primeng/scrollpanel';
+import { FieldsetModule } from 'primeng/fieldset';
+import { RadioButtonModule } from 'primeng/radiobutton';
 
 @NgModule({
   declarations: [PreTesteComponent, QuestaoComponent, QuestionarioAutorregulacaoComponent],

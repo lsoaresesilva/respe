@@ -1,5 +1,5 @@
 import { Component, OnInit, ViewChild, AfterViewInit } from '@angular/core';
-import { MenuItem } from 'primeng/components/common/menuitem';
+import { MenuItem } from 'primeng/api';
 import { Router } from '@angular/router';
 import Usuario from 'src/app/model/usuario';
 import { LoginService } from 'src/app/login-module/login.service';
@@ -104,7 +104,7 @@ export class MainComponent implements OnInit {
           {
             label: 'Minha turma',
             command: () => { this.router.navigate(["main", { outlets: { principal: ['minha-turma'] } }]) },
-    
+
            },*/
           {
             label: 'Meu desempenho',
@@ -163,10 +163,10 @@ export class MainComponent implements OnInit {
       } else {
         this.visibilidadeDialog = !resultado;
       }
-  
+
     })
   }
-  
+
   apresentarPostest() {
     PosTeste.apresentar(this.login.getUsuarioLogado()).subscribe(resultado => {
       this.visibilidadeDialog = resultado;

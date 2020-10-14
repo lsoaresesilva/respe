@@ -1,5 +1,5 @@
 import { Injectable, OnDestroy } from '@angular/core';
-import { CanActivate } from '@angular/router/src/utils/preactivation';
+import { CanActivate } from '@angular/router';
 import { ActivatedRouteSnapshot, RouterStateSnapshot, Router, CanLoad, Route } from '@angular/router';
 import { Observable } from 'rxjs';
 import Turma from '../model/turma';
@@ -58,7 +58,7 @@ export class TurmaGuard implements CanActivate {
           }
         })
       }
-      
+
 
     });
   }

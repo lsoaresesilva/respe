@@ -2,8 +2,6 @@ import { Component, OnInit, Input } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { MessageService, MenuItem } from 'primeng/api';
 import { Questao } from 'src/app/model/questao';
-import Submissao from 'src/app/model/submissao';
-import { Menu } from 'primeng/primeng';
 import { Assunto } from 'src/app/model/assunto';
 import { LoginService } from 'src/app/login-module/login.service';
 import { Groups } from 'src/app/model/experimento/groups';
@@ -41,7 +39,7 @@ export class VisualizarQuestaoComponent implements OnInit {
             });
           }
           });
-        
+
       } else {
         if(this.questao == undefined){
           throw new Error("Não é possível visualizar uma questão, pois não foram passados os identificadores de assunto e questão.")
@@ -51,7 +49,7 @@ export class VisualizarQuestaoComponent implements OnInit {
     });
   }
 
-  
+
 
   abrirEditor(questao){
     this.router.navigate(["main", { outlets: { principal: ['editor', this.assunto.pk(), questao.id] }}]);
@@ -61,11 +59,11 @@ export class VisualizarQuestaoComponent implements OnInit {
   responder(questao){
     if(this.loginService.getUsuarioLogado().grupoExperimento == Groups.control){
       this.router.navigate(["main", { outlets: { principal: ['editor', this.assunto.pk(), questao.id] }}]);
-      return; 
+      return;
     }
 
     this.router.navigate(["main", { outlets: { principal: ['self-instruction', this.assunto.pk(), questao.id] }}]);
-    
+
   }
   alterarQuestao(questao: Questao) {
     if (questao != undefined) {

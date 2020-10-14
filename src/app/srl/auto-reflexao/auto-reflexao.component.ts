@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import AutoReflexao from 'src/app/model/autoReflexao';
-import { Message } from 'primeng/components/common/message';
+import { Message } from 'primeng/api';
 import { Assunto } from 'src/app/model/assunto';
 import { Router, ActivatedRoute } from '@angular/router';
 import { SelectItem } from 'primeng/api';
@@ -23,7 +23,7 @@ export class AutoReflexaoComponent implements OnInit {
     // TODO: carregar assunto via router
     this.route.params.subscribe(params=>{
       if(params["id"] != undefined){
-        
+
         Planejamento.get(params["id"]).subscribe(planejamento=>{
           this.planejamento = planejamento;
           if(this.planejamento.autoReflexao == null){
@@ -37,7 +37,7 @@ export class AutoReflexaoComponent implements OnInit {
       }
     })
 
-    
+
 
   }
 
@@ -64,5 +64,5 @@ export class AutoReflexaoComponent implements OnInit {
       this.msgs.push({ severity: 'error', summary: 'Erro', detail: 'Preencha os dados corretamente.' });
     }
   }
-  
+
 }

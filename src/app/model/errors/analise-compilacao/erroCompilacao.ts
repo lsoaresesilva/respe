@@ -1,11 +1,5 @@
 
 import { CategoriaErro, getCategoriaPorInstancia } from '../enum/categoriasErro';
-import { Document, Collection, date, ignore } from '../../firestore/document';
-import { Observable, forkJoin } from 'rxjs';
-import NameError from './nameError';
-import Submissao from '../../submissao';
-import ErroCompilacaoFactory from './erroCompilacaoFactory';
-import Query from '../../firestore/query';
 import { Util } from '../../util';
 
 
@@ -13,11 +7,6 @@ import * as firebase from 'firebase';
 import HistogramaErroData from './frequenciaErro';
 
 export abstract class ErroCompilacao {
-
-    id;
-    data;
-    linha;
-    categoria;
 
     protected constructor(id, public traceback) {
         if (id == null)
@@ -29,11 +18,10 @@ export abstract class ErroCompilacao {
         this.categoria = ErroCompilacao.getCategoria(traceback);
     }
 
-    objectToDocument(){
-        return {id:this.id, traceback:this.traceback, data:firebase.firestore.FieldValue.serverTimestamp()};
-    }
-
-    abstract getMensagem();
+    id;
+    data;
+    linha;
+    categoria;
 
     static getLinha(traceback) {
         if (traceback != null) {
@@ -64,7 +52,7 @@ export abstract class ErroCompilacao {
 
     /**
      * Retorna a categoria do erro cometido pelo estudante a partir do traceback de sua submissão.
-     * @param traceback 
+     * @param traceback
      */
     static getCategoria(traceback) {
         if (traceback != null) {
@@ -92,7 +80,7 @@ export abstract class ErroCompilacao {
 
     /**
      * Extrai todos os erros cometidos pelo estudante em suas submissões.
-     * @param submissoes 
+     * @param submissoes
      */
     static getAllErros(submissoes){
         let erros = []
@@ -128,7 +116,7 @@ export abstract class ErroCompilacao {
                 return "#A9F5F2";
             case CategoriaErro.typeError:
                 return "#08298A";
-            
+
             default:
                 return getRandomColor();
         }
@@ -140,12 +128,12 @@ export abstract class ErroCompilacao {
             if(erro != null && erro instanceof ErroCompilacao){
                 let data = erro.data.toDate();
                 let mes = data.getMonth();
-                
+
 
                 if( resultados[mes] == undefined ){
                     resultados[mes] = []
                 }
-                
+
                 if(resultados[mes][erro.categoria] == undefined ){
                     resultados[mes][erro.categoria] = new HistogramaErroData(erro.categoria);
 
@@ -155,16 +143,22 @@ export abstract class ErroCompilacao {
                     resultados[mes][erro.categoria].contagem += 1;
             }
         });
-        
+
         return resultados;
     }
 
-    
-    
+    objectToDocument(){
+        return {id:this.id, traceback:this.traceback, data:firebase.firestore.FieldValue.serverTimestamp()};
+    }
+
+    abstract getMensagem();
+
+
+
 
     /**
      * Identifica o top 3 principais erros cometidos pelo estudante.
-     
+
     static rankErros(dados){
         let ranking = {top1:{tipo:undefined, total:0}, top2:{tipo:undefined, total:0}, top3:{tipo:undefined, total:0}}
         if( dados != undefined){
@@ -172,14 +166,14 @@ export abstract class ErroCompilacao {
             let top1 = {}
             let top2 = {}
             let top3 = {}
-            
+
             for (let key in dados) {
                 if(dados[key] != 0){
                     if(ranking.top1.total < dados[key]){
-                    
+
                         Erro.atualizarRank(ranking, "top1", {tipo:key, total:dados[key]})
                     }else if(ranking.top2.total < dados[key]){
-                        
+
                         Erro.atualizarRank(ranking, "top2", {tipo:key, total:dados[key]})
                     }else if(ranking.top3.total < dados[key]){
                         ranking.top3.total = dados[key];
@@ -190,10 +184,10 @@ export abstract class ErroCompilacao {
         }
 
        return ranking;
-        
+
     }
 
     */
-    
+
 
 }

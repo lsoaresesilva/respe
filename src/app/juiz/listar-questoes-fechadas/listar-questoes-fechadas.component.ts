@@ -2,15 +2,10 @@ import { Component, OnInit, Input } from '@angular/core';
 import QuestaoFechada from 'src/app/model/questaoFechada';
 import { MenuItem, MessageService } from 'primeng/api';
 import { Router } from '@angular/router';
-import Usuario from 'src/app/model/usuario';
 import { LoginService } from '../../login-module/login.service';
 import { Assunto } from 'src/app/model/assunto';
 import { RespostaQuestaoFechada } from 'src/app/model/respostaQuestaoFechada';
 import Query from 'src/app/model/firestore/query';
-import { Observable } from 'rxjs';
-import Alternativa from 'src/app/model/alternativa';
-import { Questao } from 'src/app/model/questao';
-import { forEach } from '@angular/router/src/utils/collection';
 
 @Component({
   selector: 'app-listar-questoes-fechadas',

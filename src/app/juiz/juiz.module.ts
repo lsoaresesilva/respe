@@ -13,7 +13,6 @@ import {CardModule} from 'primeng/card';
 import {CheckboxModule} from 'primeng/checkbox';
 import { ListarQuestoesComponent } from './listar-questoes/listar-questoes.component';
 import {MessageService} from 'primeng/api';
-import { ContextMenuModule, ContextMenu, MenuItem, MenuModule, ProgressBarModule, } from 'primeng/primeng';
 import { HttpClientModule } from '@angular/common/http';
 import { CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
 import {ProgressSpinnerModule} from 'primeng/progressspinner';
@@ -26,6 +25,8 @@ import {AutoCompleteModule} from 'primeng/autocomplete';
 import {ToastModule} from 'primeng/toast';
 import {InputTextModule} from 'primeng/inputtext';
 import {DialogModule} from 'primeng/dialog';
+
+import {ContextMenuModule} from 'primeng/contextmenu';
 import { VisualizarExecucacao } from './vizualizar-execucao/vizualizar-execucao.component';
 import { VisualizarQuestaoComponent } from './visualizar-questao/visualizar-questao.component';
 
@@ -63,22 +64,23 @@ import { BreadcrumbAssuntoComponent } from './breadcrumb-assunto/breadcrumb-assu
 import { ApresentacaoEntradasTestcaseComponent } from './apresentacao-entradas-testcase/apresentacao-entradas-testcase.component';
 import { EscapeHtmlPipe } from '../pipes/keep-html.pipe';
 import { SharedPipesModule } from '../pipes/shared-pipes.module';
+import { ProgressBarModule } from 'primeng/progressbar';
 
 @NgModule({
   declarations: [
-    VisualizarTestesComponent, 
-    CadastrarQuestoesComponent, 
-    CadastrarTesteCaseComponent, 
-    ListarQuestoesComponent, 
-    DadosQuestaoComponent, 
-    ResponderQuestaoProgramacao, 
+    VisualizarTestesComponent,
+    CadastrarQuestoesComponent,
+    CadastrarTesteCaseComponent,
+    ListarQuestoesComponent,
+    DadosQuestaoComponent,
     ResponderQuestaoProgramacao,
-    VisualizarExecucacao, 
+    ResponderQuestaoProgramacao,
+    VisualizarExecucacao,
     ListarAssuntosComponent,
     VisualizarAssuntoComponent,
-    VisualizarQuestaoComponent, 
-    CadastrarAssuntosComponent, 
-    CadastrarQuestoesFechadasComponent, 
+    VisualizarQuestaoComponent,
+    CadastrarAssuntosComponent,
+    CadastrarQuestoesFechadasComponent,
     ListarQuestoesFechadasComponent,
     VisualizarQuestaoFechadaComponent,
     CadastrarAlternativasComponent,
@@ -95,7 +97,7 @@ import { SharedPipesModule } from '../pipes/shared-pipes.module';
 
 
   imports: [
-    CommonModule,
+  CommonModule,
     TableModule,
     PanelModule,
     ButtonModule,

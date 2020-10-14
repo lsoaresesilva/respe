@@ -1,11 +1,8 @@
 import { Injectable, OnDestroy } from '@angular/core';
-import { CanActivate } from '@angular/router/src/utils/preactivation';
+import { CanActivate } from '@angular/router';
 import { ActivatedRouteSnapshot, RouterStateSnapshot, Router, CanLoad, Route } from '@angular/router';
 import { Observable } from 'rxjs';
-import Usuario from '../model/usuario';
-import { containsElement } from '@angular/animations/browser/src/render/shared';
 import { LoginService } from '../login-module/login.service';
-import Turma from '../model/turma';
 import { PerfilUsuario } from '../model/enums/perfilUsuario';
 
 

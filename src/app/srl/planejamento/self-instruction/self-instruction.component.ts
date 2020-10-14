@@ -5,7 +5,7 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { Assunto } from 'src/app/model/assunto';
 import { LoginService } from 'src/app/login-module/login.service';
 import { Assuntos } from 'src/app/model/enums/assuntos';
-import { MessageService } from 'primeng/primeng';
+import { MessageService } from 'primeng/api';
 
 @Component({
   selector: 'app-self-instruction',
@@ -60,11 +60,11 @@ export class SelfInstructionComponent implements OnInit {
           /*if (assunto["questoesProgramacao"] != undefined && assunto["questoesProgramacao"].length > 0) {
             assunto["questoesProgramacao"].forEach(questao => {
               if (questao.id == params["questaoId"]) {
-                
+
                 this.questao = questao;
-                
-                
-                
+
+
+
               }
             });
           }*/

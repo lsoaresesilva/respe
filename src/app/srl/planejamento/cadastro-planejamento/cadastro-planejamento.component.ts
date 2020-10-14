@@ -1,11 +1,11 @@
 import { Component, OnInit } from '@angular/core';
-import { SelectItem } from 'primeng/components/common/selectitem';
+import { SelectItem } from 'primeng/api';
 import { Assunto } from '../../../model/assunto';
 import { Planejamento } from '../../../model/planejamento';
 import { Dificuldade } from '../../../model/enums/dificuldade';
 import { Router, ActivatedRoute } from '@angular/router';
 import { LoginService } from 'src/app/login-module/login.service';
-import { MessageService } from 'primeng/primeng';
+import { MessageService } from 'primeng/api';
 import { Motivacao } from 'src/app/model/enums/motivacao';
 //import {MessageService} from 'primeng/api';
 @Component({
@@ -38,7 +38,7 @@ export class CadastroPlanejamentoComponent implements OnInit {
   }
 
   prepararAssuntos(assuntos) {
-    
+
     assuntos = Assunto.ordenar(assuntos);
 
     let opcoesAssuntos = [
@@ -62,17 +62,17 @@ export class CadastroPlanejamentoComponent implements OnInit {
   ngOnInit() {
 
 
-   
+
     this.route.params.subscribe(params=> {this.id = params["id"];
       if(this.id!=undefined){
         this.isAlterar=true;
        Planejamento.get(this.id).subscribe(resultado =>{
           this.planejamento = resultado;
           this.planejamento.estudante = this.login.getUsuarioLogado();
-        
+
         })
       }
-      
+
     });
 
 
@@ -105,12 +105,12 @@ export class CadastroPlanejamentoComponent implements OnInit {
         this.router.navigate(["main", { outlets: { principal: ['listagem-planejamento'] } }])
       }, err => {
         this.messageService.add({ severity: 'error', summary: 'Houve um erro:', detail: err.toString() });
-       
+
       })
 
     }, err => {
       this.messageService.add({ severity: 'error', summary: 'Houve um erro:', detail: err.toString() });
-     
+
     });
   }
 

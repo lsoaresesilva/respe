@@ -25,12 +25,11 @@ import {ProgressBarModule} from 'primeng/progressbar';
 import { ListarPlanejamentosComponent } from './planejamento/listar-planejamentos/listar-planejamentos.component';
 import { VisualizarPlanejamentoComponent } from './planejamento/vizualizar-planejamento/visualizar-planejamento.component';
 import { RouterModule } from '@angular/router';
-import { CheckboxModule, InputTextModule, AccordionModule, RadioButtonModule, ChartModule, ContextMenuModule, MessageService } from 'primeng/primeng';
 import {FieldsetModule} from 'primeng/fieldset';
 import { RespostaSimilarQuestaoProgramacaoComponent } from './monitoramento/resposta-similar-questao-programacao/resposta-similar-questao-programacao.component';
 import {TreeTableModule} from 'primeng/treetable';
 import { ExibirSolucaoComponent } from './monitoramento/exibir-solucao/exibir-solucao.component';
-import {} from 'primeng/radiobutton';
+import { RadioButtonModule } from 'primeng/radiobutton';
 import { JuizModule } from '../juiz/juiz.module';
 import { MonitorarPlanejamentoComponent } from './monitoramento/monitorar-planejamento/monitorar-planejamento.component';
 import { AcompanharDesempenhoComponent } from './monitoramento/acompanhar-desempenho/acompanhar-desempenho.component';
@@ -47,6 +46,12 @@ import { SharedPipesModule } from '../pipes/shared-pipes.module';
 import { AnaliseDesempenhoEstudanteComponent } from './monitoramento/analise-desempenho-estudante/analise-desempenho-estudante.component';
 import { DesempenhoAssuntosComponent } from './monitoramento/desempenho-assuntos/desempenho-assuntos.component';
 import { DiarioComponent } from './monitoramento/diario/diario.component';
+import { CheckboxModule } from 'primeng/checkbox';
+import { AccordionModule } from 'primeng/accordion';
+import { MessageService } from 'primeng/api';
+import { ChartModule } from 'primeng/chart';
+import { ContextMenuModule } from 'primeng/contextmenu';
+import { InputTextModule } from 'primeng/inputtext';
 
 @NgModule({
   declarations: [

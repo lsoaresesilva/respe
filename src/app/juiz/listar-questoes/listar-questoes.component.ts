@@ -1,6 +1,6 @@
 import { Component, OnInit, Input, OnChanges, AfterViewInit } from '@angular/core';
 import { Assunto } from 'src/app/model/assunto';
-import { MenuItem } from 'primeng/components/common/menuitem';
+import { MenuItem } from 'primeng/api';
 import { MessageService } from 'primeng/api';
 import { Questao } from 'src/app/model/questao';
 import TestCase from 'src/app/model/testCase';
@@ -41,7 +41,7 @@ export class ListarQuestoesComponent implements OnInit, OnChanges, AfterViewInit
     Assunto.getAll().subscribe(assunto => {
       this.ordernarPorSequencia(this.assunto.questoesProgramacao);
     });
-   
+
     this.usuario = this.login.getUsuarioLogado();
     this.isQuestaoFinalizada();
 
@@ -55,20 +55,20 @@ export class ListarQuestoesComponent implements OnInit, OnChanges, AfterViewInit
 
 
   ordernarPorSequencia(questoes){
-    
+
     questoes.sort((a, b) => a.sequencia - b.sequencia);
     this.questoes = questoes;
-    
+
   }
 
   visualizar(questao) {
     if(this.login.getUsuarioLogado().grupoExperimento == Groups.control){
       this.router.navigate(["main", { outlets: { principal: ['editor', this.assunto.pk(), questao.id] }}]);
-      return; 
+      return;
     }
 
     this.router.navigate(["main", { outlets: { principal: ['self-instruction', this.assunto.pk(), questao.id] }}]);
-    
+
   }
 
   alterar(questao: Questao) {
@@ -89,7 +89,7 @@ export class ListarQuestoesComponent implements OnInit, OnChanges, AfterViewInit
     Assunto.delete(this.assunto.questoesProgramacao[index]).subscribe(resultado => {
       this.messageDelete();
     });
-    
+
   }
 
   messageDelete() {

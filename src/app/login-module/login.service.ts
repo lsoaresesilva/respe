@@ -60,15 +60,15 @@ export class LoginService {
   }
 
   logar(usuario: Usuario) {
-    
+
     return new Observable(observer => {
       Usuario.logar([new Query("email", "==", usuario.email), new Query("senha", "==", sha256(usuario.senha))]).subscribe(usuarioLogado => {
         if (usuarioLogado != null) {
           this.criarSessao(usuarioLogado);
           let registroLogin = new RegistroLogin(null, usuarioLogado);
-          registroLogin.save().subscribe(()=>{
-            
-          });
+          /* registroLogin.save().subscribe(()=>{
+
+          }); */
           observer.next(true);
           observer.complete();
         } else {
@@ -93,23 +93,23 @@ export class LoginService {
 
   }
 
-  
+
   signInWithFacebook() {
-		return this.firebaseAuth.auth.signInWithPopup(
+		/* return this.firebaseAuth.auth.signInWithPopup(
 			new firebase.auth.FacebookAuthProvider()
-		)
+		) */
   }
 
   signInWithGoogle() {
-		return this.firebaseAuth.auth.signInWithPopup(
+		/* return this.firebaseAuth.auth.signInWithPopup(
 			new firebase.auth.GoogleAuthProvider()
-		)
+		) */
 	}
 
-  
+
   logout1() {
-		this.firebaseAuth.auth.signOut()
-			.then((res) => this.router.navigate(['/']));
+		/* this.firebaseAuth.auth.signOut()
+			.then((res) => this.router.navigate(['/'])); */
 	}
 
   logout() {
