@@ -45,26 +45,26 @@ export class Planejamento extends Document {
   validar() {
     let planejamentoFixo;
     return new Observable(observer => {
-      if (this.assunto == null || this.dificuldadeConteudo == 0 || this.estrategiaRealizacaoEstudo == "" || this.importanciaAssunto == "" || this.motivacao == 0) {
+      if (this.assunto == null || /* this.dificuldadeConteudo == 0 ||  */this.estrategiaRealizacaoEstudo == "" || this.importanciaAssunto == "" || this.motivacao == 0) {
         observer.error(new Error("É preciso preencher todos os campos."))
       } else {
         Planejamento.getAll([new Query("estudanteId", "==", this.estudante.pk()), new Query("assuntoId", "==", this.assunto.pk())]).subscribe(planejamento=>{
           if(planejamento.length == 0){
             observer.next(true);
-            observer.complete()  
+            observer.complete()
           }
-          
+
          else if(this.pk()== planejamento[0].id){
             observer.next(true);
             observer.complete();
           }
-          
-          
+
+
           else{
             observer.error(new Error("Já existe um planejamento cadastrado para este assunto."));
           }
         })
-        
+
       }
     });
 
@@ -96,9 +96,9 @@ export class Planejamento extends Document {
                   planejamento.assunto = assuntos[id];
                 }
               });
-  
+
             }
-  
+
             observer.next(planejamentos);
             observer.complete();
           }, err => {
@@ -109,7 +109,7 @@ export class Planejamento extends Document {
           observer.complete();
         }
 
-        
+
       }, err => {
         observer.error(err);
       })
@@ -153,17 +153,17 @@ export class Planejamento extends Document {
             observer.next(planejamento[0]);
           }else{
             observer.next(planejamento);
-  
+
           }
-  
+
           observer.complete();
         })
       }else{
         observer.error(new Error("É preciso informar o assunto e usuário."));
       }
-      
+
     })
-    
+
   }
 
 }

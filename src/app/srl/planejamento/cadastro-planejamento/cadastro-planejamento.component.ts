@@ -15,7 +15,7 @@ import { Motivacao } from 'src/app/model/enums/motivacao';
 })
 export class CadastroPlanejamentoComponent implements OnInit {
 
-  dificuldades: SelectItem[];
+  /* dificuldades: SelectItem[]; */
   motivacao: SelectItem[];
   assuntos;
   index: number = 0;
@@ -81,12 +81,12 @@ export class CadastroPlanejamentoComponent implements OnInit {
       this.assuntos = this.prepararAssuntos(assuntos)
     });
 
-    this.dificuldades = [
+    /* this.dificuldades = [
       { label: 'Selecione uma dificuldade', value: null },
       { label: 'Difícil', value: Dificuldade.dificil },
       { label: 'Normal', value: Dificuldade.medio },
       { label: 'Fácil', value: Dificuldade.facil },
-    ];
+    ]; */
 
     this.motivacao = [
       { label: 'Selecione um nível de motivação', value: null },

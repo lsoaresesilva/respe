@@ -1,10 +1,10 @@
 <p-dialog header="Estratégias de aprendizagem" [(visible)]="visibilidadeQuestionario" [modal]="true" [closable]="false"
   [style]="{width: '1200px'}">
   <div style="margin: 10px 0px 10px 0px">
-    Precisamos conhecer suas estratégias de aprendizagem e habilidades no estudo, e para isso apresentamos o
-    questionário abaixo. Não há respostas certas ou erradas, e você deve respondê-las com a maior precisão possível.
+    Antes de começar, iremos fazer algumas perguntas para conhecê-lo melhor. O objetivo é oferecer uma melhor experiência de aprendizagem ao longo do curso.
+    Não há respostas certas ou erradas, e você deve respondê-las com a maior precisão possível.
   </div>
-  <p>São 22 afirmações e leva aproximadamente 7 minutos para responder.</p>
+  <p>São 22 afirmações e leva aproximadamente 5 minutos para responder.</p>
   <div style="margin: 10px 0px 10px 0px">
     Use a escala de 1 a 7 para responder as perguntas, se você acha que a afirmação é muito verdadeira para você, marque
     7; se você entender que a afirmação não é verdadeira para você, marque 1. Se a declaração é mais ou menos verdade
@@ -13,7 +13,7 @@
 
 
   <div style="margin: 10px 0px 10px 0px">
-    
+
     <img src="/assets/respostas_questionario.png" />
   </div>
   <div style="margin: 0px 0px 10px 0px">
@@ -58,7 +58,7 @@
         </span>
       </div>
     </div>
-  
+
     <div>
       <p>
         2. Quando faço tarefas de casa, eu tento lembrar o que o professor falou em sala de aula para assim responder corretamente as questões.
@@ -94,7 +94,7 @@
         </span>
       </div>
     </div>
-  
+
     <div>
       <p>
         3. Para mim é difícil compreender quais são as principais ideias em um texto que li.
@@ -130,7 +130,7 @@
         </span>
       </div>
     </div>
-    
+
     <div>
       <p>
         4. Quando estudo, ponho as ideias importantes em minhas próprias palavras.
@@ -166,7 +166,7 @@
         </span>
       </div>
     </div>
-  
+
     <div>
       <p>
         5. Sempre busco entender o que o professor está dizendo, mesmo que isto não faça sentido.
@@ -202,10 +202,10 @@
         </span>
       </div>
     </div>
-  
+
     <div>
       <p>
-        6. Quando estudo para uma avaliação, tento me lembrar do máximo de (facts) conceitos que posso.
+        6. Quando estudo para uma avaliação, tento me lembrar do máximo de conceitos que posso.
       </p>
       <div class="ui-inputgroup">
         <span class="ui-inputgroup-addon">
@@ -238,10 +238,10 @@
         </span>
       </div>
     </div>
-    
+
     <div>
       <p>
-        7. Quando estou estudando, copio minhas anotações para me lembrar do assunto.
+        7. Quando estou estudando, faço minhas anotações para me lembrar do assunto.
       </p>
       <div class="ui-inputgroup">
         <span class="ui-inputgroup-addon">
@@ -274,10 +274,10 @@
         </span>
       </div>
     </div>
-  
+
     <div>
       <p>
-        8. Quando estudo para um teste, pratico dizendo repetidamente os conceitos importantes para mim mesmo.
+        8. Quando estudo para uma prova, pratico dizendo repetidamente os conceitos importantes para mim mesmo.
       </p>
       <div class="ui-inputgroup">
         <span class="ui-inputgroup-addon">
@@ -310,10 +310,10 @@
         </span>
       </div>
     </div>
-  
+
     <div>
       <p>
-        9. Para fazer novas tarefas, uso o que aprendi com antigas tarefas para casa, e com o livro.
+        9. Para fazer novas tarefas, uso o que aprendi com antigas tarefas de casa e livros.
       </p>
       <div class="ui-inputgroup">
         <span class="ui-inputgroup-addon">
@@ -346,7 +346,7 @@
         </span>
       </div>
     </div>
-  
+
     <div>
       <p>
         10. Quando estou estudando um assunto, tento fazer com que tudo faça sentido.
@@ -382,10 +382,10 @@
         </span>
       </div>
     </div>
-  
+
     <div>
       <p>
-        11. Quando leio um material para uma matéria, repito as palavras várias vezes para mim mesmo, para me ajudar a lembrar.
+        11. Quando leio um material para uma disciplina, repito as palavras várias vezes para mim mesmo, para me ajudar a lembrar.
       </p>
       <div class="ui-inputgroup">
         <span class="ui-inputgroup-addon">
@@ -418,10 +418,10 @@
         </span>
       </div>
     </div>
-  
+
     <div>
       <p>
-        12. Faço tópicos dos capítulos do meu livro para me ajudar a estudar.
+        12. Faço tópicos dos textos do meu livro para me ajudar a estudar.
       </p>
       <div class="ui-inputgroup">
         <span class="ui-inputgroup-addon">
@@ -454,7 +454,7 @@
         </span>
       </div>
     </div>
-  
+
     <div>
       <p>
         13. Quando estou lendo algo tento fazer conexões com outras coisas que já sei.
@@ -490,7 +490,7 @@
         </span>
       </div>
     </div>
-  
+
     <div>
       <p>
         14. Faço perguntas a mim mesmo para ter certeza que eu entendi o material de estudo.
@@ -818,10 +818,10 @@
 
   </p-scrollPanel>
 
-  
+
 
   <p-footer>
-    
+
     <button type="text" (click)="salvar()" pButton icon="pi pi-check" class="ui-button-success"
       label="Responder"></button>
   </p-footer>

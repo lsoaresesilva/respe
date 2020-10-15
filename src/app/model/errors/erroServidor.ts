@@ -9,17 +9,16 @@ export default class ErroServidor {
 
     static construir(mensagemErro) {
 
-        if (mensagemErro["name"] != null && mensagemErro["status"] != null) {
-            let mensagem = "";
-
-            if (mensagemErro.name == "HttpErrorResponse" && mensagemErro.status == 0) {
-                mensagem = "O servidor está fora do ar."
+        if (mensagemErro['name'] != null) {
+            let mensagem = '';
+            if (mensagemErro.name === 'TimeoutError' || (mensagemErro.name === 'HttpErrorResponse' && mensagemErro.status === 0)) {
+                mensagem = 'O servidor está fora do ar.';
             } else {
                 mensagem = mensagemErro.error.mensagem;
             }
 
             return new ErroServidor(mensagem);
-        }else{
+        } else {
             return null;
         }
 
