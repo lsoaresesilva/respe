@@ -171,9 +171,6 @@ export class EditorProgramacaoComponent implements AfterViewInit, OnChanges {
     }
   }
 
-  gerenciarErro(erro){
-
-  }
 
   executar() {
     // this.pausaIde = true; // TODO: esse código está comentado, pois a função de pausar a IDE durante o envio não está funcionando.
@@ -213,7 +210,7 @@ export class EditorProgramacaoComponent implements AfterViewInit, OnChanges {
                 this.editorCodigo.limparCores();
               });
           },
-          error: (erro) => {
+          error: (erro) => { // TODO: Jogar todo o erro para cima (quem chama esse component) e deixar que ele gerencie o Erro
             if (erro.name === 'TimeoutError' || erro.error.mensagem == null) {
               this.onServidorError.emit(erro);
             } else {
