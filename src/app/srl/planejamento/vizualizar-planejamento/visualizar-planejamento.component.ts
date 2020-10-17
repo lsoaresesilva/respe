@@ -11,69 +11,50 @@ import { LoginService } from 'src/app/login-module/login.service';
 @Component({
   selector: 'app-vizualizar-planejamento',
   templateUrl: './vizualizar-planejamento.component.html',
-  styleUrls: ['./vizualizar-planejamento.component.css']
+  styleUrls: ['./vizualizar-planejamento.component.css'],
 })
 export class VisualizarPlanejamentoComponent implements OnInit {
   planejamento: Planejamento;
+  assuntos;
+  assuntoSelecionado: Assunto;
+
   materialDeEstudo: any[] = [];
   questoes: any[] = [];
-  progresso: number = 0;
-  isFinalizado?
+  progresso = 0;
+  isFinalizado?;
 
-  constructor(private activatedRoute: ActivatedRoute, private router: Router, private login:LoginService) {
-  }
+  constructor(
+    private activatedRoute: ActivatedRoute,
+    private router: Router,
+    private login: LoginService
+  ) {}
 
   ngOnInit() {
-    this.activatedRoute.params.subscribe(params => {
-      if(params.id == undefined){
-        throw new Error("É preciso informar o id de um planejamento");
+    this.activatedRoute.params.subscribe((params) => {
+      if (params.id == undefined) {
+        throw new Error('É preciso informar o id de um planejamento');
       }
 
-      Planejamento.get(params.id).subscribe(planejamentoCadastrado => {
+      Planejamento.get(params.id).subscribe((planejamentoCadastrado) => {
         this.planejamento = planejamentoCadastrado;
+        Assunto.getAll(null, 'sequencia').subscribe((assuntos) => {
+          this.assuntos = assuntos;
+        });
       });
     });
   }
 
-  getPlanejamento(id){
-    Planejamento.get(id).subscribe(planejamentoCadastrado => {
-      this.planejamento = planejamentoCadastrado;
-    });
+  abrirAssunto(assunto) {
+    this.router.navigate([
+      'main',
+      { outlets: { principal: ['visualizacao-assunto', assunto.pk()] } },
+    ]);
   }
 
-  getQuestoes(){
-    if(this.planejamento.assunto != undefined){
-      Assunto.get(this.planejamento.assunto.pk()).subscribe(assunto=>{
-        this.questoes = assunto["questoes"];
-        let consultas:any = {};
-        this.questoes.forEach(questao=>{
-          
-          consultas[questao.pk()] = (Questao.isFinalizada(questao, this.login.getUsuarioLogado())); // TODO: problema está aqui
-        })
-
-        forkJoin(consultas).subscribe(consulta=>{
-          let x = 2;
-          for(let id in consulta){
-            this.questoes.forEach(questao=>{
-              if(questao.pk() == id){
-                questao["percentualResposta"] = consulta[id];
-              }
-            })
-          }
-        });
-      })
-    }else{
-      throw new Error("É preciso que exista um assunto em um planejamento.")
-    }
-    
+  iniciarAutoReflexao() {
+    this.router.navigate([
+      'main',
+      { outlets: { principal: ['autoreflexao', this.planejamento.pk()] } },
+    ]);
   }
-
-  responderQuestao(questao){
-    this.router.navigate(['main', { outlets: { principal: ['editor', questao.pk()] } }]);
-  }
-
-  iniciarAutoReflexao(){
-    this.router.navigate(['main', { outlets: { principal: ['autoreflexao', this.planejamento.pk()] } }]);
-  }
-
 }

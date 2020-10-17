@@ -1,8 +1,8 @@
 import { NgModule } from '@angular/core';
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
-import {InputTextModule} from 'primeng/inputtext';
-import {MenubarModule} from 'primeng/menubar';
+import { InputTextModule } from 'primeng/inputtext';
+import { MenubarModule } from 'primeng/menubar';
 import { FirebaseConfiguracao } from 'src/environments/firebase';
 import { LoginModule } from './login-module/login.module';
 import { MainComponent } from './geral-module/main/main.component';
@@ -28,24 +28,15 @@ import { environment } from '../environments/environment';
 import { EscapeHtmlPipe } from './pipes/keep-html.pipe';
 import { SharedPipesModule } from './pipes/shared-pipes.module';
 
-
-
-
-
 @NgModule({
-  schemas: [ CUSTOM_ELEMENTS_SCHEMA ],
-  declarations: [
-    AppComponent,
-    MainComponent
-    
-
-  ],
+  schemas: [CUSTOM_ELEMENTS_SCHEMA],
+  declarations: [AppComponent, MainComponent],
   imports: [
+    SrlModule,
     JuizModule,
     LivroModule,
     TurmaModule,
     ExperimentoModule,
-    SrlModule,
     CsclModule,
     DocumentModule,
     GeralModuleModule,
@@ -59,14 +50,10 @@ import { SharedPipesModule } from './pipes/shared-pipes.module';
     MenubarModule,
     BrowserAnimationsModule,
     AngularFireAuthModule,
-    //AngularFireModule.initializeApp(environment.firebase),
-    SharedPipesModule
-
-   
+    SharedPipesModule,
   ],
-  providers: [AuthGuard,TurmaGuard,MessageService],
+  providers: [AuthGuard, TurmaGuard, MessageService],
   bootstrap: [AppComponent],
-  exports:[EscapeHtmlPipe]
+  exports: [EscapeHtmlPipe],
 })
-export class AppModule { }
-
+export class AppModule {}

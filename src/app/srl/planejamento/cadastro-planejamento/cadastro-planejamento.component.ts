@@ -11,10 +11,9 @@ import { Motivacao } from 'src/app/model/enums/motivacao';
 @Component({
   selector: 'app-cadastro-planejamento',
   templateUrl: './cadastro-planejamento.component.html',
-  styleUrls: ['./cadastro-planejamento.component.css']
+  styleUrls: ['./cadastro-planejamento.component.css'],
 })
 export class CadastroPlanejamentoComponent implements OnInit {
-
   /* dificuldades: SelectItem[]; */
   motivacao: SelectItem[];
   assuntos;
@@ -25,8 +24,6 @@ export class CadastroPlanejamentoComponent implements OnInit {
 
   dialogImportanciaAssunto = false;
 
-
-
   constructor(
     private messageService: MessageService,
     private router: Router,
@@ -34,51 +31,43 @@ export class CadastroPlanejamentoComponent implements OnInit {
     private route: ActivatedRoute
   ) {
     // TODO: carregar do login
-    this.planejamento = new Planejamento(null, this.login.getUsuarioLogado(), null, 0, "", 0, "", false, null);
+    this.planejamento = new Planejamento(
+      null,
+      this.login.getUsuarioLogado(),
+      0,
+      '',
+      '',
+      false,
+      null
+    );
   }
 
   prepararAssuntos(assuntos) {
-
     assuntos = Assunto.ordenar(assuntos);
 
-    let opcoesAssuntos = [
-      { label: 'Selecione um Assunto', value: null },
-    ];
+    let opcoesAssuntos = [{ label: 'Selecione um Assunto', value: null }];
 
-    assuntos.forEach(assunto => {
+    assuntos.forEach((assunto) => {
       opcoesAssuntos.push({ label: assunto.nome, value: assunto });
     });
 
     return opcoesAssuntos;
-
-  }
-
-  exibirDialogImportancia(event){
-    if(this.planejamento.assunto != null){
-      this.dialogImportanciaAssunto = true;
-    }
   }
 
   ngOnInit() {
-
-
-
-    this.route.params.subscribe(params=> {this.id = params["id"];
-      if(this.id!=undefined){
-        this.isAlterar=true;
-       Planejamento.get(this.id).subscribe(resultado =>{
+    this.route.params.subscribe((params) => {
+      this.id = params['id'];
+      if (this.id != undefined) {
+        this.isAlterar = true;
+        Planejamento.get(this.id).subscribe((resultado) => {
           this.planejamento = resultado;
           this.planejamento.estudante = this.login.getUsuarioLogado();
-
-        })
+        });
       }
-
     });
 
-
-    Assunto.getAll().subscribe(assuntos => {
-
-      this.assuntos = this.prepararAssuntos(assuntos)
+    Assunto.getAll().subscribe((assuntos) => {
+      this.assuntos = this.prepararAssuntos(assuntos);
     });
 
     /* this.dificuldades = [
@@ -99,23 +88,33 @@ export class CadastroPlanejamentoComponent implements OnInit {
   }
 
   cadastrarPlanejamento() {
-    this.planejamento.validar().subscribe(validade => {
-      this.planejamento.save().subscribe(resultado => {
-        this.messageService.add({ severity: 'Sucesso', summary: 'Planejamento cadastrado', detail: 'Seu planejamento foi salvo com sucesso!' });
-        this.router.navigate(["main", { outlets: { principal: ['listagem-planejamento'] } }])
-      }, err => {
-        this.messageService.add({ severity: 'error', summary: 'Houve um erro:', detail: err.toString() });
-
-      })
-
-    }, err => {
-      this.messageService.add({ severity: 'error', summary: 'Houve um erro:', detail: err.toString() });
-
-    });
+    this.planejamento.validar().subscribe(
+      (validade) => {
+        this.planejamento.save().subscribe(
+          (resultado) => {
+            this.messageService.add({
+              severity: 'Sucesso',
+              summary: 'Planejamento cadastrado',
+              detail: 'Seu planejamento foi salvo com sucesso!',
+            });
+            this.router.navigate(['main', { outlets: { principal: ['listagem-planejamento'] } }]);
+          },
+          (err) => {
+            this.messageService.add({
+              severity: 'error',
+              summary: 'Houve um erro:',
+              detail: err.toString(),
+            });
+          }
+        );
+      },
+      (err) => {
+        this.messageService.add({
+          severity: 'error',
+          summary: 'Houve um erro:',
+          detail: err.toString(),
+        });
+      }
+    );
   }
-
-
-
-
-
 }

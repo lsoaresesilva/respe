@@ -1,7 +1,7 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { SelfInstructionComponent } from './planejamento/self-instruction/self-instruction.component';
-import {BrowserAnimationsModule} from '@angular/platform-browser/animations';
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { BrowserModule } from '@angular/platform-browser';
 import { CadastroPlanejamentoComponent } from './planejamento/cadastro-planejamento/cadastro-planejamento.component';
 import { FormsModule } from '@angular/forms';
@@ -13,32 +13,31 @@ import { SliderModule } from 'primeng/slider';
 import { AutoReflexaoComponent } from './auto-reflexao/auto-reflexao.component';
 
 import { ButtonModule } from 'primeng/button';
-import {ToastModule} from 'primeng/toast';
-import {TabViewModule} from 'primeng/tabview';
-import {DialogModule} from 'primeng/dialog';
-import {CardModule} from 'primeng/card';
-
+import { ToastModule } from 'primeng/toast';
+import { TabViewModule } from 'primeng/tabview';
+import { DialogModule } from 'primeng/dialog';
+import { CardModule } from 'primeng/card';
 
 import { PaginaNaoEncontradaComponent } from '../geral-module/pagina-nao-encontrada/pagina-nao-encontrada.component';
 import { RiscoEstudanteComponent } from './monitoramento/card-risco-estudante/card-risco-estudante.component';
-import {ProgressBarModule} from 'primeng/progressbar';
+import { ProgressBarModule } from 'primeng/progressbar';
 import { ListarPlanejamentosComponent } from './planejamento/listar-planejamentos/listar-planejamentos.component';
 import { VisualizarPlanejamentoComponent } from './planejamento/vizualizar-planejamento/visualizar-planejamento.component';
 import { RouterModule } from '@angular/router';
-import {FieldsetModule} from 'primeng/fieldset';
+import { FieldsetModule } from 'primeng/fieldset';
 import { RespostaSimilarQuestaoProgramacaoComponent } from './monitoramento/resposta-similar-questao-programacao/resposta-similar-questao-programacao.component';
-import {TreeTableModule} from 'primeng/treetable';
+import { TreeTableModule } from 'primeng/treetable';
 import { ExibirSolucaoComponent } from './monitoramento/exibir-solucao/exibir-solucao.component';
 import { RadioButtonModule } from 'primeng/radiobutton';
 import { JuizModule } from '../juiz/juiz.module';
-import { MonitorarPlanejamentoComponent } from './monitoramento/monitorar-planejamento/monitorar-planejamento.component';
+import { MonitorarAssuntoComponent } from './monitoramento/monitorar-assunto/monitorar-assunto.component';
 import { AcompanharDesempenhoComponent } from './monitoramento/acompanhar-desempenho/acompanhar-desempenho.component';
 import { PercentualErrorQuotientComponent } from './monitoramento/percentual-error-quotient/percentual-error-quotient.component';
 import { CardDesempenhoComponent } from './monitoramento/card-desempenho/card-desempenho.component';
 import { CardErrosProgramacaoPizzaComponent } from './monitoramento/card-erros-programacao-pizza/card-erros-programacao-pizza.component';
 import { CardHistoricoErrosComponent } from './monitoramento/card-historico-erros/card-historico-erros.component';
-import {MessagesModule} from 'primeng/messages';
-import {MessageModule} from 'primeng/message';
+import { MessagesModule } from 'primeng/messages';
+import { MessageModule } from 'primeng/message';
 import { TipsRegulacaoComponent } from './monitoramento/tips-regulacao/tips-regulacao.component';
 
 import { EscapeHtmlPipe } from '../pipes/keep-html.pipe';
@@ -64,7 +63,7 @@ import { InputTextModule } from 'primeng/inputtext';
     VisualizarPlanejamentoComponent,
     RespostaSimilarQuestaoProgramacaoComponent,
     ExibirSolucaoComponent,
-    MonitorarPlanejamentoComponent,
+    MonitorarAssuntoComponent,
     AcompanharDesempenhoComponent,
     PercentualErrorQuotientComponent,
     CardDesempenhoComponent,
@@ -78,7 +77,6 @@ import { InputTextModule } from 'primeng/inputtext';
   imports: [
     MessagesModule,
     MessageModule,
-    JuizModule,
     CommonModule,
     CheckboxModule,
     BrowserModule,
@@ -104,10 +102,15 @@ import { InputTextModule } from 'primeng/inputtext';
     DialogModule,
     CardModule,
     ContextMenuModule,
-    SharedPipesModule
+    SharedPipesModule,
   ],
-  providers:[MessageService],
-  exports:[RiscoEstudanteComponent, PercentualErrorQuotientComponent, TipsRegulacaoComponent, DesempenhoAssuntosComponent]
-
+  providers: [MessageService],
+  exports: [
+    RiscoEstudanteComponent,
+    PercentualErrorQuotientComponent,
+    TipsRegulacaoComponent,
+    DesempenhoAssuntosComponent,
+    MonitorarAssuntoComponent,
+  ],
 })
-export class SrlModule { }
+export class SrlModule {}

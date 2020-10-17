@@ -1,22 +1,53 @@
 <div class="ui-g">
-    <div class="ui-g-10"></div>
-    <div class="ui-g-2">
-        <button pButton label="Nova Questão" (click)="cadastrar()"
-            *ngIf="login.getUsuarioLogado().perfil == 3"></button>
-    </div>
+  <div class="ui-g-10"></div>
+  <div class="ui-g-2">
+    <button
+      pButton
+      label="Nova Questão"
+      (click)="cadastrar()"
+      *ngIf="login.getUsuarioLogado().perfil == 3"
+    ></button>
+  </div>
 </div>
 
 <div class="p-grid">
-    <div class="p-col"><h3>Exercícios de programação</h3></div>
-    <div class="p-col"><h3>Questões fechadas</h3></div>
+  <div class="p-col">
+    <app-monitorar-assunto [assunto]="assunto"></app-monitorar-assunto>
+  </div>
 </div>
 
 <div class="p-grid">
-    <div class="p-col">
-
-        <app-listar-questoes [assunto]="assunto"></app-listar-questoes>
-    </div>
-    <div class="p-col">
-        <app-listar-questoes-fechadas [assunto]="assunto"></app-listar-questoes-fechadas>
-    </div>
+  <div class="p-col"><h3>Exercícios de programação</h3></div>
+  <div class="p-col"><h3>Questões fechadas</h3></div>
 </div>
+
+<div class="p-grid">
+  <div class="p-col">
+    <app-listar-questoes [assunto]="assunto"></app-listar-questoes>
+  </div>
+  <div class="p-col">
+    <app-listar-questoes-fechadas [assunto]="assunto"></app-listar-questoes-fechadas>
+  </div>
+</div>
+
+<p-dialog
+  header="Você sabia?"
+  [(visible)]="dialogImportanciaAssunto"
+  [modal]="true"
+  [style]="{ width: '30vw' }"
+  [baseZIndex]="10000"
+  [draggable]="false"
+  [resizable]="false"
+>
+  <div *ngIf="assunto != null" [innerHTML]="assunto.importancia | keepHtml"></div>
+  <p-footer>
+    <button
+      type="button"
+      pButton
+      icon="pi pi-times"
+      (click)="dialogImportanciaAssunto = false"
+      label="Ok, obrigado pela dica."
+      class="ui-button-secondary"
+    ></button>
+  </p-footer>
+</p-dialog>

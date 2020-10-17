@@ -1,4 +1,4 @@
-<p-toast [style]="{marginTop: '80px'}"></p-toast>
+<p-toast [style]="{ marginTop: '80px' }"></p-toast>
 <div class="p-grid">
   <div class="p-col-4"></div>
   <div class="p-col-4">
@@ -6,121 +6,93 @@
   </div>
 </div>
 
+<!--
 <div class="p-grid">
   <div class="p-col-4"></div>
-  <div class="p-col-4">
-    Escolha o assunto que pretende estudar
-  </div>
-
+  <div class="p-col-4">Escolha o assunto que pretende estudar</div>
 </div>
 <div class="p-grid">
   <div class="p-col-4"></div>
   <div class="p-col-4">
-    <p-dropdown [options]="assuntos" [(ngModel)]="planejamento.assunto" (onChange)="exibirDialogImportancia($event)">
+    <p-dropdown
+      [options]="assuntos"
+      [(ngModel)]="planejamento.assunto"
+      (onChange)="exibirDialogImportancia($event)"
+    >
     </p-dropdown>
   </div>
-
 </div>
-
-<p-dialog header="Você sabia?" [(visible)]="dialogImportanciaAssunto" [modal]="true" [style]="{width: '30vw'}"
-  [baseZIndex]="10000" [draggable]="false" [resizable]="false">
-  <div *ngIf="planejamento.assunto != null" [innerHTML]="planejamento.assunto.importancia | keepHtml">
-  </div>
-  <p-footer>
-    <button type="button" pButton icon="pi pi-times" (click)="dialogImportanciaAssunto=false"
-      label="Ok, obrigado pela dica." class="ui-button-secondary"></button>
-  </p-footer>
-</p-dialog>
+-->
 
 <div class="p-grid">
   <div class="p-col-4"></div>
   <div class="p-col-4">
     Quantas horas semanais você pretende dedicar-se ao estudo deste assunto?
   </div>
-
 </div>
 <div class="p-grid">
-  <div class="p-col-4">
-  </div>
-  <div class="p-col-1" style="margin:20px 0 20px 0">
+  <div class="p-col-4"></div>
+  <div class="p-col-1" style="margin: 20px 0 20px 0">
     <p-slider [(ngModel)]="planejamento.tempoEstudo" [min]="1" [max]="20"></p-slider>
   </div>
+  <div class="p-col-2">{{ planejamento.tempoEstudo }} horas</div>
+</div>
+
+<div class="p-grid">
+  <div class="p-col-4"></div>
+  <div class="p-col-6">Quais são os seus objetivos?</div>
+</div>
+
+<div class="p-grid">
+  <div class="p-col-4"></div>
+  <div class="p-col-4">
+    <textarea
+      [rows]="5"
+      [cols]="50"
+      pInputTextarea
+      autoResize="autoResize"
+      [(ngModel)]="planejamento.objetivos"
+    ></textarea>
+  </div>
   <div class="p-col-2">
-    {{planejamento.tempoEstudo}} horas
-  </div>
-</div>
-
-
-<div class="p-grid">
-  <div class="p-col-4">
-  </div>
-  <div class="p-col-6">
-    Quais são os seus objetivos?
-  </div>
-
-</div>
-
-<div class="p-grid">
-  <div class="p-col-4">
-  </div>
-  <div class="p-col-4"> <textarea [rows]="5" [cols]="50" pInputTextarea autoResize="autoResize"
-      [(ngModel)]="planejamento.importanciaAssunto"></textarea></div>
-  <div class="p-col-2">
-    O que você espera alcançar ao estudar esse assunto? Quais são os seus objetivos? (Por exemplo, alcançar uma boa nota
-    na disciplina, compreender o assunto para ajudá-lo futuramente em uma profissão, entre outros.)
-  </div>
-</div>
-
-<!--
-<div class="p-grid">
-  <div class="p-col-4">
-  </div>
-  <div class="p-col-4">
-    Como você avalia a dificuldade desse assunto?
+    O que você espera alcançar ao estudar esse assunto? Quais são os seus objetivos? (Por exemplo,
+    alcançar uma boa nota na disciplina, compreender o assunto para ajudá-lo futuramente em uma
+    profissão, entre outros.)
   </div>
 </div>
 
 <div class="p-grid">
-  <div class="p-col-4">
-  </div>
-  <div class="p-col-8">
-    <p-dropdown [options]="dificuldades" [(ngModel)]="planejamento.dificuldadeConteudo"></p-dropdown>
-  </div>
-</div> -->
-
-
-<div class="p-grid">
-  <div class="p-col-4">
-  </div>
-  <div class="p-col-4">
-    Você está motivado para aprender esse assunto?
-  </div>
+  <div class="p-col-4"></div>
+  <div class="p-col-4">Você está motivado para aprender esse assunto?</div>
 </div>
 
 <div class="p-grid">
-  <div class="p-col-4">
-  </div>
+  <div class="p-col-4"></div>
   <div class="p-col-8">
     <p-dropdown [options]="motivacao" [(ngModel)]="planejamento.motivacao"></p-dropdown>
   </div>
 </div>
 
-
 <div class="p-grid">
   <div class="p-col-4"></div>
-  <div class="p-col-3">
-    Como você pretende estudar?
-  </div>
+  <div class="p-col-3">Como você pretende estudar?</div>
 </div>
 
 <div class="p-grid">
   <div class="p-col-4"></div>
 
-  <div class="p-col-4"><textarea [rows]="5" [cols]="50" pInputTextarea autoResize="autoResize"
-      [(ngModel)]="planejamento.estrategiaRealizacaoEstudo"></textarea></div>
+  <div class="p-col-4">
+    <textarea
+      [rows]="5"
+      [cols]="50"
+      pInputTextarea
+      autoResize="autoResize"
+      [(ngModel)]="planejamento.estrategiaRealizacaoEstudo"
+    ></textarea>
+  </div>
   <div class="p-col-2">
-    Aqui você pode informar o horário que espera estudar, se fará sozinho ou em grupo, o
-    local e também quais recursos utilizará (materiais, livros, vídeos, entre outros).
+    Aqui você pode informar o horário que espera estudar, se fará sozinho ou em grupo, o local e
+    também quais recursos utilizará (materiais, livros, vídeos, entre outros).
   </div>
 </div>
 

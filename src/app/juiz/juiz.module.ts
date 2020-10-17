@@ -1,36 +1,35 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import {ButtonModule} from 'primeng/button';
-import {DropdownModule} from 'primeng/dropdown';
+import { ButtonModule } from 'primeng/button';
+import { DropdownModule } from 'primeng/dropdown';
 import { VisualizarTestesComponent } from './visualizar-testes/visualizar-testes.component';
-import {TableModule, ContextMenuRow} from 'primeng/table';
+import { TableModule, ContextMenuRow } from 'primeng/table';
 import { CadastrarQuestoesComponent } from './cadastrar-questoes/cadastrar-questoes.component';
 import { ReactiveFormsModule, FormsModule } from '@angular/forms';
-import {SpinnerModule} from 'primeng/spinner';
+import { SpinnerModule } from 'primeng/spinner';
 import { CadastrarTesteCaseComponent } from './cadastrar-teste-case/cadastrar-teste-case.component';
 import { InputTextareaModule } from 'primeng/inputtextarea';
-import {CardModule} from 'primeng/card';
-import {CheckboxModule} from 'primeng/checkbox';
+import { CardModule } from 'primeng/card';
+import { CheckboxModule } from 'primeng/checkbox';
 import { ListarQuestoesComponent } from './listar-questoes/listar-questoes.component';
-import {MessageService} from 'primeng/api';
+import { MessageService } from 'primeng/api';
 import { HttpClientModule } from '@angular/common/http';
 import { CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
-import {ProgressSpinnerModule} from 'primeng/progressspinner';
+import { ProgressSpinnerModule } from 'primeng/progressspinner';
 import { AnalyticsModule } from '../analytics-module/analytics.module';
-import { SrlModule } from '../srl/srl.module';
 import { ResponderQuestaoProgramacao } from './editor/responder-questao-programacao/responder-questao-programacao.component';
 import { DadosQuestaoComponent } from './dados-questao/dados-questao.component';
 
-import {AutoCompleteModule} from 'primeng/autocomplete';
-import {ToastModule} from 'primeng/toast';
-import {InputTextModule} from 'primeng/inputtext';
-import {DialogModule} from 'primeng/dialog';
+import { AutoCompleteModule } from 'primeng/autocomplete';
+import { ToastModule } from 'primeng/toast';
+import { InputTextModule } from 'primeng/inputtext';
+import { DialogModule } from 'primeng/dialog';
 
-import {ContextMenuModule} from 'primeng/contextmenu';
+import { ContextMenuModule } from 'primeng/contextmenu';
 import { VisualizarExecucacao } from './vizualizar-execucao/vizualizar-execucao.component';
 import { VisualizarQuestaoComponent } from './visualizar-questao/visualizar-questao.component';
 
-import {RadioButtonModule} from 'primeng/radiobutton';
+import { RadioButtonModule } from 'primeng/radiobutton';
 import { CadastrarAssuntosComponent } from './cadastrar-assuntos/cadastrar-assuntos.component';
 import { ListarAssuntosComponent } from './listar-assuntos/listar-assuntos.component';
 import { VisualizarAssuntoComponent } from './visualizar-assunto/visualizar-assunto.component';
@@ -45,18 +44,18 @@ import { VisualizarQuestaoFechadaComponent } from './visualizar-questao-fechada/
 import { ListarQuestoesFechadasComponent } from './listar-questoes-fechadas/listar-questoes-fechadas.component';
 import { EscolherQuestaoComponent } from './escolher-questao/escolher-questao.component';
 
-import {FieldsetModule} from 'primeng/fieldset';
-import {InputMaskModule} from 'primeng/inputmask';
-import {ConfirmDialogModule} from 'primeng/confirmdialog';
-import {ConfirmationService} from 'primeng/api';
+import { FieldsetModule } from 'primeng/fieldset';
+import { InputMaskModule } from 'primeng/inputmask';
+import { ConfirmDialogModule } from 'primeng/confirmdialog';
+import { ConfirmationService } from 'primeng/api';
 import { VisualizarPerfilEstudanteComponent } from './visualizar-perfil-estudante/visualizar-perfil-estudante.component';
-import {ScrollPanelModule} from 'primeng/scrollpanel';
+import { ScrollPanelModule } from 'primeng/scrollpanel';
 import { CsclModule } from '../cscl/cscl.module';
 import { ListarTurmaProfessorComponent } from '../turma/listar-turma-professor/listar-turma-professor.component';
 import { ListarProfessoresComponent } from '../turma/listar-professores/listar-professores.component';
-import {PanelModule} from 'primeng/panel';
+import { PanelModule } from 'primeng/panel';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
-import {CodeHighlighterModule} from 'primeng/codehighlighter';
+import { CodeHighlighterModule } from 'primeng/codehighlighter';
 import { EditorProgramacaoComponent } from './editor/editor-programacao/editor-programacao.component';
 import { ResponderQuestaoProgramacaoLiteComponent } from './editor/responder-questao-programacao-lite/responder-questao-programacao-lite.component';
 import { ConsoleComponent } from './editor/console/console.component';
@@ -65,6 +64,7 @@ import { ApresentacaoEntradasTestcaseComponent } from './apresentacao-entradas-t
 import { EscapeHtmlPipe } from '../pipes/keep-html.pipe';
 import { SharedPipesModule } from '../pipes/shared-pipes.module';
 import { ProgressBarModule } from 'primeng/progressbar';
+import { SrlModule } from '../srl/srl.module';
 
 @NgModule({
   declarations: [
@@ -92,12 +92,12 @@ import { ProgressBarModule } from 'primeng/progressbar';
     ResponderQuestaoProgramacaoLiteComponent,
     ConsoleComponent,
     BreadcrumbAssuntoComponent,
-    ApresentacaoEntradasTestcaseComponent
+    ApresentacaoEntradasTestcaseComponent,
   ],
 
-
   imports: [
-  CommonModule,
+    SrlModule,
+    CommonModule,
     TableModule,
     PanelModule,
     ButtonModule,
@@ -124,9 +124,9 @@ import { ProgressBarModule } from 'primeng/progressbar';
     ConfirmDialogModule,
     ScrollPanelModule,
     SharedPipesModule,
-    ProgressBarModule
+    ProgressBarModule,
   ],
-  exports:[
+  exports: [
     VisualizarTestesComponent,
     DadosQuestaoComponent,
     CadastrarQuestoesComponent,
@@ -140,13 +140,10 @@ import { ProgressBarModule } from 'primeng/progressbar';
     VisualizarQuestaoFechadaComponent,
     VisualizarPerfilEstudanteComponent,
     ResponderQuestaoProgramacaoLiteComponent,
-    VisualizarQuestaoComponent
+    VisualizarQuestaoComponent,
   ],
 
-  providers: [MessageService, LoginService, EditorService,ConfirmationService],
-  schemas: [
-    CUSTOM_ELEMENTS_SCHEMA
-],
-
+  providers: [MessageService, LoginService, EditorService, ConfirmationService],
+  schemas: [CUSTOM_ELEMENTS_SCHEMA],
 })
-export class JuizModule { }
+export class JuizModule {}
