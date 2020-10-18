@@ -10,11 +10,9 @@ import { MessageService } from 'primeng/api';
 @Component({
   selector: 'app-self-instruction',
   templateUrl: './self-instruction.component.html',
-  styleUrls: ['./self-instruction.component.css']
+  styleUrls: ['./self-instruction.component.css'],
 })
 export class SelfInstructionComponent implements OnInit {
-
-
   autoInstrucao: AutoInstrucao;
   questao;
   assunto;
@@ -24,9 +22,13 @@ export class SelfInstructionComponent implements OnInit {
   funcoes;
   vetores;
 
-  constructor(private route: ActivatedRoute, private router: Router, private login: LoginService,
-    private messageService: MessageService) {
-    this.questao = new Questao(null, null, null, null, null, [], [], "");
+  constructor(
+    private route: ActivatedRoute,
+    private router: Router,
+    private login: LoginService,
+    private messageService: MessageService
+  ) {
+    this.questao = new Questao(null, null, null, null, null, [], [], '');
     this.msgs = [];
     this.condicoes = false;
     this.repeticoes = false;
@@ -35,26 +37,36 @@ export class SelfInstructionComponent implements OnInit {
   }
 
   ngOnInit() {
-    this.autoInstrucao = new AutoInstrucao(null, this.login.getUsuarioLogado(), this.questao, null, null, null, null, null, null);
+    this.autoInstrucao = new AutoInstrucao(
+      null,
+      this.login.getUsuarioLogado(),
+      this.questao,
+      null,
+      null,
+      null,
+      null,
+      null,
+      null
+    );
     this.getQuestao();
-
   }
 
   getQuestao() {
-    this.route.params.subscribe(params => {
-      if (params["assuntoId"] != undefined && params["questaoId"] != undefined) {
-        Assunto.get(params["assuntoId"]).subscribe(assunto => {
+    this.route.params.subscribe((params) => {
+      if (params['assuntoId'] != undefined && params['questaoId'] != undefined) {
+        Assunto.get(params['assuntoId']).subscribe((assunto) => {
           this.assunto = assunto;
-          this.questao = this.assunto.getQuestaoProgramacaoById(params["questaoId"]);
+          this.questao = this.assunto.getQuestaoProgramacaoById(params['questaoId']);
+
           if (this.questao != null && this.questao.id != null) {
             this.apresentarPerguntas(this.questao.assuntos);
-            AutoInstrucao.getByEstudanteQuestao(this.login.getUsuarioLogado().pk(), this.questao.id).subscribe(autoInstrucao => {
-
+            AutoInstrucao.getByEstudanteQuestao(
+              this.login.getUsuarioLogado().pk(),
+              this.questao.id
+            ).subscribe((autoInstrucao) => {
               if (autoInstrucao != null) {
                 this.autoInstrucao = autoInstrucao;
-                this.autoInstrucao.questao = this.questao;
               }
-
             });
           }
           /*if (assunto["questoesProgramacao"] != undefined && assunto["questoesProgramacao"].length > 0) {
@@ -69,31 +81,44 @@ export class SelfInstructionComponent implements OnInit {
             });
           }*/
         });
-
       } else {
-        throw new Error("Não é possível visualizar uma questão, pois não foram passados os identificadores de assunto e questão.")
+        throw new Error(
+          'Não é possível visualizar uma questão, pois não foram passados os identificadores de assunto e questão.'
+        );
       }
     });
   }
 
-
   salvar() {
+    this.autoInstrucao.questao = this.questao;
     if (this.autoInstrucao.isValido(this.assunto)) {
-      this.autoInstrucao.save().subscribe(resultado => {
-        this.router.navigate(["main", { outlets: { principal: ['editor', this.assunto.pk(), this.questao.id] } }]);
-
-      }, err => {
-        this.messageService.add({ severity: 'error', summary: 'Falha ao salvar', detail: 'Houve um problema no servidor. Tente novamente em alguns instantes.' });
-      });
+      this.autoInstrucao.save().subscribe(
+        (resultado) => {
+          this.router.navigate([
+            'main',
+            { outlets: { principal: ['editor', this.assunto.pk(), this.questao.id] } },
+          ]);
+        },
+        (err) => {
+          this.messageService.add({
+            severity: 'error',
+            summary: 'Falha ao salvar',
+            detail: 'Houve um problema no servidor. Tente novamente em alguns instantes.',
+          });
+        }
+      );
     } else {
-      this.messageService.add({ severity: 'error', summary: 'Falha ao salvar', detail: 'Antes de avançar é preciso responder todas as perguntas.' });
+      this.messageService.add({
+        severity: 'error',
+        summary: 'Falha ao salvar',
+        detail: 'Antes de avançar é preciso responder todas as perguntas.',
+      });
     }
   }
 
   apresentarPerguntas(assuntos) {
     if (assuntos != null) {
-      assuntos.forEach(assunto => {
-
+      assuntos.forEach((assunto) => {
         switch (assunto.nome) {
           case Assuntos.repeticoes: {
             this.repeticoes = true;
@@ -114,8 +139,5 @@ export class SelfInstructionComponent implements OnInit {
         }
       });
     }
-
   }
-
-
 }
