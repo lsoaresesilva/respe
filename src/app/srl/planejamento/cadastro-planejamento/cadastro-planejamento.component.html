@@ -1,85 +1,148 @@
 <p-toast [style]="{ marginTop: '80px' }"></p-toast>
 <div class="p-grid">
-  <div class="p-col-4"></div>
+  <div class="p-col-1"></div>
   <div class="p-col-4">
     <h2>Planeje o seu estudo</h2>
   </div>
 </div>
 
-<!--
 <div class="p-grid">
-  <div class="p-col-4"></div>
-  <div class="p-col-4">Escolha o assunto que pretende estudar</div>
+  <div class="p-col-1"></div>
+  <div class="p-col-4"><h3>Quantas horas semanais você pretende dedicar-se ao curso?</h3></div>
 </div>
 <div class="p-grid">
-  <div class="p-col-4"></div>
-  <div class="p-col-4">
-    <p-dropdown
-      [options]="assuntos"
-      [(ngModel)]="planejamento.assunto"
-      (onChange)="exibirDialogImportancia($event)"
-    >
-    </p-dropdown>
-  </div>
-</div>
--->
-
-<div class="p-grid">
-  <div class="p-col-4"></div>
-  <div class="p-col-4">
-    Quantas horas semanais você pretende dedicar-se ao estudo deste assunto?
-  </div>
-</div>
-<div class="p-grid">
-  <div class="p-col-4"></div>
+  <div class="p-col-1"></div>
   <div class="p-col-1" style="margin: 20px 0 20px 0">
     <p-slider [(ngModel)]="planejamento.tempoEstudo" [min]="1" [max]="20"></p-slider>
   </div>
-  <div class="p-col-2">{{ planejamento.tempoEstudo }} horas</div>
+  <div class="p-col-1">{{ planejamento.tempoEstudo }} horas</div>
 </div>
 
 <div class="p-grid">
-  <div class="p-col-4"></div>
-  <div class="p-col-6">Quais são os seus objetivos?</div>
+  <div class="p-col-1"></div>
+  <div class="p-col-6"><h3>Quantos exercícios espera completar por semana?</h3></div>
 </div>
 
 <div class="p-grid">
-  <div class="p-col-4"></div>
+  <div class="p-col-1"></div>
   <div class="p-col-4">
-    <textarea
-      [rows]="5"
-      [cols]="50"
-      pInputTextarea
-      autoResize="autoResize"
-      [(ngModel)]="planejamento.objetivos"
-    ></textarea>
+    <p-dropdown
+      [options]="niveisObjetivosExercicios"
+      [(ngModel)]="planejamento.objetivoExercicio"
+    ></p-dropdown>
   </div>
-  <div class="p-col-2">
-    O que você espera alcançar ao estudar esse assunto? Quais são os seus objetivos? (Por exemplo,
-    alcançar uma boa nota na disciplina, compreender o assunto para ajudá-lo futuramente em uma
-    profissão, entre outros.)
+  <div class="p-col-3"></div>
+</div>
+
+<div class="p-grid">
+  <div class="p-col-1"></div>
+  <div class="p-col-6"><h3>Quantos vídeos espera assistir por semana?</h3></div>
+</div>
+
+<div class="p-grid">
+  <div class="p-col-1"></div>
+  <div class="p-col-4">
+    <p-dropdown
+      [options]="niveisObjetivosVideo"
+      [(ngModel)]="planejamento.objetivoVideo"
+    ></p-dropdown>
+  </div>
+  <div class="p-col-3"></div>
+</div>
+
+<div class="p-grid">
+  <div class="p-col-1"></div>
+  <div class="p-col-6"><h3>Quantos desempenho espera alcançar?</h3></div>
+</div>
+
+<div class="p-grid">
+  <div class="p-col-1"></div>
+  <div class="p-col-4">
+    <p-dropdown
+      [options]="niveisObjetivosDesempenho"
+      [(ngModel)]="planejamento.objetivoDesempenho"
+    ></p-dropdown>
+  </div>
+  <div class="p-col-3"></div>
+</div>
+
+<div class="p-grid">
+  <div class="p-col-1"></div>
+  <div class="p-col-6"><h3>Quais são as suas metas?</h3></div>
+</div>
+
+<div class="p-grid">
+  <div class="p-col-1"></div>
+  <div class="p-col-11">
+    <div class="p-grid">
+      <div class="p-col-4">
+        <p-checkbox
+          name="metas"
+          value="boa_nota"
+          label="Alcançar uma boa nota ao término do curso."
+          [(ngModel)]="planejamento.metas"
+        ></p-checkbox>
+        <p-checkbox
+          name="metas"
+          value="empregabilidade"
+          label="Utilizar os conhecimentos para ter um bom emprego."
+          [(ngModel)]="planejamento.metas"
+        ></p-checkbox>
+        <p-checkbox
+          name="metas"
+          value="certificado"
+          label="Concluir o curso para conseguir meu certificado."
+          [(ngModel)]="planejamento.metas"
+        ></p-checkbox>
+
+        <p-checkbox
+          name="metas"
+          value="criacao_apps"
+          label="Conseguir acumular conhecimento para criar meus próprios aplicativos e jogos."
+          [(ngModel)]="planejamento.metas"
+        ></p-checkbox>
+        <p-checkbox
+          name="metas"
+          value="nenhum"
+          label="Não possuo objetivos em especial."
+          [(ngModel)]="planejamento.metas"
+        ></p-checkbox>
+      </div>
+    </div>
   </div>
 </div>
 
 <div class="p-grid">
-  <div class="p-col-4"></div>
-  <div class="p-col-4">Você está motivado para aprender esse assunto?</div>
+  <div class="p-col-1"></div>
+  <div class="p-col-4"><h3>Para você, o curso será</h3></div>
 </div>
 
 <div class="p-grid">
-  <div class="p-col-4"></div>
+  <div class="p-col-1"></div>
+  <div class="p-col-8">
+    <p-dropdown [options]="dificuldades" [(ngModel)]="planejamento.nivelDificuldade"></p-dropdown>
+  </div>
+</div>
+
+<div class="p-grid">
+  <div class="p-col-1"></div>
+  <div class="p-col-4"><h3>Qual a sua motivação com curso</h3></div>
+</div>
+
+<div class="p-grid">
+  <div class="p-col-1"></div>
   <div class="p-col-8">
     <p-dropdown [options]="motivacao" [(ngModel)]="planejamento.motivacao"></p-dropdown>
   </div>
 </div>
 
 <div class="p-grid">
-  <div class="p-col-4"></div>
-  <div class="p-col-3">Como você pretende estudar?</div>
+  <div class="p-col-1"></div>
+  <div class="p-col-3"><h3>Como você pretende estudar?</h3></div>
 </div>
 
 <div class="p-grid">
-  <div class="p-col-4"></div>
+  <div class="p-col-1"></div>
 
   <div class="p-col-4">
     <textarea
@@ -90,14 +153,14 @@
       [(ngModel)]="planejamento.estrategiaRealizacaoEstudo"
     ></textarea>
   </div>
-  <div class="p-col-2">
+  <div class="p-col-3">
     Aqui você pode informar o horário que espera estudar, se fará sozinho ou em grupo, o local e
     também quais recursos utilizará (materiais, livros, vídeos, entre outros).
   </div>
 </div>
 
 <div class="p-grid">
-  <div class="p-col-4"></div>
+  <div class="p-col-1"></div>
   <div class="p-col-2">
     <button pButton type="button" (click)="cadastrarPlanejamento()" label="Salvar"></button>
   </div>

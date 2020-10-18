@@ -1,5 +1,7 @@
-export enum Dificuldade{
-    facil = 1,
-    medio = 2,
-    dificil = 3
+export enum Dificuldade {
+  muitoFacil = 1,
+  facil = 2,
+  medio = 3,
+  dificil = 4,
+  muitoDificil = 5,
 }

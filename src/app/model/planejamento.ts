@@ -12,9 +12,15 @@ import { ConsoleComponent } from '../juiz/editor/console/console.component';
 export class Planejamento extends Document {
   estudante: Usuario;
   tempoEstudo;
-  objetivos;
   estrategiaRealizacaoEstudo;
   motivacao;
+  nivelDificuldade: Dificuldade;
+  status;
+  autoReflexao;
+  metas;
+  objetivoExercicio;
+  objetivoVideo;
+  objetivoDesempenho;
 
   @ignore()
   percentualConclusaoVariaveis;
@@ -31,16 +37,26 @@ export class Planejamento extends Document {
     id,
     estudante,
     tempoEstudo,
-    objetivos,
     estrategiaRealizacaoEstudo,
-    public status,
-    public autoReflexao
+    status,
+    autoReflexao,
+    nivelDificuldade,
+    metas,
+    objetivoExercicio,
+    objetivoVideo,
+    objetivoDesempenho
   ) {
     super(id);
     this.estudante = estudante;
     this.tempoEstudo = tempoEstudo;
-    this.objetivos = objetivos;
     this.estrategiaRealizacaoEstudo = estrategiaRealizacaoEstudo;
+    this.status = status;
+    this.autoReflexao = autoReflexao;
+    this.nivelDificuldade = nivelDificuldade;
+    this.metas = metas;
+    this.objetivoExercicio = objetivoExercicio;
+    this.objetivoVideo = objetivoVideo;
+    this.objetivoDesempenho = objetivoDesempenho;
   }
 
   static getAll(query): Observable<any[]> {
@@ -129,7 +145,15 @@ export class Planejamento extends Document {
 
   validar() {
     return new Observable((observer) => {
-      if (this.estrategiaRealizacaoEstudo === '' || this.objetivos === '' || this.motivacao === 0) {
+      if (
+        this.estrategiaRealizacaoEstudo === '' ||
+        this.objetivoExercicio === null ||
+        (this.motivacao === 0 && this.nivelDificuldade === null) ||
+        this.metas === null ||
+        this.objetivoExercicio === null ||
+        this.objetivoVideo === null ||
+        this.objetivoDesempenho === null
+      ) {
         observer.error(new Error('É preciso preencher todos os campos.'));
       } else {
         Planejamento.getAll([new Query('estudanteId', '==', this.estudante.pk())]).subscribe(
