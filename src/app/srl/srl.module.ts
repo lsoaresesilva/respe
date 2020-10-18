@@ -51,6 +51,7 @@ import { MessageService } from 'primeng/api';
 import { ChartModule } from 'primeng/chart';
 import { ContextMenuModule } from 'primeng/contextmenu';
 import { InputTextModule } from 'primeng/inputtext';
+import { SharedModule } from '../shared/shared.module';
 
 @NgModule({
   declarations: [
@@ -103,6 +104,7 @@ import { InputTextModule } from 'primeng/inputtext';
     CardModule,
     ContextMenuModule,
     SharedPipesModule,
+    SharedModule,
   ],
   providers: [MessageService],
   exports: [

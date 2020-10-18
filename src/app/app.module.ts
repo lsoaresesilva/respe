@@ -32,8 +32,6 @@ import { SharedPipesModule } from './pipes/shared-pipes.module';
   schemas: [CUSTOM_ELEMENTS_SCHEMA],
   declarations: [AppComponent, MainComponent],
   imports: [
-    SrlModule,
-    JuizModule,
     LivroModule,
     TurmaModule,
     ExperimentoModule,

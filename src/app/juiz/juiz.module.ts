@@ -27,7 +27,6 @@ import { DialogModule } from 'primeng/dialog';
 
 import { ContextMenuModule } from 'primeng/contextmenu';
 import { VisualizarExecucacao } from './vizualizar-execucao/vizualizar-execucao.component';
-import { VisualizarQuestaoComponent } from './visualizar-questao/visualizar-questao.component';
 
 import { RadioButtonModule } from 'primeng/radiobutton';
 import { CadastrarAssuntosComponent } from './cadastrar-assuntos/cadastrar-assuntos.component';
@@ -78,7 +77,6 @@ import { SrlModule } from '../srl/srl.module';
     VisualizarExecucacao,
     ListarAssuntosComponent,
     VisualizarAssuntoComponent,
-    VisualizarQuestaoComponent,
     CadastrarAssuntosComponent,
     CadastrarQuestoesFechadasComponent,
     ListarQuestoesFechadasComponent,
@@ -140,7 +138,6 @@ import { SrlModule } from '../srl/srl.module';
     VisualizarQuestaoFechadaComponent,
     VisualizarPerfilEstudanteComponent,
     ResponderQuestaoProgramacaoLiteComponent,
-    VisualizarQuestaoComponent,
   ],
 
   providers: [MessageService, LoginService, EditorService, ConfirmationService],

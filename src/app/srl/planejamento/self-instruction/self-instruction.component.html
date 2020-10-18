@@ -1,78 +1,106 @@
 <p-toast></p-toast>
 <div *ngIf="questao != undefined">
-    <div class="p-grid">
-        <div class="p-col-2"></div>
-        <div class="p-col-8" >
-            <app-visualizar-questao [questao]="questao"></app-visualizar-questao>
-        </div>
-        <div class="p-col-2"></div>
+  <div class="p-grid">
+    <div class="p-col-2"></div>
+    <div class="p-col-8">
+      <app-visualizar-questao [questao]="questao"></app-visualizar-questao>
     </div>
-    <div class="p-grid">
-        <div class="p-col-2">
+    <div class="p-col-2"></div>
+  </div>
+  <div class="p-grid">
+    <div class="p-col-2"></div>
+    <div class="p-col-8">
+      <div class="p-col-12">
+        <span class="ui-float-label">
+          <h3 class="first">Qual problema você espera resolver com esse algoritmo?</h3>
+          <textarea
+            [rows]="3"
+            [cols]="135"
+            pInputTextarea
+            autoResize="autoResize"
+            [(ngModel)]="autoInstrucao.problema"
+          ></textarea>
+        </span>
+      </div>
 
-        </div>
-        <div class="p-col-8">
-            <div class="p-col-12">
-                <span class="ui-float-label">
-                    <h3 class="first">Qual problema você espera resolver com esse algoritmo?</h3>
-                    <textarea [rows]="3" [cols]="150" pInputTextarea autoResize="autoResize"
-                        [(ngModel)]="autoInstrucao.problema"></textarea>
+      <div class="p-col-12">
+        <span class="ui-float-label">
+          <h3 class="first">
+            Quais as variáveis que precisam ser criadas para resolver esse problema?
+          </h3>
+          <textarea
+            [rows]="3"
+            [cols]="135"
+            pInputTextarea
+            autoResize="autoResize"
+            [(ngModel)]="autoInstrucao.variaveis"
+          ></textarea>
+        </span>
+      </div>
 
-                </span>
-            </div>
+      <div class="p-col-12" *ngIf="condicoes">
+        <span class="ui-float-label">
+          <h3 class="first">Quais as condições que são necessárias para resolver esse problema?</h3>
+          <textarea
+            [rows]="3"
+            [cols]="135"
+            pInputTextarea
+            autoResize="autoResize"
+            [(ngModel)]="autoInstrucao.condicoes"
+          ></textarea>
+        </span>
+      </div>
 
-            <div class="p-col-12">
-                <span class="ui-float-label">
-                    <h3 class="first">Quais as variáveis que precisam ser criadas para resolver esse problema?</h3>
-                    <textarea [rows]="3" [cols]="150" pInputTextarea autoResize="autoResize"
-                        [(ngModel)]="autoInstrucao.variaveis"></textarea>
-                </span>
-            </div>
+      <div class="p-col-12" *ngIf="repeticoes">
+        <span class="ui-float-label">
+          <h3 class="first">
+            Quais as repetições que são necessárias para resolver esse problema?
+          </h3>
+          <textarea
+            [rows]="3"
+            [cols]="135"
+            pInputTextarea
+            autoResize="autoResize"
+            [(ngModel)]="autoInstrucao.repeticoes"
+          ></textarea>
+        </span>
+      </div>
 
-            <div class="p-col-12" *ngIf="condicoes">
-                <span class="ui-float-label">
-                    <h3 class="first">Quais as condições que são necessárias para resolver esse problema?</h3>
-                    <textarea [rows]="3" [cols]="150" pInputTextarea autoResize="autoResize"
-                        [(ngModel)]="autoInstrucao.condicoes"></textarea>
-                </span>
-            </div>
+      <div class="p-col-12" *ngIf="funcoes">
+        <span class="ui-float-label">
+          <h3 class="first">Quais as funções que são necessárias para resolver esse problema?</h3>
+          <textarea
+            [rows]="3"
+            [cols]="135"
+            pInputTextarea
+            autoResize="autoResize"
+            [(ngModel)]="autoInstrucao.funcoes"
+          ></textarea>
+        </span>
+      </div>
 
-            <div class="p-col-12" *ngIf="repeticoes">
-                <span class="ui-float-label">
-                    <h3 class="first">Quais as repetições que são necessárias para resolver esse problema?</h3>
-                    <textarea [rows]="3" [cols]="150" pInputTextarea autoResize="autoResize"
-                        [(ngModel)]="autoInstrucao.repeticoes"></textarea>
-                </span>
-            </div>
-
-            <div class="p-col-12" *ngIf="funcoes">
-                <span class="ui-float-label">
-                    <h3 class="first">Quais as funções que são necessárias para resolver esse problema?</h3>
-                    <textarea [rows]="3" [cols]="150" pInputTextarea autoResize="autoResize"
-                        [(ngModel)]="autoInstrucao.funcoes"></textarea>
-                </span>
-            </div>
-
-            <div class="p-col-12" *ngIf="vetores">
-                <span class="ui-float-label">
-                    <h3 class="first">Quais os vetores que são necessários para resolver esse problema?</h3>
-                    <textarea [rows]="3" [cols]="150" pInputTextarea autoResize="autoResize"
-                        [(ngModel)]="autoInstrucao.vetores"></textarea>
-                </span>
-            </div>
-        </div>
-
-        <div class="p-col-2"></div>
-
+      <div class="p-col-12" *ngIf="vetores">
+        <span class="ui-float-label">
+          <h3 class="first">Quais os vetores que são necessários para resolver esse problema?</h3>
+          <textarea
+            [rows]="3"
+            [cols]="135"
+            pInputTextarea
+            autoResize="autoResize"
+            [(ngModel)]="autoInstrucao.vetores"
+          ></textarea>
+        </span>
+      </div>
     </div>
 
-    <div class="p-grid">
-        <div class="p-col-2">
+    <div class="p-col-2"></div>
+  </div>
 
-        </div>
-        <div class="p-col-8">
-            <p-button label="Avançar" (click)="salvar()"></p-button>
-        </div>
-        <div class="p-col-2"></div>
+  <div class="p-grid">
+    <div class="p-col-2"></div>
+    <div class="p-col-8">
+      <p-button label="Avançar" (click)="salvar()"></p-button>
     </div>
+    <div class="p-col-2"></div>
+  </div>
 </div>

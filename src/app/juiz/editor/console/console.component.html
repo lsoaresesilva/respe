@@ -1,18 +1,29 @@
-<div class="saida" style="min-height:80%;" id="consoleProgramacao">
+<div class="saida" style="min-height: 80%" id="consoleProgramacao">
   <div *ngIf="consoleEditor.erroServidor != null">
-    {{consoleEditor.erroServidor.mensagem}}
+    {{ consoleEditor.erroServidor.mensagem }}
   </div>
   <div *ngIf="consoleEditor.submissao != null">
-
     <div *ngIf="consoleEditor.submissao.erro != null">
-
-      <p-panel header="{{getLabelCategoriaErro(consoleEditor.submissao.erro.categoria)}} - na linha {{consoleEditor.submissao.erro.linha}}">
+      <p-panel
+        header="{{ getLabelCategoriaErro(consoleEditor.submissao.erro.categoria) }} - na linha {{
+          consoleEditor.submissao.erro.linha
+        }}"
+      >
         <span [innerHtml]="consoleEditor.submissao.erro.getMensagem() | keepHtml"></span>
       </p-panel>
-
-
-
     </div>
-
-
+    <div
+      *ngIf="
+        consoleEditor.submissao.resultadosTestsCases != null &&
+        consoleEditor.submissao.resultadosTestsCases.length > 0 &&
+        consoleEditor.submissao.resultadosTestsCases[0].respostaAlgoritmo != null &&
+        consoleEditor.submissao.resultadosTestsCases[0].respostaAlgoritmo.length > 0
+      "
+    >
+      <span
+        *ngFor="let resultado of consoleEditor.submissao.resultadosTestsCases[0].respostaAlgoritmo"
+        >{{ resultado }}<br
+      /></span>
+    </div>
   </div>
+</div>
