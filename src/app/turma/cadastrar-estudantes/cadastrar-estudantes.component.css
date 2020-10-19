@@ -1,94 +1,86 @@
-
-:host >>> input{
-    width: 100%;
-} 
-   
-.link{
-    text-align: right;
-    color: #000;
-    Font-size: 13px;
-    display: flex;
-    justify-content: flex-end;
-    width: 100%;
-    margin: 0px 7px;
+:host >>> input {
+  width: 100%;
 }
 
-button{
-    width: 100%;
-    font-weight: bold;
+.link {
+  text-align: right;
+  color: #000;
+  font-size: 13px;
+  display: flex;
+  justify-content: flex-end;
+  width: 100%;
+  margin: 0px 7px;
+}
+
+button {
+  width: 100%;
+  font-weight: bold;
 }
 body {
-    height: 100vh;
-    
+  height: 100vh;
 }
 
- a {
-   color: #333333;
+a {
+  color: #333333;
 }
 
-
-.row-title{
-    font-size: 37px;
-    font-family: arial;
-    text-align: center;
-    font-weight: bold;
-    color: #444;
-    margin: 11px 0px;
+.row-title {
+  font-size: 37px;
+  font-family: arial;
+  text-align: center;
+  font-weight: bold;
+  color: #444;
+  margin: 11px 0px;
 }
 
 .row-btn {
-    margin-top: 40px; 
-} 
+  margin-top: 40px;
+}
 
 body {
-    margin: 0;
-    padding: 0;
-    font-family: Arial, Helvetica, sans-serif;
+  margin: 0;
+  padding: 0;
 }
 
 .container {
-    background: #0d476e;
-    width: 100vw;
-    width: 100vw;
-    height: 100vh;
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
+  background: #0d476e;
+  width: 100vw;
+  width: 100vw;
+  height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
 }
 
 .container {
-    justify-content: center;
+  justify-content: center;
 }
 
-.container-painel{
-    width:100%;
+.container-painel {
+  width: 100%;
 }
-
 
 .login-section {
-    background: rgb(255, 255, 255);
-    width: 500px;
+  background: rgb(255, 255, 255);
+  width: 500px;
 
-    margin-right: 50px;
-    border-radius: 10px;
-    
-    display: flex;
+  margin-right: 50px;
+  border-radius: 10px;
+
+  display: flex;
 }
 
-
 .footer-link {
-    bottom: 20px;
-    position: absolute;
+  bottom: 20px;
+  position: absolute;
 }
 
 .footer-link a {
-    text-decoration: none;
-    color: #fff;
-    margin: 0px 10px;
+  text-decoration: none;
+  color: #fff;
+  margin: 0px 10px;
 }
 
-
-.form{
-    margin: 30px;
+.form {
+  margin: 30px;
 }
-
