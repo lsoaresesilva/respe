@@ -41,7 +41,7 @@ export class CadastrarEstudantesComponent implements OnInit {
     ];
 
     this.genero = [
-      { label: 'Qual o seu gênero?', value: null },
+      { label: 'Como você se identifica?', value: null },
       { label: 'Feminino', value: Genero.feminino },
       { label: 'Masculino', value: Genero.feminino },
     ];

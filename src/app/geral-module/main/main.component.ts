@@ -15,145 +15,158 @@ import { PerfilUsuario } from 'src/app/model/enums/perfilUsuario';
 import { ApresentacaoService } from '../apresentacao.service';
 import QuestionarioAutorregulacao from 'src/app/model/experimento/questionarioAutorregulacao';
 
-
 @Component({
   selector: 'app-main',
   templateUrl: './main.component.html',
-  styleUrls: ['./main.component.css']
+  styleUrls: ['./main.component.css'],
 })
 export class MainComponent implements OnInit {
-
-
   itens: MenuItem[];
   usuario: Usuario;
   visibilidadeQuestionario;
 
-  //visibilidadeDialog;
+  // visibilidadeDialog;
 
-
-  constructor(private router: Router, private login: LoginService, private apresentacao: ApresentacaoService) {
+  constructor(
+    private router: Router,
+    private login: LoginService,
+    private apresentacao: ApresentacaoService
+  ) {
     this.usuario = this.login.getUsuarioLogado();
   }
-
 
   criarMenu() {
     if (this.usuario.perfil == PerfilUsuario.admin) {
       this.itens = [
         {
           label: 'Turmas',
-          command: () => { this.router.navigate(["main", { outlets: { principal: ['listagem-turmas'] } }]) }
-
+          command: () => {
+            this.router.navigate(['main', { outlets: { principal: ['listagem-turmas'] } }]);
+          },
         },
         {
           label: 'Estudantes',
-          command: () => { this.router.navigate(["main", { outlets: { principal: ['listagem-estudantes'] } }]) }
-
+          command: () => {
+            this.router.navigate(['main', { outlets: { principal: ['listagem-estudantes'] } }]);
+          },
         },
         {
           label: 'Professores',
-          command: () => { this.router.navigate(["main", { outlets: { principal: ['listagem-estudantes'] } }]) }
-
+          command: () => {
+            this.router.navigate(['main', { outlets: { principal: ['listagem-estudantes'] } }]);
+          },
         },
         {
           label: 'Assuntos',
-          command: () => { this.router.navigate(["main", { outlets: { principal: ['listagem-assuntos'] } }]) }
-
+          command: () => {
+            this.router.navigate(['main', { outlets: { principal: ['listagem-assuntos'] } }]);
+          },
         },
 
         {
           label: 'Sair',
-          command: () => { this.logout() }
-        }
+          command: () => {
+            this.logout();
+          },
+        },
       ];
     } else if (this.usuario.perfil == PerfilUsuario.professor) {
       this.itens = [
         {
           label: 'Turmas',
-          command: () => { this.router.navigate(["main", { outlets: { principal: ['listagem-turmas'] } }]) }
-
+          command: () => {
+            this.router.navigate(['main', { outlets: { principal: ['listagem-turmas'] } }]);
+          },
         },
         {
           label: 'Sair',
-          command: () => { this.logout() }
-
+          command: () => {
+            this.logout();
+          },
         },
       ];
     } else {
-
       if (this.usuario.grupoExperimento == Groups.control) {
         this.itens = [
           {
             label: 'Assuntos',
-            command: () => { this.router.navigate(["main", { outlets: { principal: ['listagem-assuntos'] } }]) },
-            id: 'assuntosMenu'
-
+            command: () => {
+              this.router.navigate(['main', { outlets: { principal: ['listagem-assuntos'] } }]);
+            },
+            id: 'assuntosMenu',
           },
           {
             label: 'Sair',
-            command: () => { this.logout() },
+            command: () => {
+              this.logout();
+            },
             id: 'sairMenu',
-          }
+          },
         ];
       } else {
         this.itens = [
           {
             label: 'Planejamentos',
-            command: () => { this.router.navigate(["main", { outlets: { principal: ['listagem-planejamento'] } }]) },
-            id: 'planejamentoMenu'
-          },/*
+            command: () => {
+              this.router.navigate(['main', { outlets: { principal: ['listagem-planejamento'] } }]);
+            },
+            id: 'planejamentoMenu',
+          } /*
           {
             label: 'Minha turma',
             command: () => { this.router.navigate(["main", { outlets: { principal: ['minha-turma'] } }]) },
 
-           },*/
+           },*/,
           {
             label: 'Meu desempenho',
-            command: () => { this.router.navigate(["main", { outlets: { principal: ['meu-desempenho'] } }]) },
+            command: () => {
+              this.router.navigate(['main', { outlets: { principal: ['meu-desempenho'] } }]);
+            },
             id: 'meuDesempenhoMenu',
           },
           {
             label: 'Sair',
-            command: () => { this.logout() },
+            command: () => {
+              this.logout();
+            },
             id: 'sairMenu',
-          }
+          },
         ];
       }
-
     }
   }
 
   ngOnInit() {
     this.criarMenu();
     this.apresentarPretestRegulacao();
-
   }
 
   apresentarPretestRegulacao() {
-    let usuario = this.login.getUsuarioLogado();
-    if (usuario != null && typeof usuario.pk === "function" && usuario.perfil == PerfilUsuario.estudante) {
-
-      QuestionarioAutorregulacao.isRespondido(usuario).subscribe(resultado => {
-        this.visibilidadeQuestionario = !resultado;
-        if(resultado){
-          this.apresentacao.apresentarInicializacao(this.usuario);
+    const usuario = this.login.getUsuarioLogado();
+    if (
+      usuario != null &&
+      typeof usuario.pk === 'function' &&
+      usuario.perfil == PerfilUsuario.estudante
+    ) {
+      QuestionarioAutorregulacao.isRespondido(usuario).subscribe(
+        (resultado) => {
+          this.visibilidadeQuestionario = !resultado;
+          if (resultado) {
+            this.apresentacao.apresentarInicializacao(this.usuario);
+          }
+        },
+        (err) => {
+          this.visibilidadeQuestionario = false;
         }
-      }, err => {
-        this.visibilidadeQuestionario = false;
-      })
+      );
     }
-
   }
 
-
-  onQuestionarioRespondido(resultado){
-    if(resultado){
+  onQuestionarioRespondido(resultado) {
+    if (resultado) {
       this.apresentacao.apresentarInicializacao(this.usuario);
     }
   }
-
-
-
-
 
   /*
   apresentarPretest() {
@@ -173,12 +186,9 @@ export class MainComponent implements OnInit {
     })
   }*/
 
-
   logout() {
     if (this.login.logout()) {
-      return this.router.navigate([""])
+      return this.router.navigate(['']);
     }
   }
-
-
 }

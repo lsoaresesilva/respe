@@ -3,7 +3,7 @@
 
 <div class="p-grid">
   <div class="p-col-1"></div>
-  <div class="p-col-4">
+  <div class="p-col-10">
     <button
       style="margin-bottom: 10px"
       pButton
@@ -18,7 +18,7 @@
 
 <div class="p-grid">
   <div class="p-col-1"></div>
-  <div class="p-col-8">
+  <div class="p-col-10">
     <p-table
       [value]="planejamentos"
       [(contextMenuSelection)]="selectedPlanejamento"
@@ -36,8 +36,9 @@
 
       <ng-template pTemplate="body" let-planejamento let-i="rowIndex">
         <tr id="planejamento{{ i }}">
-          <td style="cursor: pointer">
-            <p-table [value]="assuntos">
+          <td>
+            <app-desempenho-assuntos></app-desempenho-assuntos>
+            <!-- <p-table [value]="assuntos">
               <ng-template pTemplate="body" let-assunto let-i="rowIndex">
                 <tr id="assunto{{ i }}">
                   <td (click)="abrirAssunto(assunto)" style="cursor: pointer">
@@ -45,7 +46,7 @@
                   </td>
                 </tr>
               </ng-template>
-            </p-table>
+            </p-table> -->
           </td>
           <td>{{ planejamento.tempoEstudo }} horas/semana</td>
           <td>{{ planejamento.objetivos }}</td>
