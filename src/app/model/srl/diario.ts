@@ -22,7 +22,6 @@ export default class Diario extends Document {
               // Verificar se a data do último foi de 7 dias atrás
               const diarioRecente = Diario.getRecente(diarios);
               const semanaAtras = new Date();
-              //semanaAtras.setDate(semanaAtras.getDate() - 7);
               const diffTime = semanaAtras.getTime() - diarioRecente['data'].toDate().getTime();
               const diffDays = Math.ceil(diffTime / (1000 * 3600 * 24));
               if (diffDays >= 7) {
