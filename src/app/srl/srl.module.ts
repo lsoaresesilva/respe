@@ -108,6 +108,7 @@ import { SharedModule } from '../shared/shared.module';
   ],
   providers: [MessageService],
   exports: [
+    DiarioComponent,
     RiscoEstudanteComponent,
     PercentualErrorQuotientComponent,
     TipsRegulacaoComponent,

@@ -1,15 +1,16 @@
 <div>
-      <p-menubar [model]="itens"></p-menubar>
-
-
+  <p-menubar [model]="itens"></p-menubar>
 </div>
-<app-questionario-autorregulacao 
-      [visibilidadeQuestionario]="visibilidadeQuestionario"
-      (onQuestionarioRespondido)="onQuestionarioRespondido($event)"
-      
-      ></app-questionario-autorregulacao>
+
+<app-diario></app-diario>
+
+<app-questionario-autorregulacao
+  [visibilidadeQuestionario]="visibilidadeQuestionario"
+  (onQuestionarioRespondido)="onQuestionarioRespondido($event)"
+></app-questionario-autorregulacao>
+
 <app-tips-regulacao></app-tips-regulacao>
 <!-- <app-pre-teste [visibilidade]="visibilidadeDialog"></app-pre-teste>--->
-<div style="margin:20px;">
-      <router-outlet name="principal"></router-outlet>
+<div style="margin: 20px">
+  <router-outlet name="principal"></router-outlet>
 </div>

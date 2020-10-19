@@ -1,3 +1,56 @@
-<p-dialog header="Como está o seu progresso?" [(visible)]="display" [style]="{width: '800px'}"[modal]="true">
-  <span></span>
+<p-dialog
+  header="Como está o seu progresso?"
+  [(visible)]="display"
+  [style]="{ width: '900px' }"
+  [modal]="true"
+>
+  <div class="p-grid">
+    <div class="p-col-7"><h3>Como foi a última semana de estudos?</h3></div>
+  </div>
+
+  <div class="p-grid">
+    <div class="p-col-7">
+      <textarea
+        [rows]="5"
+        [cols]="50"
+        pInputTextarea
+        autoResize="autoResize"
+        [(ngModel)]="diario.reflexao"
+      ></textarea>
+    </div>
+    <div class="p-col-5">
+      Como você avalia a sua última semana de estudos? Utilize esse espaço para falar sobre o que
+      deu certo e também aquilo que não saiu como o planejado. Pense em coisas que lhe atrapalharam
+      ou que você fez e que lhe ajudou no aprendizado. Refletir sobre isso é importante para
+      melhorar seus estudos.
+    </div>
+  </div>
+
+  <div class="p-grid">
+    <div class="p-col-7"><h3>Como será essa semana?</h3></div>
+  </div>
+
+  <div class="p-grid">
+    <div class="p-col-7">
+      <textarea
+        [rows]="5"
+        [cols]="50"
+        pInputTextarea
+        autoResize="autoResize"
+        [(ngModel)]="diario.planejamento"
+      ></textarea>
+    </div>
+    <div class="p-col-5">
+      Como você pensou em estudar essa semana? É importante planejar uma quantidade de horas por
+      semana, definir horários, preparar os materiais que vai precisar e definir objetivos (e.g.,
+      quantos exercícios espera resolver essa semana?)
+    </div>
+  </div>
+
+  <div class="p-grid">
+    <div class="p-col-2">
+      <button pButton type="button" (click)="salvar()" label="Salvar"></button>
+    </div>
+    <div class="p-col-6"></div>
+  </div>
 </p-dialog>
