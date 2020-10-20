@@ -39,8 +39,6 @@ import { CardHistoricoErrosComponent } from './monitoramento/card-historico-erro
 import { MessagesModule } from 'primeng/messages';
 import { MessageModule } from 'primeng/message';
 import { TipsRegulacaoComponent } from './monitoramento/tips-regulacao/tips-regulacao.component';
-
-import { EscapeHtmlPipe } from '../pipes/keep-html.pipe';
 import { SharedPipesModule } from '../pipes/shared-pipes.module';
 import { AnaliseDesempenhoEstudanteComponent } from './monitoramento/analise-desempenho-estudante/analise-desempenho-estudante.component';
 import { DesempenhoAssuntosComponent } from './monitoramento/desempenho-assuntos/desempenho-assuntos.component';
@@ -54,6 +52,7 @@ import { InputTextModule } from 'primeng/inputtext';
 import { SharedModule } from '../shared/shared.module';
 import { DesempenhoObjetivosExerciciosComponent } from './monitoramento/desempenho-objetivos-exercicios/desempenho-objetivos-exercicios.component';
 import { AnalisarObjetivosService } from './analisar-objetivos.service';
+import { DesempenhoObjetivosTempoOnlineComponent } from './monitoramento/desempenho-objetivos-tempo-online/desempenho-objetivos-tempo-online.component';
 import { RastrearTempoOnlineService } from './rastrear-tempo-online.service';
 
 @NgModule({
@@ -78,6 +77,7 @@ import { RastrearTempoOnlineService } from './rastrear-tempo-online.service';
     DesempenhoAssuntosComponent,
     DiarioComponent,
     DesempenhoObjetivosExerciciosComponent,
+    DesempenhoObjetivosTempoOnlineComponent,
   ],
   imports: [
     MessagesModule,
