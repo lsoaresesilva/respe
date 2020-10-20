@@ -1,19 +1,54 @@
 import Usuario from './usuario';
 import { Observable } from 'rxjs';
+import { Collection, date, Document } from './firestore/document';
+import Query from './firestore/query';
 
+@Collection('tempoOnline')
+export default class TempoOnline extends Document {
+  @date()
+  data;
 
-export default class TempoOnline{
+  constructor(id, public segundos, public estudante) {
+    super(id);
+  }
 
-    minutos;
+  static getTempoOnlineUltimaSemana(estudante: Usuario) {
+    return new Observable((observer) => {
+      TempoOnline.getAll(new Query('estudanteId', '==', estudante.pk())).subscribe(
+        (registrosTempo) => {
+          // Filtrar apenas da ultima semana
+          const semanaAtras = new Date();
+          semanaAtras.setDate(new Date().getDate() - 7);
 
-    constructor(minutos){
+          const registrosTempoFiltrados = this.filterDocumentsByDate(
+            registrosTempo,
+            'data',
+            new Date(),
+            semanaAtras
+          );
 
+          let totalTempoUltimasemana = 0;
+
+          registrosTempoFiltrados.forEach((tempo) => {
+            totalTempoUltimasemana += tempo.segundos;
+          });
+
+          observer.next(registrosTempoFiltrados);
+          observer.complete();
+          // Verificar das submissoes quantas questões foram trabalhadas
+        }
+      );
+    });
+  }
+
+  objectToDocument() {
+    const document = super.objectToDocument();
+    if (this.estudante != null && this.estudante.pk != null) {
+      document['estudanteId'] = this.estudante.pk();
     }
 
-    atualizarTempo(usuario:Usuario){
-        
-        
-    }
+    return document;
+  }
 
-
+  atualizarTempo(usuario: Usuario) {}
 }

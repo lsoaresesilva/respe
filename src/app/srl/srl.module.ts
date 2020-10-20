@@ -54,6 +54,7 @@ import { InputTextModule } from 'primeng/inputtext';
 import { SharedModule } from '../shared/shared.module';
 import { DesempenhoObjetivosExerciciosComponent } from './monitoramento/desempenho-objetivos-exercicios/desempenho-objetivos-exercicios.component';
 import { AnalisarObjetivosService } from './analisar-objetivos.service';
+import { DesempenhoObjetivosTempoOnlineComponent } from './monitoramento/desempenho-objetivos-tempo-online/desempenho-objetivos-tempo-online.component';
 
 @NgModule({
   declarations: [
@@ -77,6 +78,7 @@ import { AnalisarObjetivosService } from './analisar-objetivos.service';
     DesempenhoAssuntosComponent,
     DiarioComponent,
     DesempenhoObjetivosExerciciosComponent,
+    DesempenhoObjetivosTempoOnlineComponent,
   ],
   imports: [
     MessagesModule,
