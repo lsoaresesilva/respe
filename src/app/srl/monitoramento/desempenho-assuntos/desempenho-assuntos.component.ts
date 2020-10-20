@@ -1,44 +1,43 @@
 import { Component, OnInit, Input, AfterViewInit } from '@angular/core';
 import { LoginService } from 'src/app/login-module/login.service';
 import { Assunto } from 'src/app/model/assunto';
-import {ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import Usuario from 'src/app/model/usuario';
 
 @Component({
   selector: 'app-desempenho-assuntos',
   templateUrl: './desempenho-assuntos.component.html',
-  styleUrls: ['./desempenho-assuntos.component.css']
+  styleUrls: ['./desempenho-assuntos.component.css'],
 })
 export class DesempenhoAssuntosComponent implements AfterViewInit {
-
-
   @Input()
-  usuarioId
+  usuarioId;
   assuntos = [];
 
-  constructor(private login:LoginService) { }
+  constructor(private login: LoginService, private router: Router) {}
 
   ngAfterViewInit() {
+    let usuario = null;
+    if (this.usuarioId == null) {
+      usuario = this.login.getUsuarioLogado();
+    } else {
+      usuario = new Usuario(this.usuarioId, null, null, null, null);
+    }
 
-      let usuario = null;
-      if(this.usuarioId == null){
-        usuario = this.login.getUsuarioLogado();
-      }else{
-        usuario = new Usuario(this.usuarioId, null, null, null, null);
-      }
-
-      Assunto.getAll().subscribe(assuntos=>{
-        this.assuntos = assuntos;
-        this.assuntos.forEach(assunto => {
-          Assunto.calcularPercentualConclusao(assunto, usuario).subscribe(percentual=>{
-            
-            assunto["percentual"] = percentual;
-          })
-          
+    Assunto.getAll().subscribe((assuntos) => {
+      this.assuntos = assuntos;
+      this.assuntos.forEach((assunto) => {
+        Assunto.calcularPercentualConclusao(assunto, usuario).subscribe((percentual) => {
+          assunto['percentual'] = percentual;
         });
-      })
-
-    
+      });
+    });
   }
 
+  abrirAssunto(assunto) {
+    this.router.navigate([
+      'main',
+      { outlets: { principal: ['visualizacao-assunto', assunto.pk()] } },
+    ]);
+  }
 }

@@ -52,6 +52,8 @@ import { ChartModule } from 'primeng/chart';
 import { ContextMenuModule } from 'primeng/contextmenu';
 import { InputTextModule } from 'primeng/inputtext';
 import { SharedModule } from '../shared/shared.module';
+import { DesempenhoObjetivosExerciciosComponent } from './monitoramento/desempenho-objetivos-exercicios/desempenho-objetivos-exercicios.component';
+import { AnalisarObjetivosService } from './analisar-objetivos.service';
 
 @NgModule({
   declarations: [
@@ -74,6 +76,7 @@ import { SharedModule } from '../shared/shared.module';
     AnaliseDesempenhoEstudanteComponent,
     DesempenhoAssuntosComponent,
     DiarioComponent,
+    DesempenhoObjetivosExerciciosComponent,
   ],
   imports: [
     MessagesModule,
@@ -106,7 +109,7 @@ import { SharedModule } from '../shared/shared.module';
     SharedPipesModule,
     SharedModule,
   ],
-  providers: [MessageService],
+  providers: [MessageService, AnalisarObjetivosService],
   exports: [
     DiarioComponent,
     RiscoEstudanteComponent,
