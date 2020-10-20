@@ -38,6 +38,8 @@ export class LoginComponent implements OnInit {
       });
     } else {
       this.login.logar(this.usuario).subscribe((resultado) => {
+        // Iniciar timer
+
         this.redirecionar(resultado);
       });
     }

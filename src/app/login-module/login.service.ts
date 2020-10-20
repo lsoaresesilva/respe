@@ -10,7 +10,7 @@ import { Router } from '@angular/router';
 import { AngularFirestore } from '@angular/fire/firestore';
 import RegistroLogin from '../model/registroLogin';
 
-import * as timeme from 'timeme.js';
+import { RastrearTempoOnlineService } from '../srl/rastrear-tempo-online.service';
 
 @Injectable({
   providedIn: 'root',
@@ -18,9 +18,7 @@ import * as timeme from 'timeme.js';
 export class LoginService {
   constructor(
     private messageService: MessageService,
-    private firebaseAuth: AngularFireAuth,
-    private angularfire: AngularFirestore,
-    private router: Router
+    private rastrearTempoOnline: RastrearTempoOnlineService
   ) {}
 
   getUsuarioLogado(): Usuario {
@@ -81,12 +79,7 @@ export class LoginService {
         (usuarioLogado) => {
           if (usuarioLogado != null) {
             this.criarSessao(usuarioLogado);
-
-            timeme.TimeMe.initialize({
-              currentPageName: '32bits', // current page
-              idleTimeoutInSeconds: 300, // seconds
-            });
-
+            this.rastrearTempoOnline.iniciarTimer(usuarioLogado);
             const registroLogin = new RegistroLogin(null, usuarioLogado);
             /* registroLogin.save().subscribe(()=>{
 
