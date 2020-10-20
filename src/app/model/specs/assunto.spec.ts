@@ -1,54 +1,35 @@
-import { AngularFirestore, AngularFirestoreModule } from "@angular/fire/firestore";
+import { AngularFirestore, AngularFirestoreModule } from '@angular/fire/firestore';
 
-import { TestBed, inject } from "@angular/core/testing";
+import { TestBed, inject } from '@angular/core/testing';
 
-import { DocumentModule } from "../firestore/document.module";
+import { DocumentModule } from '../firestore/document.module';
 
-import { AngularFireModule, FirebaseApp } from "@angular/fire";
+import { AngularFireModule, FirebaseApp } from '@angular/fire';
 
-import { FirebaseConfiguracao } from "src/environments/firebase";
+import { FirebaseConfiguracao } from 'src/environments/firebase';
 
-import { Assunto } from "../assunto";
+import { Assunto } from '../assunto';
 
-import { Questao } from "../questao";
+describe('Testes de questão', () => {
+  let app: firebase.app.App;
+  let afs: AngularFirestore;
 
-import { Dificuldade } from "../enums/dificuldade";
-
-import TestCase from "../testCase";
-import ResultadoTestCase from '../resultadoTestCase';
-import { forkJoin } from 'rxjs';
-import Estudante from '../estudante';
-import Usuario from '../usuario';
-import QuestaoFechada from '../questaoFechada';
-import { PerfilUsuario } from '../enums/perfilUsuario';
-import { RespostaQuestaoFechada } from '../respostaQuestaoFechada';
-import Alternativa from '../alternativa';
-import Submissao from '../submissao';
-
-describe("Testes de questão", () => {
-
-    let app: firebase.app.App;
-    let afs: AngularFirestore;
-
-
-    beforeAll(() => {
-        jasmine.DEFAULT_TIMEOUT_INTERVAL = 1200000;
-        TestBed.configureTestingModule({
-            imports: [
-                DocumentModule,
-                AngularFireModule.initializeApp(FirebaseConfiguracao),
-                AngularFirestoreModule//.enablePersistence()
-            ]
-        });
-        inject([FirebaseApp, AngularFirestore], (_app: firebase.app.App, _afs: AngularFirestore) => {
-
-            app = _app;
-            afs = _afs;
-        })();
-
+  beforeAll(() => {
+    jasmine.DEFAULT_TIMEOUT_INTERVAL = 1200000;
+    TestBed.configureTestingModule({
+      imports: [
+        DocumentModule,
+        AngularFireModule.initializeApp(FirebaseConfiguracao),
+        AngularFirestoreModule, //.enablePersistence()
+      ],
     });
+    inject([FirebaseApp, AngularFirestore], (_app: firebase.app.App, _afs: AngularFirestore) => {
+      app = _app;
+      afs = _afs;
+    })();
+  });
 
-    /*it("Deve calcular o percentual de questões fechadas que foram resolvidas", (done)=>{
+  /*it("Deve calcular o percentual de questões fechadas que foram resolvidas", (done)=>{
         let a = new Assunto(null, "Condições");
         let qf1 = new QuestaoFechada(null, "bla", "", Dificuldade.dificil, 1, [new Alternativa(123, "texto", true)], "");
         let qf2 = new QuestaoFechada(678910, "ble", "", Dificuldade.dificil, 1, null, "");
@@ -66,7 +47,7 @@ describe("Testes de questão", () => {
                 });
             })
         })
-        
+
     });
 
     it("Deve calcular o percentual de conclusão de uma questão de programação.", (done)=>{
@@ -81,7 +62,7 @@ describe("Testes de questão", () => {
         q.testsCases = testsCases;
 
         a.questoesProgramacao.push(q);
-        
+
         let rt = new ResultadoTestCase(null, true, "t", t)
         let rt2 = new ResultadoTestCase(null, true, "t1",t1);
         let s = new Submissao(null, new Codigo(), u, q);
@@ -99,7 +80,7 @@ describe("Testes de questão", () => {
                 });
             })
         })
-        
+
     });
 
     it("Deve calcular o percentual de conclusão de um assunto.", (done)=>{
@@ -121,13 +102,13 @@ describe("Testes de questão", () => {
         q.testsCases = testsCases;
 
         a.questoesProgramacao.push(q);
-        
+
         let rt = new ResultadoTestCase(null, true, "t", t)
         let rt2 = new ResultadoTestCase(null, true, "t1",t1);
         let s = new Submissao(null, new Codigo(), u, q);
         s.resultadosTestsCases.push(rt);
         s.resultadosTestsCases.push(rt2);
-        
+
         forkJoin([a.save(), u.save()]).subscribe(resultado=>{
             forkJoin([rqf1.save(), s.save()]).subscribe(res=>{
 
@@ -139,28 +120,26 @@ describe("Testes de questão", () => {
                 });
             })
         })
-        
+
     });*/
 
-    it("Deve ordenar um array de assuntos seguindo a ordem estabelecida na disciplina", ()=>{
-        
-        let a = new Assunto(null, "assuntoA");
-        a.sequencia = 1;
-        let b = new Assunto(null, "assuntoB");
-        b.sequencia = 2;
-        let c = new Assunto(null, "assuntoC");
-        c.sequencia = 3;
+  it('Deve ordenar um array de assuntos seguindo a ordem estabelecida na disciplina', () => {
+    let a = new Assunto(null, 'assuntoA');
+    a.sequencia = 1;
+    let b = new Assunto(null, 'assuntoB');
+    b.sequencia = 2;
+    let c = new Assunto(null, 'assuntoC');
+    c.sequencia = 3;
 
+    let arrayAssuntos = [c, b, a];
 
-        let arrayAssuntos = [c, b, a];
+    arrayAssuntos = Assunto.ordenar(arrayAssuntos);
+    expect(arrayAssuntos[0].nome).toEqual('assuntoA');
+    expect(arrayAssuntos[1].nome).toEqual('assuntoB');
+    expect(arrayAssuntos[2].nome).toEqual('assuntoC');
+  });
 
-        arrayAssuntos = Assunto.ordenar(arrayAssuntos);
-        expect(arrayAssuntos[0].nome).toEqual("assuntoA");
-        expect(arrayAssuntos[1].nome).toEqual("assuntoB");
-        expect(arrayAssuntos[2].nome).toEqual("assuntoC");
-    })
-
-    /*
+  /*
     it("deve resultar em true para uma questão que teve todos os tests cases respondidos", (done) => {
         let a = new Assunto(null, "umAssunto");
         a.save().subscribe(resultado => {
@@ -237,6 +216,4 @@ describe("Testes de questão", () => {
 
         })
     })*/
-
 });
-

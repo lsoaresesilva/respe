@@ -1,5 +1,5 @@
 export enum ObjetivosExercicios {
-  umAtres = 1,
-  quatroAseis = 2,
-  maisSeis = 3,
+  umAtres = 3,
+  quatroAseis = 6,
+  maisSeis = 10,
 }

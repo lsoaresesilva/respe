@@ -18,7 +18,7 @@ export default class Diario extends Document {
 
         super.getAll(new Query('estudanteId', '==', estudante.pk())).subscribe(
           (diarios) => {
-            if (diarios != null) {
+            if (Array.isArray(diarios) && diarios.length > 0) {
               // Verificar se a data do último foi de 7 dias atrás
               const diarioRecente = Diario.getRecente(diarios);
               const semanaAtras = new Date();

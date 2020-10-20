@@ -1,7 +1,5 @@
-import Codigo from "../codigo";
 import { Tutor } from '../tutor';
 import { TipoErro } from '../tipoErro';
-import Estudante from '../estudante';
 import Submissao from '../submissao';
 import { AngularFirestore, AngularFirestoreModule } from '@angular/fire/firestore';
 import { TestBed, inject } from '@angular/core/testing';
@@ -13,35 +11,30 @@ import { forkJoin } from 'rxjs';
 import Erro from '../errors/erro';
 import { isNull } from '@angular/compiler/src/output/output_ast';
 
-describe("Testes de TUTOR", ()=>{
+describe('Testes de TUTOR', () => {
+  let app: firebase.app.App;
+  let afs: AngularFirestore;
 
-    let app: firebase.app.App;
-    let afs: AngularFirestore;
-
-
-    beforeAll(() => {
-        jasmine.DEFAULT_TIMEOUT_INTERVAL = 1200000;
-        TestBed.configureTestingModule({
-            imports: [
-                DocumentModule,
-                AngularFireModule.initializeApp(FirebaseConfiguracao),
-                AngularFirestoreModule//.enablePersistence()
-            ]
-        });
-        inject([FirebaseApp, AngularFirestore], (_app: firebase.app.App, _afs: AngularFirestore) => {
-
-            app = _app;
-            afs = _afs;
-        })();
-
+  beforeAll(() => {
+    jasmine.DEFAULT_TIMEOUT_INTERVAL = 1200000;
+    TestBed.configureTestingModule({
+      imports: [
+        DocumentModule,
+        AngularFireModule.initializeApp(FirebaseConfiguracao),
+        AngularFirestoreModule, //.enablePersistence()
+      ],
     });
+    inject([FirebaseApp, AngularFirestore], (_app: firebase.app.App, _afs: AngularFirestore) => {
+      app = _app;
+      afs = _afs;
+    })();
+  });
 
-    it("Deve falhar ao tentar calcular o error quotient sem submissoes", ()=>{
-        expect(function () {
-            Tutor.calcularErrorQuotient(null);
-            
-          }).toThrow();
-    })/*
+  it('Deve falhar ao tentar calcular o error quotient sem submissoes', () => {
+    expect(function () {
+      Tutor.calcularErrorQuotient(null);
+    }).toThrow();
+  }); /*
 
     afterEach((done)=>{
         ResultadoTestCase.deleteAll().subscribe(resultado=>{
@@ -65,9 +58,9 @@ describe("Testes de TUTOR", ()=>{
             Tutor.mediaTestsCases(new Estudante("12345", null, null)).subscribe(media => {
                 expect(media).toBe(0.75);
 
-               
+
                     done();
-                
+
             })
         })
 
@@ -137,4 +130,4 @@ describe("Testes de TUTOR", ()=>{
         let submissoes = [s, s2, s3, s4]
         expect(Tutor.calcularErrorQuotient(submissoes)).toBe(0.5);
     })*/
-})
+});

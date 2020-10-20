@@ -7,6 +7,7 @@ import AutoReflexao from './autoReflexao';
 import Query from './firestore/query';
 import { Util } from './util';
 import { ConsoleComponent } from '../juiz/editor/console/console.component';
+import { ObjetivosExercicios } from './enums/objetivosExercicios';
 
 @Collection('planejamentos')
 export class Planejamento extends Document {
@@ -18,7 +19,7 @@ export class Planejamento extends Document {
   status;
   autoReflexao;
   metas;
-  objetivoExercicio;
+  objetivoExercicio: ObjetivosExercicios;
   objetivoVideo;
   objetivoDesempenho;
 
