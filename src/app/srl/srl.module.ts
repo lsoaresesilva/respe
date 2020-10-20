@@ -54,6 +54,7 @@ import { InputTextModule } from 'primeng/inputtext';
 import { SharedModule } from '../shared/shared.module';
 import { DesempenhoObjetivosExerciciosComponent } from './monitoramento/desempenho-objetivos-exercicios/desempenho-objetivos-exercicios.component';
 import { AnalisarObjetivosService } from './analisar-objetivos.service';
+import { RastrearTempoOnlineService } from './rastrear-tempo-online.service';
 
 @NgModule({
   declarations: [
@@ -109,7 +110,7 @@ import { AnalisarObjetivosService } from './analisar-objetivos.service';
     SharedPipesModule,
     SharedModule,
   ],
-  providers: [MessageService, AnalisarObjetivosService],
+  providers: [MessageService, AnalisarObjetivosService, RastrearTempoOnlineService],
   exports: [
     DiarioComponent,
     RiscoEstudanteComponent,
