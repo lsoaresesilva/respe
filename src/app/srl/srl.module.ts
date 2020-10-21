@@ -54,6 +54,7 @@ import { DesempenhoObjetivosExerciciosComponent } from './monitoramento/desempen
 import { AnalisarObjetivosService } from './analisar-objetivos.service';
 import { DesempenhoObjetivosTempoOnlineComponent } from './monitoramento/desempenho-objetivos-tempo-online/desempenho-objetivos-tempo-online.component';
 import { RastrearTempoOnlineService } from './rastrear-tempo-online.service';
+import { DesempenhoObjetivosNotaComponent } from './monitoramento/desempenho-objetivos-nota/desempenho-objetivos-nota.component';
 
 @NgModule({
   declarations: [
@@ -78,6 +79,7 @@ import { RastrearTempoOnlineService } from './rastrear-tempo-online.service';
     DiarioComponent,
     DesempenhoObjetivosExerciciosComponent,
     DesempenhoObjetivosTempoOnlineComponent,
+    DesempenhoObjetivosNotaComponent,
   ],
   imports: [
     MessagesModule,
