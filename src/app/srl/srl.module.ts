@@ -120,6 +120,7 @@ import { DesempenhoObjetivosNotaComponent } from './monitoramento/desempenho-obj
     TipsRegulacaoComponent,
     DesempenhoAssuntosComponent,
     MonitorarAssuntoComponent,
+    CardErrosProgramacaoPizzaComponent,
   ],
 })
 export class SrlModule {}

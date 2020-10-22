@@ -1,43 +1,47 @@
-import { Component, OnInit, Input } from '@angular/core';
+import { Component, OnInit, Input, OnChanges, SimpleChanges } from '@angular/core';
 import Erro from 'src/app/model/errors/erro';
 import { TipoErro } from 'src/app/model/tipoErro';
 import { ErroCompilacao } from 'src/app/model/errors/analise-compilacao/erroCompilacao';
-import { LabelCategoriasErros, getLabelPorCategoriaNumero } from 'src/app/model/errors/enum/labelCategoriasErro';
+import {
+  LabelCategoriasErros,
+  getLabelPorCategoriaNumero,
+} from 'src/app/model/errors/enum/labelCategoriasErro';
 import { CategoriaErro } from 'src/app/model/errors/enum/categoriasErro';
 import FrequenciaErro from 'src/app/model/errors/analise-compilacao/frequenciaErro';
 
 @Component({
   selector: 'app-card-erros-programacao-pizza',
   templateUrl: './card-erros-programacao-pizza.component.html',
-  styleUrls: ['./card-erros-programacao-pizza.component.css']
+  styleUrls: ['./card-erros-programacao-pizza.component.css'],
 })
-export class CardErrosProgramacaoPizzaComponent implements OnInit {
-
+export class CardErrosProgramacaoPizzaComponent implements OnInit, OnChanges {
   @Input() erros;
   dadosProcessados;
   grafico;
 
-  constructor() { }
+  constructor() {}
+
+  ngOnChanges(changes: SimpleChanges): void {
+    if (this.erros != null) {
+      const frequenciaPorTipoErro = FrequenciaErro.calcularFrequenciaPorTipoErro(this.erros);
+      this.construirGraficoPizza(frequenciaPorTipoErro);
+    }
+  }
 
   ngOnInit() {
     this.grafico = {
       labels: [],
-      datasets:[]
+      datasets: [],
     };
-  
-    let frequenciaPorTipoErro = FrequenciaErro.calcularFrequenciaPorTipoErro(this.erros);
-    this.construirGraficoPizza(frequenciaPorTipoErro);
-      
   }
 
-  construirGraficoPizza(frequencias:FrequenciaErro[]) {
+  construirGraficoPizza(frequencias: FrequenciaErro[]) {
+    if (frequencias != undefined && Array.isArray(frequencias)) {
+      const labels = [];
+      const backgroundColors = [];
+      const data = [];
 
-    if(frequencias != undefined && Array.isArray(frequencias)){
-      let labels = [];
-      let backgroundColors = []
-      let data = []
-
-      frequencias.forEach(frequencia=>{
+      frequencias.forEach((frequencia) => {
         labels.push(getLabelPorCategoriaNumero(frequencia.categoriaErro));
         backgroundColors.push(ErroCompilacao.getCorErro(frequencia.categoriaErro));
         data.push(frequencia.contagem);
@@ -48,30 +52,28 @@ export class CardErrosProgramacaoPizzaComponent implements OnInit {
         datasets: [
           {
             data: data,
-            backgroundColor: backgroundColors
-          }]
+            backgroundColor: backgroundColors,
+          },
+        ],
       };
     }
-
-    
-
   }
 
-  getCorErro(tipo){
-    switch(tipo){
-        case 1:
-            return "#FFBF00";
-        case 2:
-            return "#80FF00";
-        case 3:
-            return "#A9F5F2";
-        case 4:
-            return "#08298A";
-        
-        default:
-            return "";
+  getCorErro(tipo) {
+    switch (tipo) {
+      case 1:
+        return '#FFBF00';
+      case 2:
+        return '#80FF00';
+      case 3:
+        return '#A9F5F2';
+      case 4:
+        return '#08298A';
+
+      default:
+        return '';
     }
-}
+  }
 
   /*construirGraficoPizza() {
 
@@ -85,7 +87,7 @@ export class CardErrosProgramacaoPizzaComponent implements OnInit {
       labels.push(TipoErro.comparacaoApenasUmaIgualdadeTexto);
       backgroundColors.push(Erro.getCorErro(TipoErro.comparacaoApenasUmaIgualdade));
       data.push(this.dadosProcessados.comparacaoApenasUmaIgualdade);
-    } 
+    }
     if (this.dadosProcessados["declaracaoVariavelComDoisIguais"] > 0) {
       labels.push(TipoErro.declaracaoVariavelComDoisIguaisTexto);
       backgroundColors.push(Erro.getCorErro(TipoErro.declaracaoVariavelComDoisIguais));
@@ -136,5 +138,4 @@ export class CardErrosProgramacaoPizzaComponent implements OnInit {
     };
 
   }*/
-
 }

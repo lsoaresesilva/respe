@@ -185,6 +185,20 @@ export default class Submissao extends Document {
    */
   static getRecentePorQuestao(questao: Questao, estudante: Usuario) {
     return new Observable((observer) => {
+      this.getPorQuestao(questao, estudante).subscribe((submissoes) => {
+        const submissaoRecente = this.filtrarRecente(submissoes);
+
+        observer.next(submissaoRecente);
+        observer.complete();
+      });
+    });
+  }
+
+  /**
+   * Recupera as submissões para uma questão.
+   */
+  static getPorQuestao(questao: Questao, estudante: Usuario): Observable<any[]> {
+    return new Observable((observer) => {
       if (
         questao == null ||
         typeof questao.id == null ||
@@ -197,14 +211,13 @@ export default class Submissao extends Document {
           new Query('estudanteId', '==', estudante.pk()),
           new Query('questaoId', '==', questao.id),
         ]).subscribe((submissoes) => {
-          const submissaoRecente = this.filtrarRecente(submissoes);
-
-          observer.next(submissaoRecente);
+          observer.next(submissoes);
           observer.complete();
         });
       }
     });
   }
+
   static get(id) {
     return new Observable((observer) => {
       super.get(id).subscribe(
