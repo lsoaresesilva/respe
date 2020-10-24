@@ -55,6 +55,7 @@ import { AnalisarObjetivosService } from './analisar-objetivos.service';
 import { DesempenhoObjetivosTempoOnlineComponent } from './monitoramento/desempenho-objetivos-tempo-online/desempenho-objetivos-tempo-online.component';
 import { RastrearTempoOnlineService } from './rastrear-tempo-online.service';
 import { DesempenhoObjetivosNotaComponent } from './monitoramento/desempenho-objetivos-nota/desempenho-objetivos-nota.component';
+import { CardErrosProgramacaoDoughnutComponent } from './monitoramento/card-erros-programacao-doughnut/card-erros-programacao-doughnut.component';
 
 @NgModule({
   declarations: [
@@ -80,6 +81,7 @@ import { DesempenhoObjetivosNotaComponent } from './monitoramento/desempenho-obj
     DesempenhoObjetivosExerciciosComponent,
     DesempenhoObjetivosTempoOnlineComponent,
     DesempenhoObjetivosNotaComponent,
+    CardErrosProgramacaoDoughnutComponent,
   ],
   imports: [
     MessagesModule,

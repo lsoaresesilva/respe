@@ -27,12 +27,14 @@ import { AngularFireAuthModule } from '@angular/fire/auth';
 import { environment } from '../environments/environment';
 import { EscapeHtmlPipe } from './pipes/keep-html.pipe';
 import { SharedPipesModule } from './pipes/shared-pipes.module';
+import { GameBasedLearningModule } from './game-based-learning/game-based-learning.module';
 
 @NgModule({
   schemas: [CUSTOM_ELEMENTS_SCHEMA],
   declarations: [AppComponent, MainComponent],
   imports: [
     SrlModule,
+    GameBasedLearningModule,
     LivroModule,
     TurmaModule,
     ExperimentoModule,

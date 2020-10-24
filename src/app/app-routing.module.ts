@@ -48,6 +48,7 @@ import { SubsecaoComponent } from './livro/subsecao/subsecao.component';
 import { ExperimentoGuard } from './guards/experimento.guard';
 import { AdminGuard } from './guards/admin.guard';
 import { ProfessorGuard } from './guards/professor.guard';
+import { EditorComponent } from './game-based-learning/editor/editor.component';
 
 const routes: Routes = [
   {
@@ -70,6 +71,12 @@ const routes: Routes = [
         component: AcompanharDesempenhoComponent,
         outlet: 'principal',
         canActivate: [AuthGuard, ExperimentoGuard],
+      },
+      {
+        path: 'editor-game',
+        component: EditorComponent,
+        outlet: 'principal',
+        /* canActivate: [AuthGuard, ExperimentoGuard], */
       },
       { path: 'comentario-codigo/:id', component: ComentariosCodigoComponent, outlet: 'principal' },
       { path: 'visualizarConteudo', component: VisualizarConteudoComponent, outlet: 'principal' },

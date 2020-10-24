@@ -1,4 +1,4 @@
-import { Component, OnInit, Input, OnChanges, SimpleChanges } from '@angular/core';
+import { Component, OnInit, Input, OnChanges, SimpleChanges, ViewChild } from '@angular/core';
 import Erro from 'src/app/model/errors/erro';
 import { TipoErro } from 'src/app/model/tipoErro';
 import { ErroCompilacao } from 'src/app/model/errors/analise-compilacao/erroCompilacao';
@@ -18,6 +18,8 @@ export class CardErrosProgramacaoPizzaComponent implements OnInit, OnChanges {
   @Input() erros;
   dadosProcessados;
   grafico;
+
+  @ViewChild('chart') chart: any;
 
   constructor() {}
 
@@ -56,6 +58,8 @@ export class CardErrosProgramacaoPizzaComponent implements OnInit, OnChanges {
           },
         ],
       };
+
+      this.grafico = Object.assign({}, this.grafico);
     }
   }
 
