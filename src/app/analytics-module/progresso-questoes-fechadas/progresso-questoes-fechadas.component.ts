@@ -6,17 +6,9 @@ import Analytics from 'src/app/model/analytics/analytics';
   templateUrl: './progresso-questoes-fechadas.component.html',
   styleUrls: ['./progresso-questoes-fechadas.component.css'],
 })
-export class ProgressoQuestoesFechadasComponent implements OnChanges {
+export class ProgressoQuestoesFechadasComponent {
   @Input()
-  estudante;
-
-  percentual;
+  progresso;
 
   constructor() {}
-
-  ngOnChanges(changes: SimpleChanges): void {
-    Analytics.calcularProgressoQuestoesFechadas(this.estudante).subscribe((percentual) => {
-      this.percentual = percentual;
-    });
-  }
 }

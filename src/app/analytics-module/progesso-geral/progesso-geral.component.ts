@@ -8,17 +8,9 @@ import { Assunto } from 'src/app/model/assunto';
   templateUrl: './progesso-geral.component.html',
   styleUrls: ['./progesso-geral.component.css'],
 })
-export class ProgessoGeralComponent implements OnChanges {
+export class ProgessoGeralComponent {
   @Input()
-  estudante;
-
-  percentual;
+  progresso;
 
   constructor() {}
-
-  ngOnChanges(changes: SimpleChanges): void {
-    Analytics.calcularProgressoGeral(this.estudante).subscribe((percentual) => {
-      this.percentual = percentual;
-    });
-  }
 }

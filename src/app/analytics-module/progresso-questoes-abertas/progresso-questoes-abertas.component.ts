@@ -6,17 +6,9 @@ import Analytics from 'src/app/model/analytics/analytics';
   templateUrl: './progresso-questoes-abertas.component.html',
   styleUrls: ['./progresso-questoes-abertas.component.css'],
 })
-export class ProgressoQuestoesAbertasComponent implements OnChanges {
+export class ProgressoQuestoesAbertasComponent {
   @Input()
-  estudante;
-
-  percentual;
+  progresso;
 
   constructor() {}
-
-  ngOnChanges(changes: SimpleChanges): void {
-    Analytics.calcularProgressoQuestoesAbertas(this.estudante).subscribe((percentual) => {
-      this.percentual = percentual;
-    });
-  }
 }
