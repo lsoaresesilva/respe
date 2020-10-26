@@ -2,7 +2,7 @@ import { Injectable } from '@angular/core';
 
 import * as TimeMe from 'timeme.js';
 import { LoginService } from '../login-module/login.service';
-import TempoOnline from '../model/tempoOnline';
+import TempoOnline from '../model/analytics/tempoOnline';
 import { logging } from 'protractor';
 import Usuario from '../../../../agendamentosaudegaranhuns/src/app/modelos/usuario';
 

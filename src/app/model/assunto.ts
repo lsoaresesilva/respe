@@ -31,16 +31,17 @@ export class Assunto extends Document {
    */
   static construir(assunto) {
     if (assunto != null) {
-      let a = new Assunto(assunto, null);
-      if (assunto == 'PU0EstYupXgDZ2a57X0X')
+      const a = new Assunto(assunto, null);
+      if (assunto == 'PU0EstYupXgDZ2a57X0X') {
         // Repetições
         a.nome = Assuntos.repeticoes;
-      else if (assunto == 'jW22yOF9a28N0aQlNNGR')
+      } else if (assunto == 'jW22yOF9a28N0aQlNNGR') {
         // Repetições
         a.nome = Assuntos.variaveis;
-      else if (assunto == 'x6cVrs1hHkKmdRhFBpsf')
+      } else if (assunto == 'x6cVrs1hHkKmdRhFBpsf') {
         // Repetições
         a.nome = Assuntos.condicoes;
+      }
 
       return a;
     }
@@ -110,7 +111,7 @@ export class Assunto extends Document {
    * @param usuario
    */
   static getTodasSubmissoesProgramacaoPorEstudante(assunto, usuario) {
-    let submissoes = {};
+    const submissoes = {};
     assunto.questoesProgramacao.forEach((questao) => {
       if (questao.testsCases != undefined && questao.testsCases.length > 0) {
         questao.testsCases.forEach((testCase) => {
@@ -129,7 +130,7 @@ export class Assunto extends Document {
     // Recuperar todas as questões de um assunto
     return new Observable((observer) => {
       let totalRespostas = 0;
-      let respostas = [];
+      const respostas = [];
       assunto.questoesFechadas.forEach((questao) => {
         // Recuperar todas as respostas às questões fechadas
 
@@ -140,14 +141,14 @@ export class Assunto extends Document {
         forkJoin(respostas).subscribe((respostas) => {
           for (let i = 0; i < assunto.questoesFechadas.length; i++) {
             if (respostas[i] != null) {
-              //let resultado = QuestaoFechada.isRespostaCorreta(assunto.questoesFechadas[i], respostas[i]);
-              //if (resultado) {
+              // let resultado = QuestaoFechada.isRespostaCorreta(assunto.questoesFechadas[i], respostas[i]);
+              // if (resultado) {
               totalRespostas++;
-              //}
+              // }
             }
           }
 
-          let percentual = totalRespostas / assunto.questoesFechadas.length;
+          const percentual = totalRespostas / assunto.questoesFechadas.length;
           observer.next(percentual);
           observer.complete();
         });
@@ -172,33 +173,37 @@ export class Assunto extends Document {
     // Pegar todas as questões de um assunto
     return new Observable((observer) => {
       if (assunto != undefined && usuario != undefined) {
-        let submissoes = this.getTodasSubmissoesProgramacaoPorEstudante(assunto, usuario);
+        const submissoes = this.getTodasSubmissoesProgramacaoPorEstudante(assunto, usuario);
         if (!Util.isObjectEmpty(submissoes)) {
           forkJoin(submissoes).subscribe((submissoes) => {
-            let s: any = submissoes;
+            const s: any = submissoes;
             if (!Util.isObjectEmpty(s)) {
-              let totalQuestoes = assunto.questoesProgramacao.length;
-              let questoesRespondidas = [];
+              const totalQuestoes = assunto.questoesProgramacao.length;
+              const questoesRespondidas = [];
               assunto.questoesProgramacao.forEach((questao) => {
-                let questaoRespondida = true;
-                //for (let j = 0; j < questao.testsCases.length; j++) {
-                let resultadoAtualTestCase = null;
+                const questaoRespondida = true;
+                // for (let j = 0; j < questao.testsCases.length; j++) {
+                const resultadoAtualTestCase = null;
 
-                for (let questaoId in s) {
+                for (const questaoId in s) {
                   if (questaoId == questao.id) {
-                    let totalTestsCases = questao.testsCases.length;
+                    const totalTestsCases = questao.testsCases.length;
                     let totalAcertos = 0;
                     if (s[questaoId] != null && s[questaoId].resultadosTestsCases.length != 0) {
                       s[questaoId].resultadosTestsCases.forEach((resultadoTestCase) => {
-                        if (resultadoTestCase.status) totalAcertos++;
+                        if (resultadoTestCase.status) {
+                          totalAcertos++;
+                        }
                       });
 
-                      let percentual = totalAcertos / totalTestsCases;
-                      if (percentual >= margemAceitavel) questoesRespondidas.push(questao);
+                      const percentual = totalAcertos / totalTestsCases;
+                      if (percentual >= margemAceitavel) {
+                        questoesRespondidas.push(questao);
+                      }
                     }
                   }
                 }
-                //}
+                // }
               });
 
               observer.next(questoesRespondidas.length / totalQuestoes);
@@ -230,21 +235,23 @@ export class Assunto extends Document {
   }
 
   objectToDocument() {
-    let document = super.objectToDocument();
+    const document = super.objectToDocument();
     if (this.questoesProgramacao != null && this.questoesProgramacao.length > 0) {
-      let questoes = [];
+      const questoes = [];
       this.questoesProgramacao.forEach((questao) => {
-        if (typeof questao.objectToDocument === 'function')
+        if (typeof questao.objectToDocument === 'function') {
           questoes.push(questao.objectToDocument());
+        }
       });
 
       document['questoesProgramacao'] = questoes;
     }
     if (this.questoesFechadas != null && this.questoesFechadas.length > 0) {
-      let questoesFechadas = [];
+      const questoesFechadas = [];
       this.questoesFechadas.forEach((questao) => {
-        if (typeof questao.objectToDocument === 'function')
+        if (typeof questao.objectToDocument === 'function') {
           questoesFechadas.push(questao.objectToDocument());
+        }
       });
 
       document['questoesFechadas'] = questoesFechadas;
@@ -260,7 +267,9 @@ export class Assunto extends Document {
   getQuestaoProgramacaoById(questaoId) {
     let questaoLocalizada = null;
     this.questoesProgramacao.forEach((questao) => {
-      if (questao.id == questaoId) questaoLocalizada = questao;
+      if (questao.id == questaoId) {
+        questaoLocalizada = questao;
+      }
     });
 
     return questaoLocalizada;
@@ -269,7 +278,9 @@ export class Assunto extends Document {
   getQuestaoFechadaById(questaoId) {
     let questaoLocalizada = null;
     this.questoesFechadas.forEach((questao) => {
-      if (questao.id == questaoId) questaoLocalizada = questao;
+      if (questao.id == questaoId) {
+        questaoLocalizada = questao;
+      }
     });
 
     return questaoLocalizada;

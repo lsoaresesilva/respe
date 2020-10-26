@@ -8,36 +8,50 @@ import { MessageService, ConfirmationService } from 'primeng/api';
 import Alternativa from 'src/app/model/alternativa';
 import { Planejamento } from 'src/app/model/planejamento';
 import { DomSanitizer } from '@angular/platform-browser';
+import VisualizacaoQuestao from 'src/app/model/analytics/visualizacaoQuestao';
 
 @Component({
   selector: 'app-visualizar-questao-fechada',
   templateUrl: './visualizar-questao-fechada.component.html',
-  styleUrls: ['./visualizar-questao-fechada.component.css']
+  styleUrls: ['./visualizar-questao-fechada.component.css'],
 })
 export class VisualizarQuestaoFechadaComponent implements OnInit {
-
-  @Input() 
+  @Input()
   questao;
-  
+
   respostaQuestaoFechada;
   mostrar;
   respostaUsuarioBanco;
   assunto;
 
-  constructor(private sanitizer: DomSanitizer, private route: ActivatedRoute, private router: Router, private login: LoginService, private messageService: MessageService, private confirmationService: ConfirmationService) {
-   
-    this.respostaQuestaoFechada = new RespostaQuestaoFechada(null, this.login.getUsuarioLogado(), null, this.questao);
+  constructor(
+    private sanitizer: DomSanitizer,
+    private route: ActivatedRoute,
+    private router: Router,
+    private login: LoginService,
+    private messageService: MessageService,
+    private confirmationService: ConfirmationService
+  ) {
+    this.respostaQuestaoFechada = new RespostaQuestaoFechada(
+      null,
+      this.login.getUsuarioLogado(),
+      null,
+      this.questao
+    );
   }
 
-  selecionarAlternativa(alternativa){
+  selecionarAlternativa(alternativa) {
     this.respostaQuestaoFechada.alternativa = alternativa;
   }
 
-  gerarHtmlTextoComCodigo(questao){
-    
-    if(questao.hasCode()){
-      
-      let texto = questao.enunciado.replace(new RegExp("'''python", 'g'), "<pre><code class='language-python' style='display: block; white-space: pre-wrap;' pCode>").replace(new RegExp("'''", 'g'), "</code></pre>");
+  gerarHtmlTextoComCodigo(questao) {
+    if (questao.hasCode()) {
+      const texto = questao.enunciado
+        .replace(
+          new RegExp("'''python", 'g'),
+          "<pre><code class='language-python' style='display: block; white-space: pre-wrap;' pCode>"
+        )
+        .replace(new RegExp("'''", 'g'), '</code></pre>');
       return this.sanitizer.bypassSecurityTrustHtml(texto);
       /*let texto = questao.extrairTextoComCodigo();
       if(texto.length > 2){
@@ -54,103 +68,96 @@ export class VisualizarQuestaoFechadaComponent implements OnInit {
   }
 
   ngOnInit() {
-
-    if(this.questao == null){
-      this.route.params.subscribe(params => {
-        if (params["assuntoId"] != undefined && params["questaoId"] != undefined) {
-          
-          
-          
-          Assunto.get(params["assuntoId"]).subscribe(assunto => {
+    if (this.questao == null) {
+      this.route.params.subscribe((params) => {
+        if (params['assuntoId'] != undefined && params['questaoId'] != undefined) {
+          Assunto.get(params['assuntoId']).subscribe((assunto) => {
             this.assunto = assunto;
-            if (assunto["questoesFechadas"] != undefined && assunto["questoesFechadas"].length > 0) {
-              this.questao = assunto["getQuestaoFechadaById"](params["questaoId"]);
-              RespostaQuestaoFechada.getRespostaQuestaoEstudante(this.questao, this.login.getUsuarioLogado()).subscribe(respostaUsuario => {
-                this.respostaUsuarioBanco = respostaUsuario
-          
-                if (respostaUsuario != null) {
-                  this.respostaQuestaoFechada = respostaUsuario;
-                  this.mostrar = true;
+            const usuario = this.login.getUsuarioLogado();
+            if (
+              assunto['questoesFechadas'] != undefined &&
+              assunto['questoesFechadas'].length > 0
+            ) {
+              this.questao = assunto['getQuestaoFechadaById'](params['questaoId']);
+
+              // Analytics - Gravar usuário visualizando questão
+              const visualizacao = new VisualizacaoQuestao(null, usuario, this.questao, assunto);
+              visualizacao.save().subscribe(
+                (resultado) => {
+                  console.log('Salvou');
+                },
+                (err) => {
+                  console.log(err);
                 }
-          
-              });
+              );
+
+              RespostaQuestaoFechada.getRespostaQuestaoEstudante(this.questao, usuario).subscribe(
+                (respostaUsuario) => {
+                  this.respostaUsuarioBanco = respostaUsuario;
+
+                  if (respostaUsuario != null) {
+                    this.respostaQuestaoFechada = respostaUsuario;
+                    this.mostrar = true;
+                  }
+                }
+              );
             }
           });
-  
         } else {
-          throw new Error("Não é possível visualizar uma questão, pois não foram passados os identificadores de assunto e questão.")
+          throw new Error(
+            'Não é possível visualizar uma questão, pois não foram passados os identificadores de assunto e questão.'
+          );
         }
-  
       });
     }
-    
-
-
-    
-
-
   }
 
- 
-
   confirmar() {
-
     if (this.respostaQuestaoFechada.alternativa == null) {
-      this.messageService.add({ severity: 'info', summary: 'ops...', detail: "É preciso selecionar uma alternativa!" });
-    }
-
-    else if (this.respostaUsuarioBanco != undefined) {
-      this.messageService.add({ severity: 'warn', summary: 'ops...', detail: "Só é possível responder uma vez!" });
-    }
-
-    else {
+      this.messageService.add({
+        severity: 'info',
+        summary: 'ops...',
+        detail: 'É preciso selecionar uma alternativa!',
+      });
+    } else if (this.respostaUsuarioBanco != undefined) {
+      this.messageService.add({
+        severity: 'warn',
+        summary: 'ops...',
+        detail: 'Só é possível responder uma vez!',
+      });
+    } else {
       this.confirmationService.confirm({
         message: 'Você não poderá responder essa questão novamente.',
-        acceptLabel:"Sim",
-        rejectLabel:"Não",
+        acceptLabel: 'Sim',
+        rejectLabel: 'Não',
         accept: () => {
           this.responder();
-        }
+        },
       });
     }
-
   }
 
   responder() {
-
     this.respostaUsuarioBanco = this.respostaQuestaoFechada.resposta;
     this.respostaQuestaoFechada.questao = this.questao;
 
-    this.respostaQuestaoFechada.save().subscribe(resultado => {
+    this.respostaQuestaoFechada.save().subscribe((resultado) => {
       this.mostrar = true;
-      let alternativaCerta = this.questao.getAlternativaCerta();
+      const alternativaCerta = this.questao.getAlternativaCerta();
 
       if (this.respostaQuestaoFechada.alternativa.id == alternativaCerta.id) {
-        this.messageService.add({ severity: 'success', summary: 'Parabéns!', detail: " Você acertou essa questão!" });
+        this.messageService.add({
+          severity: 'success',
+          summary: 'Parabéns!',
+          detail: ' Você acertou essa questão!',
+        });
+      } else {
+        this.messageService.add({
+          severity: 'error',
+          summary: 'ops...',
+          detail: 'você errou essa questao!',
+        });
       }
-      else {
-        this.messageService.add({ severity: 'error', summary: 'ops...', detail: "você errou essa questao!" });
-      }
-
-
     });
-
-
   }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 }
-
-

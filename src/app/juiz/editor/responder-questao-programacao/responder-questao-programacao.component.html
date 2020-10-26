@@ -26,7 +26,12 @@
   <div class="p-grid" style="margin: 10px 10px 10px 10px">
     <div class="p-col-3">
       <dados-questao [questao]="questao" [submissao]="submissao" id="dadosQuestao"></dados-questao>
-      <app-card-erros-programacao-pizza [erros]="errosEstudante"></app-card-erros-programacao-pizza>
+      <ng-container *ngIf="login.getUsuarioLogado().grupoExperimento != 4">
+        <app-card-erros-programacao-pizza
+          [erros]="errosEstudante"
+          *ngIf="errosEstudante != null"
+        ></app-card-erros-programacao-pizza>
+      </ng-container>
     </div>
 
     <div class="p-col-9">

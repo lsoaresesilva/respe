@@ -47,7 +47,6 @@ import { FieldsetModule } from 'primeng/fieldset';
 import { InputMaskModule } from 'primeng/inputmask';
 import { ConfirmDialogModule } from 'primeng/confirmdialog';
 import { ConfirmationService } from 'primeng/api';
-import { VisualizarPerfilEstudanteComponent } from './visualizar-perfil-estudante/visualizar-perfil-estudante.component';
 import { ScrollPanelModule } from 'primeng/scrollpanel';
 import { CsclModule } from '../cscl/cscl.module';
 import { ListarTurmaProfessorComponent } from '../turma/listar-turma-professor/listar-turma-professor.component';
@@ -85,7 +84,6 @@ import { SrlModule } from '../srl/srl.module';
     ListarPedidosAjudaComponent,
     VisualizarPedidoAjudaComponent,
     EscolherQuestaoComponent,
-    VisualizarPerfilEstudanteComponent,
     EditorProgramacaoComponent,
     ResponderQuestaoProgramacaoLiteComponent,
     ConsoleComponent,
@@ -136,7 +134,6 @@ import { SrlModule } from '../srl/srl.module';
     CadastrarQuestoesFechadasComponent,
     ListarQuestoesFechadasComponent,
     VisualizarQuestaoFechadaComponent,
-    VisualizarPerfilEstudanteComponent,
     ResponderQuestaoProgramacaoLiteComponent,
   ],
 

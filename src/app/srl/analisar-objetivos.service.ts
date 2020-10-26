@@ -4,7 +4,7 @@ import { Planejamento } from '../model/planejamento';
 import Usuario from '../model/usuario';
 import { forkJoin, Observable } from 'rxjs';
 import Submissao from '../model/submissao';
-import TempoOnline from '../model/tempoOnline';
+import TempoOnline from '../model/analytics/tempoOnline';
 import { Assunto } from '../model/assunto';
 
 @Injectable({

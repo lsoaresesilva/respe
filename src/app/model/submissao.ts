@@ -22,7 +22,7 @@ export default class Submissao extends Document {
   data;
   estudante: Usuario;
   questao: Questao;
-  erro; // TODO: incluir o erro no próprio document
+  erro;
   resultadosTestsCases: ResultadoTestCase[];
   @ignore()
   saida;
@@ -135,7 +135,20 @@ export default class Submissao extends Document {
     return submissoesRecentesAgrupadas;
   }
 
-  private static filtrarSubmissoesConcluidas(submissoesQuestao = []) {
+  static agruparPorQuestao(submissoes: Submissao[]): Map<string, []> {
+    const submissoesAgrupadas = new Map();
+    submissoes.forEach((submissao) => {
+      if (submissoesAgrupadas.get(submissao['questaoId']) === undefined) {
+        submissoesAgrupadas.set(submissao['questaoId'], []);
+      }
+
+      submissoesAgrupadas.get(submissao['questaoId']).push(submissao);
+    });
+
+    return submissoesAgrupadas;
+  }
+
+  static filtrarSubmissoesConcluidas(submissoesQuestao = []) {
     // Filtrando todas as submissões que o seu resultadosTestsCase não seja undefined.
     const submissaoFiltrada = submissoesQuestao
       .filter((submissao) => {

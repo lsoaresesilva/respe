@@ -17,10 +17,10 @@ import { EnvioMaterialComponent } from './envio-material/envio-material.componen
 import { ListarMateriaisComponent } from './listar-materiais/listar-materiais.component';
 import { FirebaseConfiguracao } from '../../environments/firebase';
 import { AngularFireModule } from '@angular/fire';
-import {AngularFireStorageModule} from '@angular/fire/storage';
-import {FileUploadModule} from 'primeng/fileupload';
+import { AngularFireStorageModule } from '@angular/fire/storage';
+import { FileUploadModule } from 'primeng/fileupload';
 import { BrowserModule } from '@angular/platform-browser';
-import {FieldsetModule} from 'primeng/fieldset';
+import { FieldsetModule } from 'primeng/fieldset';
 import { EnviarMaterialComponent } from './enviar-material/enviar-material.component';
 import { AutoCompleteModule } from 'primeng/autocomplete';
 import { CardModule } from 'primeng/card';
@@ -28,14 +28,27 @@ import { ContextMenuModule } from 'primeng/contextmenu';
 import { DialogModule } from 'primeng/dialog';
 import { DropdownModule } from 'primeng/dropdown';
 import { InputTextModule } from 'primeng/inputtext';
-
+import { AnalyticsModule } from '../analytics-module/analytics.module';
+import { VisualizarPerfilEstudanteComponent } from './visualizar-perfil-estudante/visualizar-perfil-estudante.component';
 
 @NgModule({
-  declarations: [EnviarMaterialComponent, ListarProfessoresComponent, ListarTurmaComponent, ListarTurmaProfessorComponent, ListarTurmaComponent, VisualizarTurmaComponent, CadastrarEstudantesComponent, CadastrarTurmaComponent, ListarEstudantesComponent, EnvioMaterialComponent, ListarMateriaisComponent],
-
-
+  declarations: [
+    EnviarMaterialComponent,
+    ListarProfessoresComponent,
+    ListarTurmaComponent,
+    ListarTurmaProfessorComponent,
+    ListarTurmaComponent,
+    VisualizarTurmaComponent,
+    CadastrarEstudantesComponent,
+    CadastrarTurmaComponent,
+    ListarEstudantesComponent,
+    EnvioMaterialComponent,
+    ListarMateriaisComponent,
+    VisualizarPerfilEstudanteComponent,
+  ],
 
   imports: [
+    AnalyticsModule,
     CsclModule,
     CommonModule,
     ButtonModule,
@@ -55,9 +68,12 @@ import { InputTextModule } from 'primeng/inputtext';
     TableModule,
     CardModule,
     DropdownModule,
-    DialogModule
-
+    DialogModule,
   ],
-  exports:[VisualizarTurmaComponent, ListarEstudantesComponent]
+  exports: [
+    VisualizarTurmaComponent,
+    ListarEstudantesComponent,
+    VisualizarPerfilEstudanteComponent,
+  ],
 })
-export class TurmaModule { }
+export class TurmaModule {}

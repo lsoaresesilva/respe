@@ -1,0 +1,288 @@
+import { forkJoin, Observable } from 'rxjs';
+import { Assunto } from '../assunto';
+import Query from '../firestore/query';
+import Submissao from '../submissao';
+import VisualizacaoQuestao from './visualizacaoQuestao';
+import TempoOnline from './tempoOnline';
+import PageTrackRecord from './pageTrack';
+import { PageTrack } from '../../guards/pageTrack.guard';
+
+export default class Analytics {
+  // TODO: Fazer apenas um carregamento de assunto e usar par atudo aqui.
+
+  // Analytics do estudante
+  progresoGeral;
+  progressoQuestoesAbertas;
+  progressoQuestoesFechadas;
+  percentualVisualizacaoQuestoesFechadas;
+  totalErrosProgramacao;
+  mediaSubmissoesParaAcerto;
+  totalExecucoes;
+  tempoOnline;
+  tentativasQuestoes;
+  visualizacoesProgresso;
+
+  private constructor() {}
+
+  static init(estudante): Observable<Analytics> {
+    return new Observable((observer) => {
+      if (estudante != null && estudante.pk() != null) {
+        const analytics = new Analytics();
+
+        const consultasGerais = {};
+        consultasGerais['assuntos'] = Assunto.getAll();
+        consultasGerais['submissoes'] = Submissao.getAll(
+          new Query('estudanteId', '==', estudante.pk())
+        );
+        consultasGerais['tempoOnline'] = TempoOnline.getAll(
+          new Query('estudanteId', '==', estudante.pk())
+        );
+
+        consultasGerais['pageTrack'] = PageTrackRecord.getAll([
+          new Query('estudanteId', '==', estudante.pk()),
+          new Query('pagina', '==', 'meu-desempenho'),
+        ]);
+
+        forkJoin(consultasGerais).subscribe((resultadosConsultasGerais: any) => {
+          const assuntos = resultadosConsultasGerais.assuntos;
+          const submissoes = resultadosConsultasGerais.submissoes;
+          const tempoOnline = resultadosConsultasGerais.tempoOnline;
+          const pageTracks = resultadosConsultasGerais.PageTrack;
+
+          analytics.totalErrosProgramacao = this.calcularTotalErrosProgramacao(submissoes);
+          analytics.mediaSubmissoesParaAcerto = this.calcularMediaSubmissoesParaAcerto(submissoes);
+          analytics.totalExecucoes = this.calcularExecucoes(submissoes);
+          analytics.tempoOnline = this.calcularTempoOnline(tempoOnline);
+          analytics.tentativasQuestoes = this.calculaTentativasQuestoes(submissoes);
+          analytics.visualizacoesProgresso = this.calculaVisualizacoesProgresso(pageTracks);
+
+          const consultas = {};
+
+          consultas['progressoGeral'] = this.calcularProgressoGeral(assuntos, estudante);
+          consultas['progressoQuestoesAbertas'] = this.calcularProgressoQuestoesAbertas(
+            assuntos,
+            estudante
+          );
+          consultas['progressoQuestoesFechadas'] = this.calcularProgressoQuestoesFechadas(
+            assuntos,
+            estudante
+          );
+
+          consultas[
+            'percentualVisualizacaoQuestoesFechadas'
+          ] = this.calcularPercentualVisualizacaoQuestoes(assuntos, estudante);
+
+          forkJoin(consultas).subscribe(
+            (respostas: any) => {
+              analytics.progresoGeral = respostas.progressoGeral;
+              analytics.progressoQuestoesAbertas = respostas.progressoQuestoesAbertas;
+              analytics.progressoQuestoesFechadas = respostas.progressoQuestoesFechadas;
+              analytics.percentualVisualizacaoQuestoesFechadas =
+                respostas.percentualVisualizacaoQuestoesFechadas;
+
+              observer.next(analytics);
+              observer.complete();
+            },
+            (err) => {
+              observer.error(err);
+            }
+          );
+        });
+
+        /* Assunto.getAll().subscribe((assuntos) => {
+
+        }); */
+      } else {
+        observer.error('É preciso informar um estudante para calcular o seu analytics');
+      }
+    });
+  }
+
+  private static calcularProgressoGeral(assuntos, estudante) {
+    return new Observable((observer) => {
+      if (estudante.pk() != null) {
+        const consultasConclusao = [];
+        assuntos.forEach((assunto) => {
+          consultasConclusao.push(Assunto.calcularPercentualConclusao(assunto, estudante));
+        });
+
+        this.calcularPercentual(consultasConclusao, assuntos.length).subscribe((percentual) => {
+          observer.next(percentual);
+          observer.complete();
+        });
+      } else {
+        observer.next(0);
+        observer.complete();
+      }
+    });
+  }
+
+  static calcularProgressoQuestoesAbertas(assuntos, estudante) {
+    return new Observable((observer) => {
+      if (estudante.pk() != null) {
+        const consultasConclusao = [];
+        assuntos.forEach((assunto) => {
+          consultasConclusao.push(
+            Assunto.calcularPercentualConclusaoQuestoesProgramacao(assunto, estudante, 1)
+          );
+        });
+
+        this.calcularPercentual(consultasConclusao, assuntos.length).subscribe((percentual) => {
+          observer.next(percentual);
+          observer.complete();
+        });
+      } else {
+        observer.next(0);
+        observer.complete();
+      }
+    });
+  }
+
+  static calcularProgressoQuestoesFechadas(assuntos, estudante) {
+    return new Observable((observer) => {
+      if (estudante.pk() != null) {
+        const consultasConclusao = [];
+        assuntos.forEach((assunto) => {
+          consultasConclusao.push(
+            Assunto.calcularPercentualConclusaoQuestoesFechadas(assunto, estudante)
+          );
+        });
+
+        this.calcularPercentual(consultasConclusao, assuntos.length).subscribe((percentual) => {
+          observer.next(percentual);
+          observer.complete();
+        });
+      } else {
+        observer.next(0);
+        observer.complete();
+      }
+    });
+  }
+
+  private static calcularPercentual(consultasConclusao, quantidadeAssuntos) {
+    return new Observable((observer) => {
+      forkJoin(consultasConclusao).subscribe(
+        (percentuais) => {
+          let percentualConclusao: any = 0;
+
+          percentuais.forEach((percentual) => {
+            percentualConclusao += percentual;
+          });
+
+          observer.next(percentualConclusao / quantidadeAssuntos);
+          observer.complete();
+        },
+        (err) => {
+          observer.error(err);
+        }
+      );
+    });
+  }
+
+  private static getTotalUnicoVisualizacoesQuestoes(estudante): Observable<number> {
+    return new Observable((observer) => {
+      VisualizacaoQuestao.getAll(new Query('estudanteId', '==', estudante.pk())).subscribe(
+        (visualizacoes) => {
+          const visualizacoesQuestaoUnicas = new Set(); // Para várias visualizações de uma questão, pega apenas uma
+          visualizacoes.forEach((visualizacao) => {
+            visualizacoesQuestaoUnicas.add(visualizacao['questaoId']);
+          });
+
+          observer.next(visualizacoesQuestaoUnicas.size);
+          observer.complete();
+        },
+        (err) => {
+          observer.error(err);
+        }
+      );
+    });
+  }
+
+  private static calcularPercentualVisualizacaoQuestoes(assuntos: Assunto[], estudante) {
+    return new Observable((observer) => {
+      // Verificar o total único de visualizações de questões
+      this.getTotalUnicoVisualizacoesQuestoes(estudante).subscribe((visualizacoes) => {
+        let totalQuestoes = 0;
+        assuntos.forEach((assunto) => {
+          if (Array.isArray(assunto.questoesFechadas)) {
+            totalQuestoes += assunto.questoesFechadas.length;
+          }
+          if (Array.isArray(assunto.questoesProgramacao)) {
+            totalQuestoes += assunto.questoesProgramacao.length;
+          }
+        });
+
+        observer.next(visualizacoes / totalQuestoes);
+        observer.complete();
+      });
+    });
+  }
+
+  private static calcularPercentualQuestoesProgramacaoTentouResolver(assuntos, submissoes) {
+    const totalQuestoesResolvidas = 0;
+    let totalQuestoes;
+
+    assuntos.forEach((assunto) => {
+      if (Array.isArray(assunto.questoesProgramacao)) {
+        totalQuestoes += assunto.questoesProgramacao.length;
+      }
+    });
+  }
+
+  private static calcularTotalErrosProgramacao(submissoes: Submissao[]) {
+    let totalErros = 0;
+    submissoes.forEach((submissao) => {
+      if (submissao.erro != null) {
+        totalErros += 1;
+      }
+    });
+
+    return totalErros;
+  }
+
+  private static calcularMediaSubmissoesParaAcerto(submissoes) {
+    let media = 0;
+    let submissoesIncorretas = 0;
+    let iteracao = 0;
+
+    // Agrupar por questoes
+    const submissoesAgrupadas = Submissao.agruparPorQuestao(submissoes);
+    // Verificar se para uma questão há submissão correta. Se houver, somar o total de submissoes erradas e desconsiderar as corretas.
+    submissoesAgrupadas.forEach((submissoesQuestao, questaoId, map) => {
+      const submissoesConcluidas = Submissao.filtrarSubmissoesConcluidas(submissoesQuestao);
+      submissoesIncorretas += submissoesQuestao.length - submissoesConcluidas.length;
+      if (submissoesConcluidas.length != 0) {
+        ++iteracao;
+      }
+    });
+
+    if (iteracao !== 0) {
+      media = submissoesIncorretas / iteracao;
+    }
+    return media;
+  }
+
+  private static calcularExecucoes(submissoes) {
+    return Array.isArray(submissoes) ? submissoes.length : 0;
+  }
+
+  static calcularTempoOnline(registrosTempo, formato = 'minutos') {
+    let totalTempoOnline = 0;
+    registrosTempo.forEach((registro) => {
+      totalTempoOnline += registro.segundos;
+    });
+    if (formato === 'minutos') {
+      totalTempoOnline /= 60;
+    }
+
+    return totalTempoOnline;
+  }
+
+  static calculaTentativasQuestoes(submissoes) {
+    return Submissao.agruparPorQuestao(submissoes).size;
+  }
+
+  static calculaVisualizacoesProgresso(pageTracks) {
+    return pageTracks.length;
+  }
+}
