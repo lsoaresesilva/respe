@@ -1,0 +1,37 @@
+<h2>Questões</h2>
+<!-- <div
+  style="display: flex; flex-direction: row; margin-top: 10px"
+  *ngFor="let questao of questoes; let i = index"
+>
+  <div>
+    <span class="numberCircle">{{ i + 1 }}</span>
+  </div>
+  <div>
+    <span style="cursor: pointer; font: 20px Arial, sans-serif">{{ questao.nomeCurto }}</span>
+  </div>
+</div>
+ -->
+<!-- <ul>
+  <li
+    *ngFor="let questao of questoes"
+    (click)="abrirQuestao(questao)"
+    [style]="
+      questao.respostaQuestao != null
+        ? '--my-color-var: rgb(103, 202, 103)'
+        : '--my-color-var: black'
+    "
+  >
+    {{ questao.nomeCurto }}
+  </li>
+
+</ul>
+ -->
+<ul>
+  <li
+    *ngFor="let questao of questoes"
+    (click)="abrirQuestao(questao)"
+    [style]="getCorQuestao(questao)"
+  >
+    {{ questao.nomeCurto }}
+  </li>
+</ul>

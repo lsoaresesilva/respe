@@ -221,17 +221,37 @@ export class Assunto extends Document {
     });
   }
 
+  /* Ordena os assuntos a partir da sequência em que devem ser trabalhados. */
   static ordenar(arrayAssuntos: Assunto[]) {
-    /*arrayAssuntos.forEach(assunto=>{
-            let sequencia = assunto["sequencia"]-1 // O índice do array começa em 0 e as ordens das disciplinas em 1.
-            assuntos[sequencia] = assunto;
-
-        })*/
     arrayAssuntos.sort(function (assuntoA, assuntoB) {
       return assuntoA.sequencia - assuntoB.sequencia;
     });
 
     return arrayAssuntos;
+  }
+
+  /* Ordena as questões de um assunto. */
+  ordenarQuestoes() {
+    if (Array.isArray(this.questoesFechadas) && Array.isArray(this.questoesProgramacao)) {
+      let questoes = new Array(this.questoesFechadas.length + this.questoesProgramacao.length);
+      questoes = questoes.fill(0);
+
+      console.log('Questoes fechadas');
+      this.questoesFechadas.forEach((questao) => {
+        console.log(questao.sequencia - 1);
+        questoes[questao.sequencia - 1] = questao;
+        //questoes.splice(questao.sequencia - 1, 0, questao);
+      });
+
+      console.log('Questoes programacao');
+      this.questoesProgramacao.forEach((questao) => {
+        console.log(questao.sequencia - 1);
+        questoes[questao.sequencia - 1] = questao;
+        //questoes.splice(questao.sequencia - 1, 0, questao);
+      });
+
+      return questoes;
+    }
   }
 
   objectToDocument() {

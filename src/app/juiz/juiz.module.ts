@@ -15,7 +15,6 @@ import { ListarQuestoesComponent } from './listar-questoes/listar-questoes.compo
 import { MessageService } from 'primeng/api';
 import { HttpClientModule } from '@angular/common/http';
 import { CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
-import { ProgressSpinnerModule } from 'primeng/progressspinner';
 import { AnalyticsModule } from '../analytics-module/analytics.module';
 import { ResponderQuestaoProgramacao } from './editor/responder-questao-programacao/responder-questao-programacao.component';
 import { DadosQuestaoComponent } from './dados-questao/dados-questao.component';
@@ -63,6 +62,8 @@ import { EscapeHtmlPipe } from '../pipes/keep-html.pipe';
 import { SharedPipesModule } from '../pipes/shared-pipes.module';
 import { ProgressBarModule } from 'primeng/progressbar';
 import { SrlModule } from '../srl/srl.module';
+import { ListarQuestoesSequenciaComponent } from './listar-questoes-sequencia/listar-questoes-sequencia.component';
+import { ProgressSpinnerModule } from 'primeng/progressspinner';
 
 @NgModule({
   declarations: [
@@ -89,6 +90,7 @@ import { SrlModule } from '../srl/srl.module';
     ConsoleComponent,
     BreadcrumbAssuntoComponent,
     ApresentacaoEntradasTestcaseComponent,
+    ListarQuestoesSequenciaComponent,
   ],
 
   imports: [

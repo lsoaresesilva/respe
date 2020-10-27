@@ -61,7 +61,7 @@ export class Questao {
             observer.next(percentual);
             observer.complete();
           } else {
-            observer.next(0);
+            observer.next(null);
             observer.complete();
           }
         },
@@ -69,6 +69,33 @@ export class Questao {
           observer.error(err);
         }
       );
+    });
+  }
+
+  /* Verifica quais questões foram respondidas e altera o atributo respondida para true ou false; */
+  static verificarQuestoesRespondidas(estudante, questoes) {
+    return new Observable((observer) => {
+      if (Array.isArray(questoes) && questoes.length > 0) {
+        const consultas = {};
+
+        questoes.forEach((questao) => {
+          consultas[questao.id] = Questao.isFinalizada(questao, estudante);
+        });
+
+        forkJoin(consultas).subscribe((questoesFinalizadas) => {
+          questoes.forEach((questao) => {
+            if (questoesFinalizadas[questao.id] != null) {
+              questao.respondida = questoesFinalizadas[questao.id] === 100 ? true : false;
+            }
+          });
+
+          observer.next(questoes);
+          observer.complete();
+        });
+      } else {
+        observer.next(questoes);
+        observer.complete();
+      }
     });
   }
 

@@ -29,7 +29,7 @@ export class MainComponent implements OnInit {
 
   constructor(
     private router: Router,
-    private login: LoginService,
+    public login: LoginService,
     private apresentacao: ApresentacaoService
   ) {
     this.usuario = this.login.getUsuarioLogado();

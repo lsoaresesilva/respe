@@ -1,0 +1,52 @@
+.numberCircle {
+  width: 26px;
+  line-height: 26px;
+  border-radius: 50%;
+  text-align: center;
+  font: 20px Arial, sans-serif;
+  border: 2px solid #666;
+  margin-right: 10px;
+}
+
+ul {
+  max-width: 400px;
+  margin: 0 auto;
+  list-style-type: none;
+  counter-reset: steps;
+  margin: 0;
+  font-family: sans-serif;
+}
+ul li {
+  padding: 0 0 25px 50px;
+  position: relative;
+  margin: 0;
+  cursor: pointer;
+}
+ul li:after {
+  position: absolute;
+  top: 0;
+  left: 0;
+  content: counter(steps);
+  counter-increment: steps;
+  border: 3px solid var(--my-color-var);
+  border-radius: 50%;
+  display: inline-block;
+  height: 24px;
+  width: 24px;
+  text-align: center;
+  line-height: 24px;
+  background: #fff;
+}
+
+ul li:before {
+  position: absolute;
+  left: 13px;
+  top: 0;
+  content: '';
+  height: 100%;
+  width: 0;
+  border-left: 2px dashed #000;
+}
+ul li:last-of-type:before {
+  border: none;
+}

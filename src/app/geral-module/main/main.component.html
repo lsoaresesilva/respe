@@ -2,7 +2,7 @@
   <p-menubar [model]="itens"></p-menubar>
 </div>
 
-<app-diario></app-diario>
+<app-diario *ngIf="login.getUsuarioLogado().grupoExperimento != 4"></app-diario>
 
 <app-questionario-autorregulacao
   [visibilidadeQuestionario]="visibilidadeQuestionario"
