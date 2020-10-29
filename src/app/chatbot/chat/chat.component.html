@@ -1,0 +1,20 @@
+<Dialog
+  header="Bate-papo"
+  footer="{footer}"
+  visible="true"
+  style="width: '15vw'; max-height: '20vw'; height: '20vw'"
+  modal="false"
+  position="bottom-right"
+>
+  <div style="height: '9vw'">
+    <div
+      *ngFor="let mensagem of mensagens"
+      class="msg"
+      style="background-color: geradorCores(mensagem.usuario)"
+    >
+      <span class="left">{{ mensagem.usuario }}</span>
+      <span>{{ mensagem.texto }}</span>
+      <br />
+    </div>
+  </div>
+</Dialog>
