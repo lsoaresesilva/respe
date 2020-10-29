@@ -28,6 +28,7 @@ import { environment } from '../environments/environment';
 import { EscapeHtmlPipe } from './pipes/keep-html.pipe';
 import { SharedPipesModule } from './pipes/shared-pipes.module';
 import { GameBasedLearningModule } from './game-based-learning/game-based-learning.module';
+import { ParsonProblemModule } from './parson-problem/parson-problem.module';
 
 @NgModule({
   schemas: [CUSTOM_ELEMENTS_SCHEMA],
@@ -52,6 +53,7 @@ import { GameBasedLearningModule } from './game-based-learning/game-based-learni
     BrowserAnimationsModule,
     AngularFireAuthModule,
     SharedPipesModule,
+    ParsonProblemModule,
   ],
   providers: [AuthGuard, TurmaGuard, MessageService],
   bootstrap: [AppComponent],

@@ -1,0 +1,74 @@
+<!-- <div class="p-grid">
+  <div class="p-col-4">
+    <div
+      class="card"
+      pDraggable="dd"
+      *ngFor="let segmento of parson.segmentos"
+      (onDragStart)="dragStart($event, segmento)"
+      (onDragEnd)="dragEnd($event)"
+    >
+      {{ segmento.conteudo }}
+    </div>
+  </div>
+  <div class="p-col-8">
+    <p-orderList
+      class="drop-column"
+      pDroppable="dd"
+      [value]="parson.algoritmo"
+      dragdrop="true"
+      (onDrop)="drop($event)"
+      (onReorder)="reorder($event)"
+    >
+      <ng-template let-segmento pTemplate="item">
+        <div class="card">
+          {{ segmento.conteudo }}
+        </div>
+      </ng-template>
+    </p-orderList>
+  </div>
+
+</div>
+ -->
+
+<div class="p-grid">
+  <div class="p-col-4">
+    <button
+      pButton
+      label="Enviar"
+      type="button"
+      class="p-button-primary"
+      (click)="enviar()"
+    ></button>
+  </div>
+</div>
+<div class="example-container">
+  <h2>Segmentos</h2>
+  <div
+    cdkDropList
+    #listOne="cdkDropList"
+    [cdkDropListData]="parson.segmentos"
+    [cdkDropListConnectedTo]="[listTwo]"
+    class="list-vertical"
+    (cdkDropListDropped)="drop($event)"
+  >
+    <div class="example-box" *ngFor="let segmento of parson.segmentos" cdkDrag>
+      {{ segmento.conteudo }}
+    </div>
+  </div>
+</div>
+<div class="example-container">
+  <h2>Algoritmo</h2>
+  <div
+    cdkDropList
+    #listTwo="cdkDropList"
+    [cdkDropListData]="parson.algoritmo"
+    [cdkDropListConnectedTo]="[listOne]"
+    [ngClass]="parson.orientacao == 'horizontal' ? 'list-horizontal' : 'list-vertical'"
+    (cdkDropListDropped)="drop($event)"
+    [cdkDropListOrientation]="parson.orientacao"
+  >
+    <div class="example-box" *ngFor="let segmento of parson.algoritmo" cdkDrag>
+      {{ segmento.conteudo }}
+    </div>
+  </div>
+</div>

@@ -50,6 +50,7 @@ import { AdminGuard } from './guards/admin.guard';
 import { ProfessorGuard } from './guards/professor.guard';
 import { EditorComponent } from './game-based-learning/editor/editor.component';
 import { PageTrack } from './guards/pageTrack.guard';
+import { VisualizarParsonComponent } from './parson-problem/visualizar-parson/visualizar-parson.component';
 
 const routes: Routes = [
   {
@@ -64,6 +65,12 @@ const routes: Routes = [
         outlet: 'principal',
       },
       { path: 'subsecao', component: SubsecaoComponent, outlet: 'principal' },
+      {
+        path: 'visualizar-parson',
+        component: VisualizarParsonComponent,
+        outlet: 'principal',
+        canActivate: [AuthGuard],
+      },
       /** SRL */
 
       /** Monitoramento */
