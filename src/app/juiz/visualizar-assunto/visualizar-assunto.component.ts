@@ -13,6 +13,8 @@ export class VisualizarAssuntoComponent implements OnInit {
   @Input()
   assunto;
 
+  usuario;
+
   constructor(
     private route: ActivatedRoute,
     private messageService: MessageService,
@@ -32,7 +34,7 @@ export class VisualizarAssuntoComponent implements OnInit {
         });
       }
     });
-
+    this.usuario = this.login.getUsuarioLogado();
     this.exibirDialogImportanciaAssunto();
   }
 

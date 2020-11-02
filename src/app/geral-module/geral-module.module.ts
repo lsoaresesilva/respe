@@ -9,10 +9,11 @@ import { ExperimentoModule } from '../experimento/experimento.module';
 import { ApresentacaoService } from './apresentacao.service';
 import { StartupService } from './startup.service';
 import { SrlModule } from '../srl/srl.module';
+import { GamificationModule } from '../gamification/gamification.module';
 
 @NgModule({
   declarations: [MenuEstudanteComponent, MenuAdmComponent, MenuProfessorComponent, HomeComponent],
-  imports: [CommonModule, MenubarModule, ExperimentoModule, SrlModule],
+  imports: [CommonModule, MenubarModule, ExperimentoModule, SrlModule, GamificationModule],
   providers: [ApresentacaoService, StartupService],
   exports: [MenuEstudanteComponent, MenuAdmComponent, MenuProfessorComponent],
 })

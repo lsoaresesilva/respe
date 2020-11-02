@@ -7,7 +7,7 @@
         <!-- <p-button label="Registar exemplo de questão" (click)="registrar()"></p-button> -->
     </div>
     <div class="ui-g-4">
-        <button *ngIf="login.getUsuarioLogado().perfil == 3" pButton type="button" (click)="cadastrar()"
+        <button *ngIf="usuario.perfil == 3" pButton type="button" (click)="cadastrar()"
             class="ui-button-success ui-button-raised" label="Cadastrar"></button></div>
     <div class="ui-g-4">
 
@@ -16,7 +16,7 @@
 
 </div>
 
-<div *ngIf="login.getUsuarioLogado().perfil == 3">
+<div *ngIf="usuario.perfil == 3">
     <p-contextMenu #cm [model]="items"></p-contextMenu>
 </div>
 

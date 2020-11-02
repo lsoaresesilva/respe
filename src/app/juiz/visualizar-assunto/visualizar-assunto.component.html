@@ -5,7 +5,7 @@
       pButton
       label="Nova Questão"
       (click)="cadastrar()"
-      *ngIf="login.getUsuarioLogado().perfil == 3"
+      *ngIf="usuario.perfil == 3"
     ></button>
   </div>
 </div>
@@ -14,7 +14,7 @@
   <div class="p-col">
     <app-monitorar-assunto
       [assunto]="assunto"
-      *ngIf="login.getUsuarioLogado().grupoExperimento != 4"
+      *ngIf="usuario.grupoExperimento != 4"
     ></app-monitorar-assunto>
   </div>
 </div>

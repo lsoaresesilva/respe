@@ -46,6 +46,8 @@ export class EditorProgramacaoComponent implements AfterViewInit, OnChanges {
   @Input()
   modoVisualizacao;
 
+  usuario;
+
   @Input() set submissao(value) {
     this._submissao = value;
     this.atualizarEditorComSubmissao();
@@ -74,10 +76,11 @@ export class EditorProgramacaoComponent implements AfterViewInit, OnChanges {
     this.onVisualization = new EventEmitter();
     this.onServidorError = new EventEmitter();
     this.processandoSubmissao = false;
+    this.usuario = this.login.getUsuarioLogado();
   }
 
   ngOnChanges(changes: import('@angular/core').SimpleChanges): void {
-    this.atualizarEditorComSubmissao();
+    //this.atualizarEditorComSubmissao();
   }
 
   ngAfterViewInit(): void {
@@ -93,7 +96,7 @@ export class EditorProgramacaoComponent implements AfterViewInit, OnChanges {
       this.editorCodigo.codigo = '';
     }
 
-    const usuario = this.login.getUsuarioLogado();
+    
     carregarIde(false, null, this, this.carregarEditor, this.editorCodigo.codigo);
   }
 
@@ -218,7 +221,7 @@ export class EditorProgramacaoComponent implements AfterViewInit, OnChanges {
     const submissao = new Submissao(
       null,
       this.editor.getValue(),
-      this.login.getUsuarioLogado(),
+      this.usuario,
       this.questao
     );
     return submissao;

@@ -8,6 +8,7 @@ import { Groups } from './experimento/groups';
 import EstudanteTurma from './estudanteTurma';
 import Turma from './turma';
 import { ConexaoRepetirError } from './errors/conexaoRepetir';
+import Gamification from './gamification/gamification';
 
 @Collection('usuarios')
 export default class Usuario extends Document {
@@ -19,6 +20,7 @@ export default class Usuario extends Document {
     public grupoExperimento: Groups
   ) {
     super(id);
+    this.minutos = 0;
   }
 
   @date()
@@ -28,7 +30,8 @@ export default class Usuario extends Document {
   genero;
   conhecimentoPrevioProgramacao;
   faixaEtaria;
-  turma;
+
+  turma:Turma;
 
   static getAllEstudantesByTurma(codigoTurma: any) {
     return new Observable<Usuario[]>((observer) => {
@@ -49,33 +52,18 @@ export default class Usuario extends Document {
     });
   }
 
-  static logar(query): Observable<Usuario> {
-    return new Observable((observer) => {
-      let usuario = null;
-      Usuario.getAll(query).subscribe(
-        (usuarios) => {
-          if (usuarios.length > 0) {
-            usuario = new Usuario(
-              usuarios[0].id,
-              usuarios[0].email,
-              usuarios[0].senha,
-              usuarios[0].perfil,
-              usuarios[0].grupoExperimento
-            );
-            usuario.minutos = 0;
-
-            observer.next(usuario);
-          } else {
-            observer.next(null);
-          }
+  static getByQuery(query){
+    return new Observable(observer => {
+      super.getByQuery(query).subscribe((usuario:Usuario)=>{
+        
+          observer.next(usuario);
           observer.complete();
-        },
-        (err) => {
-          observer.error(err);
-        }
-      );
-    });
+        
+      })
+    })
   }
+
+  
 
   objectToDocument() {
     const document = super.objectToDocument();
@@ -96,7 +84,28 @@ export default class Usuario extends Document {
       perfil: this.perfil,
       minutos: this.minutos,
       grupoExperimento: this.grupoExperimento,
+      turma:new Turma(this["codigoTurma"], null, null, null).stringfiy()
+     /*  gamification:this.gamification.stringfiy() */
     };
+  }
+
+  static fromJson(json){
+    if (json != null && json.id != undefined) {
+      const usuario = new Usuario(
+        json.id,
+        json.email,
+        json.senha,
+        json.perfil,
+        json.grupoExperimento
+      );
+      usuario.minutos = json.minutos;
+      usuario.turma = Turma.fromJson(json.turma)
+      /* usuario.gamification = Gamification.fromJson(json.gamification);
+      usuario.gamification.estudante = usuario; */
+      return usuario;
+    } else {
+      throw new Error('Usuário não foi logado corretamente, não há id e/ou perfil informados.');
+    }
   }
 
   save(perfil = PerfilUsuario.estudante): Observable<Usuario> {

@@ -333,7 +333,7 @@ export default class Submissao extends Document {
     return json;
   }
 
-  isComSucesso() {
+  isFinalizada() {
     if (this.resultadosTestsCases != null && this.resultadosTestsCases.length > 0) {
       let sucesso = true;
       this.resultadosTestsCases.forEach((resultadoTestCase) => {

@@ -4,7 +4,6 @@ import * as TimeMe from 'timeme.js';
 import { LoginService } from '../login-module/login.service';
 import TempoOnline from '../model/analytics/tempoOnline';
 import { logging } from 'protractor';
-import Usuario from '../../../../agendamentosaudegaranhuns/src/app/modelos/usuario';
 
 @Injectable({
   providedIn: 'root',

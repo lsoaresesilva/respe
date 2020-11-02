@@ -41,6 +41,10 @@ export default class TempoOnline extends Document {
     });
   }
 
+  static filterDocumentsByDate(a, b, c, d){
+    return [];
+  }
+
   objectToDocument() {
     const document = super.objectToDocument();
     if (this.estudante != null && this.estudante.pk != null) {
