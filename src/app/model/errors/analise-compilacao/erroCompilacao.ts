@@ -1,162 +1,153 @@
-
 import { CategoriaErro, getCategoriaPorInstancia } from '../enum/categoriasErro';
 import { Util } from '../../util';
 
-
 import * as firebase from 'firebase';
 import HistogramaErroData from './frequenciaErro';
+import { getLabelPorCategoriaNumero } from '../enum/labelCategoriasErro';
 
 export abstract class ErroCompilacao {
+  protected constructor(id, public traceback) {
+    if (id == null) {
+      this.id = Util.uuidv4();
+    } else {
+      this.id = id;
+    }
+    this.linha = ErroCompilacao.getLinha(traceback);
+    this.categoria = ErroCompilacao.getCategoria(traceback);
+  }
 
-    protected constructor(id, public traceback) {
-        if (id == null)
-            this.id = Util.uuidv4();
-        else {
-            this.id = id;
-        }
-        this.linha = ErroCompilacao.getLinha(traceback);
-        this.categoria = ErroCompilacao.getCategoria(traceback);
+  id;
+  data;
+  linha;
+  categoria;
+
+  static getLinha(traceback) {
+    if (traceback != null) {
+      const padrao = /line ([0-9]+)/;
+      const consulta = traceback.match(padrao);
+
+      if (consulta != null) {
+        return consulta[1];
+      }
     }
 
-    id;
-    data;
-    linha;
-    categoria;
+    return null;
+  }
 
-    static getLinha(traceback) {
-        if (traceback != null) {
-            let padrao = /line ([0-9]+)/;
-            let consulta = traceback.match(padrao);
+  static isErro(traceback) {
+    if (traceback != null) {
+      const padrao = /([a-zA-Z]+)Error:/;
+      const consulta = traceback.match(padrao);
+      if (consulta != null) {
+        return true;
+      }
+    }
+    return false;
+  }
 
-            if (consulta != null) {
+  /**
+   * Retorna a categoria do erro cometido pelo estudante a partir do traceback de sua submissão.
+   * @param traceback
+   */
+  static getCategoria(traceback) {
+    if (traceback != null) {
+      const padrao = /([a-zA-Z]+Erro[a-z]+):/;
+      const consulta = traceback.match(padrao);
 
-                return consulta[1];
-            }
+      if (consulta != null) {
+        if (consulta[1] == 'NameError') {
+          return CategoriaErro.nameError;
+        } else if (consulta[1] == 'SyntaxError') {
+          return CategoriaErro.syntaxError;
+        } else if (consulta[1] == 'TypeError') {
+          return CategoriaErro.typeError;
+        } else if (consulta[1] == 'IndentationError') {
+          return CategoriaErro.indentationError;
         }
-
-
-        return null;
+      }
     }
 
-    static isErro(traceback) {
-        if (traceback != null) {
-            let padrao = /([a-zA-Z]+)Error:/;
-            let consulta = traceback.match(padrao);
-            if (consulta != null) {
-                return true;
-            }
+    return null;
+  }
+
+  static calcularFrequencia(erros: ErroCompilacao[]) {
+    const frequencia = {};
+    erros.forEach((erro) => {
+      if (erro != null && erro instanceof ErroCompilacao) {
+        if (frequencia[getLabelPorCategoriaNumero(erro.categoria)] == null) {
+          frequencia[getLabelPorCategoriaNumero(erro.categoria)] = 1;
+        } else {
+          frequencia[getLabelPorCategoriaNumero(erro.categoria)] += 1;
         }
-        return false;
-    }
+      }
+    });
 
+    return frequencia;
+  }
 
+  static calcularFrequenciaPorMes(erros) {
+    const resultados = [];
+    erros.forEach((erro) => {
+      if (erro != null && erro instanceof ErroCompilacao) {
+        const data = erro.data.toDate();
+        const mes = data.getMonth();
+
+        if (resultados[mes] == undefined) {
+          resultados[mes] = [];
+        }
+
+        if (resultados[mes][erro.categoria] == undefined) {
+          resultados[mes][erro.categoria] = new HistogramaErroData(erro.categoria);
+        }
+
+        if (resultados[mes][erro.categoria] instanceof HistogramaErroData) {
+          resultados[mes][erro.categoria].contagem += 1;
+        }
+      }
+    });
+
+    return resultados;
+  }
+
+  static getCorErro(categoria) {
     /**
-     * Retorna a categoria do erro cometido pelo estudante a partir do traceback de sua submissão.
-     * @param traceback
+     * Referência: https://stackoverflow.com/questions/1484506/random-color-generator?page=1&tab=votes#tab-top
      */
-    static getCategoria(traceback) {
-        if (traceback != null) {
-            let padrao = /([a-zA-Z]+Erro[a-z]+):/;
-            let consulta = traceback.match(padrao);
-
-            if (consulta != null) {
-                if (consulta[1] == "NameError") {
-                    return CategoriaErro.nameError;
-                } else if (consulta[1] == "SyntaxError") {
-                    return CategoriaErro.syntaxError;
-                } else if (consulta[1] == "TypeError") {
-                    return CategoriaErro.typeError;
-                }
-                else if (consulta[1] == "IndentationError") {
-                    return CategoriaErro.indentationError;
-                }
-
-            }
-        }
-
-        return null;
-
+    function getRandomColor() {
+      var letters = '0123456789ABCDEF';
+      var color = '#';
+      for (var i = 0; i < 6; i++) {
+        color += letters[Math.floor(Math.random() * 16)];
+      }
+      return color;
     }
 
-    /**
-     * Extrai todos os erros cometidos pelo estudante em suas submissões.
-     * @param submissoes
-     */
-    static getAllErros(submissoes){
-        let erros = []
-        submissoes.forEach(submissao=>{
-            if(submissao.erro != null && submissao.erro instanceof ErroCompilacao){
-                erros.push(submissao.erro);
-            }
-        });
+    switch (categoria) {
+      case CategoriaErro.nameError:
+        return '#FFBF00';
+      case CategoriaErro.indentationError:
+        return '#80FF00';
+      case CategoriaErro.syntaxError:
+        return '#A9F5F2';
+      case CategoriaErro.typeError:
+        return '#08298A';
 
-        return erros;
+      default:
+        return getRandomColor();
     }
+  }
 
-    static getCorErro(categoria){
+  objectToDocument() {
+    return {
+      id: this.id,
+      traceback: this.traceback,
+      data: firebase.firestore.FieldValue.serverTimestamp(),
+    };
+  }
 
-        /**
-         * Referência: https://stackoverflow.com/questions/1484506/random-color-generator?page=1&tab=votes#tab-top
-         */
-        function getRandomColor() {
-            var letters = '0123456789ABCDEF';
-            var color = '#';
-            for (var i = 0; i < 6; i++) {
-              color += letters[Math.floor(Math.random() * 16)];
-            }
-            return color;
-          }
+  abstract getMensagem();
 
-        switch(categoria){
-            case CategoriaErro.nameError:
-                return "#FFBF00";
-            case CategoriaErro.indentationError:
-                return "#80FF00";
-            case CategoriaErro.syntaxError:
-                return "#A9F5F2";
-            case CategoriaErro.typeError:
-                return "#08298A";
-
-            default:
-                return getRandomColor();
-        }
-    }
-
-    static calcularFrequenciaPorMes(erros){
-        let resultados = [];
-        erros.forEach(erro=>{
-            if(erro != null && erro instanceof ErroCompilacao){
-                let data = erro.data.toDate();
-                let mes = data.getMonth();
-
-
-                if( resultados[mes] == undefined ){
-                    resultados[mes] = []
-                }
-
-                if(resultados[mes][erro.categoria] == undefined ){
-                    resultados[mes][erro.categoria] = new HistogramaErroData(erro.categoria);
-
-                }
-
-                if(resultados[mes][erro.categoria] instanceof HistogramaErroData)
-                    resultados[mes][erro.categoria].contagem += 1;
-            }
-        });
-
-        return resultados;
-    }
-
-    objectToDocument(){
-        return {id:this.id, traceback:this.traceback, data:firebase.firestore.FieldValue.serverTimestamp()};
-    }
-
-    abstract getMensagem();
-
-
-
-
-    /**
+  /**
      * Identifica o top 3 principais erros cometidos pelo estudante.
 
     static rankErros(dados){
@@ -188,6 +179,4 @@ export abstract class ErroCompilacao {
     }
 
     */
-
-
 }

@@ -217,7 +217,7 @@ export class Questao {
   getErrosEstudante(estudante) {
     return new Observable((observer) => {
       Submissao.getPorQuestao(this, estudante).subscribe((submissoes) => {
-        const erros = ErroCompilacao.getAllErros(submissoes);
+        const erros = Submissao.getAllErros(submissoes);
         observer.next(erros);
         observer.complete();
       });

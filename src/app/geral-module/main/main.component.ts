@@ -14,6 +14,7 @@ import { Groups } from 'src/app/model/experimento/groups';
 import { PerfilUsuario } from 'src/app/model/enums/perfilUsuario';
 import { ApresentacaoService } from '../apresentacao.service';
 import QuestionarioAutorregulacao from 'src/app/model/experimento/questionarioAutorregulacao';
+import ChatBot from 'src/app/model/chatbot/chatbot';
 
 @Component({
   selector: 'app-main',
@@ -33,6 +34,8 @@ export class MainComponent implements OnInit {
     private apresentacao: ApresentacaoService
   ) {
     this.usuario = this.login.getUsuarioLogado();
+
+    let c = new ChatBot();
   }
 
   criarMenu() {
