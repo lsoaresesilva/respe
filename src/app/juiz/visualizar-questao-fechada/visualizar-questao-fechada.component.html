@@ -20,8 +20,8 @@
   <br>
   <div>
     <p-radioButton *ngFor="let alternativa of questao.alternativas" name="alternativas" class="alternativa"
-      value="{{alternativa.id}}" (onClick)="selecionarAlternativa(alternativa)" label="{{alternativa.texto}}"
-      inputId="{{alternativa.id}}" [(ngModel)]="respostaQuestaoFechada.alternativaId"
+      value="{{alternativa.id}}"  label="{{alternativa.texto}}" 
+      inputId="{{alternativa.id}}" [(ngModel)]="respostaQuestaoFechada.alternativa.id"
       [disabled]="respostaQuestaoFechada.pk() != undefined"></p-radioButton>
   </div>
 

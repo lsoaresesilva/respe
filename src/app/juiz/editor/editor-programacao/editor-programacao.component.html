@@ -10,15 +10,15 @@
             iconPos="left"
             class="ui-button-success"
             style="margin-right: 10px;"></button>
-      <button *ngIf="this.login.getUsuarioLogado().grupoExperimento != 4 && modoVisualizacao == true" type="button"
+      <button *ngIf="usuario.grupoExperimento != 4 && modoVisualizacao == true" type="button"
             (click)="visualizar(false)" pButton label="Voltar ao modo execução" ></button>
      <!-- <button *ngIf="this.login.getUsuarioLogado().grupoExperimento != 4  && modoVisualizacao == false" type="button"
             (click)="visualizar(true)" pButton label="Vizualizar execução"></button> -->
       <button style="margin-left: 10px;" 
       id="statusExecucaoAlgoritmo"
-      label="{{submissao.isComSucesso()?'Sucesso':'O algoritmo não está correto.'}}"
-      *ngIf="submissao != undefined && submissao.isComSucesso() != null" 
-      [ngClass]="{'ui-button-success':submissao.isComSucesso(), 'ui-button-danger':!submissao.isComSucesso()}" pButton></button>
+      label="{{submissao.isFinalizada()?'Sucesso':'O algoritmo não está correto.'}}"
+      *ngIf="submissao != undefined && submissao.isFinalizada() != null" 
+      [ngClass]="{'ui-button-success':submissao.isFinalizada(), 'ui-button-danger':!submissao.isFinalizada()}" pButton></button>
 
       <p-progressBar *ngIf="processandoSubmissao == true" mode="indeterminate" [style]="{'height': '6px', 'width':'100px'}"></p-progressBar>
     

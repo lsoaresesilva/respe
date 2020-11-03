@@ -51,6 +51,7 @@ import { ProfessorGuard } from './guards/professor.guard';
 import { EditorComponent } from './game-based-learning/editor/editor.component';
 import { PageTrack } from './guards/pageTrack.guard';
 import { VisualizarParsonComponent } from './parson-problem/visualizar-parson/visualizar-parson.component';
+import { RankingComponent } from './gamification/ranking/ranking.component';
 
 const routes: Routes = [
   {
@@ -287,6 +288,12 @@ const routes: Routes = [
       {
         path: 'visualizacao-assunto/:id',
         component: VisualizarAssuntoComponent,
+        canActivate: [AuthGuard, PageTrack],
+        outlet: 'principal',
+      },
+      {
+        path: 'ranking',
+        component: RankingComponent,
         canActivate: [AuthGuard, PageTrack],
         outlet: 'principal',
       },

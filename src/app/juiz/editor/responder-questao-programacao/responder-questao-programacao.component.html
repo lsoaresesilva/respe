@@ -3,7 +3,7 @@
     <app-breadcrumb-assunto [assunto]="assunto" [questao]="questao"></app-breadcrumb-assunto>
 
     <div class="p-col-12">
-      <ng-template *ngIf="login.getUsuarioLogado().grupoExperimento != 4">
+      <ng-template *ngIf="usuario.grupoExperimento != 4">
         <button
           type="button"
           (click)="listarSubmissao()"
@@ -18,7 +18,7 @@
       <button type="button" (click)="visualizarCodigoSimilar(questao)" pButton
       label="Visualizar exemplo de código"></button>-->
 
-      <ng-template *ngIf="login.getUsuarioLogado().grupoExperimento != 4">
+      <ng-template *ngIf="usuario.grupoExperimento != 4">
         <!-- <button type="button" onclick="TogetherJS(this); return false;" pButton label="Responder Em Grupo"></button> -->
       </ng-template>
     </div>
@@ -26,7 +26,7 @@
   <div class="p-grid" style="margin: 10px 10px 10px 10px">
     <div class="p-col-3">
       <dados-questao [questao]="questao" [submissao]="submissao" id="dadosQuestao"></dados-questao>
-      <ng-container *ngIf="login.getUsuarioLogado().grupoExperimento != 4">
+      <ng-container *ngIf="usuario.grupoExperimento != 4">
         <app-card-erros-programacao-pizza
           [erros]="errosEstudante"
         ></app-card-erros-programacao-pizza>

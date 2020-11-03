@@ -107,7 +107,7 @@ export default class QuestaoFechada {
    * @param questao
    * @param resposta
    */
-  static isRespostaCorreta(questao, resposta) {
+  static isRespostaCorreta(questao:QuestaoFechada, resposta:RespostaQuestaoFechada) {
     let alternativaCorreta = questao.getAlternativaCerta();
     if (alternativaCorreta != null) {
       if (alternativaCorreta.id == resposta.alternativa.id) return true;
@@ -115,6 +115,8 @@ export default class QuestaoFechada {
 
     return false;
   }
+
+  
 
   static getByAssuntoQuestao(assuntoQuestao) {
     return new Observable((observer) => {
@@ -228,4 +230,17 @@ export default class QuestaoFechada {
 
     return texto;
   }
+
+  /* Verifica se a resposta do usuário encontra-se dentro das opções de alternativas disponiveis. */
+  isRespostaValida(respostaQuestaoFechada:RespostaQuestaoFechada){
+    let valido = false;
+    for(let i = 0; i < this.alternativas.length; i++){
+      if(respostaQuestaoFechada.alternativa.id == this.alternativas[i].id){
+        valido = true;
+        break;
+      }
+    }
+
+    return valido;
+}
 }

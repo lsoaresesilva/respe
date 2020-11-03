@@ -1,8 +1,33 @@
-<div>
-  <p-menubar [model]="itens"></p-menubar>
-</div>
+ <p-toolbar>
+  <div class="p-toolbar-group-left">
+      <button pButton class="p-button-text" label="Assuntos" (click)="abrirAssuntos()" *ngIf="usuario.grupoExperimento == 4" ></button>
+      <button pButton class="p-button-text" label="Planejamento" (click)="abrirPlanejamento()" *ngIf="usuario.grupoExperimento != 4" ></button>
+      <button pButton class="p-button-text" label="Meu desempenho" (click)="abrirDesempenho()" *ngIf="usuario.grupoExperimento != 4" ></button>
+      <button pButton class="p-button-text" label="Ranking" (click)="abrirRanking()"></button>
+  </div>
+  <div style="margin: 0 auto;width: 10%;"> 
+    <app-progresso-proximo-nivel ></app-progresso-proximo-nivel>
+  </div>
+  <div class="p-toolbar-group-right">
+    <button  pButton label="Sair" (click)="logout()" icon="pi pi-power-off"></button>
+  </div>
+</p-toolbar> 
 
-<app-diario *ngIf="login.getUsuarioLogado().grupoExperimento != 4"></app-diario>
+
+<!-- <div style="display: flex;">
+  <div style="width:70%">
+    <p-menubar [model]="itens" >
+    </p-menubar>
+  </div>
+  <div style="margin: 0 auto;width: 10%;">
+    <app-progresso-proximo-nivel ></app-progresso-proximo-nivel>
+  </div>
+  <div>
+    <button  pButton label="Sair" (click)="logout()" icon="pi pi-power-off"></button>
+  </div>
+</div> -->
+
+<app-diario *ngIf="usuario.grupoExperimento != 4"></app-diario>
 
 <app-questionario-autorregulacao
   [visibilidadeQuestionario]="visibilidadeQuestionario"

@@ -1,5 +1,4 @@
 import { Component, OnInit } from '@angular/core';
-import { UsuarioService } from '../usuario.service';
 import Usuario from '../../model/usuario';
 import { Router } from '@angular/router';
 import { LoginService } from 'src/app/login-module/login.service';
@@ -18,7 +17,6 @@ export class LoginComponent implements OnInit {
   usuario: Usuario;
 
   constructor(
-    private loginService: UsuarioService,
     private router: Router,
     private login: LoginService,
     private messageService: MessageService

@@ -1,10 +1,9 @@
 import { Collection, Document, date } from './firestore/document';
 import Usuario from './usuario';
-import { Questao } from './questao';
 import Query from './firestore/query';
-import { RespostaSimilarQuestaoProgramacaoComponent } from '../srl/monitoramento/resposta-similar-questao-programacao/resposta-similar-questao-programacao.component';
-import { observable, Observable } from 'rxjs';
 import Alternativa from './alternativa';
+import QuestaoFechada from './questaoFechada';
+import { Observable } from 'rxjs';
 
 
 
@@ -12,7 +11,7 @@ import Alternativa from './alternativa';
 export class RespostaQuestaoFechada extends Document {
     estudante: Usuario;
     alternativa: Alternativa;
-    questao: Questao;
+    questao: QuestaoFechada;
 
     constructor(public id, estudante, alternativa, questao) {
         super(id);
@@ -48,17 +47,12 @@ export class RespostaQuestaoFechada extends Document {
         
     }
 
-    static getRespostaQuestaoEstudante(questao, usuario): Observable<String> {
+    static getRespostaQuestaoEstudante(questao, usuario): Observable<RespostaQuestaoFechada> {
         return new Observable(observer => {
 
-            RespostaQuestaoFechada.getAll([new Query("usuarioId", "==", usuario.pk()), new Query("questaoId", "==", questao.id)]).subscribe(respostaSalva => {
+            RespostaQuestaoFechada.getByQuery([new Query("usuarioId", "==", usuario.pk()), new Query("questaoId", "==", questao.id)]).subscribe((respostaSalva:RespostaQuestaoFechada) => {
 
-                if(respostaSalva.length > 0){
-                    observer.next(respostaSalva[0]);
-                }else{
-                    observer.next(null);
-                }
-                
+                observer.next(respostaSalva);
                 observer.complete();
             });
         });
@@ -74,6 +68,18 @@ export class RespostaQuestaoFechada extends Document {
         }) 
     }
 
+    isCorreta(){
+        const alternativaCerta = this.questao.getAlternativaCerta();
+
+        if (this.alternativa.id == alternativaCerta.id) {
+            return true;
+        }
+        else{
+            return false;
+        }
+    }
+
+    
 
 
 

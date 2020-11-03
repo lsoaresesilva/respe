@@ -14,6 +14,8 @@ import { Groups } from 'src/app/model/experimento/groups';
 import { PerfilUsuario } from 'src/app/model/enums/perfilUsuario';
 import { ApresentacaoService } from '../apresentacao.service';
 import QuestionarioAutorregulacao from 'src/app/model/experimento/questionarioAutorregulacao';
+import Gamification from 'src/app/model/gamification/gamification';
+import { GamificationFacade } from 'src/app/gamification/gamification.service';
 
 @Component({
   selector: 'app-main',
@@ -30,9 +32,11 @@ export class MainComponent implements OnInit {
   constructor(
     private router: Router,
     public login: LoginService,
-    private apresentacao: ApresentacaoService
+    private apresentacao: ApresentacaoService,
+    private gamification:GamificationFacade
   ) {
     this.usuario = this.login.getUsuarioLogado();
+    this.gamification.inicializar(this.usuario);
   }
 
   criarMenu() {
@@ -95,42 +99,7 @@ export class MainComponent implements OnInit {
             },
             id: 'assuntosMenu',
           },
-          {
-            label: 'Sair',
-            command: () => {
-              this.logout();
-            },
-            id: 'sairMenu',
-          },
-        ];
-      } else {
-        this.itens = [
-          {
-            label: 'Planejamentos',
-            command: () => {
-              this.router.navigate(['main', { outlets: { principal: ['listagem-planejamento'] } }]);
-            },
-            id: 'planejamentoMenu',
-          } /*
-          {
-            label: 'Minha turma',
-            command: () => { this.router.navigate(["main", { outlets: { principal: ['minha-turma'] } }]) },
-
-           },*/,
-          {
-            label: 'Meu desempenho',
-            command: () => {
-              this.router.navigate(['main', { outlets: { principal: ['meu-desempenho'] } }]);
-            },
-            id: 'meuDesempenhoMenu',
-          },
-          {
-            label: 'Sair',
-            command: () => {
-              this.logout();
-            },
-            id: 'sairMenu',
-          },
+          
         ];
       }
     }
@@ -139,6 +108,22 @@ export class MainComponent implements OnInit {
   ngOnInit() {
     this.criarMenu();
     this.apresentarPretestRegulacao();
+  }
+
+  abrirDesempenho(){
+    this.router.navigate(['main', { outlets: { principal: ['meu-desempenho'] } }]);
+  }
+
+  abrirPlanejamento(){
+    this.router.navigate(['main', { outlets: { principal: ['listagem-planejamento'] } }]);
+  }
+
+  abrirAssuntos(){
+    this.router.navigate(['main', { outlets: { principal: ['listagem-assuntos'] } }]);
+  }
+
+  abrirRanking(){
+    this.router.navigate(['main', { outlets: { principal: ['ranking'] } }]);
   }
 
   apresentarPretestRegulacao() {
