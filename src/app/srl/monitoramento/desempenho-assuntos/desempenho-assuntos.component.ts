@@ -31,6 +31,8 @@ export class DesempenhoAssuntosComponent implements AfterViewInit {
           assunto['percentual'] = percentual;
         });
       });
+
+      Assunto.ordenar(this.assuntos);
     });
   }
 
