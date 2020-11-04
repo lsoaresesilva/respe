@@ -15,12 +15,7 @@ export class VisualizarAssuntoComponent implements OnInit {
 
   usuario;
 
-  constructor(
-    private route: ActivatedRoute,
-    private messageService: MessageService,
-    private router: Router,
-    public login: LoginService
-  ) {
+  constructor(private route: ActivatedRoute, private router: Router, public login: LoginService) {
     this.assunto = new Assunto(null, null);
   }
 
@@ -36,15 +31,6 @@ export class VisualizarAssuntoComponent implements OnInit {
     });
     this.usuario = this.login.getUsuarioLogado();
     this.exibirDialogImportanciaAssunto();
-  }
-
-  cadastrar() {
-    this.router.navigate([
-      'main',
-      { outlets: { principal: ['escolher-questao', this.assunto.pk()] } },
-    ]);
-
-    this.dialogImportanciaAssunto = false;
   }
 
   exibirDialogImportanciaAssunto() {

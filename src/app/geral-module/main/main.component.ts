@@ -33,14 +33,16 @@ export class MainComponent implements OnInit {
     private router: Router,
     public login: LoginService,
     private apresentacao: ApresentacaoService,
-    private gamification:GamificationFacade
+    private gamification: GamificationFacade
   ) {
     this.usuario = this.login.getUsuarioLogado();
-    this.gamification.inicializar(this.usuario);
+    if (this.usuario.perfil === PerfilUsuario.estudante) {
+      this.gamification.inicializar(this.usuario);
+    }
   }
 
   criarMenu() {
-    if (this.usuario.perfil == PerfilUsuario.admin) {
+    if (this.usuario.perfil === PerfilUsuario.admin) {
       this.itens = [
         {
           label: 'Turmas',
@@ -99,7 +101,6 @@ export class MainComponent implements OnInit {
             },
             id: 'assuntosMenu',
           },
-          
         ];
       }
     }
@@ -110,19 +111,23 @@ export class MainComponent implements OnInit {
     this.apresentarPretestRegulacao();
   }
 
-  abrirDesempenho(){
+  abrirDesempenho() {
     this.router.navigate(['main', { outlets: { principal: ['meu-desempenho'] } }]);
   }
 
-  abrirPlanejamento(){
+  abrirPlanejamento() {
     this.router.navigate(['main', { outlets: { principal: ['listagem-planejamento'] } }]);
   }
 
-  abrirAssuntos(){
+  abrirAssuntos() {
     this.router.navigate(['main', { outlets: { principal: ['listagem-assuntos'] } }]);
   }
 
-  abrirRanking(){
+  abrirAssuntosAdmin() {
+    this.router.navigate(['main', { outlets: { principal: ['listar-assuntos-admin'] } }]);
+  }
+
+  abrirRanking() {
     this.router.navigate(['main', { outlets: { principal: ['ranking'] } }]);
   }
 

@@ -32,11 +32,13 @@ import { ParsonProblemModule } from './parson-problem/parson-problem.module';
 import { GamificationModule } from './gamification/gamification.module';
 import { ButtonModule } from 'primeng/button';
 import { ToolbarModule } from 'primeng/toolbar';
+import { AdminModule } from './admin/admin.module';
 
 @NgModule({
   schemas: [CUSTOM_ELEMENTS_SCHEMA],
   declarations: [AppComponent, MainComponent],
   imports: [
+    AdminModule,
     SrlModule,
     GamificationModule,
     ButtonModule,

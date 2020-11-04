@@ -230,24 +230,57 @@ export class Assunto extends Document {
     return arrayAssuntos;
   }
 
+  definirSequenciaQuestoes(questoes: any[]) {
+    // Definir a sequência a partir da posição no array
+    for (let i = 0; i < questoes.length; i = i + 1) {
+      if (questoes[i] instanceof QuestaoFechada || questoes[i] instanceof Questao) {
+        if (questoes[i].sequencia != null) {
+          questoes[i].sequencia = i + 1;
+        }
+
+        if (questoes[i].dificuldade === undefined) {
+          questoes[i].dificuldade = 1;
+        }
+
+        if (questoes[i].respostaUsuario === undefined) {
+          questoes[i].respostaQuestao = '';
+        }
+      }
+    }
+
+    // colocar as questões fechadas no array de questoes fechadadas
+    const questoesFechadas = [];
+    // colocar as questoes abertas no array de questões abertas
+    const questoesProgramacao = [];
+
+    questoes.forEach((questao) => {
+      if (questao instanceof QuestaoFechada) {
+        questoesFechadas.push(questao);
+      } else if (questao instanceof Questao) {
+        questoesProgramacao.push(questao);
+      }
+    });
+
+    this.questoesFechadas = questoesFechadas;
+    this.questoesProgramacao = questoesProgramacao;
+  }
+
   /* Ordena as questões de um assunto. */
   ordenarQuestoes() {
     if (Array.isArray(this.questoesFechadas) && Array.isArray(this.questoesProgramacao)) {
       let questoes = new Array(this.questoesFechadas.length + this.questoesProgramacao.length);
       questoes = questoes.fill(0);
 
-      console.log('Questoes fechadas');
       this.questoesFechadas.forEach((questao) => {
         console.log(questao.sequencia - 1);
         questoes[questao.sequencia - 1] = questao;
-        //questoes.splice(questao.sequencia - 1, 0, questao);
+        // questoes.splice(questao.sequencia - 1, 0, questao);
       });
 
-      console.log('Questoes programacao');
       this.questoesProgramacao.forEach((questao) => {
         console.log(questao.sequencia - 1);
         questoes[questao.sequencia - 1] = questao;
-        //questoes.splice(questao.sequencia - 1, 0, questao);
+        // questoes.splice(questao.sequencia - 1, 0, questao);
       });
 
       return questoes;
