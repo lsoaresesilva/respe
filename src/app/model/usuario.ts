@@ -1,4 +1,4 @@
-import { Document, Collection, date } from './firestore/document';
+import { Document, Collection, date, ignore } from './firestore/document';
 import { forkJoin, Observable } from 'rxjs';
 import Query from './firestore/query';
 import { PerfilUsuario } from './enums/perfilUsuario';
@@ -32,6 +32,11 @@ export default class Usuario extends Document {
   faixaEtaria;
 
   turma: Turma;
+
+  @ignore()
+  respostasQuestoesFechadas?;
+  @ignore()
+  respostasQuestoesProgramacao?;
 
   static getAllEstudantesByTurma(codigoTurma: any) {
     return new Observable<Usuario[]>((observer) => {

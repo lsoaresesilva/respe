@@ -54,6 +54,7 @@ import { VisualizarParsonComponent } from './parson-problem/visualizar-parson/vi
 import { RankingComponent } from './gamification/ranking/ranking.component';
 import { ListarAssuntosAdminComponent } from './admin/listar-assuntos-admin/listar-assuntos-admin.component';
 import { VisualizarAssuntoAdminComponent } from './admin/visualizar-assunto-admin/visualizar-assunto-admin.component';
+import { AnalyticsTurmaComponent } from './analytics-module/analytics-turma/analytics-turma.component';
 
 const routes: Routes = [
   {
@@ -96,6 +97,14 @@ const routes: Routes = [
       },
 
       /* FIM ADMIN */
+
+      /* ANALYTICS */
+      {
+        path: 'analytics-turma/:turmaId',
+        component: AnalyticsTurmaComponent,
+        canActivate: [AuthGuard, ProfessorGuard],
+        outlet: 'principal',
+      },
 
       /** SRL */
 
@@ -212,7 +221,7 @@ const routes: Routes = [
       {
         path: 'listagem-estudantes',
         component: ListarEstudantesComponent,
-        canActivate: [AuthGuard, AdminGuard],
+        canActivate: [AuthGuard, ProfessorGuard],
         outlet: 'principal',
       },
       {

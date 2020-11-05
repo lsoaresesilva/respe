@@ -14,10 +14,24 @@ import { MediaSubmissoesAcertoComponent } from './media-submissoes-acerto/media-
 import { TotalExecucoesComponent } from './total-execucoes/total-execucoes.component';
 import { TempoOnlineComponent } from './tempo-online/tempo-online.component';
 import { TentativaQuestoesComponent } from './tentativa-questoes/tentativa-questoes.component';
+import { AnalyticsTurmaComponent } from './analytics-turma/analytics-turma.component';
+import { TableModule } from 'primeng/table';
 
 @NgModule({
-  declarations: [DadosEstudanteComponent, ProgessoGeralComponent, ProgressoQuestoesAbertasComponent, ProgressoQuestoesFechadasComponent, PercentualVisualizacaoQuestoesComponent, TotalErrosComponent, MediaSubmissoesAcertoComponent, TotalExecucoesComponent, TempoOnlineComponent, TentativaQuestoesComponent],
-  imports: [CommonModule, ProgressBarModule],
-  exports: [DadosEstudanteComponent],
+  declarations: [
+    DadosEstudanteComponent,
+    ProgessoGeralComponent,
+    ProgressoQuestoesAbertasComponent,
+    ProgressoQuestoesFechadasComponent,
+    PercentualVisualizacaoQuestoesComponent,
+    TotalErrosComponent,
+    MediaSubmissoesAcertoComponent,
+    TotalExecucoesComponent,
+    TempoOnlineComponent,
+    TentativaQuestoesComponent,
+    AnalyticsTurmaComponent,
+  ],
+  imports: [CommonModule, ProgressBarModule, TableModule],
+  exports: [DadosEstudanteComponent, AnalyticsTurmaComponent],
 })
 export class AnalyticsModule {}
