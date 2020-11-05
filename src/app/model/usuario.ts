@@ -117,28 +117,21 @@ export default class Usuario extends Document {
 
   save(perfil = PerfilUsuario.estudante): Observable<Usuario> {
     return new Observable((observer) => {
-      Usuario.getAll(new Query('codigoTurma', '==', this.turma.codigo)).subscribe((usuarios) => {
+      Usuario.getAll([
+        new Query('codigoTurma', '==', this.turma.codigo),
+        new Query('perfil', '==', PerfilUsuario.estudante),
+      ]).subscribe((usuarios) => {
         const categorias = Experiment.construirCategoriasAlunos(usuarios);
         this.grupoExperimento = Experiment.assignToGroup(
           categorias,
           this.conhecimentoPrevioProgramacao
         );
-        let x = 0;
+        this.perfil = perfil;
+        super.save().subscribe((result) => {
+          observer.next(result);
+          observer.complete();
+        });
       });
-
-      /* Usuario.count().subscribe(
-        (contagem) => {
-          this.grupoExperimento = Experiment.assignToGroup(contagem);
-          this.perfil = perfil;
-          super.save().subscribe((result) => {
-            observer.next(result);
-            observer.complete();
-          });
-        },
-        (err) => {
-          observer.error(err);
-        }
-      ); */
     });
   }
 

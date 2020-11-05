@@ -44,9 +44,9 @@ export default class Experiment {
     /* Verificar a classe ao qual o usuário pertence */
     /* Verificar qual grupo possui menos daquela categoria. Se for igual, joga aleatoriamente para um deles */
     const categoryNumbers = categories.get(userCategory);
-    if (categoryNumbers[Groups.control] > categoryNumbers[Groups.experimentalA]) {
+    if (categoryNumbers.get(Groups.control) > categoryNumbers.get(Groups.experimentalA)) {
       return Groups.experimentalA;
-    } else if (categoryNumbers[Groups.experimentalA] > categoryNumbers[Groups.control]) {
+    } else if (categoryNumbers.get(Groups.experimentalA) > categoryNumbers.get(Groups.control)) {
       return Groups.control;
     } else {
       const min = Math.ceil(0);
