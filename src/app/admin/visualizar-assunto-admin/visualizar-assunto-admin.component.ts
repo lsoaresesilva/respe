@@ -3,6 +3,7 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { MenuItem, MessageService } from 'primeng/api';
 import { LoginService } from 'src/app/login-module/login.service';
 import { Assunto } from 'src/app/model/assunto';
+import { Questao } from 'src/app/model/questao';
 import QuestaoFechada from 'src/app/model/questaoFechada';
 import Usuario from 'src/app/model/usuario';
 
@@ -15,6 +16,8 @@ export class VisualizarAssuntoAdminComponent implements OnInit {
   assunto$?: Assunto;
   usuario: Usuario;
   questoes$?;
+
+  questaoSelecionada;
 
   selectedQuestaoFechada: QuestaoFechada;
   items: MenuItem[];
@@ -52,6 +55,26 @@ export class VisualizarAssuntoAdminComponent implements OnInit {
           command: (event) => this.deletar(this.selectedQuestaoFechada),
         },
       ];
+    }
+  }
+
+  visualizar() {
+    if (this.questaoSelecionada != null) {
+      let path = '';
+      if (this.questaoSelecionada[0] instanceof Questao) {
+        path = 'atualizacao-questao';
+      } else {
+        path = 'atualizacao-questao-fechada';
+      }
+
+      this.router.navigate([
+        'main',
+        {
+          outlets: {
+            principal: [path, this.assunto$.pk(), this.questaoSelecionada[0].id],
+          },
+        },
+      ]);
     }
   }
 

@@ -41,7 +41,7 @@ export class Questao {
   assuntos: any[];
   sequencia: number;
   testsCases: TestCase[];
-  algoritmoInicial = '';
+  algoritmoInicial: any = '';
 
   static isFinalizada(questao, usuario) {
     return new Observable((observer) => {
@@ -224,7 +224,7 @@ export class Questao {
     });
   }
 
-  buscarAssuntos(assuntoPrincipal): Observable<any[]> {
+  /*  buscarAssuntos(assuntoPrincipal): Observable<any[]> {
     return new Observable((observer) => {
       const consultaAssuntos = [];
       let assuntosQuestao = [];
@@ -257,7 +257,7 @@ export class Questao {
         observer.complete();
       }
     });
-  }
+  } */
 
   validar() {
     if (
@@ -276,4 +276,12 @@ export class Questao {
     }
     return true;
   }
+
+  formatarAlgoritmoInicial() {
+    if (this.algoritmoInicial != null) {
+      this.algoritmoInicial = this.algoritmoInicial.join('\n');
+    }
+  }
+
+  prepararSave() {}
 }

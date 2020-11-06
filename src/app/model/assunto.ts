@@ -272,13 +272,11 @@ export class Assunto extends Document {
       questoes = questoes.fill(0);
 
       this.questoesFechadas.forEach((questao) => {
-        console.log(questao.sequencia - 1);
         questoes[questao.sequencia - 1] = questao;
         // questoes.splice(questao.sequencia - 1, 0, questao);
       });
 
       this.questoesProgramacao.forEach((questao) => {
-        console.log(questao.sequencia - 1);
         questoes[questao.sequencia - 1] = questao;
         // questoes.splice(questao.sequencia - 1, 0, questao);
       });
