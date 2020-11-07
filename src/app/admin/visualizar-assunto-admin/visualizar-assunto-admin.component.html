@@ -1,42 +1,27 @@
-<div class="ui-g">
-  <div class="ui-g-10"></div>
-  <div class="ui-g-2">
+<div class="p-grid">
+  <div class="p-col-1"></div>
+  <div class="p-col-1">
     <button pButton label="Nova Questão" (click)="cadastrar()"></button>
   </div>
+  <div class="p-col-2">
+    <button pButton label="Visualizar questão" (click)="visualizar()"></button>
+  </div>
 </div>
-<h2>Ordenar questões</h2>
-<button pButton label="Visualizar questão" (click)="visualizar()"></button>
-<p-orderList
-  id="tabelaQuestoesFechadas"
-  [value]="questoes$"
-  (onReorder)="reordenar($event)"
-  [(selection)]="questaoSelecionada"
->
-  <ng-template pTemplate="item" let-rowData let-questao let-resposta let-i="rowIndex">
-    <div>
-      <span style="cursor: pointer">{{ questao.nomeCurto }}</span>
-    </div>
-  </ng-template>
-</p-orderList>
 
-<h2>Editar questões fechadas</h2>
-<p-table
-  id="tabelaQuestoesProgramacao"
-  [value]="assunto$?.questoesFechadas"
-  [(contextMenuSelection)]="selectedQuestaoFechada"
-  [contextMenu]="cm"
-  autoLayout="true"
->
-  <ng-template pTemplate="header">
-    <tr>
-      <th>Questões Programação</th>
-    </tr>
-  </ng-template>
-  <ng-template pTemplate="body" let-rowData let-questao>
-    <tr [pContextMenuRow]="rowData">
-      <td (click)="alterar(questao)" style="cursor: pointer">{{ questao.nomeCurto }}</td>
-    </tr>
-  </ng-template>
-</p-table>
-
-<p-contextMenu #cm [model]="items"></p-contextMenu>
+<div class="p-grid">
+  <div class="p-col-1"></div>
+  <div class="p-col-10">
+    <p-orderList
+      id="tabelaQuestoesFechadas"
+      [value]="questoes$"
+      (onReorder)="reordenar($event)"
+      [(selection)]="questaoSelecionada"
+    >
+      <ng-template pTemplate="item" let-rowData let-questao let-resposta let-i="rowIndex">
+        <div>
+          <span style="cursor: pointer">{{ questao.nomeCurto }}</span>
+        </div>
+      </ng-template>
+    </p-orderList>
+  </div>
+</div>
