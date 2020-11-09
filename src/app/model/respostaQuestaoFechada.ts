@@ -2,8 +2,8 @@ import { Collection, Document, date } from './firestore/document';
 import Usuario from './usuario';
 import Query from './firestore/query';
 import Alternativa from './alternativa';
-import QuestaoFechada from './questaoFechada';
 import { Observable } from 'rxjs';
+import QuestaoFechada from './questoes/questaoFechada';
 
 @Collection('respostaQuestaoFechada')
 export class RespostaQuestaoFechada extends Document {
@@ -75,7 +75,7 @@ export class RespostaQuestaoFechada extends Document {
   static getRespostaQuestaoEstudante(questao, usuario): Observable<RespostaQuestaoFechada> {
     return new Observable((observer) => {
       RespostaQuestaoFechada.getByQuery([
-        new Query('usuarioId', '==', usuario.pk()),
+        new Query('estudanteId', '==', usuario.pk()),
         new Query('questaoId', '==', questao.id),
       ]).subscribe((respostaSalva: RespostaQuestaoFechada) => {
         observer.next(respostaSalva);
@@ -86,7 +86,7 @@ export class RespostaQuestaoFechada extends Document {
 
   getTodasRespostasQuestoesFechadasEstudante(usuario) {
     return new Observable((observer) => {
-      RespostaQuestaoFechada.getAll(new Query('usuarioId', '==', usuario.pk())).subscribe(
+      RespostaQuestaoFechada.getAll(new Query('estudanteId', '==', usuario.pk())).subscribe(
         (respostas) => {
           observer.next(respostas);
           observer.complete();

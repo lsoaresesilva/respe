@@ -3,8 +3,8 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { MenuItem, MessageService } from 'primeng/api';
 import { LoginService } from 'src/app/login-module/login.service';
 import { Assunto } from 'src/app/model/assunto';
-import { Questao } from 'src/app/model/questao';
-import QuestaoFechada from 'src/app/model/questaoFechada';
+import QuestaoFechada from 'src/app/model/questoes/questaoFechada';
+import { QuestaoProgramacao } from 'src/app/model/questoes/questaoProgramacao';
 import Usuario from 'src/app/model/usuario';
 
 @Component({
@@ -61,7 +61,7 @@ export class VisualizarAssuntoAdminComponent implements OnInit {
   visualizar() {
     if (this.questaoSelecionada != null) {
       let path = '';
-      if (this.questaoSelecionada[0] instanceof Questao) {
+      if (this.questaoSelecionada[0] instanceof QuestaoProgramacao) {
         path = 'atualizacao-questao';
       } else {
         path = 'atualizacao-questao-fechada';

@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { Questao } from 'src/app/model/questao';
+import { QuestaoProgramacao } from 'src/app/model/questoes/questaoProgramacao';
 import { Dificuldade } from 'src/app/model/enums/dificuldade';
 import { SelectItem } from 'primeng/api';
 import { Router, ActivatedRoute } from '@angular/router';
@@ -14,7 +14,7 @@ import { MessageService } from 'primeng/api';
 })
 export class CadastrarQuestoesComponent implements OnInit {
   assunto?: Assunto;
-  questao?: Questao;
+  questao?: QuestaoProgramacao;
   dificuldades: SelectItem[];
   assuntos;
   isAlterar: Boolean = false;
@@ -24,7 +24,7 @@ export class CadastrarQuestoesComponent implements OnInit {
     private activatedRoute: ActivatedRoute,
     private messageService: MessageService
   ) {
-    this.questao = new Questao(null, '', '', 0, 0, [], [], '');
+    this.questao = new QuestaoProgramacao(null, '', '', 0, 0, [], [], '');
   }
 
   ngOnInit() {
@@ -71,9 +71,7 @@ export class CadastrarQuestoesComponent implements OnInit {
 
   cadastrar() {
     this.questao.sequencia =
-      this.questao.sequencia != 0
-        ? this.questao.sequencia
-        : this.assunto.questoesFechadas.length + this.assunto.questoesProgramacao.length + 1;
+      this.questao.sequencia !== 0 ? this.questao.sequencia : this.assunto.getUltimaSequencia();
 
     if (typeof this.questao.algoritmoInicial === 'string') {
       this.questao.algoritmoInicial = this.questao.algoritmoInicial.split('\n');

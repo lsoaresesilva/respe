@@ -1,16 +1,15 @@
-import { Assunto } from './assunto';
-import { Document, Collection, ignore } from './firestore/document';
+import { Assunto } from '../assunto';
+import { Document, Collection, ignore } from '../firestore/document';
 import { Observable, forkJoin } from 'rxjs';
-import { Dificuldade } from './enums/dificuldade';
-import TestCase from './testCase';
+import { Dificuldade } from '../enums/dificuldade';
+import TestCase from '../testCase';
 
-import Submissao from './submissao';
-import Usuario from './usuario';
-import { Util } from './util';
-import { ErroCompilacao } from './errors/analise-compilacao/erroCompilacao';
+import Submissao from '../submissao';
+import Usuario from '../usuario';
+import { Util } from '../util';
+import { ErroCompilacao } from '../errors/analise-compilacao/erroCompilacao';
 
-@Collection('questoes')
-export class Questao {
+export class QuestaoProgramacao {
   constructor(
     public id,
     nomeCurto,
@@ -79,7 +78,7 @@ export class Questao {
         const consultas = {};
 
         questoes.forEach((questao) => {
-          consultas[questao.id] = Questao.isFinalizada(questao, estudante);
+          consultas[questao.id] = QuestaoProgramacao.isFinalizada(questao, estudante);
         });
 
         forkJoin(consultas).subscribe((questoesFinalizadas) => {
@@ -104,7 +103,7 @@ export class Questao {
    * @param testsCases
    */
   static construir(questoes: any[], assunto) {
-    const objetosQuestoes: Questao[] = [];
+    const objetosQuestoes: QuestaoProgramacao[] = [];
 
     if (questoes != null) {
       questoes.forEach((questao, index) => {
@@ -124,7 +123,7 @@ export class Questao {
         questao.testsCases = TestCase.construir(questao.testsCases);
 
         objetosQuestoes.push(
-          new Questao(
+          new QuestaoProgramacao(
             questao.id,
             questao.nomeCurto,
             questao.enunciado,

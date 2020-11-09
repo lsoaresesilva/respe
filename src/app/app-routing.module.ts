@@ -55,6 +55,7 @@ import { RankingComponent } from './gamification/ranking/ranking.component';
 import { ListarAssuntosAdminComponent } from './admin/listar-assuntos-admin/listar-assuntos-admin.component';
 import { VisualizarAssuntoAdminComponent } from './admin/visualizar-assunto-admin/visualizar-assunto-admin.component';
 import { AnalyticsTurmaComponent } from './analytics-module/analytics-turma/analytics-turma.component';
+import { CadastrarParsonComponent } from './parson-problem/cadastrar-parson/cadastrar-parson.component';
 
 const routes: Routes = [
   {
@@ -106,6 +107,41 @@ const routes: Routes = [
         outlet: 'principal',
       },
 
+      /* JUIZ */
+
+      {
+        path: 'cadastro-questao/:assuntoId/:questaoId',
+        component: CadastrarQuestoesComponent,
+        canActivate: [AuthGuard, AdminGuard],
+        outlet: 'principal',
+      },
+      {
+        path: 'cadastro-questao-fechada/:assuntoId',
+        component: CadastrarQuestoesFechadasComponent,
+        canActivate: [AuthGuard, AdminGuard],
+        outlet: 'principal',
+      },
+
+      {
+        path: 'cadastro-questao-parson/:assuntoId',
+        component: CadastrarParsonComponent,
+        canActivate: [AuthGuard, AdminGuard],
+        outlet: 'principal',
+      },
+      {
+        path: 'visualizar-questao-parson/:assuntoId/:questaoId',
+        component: VisualizarParsonComponent,
+        canActivate: [AuthGuard],
+        outlet: 'principal',
+      },
+
+      {
+        path: 'cadastro-questao-parson/:assuntoId/:questaoId',
+        component: CadastrarParsonComponent,
+        canActivate: [AuthGuard, AdminGuard],
+        outlet: 'principal',
+      },
+
       /** SRL */
 
       /** Monitoramento */
@@ -153,18 +189,6 @@ const routes: Routes = [
         component: CadastrarQuestoesComponent,
         canActivate: [AuthGuard, AdminGuard],
         canLoad: [AuthGuard, AdminGuard],
-        outlet: 'principal',
-      },
-      {
-        path: 'cadastro-questao/:assuntoId/:questaoId',
-        component: CadastrarQuestoesComponent,
-        canActivate: [AuthGuard, AdminGuard],
-        outlet: 'principal',
-      },
-      {
-        path: 'cadastro-questao-fechada/:assuntoId',
-        component: CadastrarQuestoesFechadasComponent,
-        canActivate: [AuthGuard, AdminGuard],
         outlet: 'principal',
       },
 

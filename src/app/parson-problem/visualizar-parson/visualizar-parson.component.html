@@ -1,40 +1,10 @@
-<!-- <div class="p-grid">
-  <div class="p-col-4">
-    <div
-      class="card"
-      pDraggable="dd"
-      *ngFor="let segmento of parson.segmentos"
-      (onDragStart)="dragStart($event, segmento)"
-      (onDragEnd)="dragEnd($event)"
-    >
-      {{ segmento.conteudo }}
-    </div>
-  </div>
-  <div class="p-col-8">
-    <p-orderList
-      class="drop-column"
-      pDroppable="dd"
-      [value]="parson.algoritmo"
-      dragdrop="true"
-      (onDrop)="drop($event)"
-      (onReorder)="reorder($event)"
-    >
-      <ng-template let-segmento pTemplate="item">
-        <div class="card">
-          {{ segmento.conteudo }}
-        </div>
-      </ng-template>
-    </p-orderList>
-  </div>
-
-</div>
- -->
+<p-toast></p-toast>
 
 <div class="p-grid">
   <div class="p-col-4">
     <button
       pButton
-      label="Enviar"
+      label="Enviar resposta"
       type="button"
       class="p-button-primary"
       (click)="enviar()"
@@ -46,12 +16,12 @@
   <div
     cdkDropList
     #listOne="cdkDropList"
-    [cdkDropListData]="parson.segmentos"
+    [cdkDropListData]="questao?.segmentos"
     [cdkDropListConnectedTo]="[listTwo]"
     class="list-vertical"
     (cdkDropListDropped)="drop($event)"
   >
-    <div class="example-box" *ngFor="let segmento of parson.segmentos" cdkDrag>
+    <div class="example-box" *ngFor="let segmento of questao?.segmentos" cdkDrag>
       {{ segmento.conteudo }}
     </div>
   </div>
@@ -61,13 +31,13 @@
   <div
     cdkDropList
     #listTwo="cdkDropList"
-    [cdkDropListData]="parson.algoritmo"
+    [cdkDropListData]="respostaQuestaoFechada?.algoritmo"
     [cdkDropListConnectedTo]="[listOne]"
-    [ngClass]="parson.orientacao == 'horizontal' ? 'list-horizontal' : 'list-vertical'"
+    [ngClass]="questao?.orientacao == 'horizontal' ? 'list-horizontal' : 'list-vertical'"
     (cdkDropListDropped)="drop($event)"
-    [cdkDropListOrientation]="parson.orientacao"
+    [cdkDropListOrientation]="questao?.orientacao"
   >
-    <div class="example-box" *ngFor="let segmento of parson.algoritmo" cdkDrag>
+    <div class="example-box" *ngFor="let segmento of respostaQuestaoFechada?.algoritmo" cdkDrag>
       {{ segmento.conteudo }}
     </div>
   </div>

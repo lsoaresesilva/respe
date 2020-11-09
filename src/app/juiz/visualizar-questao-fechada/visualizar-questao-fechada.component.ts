@@ -1,5 +1,4 @@
 import { Component, OnInit, Input } from '@angular/core';
-import QuestaoFechada from 'src/app/model/questaoFechada';
 import { Router, ActivatedRoute } from '@angular/router';
 import { Assunto } from 'src/app/model/assunto';
 import { LoginService } from '../../login-module/login.service';
@@ -12,6 +11,7 @@ import VisualizacaoQuestao from 'src/app/model/analytics/visualizacaoQuestao';
 import PontuacaoQuestaoFechada from 'src/app/model/gamification/pontuacaoQuestaoFechada';
 import Gamification from 'src/app/model/gamification/gamification';
 import { GamificationFacade } from 'src/app/gamification/gamification.service';
+import QuestaoFechada from 'src/app/model/questoes/questaoFechada';
 
 @Component({
   selector: 'app-visualizar-questao-fechada',
@@ -20,9 +20,9 @@ import { GamificationFacade } from 'src/app/gamification/gamification.service';
 })
 export class VisualizarQuestaoFechadaComponent implements OnInit {
   @Input()
-  questao:QuestaoFechada;
+  questao: QuestaoFechada;
 
-  respostaQuestaoFechada:RespostaQuestaoFechada; 
+  respostaQuestaoFechada: RespostaQuestaoFechada;
   mostrar;
   assunto;
 
@@ -35,14 +35,14 @@ export class VisualizarQuestaoFechadaComponent implements OnInit {
     private login: LoginService,
     private messageService: MessageService,
     private confirmationService: ConfirmationService,
-    private gamification:GamificationFacade
+    private gamification: GamificationFacade
   ) {
-     this.respostaQuestaoFechada = new RespostaQuestaoFechada(
+    this.respostaQuestaoFechada = new RespostaQuestaoFechada(
       null,
       this.login.getUsuarioLogado(),
       new Alternativa(null, null, null),
       this.questao
-    ); 
+    );
   }
 
   /* selecionarAlternativa(alternativa) {
@@ -58,7 +58,6 @@ export class VisualizarQuestaoFechadaComponent implements OnInit {
         )
         .replace(new RegExp("'''", 'g'), '</code></pre>');
       return this.sanitizer.bypassSecurityTrustHtml(texto);
-      
     }
   }
 
@@ -75,9 +74,8 @@ export class VisualizarQuestaoFechadaComponent implements OnInit {
             ) {
               this.questao = assunto['getQuestaoFechadaById'](params['questaoId']);
 
-
               RespostaQuestaoFechada.getRespostaQuestaoEstudante(this.questao, usuario).subscribe(
-                (respostaUsuario:RespostaQuestaoFechada) => {
+                (respostaUsuario: RespostaQuestaoFechada) => {
                   if (respostaUsuario != null) {
                     this.respostaQuestaoFechada = respostaUsuario;
                     this.mostrar = true;
@@ -125,9 +123,13 @@ export class VisualizarQuestaoFechadaComponent implements OnInit {
     //this.respostaQuestaoFechada.alternativa.id = this.alternativaEscolhida;
     this.respostaQuestaoFechada.save().subscribe((resultado) => {
       this.mostrar = true;
-      if(this.respostaQuestaoFechada.isCorreta()){
+      if (this.respostaQuestaoFechada.isCorreta()) {
         /* Gamification.aumentarPontuacao(this.login.getUsuarioLogado(), this.questao, new PontuacaoQuestaoFechada()); */
-        this.gamification.aumentarPontuacao(this.login.getUsuarioLogado(), this.questao, new PontuacaoQuestaoFechada());
+        this.gamification.aumentarPontuacao(
+          this.login.getUsuarioLogado(),
+          this.questao,
+          new PontuacaoQuestaoFechada()
+        );
         this.messageService.add({
           severity: 'success',
           summary: 'Parabéns!',

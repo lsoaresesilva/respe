@@ -1,4 +1,4 @@
-import { Questao } from './questao';
+import { QuestaoProgramacao } from './questoes/questaoProgramacao';
 import { Document, Collection, date, ignore } from './firestore/document';
 import Erro from './errors/erro';
 import { Observable, forkJoin } from 'rxjs';
@@ -21,7 +21,7 @@ export default class Submissao extends Document {
   @date()
   data;
   estudante: Usuario;
-  questao: Questao;
+  questao: QuestaoProgramacao;
   erro;
   resultadosTestsCases: ResultadoTestCase[];
   @ignore()
@@ -32,7 +32,7 @@ export default class Submissao extends Document {
    * @param questao
    */
   static getSubmissoesRecentesTodosUsuarios(
-    questao: Questao,
+    questao: QuestaoProgramacao,
     usuarioLogado: Usuario
   ): Observable<any[]> {
     return new Observable((observer) => {
@@ -196,7 +196,7 @@ export default class Submissao extends Document {
   /**
    * Recupera a submissão mais recente de um estudante para uma questão.
    */
-  static getRecentePorQuestao(questao: Questao, estudante: Usuario) {
+  static getRecentePorQuestao(questao: QuestaoProgramacao, estudante: Usuario) {
     return new Observable((observer) => {
       this.getPorQuestao(questao, estudante).subscribe((submissoes) => {
         const submissaoRecente = this.filtrarRecente(submissoes);
@@ -210,7 +210,7 @@ export default class Submissao extends Document {
   /**
    * Recupera as submissões para uma questão.
    */
-  static getPorQuestao(questao: Questao, estudante: Usuario): Observable<any[]> {
+  static getPorQuestao(questao: QuestaoProgramacao, estudante: Usuario): Observable<any[]> {
     return new Observable((observer) => {
       if (
         questao == null ||
@@ -324,7 +324,7 @@ export default class Submissao extends Document {
   /**
    * Constrói o JSON que será enviado ao backend.
    */
-  construirJson(questao: Questao, tipo) {
+  construirJson(questao: QuestaoProgramacao, tipo) {
     const json = {};
     json['submissao'] = this.toJson();
     json['tipo'] = tipo;

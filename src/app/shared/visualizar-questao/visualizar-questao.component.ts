@@ -1,7 +1,7 @@
 import { Component, OnInit, Input } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { MessageService, MenuItem } from 'primeng/api';
-import { Questao } from 'src/app/model/questao';
+import { QuestaoProgramacao } from 'src/app/model/questoes/questaoProgramacao';
 import { Assunto } from 'src/app/model/assunto';
 import { LoginService } from 'src/app/login-module/login.service';
 import { Groups } from 'src/app/model/experimento/groups';
@@ -21,7 +21,7 @@ export class VisualizarQuestaoComponent implements OnInit {
     private router: Router,
     private loginService: LoginService
   ) {
-    this.questao = new Questao(null, null, null, null, null, [], [], '');
+    this.questao = new QuestaoProgramacao(null, null, null, null, null, [], [], '');
   }
 
   ngOnInit() {
@@ -71,7 +71,7 @@ export class VisualizarQuestaoComponent implements OnInit {
       { outlets: { principal: ['self-instruction', this.assunto.pk(), questao.id] } },
     ]);
   }
-  alterarQuestao(questao: Questao) {
+  alterarQuestao(questao: QuestaoProgramacao) {
     if (questao != undefined) {
       this.router.navigate([
         'main',

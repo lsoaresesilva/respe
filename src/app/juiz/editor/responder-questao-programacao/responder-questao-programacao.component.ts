@@ -25,7 +25,7 @@ import ConsoleEditor from 'src/app/model/consoleEditor';
 import ErroServidor from 'src/app/model/errors/erroServidor';
 import { ApresentacaoService } from 'src/app/geral-module/apresentacao.service';
 import { Observable } from 'rxjs';
-import { Questao } from 'src/app/model/questao';
+import { QuestaoProgramacao } from 'src/app/model/questoes/questaoProgramacao';
 import Usuario from 'src/app/model/usuario';
 import PontuacaoQuestaoProgramacao from 'src/app/model/gamification/pontuacaoQuestaoProgramacao';
 import Gamification from 'src/app/model/gamification/gamification';
@@ -44,16 +44,16 @@ export class ResponderQuestaoProgramacao implements OnInit, AfterViewInit {
   consoleEditor: ConsoleEditor;
 
   pausaIde;
-  questao?: Questao;
+  questao?: QuestaoProgramacao;
   statusExecucao;
   modoVisualizacao: boolean = false;
-  submissao:Submissao;
+  submissao: Submissao;
   dialogPedirAjuda: boolean = false;
   duvida: string = '';
 
   observableQuestao: Observable<any>;
 
-  usuario:Usuario;
+  usuario: Usuario;
 
   // TODO: mover para um componente próprio
   traceExecucao;
@@ -63,7 +63,7 @@ export class ResponderQuestaoProgramacao implements OnInit, AfterViewInit {
     public login: LoginService,
     private router: Router,
     private apresentacao: ApresentacaoService,
-    private gamification:GamificationFacade
+    private gamification: GamificationFacade
   ) {
     this.pausaIde = true;
     this.statusExecucao = '';
@@ -84,7 +84,6 @@ export class ResponderQuestaoProgramacao implements OnInit, AfterViewInit {
   ngAfterViewInit(): void {}
 
   ngOnInit() {
-
     this.usuario = this.login.getUsuarioLogado();
     if (this.usuario == null) {
       throw new Error('Não é possível executar o código, pois você não está logado.'); // TODO: mudar para o message
@@ -104,15 +103,14 @@ export class ResponderQuestaoProgramacao implements OnInit, AfterViewInit {
                 this.questao = questao;
 
                 if (this.usuario != null) {
-                  Submissao.getRecentePorQuestao(
-                    this.questao,
-                    this.usuario
-                  ).subscribe((submissao:Submissao) => {
-                    if (submissao != null) this.submissao = submissao;
-                    //this.pausaIde = false;
+                  Submissao.getRecentePorQuestao(this.questao, this.usuario).subscribe(
+                    (submissao: Submissao) => {
+                      if (submissao != null) this.submissao = submissao;
+                      //this.pausaIde = false;
 
-                    this.atualizarCardErros();
-                  });
+                      this.atualizarCardErros();
+                    }
+                  );
                 }
               }
             });
@@ -128,8 +126,6 @@ export class ResponderQuestaoProgramacao implements OnInit, AfterViewInit {
         throw new Error('Não é possível iniciar o editor sem uma questão.');
       }
     });
-
-    
 
     //this.salvarAutomaticamente(); # desabilitado temporariamente por questões de performance.
   }
@@ -151,11 +147,14 @@ export class ResponderQuestaoProgramacao implements OnInit, AfterViewInit {
     this.submissao = this.prepararSubmissao(submissao);
     this.consoleEditor.erroServidor = null;
     this.consoleEditor.submissao = this.submissao;
-    if(this.submissao.isFinalizada()){
+    if (this.submissao.isFinalizada()) {
       /* Gamification.aumentarPontuacao(this.login.getUsuarioLogado(), this.questao, new PontuacaoQuestaoProgramacao()); */
-        this.gamification.aumentarPontuacao(this.login.getUsuarioLogado(), this.questao, new PontuacaoQuestaoProgramacao());
+      this.gamification.aumentarPontuacao(
+        this.login.getUsuarioLogado(),
+        this.questao,
+        new PontuacaoQuestaoProgramacao()
+      );
     }
-    
   }
 
   onServidorError(erroServidor) {

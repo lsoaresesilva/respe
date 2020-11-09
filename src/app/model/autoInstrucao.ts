@@ -1,6 +1,6 @@
 import Usuario from './usuario';
 import { Document, Collection } from './firestore/document';
-import { Questao } from './questao';
+import { QuestaoProgramacao } from './questoes/questaoProgramacao';
 import { Observable } from 'rxjs';
 import Query from './firestore/query';
 import { Assuntos } from './enums/assuntos';
@@ -29,7 +29,7 @@ export class AutoInstrucao extends Document {
     this.vetores = vetores;
   }
   estudante: Usuario;
-  questao: Questao;
+  questao: QuestaoProgramacao;
   problema;
   variaveis;
   condicoes;
