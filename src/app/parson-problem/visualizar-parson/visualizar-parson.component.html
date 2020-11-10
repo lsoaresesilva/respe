@@ -8,6 +8,7 @@
       type="button"
       class="p-button-primary"
       (click)="enviar()"
+      [disabled]="respostaQuestaoFechada.pk() != undefined"
     ></button>
   </div>
 </div>

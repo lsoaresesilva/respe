@@ -37,6 +37,7 @@ export default class QuestaoParsonProblem extends Questao {
             questao.nomeCurto,
             questao.sequencia,
             questao.dificuldade,
+            questao.respostaCorreta,
             questao.segmentos,
             questao.algoritmoInicial,
             questao.sequenciaCorreta,

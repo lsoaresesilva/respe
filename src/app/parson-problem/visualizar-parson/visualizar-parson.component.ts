@@ -21,7 +21,11 @@ export class VisualizarParsonComponent implements OnInit {
   assunto: Assunto;
   segmentoSelecionado;
 
-  constructor(private route: ActivatedRoute, private login: LoginService) {}
+  constructor(
+    private route: ActivatedRoute,
+    private login: LoginService,
+    private messageService: MessageService
+  ) {}
 
   ngOnInit(): void {
     this.route.params.subscribe((params) => {
@@ -70,7 +74,7 @@ export class VisualizarParsonComponent implements OnInit {
   }
 
   enviar() {
-    /* this.respostaQuestaoFechada.save().subscribe((resposta) => {
+    this.respostaQuestaoFechada.save().subscribe((resposta) => {
       if (this.questao.isSequenciaCorreta(this.respostaQuestaoFechada)) {
         this.messageService.add({
           severity: 'success',
@@ -84,6 +88,6 @@ export class VisualizarParsonComponent implements OnInit {
           detail: 'Resposta incorreta!',
         });
       }
-    }); */
+    });
   }
 }

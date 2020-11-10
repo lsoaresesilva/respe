@@ -38,6 +38,7 @@ export default abstract class Questao {
     document['enunciado'] = this.enunciado;
     document['dificuldade'] = this.dificuldade;
     document['sequencia'] = this.sequencia;
+    document['respostaCorreta'] = this.respostaCorreta != null ? this.respostaCorreta : '';
 
     return document;
   }
