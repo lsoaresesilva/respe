@@ -80,7 +80,7 @@ export default class QuestaoFechada {
   static verificarQuestoesRespondidas(estudante, questoes) {
     return new Observable((observer) => {
       if (Array.isArray(questoes) && questoes.length > 0) {
-        RespostaQuestaoFechada.getAll(new Query('usuarioId', '==', estudante.pk())).subscribe(
+        RespostaQuestaoFechada.getAll(new Query('estudanteId', '==', estudante.pk())).subscribe(
           (respostas) => {
             questoes.forEach((questao) => {
               respostas.forEach((resposta) => {

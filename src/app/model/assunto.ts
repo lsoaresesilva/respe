@@ -251,10 +251,6 @@ export class Assunto extends Document {
         if (questoes[i].dificuldade === undefined) {
           questoes[i].dificuldade = 1;
         }
-
-        if (questoes[i].respostaUsuario === undefined) {
-          questoes[i].respostaQuestao = '';
-        }
       }
     }
 

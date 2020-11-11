@@ -116,10 +116,9 @@ export default class QuestaoParsonProblem extends Questao {
       return segmento;
     });
 
-    let contadorAlgoritmoInicial = 1;
     this.algoritmoInicial = this.algoritmoInicial.map((algoritmo) => {
-      algoritmo = new SegmentoParson(null, algoritmo, contadorAlgoritmoInicial);
-      contadorAlgoritmoInicial += 1;
+      algoritmo = new SegmentoParson(null, algoritmo, contadorSegmentos);
+      contadorSegmentos += 1;
       return algoritmo;
     });
   }
