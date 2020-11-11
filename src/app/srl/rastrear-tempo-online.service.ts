@@ -13,9 +13,11 @@ export class RastrearTempoOnlineService {
 
   constructor() {
     this.gerenciarTimer();
+    this.iniciarTimer(this.usuarioLogado);
   }
 
   iniciarTimer(usuarioLogado) {
+    console.log('iniciou');
     if (usuarioLogado != null) {
       this.usuarioLogado = usuarioLogado;
       TimeMe.initialize({
@@ -30,6 +32,7 @@ export class RastrearTempoOnlineService {
 
     TimeMe.callWhenUserLeaves(function () {
       console.log('The user is not currently viewing the page!');
+      console.log(TimeMe.getTimeOnPageInSeconds('32bits'));
       const tempoConectado = new TempoOnline(
         null,
         TimeMe.getTimeOnPageInSeconds('32bits'),
@@ -41,7 +44,6 @@ export class RastrearTempoOnlineService {
     TimeMe.callWhenUserReturns(function () {
       console.log('The user has come back!');
       TimeMe.resetRecordedPageTime('32bits');
-      _this.iniciarTimer(_this.usuarioLogado);
     });
   }
 }
