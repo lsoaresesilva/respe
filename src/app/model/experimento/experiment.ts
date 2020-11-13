@@ -40,7 +40,7 @@ export default class Experiment {
   static assignToGroup(
     categories: Map<ConhecimentoProgramacao, Map<Groups, number>>,
     userCategory: ConhecimentoProgramacao
-  ) {
+  ): Groups {
     /* Verificar a classe ao qual o usuário pertence */
     /* Verificar qual grupo possui menos daquela categoria. Se for igual, joga aleatoriamente para um deles */
     const categoryNumbers = categories.get(userCategory);
@@ -88,7 +88,9 @@ export default class Experiment {
     }
   }
 
-  static construirCategoriasAlunos(estudantes: Usuario[]) {
+  static construirCategoriasAlunos(
+    estudantes: Usuario[]
+  ): Map<ConhecimentoProgramacao, Map<Groups, number>> {
     const categorias: Map<ConhecimentoProgramacao, Map<Groups, number>> = new Map();
 
     categorias.set(ConhecimentoProgramacao.nenhum, new Map<Groups, number>());
