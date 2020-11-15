@@ -28,8 +28,8 @@ declare function carregarIde(readOnly, callback, instance, callbackOnEditorLoad,
   styleUrls: ['./editor-programacao.component.css'],
 })
 export class EditorProgramacaoComponent implements AfterViewInit, OnChanges {
-  //URL = "http://35.208.64.26:8000/";
-  URL = 'http://localhost:8000/';
+  URL = "http://35.208.64.26:8000/";
+  //URL = 'http://localhost:8000/';
 
   processandoSubmissao;
 
