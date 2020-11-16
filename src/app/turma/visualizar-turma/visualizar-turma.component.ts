@@ -1,7 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import Turma from 'src/app/model/turma';
-import EstudanteTurma from 'src/app/model/estudanteTurma';
 import { LoginService } from 'src/app/login-module/login.service';
 import Query from 'src/app/model/firestore/query';
 import { Observable } from 'rxjs';

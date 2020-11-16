@@ -1,29 +1,21 @@
 import { Component, OnInit } from '@angular/core';
 import { MenuItem } from 'primeng/api';
 import { Router } from '@angular/router';
-
-import EstudanteTurma from 'src/app/model/estudanteTurma';
-import Query from 'src/app/model/firestore/query';
-import Turma from 'src/app/model/turma';
 import { LoginService } from 'src/app/login-module/login.service';
 
 @Component({
   selector: 'app-menu-estudante',
   templateUrl: './menu-estudante.component.html',
-  styleUrls: ['./menu-estudante.component.css']
+  styleUrls: ['./menu-estudante.component.css'],
 })
 export class MenuEstudanteComponent implements OnInit {
   private usuario;
   private estudanteTurma;
   turmaId;
 
-
   items: MenuItem[];
   constructor(private router: Router, private login: LoginService) {
     this.usuario = login.getUsuarioLogado();
-
-
-
   }
 
   ngOnInit() {
@@ -34,31 +26,37 @@ export class MenuEstudanteComponent implements OnInit {
     this.items = [
       {
         label: 'Planejamentos',
-        command: () => { this.router.navigate(["main", { outlets: { principal: ['listagem-planejamento'] } }]) },
-        id: 'planejamentoMenu'
+        command: () => {
+          this.router.navigate(['main', { outlets: { principal: ['listagem-planejamento'] } }]);
+        },
+        id: 'planejamentoMenu',
       },
       {
         label: 'Minha turma',
-        command: () => { this.router.navigate(["main", { outlets: { principal: ['minha-turma'] } }]) },
-
+        command: () => {
+          this.router.navigate(['main', { outlets: { principal: ['minha-turma'] } }]);
+        },
       },
       {
         label: 'Meu desempenho',
-        command: () => { this.router.navigate(["main", { outlets: { principal: ['meu-desempenho'] } }]) },
+        command: () => {
+          this.router.navigate(['main', { outlets: { principal: ['meu-desempenho'] } }]);
+        },
         id: 'meuDesempenhoMenu',
       },
       {
         label: 'Sair',
-        command: () => { this.logout() },
+        command: () => {
+          this.logout();
+        },
         id: 'sairMenu',
-      }
+      },
     ];
   }
 
   logout() {
     if (this.login.logout()) {
-      return this.router.navigate([""])
+      return this.router.navigate(['']);
     }
   }
 }
-

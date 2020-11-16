@@ -5,10 +5,7 @@ import { PerfilUsuario } from './enums/perfilUsuario';
 import { sha256 } from 'js-sha256';
 import Experiment from './experimento/experiment';
 import { Groups } from './experimento/groups';
-import EstudanteTurma from './estudanteTurma';
 import Turma from './turma';
-import { ConexaoRepetirError } from './errors/conexaoRepetir';
-import Gamification from './gamification/gamification';
 
 @Collection('usuarios')
 export default class Usuario extends Document {

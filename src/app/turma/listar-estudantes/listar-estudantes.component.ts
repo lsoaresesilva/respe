@@ -5,7 +5,6 @@ import { Router, ActivatedRoute } from '@angular/router';
 import Usuario from 'src/app/model/usuario';
 import Query from 'src/app/model/firestore/query';
 import { PerfilUsuario } from 'src/app/model/enums/perfilUsuario';
-import EstudanteTurma from 'src/app/model/estudanteTurma';
 import Turma from 'src/app/model/turma';
 
 @Component({
