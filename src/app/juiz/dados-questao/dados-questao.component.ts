@@ -39,4 +39,17 @@ export class DadosQuestaoComponent implements AfterViewInit {
   ngAfterViewInit() {
     this.apresentacao.apresentarEditor(this.login.getUsuarioLogado());
   }
+
+  apresentarSaidas(saida) {
+    if (Array.isArray(saida)) {
+      let retorno = '';
+      saida.forEach(function (valor) {
+        retorno += valor + '</br>';
+      });
+
+      return retorno;
+    }
+
+    return saida;
+  }
 }

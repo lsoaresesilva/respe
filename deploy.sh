@@ -1,7 +1,7 @@
 #!/bin/bash
 
 rm -rf dist/letscode
-rm -rf /usr/share/nginx/html/letscode
+rm -rf ~/www/32bits
 git pull origin master
 node --max_old_space_size=8192 node_modules/@angular/cli/bin/ng build --prod
-cp -rf dist/letscode ~/usr/share/nginx/html
+cp -rf dist/letscode ~/www
