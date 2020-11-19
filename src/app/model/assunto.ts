@@ -8,6 +8,7 @@ import { RespostaQuestaoFechada } from './respostaQuestaoFechada';
 import { Assuntos } from './enums/assuntos';
 import QuestaoFechada from './questoes/questaoFechada';
 import QuestaoParsonProblem from './questoes/parsonProblem';
+import Query from './firestore/query';
 
 @Collection('assuntos')
 export class Assunto extends Document {
@@ -25,6 +26,8 @@ export class Assunto extends Document {
   questoesFechadas;
   questoesParson: any;
   objetivosEducacionais: [];
+  isAtivo;
+
   @ignore()
   percentualConclusao;
 
@@ -52,6 +55,23 @@ export class Assunto extends Document {
     }
 
     return null;
+  }
+
+  static getAll(query = null, orderBy = null): Observable<any[]> {
+    if (query != null) {
+      if (Array.isArray(query)) {
+        query.push(new Query('isAtivo', '==', true));
+      } else {
+        let q = [];
+        q.push(query);
+        q.push(new Query('isAtivo', '==', true));
+        query = q;
+      }
+    } else {
+      query = new Query('isAtivo', '==', true);
+    }
+
+    return super.getAll(query);
   }
 
   static get(id) {
