@@ -14,6 +14,7 @@ import Editor from 'src/app/model/editor';
 import { LoginService } from 'src/app/login-module/login.service';
 
 import { catchError, retry, timeout } from 'rxjs/operators';
+import { environment } from 'src/environments/environment';
 
 /**
  * Executa um javascript ide.js para acoplar o editor VStudio.
@@ -28,8 +29,7 @@ declare function carregarIde(readOnly, callback, instance, callbackOnEditorLoad,
   styleUrls: ['./editor-programacao.component.css'],
 })
 export class EditorProgramacaoComponent implements AfterViewInit, OnChanges {
-  URL = 'http://35.208.64.26:8000/';
-  //URL = 'http://localhost:8000/';
+  URL = environment.URL;
 
   processandoSubmissao;
 
