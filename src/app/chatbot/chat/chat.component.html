@@ -7,13 +7,8 @@
   position="bottom-right"
 >
   <div style="height: '9vw'">
-    <div
-      *ngFor="let mensagem of mensagens"
-      class="msg"
-      style="background-color: geradorCores(mensagem.usuario)"
-    >
-      <span class="left">{{ mensagem.usuario }}</span>
-      <span>{{ mensagem.texto }}</span>
+    <div *ngFor="let mensagem of chatbot.mensagens" class="msg">
+      <span>{{ mensagem }}</span>
       <br />
     </div>
   </div>

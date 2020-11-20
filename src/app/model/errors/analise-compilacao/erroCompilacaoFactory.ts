@@ -7,55 +7,51 @@ import { CategoriaErro } from '../enum/categoriasErro';
 import IndentationError from './indentationError';
 import DefaultError from './defaultError';
 
-export default class ErroCompilacaoFactory{
+export default class ErroCompilacaoFactory {
+  public static construir(traceback) {
+    let objeto;
 
-    public static construir(traceback){
-
-        let objeto;
-
-        switch(ErroCompilacao.getCategoria(traceback)){
-            case CategoriaErro.nameError:
-                objeto = new NameError(null, traceback);
-                break;
-            case CategoriaErro.syntaxError:
-                objeto = new SyntaxError(null, traceback);
-                break;
-            case CategoriaErro.typeError:
-                objeto = new TypeError(null, traceback);
-                break;
-            case CategoriaErro.indentationError:
-                objeto = new IndentationError(null, traceback);
-                break;
-            default: // TODO: erro genérico
-                objeto = new DefaultError(null, traceback);
-                break;
-
-        }
-
-        return objeto;
+    switch (ErroCompilacao.getCategoria(traceback)) {
+      case CategoriaErro.nameError:
+        objeto = new NameError(null, traceback);
+        break;
+      case CategoriaErro.syntaxError:
+        objeto = new SyntaxError(null, traceback);
+        break;
+      case CategoriaErro.typeError:
+        objeto = new TypeError(null, traceback);
+        break;
+      case CategoriaErro.identationError:
+        objeto = new IndentationError(null, traceback);
+        break;
+      default:
+        // TODO: erro genérico
+        objeto = new DefaultError(null, traceback);
+        break;
     }
 
-    /**
-     * Constrói um erro de compilação a partir do dado que foi persistido no banco de dados.
-     * @param traceback 
-     * @param submissao 
-     */
-    public static construirPorDocument(document){
-        if(this.isDocumentErroCompilacaoValido(document)){
-            let erro = this.construir(document["traceback"]);
-            erro.data = document["data"]
-            return erro;
-        }
+    return objeto;
+  }
 
-        return null;
+  /**
+   * Constrói um erro de compilação a partir do dado que foi persistido no banco de dados.
+   * @param traceback
+   * @param submissao
+   */
+  public static construirPorDocument(document) {
+    if (this.isDocumentErroCompilacaoValido(document)) {
+      let erro = this.construir(document['traceback']);
+      erro.data = document['data'];
+      return erro;
     }
 
-    
+    return null;
+  }
 
-    public static isDocumentErroCompilacaoValido(document){
-        if(document != null && document["traceback"] != null && document["traceback"] != "")
-            return true;
+  public static isDocumentErroCompilacaoValido(document) {
+    if (document != null && document['traceback'] != null && document['traceback'] != '')
+      return true;
 
-        return false;
-    }
+    return false;
+  }
 }

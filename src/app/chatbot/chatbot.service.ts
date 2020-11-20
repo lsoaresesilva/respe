@@ -5,8 +5,8 @@ import Observavel from '../model/chatbot/observavel';
 @Injectable({
   providedIn: 'root',
 })
-export class ChatbotService implements Observavel {
-  observadores: Observador[];
+export class ChatbotService {
+  /* observadores: Observador[];
 
   constructor() {
     this.observadores = [];
@@ -20,5 +20,15 @@ export class ChatbotService implements Observavel {
     this.observadores.forEach((observador) => {
       observador.receberNotificacao();
     });
+  } */
+
+  mensagens: any[];
+
+  constructor() {
+    this.mensagens = [];
+  }
+
+  enviarMensagem(mensagem) {
+    this.mensagens.push(mensagem);
   }
 }

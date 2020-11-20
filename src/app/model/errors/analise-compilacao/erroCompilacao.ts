@@ -2,7 +2,7 @@ import { CategoriaErro, getCategoriaPorInstancia } from '../enum/categoriasErro'
 import { Util } from '../../util';
 
 import * as firebase from 'firebase';
-import HistogramaErroData from './frequenciaErro';
+import FrequenciaErro from './frequenciaErro';
 import { getLabelPorCategoriaNumero } from '../enum/labelCategoriasErro';
 
 export abstract class ErroCompilacao {
@@ -62,51 +62,12 @@ export abstract class ErroCompilacao {
         } else if (consulta[1] == 'TypeError') {
           return CategoriaErro.typeError;
         } else if (consulta[1] == 'IndentationError') {
-          return CategoriaErro.indentationError;
+          return CategoriaErro.identationError;
         }
       }
     }
 
     return null;
-  }
-
-  static calcularFrequencia(erros: ErroCompilacao[]) {
-    const frequencia = {};
-    erros.forEach((erro) => {
-      if (erro != null && erro instanceof ErroCompilacao) {
-        if (frequencia[getLabelPorCategoriaNumero(erro.categoria)] == null) {
-          frequencia[getLabelPorCategoriaNumero(erro.categoria)] = 1;
-        } else {
-          frequencia[getLabelPorCategoriaNumero(erro.categoria)] += 1;
-        }
-      }
-    });
-
-    return frequencia;
-  }
-
-  static calcularFrequenciaPorMes(erros) {
-    const resultados = [];
-    erros.forEach((erro) => {
-      if (erro != null && erro instanceof ErroCompilacao) {
-        const data = erro.data.toDate();
-        const mes = data.getMonth();
-
-        if (resultados[mes] == undefined) {
-          resultados[mes] = [];
-        }
-
-        if (resultados[mes][erro.categoria] == undefined) {
-          resultados[mes][erro.categoria] = new HistogramaErroData(erro.categoria);
-        }
-
-        if (resultados[mes][erro.categoria] instanceof HistogramaErroData) {
-          resultados[mes][erro.categoria].contagem += 1;
-        }
-      }
-    });
-
-    return resultados;
   }
 
   static getCorErro(categoria) {
@@ -125,7 +86,7 @@ export abstract class ErroCompilacao {
     switch (categoria) {
       case CategoriaErro.nameError:
         return '#FFBF00';
-      case CategoriaErro.indentationError:
+      case CategoriaErro.identationError:
         return '#80FF00';
       case CategoriaErro.syntaxError:
         return '#A9F5F2';
@@ -161,39 +122,4 @@ export abstract class ErroCompilacao {
   }
 
   abstract getMensagem();
-
-  abstract getMensagem();
-
-  /**
-     * Identifica o top 3 principais erros cometidos pelo estudante.
-
-    static rankErros(dados){
-        let ranking = {top1:{tipo:undefined, total:0}, top2:{tipo:undefined, total:0}, top3:{tipo:undefined, total:0}}
-        if( dados != undefined){
-
-            let top1 = {}
-            let top2 = {}
-            let top3 = {}
-
-            for (let key in dados) {
-                if(dados[key] != 0){
-                    if(ranking.top1.total < dados[key]){
-
-                        Erro.atualizarRank(ranking, "top1", {tipo:key, total:dados[key]})
-                    }else if(ranking.top2.total < dados[key]){
-
-                        Erro.atualizarRank(ranking, "top2", {tipo:key, total:dados[key]})
-                    }else if(ranking.top3.total < dados[key]){
-                        ranking.top3.total = dados[key];
-                        ranking.top3.tipo = TipoErro[key];
-                    }
-                }
-            }
-        }
-
-       return ranking;
-
-    }
-
-    */
 }
