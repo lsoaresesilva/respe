@@ -1,0 +1,27 @@
+{
+  "mensagens": {
+    "SyntaxError": {
+      "mensagens": [
+        "Olá, meu nome é Davi e sou o monitor do curso de programação.",
+        "Parece que você está cometendo alguns erros por escrever as instruções de programação de forma incorreta.",
+        ""
+      ]
+    },
+    "NameError": {
+      "mensagens": [
+        "Parece que você está cometendo alguns erros por escrever as instruções de programação de forma incorreta.",
+        ""
+      ]
+    },
+    "saudacao": {
+      "mensagens": ["Olá, meu nome é Davi e sou o seu monitor do curso de programação."]
+    },
+    "inicioAjuda": {
+      "mensagens": [
+        "Olá, parece que você está precisando de uma forcinha.",
+        "Posso ajudá-lo(a)?",
+        "Se precisar, digite sim."
+      ]
+    }
+  }
+}

@@ -30,6 +30,7 @@ import Usuario from 'src/app/model/usuario';
 import PontuacaoQuestaoProgramacao from 'src/app/model/gamification/pontuacaoQuestaoProgramacao';
 import Gamification from 'src/app/model/gamification/gamification';
 import { GamificationFacade } from 'src/app/gamification/gamification.service';
+import { MonitorService } from 'src/app/chatbot/monitor.service';
 
 @Component({
   selector: 'responder-questao-programacao',
@@ -63,7 +64,8 @@ export class ResponderQuestaoProgramacao implements OnInit, AfterViewInit {
     public login: LoginService,
     private router: Router,
     private apresentacao: ApresentacaoService,
-    private gamification: GamificationFacade
+    private gamification: GamificationFacade,
+    private monitor: MonitorService
   ) {
     this.pausaIde = true;
     this.statusExecucao = '';
@@ -131,7 +133,8 @@ export class ResponderQuestaoProgramacao implements OnInit, AfterViewInit {
   }
 
   atualizarCardErros() {
-    this.questao.getErrosEstudante(this.usuario).subscribe((erros) => {
+    Submissao.getPorQuestao(this.questao, this.usuario).subscribe((submissoes) => {
+      const erros = Submissao.getAllErros(submissoes);
       this.errosEstudante = erros;
     });
   }
@@ -141,6 +144,7 @@ export class ResponderQuestaoProgramacao implements OnInit, AfterViewInit {
     this.consoleEditor.erroServidor = null;
     this.consoleEditor.submissao = this.submissao;
     this.atualizarCardErros();
+    this.monitor.apresentarAjudaEstudanteErroSintaxe(this.questao, this.usuario);
   }
 
   onEditorSubmit(submissao) {

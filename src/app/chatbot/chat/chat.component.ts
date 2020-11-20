@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import Mensagem from 'src/app/model/chatbot/mensagem';
 import { ChatbotService } from '../chatbot.service';
 
 @Component({

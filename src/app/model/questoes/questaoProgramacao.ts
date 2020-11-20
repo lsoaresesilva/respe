@@ -213,16 +213,6 @@ export class QuestaoProgramacao {
     };
   }
 
-  getErrosEstudante(estudante) {
-    return new Observable((observer) => {
-      Submissao.getPorQuestao(this, estudante).subscribe((submissoes) => {
-        const erros = Submissao.getAllErros(submissoes);
-        observer.next(erros);
-        observer.complete();
-      });
-    });
-  }
-
   /*  buscarAssuntos(assuntoPrincipal): Observable<any[]> {
     return new Observable((observer) => {
       const consultaAssuntos = [];

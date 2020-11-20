@@ -1,15 +1,15 @@
-<Dialog
+oi
+<p-dialog
+  header="Title"
   header="Bate-papo"
-  footer="{footer}"
   visible="true"
-  style="width: '15vw'; max-height: '20vw'; height: '20vw'"
-  modal="false"
   position="bottom-right"
+  [style]="{ width: '15vw', maxHeight: '20vw', height: '20vw' }"
 >
   <div style="height: '9vw'">
     <div *ngFor="let mensagem of chatbot.mensagens" class="msg">
-      <span>{{ mensagem }}</span>
+      <span>{{ mensagem.texto }}</span>
       <br />
     </div>
   </div>
-</Dialog>
+</p-dialog>
