@@ -4,6 +4,7 @@ import HistogramaErroData from 'src/app/model/errors/analise-compilacao/frequenc
 import { getLabelPorCategoriaNumero } from 'src/app/model/errors/enum/labelCategoriasErro';
 import { ErroCompilacao } from 'src/app/model/errors/analise-compilacao/erroCompilacao';
 import { CategoriaErro } from 'src/app/model/errors/enum/categoriasErro';
+import FrequenciaErro from 'src/app/model/errors/analise-compilacao/frequenciaErro';
 
 @Component({
   selector: 'app-card-historico-erros',
@@ -42,7 +43,7 @@ export class CardHistoricoErrosComponent implements OnInit {
         ],
       },
     };
-    let frequenciaErrosPorMes = ErroCompilacao.calcularFrequenciaPorMes(this.erros);
+    let frequenciaErrosPorMes = FrequenciaErro.calcularFrequenciaPorMes(this.erros);
     this.construirGraficoBarras(frequenciaErrosPorMes);
   }
 
