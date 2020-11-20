@@ -1,0 +1,106 @@
+<p-toast
+  [style]="{ marginTop: '80px' }"
+  [showTransitionOptions]="'10ms'"
+  [hideTransitionOptions]="'10ms'"
+></p-toast>
+<div class="p-grid">
+  <div class="p-col-12">
+    <div *ngIf="isAlterar">
+      <h1 class="first">Alterar questão</h1>
+    </div>
+    <ng-template #other_content>
+      <h1 class="first">Cadastrar questão</h1>
+    </ng-template>
+  </div>
+</div>
+<div class="p-grid">
+  <div class="p-col-1">
+    <h3 class="first">Título (curto)</h3>
+  </div>
+  <div class="p-col-10">
+    <input id="nomeCurto" type="text" [(ngModel)]="questao.nomeCurto" pInputText />
+  </div>
+</div>
+<div class="p-grid">
+  <div class="p-col-1">
+    <h3 class="first">Enunciado</h3>
+  </div>
+  <div class="p-col-10">
+    <textarea
+      [rows]="6"
+      [cols]="60"
+      pInputTextarea
+      autoResize="autoResize"
+      [(ngModel)]="questao.enunciado"
+    ></textarea>
+  </div>
+</div>
+<div class="p-grid">
+  <div class="p-col-1">
+    <h3 class="first">Dificuldade</h3>
+  </div>
+  <div class="p-col-10">
+    <p-dropdown [options]="dificuldades" [(ngModel)]="questao.dificuldade"></p-dropdown>
+  </div>
+</div>
+
+<div class="p-grid">
+  <div class="p-col-1">
+    <h3 class="first">Segmentos (um por linha)</h3>
+  </div>
+  <div class="p-col-10">
+    <textarea
+      [rows]="6"
+      [cols]="60"
+      pInputTextarea
+      autoResize="autoResize"
+      [(ngModel)]="questao.segmentos"
+    ></textarea>
+  </div>
+</div>
+
+<div class="p-grid">
+  <div class="p-col-1">
+    <h3 class="first">Algoritmo inicial</h3>
+  </div>
+  <div class="p-col-10">
+    <textarea
+      [rows]="6"
+      [cols]="60"
+      pInputTextarea
+      autoResize="autoResize"
+      [(ngModel)]="questao.algoritmoInicial"
+    ></textarea>
+  </div>
+</div>
+
+<div class="p-grid">
+  <div class="p-col-1">
+    <h3 class="first">Sequência correta (apenas números, um por linha)</h3>
+  </div>
+  <div class="p-col-10">
+    <textarea
+      [rows]="6"
+      [cols]="60"
+      pInputTextarea
+      autoResize="autoResize"
+      [(ngModel)]="questao.sequenciaCorreta"
+    ></textarea>
+  </div>
+</div>
+
+<div class="p-grid">
+  <div class="p-col-1">
+    <h3 class="first">Orientacao</h3>
+  </div>
+  <div class="p-col-10">
+    <p-dropdown [options]="orientacoes" [(ngModel)]="questao.orientacao"></p-dropdown>
+  </div>
+</div>
+
+<div class="p-grid">
+  <div class="p-col-1"></div>
+  <div class="p-col-12">
+    <button pButton type="button" label="Cadastrar" (click)="cadastrar()"></button>
+  </div>
+</div>

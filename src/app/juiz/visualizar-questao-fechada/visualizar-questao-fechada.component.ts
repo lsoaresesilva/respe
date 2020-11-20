@@ -1,5 +1,4 @@
 import { Component, OnInit, Input } from '@angular/core';
-import QuestaoFechada from 'src/app/model/questaoFechada';
 import { Router, ActivatedRoute } from '@angular/router';
 import { Assunto } from 'src/app/model/assunto';
 import { LoginService } from '../../login-module/login.service';
@@ -9,6 +8,10 @@ import Alternativa from 'src/app/model/alternativa';
 import { Planejamento } from 'src/app/model/planejamento';
 import { DomSanitizer } from '@angular/platform-browser';
 import VisualizacaoQuestao from 'src/app/model/analytics/visualizacaoQuestao';
+import PontuacaoQuestaoFechada from 'src/app/model/gamification/pontuacaoQuestaoFechada';
+import Gamification from 'src/app/model/gamification/gamification';
+import { GamificationFacade } from 'src/app/gamification/gamification.service';
+import QuestaoFechada from 'src/app/model/questoes/questaoFechada';
 
 @Component({
   selector: 'app-visualizar-questao-fechada',
@@ -17,12 +20,13 @@ import VisualizacaoQuestao from 'src/app/model/analytics/visualizacaoQuestao';
 })
 export class VisualizarQuestaoFechadaComponent implements OnInit {
   @Input()
-  questao;
+  questao: QuestaoFechada;
 
-  respostaQuestaoFechada;
+  respostaQuestaoFechada: RespostaQuestaoFechada;
   mostrar;
-  respostaUsuarioBanco;
   assunto;
+
+  alternativaEscolhida;
 
   constructor(
     private sanitizer: DomSanitizer,
@@ -30,19 +34,20 @@ export class VisualizarQuestaoFechadaComponent implements OnInit {
     private router: Router,
     private login: LoginService,
     private messageService: MessageService,
-    private confirmationService: ConfirmationService
+    private confirmationService: ConfirmationService,
+    private gamification: GamificationFacade
   ) {
     this.respostaQuestaoFechada = new RespostaQuestaoFechada(
       null,
       this.login.getUsuarioLogado(),
-      null,
+      new Alternativa(null, null, null),
       this.questao
     );
   }
 
-  selecionarAlternativa(alternativa) {
+  /* selecionarAlternativa(alternativa) {
     this.respostaQuestaoFechada.alternativa = alternativa;
-  }
+  }  */
 
   gerarHtmlTextoComCodigo(questao) {
     if (questao.hasCode()) {
@@ -53,17 +58,6 @@ export class VisualizarQuestaoFechadaComponent implements OnInit {
         )
         .replace(new RegExp("'''", 'g'), '</code></pre>');
       return this.sanitizer.bypassSecurityTrustHtml(texto);
-      /*let texto = questao.extrairTextoComCodigo();
-      if(texto.length > 2){
-        let html = "<span>"+texto[0]+"</span><br/><pre><code class='language-python' pCode>"+texto[1]+"</code></pre><br/>"
-        if(texto.length == 3){
-          html += "<span>"+texto[2]+"</span>"
-        }
-
-        return html;
-      }else{
-        return texto[0]
-      }*/
     }
   }
 
@@ -80,21 +74,8 @@ export class VisualizarQuestaoFechadaComponent implements OnInit {
             ) {
               this.questao = assunto['getQuestaoFechadaById'](params['questaoId']);
 
-              // Analytics - Gravar usuário visualizando questão
-              const visualizacao = new VisualizacaoQuestao(null, usuario, this.questao, assunto);
-              visualizacao.save().subscribe(
-                (resultado) => {
-                  console.log('Salvou');
-                },
-                (err) => {
-                  console.log(err);
-                }
-              );
-
               RespostaQuestaoFechada.getRespostaQuestaoEstudante(this.questao, usuario).subscribe(
-                (respostaUsuario) => {
-                  this.respostaUsuarioBanco = respostaUsuario;
-
+                (respostaUsuario: RespostaQuestaoFechada) => {
                   if (respostaUsuario != null) {
                     this.respostaQuestaoFechada = respostaUsuario;
                     this.mostrar = true;
@@ -113,13 +94,13 @@ export class VisualizarQuestaoFechadaComponent implements OnInit {
   }
 
   confirmar() {
-    if (this.respostaQuestaoFechada.alternativa == null) {
+    if (!this.questao.isRespostaValida(this.respostaQuestaoFechada)) {
       this.messageService.add({
         severity: 'info',
         summary: 'ops...',
         detail: 'É preciso selecionar uma alternativa!',
       });
-    } else if (this.respostaUsuarioBanco != undefined) {
+    } else if (this.respostaQuestaoFechada.pk() != undefined) {
       this.messageService.add({
         severity: 'warn',
         summary: 'ops...',
@@ -138,14 +119,17 @@ export class VisualizarQuestaoFechadaComponent implements OnInit {
   }
 
   responder() {
-    this.respostaUsuarioBanco = this.respostaQuestaoFechada.resposta;
     this.respostaQuestaoFechada.questao = this.questao;
-
+    //this.respostaQuestaoFechada.alternativa.id = this.alternativaEscolhida;
     this.respostaQuestaoFechada.save().subscribe((resultado) => {
       this.mostrar = true;
-      const alternativaCerta = this.questao.getAlternativaCerta();
-
-      if (this.respostaQuestaoFechada.alternativa.id == alternativaCerta.id) {
+      if (this.respostaQuestaoFechada.isCorreta()) {
+        /* Gamification.aumentarPontuacao(this.login.getUsuarioLogado(), this.questao, new PontuacaoQuestaoFechada()); */
+        this.gamification.aumentarPontuacao(
+          this.login.getUsuarioLogado(),
+          this.questao,
+          new PontuacaoQuestaoFechada()
+        );
         this.messageService.add({
           severity: 'success',
           summary: 'Parabéns!',
@@ -155,7 +139,7 @@ export class VisualizarQuestaoFechadaComponent implements OnInit {
         this.messageService.add({
           severity: 'error',
           summary: 'ops...',
-          detail: 'você errou essa questao!',
+          detail: 'Você errou essa questao!',
         });
       }
     });

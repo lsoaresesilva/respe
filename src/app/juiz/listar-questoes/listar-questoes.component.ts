@@ -2,7 +2,7 @@ import { Component, OnInit, Input, OnChanges, AfterViewInit } from '@angular/cor
 import { Assunto } from 'src/app/model/assunto';
 import { MenuItem } from 'primeng/api';
 import { MessageService } from 'primeng/api';
-import { Questao } from 'src/app/model/questao';
+import { QuestaoProgramacao } from 'src/app/model/questoes/questaoProgramacao';
 import TestCase from 'src/app/model/testCase';
 import { Router, ActivatedRoute } from '@angular/router';
 import Usuario from 'src/app/model/usuario';
@@ -25,11 +25,11 @@ export class ListarQuestoesComponent implements OnInit, OnChanges, AfterViewInit
 
   @Input('assunto') assunto?;
 
-  selectedQuestao: Questao;
+  selectedQuestao: QuestaoProgramacao;
   items: MenuItem[];
   usuario;
 
-  questoes: Questao[] = [];
+  questoes: QuestaoProgramacao[] = [];
   statusQuestoes: any[];
 
   constructor(
@@ -85,7 +85,7 @@ export class ListarQuestoesComponent implements OnInit, OnChanges, AfterViewInit
     ]);
   }
 
-  alterar(questao: Questao) {
+  alterar(questao: QuestaoProgramacao) {
     if (questao != undefined) {
       this.router.navigate([
         'main',
@@ -94,7 +94,7 @@ export class ListarQuestoesComponent implements OnInit, OnChanges, AfterViewInit
     }
   }
 
-  deletar(questao: Questao) {
+  deletar(questao: QuestaoProgramacao) {
     let index = -1;
     for (let i = 0; i < this.assunto.questoesProgramacao; i++) {
       if (this.assunto.questoeProgramacao[i].id == questao.id) {
@@ -127,10 +127,9 @@ export class ListarQuestoesComponent implements OnInit, OnChanges, AfterViewInit
     if (this.usuario != undefined) {
       for (let i = 0; i < this.assunto.questoesProgramacao.length; i++) {
         if (this.statusQuestoes[this.assunto.questoesProgramacao[i].id] == undefined) {
-          this.statusQuestoes[this.assunto.questoesProgramacao[i].id] = Questao.isFinalizada(
-            this.assunto.questoesProgramacao[i],
-            this.usuario
-          );
+          this.statusQuestoes[
+            this.assunto.questoesProgramacao[i].id
+          ] = QuestaoProgramacao.isFinalizada(this.assunto.questoesProgramacao[i], this.usuario);
         }
       }
     }

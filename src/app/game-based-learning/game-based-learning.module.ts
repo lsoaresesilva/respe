@@ -11,7 +11,7 @@ import { RastrearErrosPythonService } from './rastrear-erros-python.service';
   exports: [EditorComponent],
   providers: [
     RastrearErrosPythonService,
-    { provide: ErrorHandler, useClass: AppGlobalErrorhandler },
+   /*  { provide: ErrorHandler, useClass: AppGlobalErrorhandler }, */
   ],
 })
 export class GameBasedLearningModule {}

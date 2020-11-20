@@ -28,12 +28,21 @@ import { environment } from '../environments/environment';
 import { EscapeHtmlPipe } from './pipes/keep-html.pipe';
 import { SharedPipesModule } from './pipes/shared-pipes.module';
 import { GameBasedLearningModule } from './game-based-learning/game-based-learning.module';
+import { ParsonProblemModule } from './parson-problem/parson-problem.module';
+import { GamificationModule } from './gamification/gamification.module';
+import { ButtonModule } from 'primeng/button';
+import { ToolbarModule } from 'primeng/toolbar';
+import { AdminModule } from './admin/admin.module';
 
 @NgModule({
   schemas: [CUSTOM_ELEMENTS_SCHEMA],
   declarations: [AppComponent, MainComponent],
   imports: [
+    AdminModule,
     SrlModule,
+    GamificationModule,
+    ButtonModule,
+    ToolbarModule,
     GameBasedLearningModule,
     LivroModule,
     TurmaModule,
@@ -52,6 +61,7 @@ import { GameBasedLearningModule } from './game-based-learning/game-based-learni
     BrowserAnimationsModule,
     AngularFireAuthModule,
     SharedPipesModule,
+    ParsonProblemModule,
   ],
   providers: [AuthGuard, TurmaGuard, MessageService],
   bootstrap: [AppComponent],

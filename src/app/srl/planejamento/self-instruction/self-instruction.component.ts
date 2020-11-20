@@ -1,5 +1,5 @@
 import { Component, OnInit, Input } from '@angular/core';
-import { Questao } from 'src/app/model/questao';
+import { QuestaoProgramacao } from 'src/app/model/questoes/questaoProgramacao';
 import { AutoInstrucao } from 'src/app/model/autoInstrucao';
 import { ActivatedRoute, Router } from '@angular/router';
 import { Assunto } from 'src/app/model/assunto';
@@ -28,7 +28,7 @@ export class SelfInstructionComponent implements OnInit {
     private login: LoginService,
     private messageService: MessageService
   ) {
-    this.questao = new Questao(null, null, null, null, null, [], [], '');
+    this.questao = new QuestaoProgramacao(null, null, null, null, null, [], [], '');
     this.msgs = [];
     this.condicoes = false;
     this.repeticoes = false;

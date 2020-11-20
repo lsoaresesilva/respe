@@ -1,12 +1,14 @@
 import { Document, Collection, ignore } from './firestore/document';
 import { Observable, forkJoin } from 'rxjs';
-import { Questao } from './questao';
+import { QuestaoProgramacao } from './questoes/questaoProgramacao';
 import Usuario from './usuario';
 import Submissao from './submissao';
 import { Util } from './util';
-import QuestaoFechada from './questaoFechada';
 import { RespostaQuestaoFechada } from './respostaQuestaoFechada';
 import { Assuntos } from './enums/assuntos';
+import QuestaoFechada from './questoes/questaoFechada';
+import QuestaoParsonProblem from './questoes/parsonProblem';
+import Query from './firestore/query';
 
 @Collection('assuntos')
 export class Assunto extends Document {
@@ -15,19 +17,25 @@ export class Assunto extends Document {
     this.questoesFechadas = [];
     this.questoesProgramacao = [];
     this.objetivosEducacionais = [];
+    this.questoesParson = [];
   }
 
   sequencia;
   importancia;
   questoesProgramacao;
   questoesFechadas;
+  questoesParson: any;
   objetivosEducacionais: [];
+  isAtivo;
+
   @ignore()
   percentualConclusao;
 
   /**
-   * Este método deve ser temporário, pois uma questão possui relação com assuntos, mas está sendo utilizado relação com banco de dados (usando a PK deles)
-   * No entanto, isso é custoso, pois seria preciso carregar do BD cada assunto. Para reduzir esse problema, futuramente, deve-se refatorar cada questão de programação para usar o nome que está no enumerador.
+   * Este método deve ser temporário, pois uma questão possui relação com assuntos,
+   * mas está sendo utilizado relação com banco de dados (usando a PK deles)
+   * No entanto, isso é custoso, pois seria preciso carregar do BD cada assunto.
+   * Para reduzir esse problema, futuramente, deve-se refatorar cada questão de programação para usar o nome que está no enumerador.
    */
   static construir(assunto) {
     if (assunto != null) {
@@ -49,15 +57,33 @@ export class Assunto extends Document {
     return null;
   }
 
+  static getAll(query = null, orderBy = null): Observable<any[]> {
+    if (query != null) {
+      if (Array.isArray(query)) {
+        query.push(new Query('isAtivo', '==', true));
+      } else {
+        let q = [];
+        q.push(query);
+        q.push(new Query('isAtivo', '==', true));
+        query = q;
+      }
+    } else {
+      query = new Query('isAtivo', '==', true);
+    }
+
+    return super.getAll(query);
+  }
+
   static get(id) {
     return new Observable((observer) => {
       super.get(id).subscribe(
         (assunto) => {
-          assunto['questoesProgramacao'] = Questao.construir(
+          assunto['questoesProgramacao'] = QuestaoProgramacao.construir(
             assunto['questoesProgramacao'],
             assunto
           );
           assunto['questoesFechadas'] = QuestaoFechada.construir(assunto['questoesFechadas']);
+          assunto['questoesParson'] = QuestaoParsonProblem.construir(assunto['questoesParson']);
           observer.next(assunto);
           observer.complete();
         },
@@ -230,24 +256,74 @@ export class Assunto extends Document {
     return arrayAssuntos;
   }
 
-  /* Ordena as questões de um assunto. */
+  definirSequenciaQuestoes(questoes: any[]) {
+    // Definir a sequência a partir da posição no array
+    for (let i = 0; i < questoes.length; i = i + 1) {
+      if (
+        questoes[i] instanceof QuestaoFechada ||
+        questoes[i] instanceof QuestaoProgramacao ||
+        questoes[i] instanceof QuestaoParsonProblem
+      ) {
+        if (questoes[i].sequencia != null) {
+          questoes[i].sequencia = i + 1;
+        }
+
+        if (questoes[i].dificuldade === undefined) {
+          questoes[i].dificuldade = 1;
+        }
+      }
+    }
+
+    const questoesFechadas = [];
+    const questoesProgramacao = [];
+    const questoesParson = [];
+
+    questoes.forEach((questao) => {
+      if (questao instanceof QuestaoFechada) {
+        questoesFechadas.push(questao);
+      } else if (questao instanceof QuestaoProgramacao) {
+        questoesProgramacao.push(questao);
+      } else if (questao instanceof QuestaoParsonProblem) {
+        questoesParson.push(questao);
+      }
+    });
+
+    this.questoesFechadas = questoesFechadas;
+    this.questoesProgramacao = questoesProgramacao;
+    this.questoesParson = questoesParson;
+  }
+
+  getUltimaSequencia() {
+    return (
+      this.questoesFechadas.length +
+      this.questoesProgramacao.length +
+      this.questoesParson.length +
+      1
+    );
+  }
+
+  /* Retorna as questões de um assunto ordenadas por sua sequência. */
   ordenarQuestoes() {
-    if (Array.isArray(this.questoesFechadas) && Array.isArray(this.questoesProgramacao)) {
-      let questoes = new Array(this.questoesFechadas.length + this.questoesProgramacao.length);
+    if (
+      Array.isArray(this.questoesFechadas) &&
+      Array.isArray(this.questoesProgramacao) &&
+      Array.isArray(this.questoesParson)
+    ) {
+      let questoes = new Array(
+        this.questoesFechadas.length + this.questoesProgramacao.length + this.questoesParson.length
+      );
       questoes = questoes.fill(0);
 
-      console.log('Questoes fechadas');
       this.questoesFechadas.forEach((questao) => {
-        console.log(questao.sequencia - 1);
         questoes[questao.sequencia - 1] = questao;
-        //questoes.splice(questao.sequencia - 1, 0, questao);
       });
 
-      console.log('Questoes programacao');
       this.questoesProgramacao.forEach((questao) => {
-        console.log(questao.sequencia - 1);
         questoes[questao.sequencia - 1] = questao;
-        //questoes.splice(questao.sequencia - 1, 0, questao);
+      });
+
+      this.questoesParson.forEach((questao) => {
+        questoes[questao.sequencia - 1] = questao;
       });
 
       return questoes;
@@ -256,7 +332,8 @@ export class Assunto extends Document {
 
   objectToDocument() {
     const document = super.objectToDocument();
-    if (this.questoesProgramacao != null && this.questoesProgramacao.length > 0) {
+
+    if (Array.isArray(this.questoesProgramacao) != null && this.questoesProgramacao.length > 0) {
       const questoes = [];
       this.questoesProgramacao.forEach((questao) => {
         if (typeof questao.objectToDocument === 'function') {
@@ -266,7 +343,8 @@ export class Assunto extends Document {
 
       document['questoesProgramacao'] = questoes;
     }
-    if (this.questoesFechadas != null && this.questoesFechadas.length > 0) {
+
+    if (Array.isArray(this.questoesFechadas) != null && this.questoesFechadas.length > 0) {
       const questoesFechadas = [];
       this.questoesFechadas.forEach((questao) => {
         if (typeof questao.objectToDocument === 'function') {
@@ -275,6 +353,17 @@ export class Assunto extends Document {
       });
 
       document['questoesFechadas'] = questoesFechadas;
+    }
+
+    if (Array.isArray(this.questoesParson) && this.questoesParson.length > 0) {
+      const questoesParson = [];
+      this.questoesParson.forEach((questao) => {
+        if (typeof questao.objectToDocument === 'function') {
+          questoesParson.push(questao.objectToDocument());
+        }
+      });
+
+      document['questoesParson'] = questoesParson;
     }
 
     if (this.objetivosEducacionais.length > 0) {
@@ -298,6 +387,17 @@ export class Assunto extends Document {
   getQuestaoFechadaById(questaoId) {
     let questaoLocalizada = null;
     this.questoesFechadas.forEach((questao) => {
+      if (questao.id == questaoId) {
+        questaoLocalizada = questao;
+      }
+    });
+
+    return questaoLocalizada;
+  }
+
+  getQuestaoParsonById(questaoId) {
+    let questaoLocalizada = null;
+    this.questoesParson.forEach((questao) => {
       if (questao.id == questaoId) {
         questaoLocalizada = questao;
       }

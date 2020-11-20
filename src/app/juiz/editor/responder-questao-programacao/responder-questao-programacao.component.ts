@@ -25,7 +25,11 @@ import ConsoleEditor from 'src/app/model/consoleEditor';
 import ErroServidor from 'src/app/model/errors/erroServidor';
 import { ApresentacaoService } from 'src/app/geral-module/apresentacao.service';
 import { Observable } from 'rxjs';
-import { Questao } from 'src/app/model/questao';
+import { QuestaoProgramacao } from 'src/app/model/questoes/questaoProgramacao';
+import Usuario from 'src/app/model/usuario';
+import PontuacaoQuestaoProgramacao from 'src/app/model/gamification/pontuacaoQuestaoProgramacao';
+import Gamification from 'src/app/model/gamification/gamification';
+import { GamificationFacade } from 'src/app/gamification/gamification.service';
 
 @Component({
   selector: 'responder-questao-programacao',
@@ -40,14 +44,16 @@ export class ResponderQuestaoProgramacao implements OnInit, AfterViewInit {
   consoleEditor: ConsoleEditor;
 
   pausaIde;
-  questao?: Questao;
+  questao?: QuestaoProgramacao;
   statusExecucao;
   modoVisualizacao: boolean = false;
-  submissao;
+  submissao: Submissao;
   dialogPedirAjuda: boolean = false;
   duvida: string = '';
 
   observableQuestao: Observable<any>;
+
+  usuario: Usuario;
 
   // TODO: mover para um componente próprio
   traceExecucao;
@@ -56,7 +62,8 @@ export class ResponderQuestaoProgramacao implements OnInit, AfterViewInit {
     private route: ActivatedRoute,
     public login: LoginService,
     private router: Router,
-    private apresentacao: ApresentacaoService
+    private apresentacao: ApresentacaoService,
+    private gamification: GamificationFacade
   ) {
     this.pausaIde = true;
     this.statusExecucao = '';
@@ -77,6 +84,11 @@ export class ResponderQuestaoProgramacao implements OnInit, AfterViewInit {
   ngAfterViewInit(): void {}
 
   ngOnInit() {
+    this.usuario = this.login.getUsuarioLogado();
+    if (this.usuario == null) {
+      throw new Error('Não é possível executar o código, pois você não está logado.'); // TODO: mudar para o message
+    }
+
     this.route.params.subscribe((params) => {
       if (params['assuntoId'] != undefined && params['questaoId'] != undefined) {
         Assunto.get(params['assuntoId']).subscribe((assunto) => {
@@ -90,16 +102,15 @@ export class ResponderQuestaoProgramacao implements OnInit, AfterViewInit {
               if (questao.id == params['questaoId']) {
                 this.questao = questao;
 
-                if (this.login.getUsuarioLogado() != null) {
-                  Submissao.getRecentePorQuestao(
-                    this.questao,
-                    this.login.getUsuarioLogado()
-                  ).subscribe((submissao) => {
-                    if (submissao != null) this.submissao = submissao;
-                    //this.pausaIde = false;
+                if (this.usuario != null) {
+                  Submissao.getRecentePorQuestao(this.questao, this.usuario).subscribe(
+                    (submissao: Submissao) => {
+                      if (submissao != null) this.submissao = submissao;
+                      //this.pausaIde = false;
 
-                    this.atualizarCardErros();
-                  });
+                      this.atualizarCardErros();
+                    }
+                  );
                 }
               }
             });
@@ -116,16 +127,11 @@ export class ResponderQuestaoProgramacao implements OnInit, AfterViewInit {
       }
     });
 
-    let estudante = this.login.getUsuarioLogado();
-    if (estudante == null) {
-      throw new Error('Não é possível executar o código, pois você não está logado.'); // TODO: mudar para o message
-    }
-
     //this.salvarAutomaticamente(); # desabilitado temporariamente por questões de performance.
   }
 
   atualizarCardErros() {
-    this.questao.getErrosEstudante(this.login.getUsuarioLogado()).subscribe((erros) => {
+    this.questao.getErrosEstudante(this.usuario).subscribe((erros) => {
       this.errosEstudante = erros;
     });
   }
@@ -141,6 +147,14 @@ export class ResponderQuestaoProgramacao implements OnInit, AfterViewInit {
     this.submissao = this.prepararSubmissao(submissao);
     this.consoleEditor.erroServidor = null;
     this.consoleEditor.submissao = this.submissao;
+    if (this.submissao.isFinalizada()) {
+      /* Gamification.aumentarPontuacao(this.login.getUsuarioLogado(), this.questao, new PontuacaoQuestaoProgramacao()); */
+      this.gamification.aumentarPontuacao(
+        this.login.getUsuarioLogado(),
+        this.questao,
+        new PontuacaoQuestaoProgramacao()
+      );
+    }
   }
 
   onServidorError(erroServidor) {

@@ -1,26 +1,15 @@
-<div class="ui-g">
-  <div class="ui-g-10"></div>
-  <div class="ui-g-2">
-    <button
-      pButton
-      label="Nova Questão"
-      (click)="cadastrar()"
-      *ngIf="login.getUsuarioLogado().perfil == 3"
-    ></button>
-  </div>
-</div>
-
 <div class="p-grid">
   <div class="p-col">
     <app-monitorar-assunto
       [assunto]="assunto"
-      *ngIf="login.getUsuarioLogado().grupoExperimento != 4"
+      *ngIf="usuario.grupoExperimento != 4"
     ></app-monitorar-assunto>
   </div>
 </div>
 
 <div class="p-grid">
   <div class="p-col">
+    <h2>Praticar</h2>
     <app-listar-questoes-sequencia [assunto]="assunto"></app-listar-questoes-sequencia>
   </div>
 </div>
@@ -33,6 +22,7 @@
   [baseZIndex]="10000"
   [draggable]="false"
   [resizable]="false"
+  *ngIf="usuario.perfil == 1"
 >
   <div *ngIf="assunto != null" [innerHTML]="assunto.importancia | keepHtml"></div>
   <p-footer>

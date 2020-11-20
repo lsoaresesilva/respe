@@ -137,6 +137,21 @@ export abstract class ErroCompilacao {
     }
   }
 
+  /**
+   * Extrai todos os erros cometidos pelo estudante em suas submissões.
+   * @param submissoes
+   */
+  static getAllErros(submissoes) {
+    const erros = [];
+    submissoes.forEach((submissao) => {
+      if (submissao.erro != null && submissao.erro instanceof ErroCompilacao) {
+        erros.push(submissao.erro);
+      }
+    });
+
+    return erros;
+  }
+
   objectToDocument() {
     return {
       id: this.id,
@@ -144,6 +159,8 @@ export abstract class ErroCompilacao {
       data: firebase.firestore.FieldValue.serverTimestamp(),
     };
   }
+
+  abstract getMensagem();
 
   abstract getMensagem();
 

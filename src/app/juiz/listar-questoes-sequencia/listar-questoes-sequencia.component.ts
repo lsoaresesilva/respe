@@ -3,9 +3,10 @@ import { Router } from '@angular/router';
 import { LoginService } from 'src/app/login-module/login.service';
 import { Assunto } from 'src/app/model/assunto';
 import { Groups } from 'src/app/model/experimento/groups';
-import { Questao } from 'src/app/model/questao';
-import QuestaoFechada from 'src/app/model/questaoFechada';
+import { QuestaoProgramacao } from 'src/app/model/questoes/questaoProgramacao';
 import { forkJoin } from 'rxjs';
+import QuestaoFechada from 'src/app/model/questoes/questaoFechada';
+import QuestaoParsonProblem from 'src/app/model/questoes/parsonProblem';
 
 @Component({
   selector: 'app-listar-questoes-sequencia',
@@ -34,7 +35,7 @@ export class ListarQuestoesSequenciaComponent implements OnChanges {
         this.assunto.questoesFechadas
       );
 
-      consultas['questoesProgramacao'] = Questao.verificarQuestoesRespondidas(
+      consultas['questoesProgramacao'] = QuestaoProgramacao.verificarQuestoesRespondidas(
         this.login.getUsuarioLogado(),
         this.assunto.questoesProgramacao
       );
@@ -52,6 +53,11 @@ export class ListarQuestoesSequenciaComponent implements OnChanges {
       this.router.navigate([
         'main',
         { outlets: { principal: ['visualizacao-questao-fechada', this.assunto.pk(), questao.id] } },
+      ]);
+    } else if (questao instanceof QuestaoParsonProblem) {
+      this.router.navigate([
+        'main',
+        { outlets: { principal: ['visualizar-questao-parson', this.assunto.pk(), questao.id] } },
       ]);
     } else {
       if (this.login.getUsuarioLogado().grupoExperimento === Groups.control) {

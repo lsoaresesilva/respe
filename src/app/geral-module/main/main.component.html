@@ -1,15 +1,74 @@
-<div>
-  <p-menubar [model]="itens"></p-menubar>
-</div>
+<p-toolbar>
+  <div class="p-toolbar-group-left">
+    <button
+      pButton
+      class="p-button-text"
+      label="Atividades"
+      (click)="abrirAssuntos()"
+      *ngIf="usuario.grupoExperimento == 4"
+    ></button>
+    <button
+      pButton
+      class="p-button-text"
+      label="Atividades"
+      (click)="abrirPlanejamento()"
+      *ngIf="usuario.grupoExperimento == 1"
+    ></button>
+    <button
+      pButton
+      class="p-button-text"
+      label="Meu progresso"
+      (click)="abrirDesempenho()"
+      *ngIf="usuario.grupoExperimento == 1"
+    ></button>
+    <!-- Menu administrador -->
+    <button
+      pButton
+      class="p-button-text"
+      label="Assuntos"
+      (click)="abrirAssuntosAdmin()"
+      *ngIf="usuario.perfil == 3"
+    ></button>
+    <button
+      pButton
+      class="p-button-text"
+      label="Ranking"
+      (click)="abrirRanking()"
+      *ngIf="usuario.perfil == 1"
+    ></button>
+  </div>
+  <div style="margin: 0 auto; width: 10%">
+    <app-progresso-proximo-nivel *ngIf="usuario.perfil == 1"></app-progresso-proximo-nivel>
+  </div>
+  <div class="p-toolbar-group-right">
+    <button pButton label="Sair" (click)="logout()" icon="pi pi-power-off"></button>
+  </div>
+</p-toolbar>
 
-<app-diario *ngIf="login.getUsuarioLogado().grupoExperimento != 4"></app-diario>
+<!-- <div style="display: flex;">
+  <div style="width:70%">
+    <p-menubar [model]="itens" >
+    </p-menubar>
+  </div>
+  <div style="margin: 0 auto;width: 10%;">
+    <app-progresso-proximo-nivel ></app-progresso-proximo-nivel>
+  </div>
+  <div>
+    <button  pButton label="Sair" (click)="logout()" icon="pi pi-power-off"></button>
+  </div>
+</div> -->
 
-<app-questionario-autorregulacao
+<app-diario *ngIf="usuario.grupoExperimento != 4 && usuario.perfil == 1"></app-diario>
+
+<!-- <app-questionario-autorregulacao
   [visibilidadeQuestionario]="visibilidadeQuestionario"
   (onQuestionarioRespondido)="onQuestionarioRespondido($event)"
+  *ngIf="usuario.perfil == 3"
 ></app-questionario-autorregulacao>
-
-<app-tips-regulacao></app-tips-regulacao>
+ -->
+<app-tips-regulacao
+  *ngIf="usuario.grupoExperimento != 4 && usuario.perfil == 1"
+></app-tips-regulacao>
 <!-- <app-pre-teste [visibilidade]="visibilidadeDialog"></app-pre-teste>--->
 <div style="margin: 20px">
   <router-outlet name="principal"></router-outlet>

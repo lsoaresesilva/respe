@@ -14,6 +14,7 @@ import Editor from 'src/app/model/editor';
 import { LoginService } from 'src/app/login-module/login.service';
 
 import { catchError, retry, timeout } from 'rxjs/operators';
+import { environment } from 'src/environments/environment';
 
 /**
  * Executa um javascript ide.js para acoplar o editor VStudio.
@@ -28,8 +29,7 @@ declare function carregarIde(readOnly, callback, instance, callbackOnEditorLoad,
   styleUrls: ['./editor-programacao.component.css'],
 })
 export class EditorProgramacaoComponent implements AfterViewInit, OnChanges {
-  //URL = "http://35.208.64.26:8000/";
-  URL = 'http://localhost:8000/';
+  URL = environment.URL;
 
   processandoSubmissao;
 
@@ -45,6 +45,8 @@ export class EditorProgramacaoComponent implements AfterViewInit, OnChanges {
   liteMode; // define que o editor executará em um modo de aparência menor.
   @Input()
   modoVisualizacao;
+
+  usuario;
 
   @Input() set submissao(value) {
     this._submissao = value;
@@ -74,10 +76,11 @@ export class EditorProgramacaoComponent implements AfterViewInit, OnChanges {
     this.onVisualization = new EventEmitter();
     this.onServidorError = new EventEmitter();
     this.processandoSubmissao = false;
+    this.usuario = this.login.getUsuarioLogado();
   }
 
   ngOnChanges(changes: import('@angular/core').SimpleChanges): void {
-    this.atualizarEditorComSubmissao();
+    //this.atualizarEditorComSubmissao();
   }
 
   ngAfterViewInit(): void {
@@ -93,7 +96,6 @@ export class EditorProgramacaoComponent implements AfterViewInit, OnChanges {
       this.editorCodigo.codigo = '';
     }
 
-    const usuario = this.login.getUsuarioLogado();
     carregarIde(false, null, this, this.carregarEditor, this.editorCodigo.codigo);
   }
 
@@ -215,12 +217,7 @@ export class EditorProgramacaoComponent implements AfterViewInit, OnChanges {
    */
   prepararSubmissao() {
     this.editorCodigo.codigo = this.editor.getValue();
-    const submissao = new Submissao(
-      null,
-      this.editor.getValue(),
-      this.login.getUsuarioLogado(),
-      this.questao
-    );
+    const submissao = new Submissao(null, this.editor.getValue(), this.usuario, this.questao);
     return submissao;
   }
 

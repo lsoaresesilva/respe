@@ -1,4 +1,8 @@
-<p-toast [style]="{marginTop: '80px'}" [showTransitionOptions] = "'10ms'" [hideTransitionOptions] = "'10ms'"></p-toast>
+<p-toast
+  [style]="{ marginTop: '80px' }"
+  [showTransitionOptions]="'10ms'"
+  [hideTransitionOptions]="'10ms'"
+></p-toast>
 <div class="p-grid">
   <div class="p-col-12">
     <div *ngIf="isAlterar">
@@ -9,34 +13,41 @@
     </ng-template>
   </div>
   <div class="p-col-12">
-
-
-
-    <h3 class="first">Título (curto) </h3>
+    <h3 class="first">Título (curto)</h3>
     <input id="nomeCurto" type="text" [(ngModel)]="questao.nomeCurto" pInputText />
 
-
     <h3 class="first">Enunciado</h3>
-    <textarea [rows]="6" [cols]="60" pInputTextarea autoResize="autoResize" [(ngModel)]="questao.enunciado"></textarea>
-
-
-    <h3 class="first">Sequência</h3>
-    <p-spinner size="15" [min]="0" [(ngModel)]="questao.sequencia"></p-spinner>
+    <textarea
+      [rows]="6"
+      [cols]="60"
+      pInputTextarea
+      autoResize="autoResize"
+      [(ngModel)]="questao.enunciado"
+    ></textarea>
 
     <h3 class="first">Dificuldade</h3>
     <p-dropdown [options]="dificuldades" [(ngModel)]="questao.dificuldade"></p-dropdown>
 
     <h3>Alternativas</h3>
     <p-button label="Nova alternativa" (click)="adicionarAlternativa()"></p-button>
-    <app-cadastrar-alternativas *ngFor="let alternativa of questao.alternativas" [alternativa]="alternativa">
+    <app-cadastrar-alternativas
+      *ngFor="let alternativa of questao.alternativas"
+      [alternativa]="alternativa"
+    >
     </app-cadastrar-alternativas>
 
     <h3>Justifique o motivo da alternativa está certa</h3>
-    <textarea [rows]="5" [cols]="60" pInputTextarea autoResize="autoResize" [(ngModel)]="questao.respostaQuestao"></textarea>
+    <textarea
+      [rows]="5"
+      [cols]="60"
+      pInputTextarea
+      autoResize="autoResize"
+      [(ngModel)]="questao.respostaQuestao"
+    ></textarea>
 
-    <br/>
-
+    <br />
   </div>
-  <div class="p-col-12"><button pButton type="button" label="Cadastrar" (click)="cadastrar()"></button>
+  <div class="p-col-12">
+    <button pButton type="button" label="Cadastrar" (click)="cadastrar()"></button>
   </div>
 </div>

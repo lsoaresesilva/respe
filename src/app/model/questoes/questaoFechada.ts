@@ -1,12 +1,11 @@
-import { Dificuldade } from './enums/dificuldade';
-import Alternativa from './alternativa';
-import { Util } from './util';
-import { RespostaQuestaoFechada } from './respostaQuestaoFechada';
-import Query from './firestore/query';
-import Usuario from './usuario';
 import { Observable } from 'rxjs';
-import { Assunto } from './assunto';
-import { ignore } from './firestore/document';
+import Alternativa from '../alternativa';
+import { Assunto } from '../assunto';
+import { Dificuldade } from '../enums/dificuldade';
+import { ignore } from '../firestore/document';
+import Query from '../firestore/query';
+import { RespostaQuestaoFechada } from '../respostaQuestaoFechada';
+import { Util } from '../util';
 
 export default class QuestaoFechada {
   @ignore()
@@ -39,7 +38,7 @@ export default class QuestaoFechada {
    * @param questoesFechadas
    */
   static construir(questoesFechadas: any[]) {
-    let objetos: QuestaoFechada[] = [];
+    const objetos: QuestaoFechada[] = [];
 
     if (questoesFechadas != null) {
       questoesFechadas.forEach((questaoFechada) => {
@@ -81,7 +80,7 @@ export default class QuestaoFechada {
   static verificarQuestoesRespondidas(estudante, questoes) {
     return new Observable((observer) => {
       if (Array.isArray(questoes) && questoes.length > 0) {
-        RespostaQuestaoFechada.getAll(new Query('usuarioId', '==', estudante.pk())).subscribe(
+        RespostaQuestaoFechada.getAll(new Query('estudanteId', '==', estudante.pk())).subscribe(
           (respostas) => {
             questoes.forEach((questao) => {
               respostas.forEach((resposta) => {
@@ -107,10 +106,12 @@ export default class QuestaoFechada {
    * @param questao
    * @param resposta
    */
-  static isRespostaCorreta(questao, resposta) {
-    let alternativaCorreta = questao.getAlternativaCerta();
+  static isRespostaCorreta(questao: QuestaoFechada, resposta: RespostaQuestaoFechada) {
+    const alternativaCorreta = questao.getAlternativaCerta();
     if (alternativaCorreta != null) {
-      if (alternativaCorreta.id == resposta.alternativa.id) return true;
+      if (alternativaCorreta.id == resposta.alternativa.id) {
+        return true;
+      }
     }
 
     return false;
@@ -119,12 +120,12 @@ export default class QuestaoFechada {
   static getByAssuntoQuestao(assuntoQuestao) {
     return new Observable((observer) => {
       assuntoQuestao = assuntoQuestao.split('/');
-      let assuntoId = assuntoQuestao[0];
-      let questaoId = assuntoQuestao[1];
+      const assuntoId = assuntoQuestao[0];
+      const questaoId = assuntoQuestao[1];
       if (assuntoId != null && questaoId != null) {
         Assunto.get(assuntoId).subscribe(
           (assunto) => {
-            let questao = assunto['getQuestaoFechadaById'](questaoId);
+            const questao = assunto['getQuestaoFechadaById'](questaoId);
             observer.next(questao);
             observer.complete();
           },
@@ -141,7 +142,7 @@ export default class QuestaoFechada {
   }
 
   objectToDocument() {
-    let document = {};
+    const document = {};
     document['id'] = this.id;
     document['nomeCurto'] = this.nomeCurto;
     document['enunciado'] = this.enunciado;
@@ -150,10 +151,11 @@ export default class QuestaoFechada {
     document['respostaQuestao'] = this.respostaQuestao;
 
     if (this.alternativas != null && this.alternativas.length > 0) {
-      let alternativas = [];
+      const alternativas = [];
       this.alternativas.forEach((alternativa) => {
-        if (typeof alternativa.objectToDocument === 'function')
+        if (typeof alternativa.objectToDocument === 'function') {
           alternativas.push(alternativa.objectToDocument());
+        }
       });
 
       document['alternativas'] = alternativas;
@@ -200,10 +202,10 @@ export default class QuestaoFechada {
   extrairCodigo() {
     // deve começar após '''python
     // deve terminar em '''
-    let codigos = [];
+    const codigos = [];
     if (this.hasCode()) {
-      let regex = /'''python[\n|\r](.*)[\r|\n]'''/;
-      let resultado = regex.exec(this.enunciado);
+      const regex = /'''python[\n|\r](.*)[\r|\n]'''/;
+      const resultado = regex.exec(this.enunciado);
       if (resultado != null && resultado.length > 0) {
         for (let i = 1; i < resultado.length; i++) {
           codigos.push(resultado[i]);
@@ -215,10 +217,10 @@ export default class QuestaoFechada {
   }
 
   extrairTextoComCodigo() {
-    let texto = [];
+    const texto = [];
     if (this.hasCode()) {
-      let regex = /(.*)[\r|\n]*'''python\n([\s\S\w])*?(?=''')[\r|\n]*(.*)/;
-      let resultado = regex.exec(this.enunciado);
+      const regex = /(.*)[\r|\n]*'''python\n([\s\S\w])*?(?=''')[\r|\n]*(.*)/;
+      const resultado = regex.exec(this.enunciado);
       if (resultado != null && resultado.length > 2) {
         for (let i = 1; i < resultado.length; i++) {
           texto.push(resultado[i]);
@@ -227,5 +229,18 @@ export default class QuestaoFechada {
     }
 
     return texto;
+  }
+
+  /* Verifica se a resposta do usuário encontra-se dentro das opções de alternativas disponiveis. */
+  isRespostaValida(respostaQuestaoFechada: RespostaQuestaoFechada) {
+    let valido = false;
+    for (let i = 0; i < this.alternativas.length; i++) {
+      if (respostaQuestaoFechada.alternativa.id == this.alternativas[i].id) {
+        valido = true;
+        break;
+      }
+    }
+
+    return valido;
   }
 }

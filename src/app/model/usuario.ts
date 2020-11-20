@@ -1,13 +1,11 @@
-import { Document, Collection, date } from './firestore/document';
+import { Document, Collection, date, ignore } from './firestore/document';
 import { forkJoin, Observable } from 'rxjs';
 import Query from './firestore/query';
 import { PerfilUsuario } from './enums/perfilUsuario';
 import { sha256 } from 'js-sha256';
 import Experiment from './experimento/experiment';
 import { Groups } from './experimento/groups';
-import EstudanteTurma from './estudanteTurma';
 import Turma from './turma';
-import { ConexaoRepetirError } from './errors/conexaoRepetir';
 
 @Collection('usuarios')
 export default class Usuario extends Document {
@@ -19,6 +17,7 @@ export default class Usuario extends Document {
     public grupoExperimento: Groups
   ) {
     super(id);
+    this.minutos = 0;
   }
 
   @date()
@@ -28,7 +27,13 @@ export default class Usuario extends Document {
   genero;
   conhecimentoPrevioProgramacao;
   faixaEtaria;
-  turma;
+
+  turma: Turma;
+
+  @ignore()
+  respostasQuestoesFechadas?;
+  @ignore()
+  respostasQuestoesProgramacao?;
 
   static getAllEstudantesByTurma(codigoTurma: any) {
     return new Observable<Usuario[]>((observer) => {
@@ -49,32 +54,36 @@ export default class Usuario extends Document {
     });
   }
 
-  static logar(query): Observable<Usuario> {
+  static getByQuery(query) {
     return new Observable((observer) => {
-      let usuario = null;
-      Usuario.getAll(query).subscribe(
-        (usuarios) => {
-          if (usuarios.length > 0) {
-            usuario = new Usuario(
-              usuarios[0].id,
-              usuarios[0].email,
-              usuarios[0].senha,
-              usuarios[0].perfil,
-              usuarios[0].grupoExperimento
-            );
-            usuario.minutos = 0;
-
-            observer.next(usuario);
-          } else {
-            observer.next(null);
-          }
-          observer.complete();
-        },
-        (err) => {
-          observer.error(err);
-        }
-      );
+      super.getByQuery(query).subscribe((usuario: Usuario) => {
+        observer.next(usuario);
+        observer.complete();
+      });
     });
+  }
+
+  static fromJson(json) {
+    if (json != null && json.id != undefined) {
+      const usuario = new Usuario(
+        json.id,
+        json.email,
+        json.senha,
+        json.perfil,
+        json.grupoExperimento
+      );
+      usuario.minutos = json.minutos;
+
+      if (json.turma != null) {
+        usuario.turma = Turma.fromJson(json.turma);
+      }
+
+      /* usuario.gamification = Gamification.fromJson(json.gamification);
+      usuario.gamification.estudante = usuario; */
+      return usuario;
+    } else {
+      throw new Error('Usuário não foi logado corretamente, não há id e/ou perfil informados.');
+    }
   }
 
   objectToDocument() {
@@ -89,31 +98,42 @@ export default class Usuario extends Document {
   }
 
   stringfiy() {
-    return {
+    const objeto = {
       id: this.pk(),
       email: this.email,
       senha: this.senha,
       perfil: this.perfil,
       minutos: this.minutos,
-      grupoExperimento: this.grupoExperimento,
     };
+
+    if (this.grupoExperimento != null) {
+      objeto['grupoExperimento'] = this.grupoExperimento;
+    }
+
+    if (this['codigoTurma'] != null) {
+      objeto['turma'] = new Turma(this['codigoTurma'], null, null, null).stringfiy();
+    }
+
+    return objeto;
   }
 
   save(perfil = PerfilUsuario.estudante): Observable<Usuario> {
     return new Observable((observer) => {
-      Usuario.count().subscribe(
-        (contagem) => {
-          this.grupoExperimento = Experiment.assignToGroup(contagem);
-          this.perfil = perfil;
-          super.save().subscribe((result) => {
-            observer.next(result);
-            observer.complete();
-          });
-        },
-        (err) => {
-          observer.error(err);
-        }
-      );
+      Usuario.getAll([
+        new Query('codigoTurma', '==', this.turma.codigo),
+        new Query('perfil', '==', PerfilUsuario.estudante),
+      ]).subscribe((usuarios) => {
+        const categorias = Experiment.construirCategoriasAlunos(usuarios);
+        this.grupoExperimento = Experiment.assignToGroup(
+          categorias,
+          this.conhecimentoPrevioProgramacao
+        );
+        this.perfil = perfil;
+        super.save().subscribe((result) => {
+          observer.next(result);
+          observer.complete();
+        });
+      });
     });
   }
 

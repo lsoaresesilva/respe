@@ -6,6 +6,9 @@ import VisualizacaoQuestao from './visualizacaoQuestao';
 import TempoOnline from './tempoOnline';
 import PageTrackRecord from './pageTrack';
 import { PageTrack } from '../../guards/pageTrack.guard';
+import Turma from '../turma';
+import Usuario from '../usuario';
+import { RespostaQuestaoFechada } from '../respostaQuestaoFechada';
 
 export default class Analytics {
   // TODO: Fazer apenas um carregamento de assunto e usar par atudo aqui.
@@ -284,5 +287,55 @@ export default class Analytics {
 
   static calculaVisualizacoesProgresso(pageTracks) {
     return pageTracks.length;
+  }
+
+  static calcularNumeroAtividadesTrabalhadasPorSemana(turma: Turma) {
+    return new Observable((observer) => {
+      const atividadesPorEstudante = [];
+
+      Usuario.getAll(new Query('codigoTurma', '==', turma.pk())).subscribe(
+        (estudantes: Usuario[]) => {
+          const consultasRespostasFechadasAtividades = {};
+          const consultasRespostasProgramacaoAtividades = {};
+
+          estudantes.forEach((estudante) => {
+            consultasRespostasFechadasAtividades[
+              estudante.pk()
+            ] = RespostaQuestaoFechada.getAtividadesTrabalhadasUltimaSemana(estudante);
+            consultasRespostasProgramacaoAtividades[
+              estudante.pk()
+            ] = Submissao.getExerciciosTrabalhadosUltimaSemana(estudante);
+          });
+
+          forkJoin(consultasRespostasFechadasAtividades).subscribe(
+            (atividadesTrabalhadas: object) => {
+              estudantes.forEach((estudante) => {
+                for (const prop in atividadesTrabalhadas) {
+                  if (prop === estudante.pk()) {
+                    estudante.respostasQuestoesFechadas = atividadesTrabalhadas[prop];
+                    break;
+                  }
+                }
+              });
+
+              forkJoin(consultasRespostasProgramacaoAtividades).subscribe(
+                (atividadesTrabalhadas: object) => {
+                  estudantes.forEach((estudante) => {
+                    for (const prop in atividadesTrabalhadas) {
+                      if (prop === estudante.pk()) {
+                        estudante.respostasQuestoesProgramacao = atividadesTrabalhadas[prop];
+                        break;
+                      }
+                    }
+                  });
+                  observer.next(estudantes);
+                  observer.complete();
+                }
+              );
+            }
+          );
+        }
+      );
+    });
   }
 }

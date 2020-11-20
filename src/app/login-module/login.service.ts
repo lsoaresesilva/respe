@@ -11,6 +11,7 @@ import { AngularFirestore } from '@angular/fire/firestore';
 import RegistroLogin from '../model/registroLogin';
 
 import { RastrearTempoOnlineService } from '../srl/rastrear-tempo-online.service';
+import Gamification from '../model/gamification/gamification';
 
 @Injectable({
   providedIn: 'root',
@@ -24,19 +25,7 @@ export class LoginService {
   getUsuarioLogado(): Usuario {
     if (this.isUsuarioLogado()) {
       const json = JSON.parse(sessionStorage.getItem('usuario'));
-      if (json.id != undefined) {
-        const usuario = new Usuario(
-          json.id,
-          json.email,
-          json.senha,
-          json.perfil,
-          json.grupoExperimento
-        );
-        usuario.minutos = json.minutos;
-        return usuario;
-      } else {
-        throw new Error('Usuário não foi logado corretamente, não há id e/ou perfil informados.');
-      }
+      return Usuario.fromJson(json);
     }
 
     return null;
@@ -52,8 +41,8 @@ export class LoginService {
 
   logarFacebook(usuario) {
     return new Observable((observer) => {
-      Usuario.logar(new Query('email', '==', usuario.email)).subscribe(
-        (usuarioLogado) => {
+      Usuario.getByQuery(new Query('email', '==', usuario.email)).subscribe(
+        (usuarioLogado:Usuario) => {
           if (usuarioLogado != null) {
             this.criarSessao(usuarioLogado);
             observer.next(true);
@@ -72,14 +61,15 @@ export class LoginService {
 
   logar(usuario: Usuario) {
     return new Observable((observer) => {
-      Usuario.logar([
+      Usuario.getByQuery([
         new Query('email', '==', usuario.email),
         new Query('senha', '==', sha256(usuario.senha)),
       ]).subscribe(
-        (usuarioLogado) => {
+        (usuarioLogado:Usuario) => {
           if (usuarioLogado != null) {
             this.criarSessao(usuarioLogado);
             this.rastrearTempoOnline.iniciarTimer(usuarioLogado);
+
             const registroLogin = new RegistroLogin(null, usuarioLogado);
             /* registroLogin.save().subscribe(()=>{
 

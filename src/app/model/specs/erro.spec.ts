@@ -1,4 +1,4 @@
-import Submissao from "../submissao";
+import Submissao from '../submissao';
 import Usuario from '../usuario';
 import { PerfilUsuario } from '../enums/perfilUsuario';
 import Erro from '../errors/erro';
@@ -9,33 +9,29 @@ import { TestBed, inject } from '@angular/core/testing';
 import { DocumentModule } from '../firestore/document.module';
 import { AngularFireModule, FirebaseApp } from '@angular/fire';
 import { FirebaseConfiguracao } from 'src/environments/firebase';
-import { Questao } from '../questao';
+import { QuestaoProgramacao } from '../questoes/questaoProgramacao';
 import { Dificuldade } from '../enums/dificuldade';
 
-describe("Testes para a classe de Erro", ()=>{
-    
-    let app: firebase.app.App;
-    let afs: AngularFirestore;
+describe('Testes para a classe de Erro', () => {
+  let app: firebase.app.App;
+  let afs: AngularFirestore;
 
-
-    beforeAll(() => {
-        jasmine.DEFAULT_TIMEOUT_INTERVAL = 1200000;
-        TestBed.configureTestingModule({
-            imports: [
-                DocumentModule,
-                AngularFireModule.initializeApp(FirebaseConfiguracao),
-                AngularFirestoreModule//.enablePersistence()
-            ]
-        });
-        inject([FirebaseApp, AngularFirestore], (_app: firebase.app.App, _afs: AngularFirestore) => {
-
-            app = _app;
-            afs = _afs;
-        })();
-
+  beforeAll(() => {
+    jasmine.DEFAULT_TIMEOUT_INTERVAL = 1200000;
+    TestBed.configureTestingModule({
+      imports: [
+        DocumentModule,
+        AngularFireModule.initializeApp(FirebaseConfiguracao),
+        AngularFirestoreModule, //.enablePersistence()
+      ],
     });
+    inject([FirebaseApp, AngularFirestore], (_app: firebase.app.App, _afs: AngularFirestore) => {
+      app = _app;
+      afs = _afs;
+    })();
+  });
 
-    /*it("Deve retornar os erros das submissões de um estudante", (done)=>{
+  /*it("Deve retornar os erros das submissões de um estudante", (done)=>{
         let u = new Usuario(null, "", "", PerfilUsuario.estudante, 0);
         let q = new Questao(12345, "", "", Dificuldade.dificil, 1, [], [], "");
         let s1 = new Submissao(null, new Codigo(), u, q);

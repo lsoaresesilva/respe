@@ -7,67 +7,30 @@ import { LoginService } from '../../login-module/login.service';
 @Component({
   selector: 'app-listar-assuntos',
   templateUrl: './listar-assuntos.component.html',
-  styleUrls: ['./listar-assuntos.component.css']
+  styleUrls: ['./listar-assuntos.component.css'],
 })
 export class ListarAssuntosComponent implements OnInit {
-  
-
   assuntos;
-  selectedAssunto: Assunto;
-  items: MenuItem[];
   usuario;
-  
-  constructor(private messageService: MessageService,private router:Router, public login:LoginService,private route: ActivatedRoute) { 
+
+  constructor(private router: Router, public login: LoginService, private route: ActivatedRoute) {
     this.usuario = this.login.getUsuarioLogado();
   }
 
   ngOnInit() {
-   
-    Assunto.getAll().subscribe(assuntos=>{
+    Assunto.getAll().subscribe((assuntos) => {
       this.assuntos = Assunto.ordenar(assuntos);
     });
-    
-    if(this.usuario.perfil == 3){
-    this.items = [
-    { label: 'Alterar', icon: 'pi pi-check', command: (event) => this.alterar(this.selectedAssunto) },
-    { label: 'Deletar', icon: 'pi pi-times', command: (event) => this.deletar(this.selectedAssunto) },
-  
-    ];
-    }
-    
-
-  }
-  
-  cadastrar(){
-    this.router.navigate(["main", { outlets: { principal: ['cadastro-assunto'] } }]);
   }
 
-  abrirAssunto(assunto){
-    this.router.navigate(["main", { outlets: { principal: ['visualizacao-assunto', assunto.pk()] } } ] );
+  abrirAssunto(assunto) {
+    this.router.navigate([
+      'main',
+      { outlets: { principal: ['visualizacao-assunto', assunto.pk()] } },
+    ]);
   }
 
-  alterar(assunto: Assunto) {
-    if(assunto != undefined){
-      this.router.navigate(["main", { outlets: { principal: ['atualizacao-assunto', assunto.pk()] } } ] );
-    }
-    
+  registrar() {
+    this.router.navigate(['main', { outlets: { principal: ['codigo-similar'] } }]);
   }
-
-  deletar(assunto:Assunto) {
-     Assunto.delete(assunto.pk()).subscribe(resultado=>{
-      
-      Assunto.getAll().subscribe(assuntos=>{this.assuntos= assuntos});
-      this.messageDeletar();
-    });
-  }  
-
-  
-  messageDeletar() {
-    this.messageService.add({severity:'error', summary:'Deletado!', detail:"Esse assunto foi apagado!"});
-  }
-
-  registrar(){
-    this.router.navigate(["main", { outlets: { principal: ["codigo-similar"] } } ] );
-  }
- 
 }

@@ -1,6 +1,5 @@
 import { Document, Collection } from './firestore/document';
 import { Observable, forkJoin } from 'rxjs';
-import EstudanteTurma from './estudanteTurma';
 import Usuario from './usuario';
 import GeradorCodigo from '../util/geradorCodigo';
 import Query from './firestore/query';
@@ -46,9 +45,6 @@ export default class Turma extends Document {
       super.save().subscribe(
         (resultado) => {
           const consultas = [];
-          this.estudantes.forEach((estudante) => {
-            consultas.push(new EstudanteTurma(null, estudante, this).save());
-          });
 
           if (consultas.length > 0) {
             forkJoin(consultas).subscribe((resultados) => {
@@ -65,6 +61,23 @@ export default class Turma extends Document {
         }
       );
     });
+  }
+
+  stringfiy() {
+    return {
+      id: this.pk(),
+      /*  gamification:this.gamification.stringfiy() */
+    };
+  }
+
+  static fromJson(json) {
+    if (json != null && json.id != undefined) {
+      const turma = new Turma(json.id, null, null, null);
+
+      return turma;
+    } else {
+      throw new Error('Usuário não foi logado corretamente, não há id e/ou perfil informados.');
+    }
   }
 
   // static get(id) {

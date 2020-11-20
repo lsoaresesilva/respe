@@ -50,6 +50,13 @@ import { AdminGuard } from './guards/admin.guard';
 import { ProfessorGuard } from './guards/professor.guard';
 import { EditorComponent } from './game-based-learning/editor/editor.component';
 import { PageTrack } from './guards/pageTrack.guard';
+import { VisualizarParsonComponent } from './parson-problem/visualizar-parson/visualizar-parson.component';
+import { RankingComponent } from './gamification/ranking/ranking.component';
+import { ListarAssuntosAdminComponent } from './admin/listar-assuntos-admin/listar-assuntos-admin.component';
+import { VisualizarAssuntoAdminComponent } from './admin/visualizar-assunto-admin/visualizar-assunto-admin.component';
+import { AnalyticsTurmaComponent } from './analytics-module/analytics-turma/analytics-turma.component';
+import { CadastrarParsonComponent } from './parson-problem/cadastrar-parson/cadastrar-parson.component';
+import { EstatisticasExperimentoComponent } from './turma/estatisticas-experimento/estatisticas-experimento.component';
 
 const routes: Routes = [
   {
@@ -64,6 +71,86 @@ const routes: Routes = [
         outlet: 'principal',
       },
       { path: 'subsecao', component: SubsecaoComponent, outlet: 'principal' },
+      {
+        path: 'visualizar-parson',
+        component: VisualizarParsonComponent,
+        outlet: 'principal',
+        canActivate: [AuthGuard],
+      },
+
+      /* ADMIN */
+      {
+        path: 'listar-assuntos-admin',
+        component: ListarAssuntosAdminComponent,
+        outlet: 'principal',
+        canActivate: [AuthGuard],
+      },
+      {
+        path: 'visualizar-assunto-admin/:id',
+        component: VisualizarAssuntoAdminComponent,
+        outlet: 'principal',
+        canActivate: [AuthGuard],
+      },
+      {
+        path: 'atualizar-questao-fechada/:assuntoId/:questaoId',
+        component: CadastrarQuestoesFechadasComponent,
+        canActivate: [AuthGuard, AdminGuard],
+        outlet: 'principal',
+      },
+
+      /* FIM ADMIN */
+
+      /* Turma */
+      {
+        path: 'estatisticas-experimento/:codigoTurma',
+        component: EstatisticasExperimentoComponent,
+        canActivate: [AuthGuard, ProfessorGuard],
+        outlet: 'principal',
+      },
+
+      /* ANALYTICS */
+      {
+        path: 'analytics-turma/:turmaId',
+        component: AnalyticsTurmaComponent,
+        canActivate: [AuthGuard, ProfessorGuard],
+        outlet: 'principal',
+      },
+
+      /* JUIZ */
+
+      {
+        path: 'cadastro-questao/:assuntoId/:questaoId',
+        component: CadastrarQuestoesComponent,
+        canActivate: [AuthGuard, AdminGuard],
+        outlet: 'principal',
+      },
+      {
+        path: 'cadastro-questao-fechada/:assuntoId',
+        component: CadastrarQuestoesFechadasComponent,
+        canActivate: [AuthGuard, AdminGuard],
+        outlet: 'principal',
+      },
+
+      {
+        path: 'cadastro-questao-parson/:assuntoId',
+        component: CadastrarParsonComponent,
+        canActivate: [AuthGuard, AdminGuard],
+        outlet: 'principal',
+      },
+      {
+        path: 'visualizar-questao-parson/:assuntoId/:questaoId',
+        component: VisualizarParsonComponent,
+        canActivate: [AuthGuard],
+        outlet: 'principal',
+      },
+
+      {
+        path: 'cadastro-questao-parson/:assuntoId/:questaoId',
+        component: CadastrarParsonComponent,
+        canActivate: [AuthGuard, AdminGuard],
+        outlet: 'principal',
+      },
+
       /** SRL */
 
       /** Monitoramento */
@@ -113,30 +200,7 @@ const routes: Routes = [
         canLoad: [AuthGuard, AdminGuard],
         outlet: 'principal',
       },
-      {
-        path: 'cadastro-questao/:assuntoId/:questaoId',
-        component: CadastrarQuestoesComponent,
-        canActivate: [AuthGuard, AdminGuard],
-        outlet: 'principal',
-      },
-      {
-        path: 'cadastro-questao-fechada/:assuntoId',
-        component: CadastrarQuestoesFechadasComponent,
-        canActivate: [AuthGuard, AdminGuard],
-        outlet: 'principal',
-      },
-      {
-        path: 'cadastro-questao-fechada/:assuntoId/:questaoId',
-        component: CadastrarQuestoesFechadasComponent,
-        canActivate: [AuthGuard, AdminGuard],
-        outlet: 'principal',
-      },
-      {
-        path: 'atualizacao-questao/:id',
-        component: CadastrarQuestoesComponent,
-        canActivate: [AuthGuard, AdminGuard],
-        outlet: 'principal',
-      },
+
       {
         path: 'atualizacao-planejamento/:id',
         component: CadastroPlanejamentoComponent,
@@ -190,7 +254,7 @@ const routes: Routes = [
       {
         path: 'listagem-estudantes',
         component: ListarEstudantesComponent,
-        canActivate: [AuthGuard, AdminGuard],
+        canActivate: [AuthGuard, ProfessorGuard],
         outlet: 'principal',
       },
       {
@@ -280,6 +344,12 @@ const routes: Routes = [
       {
         path: 'visualizacao-assunto/:id',
         component: VisualizarAssuntoComponent,
+        canActivate: [AuthGuard, PageTrack],
+        outlet: 'principal',
+      },
+      {
+        path: 'ranking',
+        component: RankingComponent,
         canActivate: [AuthGuard, PageTrack],
         outlet: 'principal',
       },

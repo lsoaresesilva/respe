@@ -3,7 +3,7 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { Planejamento } from 'src/app/model/planejamento';
 import { Assunto } from 'src/app/model/assunto';
 import Usuario from 'src/app/model/usuario';
-import { Questao } from 'src/app/model/questao';
+import { QuestaoProgramacao } from 'src/app/model/questoes/questaoProgramacao';
 import Query from 'src/app/model/firestore/query';
 import { forkJoin } from 'rxjs';
 import { LoginService } from 'src/app/login-module/login.service';

@@ -1,50 +1,17 @@
-<p-toast [style]="{marginTop: '80px'}"></p-toast>
+<p-toast [style]="{ marginTop: '80px' }"></p-toast>
 <h1>Assuntos</h1>
 
 <div class="ui-g">
-    <div class="ui-g-4">
-
-        <!-- <p-button label="Registar exemplo de questão" (click)="registrar()"></p-button> -->
-    </div>
-    <div class="ui-g-4">
-        <button *ngIf="login.getUsuarioLogado().perfil == 3" pButton type="button" (click)="cadastrar()"
-            class="ui-button-success ui-button-raised" label="Cadastrar"></button></div>
-    <div class="ui-g-4">
-
-        <!-- <p-button label="Registar exemplo de questão" (click)="registrar()"></p-button> -->
-    </div>
-
+  <div class="ui-g-4"></div>
+  <div class="ui-g-4">
+    <p-table id="assuntosProgramacao" [value]="assuntos">
+      <ng-template pTemplate="header"> </ng-template>
+      <ng-template pTemplate="body" let-rowData let-assunto>
+        <tr [pContextMenuRow]="rowData">
+          <td (click)="abrirAssunto(assunto)" style="cursor: pointer">{{ assunto.nome }}</td>
+        </tr>
+      </ng-template>
+    </p-table>
+  </div>
+  <div class="ui-g-4"></div>
 </div>
-
-<div *ngIf="login.getUsuarioLogado().perfil == 3">
-    <p-contextMenu #cm [model]="items"></p-contextMenu>
-</div>
-
-<p-toast [style]="{marginTop: '80px'}"></p-toast>
-
-
-<div class="ui-g">
-    <div class="ui-g-4">
-
-    </div>
-    <div class="ui-g-4">
-        <p-table id="assuntosProgramacao" [value]="assuntos" [(contextMenuSelection)]="selectedAssunto" [contextMenu]="cm">
-            <ng-template pTemplate="header">
-
-            </ng-template>
-            <ng-template pTemplate="body" let-rowData let-assunto>
-                <tr [pContextMenuRow]="rowData">
-                    <td (click)="abrirAssunto(assunto)" style="cursor: pointer;">{{assunto.nome}}</td>
-                </tr>
-            </ng-template>
-        </p-table>
-    </div>
-    <div class="ui-g-4">
-
-    </div>
-
-</div>
-
-
-
-<p-contextMenu #cm [model]="items"></p-contextMenu>
