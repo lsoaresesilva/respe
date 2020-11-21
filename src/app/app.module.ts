@@ -33,6 +33,8 @@ import { GamificationModule } from './gamification/gamification.module';
 import { ButtonModule } from 'primeng/button';
 import { ToolbarModule } from 'primeng/toolbar';
 import { AdminModule } from './admin/admin.module';
+import {ConfirmDialogModule} from 'primeng/confirmdialog';
+import {ConfirmationService} from 'primeng/api';
 
 @NgModule({
   schemas: [CUSTOM_ELEMENTS_SCHEMA],
@@ -62,8 +64,9 @@ import { AdminModule } from './admin/admin.module';
     AngularFireAuthModule,
     SharedPipesModule,
     ParsonProblemModule,
+    ConfirmDialogModule
   ],
-  providers: [AuthGuard, TurmaGuard, MessageService],
+  providers: [AuthGuard, TurmaGuard, MessageService, ConfirmationService],
   bootstrap: [AppComponent],
   exports: [EscapeHtmlPipe],
 })

@@ -64,6 +64,7 @@ import { ProgressBarModule } from 'primeng/progressbar';
 import { SrlModule } from '../srl/srl.module';
 import { ListarQuestoesSequenciaComponent } from './listar-questoes-sequencia/listar-questoes-sequencia.component';
 import { ProgressSpinnerModule } from 'primeng/progressspinner';
+import { MonitoramentoMotivacionalService } from '../motivacional/monitoramento-motivacional.service';
 
 @NgModule({
   declarations: [
@@ -139,7 +140,7 @@ import { ProgressSpinnerModule } from 'primeng/progressspinner';
     ResponderQuestaoProgramacaoLiteComponent,
   ],
 
-  providers: [MessageService, LoginService, EditorService, ConfirmationService],
+  providers: [MessageService, LoginService, EditorService, ConfirmationService, MonitoramentoMotivacionalService],
   schemas: [CUSTOM_ELEMENTS_SCHEMA],
 })
 export class JuizModule {}
