@@ -9,8 +9,19 @@
     },
     "NameError": {
       "mensagens": [
-        "Parece que você está cometendo alguns erros por escrever as instruções de programação de forma incorreta.",
-        ""
+        "Observei que você está cometendo alguns erros por causa da forma como está usando as variáveis",
+        "Fique atento às causas desse tipo de problema:",
+        "",
+        "Será que você tentou usar o dado de uma variável antes de declará-la? ou...",
+        "",
+        "Tentou utilizar uma função, mas escreveu o seu nome errado? exemplo: primt() ao invés de print()",
+        "",
+        "Precisa de mais ajuda? É só digitar sim, caso contrário não precisa escrever nada"
+      ]
+    },
+    "NameErrorParteDois": {
+      "mensagens": [
+        "Sugiro que leia alguns materiais sobre esse erro para ajudá-lo a resolver o problema"
       ]
     },
     "saudacao": {

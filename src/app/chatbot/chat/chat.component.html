@@ -5,6 +5,7 @@ oi
   visible="true"
   position="bottom-right"
   [style]="{ width: '15vw', maxHeight: '20vw', height: '20vw' }"
+  [baseZIndex]="10000"
 >
   <div style="height: '9vw'">
     <div *ngFor="let mensagem of chatbot.mensagens" class="msg">

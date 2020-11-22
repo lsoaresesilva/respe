@@ -10,11 +10,15 @@ import MensagemSuporteMonitor from '../model/mensagemSuporteMonitor';
 import { getLabelPorCategoriaNumero } from '../model/errors/enum/labelCategoriasErro';
 import Usuario from '../model/usuario';
 import Mensagem from '../model/chatbot/mensagem';
+import { CategoriaErro } from '../model/errors/enum/categoriasErro';
 
 @Injectable({
   providedIn: 'root',
 })
 export class MonitorService {
+  // Armazena qual foi o último suporte dado ao estudante
+  suporteRecente;
+
   constructor(private chatbot: ChatbotService) {}
 
   /**
@@ -100,16 +104,25 @@ export class MonitorService {
         const erros = Submissao.getAllErros(submissoes);
         const frequencia = FrequenciaErro.calcularFrequencia(erros);
         const principalErro = FrequenciaErro.identificarPrincipalErro(frequencia);
+        this.suporteRecente = principalErro.categoriaErro;
         const mensagemSuporte = MensagemSuporteMonitor.getMensagem(
           getLabelPorCategoriaNumero(principalErro.categoriaErro)
         );
-        if (Array.isArray(mensagemSuporte)) {
-          mensagemSuporte.forEach((mensagem) => {
-            this.chatbot.enviarMensagem(new Mensagem(mensagem, this.chatbot.usuario));
-          });
+        if (mensagemSuporte != null && Array.isArray(mensagemSuporte.mensagens)) {
+          this.chatbot.enviarMensagem(mensagemSuporte.mensagens);
         }
-        //
       }
     });
+  }
+
+  oferecerMaisAjuda() {
+    if (this.suporteRecente == CategoriaErro.nameError) {
+      const mensagemSuporte = MensagemSuporteMonitor.getMensagem(
+        getLabelPorCategoriaNumero('NameErrorParteDois')
+      );
+      if (mensagemSuporte != null && Array.isArray(mensagemSuporte.mensagens)) {
+        this.chatbot.enviarMensagem(mensagemSuporte.mensagens);
+      }
+    }
   }
 }

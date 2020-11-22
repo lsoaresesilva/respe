@@ -19,9 +19,15 @@ export class ChatbotService {
     this.usuario.nome = 'Davi';
   }
 
-  enviarMensagem(mensagem) {
+  enviarMensagem(mensagem: Mensagem | any[]) {
     this.apresentarSaudacao();
-    this.mensagens.push(mensagem);
+    if (Array.isArray(mensagem)) {
+      mensagem.forEach((msg) => {
+        this.mensagens.push(new Mensagem(msg, this.usuario));
+      });
+    } else {
+      this.mensagens.push(mensagem);
+    }
   }
 
   receberMensagem(mensagem) {
@@ -29,13 +35,16 @@ export class ChatbotService {
     this.analisarMensagem(mensagem);
   }
 
-  analisarMensagem(mensagem) {}
+  analisarMensagem(mensagem) {
+    if (mensagem.toLowerCase() === 'sim') {
+    }
+  }
 
   private apresentarSaudacao() {
     if (!this.saudacao) {
       this.saudacao = true;
       this.enviarMensagem(
-        new Mensagem(MensagemSuporteMonitor.getMensagem('saudacao'), this.usuario)
+        new Mensagem(MensagemSuporteMonitor.getMensagem('saudacao').mensagens[0], this.usuario)
       );
     }
   }
