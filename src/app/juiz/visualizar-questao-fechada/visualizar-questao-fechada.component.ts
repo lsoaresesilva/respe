@@ -12,6 +12,7 @@ import PontuacaoQuestaoFechada from 'src/app/model/gamification/pontuacaoQuestao
 import Gamification from 'src/app/model/gamification/gamification';
 import { GamificationFacade } from 'src/app/gamification/gamification.service';
 import QuestaoFechada from 'src/app/model/questoes/questaoFechada';
+import { MonitoramentoMotivacionalService } from '../../motivacional/monitoramento-motivacional.service';
 
 @Component({
   selector: 'app-visualizar-questao-fechada',
@@ -28,6 +29,8 @@ export class VisualizarQuestaoFechadaComponent implements OnInit {
 
   alternativaEscolhida;
 
+  estudante;
+
   constructor(
     private sanitizer: DomSanitizer,
     private route: ActivatedRoute,
@@ -35,11 +38,13 @@ export class VisualizarQuestaoFechadaComponent implements OnInit {
     private login: LoginService,
     private messageService: MessageService,
     private confirmationService: ConfirmationService,
-    private gamification: GamificationFacade
+    private gamification: GamificationFacade,
+    private monitorMotivacao:MonitoramentoMotivacionalService
   ) {
+    this.estudante = this.login.getUsuarioLogado();
     this.respostaQuestaoFechada = new RespostaQuestaoFechada(
       null,
-      this.login.getUsuarioLogado(),
+      this.estudante,
       new Alternativa(null, null, null),
       this.questao
     );
@@ -135,6 +140,8 @@ export class VisualizarQuestaoFechadaComponent implements OnInit {
           summary: 'Parabéns!',
           detail: ' Você acertou essa questão!',
         });
+
+        this.monitorMotivacao.monitorarProgressoAssunto(this.assunto, this.estudante);
       } else {
         this.messageService.add({
           severity: 'error',

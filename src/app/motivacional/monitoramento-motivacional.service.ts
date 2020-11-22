@@ -7,12 +7,17 @@ import { ConfirmationService } from 'primeng/api';
 })
 export class MonitoramentoMotivacionalService {
 
-  constructor(dialog: ConfirmationService) { }
+  constructor(public dialog: ConfirmationService) { }
 
   monitorarProgressoAssunto(assunto, estudante) {
     Assunto.calcularPercentualConclusao(assunto, estudante).subscribe(progresso => {
-      if(this.exibirDialogProgressoAssunto(progresso)){
-
+      if (this.exibirDialogProgressoAssunto(progresso)) {
+        this.dialog.confirm({
+          message: this.getMensagemProgressoAssunto(progresso),
+          accept: () => {
+              //Actual logic to perform a confirmation
+          }
+      })
       }
     });
   }
@@ -50,24 +55,26 @@ export class MonitoramentoMotivacionalService {
         return superouProgresso(progresso, progressoAnterior, 50, 70);
       } else if (progresso >= 70 && progresso < 100) {
         return superouProgresso(progresso, progressoAnterior, 70, 100);
-      }else{
+      } else {
         return true;
       }
     }
   }
 
-  getMensagemProgressoAssunto(progresso){
+  getMensagemProgressoAssunto(progresso) {
     let percentual;
-    if(progresso >= 30 && progresso < 50){
-      percentual = "30%"
-    }else if(progresso >= 50 && progresso < 70){
-      percentual = "50%"
-    }else if(progresso >= 70 && progresso < 100){
-      percentual = "70%"
-    }else{
-      percentual = "1000%"
+    if (progresso >= 30 && progresso < 50) {
+      percentual = '30%'
+    } else if (progresso >= 50 && progresso < 70) {
+      percentual = '50%'
+    } else if (progresso >= 70 && progresso < 100) {
+      percentual = '70%'
     }
 
-    let mensagem = "Você alcançou "
+    if(progresso == 100){
+      return "Você concluiu o assunto!";
+    }
+
+    return  `Você ultrapassou ${percentual} do progresso no assunto!`;
   }
 }
