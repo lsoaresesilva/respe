@@ -3,20 +3,17 @@ import { CommonModule } from '@angular/common';
 
 import { LoginComponent } from './login/login.component';
 import { FormsModule } from '@angular/forms';
-import {ButtonModule} from 'primeng/button';
-import {InputTextModule} from 'primeng/inputtext';
-import {CardModule} from 'primeng/card';
+import { ButtonModule } from 'primeng/button';
+import { InputTextModule } from 'primeng/inputtext';
+import { CardModule } from 'primeng/card';
 import { ToastModule } from 'primeng/toast';
 import { config } from 'process';
 import { SrlModule } from '../srl/srl.module';
 import { MessageService } from 'primeng/api';
-
+import { MenubarModule } from 'primeng/menubar';
 
 @NgModule({
-  declarations: [
-    LoginComponent,
-   
-  ],
+  declarations: [LoginComponent],
   imports: [
     CommonModule,
     FormsModule,
@@ -24,12 +21,9 @@ import { MessageService } from 'primeng/api';
     CardModule,
     ToastModule,
     ButtonModule,
-    SrlModule
-  
-
-
-    
+    SrlModule,
+    MenubarModule,
   ],
-  providers: [MessageService]
+  providers: [MessageService],
 })
-export class LoginModule { }
+export class LoginModule {}

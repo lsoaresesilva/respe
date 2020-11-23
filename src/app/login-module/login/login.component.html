@@ -1,14 +1,13 @@
 <p-toast key="loginToast"></p-toast>
 
-<div class="container">
+<p-menubar [model]="items"></p-menubar>
 
+<div class="container">
   <div class="hero-section respon">
     <img src="/assets/logo_32bits.png" />
 
-    <div >
-      <div class="hero-section__card-info">
-        
-      </div>
+    <div>
+      <div class="hero-section__card-info"></div>
     </div>
 
     <div class="footer-link">
@@ -21,21 +20,35 @@
   </div>
 
   <div class="login-section">
-
     <div class="p-grid form">
       <div class="p-col-12 row-title">Entrar</div>
 
       <div class="p-col-12 row-input">
         <div class="ui-inputgroup">
           <span class="ui-inputgroup-addon"><i class="pi pi-user"></i></span>
-          <input type="text" id="login" [(ngModel)]="usuario.email" pInputText placeholder="Email" (keyup.enter)="acessar()">
+          <input
+            type="text"
+            id="login"
+            [(ngModel)]="usuario.email"
+            pInputText
+            placeholder="Email"
+            (keyup.enter)="acessar()"
+          />
         </div>
       </div>
 
       <div class="p-col-12 row-input">
         <div class="ui-inputgroup">
           <span class="ui-inputgroup-addon"><i class="pi pi-key"></i></span>
-          <input type="password" id="senha" [(ngModel)]="usuario.senha" pInputText placeholder="Senha" pPassword (keyup.enter)="acessar()" />
+          <input
+            type="password"
+            id="senha"
+            [(ngModel)]="usuario.senha"
+            pInputText
+            placeholder="Senha"
+            pPassword
+            (keyup.enter)="acessar()"
+          />
         </div>
       </div>
 
@@ -43,14 +56,21 @@
         <!-- <a class= ""  (click)="cadastrar()" >Esqueceu a senha?</a> -->
       </div>
       <div class="p-col-12 row-btn">
-        <button pButton id="loginBtn" (click)="acessar()" type="button" label="Entrar"
-          class=" ui-button-raised"></button>
+        <button
+          pButton
+          id="loginBtn"
+          (click)="acessar()"
+          type="button"
+          label="Entrar"
+          class="ui-button-raised"
+        ></button>
       </div>
+      <!---
       <div class="p-col-12">
         <button pButton id="cadastro" (click)="cadastrar()" type="button" label="Cadastre-se"
           class="ui-button-secondary ui-button-raised"></button>
       </div>
-      <!---
+
       <div class="p-col-12">
         <button pButton id="Login com o Google" (click)="signInWithGoogle()" type="button" label="Login com Google"
           class="ui-button-raised">
@@ -61,5 +81,4 @@
       -->
     </div>
   </div>
-
 </div>
