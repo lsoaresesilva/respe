@@ -3,7 +3,6 @@ import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { InputTextModule } from 'primeng/inputtext';
 import { MenubarModule } from 'primeng/menubar';
-import { FirebaseConfiguracao } from 'src/environments/firebase';
 import { LoginModule } from './login-module/login.module';
 import { MainComponent } from './geral-module/main/main.component';
 import { AnalyticsModule } from './analytics-module/analytics.module';
@@ -57,7 +56,7 @@ import { DialogService } from 'primeng/dynamicdialog';
     LoginModule,
     BrowserModule,
     AppRoutingModule,
-    AngularFireModule.initializeApp(FirebaseConfiguracao),
+    AngularFireModule.initializeApp(environment.firebase),
     AngularFirestoreModule,
     InputTextModule,
     MenubarModule,

@@ -7,6 +7,7 @@ import { Groups } from 'src/app/model/experimento/groups';
 import { PerfilUsuario } from 'src/app/model/enums/perfilUsuario';
 import { ApresentacaoService } from '../apresentacao.service';
 import QuestionarioAutorregulacao from 'src/app/model/experimento/questionarioAutorregulacao';
+import ChatBot from 'src/app/model/chatbot/chatbot';
 import { GamificationFacade } from 'src/app/gamification/gamification.service';
 
 @Component({
@@ -28,6 +29,8 @@ export class MainComponent implements OnInit {
     private gamification: GamificationFacade
   ) {
     this.usuario = this.login.getUsuarioLogado();
+
+    let c = new ChatBot();
     if (this.usuario.perfil === PerfilUsuario.estudante) {
       this.gamification.inicializar(this.usuario);
     }

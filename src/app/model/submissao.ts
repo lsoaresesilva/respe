@@ -280,6 +280,21 @@ export default class Submissao extends Document {
     });
   }
 
+  /**
+   * Extrai todos os erros cometidos pelo estudante em suas submissões.
+   * @param submissoes
+   */
+  static getAllErros(submissoes): ErroCompilacao[] {
+    const erros: ErroCompilacao[] = [];
+    submissoes.forEach((submissao) => {
+      if (submissao.erro != null && submissao.erro instanceof ErroCompilacao) {
+        erros.push(submissao.erro);
+      }
+    });
+
+    return erros;
+  }
+
   /*analisarErros() {
         this.erros = [];
         this.erros = this.erros.concat(ErroSintaxeVariavel.erros(this));
