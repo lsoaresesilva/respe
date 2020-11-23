@@ -40,9 +40,15 @@ export class ListarQuestoesSequenciaComponent implements OnChanges {
         this.assunto.questoesProgramacao
       );
 
+      consultas['questoesParson'] = QuestaoParsonProblem.verificarQuestoesRespondidas(
+        this.login.getUsuarioLogado(),
+        this.assunto.questoesParson
+      );
+
       forkJoin(consultas).subscribe((respostas) => {
         this.assunto.questoesFechadas = respostas['questoesFechadas'];
         this.assunto.questoesProgramacao = respostas['questoesProgramacao'];
+        this.assunto.questoesParson = respostas['questoesParson'];
         this.questoes = this.assunto.ordenarQuestoes();
       });
     }
