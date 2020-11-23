@@ -75,6 +75,26 @@ export default class FrequenciaErro {
     return frequencia;
   }
 
+  static identificarPrincipalErro(erros: FrequenciaErro[]): FrequenciaErro {
+    if (Array.isArray(erros)) {
+      let erroPrincipal = null;
+
+      erros.forEach((erro: FrequenciaErro) => {
+        if (erroPrincipal == null) {
+          erroPrincipal = erro;
+        } else {
+          if (erroPrincipal.contagem < erro.contagem) {
+            erroPrincipal = erro;
+          }
+        }
+      });
+
+      return erroPrincipal;
+    } else {
+      throw new Error('Não é possível calcular a frequência de erros para um array vazio.');
+    }
+  }
+
   static calcularFrequenciaPorMes(erros) {
     const resultados = [];
     erros.forEach((erro) => {

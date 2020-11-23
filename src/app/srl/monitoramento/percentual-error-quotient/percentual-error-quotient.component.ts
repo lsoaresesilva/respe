@@ -6,25 +6,25 @@ import Query from 'src/app/model/firestore/query';
 @Component({
   selector: 'app-percentual-error-quotient',
   templateUrl: './percentual-error-quotient.component.html',
-  styleUrls: ['./percentual-error-quotient.component.css']
+  styleUrls: ['./percentual-error-quotient.component.css'],
 })
 export class PercentualErrorQuotientComponent implements OnInit {
-
   @Input() estudante;
   @Input() percentual;
 
-  constructor() { }
+  constructor() {}
 
   ngOnInit() {
     if (this.estudante != undefined) {
-      Submissao.getAll(new Query("estudanteId", "==", this.estudante.pk()), "data").subscribe(submissoes => {
-        let errorQuotient = Tutor.calcularErrorQuotient(submissoes);
+      Submissao.getAll(new Query('estudanteId', '==', this.estudante.pk()), 'data').subscribe(
+        (submissoes) => {
+          /* let errorQuotient = Tutor.calcularErrorQuotient(submissoes);
         if(errorQuotient != null)
           this.percentual = errorQuotient * 100;
         else
-          this.percentual = errorQuotient;
-      })
+          this.percentual = errorQuotient; */
+        }
+      );
     }
   }
-
 }

@@ -32,12 +32,14 @@ import { GamificationModule } from './gamification/gamification.module';
 import { ButtonModule } from 'primeng/button';
 import { ToolbarModule } from 'primeng/toolbar';
 import { AdminModule } from './admin/admin.module';
+import { ChatbotModule } from './chatbot/chatbot.module';
 
 @NgModule({
   schemas: [CUSTOM_ELEMENTS_SCHEMA],
   declarations: [AppComponent, MainComponent],
   imports: [
     AdminModule,
+    ChatbotModule,
     SrlModule,
     GamificationModule,
     ButtonModule,
