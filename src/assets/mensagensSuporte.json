@@ -2,26 +2,30 @@
   "mensagens": {
     "SyntaxError": {
       "mensagens": [
-        "Olá, meu nome é Davi e sou o monitor do curso de programação.",
         "Parece que você está cometendo alguns erros por escrever as instruções de programação de forma incorreta.",
-        ""
+        "Leia a mensagem que aparece no seu console, ela irá ajudá-lo a corrigir o problema",
+        "Se ainda assim você estiver com dúvidas, dá uma lida nesse material: <a href='http://32bits.codes:2368/resolvendo-o-syntaxerror-no-python/' target='_blank'>Resolvendo o SyntaxError</a>"
       ]
     },
     "NameError": {
       "mensagens": [
         "Observei que você está cometendo alguns erros por causa da forma como está usando as variáveis",
-        "Fique atento às causas desse tipo de problema:",
-        "",
-        "Será que você tentou usar o dado de uma variável antes de declará-la? ou...",
-        "",
-        "Tentou utilizar uma função, mas escreveu o seu nome errado? exemplo: primt() ao invés de print()",
-        "",
-        "Precisa de mais ajuda? É só digitar sim, caso contrário não precisa escrever nada"
+        "Já leu as mensagens no console?",
+        "Esse material também pode te ajudar: <a href='http://32bits.codes:2368/resolvendo-os-erros/' target='_blank'>Resolvendo o NameError</a>"
+      ]
+    },
+    "TypeError": {
+      "mensagens": [
+        "Ops... parece que você está com dificuldades em usar variáveis de tipos diferentes",
+        "O seu console é seu amigo, dá uma lida nele para entender as causas do erro",
+        "Também te recomendo um texto: <a href='http://32bits.codes:2368/resolvendo-o-typeerror-no-python/' target='_blank'>Resolvendo o TypeError</a>"
       ]
     },
     "NameErrorParteDois": {
       "mensagens": [
-        "Sugiro que leia alguns materiais sobre esse erro para ajudá-lo a resolver o problema"
+        "Sugiro que leia alguns materiais sobre esse erro para ajudá-lo a resolver o problema:",
+        "",
+        "http://www.32bits.codes:2368/resolvendo-os-erros/"
       ]
     },
     "saudacao": {

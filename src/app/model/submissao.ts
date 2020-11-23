@@ -172,7 +172,7 @@ export default class Submissao extends Document {
     return submissaoFiltrada;
   }
 
-  private static filtrarRecente(submissoes = []) {
+  static filtrarRecente(submissoes = []) {
     let submissaoRecente = null;
     if (submissoes.length != 0) {
       if (submissoes.length == 1) {

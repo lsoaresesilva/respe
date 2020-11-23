@@ -1,16 +1,22 @@
-oi
 <p-dialog
   header="Title"
   header="Bate-papo"
-  visible="true"
+  [(visible)]="visibilidade"
   position="bottom-right"
+  [closable]="true"
+  (onHide)="onHide($event)"
   [style]="{ width: '15vw', maxHeight: '20vw', height: '20vw' }"
-  [baseZIndex]="10000"
+  [baseZIndex]="100000000"
 >
-  <div style="height: '9vw'">
+  <div style="height: '15vw'" #divChat>
     <div *ngFor="let mensagem of chatbot.mensagens" class="msg">
-      <span>{{ mensagem.texto }}</span>
+      <span [innerHtml]="mensagem.texto | keepHtml"></span>
       <br />
     </div>
   </div>
+
+  <p-footer>
+    <input type="text" pInputText style="margin-right: 5px" />
+    <button pButton label="" icon="pi pi-caret-right"></button>
+  </p-footer>
 </p-dialog>

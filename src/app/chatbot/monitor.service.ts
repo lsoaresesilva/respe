@@ -18,8 +18,14 @@ import { CategoriaErro } from '../model/errors/enum/categoriasErro';
 export class MonitorService {
   // Armazena qual foi o último suporte dado ao estudante
   suporteRecente;
+  suporte: Map<CategoriaErro, String[]>;
 
-  constructor(private chatbot: ChatbotService) {}
+  constructor(private chatbot: ChatbotService) {
+    this.suporte = new Map<CategoriaErro, String[]>();
+    this.suporte.set(CategoriaErro.nameError, []);
+    this.suporte.set(CategoriaErro.syntaxError, []);
+    this.suporte.set(CategoriaErro.typeError, []);
+  }
 
   /**
          * Given two compilation events, we first check
@@ -95,21 +101,50 @@ export class MonitorService {
     return score / 11;
   }
 
+  // TODO: usar isso quando o chatbot for mais avançado e exibir mais de uma mensagem. O método a seguir define qual mensagem seria exibida.
+  /*  private deveExibirMensagemAjuda(categoria:CategoriaErro, questao) {
+    // Verificar a quantidade de vezes que a mensagem já foi apresentada para uma determinada categoria
+    const totalExibicoesCategoria = this.suporte.get(categoria);
+    // Se não tiver exibido nada, então mostrar a básica
+    if(totalExibicoesCategoria < 2){
+      // Se já tiver exibido e for a básica então mostrar a avançada
+      if(totalExibicoesCategoria == ){
+
+      }
+    }else{
+
+    }
+
+    // Se já tiver sido exibida as duas, não faz nada.
+  } */
+
   apresentarAjudaEstudanteErroSintaxe(questao: QuestaoProgramacao, estudante) {
+    let enviarMensagem = false;
     Submissao.getPorQuestao(questao, estudante).subscribe((submissoes) => {
       const errorQuotient = this.calcularErrorQuotient(submissoes);
       // Estabelecemos esse valor de 30% de error quotient arbitrariamente.
       // TODO: modificar o valor a partir dos dados de outros alunos. Identificar o % ideal que pode aumentar com o tempo.
       if (errorQuotient > 0.3) {
-        const erros = Submissao.getAllErros(submissoes);
+        // Não é para pegar o principalErro, mas sim o mais recente.
+        /* const erros = Submissao.getAllErros(submissoes);
         const frequencia = FrequenciaErro.calcularFrequencia(erros);
-        const principalErro = FrequenciaErro.identificarPrincipalErro(frequencia);
-        this.suporteRecente = principalErro.categoriaErro;
-        const mensagemSuporte = MensagemSuporteMonitor.getMensagem(
-          getLabelPorCategoriaNumero(principalErro.categoriaErro)
-        );
-        if (mensagemSuporte != null && Array.isArray(mensagemSuporte.mensagens)) {
-          this.chatbot.enviarMensagem(mensagemSuporte.mensagens);
+
+        const principalErro = FrequenciaErro.identificarPrincipalErro(frequencia); */
+        const submissao = Submissao.filtrarRecente(submissoes);
+        if (submissao.erro != null) {
+          const suporteParaCategoria = this.suporte.get(submissao.erro.categoria);
+
+          if (!suporteParaCategoria.includes(questao.id)) {
+            this.suporteRecente = submissao.erro.categoria;
+            enviarMensagem = true;
+            suporteParaCategoria.push(questao.id);
+            const mensagemSuporte = MensagemSuporteMonitor.getMensagem(
+              getLabelPorCategoriaNumero(submissao.erro.categoria)
+            );
+            if (mensagemSuporte != null && Array.isArray(mensagemSuporte.mensagens)) {
+              this.chatbot.enviarMensagem(mensagemSuporte.mensagens);
+            }
+          }
         }
       }
     });

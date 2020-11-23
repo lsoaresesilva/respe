@@ -1,4 +1,4 @@
-import { Injectable } from '@angular/core';
+import { EventEmitter, Injectable } from '@angular/core';
 import Mensagem from '../model/chatbot/mensagem';
 import Observador from '../model/chatbot/observador';
 import Observavel from '../model/chatbot/observavel';
@@ -9,17 +9,21 @@ import Usuario from '../model/usuario';
   providedIn: 'root',
 })
 export class ChatbotService {
+  mensagemUpdate;
+
   mensagens: any[];
   usuario;
   saudacao = false;
 
   constructor() {
-    this.mensagens = [];
+    this.reinicializar();
     this.usuario = new Usuario(null, null, null, null, null);
     this.usuario.nome = 'Davi';
+    this.mensagemUpdate = new EventEmitter();
   }
 
   enviarMensagem(mensagem: Mensagem | any[]) {
+    this.reinicializar();
     this.apresentarSaudacao();
     if (Array.isArray(mensagem)) {
       mensagem.forEach((msg) => {
@@ -28,11 +32,16 @@ export class ChatbotService {
     } else {
       this.mensagens.push(mensagem);
     }
+    this.mensagemUpdate.emit();
   }
 
   receberMensagem(mensagem) {
     this.mensagens.push(mensagem);
     this.analisarMensagem(mensagem);
+  }
+
+  reinicializar() {
+    this.mensagens = [];
   }
 
   analisarMensagem(mensagem) {
