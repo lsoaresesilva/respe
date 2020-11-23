@@ -1,15 +1,16 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { MonitoramentoMotivacionalService } from './monitoramento-motivacional.service';
-import { ConfirmationService } from 'primeng/api';
-
+import { FelicitacoesComponent } from './felicitacoes/felicitacoes.component';
+import {DialogService, DynamicDialogModule} from 'primeng/dynamicdialog';
 
 
 @NgModule({
-  declarations: [],
+  declarations: [FelicitacoesComponent],
   imports: [
-    CommonModule
+    CommonModule,
+    DynamicDialogModule
   ],
-  providers:[MonitoramentoMotivacionalService, ConfirmationService]
+  providers:[MonitoramentoMotivacionalService, DialogService]
 })
 export class MotivacionalModule { }

@@ -35,6 +35,7 @@ import { ToolbarModule } from 'primeng/toolbar';
 import { AdminModule } from './admin/admin.module';
 import {ConfirmDialogModule} from 'primeng/confirmdialog';
 import {ConfirmationService} from 'primeng/api';
+import { DialogService } from 'primeng/dynamicdialog';
 
 @NgModule({
   schemas: [CUSTOM_ELEMENTS_SCHEMA],
@@ -66,7 +67,7 @@ import {ConfirmationService} from 'primeng/api';
     ParsonProblemModule,
     ConfirmDialogModule
   ],
-  providers: [AuthGuard, TurmaGuard, MessageService, ConfirmationService],
+  providers: [AuthGuard, TurmaGuard, MessageService, ConfirmationService, DialogService],
   bootstrap: [AppComponent],
   exports: [EscapeHtmlPipe],
 })

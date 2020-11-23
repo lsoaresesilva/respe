@@ -1,25 +1,69 @@
 import { Assunto } from 'src/app/model/assunto';
 import { Injectable } from '@angular/core';
-import { ConfirmationService } from 'primeng/api';
+import { DialogService } from 'primeng/dynamicdialog';
+import { FelicitacoesComponent } from './felicitacoes/felicitacoes.component';
 
 @Injectable({
   providedIn: 'root'
 })
 export class MonitoramentoMotivacionalService {
 
-  constructor(public dialog: ConfirmationService) { }
+  constructor(public dialogService: DialogService) { }
+
+  exibirDialog(header, mensagem){
+    const ref = this.dialogService.open(FelicitacoesComponent, {
+      header: header,
+      data: {
+        mensagem: mensagem
+      },
+      width: '70%'
+  });
+  }
 
   monitorarProgressoAssunto(assunto, estudante) {
     Assunto.calcularPercentualConclusao(assunto, estudante).subscribe(progresso => {
       if (this.exibirDialogProgressoAssunto(progresso)) {
-        this.dialog.confirm({
-          message: this.getMensagemProgressoAssunto(progresso),
-          accept: () => {
-              //Actual logic to perform a confirmation
-          }
-      })
+        this.exibirDialog("Parabéns!", this.getMensagemProgressoAssunto(progresso));
       }
     });
+  }
+
+  monitorarErrorQuotient(errorQuotient){
+    if(errorQuotient > 0.8){
+      // verificar se já foi exibido na semana
+      const exibirDialog = this.exibirDialogErrorQuotient();
+
+      if(exibirDialog){
+
+        this.exibirDialog("", "Não tem problema..."); // TODO: colocar em um arquivo .json
+      }
+
+    }
+  }
+
+  exibirDialogErrorQuotient():boolean{
+    const msgErrorQuotient = localStorage.getItem("msgErrorQuotient");
+    let exibirDialog = false;
+
+    if(msgErrorQuotient != null){
+      let dado = JSON.parse(msgErrorQuotient);
+      if(dado != null){
+        const semanaAtras = new Date();
+        const diffTime = semanaAtras.getTime() - dado.getTime();
+        const diffDays = Math.ceil(diffTime / (1000 * 3600 * 24));
+        if (diffDays >= 3) {
+          exibirDialog = true;
+        }
+      }
+    }else{
+      exibirDialog = true;
+    }
+
+    if(exibirDialog){
+      localStorage.setItem("msgErrorQuotient", JSON.stringify(new Date()));
+    }
+
+    return exibirDialog;
   }
 
   /* Cenários:
@@ -75,6 +119,6 @@ export class MonitoramentoMotivacionalService {
       return "Você concluiu o assunto!";
     }
 
-    return  `Você ultrapassou ${percentual} do progresso no assunto!`;
+    return  `Você ultrapassou ${percentual} do progresso no assunto!`; // TODO: colocar em um arquivo .json
   }
 }

@@ -50,4 +50,8 @@ describe('MonitoramentoMotivacionalService', () => {
     expect(service.getMensagemProgressoAssunto(70)).toEqual("Você ultrapassou 70% do progresso no assunto!");
     expect(service.getMensagemProgressoAssunto(100)).toEqual("Você concluiu o assunto!");
   })
+
+  it("Deve retorna true para quando não tiver sido exibida uma msg de error quotient", ()=>{
+
+  })
 });
