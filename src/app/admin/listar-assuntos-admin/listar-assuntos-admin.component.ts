@@ -4,6 +4,7 @@ import { MenuItem, MessageService } from 'primeng/api';
 import { LoginService } from 'src/app/login-module/login.service';
 import { Assunto } from 'src/app/model/assunto';
 import { PerfilUsuario } from 'src/app/model/enums/perfilUsuario';
+import Query from 'src/app/model/firestore/query';
 
 @Component({
   selector: 'app-listar-assuntos-admin',
@@ -40,7 +41,7 @@ export class ListarAssuntosAdminComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    Assunto.getAll().subscribe((assuntos) => {
+    Assunto.getAllAdmin().subscribe((assuntos) => {
       this.assuntos$ = Assunto.ordenar(assuntos);
     });
   }

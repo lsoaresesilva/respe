@@ -3,7 +3,7 @@ import Usuario from '../../model/usuario';
 import { Router } from '@angular/router';
 import { LoginService } from 'src/app/login-module/login.service';
 // import {Experiment} from 'scientificxpjs/experiment'
-import { MessageService } from 'primeng/api';
+import { MenuItem, MessageService } from 'primeng/api';
 import Query from 'src/app/model/firestore/query';
 import { Groups } from 'src/app/model/experimento/groups';
 import { PerfilUsuario } from 'src/app/model/enums/perfilUsuario';
@@ -15,6 +15,7 @@ import { PerfilUsuario } from 'src/app/model/enums/perfilUsuario';
 })
 export class LoginComponent implements OnInit {
   usuario: Usuario;
+  items: MenuItem[];
 
   constructor(
     private router: Router,
@@ -22,6 +23,12 @@ export class LoginComponent implements OnInit {
     private messageService: MessageService
   ) {
     this.usuario = new Usuario(null, null, null, 0, null);
+    this.items = [
+      {
+        label: 'Quero aprender a programar',
+        url: 'http://www.32bits.codes:2368/',
+      },
+    ];
   }
 
   ngOnInit() {}

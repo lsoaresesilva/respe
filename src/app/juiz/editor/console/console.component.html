@@ -5,9 +5,10 @@
   <div *ngIf="consoleEditor.submissao != null">
     <div *ngIf="consoleEditor.submissao.erro != null">
       <p-panel
-        header="{{ getLabelCategoriaErro(consoleEditor.submissao.erro.categoria) }} - na linha {{
-          consoleEditor.submissao.erro.linha
-        }}"
+        style="z-index: -1"
+        header="Ocorreu um erro do tipo {{
+          getLabelCategoriaErro(consoleEditor.submissao.erro.categoria)
+        }} - na linha {{ consoleEditor.submissao.erro.linha }}"
       >
         <span [innerHtml]="consoleEditor.submissao.erro.getMensagem() | keepHtml"></span>
       </p-panel>

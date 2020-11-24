@@ -74,6 +74,10 @@ export class Assunto extends Document {
     return super.getAll(query);
   }
 
+  static getAllAdmin(query = null, orderBy = null): Observable<any[]> {
+    return super.getAll(query);
+  }
+
   static get(id) {
     return new Observable((observer) => {
       super.get(id).subscribe(

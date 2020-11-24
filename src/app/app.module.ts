@@ -35,12 +35,14 @@ import { AdminModule } from './admin/admin.module';
 import {ConfirmDialogModule} from 'primeng/confirmdialog';
 import {ConfirmationService} from 'primeng/api';
 import { DialogService } from 'primeng/dynamicdialog';
+import { ChatbotModule } from './chatbot/chatbot.module';
 
 @NgModule({
   schemas: [CUSTOM_ELEMENTS_SCHEMA],
   declarations: [AppComponent, MainComponent],
   imports: [
     AdminModule,
+    ChatbotModule,
     SrlModule,
     GamificationModule,
     ButtonModule,
