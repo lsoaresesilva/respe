@@ -26,7 +26,7 @@ describe('Testes de questão fechada', () => {
   });
 
   it('Deve indicar que o texto possui código', () => {
-    let resultado = questao.hasCode();
+    let resultado = questao.possuiCodigoNoEnunciado();
     expect(resultado).toBeTruthy();
   });
 
@@ -40,7 +40,7 @@ describe('Testes de questão fechada', () => {
       null,
       ''
     );
-    let resultado = questaoSemCodigo.hasCode();
+    let resultado = questaoSemCodigo.possuiCodigoNoEnunciado();
     expect(resultado).toBeFalsy();
   });
 });

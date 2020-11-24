@@ -18,8 +18,8 @@ export class RespostaSimilarQuestaoProgramacaoComponent implements OnInit {
   resposta;
 
   constructor(private router: Router) {
-    this.questao = new QuestaoProgramacao(null, null, null, null, null, null, null, '');
-    this.modeloRespostaQuestao = new ModeloRespostaQuestao(null, null, this.questao);
+    this.questao = new QuestaoProgramacao(null, null, null, null, null, null, null, '', null);
+    this.modeloRespostaQuestao = new ModeloRespostaQuestao(null, null, null);
   }
 
   ngOnInit() {

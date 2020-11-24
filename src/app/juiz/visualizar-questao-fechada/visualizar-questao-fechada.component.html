@@ -7,7 +7,7 @@
 
   <p-fieldset legend="Questão: {{ questao?.sequencia }}">
     <div
-      *ngIf="questao?.hasCode(); else semCodigo"
+      *ngIf="questao?.possuiCodigoNoEnunciado(); else semCodigo"
       [innerHtml]="gerarHtmlTextoComCodigo(questao)"
     ></div>
     <ng-template #semCodigo>

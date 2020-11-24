@@ -15,6 +15,8 @@ import { LoginService } from 'src/app/login-module/login.service';
 
 import { catchError, retry, timeout } from 'rxjs/operators';
 import { environment } from 'src/environments/environment';
+import { ConfirmationService } from 'primeng/api';
+import { Router } from '@angular/router';
 
 /**
  * Executa um javascript ide.js para acoplar o editor VStudio.
@@ -70,7 +72,12 @@ export class EditorProgramacaoComponent implements AfterViewInit, OnChanges {
   @Output()
   onVisualization: EventEmitter<any>;
 
-  constructor(private http: HttpClient, public login: LoginService) {
+  constructor(
+    private http: HttpClient,
+    public login: LoginService,
+    private confirmationService: ConfirmationService,
+    private router: Router
+  ) {
     this.onError = new EventEmitter();
     this.onSubmit = new EventEmitter();
     this.onVisualization = new EventEmitter();
@@ -97,6 +104,20 @@ export class EditorProgramacaoComponent implements AfterViewInit, OnChanges {
     }
 
     carregarIde(false, null, this, this.carregarEditor, this.editorCodigo.codigo);
+  }
+
+  visualizarResposta(questao) {
+    this.confirmationService.confirm({
+      message:
+        'Se você visualizar a resposta dessa questão não ganhará pontos ao respondê-la. Tem certeza que deseja visualizar?',
+      acceptLabel: 'Sim',
+      rejectLabel: 'Não',
+      accept: () => {
+        this.router.navigate(['main', { outlets: { principal: ['exibir-codigo', questao.id] } }], {
+          state: { questao: questao },
+        });
+      },
+    });
   }
 
   atualizarEditorComSubmissao() {
@@ -201,6 +222,8 @@ export class EditorProgramacaoComponent implements AfterViewInit, OnChanges {
                 this.onError.emit(this._submissao);
               });
             }
+
+            this.processandoSubmissao = false;
           },
           complete: () => {
             this.processandoSubmissao = false;
