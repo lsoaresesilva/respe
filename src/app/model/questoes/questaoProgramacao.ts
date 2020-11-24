@@ -289,4 +289,12 @@ export class QuestaoProgramacao {
   }
 
   prepararSave() {}
+
+  getTestCaseById(id): TestCase {
+    const testCase = this.testsCases.filter((testCase) => {
+      return testCase.id == id;
+    });
+
+    return testCase[0] != null ? testCase[0] : null;
+  }
 }

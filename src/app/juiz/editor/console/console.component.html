@@ -3,7 +3,7 @@
     {{ consoleEditor.erroServidor.mensagem }}
   </div>
   <div *ngIf="consoleEditor.submissao != null">
-    <div *ngIf="consoleEditor.submissao.erro != null">
+    <div *ngIf="consoleEditor.submissao.erro != null; else resultados">
       <p-panel
         style="z-index: -1"
         header="Ocorreu um erro do tipo {{
@@ -13,18 +13,14 @@
         <span [innerHtml]="consoleEditor.submissao.erro.getMensagem() | keepHtml"></span>
       </p-panel>
     </div>
-    <div
-      *ngIf="
-        consoleEditor.submissao.resultadosTestsCases != null &&
-        consoleEditor.submissao.resultadosTestsCases.length > 0 &&
-        consoleEditor.submissao.resultadosTestsCases[0].respostaAlgoritmo != null &&
-        consoleEditor.submissao.resultadosTestsCases[0].respostaAlgoritmo.length > 0
-      "
-    >
-      <span
-        *ngFor="let resultado of consoleEditor.submissao.resultadosTestsCases[0].respostaAlgoritmo"
-        >{{ resultado }}<br
-      /></span>
-    </div>
+    <ng-template #resultados>
+      <div *ngFor="let resultado of submissao.resultadosTestsCases">
+        <p-panel
+          header="Entrada: {{ submissao.questao.getTestCaseById(resultado.testCase.id).entradas }}"
+        >
+          <span *ngFor="let saida of resultado.respostaAlgoritmo">{{ saida }}<br /></span>
+        </p-panel>
+      </div>
+    </ng-template>
   </div>
 </div>
