@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import Analytics from 'src/app/model/analytics/analytics';
+import Query from 'src/app/model/firestore/query';
 import Turma from 'src/app/model/turma';
 
 @Component({
@@ -17,8 +18,12 @@ export class AnalyticsTurmaComponent implements OnInit {
     // Recuperar todos os estudantes da turma
     // Recuperar as respostas que eles deram para as questões
     // Verificar da data atual para 7 dias atrás aqueles que não tem nenhuma
-    this.estudantes$ = Analytics.calcularNumeroAtividadesTrabalhadasPorSemana(
-      new Turma('12345', null, null, null)
-    );
+    this.route.params.subscribe((params) => {
+      if (params['turmaId'] != null) {
+        Turma.getByQuery(new Query('codigo', '==', params['turmaId'])).subscribe((turma: Turma) => {
+          this.estudantes$ = Analytics.calcularNumeroAtividadesTrabalhadasPorSemana(turma);
+        });
+      }
+    });
   }
 }
