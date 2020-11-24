@@ -15,6 +15,7 @@ import { AngularFireModule, FirebaseApp } from '@angular/fire';
 import { FirebaseConfiguracao } from 'src/environments/firebase';
 import { DocumentModule } from 'src/app/model/firestore/document.module';
 import { getLabelPorCategoriaNumero } from '../../enum/labelCategoriasErro';
+import FrequenciaErro from '../frequenciaErro';
 
 describe('Testes para a class ErroCompilacao', () => {
   let app: firebase.app.App;
@@ -91,7 +92,7 @@ describe('Testes para a class ErroCompilacao', () => {
       erros.push(erro);
     }
 
-    const histogramas = ErroCompilacao.calcularFrequenciaPorMes(erros);
+    const histogramas = FrequenciaErro.calcularFrequenciaPorMes(erros);
     expect(histogramas[0][CategoriaErro.nameError].contagem).toBe(contadorMesJaneiroNameError);
     expect(histogramas[1][CategoriaErro.nameError].contagem).toBe(contadorMesFevereiroNameError);
     expect(histogramas[0][CategoriaErro.syntaxError].contagem).toBe(contadorMesJaneiroSyntaxError);

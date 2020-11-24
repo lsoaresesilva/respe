@@ -1,5 +1,6 @@
 import { TestBed, inject } from '@angular/core/testing';
 import { ConfirmationService } from 'primeng/api';
+import { DialogService } from 'primeng/dynamicdialog';
 
 import { MonitoramentoMotivacionalService } from './monitoramento-motivacional.service';
 
@@ -9,9 +10,9 @@ describe('MonitoramentoMotivacionalService', () => {
 
   beforeAll(() => {
     TestBed.configureTestingModule({
-      providers:[MonitoramentoMotivacionalService, ConfirmationService]
+      providers:[MonitoramentoMotivacionalService, DialogService]
     });
-    inject([MonitoramentoMotivacionalService, ConfirmationService], (ms:MonitoramentoMotivacionalService, cs:ConfirmationService) => {
+    inject([MonitoramentoMotivacionalService, DialogService], (ms:MonitoramentoMotivacionalService, cs:ConfirmationService) => {
       service = ms;
     })();
   });
@@ -52,6 +53,22 @@ describe('MonitoramentoMotivacionalService', () => {
   })
 
   it("Deve retorna true para quando não tiver sido exibida uma msg de error quotient", ()=>{
+    spy.and.returnValue(null);
+    expect(service.exibirDialogErrorQuotient()).toBeTruthy();
+  })
 
+  it("Deve retorna false para quando tiver sido exibida uma msg de error quotient a menos de 3 dias", ()=>{
+    spy.and.returnValue(JSON.stringify(new Date()));
+    expect(service.exibirDialogErrorQuotient()).toBeFalsy();
+  })
+
+  it("Deve retorna true para quando tiver sido exibida uma msg de error quotient a mais de 3 dias", ()=>{
+    spy.and.returnValue(JSON.stringify(new Date("2020-11-17")));
+    expect(service.exibirDialogErrorQuotient()).toBeTruthy();
+  })
+
+  it("Deve retorna uma msg motivadora para error quotient", ()=>{
+    spy.and.returnValue(JSON.stringify(new Date("2020-11-17")));
+    expect(service.exibirDialogErrorQuotient()).toBeTruthy();
   })
 });

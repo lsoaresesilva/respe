@@ -28,14 +28,15 @@ export class MonitoramentoMotivacionalService {
     });
   }
 
-  monitorarErrorQuotient(errorQuotient){
+  monitorarErrorQuotient(){
+    Monitor
     if(errorQuotient > 0.8){
       // verificar se já foi exibido na semana
       const exibirDialog = this.exibirDialogErrorQuotient();
 
       if(exibirDialog){
 
-        this.exibirDialog("", "Não tem problema..."); // TODO: colocar em um arquivo .json
+        this.exibirDialog("Não tem problema...", "É comum cometer erros na programação. Você está começando e logo irá superá-los."); // TODO: colocar em um arquivo .json
       }
 
     }
@@ -46,7 +47,7 @@ export class MonitoramentoMotivacionalService {
     let exibirDialog = false;
 
     if(msgErrorQuotient != null){
-      let dado = JSON.parse(msgErrorQuotient);
+      let dado = new Date(JSON.parse(msgErrorQuotient));
       if(dado != null){
         const semanaAtras = new Date();
         const diffTime = semanaAtras.getTime() - dado.getTime();
