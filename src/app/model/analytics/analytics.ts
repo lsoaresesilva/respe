@@ -19,6 +19,7 @@ export default class Analytics {
   progressoQuestoesFechadas;
   percentualVisualizacaoQuestoesFechadas;
   totalErrosProgramacao;
+  errosProgramacao;
   mediaSubmissoesParaAcerto;
   totalExecucoes;
   tempoOnline;
@@ -58,6 +59,7 @@ export default class Analytics {
           analytics.tempoOnline = this.calcularTempoOnline(tempoOnline);
           analytics.tentativasQuestoes = this.calculaTentativasQuestoes(submissoes);
           analytics.visualizacoesProgresso = this.calculaVisualizacoesProgresso(pageTracks);
+          analytics.errosProgramacao = Submissao.getAllErros(submissoes);
 
           const consultas = {};
 
@@ -286,14 +288,16 @@ export default class Analytics {
   }
 
   static calculaVisualizacoesProgresso(pageTracks) {
-    return pageTracks.length;
+    if (Array.isArray(pageTracks)) return pageTracks.length;
+
+    return 0;
   }
 
   static calcularNumeroAtividadesTrabalhadasPorSemana(turma: Turma) {
     return new Observable((observer) => {
       const atividadesPorEstudante = [];
 
-      Usuario.getAll(new Query('codigoTurma', '==', turma.pk())).subscribe(
+      Usuario.getAll(new Query('codigoTurma', '==', turma.codigo)).subscribe(
         (estudantes: Usuario[]) => {
           const consultasRespostasFechadasAtividades = {};
           const consultasRespostasProgramacaoAtividades = {};

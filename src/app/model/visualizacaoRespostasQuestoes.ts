@@ -1,27 +1,29 @@
 import { Collection, Document, date } from './firestore/document';
 import Usuario from './usuario';
 import { ModeloRespostaQuestao } from './modeloRespostaQuestao';
+import { QuestaoProgramacao } from './questoes/questaoProgramacao';
+import Query from './firestore/query';
 
+@Collection('visualizacaoRespostasQuestoes')
+export class VisualizacaoRespostasQuestoes extends Document {
+  @date()
+  data;
 
-@Collection("visualizacaoRespostasQuestoes")
-export class VisualizacaoRespostasQuestoes extends Document{
-    usuario:Usuario;
-    modelo:ModeloRespostaQuestao;
-    
+  constructor(public id, public estudante: Usuario, public questao: QuestaoProgramacao) {
+    super(id);
+  }
 
-    constructor(public id, usuario,modelo){
-        super(id);
-        this.usuario=usuario;
-        this.modelo=modelo;
-        
-       
-    }
+  static getByEstudante(questao: QuestaoProgramacao, estudante: Usuario) {
+    return super.getByQuery([
+      new Query('estudanteId', '==', estudante.pk()),
+      new Query('questaoId', '==', questao.id),
+    ]);
+  }
 
-   objectToDocument(){
-        let document = super.objectToDocument()
-        document["usuarioId"] = this.usuario.pk();
-        document["modeloRespostaQuestãoId"] = this.modelo.questao.id;
-        return document;
-    }
-
+  objectToDocument() {
+    const document = super.objectToDocument();
+    document['estudanteId'] = this.estudante.pk();
+    document['questaoId'] = this.questao.id;
+    return document;
+  }
 }

@@ -126,6 +126,10 @@ export class MainComponent implements OnInit {
     this.router.navigate(['main', { outlets: { principal: ['ranking'] } }]);
   }
 
+  abrirListagemTurmas() {
+    this.router.navigate(['main', { outlets: { principal: ['listagem-turmas'] } }]);
+  }
+
   apresentarPretestRegulacao() {
     const usuario = this.login.getUsuarioLogado();
     if (

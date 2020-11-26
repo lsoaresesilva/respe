@@ -56,6 +56,7 @@ import { DesempenhoObjetivosTempoOnlineComponent } from './monitoramento/desempe
 import { RastrearTempoOnlineService } from './rastrear-tempo-online.service';
 import { DesempenhoObjetivosNotaComponent } from './monitoramento/desempenho-objetivos-nota/desempenho-objetivos-nota.component';
 import { CardErrosProgramacaoDoughnutComponent } from './monitoramento/card-erros-programacao-doughnut/card-erros-programacao-doughnut.component';
+import { CodeHighlighterModule } from 'primeng/codehighlighter';
 
 @NgModule({
   declarations: [
@@ -84,6 +85,7 @@ import { CardErrosProgramacaoDoughnutComponent } from './monitoramento/card-erro
     CardErrosProgramacaoDoughnutComponent,
   ],
   imports: [
+    CodeHighlighterModule,
     MessagesModule,
     MessageModule,
     CommonModule,

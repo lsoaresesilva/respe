@@ -54,8 +54,8 @@ export class VisualizarQuestaoFechadaComponent implements OnInit {
     this.respostaQuestaoFechada.alternativa = alternativa;
   }  */
 
-  gerarHtmlTextoComCodigo(questao) {
-    if (questao.hasCode()) {
+  gerarHtmlTextoComCodigo(questao: QuestaoFechada) {
+    if (questao.possuiCodigoNoEnunciado()) {
       const texto = questao.enunciado
         .replace(
           new RegExp("'''python", 'g'),

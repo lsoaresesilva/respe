@@ -21,7 +21,7 @@ export class VisualizarQuestaoComponent implements OnInit {
     private router: Router,
     private loginService: LoginService
   ) {
-    this.questao = new QuestaoProgramacao(null, null, null, null, null, [], [], '');
+    this.questao = new QuestaoProgramacao(null, null, null, null, null, [], [], '', null);
   }
 
   ngOnInit() {

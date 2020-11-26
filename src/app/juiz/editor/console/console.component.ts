@@ -1,4 +1,4 @@
-import { Component, OnInit, OnChanges, Input } from '@angular/core';
+import { Component, OnInit, OnChanges, Input, SimpleChanges } from '@angular/core';
 import { LabelCategoriasErros } from 'src/app/model/errors/enum/labelCategoriasErro';
 
 import { getLabelPorCategoriaNumero } from 'src/app/model/errors/enum/labelCategoriasErro';
@@ -10,22 +10,22 @@ import Submissao from 'src/app/model/submissao';
   selector: 'app-console',
   templateUrl: './console.component.html',
   styleUrls: ['./console.component.css'],
-  providers:[EscapeHtmlPipe]
+  providers: [EscapeHtmlPipe],
 })
-export class ConsoleComponent{
+export class ConsoleComponent implements OnChanges {
+  @Input()
+  submissao: Submissao;
 
   @Input()
-  submissao:Submissao;
+  consoleEditor: ConsoleEditor;
 
-  @Input()
-  consoleEditor:ConsoleEditor;
-
-  constructor() { }
-
-  getLabelCategoriaErro(categoria){
-    return getLabelPorCategoriaNumero(categoria);
+  constructor() {}
+  ngOnChanges(changes: SimpleChanges): void {
+    let x = this.submissao;
+    let y = x;
   }
 
-  
-
+  getLabelCategoriaErro(categoria) {
+    return getLabelPorCategoriaNumero(categoria);
+  }
 }

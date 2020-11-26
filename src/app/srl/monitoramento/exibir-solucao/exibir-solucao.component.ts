@@ -4,50 +4,45 @@ import { LoginService } from 'src/app/login-module/login.service';
 import { VisualizacaoRespostasQuestoes } from 'src/app/model/visualizacaoRespostasQuestoes';
 import Query from 'src/app/model/firestore/query';
 import { QuestaoProgramacao } from 'src/app/model/questoes/questaoProgramacao';
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { MessageService } from 'primeng/api';
+
+/*
+http://localhost:4200/main/(principal:editor/jW22yOF9a28N0aQlNNGR/76e4017f-6006-476f-8b47-88b0e33dbf84)
+*/
 
 @Component({
   selector: 'app-exibir-solucao',
   templateUrl: './exibir-solucao.component.html',
   styleUrls: ['./exibir-solucao.component.css'],
 })
-export class ExibirSolucaoComponent implements OnInit {
-  visualizacao;
-  questaoId;
-  modelo: ModeloRespostaQuestao;
+export class ExibirSolucaoComponent {
+  saida;
 
   constructor(
     private login: LoginService,
-    private route: ActivatedRoute,
+    private router: Router,
     private messageService: MessageService
   ) {
-    this.visualizacao = new VisualizacaoRespostasQuestoes(
-      null,
-      login.getUsuarioLogado(),
-      this.modelo
-    );
-  }
-
-  ngOnInit() {
-    this.route.params.subscribe((params) => {
-      this.questaoId = params['questaoId'];
-    });
-
-    //função get de modelo questão não está funcionando
-
-    ModeloRespostaQuestao.getAll(new Query('questaoId', '==', this.questaoId)).subscribe(
-      (modelo) => {
-        if (modelo.length === 0) {
-          this.modelo = new ModeloRespostaQuestao(null, 'Sem código disponível', null);
-          this.exibirMensagem();
-        } else {
-          this.modelo[0] = modelo;
-          this.visualizacao.save().subscribe((resultado) => {});
-        }
+    const navigation = this.router.getCurrentNavigation();
+    console.log('Navigation');
+    console.log(navigation);
+    const questao = navigation.extras.state.questao as QuestaoProgramacao;
+    if (questao != null) {
+      const solucao = questao.getExemploCorreto();
+      if (Array.isArray(solucao.algoritmo)) {
+        this.saida = solucao.algoritmo.join('\n');
+        // Verificar se já foi salvo no BD.
+        const estudante = this.login.getUsuarioLogado();
+        VisualizacaoRespostasQuestoes.getByEstudante(questao, estudante).subscribe((visualizou) => {
+          if (visualizou == null) {
+            new VisualizacaoRespostasQuestoes(null, estudante, questao).save().subscribe();
+          }
+        });
       }
-    );
+    }
   }
+
   exibirMensagem() {
     this.messageService.add({ severity: 'warning', summary: 'Sem código disponível' });
   }

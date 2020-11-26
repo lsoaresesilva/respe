@@ -28,7 +28,7 @@ export class SelfInstructionComponent implements OnInit {
     private login: LoginService,
     private messageService: MessageService
   ) {
-    this.questao = new QuestaoProgramacao(null, null, null, null, null, [], [], '');
+    this.questao = new QuestaoProgramacao(null, null, null, null, null, [], [], '', null);
     this.msgs = [];
     this.condicoes = false;
     this.repeticoes = false;

@@ -193,7 +193,7 @@ export default class QuestaoFechada {
     }
   }
 
-  hasCode() {
+  possuiCodigoNoEnunciado() {
     if (this.enunciado != null) {
       return this.enunciado.search("'''python") != -1 ? true : false;
     }
@@ -203,7 +203,7 @@ export default class QuestaoFechada {
     // deve começar após '''python
     // deve terminar em '''
     const codigos = [];
-    if (this.hasCode()) {
+    if (this.possuiCodigoNoEnunciado()) {
       const regex = /'''python[\n|\r](.*)[\r|\n]'''/;
       const resultado = regex.exec(this.enunciado);
       if (resultado != null && resultado.length > 0) {
@@ -218,7 +218,7 @@ export default class QuestaoFechada {
 
   extrairTextoComCodigo() {
     const texto = [];
-    if (this.hasCode()) {
+    if (this.possuiCodigoNoEnunciado()) {
       const regex = /(.*)[\r|\n]*'''python\n([\s\S\w])*?(?=''')[\r|\n]*(.*)/;
       const resultado = regex.exec(this.enunciado);
       if (resultado != null && resultado.length > 2) {
