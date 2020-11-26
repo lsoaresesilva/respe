@@ -145,7 +145,7 @@ const routes: Routes = [
       },
 
       {
-        path: 'cadastro-questao-parson/:assuntoId/:questaoId',
+        path: 'atualizacao-questao-parson/:assuntoId/:questaoId',
         component: CadastrarParsonComponent,
         canActivate: [AuthGuard, AdminGuard],
         outlet: 'principal',
