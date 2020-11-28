@@ -57,6 +57,7 @@ import { VisualizarAssuntoAdminComponent } from './admin/visualizar-assunto-admi
 import { AnalyticsTurmaComponent } from './analytics-module/analytics-turma/analytics-turma.component';
 import { CadastrarParsonComponent } from './parson-problem/cadastrar-parson/cadastrar-parson.component';
 import { EstatisticasExperimentoComponent } from './turma/estatisticas-experimento/estatisticas-experimento.component';
+import { VisualizarWorkedExampleComponent } from './worked-example/visualizar-worked-example/visualizar-worked-example.component';
 
 const routes: Routes = [
   {
@@ -148,6 +149,13 @@ const routes: Routes = [
         path: 'cadastro-questao-parson/:assuntoId/:questaoId',
         component: CadastrarParsonComponent,
         canActivate: [AuthGuard, AdminGuard],
+        outlet: 'principal',
+      },
+
+      {
+        path: 'worked-example',
+        component: VisualizarWorkedExampleComponent,
+        canActivate: [AuthGuard],
         outlet: 'principal',
       },
 

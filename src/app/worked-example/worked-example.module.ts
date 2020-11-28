@@ -8,5 +8,6 @@ import { CodeHighlighterModule } from 'primeng/codehighlighter';
 @NgModule({
   declarations: [VisualizarWorkedExampleComponent],
   imports: [CommonModule, ToolbarModule, ButtonModule, CodeHighlighterModule],
+  exports: [VisualizarWorkedExampleComponent],
 })
 export class WorkedExampleModule {}

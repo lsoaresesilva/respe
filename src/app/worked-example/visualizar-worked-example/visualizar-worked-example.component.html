@@ -1,1 +1,32 @@
-<p>visualizar-worked-example works!</p>
+<div class="p-grid">
+  <div class="p-col-12">
+    <h3>Enunciado</h3>
+  </div>
+</div>
+<div class="p-grid">
+  <div class="p-col-12">
+    {{ workedExample.enunciado }}
+  </div>
+</div>
+<div class="p-grid">
+  <div class="p-col-6">
+    <pre>
+    <code class='language-python' style='display: block; white-space: pre-wrap;' pCode><span *ngFor="let trecho of visualizacao">{{trecho.algoritmo}}<br/></span></code>
+  </pre>
+  </div>
+  <div class="p-col-6">
+    <span *ngFor="let trecho of visualizacao">{{ trecho.comentario }}<br /></span>
+  </div>
+</div>
+<div class="p-grid">
+  <div class="p-col-12">
+    <p-toolbar>
+      <div class="p-toolbar-group-left">
+        <button label="Iniciar" icon="pi pi-caret-right" pButton (click)="iniciar()"></button>
+        <button label="Avançar" icon="pi pi-step-forward" pButton (click)="avancar()"></button>
+        <button label="Voltar" icon="pi pi-step-backward" pButton (click)="voltar()"></button>
+        <button label="Reiniciar" icon="pi pi-replay" pButton (click)="iniciar()"></button>
+      </div>
+    </p-toolbar>
+  </div>
+</div>

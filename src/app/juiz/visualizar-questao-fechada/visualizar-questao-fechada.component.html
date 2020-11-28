@@ -11,7 +11,7 @@
       [innerHtml]="gerarHtmlTextoComCodigo(questao)"
     ></div>
     <ng-template #semCodigo>
-      {{ questao?.enunciado }}
+      <div [innerHtml]="gerarHtml(questao)"></div>
     </ng-template>
   </p-fieldset>
   <br />

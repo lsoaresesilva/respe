@@ -33,6 +33,7 @@ import { ButtonModule } from 'primeng/button';
 import { ToolbarModule } from 'primeng/toolbar';
 import { AdminModule } from './admin/admin.module';
 import { ChatbotModule } from './chatbot/chatbot.module';
+import { WorkedExampleModule } from './worked-example/worked-example.module';
 
 @NgModule({
   schemas: [CUSTOM_ELEMENTS_SCHEMA],
@@ -63,6 +64,7 @@ import { ChatbotModule } from './chatbot/chatbot.module';
     AngularFireAuthModule,
     SharedPipesModule,
     ParsonProblemModule,
+    WorkedExampleModule,
   ],
   providers: [AuthGuard, TurmaGuard, MessageService],
   bootstrap: [AppComponent],

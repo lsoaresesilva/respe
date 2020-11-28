@@ -9,6 +9,7 @@ import { Assuntos } from './enums/assuntos';
 import QuestaoFechada from './questoes/questaoFechada';
 import QuestaoParsonProblem from './questoes/parsonProblem';
 import Query from './firestore/query';
+import { WorkedExample } from './worked-example/workedExample';
 
 @Collection('assuntos')
 export class Assunto extends Document {
@@ -27,6 +28,7 @@ export class Assunto extends Document {
   questoesParson: any;
   objetivosEducacionais: [];
   isAtivo;
+  workedExamples: WorkedExample[];
 
   @ignore()
   percentualConclusao;
