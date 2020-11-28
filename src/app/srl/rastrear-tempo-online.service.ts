@@ -4,6 +4,8 @@ import * as TimeMe from 'timeme.js';
 import { LoginService } from '../login-module/login.service';
 import TempoOnline from '../model/analytics/tempoOnline';
 import { logging } from 'protractor';
+import Usuario from '../model/usuario';
+import { PerfilUsuario } from '../model/enums/perfilUsuario';
 
 @Injectable({
   providedIn: 'root',
@@ -16,9 +18,8 @@ export class RastrearTempoOnlineService {
     this.iniciarTimer(this.usuarioLogado);
   }
 
-  iniciarTimer(usuarioLogado) {
-    console.log('iniciou');
-    if (usuarioLogado != null) {
+  iniciarTimer(usuarioLogado: Usuario) {
+    if (usuarioLogado != null && usuarioLogado.perfil === PerfilUsuario.estudante) {
       this.usuarioLogado = usuarioLogado;
       TimeMe.initialize({
         currentPageName: '32bits', // current page
@@ -31,8 +32,6 @@ export class RastrearTempoOnlineService {
     const _this = this;
 
     TimeMe.callWhenUserLeaves(function () {
-      console.log('The user is not currently viewing the page!');
-      console.log(TimeMe.getTimeOnPageInSeconds('32bits'));
       const tempoConectado = new TempoOnline(
         null,
         TimeMe.getTimeOnPageInSeconds('32bits'),
@@ -42,7 +41,6 @@ export class RastrearTempoOnlineService {
     });
 
     TimeMe.callWhenUserReturns(function () {
-      console.log('The user has come back!');
       TimeMe.resetRecordedPageTime('32bits');
     });
   }
