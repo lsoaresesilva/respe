@@ -31,11 +31,40 @@
     "saudacao": {
       "mensagens": ["Olá, meu nome é Davi e sou o seu monitor do curso de programação."]
     },
-    "inicioAjuda": {
+    "mensagemMotivacionalUm": {
       "mensagens": [
-        "Olá, parece que você está precisando de uma forcinha.",
-        "Posso ajudá-lo(a)?",
-        "Se precisar, digite sim."
+        "Olá, parece que você está com alguns probleminhas na programação",
+        "Não se assuste, é normal... ",
+        "Você está aprendendo algo novo e que sabemos, é difícil",
+        "Não desista! Logo logo você encontrará a solução!"
+      ]
+    },
+    "mensagemMotivacionalDois": {
+      "mensagens": [
+        "Programar tem dessas coisas...",
+        "Os erros fazem parte do aprendizado e irão lhe ajudar no futuro",
+        "Não é só você, seus colegas de turma também estão cometendo erros",
+        "Foque em entender o que é o erro que está enfrentando, se precisar de ajuda, fala com o professor: leonardo.silva@garanhuns.ifpe.edu.br"
+      ]
+    },
+    "mensagemMotivacionalTres": {
+      "mensagens": [
+        "Eu sei como é...",
+        "já passei por esses problemas",
+        "no começo bate o desespero quando o erro aparece...",
+        "mais ainda quando ele não vai embora hehehe",
+        "Mas não desista, é normal cometer erros, principalmente quando você está aprendendo",
+        "Mantenha o foco que jaja você conseguirá resolver!"
+      ]
+    },
+    "mensagemMotivacionalQuatro": {
+      "mensagens": [
+        "Eu sei como é...",
+        "já passei por esses problemas",
+        "no começo bate o desespero quando o erro aparece...",
+        "mais ainda quando ele não vai embora hehehe",
+        "Mas não desista, é normal cometer erros, principalmente quando você está aprendendo",
+        "Mantenha o foco que jaja você conseguirá resolver!"
       ]
     }
   }

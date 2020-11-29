@@ -1,4 +1,47 @@
 <p-toast></p-toast>
+<div class="p-grid">
+  <div class="p-col-2"><h3>Enunciado</h3></div>
+</div>
+<div class="p-grid">
+  <div class="p-col-10">{{ questao?.enunciado }}</div>
+</div>
+<div class="p-grid">
+  <div class="p-col-6">
+    <div class="example-container">
+      <h2>Segmentos</h2>
+      <div
+        cdkDropList
+        #listOne="cdkDropList"
+        [cdkDropListData]="questao?.segmentos"
+        [cdkDropListConnectedTo]="[listTwo]"
+        class="list-vertical"
+        (cdkDropListDropped)="drop($event)"
+      >
+        <div class="example-box" *ngFor="let segmento of questao?.segmentos" cdkDrag>
+          {{ segmento.conteudo }}
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="p-col-6">
+    <div class="example-container">
+      <h2>Algoritmo</h2>
+      <div
+        cdkDropList
+        #listTwo="cdkDropList"
+        [cdkDropListData]="respostaQuestaoFechada?.algoritmo"
+        [cdkDropListConnectedTo]="[listOne]"
+        [ngClass]="questao?.orientacao == 'horizontal' ? 'list-horizontal' : 'list-vertical'"
+        (cdkDropListDropped)="drop($event)"
+        [cdkDropListOrientation]="questao?.orientacao"
+      >
+        <div class="example-box" *ngFor="let segmento of respostaQuestaoFechada?.algoritmo" cdkDrag>
+          {{ segmento.conteudo }}
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
 
 <div class="p-grid">
   <div class="p-col-4">
@@ -10,36 +53,5 @@
       (click)="enviar()"
       [disabled]="respostaQuestaoFechada.pk() != undefined"
     ></button>
-  </div>
-</div>
-<div class="example-container">
-  <h2>Segmentos</h2>
-  <div
-    cdkDropList
-    #listOne="cdkDropList"
-    [cdkDropListData]="questao?.segmentos"
-    [cdkDropListConnectedTo]="[listTwo]"
-    class="list-vertical"
-    (cdkDropListDropped)="drop($event)"
-  >
-    <div class="example-box" *ngFor="let segmento of questao?.segmentos" cdkDrag>
-      {{ segmento.conteudo }}
-    </div>
-  </div>
-</div>
-<div class="example-container">
-  <h2>Algoritmo</h2>
-  <div
-    cdkDropList
-    #listTwo="cdkDropList"
-    [cdkDropListData]="respostaQuestaoFechada?.algoritmo"
-    [cdkDropListConnectedTo]="[listOne]"
-    [ngClass]="questao?.orientacao == 'horizontal' ? 'list-horizontal' : 'list-vertical'"
-    (cdkDropListDropped)="drop($event)"
-    [cdkDropListOrientation]="questao?.orientacao"
-  >
-    <div class="example-box" *ngFor="let segmento of respostaQuestaoFechada?.algoritmo" cdkDrag>
-      {{ segmento.conteudo }}
-    </div>
   </div>
 </div>

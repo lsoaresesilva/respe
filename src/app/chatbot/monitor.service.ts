@@ -19,9 +19,11 @@ export class MonitorService {
   // Armazena qual foi o último suporte dado ao estudante
   suporteRecente;
   suporte: Map<CategoriaErro, String[]>;
+  suporteMotivacional: String[];
 
   constructor(private chatbot: ChatbotService) {
     this.suporte = new Map<CategoriaErro, String[]>();
+    this.suporteMotivacional = [];
     this.suporte.set(CategoriaErro.nameError, []);
     this.suporte.set(CategoriaErro.syntaxError, []);
     this.suporte.set(CategoriaErro.typeError, []);
@@ -118,7 +120,7 @@ export class MonitorService {
     // Se já tiver sido exibida as duas, não faz nada.
   } */
 
-  apresentarAjudaEstudanteErroSintaxe(questao: QuestaoProgramacao, estudante) {
+  monitorarErrosEstudante(questao: QuestaoProgramacao, estudante) {
     let enviarMensagem = false;
     Submissao.getPorQuestao(questao, estudante).subscribe((submissoes) => {
       const errorQuotient = this.calcularErrorQuotient(submissoes);
@@ -143,6 +145,14 @@ export class MonitorService {
             );
             if (mensagemSuporte != null && Array.isArray(mensagemSuporte.mensagens)) {
               this.chatbot.enviarMensagem(mensagemSuporte.mensagens);
+            }
+          }else{
+            if(errorQuotient > 0.8){
+              if(!this.suporteMotivacional.includes(questao.id)){
+
+                this.suporteMotivacional.push(questao.id)
+                // verificar se já tem alguma mensagem enviada, se tiver, procurar aleatoriamente na lista uma que ainda não foi e incluí-la na lista para que não seja usada novamente.
+              }
             }
           }
         }

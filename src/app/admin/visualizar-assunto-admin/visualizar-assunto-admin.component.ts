@@ -63,8 +63,10 @@ export class VisualizarAssuntoAdminComponent implements OnInit {
       let path = '';
       if (this.questaoSelecionada[0] instanceof QuestaoProgramacao) {
         path = 'atualizacao-questao';
-      } else {
+      } else if(this.questaoSelecionada[0] instanceof QuestaoFechada) {
         path = 'atualizacao-questao-fechada';
+      } else {
+        path = 'atualizacao-questao-parson';
       }
 
       this.router.navigate([

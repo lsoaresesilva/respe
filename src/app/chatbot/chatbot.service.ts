@@ -14,6 +14,7 @@ export class ChatbotService {
   mensagens: any[];
   usuario;
   saudacao = false;
+  motivacional = [];
 
   constructor() {
     this.reinicializar();
