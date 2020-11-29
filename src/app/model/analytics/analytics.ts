@@ -38,10 +38,7 @@ export default class Analytics {
         consultasGerais['submissoes'] = Submissao.getAll(
           new Query('estudanteId', '==', estudante.pk())
         );
-        consultasGerais['tempoOnline'] = TempoOnline.getAll(
-          new Query('estudanteId', '==', estudante.pk())
-        );
-
+        consultasGerais['tempoOnline'] = TempoOnline.getTempoOnline(estudante);
         consultasGerais['pageTrack'] = PageTrackRecord.getAll([
           new Query('estudanteId', '==', estudante.pk()),
           new Query('pagina', '==', 'meu-desempenho'),
@@ -56,7 +53,7 @@ export default class Analytics {
           analytics.totalErrosProgramacao = this.calcularTotalErrosProgramacao(submissoes);
           analytics.mediaSubmissoesParaAcerto = this.calcularMediaSubmissoesParaAcerto(submissoes);
           analytics.totalExecucoes = this.calcularExecucoes(submissoes);
-          analytics.tempoOnline = this.calcularTempoOnline(tempoOnline);
+          analytics.tempoOnline = tempoOnline;
           analytics.tentativasQuestoes = this.calculaTentativasQuestoes(submissoes);
           analytics.visualizacoesProgresso = this.calculaVisualizacoesProgresso(pageTracks);
           analytics.errosProgramacao = Submissao.getAllErros(submissoes);
@@ -269,18 +266,6 @@ export default class Analytics {
 
   private static calcularExecucoes(submissoes) {
     return Array.isArray(submissoes) ? submissoes.length : 0;
-  }
-
-  static calcularTempoOnline(registrosTempo, formato = 'minutos') {
-    let totalTempoOnline = 0;
-    registrosTempo.forEach((registro) => {
-      totalTempoOnline += registro.segundos;
-    });
-    if (formato === 'minutos') {
-      totalTempoOnline /= 60;
-    }
-
-    return totalTempoOnline;
   }
 
   static calculaTentativasQuestoes(submissoes) {

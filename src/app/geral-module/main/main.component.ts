@@ -9,6 +9,7 @@ import { ApresentacaoService } from '../apresentacao.service';
 import QuestionarioAutorregulacao from 'src/app/model/experimento/questionarioAutorregulacao';
 import ChatBot from 'src/app/model/chatbot/chatbot';
 import { GamificationFacade } from 'src/app/gamification/gamification.service';
+import TempoOnline from 'src/app/model/analytics/tempoOnline';
 
 @Component({
   selector: 'app-main',

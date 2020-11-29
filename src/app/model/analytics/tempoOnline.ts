@@ -1,5 +1,5 @@
 import Usuario from '../usuario';
-import { Observable } from 'rxjs';
+import { Observable, observable } from 'rxjs';
 import { Collection, date, Document } from '../firestore/document';
 import Query from '../firestore/query';
 
@@ -41,8 +41,29 @@ export default class TempoOnline extends Document {
     });
   }
 
-  static filterDocumentsByDate(a, b, c, d){
+  static filterDocumentsByDate(a, b, c, d) {
     return [];
+  }
+
+  static getTempoOnline(estudante, formato = 'minutos') {
+    return new Observable((observer) => {
+      TempoOnline.getAll(new Query('estudanteId', '==', estudante.pk())).subscribe(
+        (registrosTempo) => {
+          let totalTempoOnline = 0;
+
+          registrosTempo.forEach((tempo) => {
+            totalTempoOnline += tempo.segundos;
+          });
+
+          if (formato === 'minutos') {
+            totalTempoOnline /= 60;
+          }
+
+          observer.next(totalTempoOnline);
+          observer.complete();
+        }
+      );
+    });
   }
 
   objectToDocument() {
