@@ -42,7 +42,7 @@ export class LoginService {
   logarFacebook(usuario) {
     return new Observable((observer) => {
       Usuario.getByQuery(new Query('email', '==', usuario.email)).subscribe(
-        (usuarioLogado:Usuario) => {
+        (usuarioLogado: Usuario) => {
           if (usuarioLogado != null) {
             this.criarSessao(usuarioLogado);
             observer.next(true);
@@ -65,15 +65,13 @@ export class LoginService {
         new Query('email', '==', usuario.email),
         new Query('senha', '==', sha256(usuario.senha)),
       ]).subscribe(
-        (usuarioLogado:Usuario) => {
+        (usuarioLogado: Usuario) => {
           if (usuarioLogado != null) {
             this.criarSessao(usuarioLogado);
-            this.rastrearTempoOnline.iniciarTimer(usuarioLogado);
+            //this.rastrearTempoOnline.iniciarTimer(usuarioLogado);
 
             const registroLogin = new RegistroLogin(null, usuarioLogado);
-            /* registroLogin.save().subscribe(()=>{
-
-          }); */
+            registroLogin.save().subscribe(() => {});
             observer.next(true);
             observer.complete();
           } else {
