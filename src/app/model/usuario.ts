@@ -34,6 +34,8 @@ export default class Usuario extends Document {
   respostasQuestoesFechadas?;
   @ignore()
   respostasQuestoesProgramacao?;
+  @ignore()
+  totalRespostasProgramacao?;
 
   static getAllEstudantesByTurma(codigoTurma: any) {
     return new Observable<Usuario[]>((observer) => {

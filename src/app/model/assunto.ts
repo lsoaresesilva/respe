@@ -308,30 +308,24 @@ export class Assunto extends Document {
 
   /* Retorna as questões de um assunto ordenadas por sua sequência. */
   ordenarQuestoes() {
-    if (
-      Array.isArray(this.questoesFechadas) &&
-      Array.isArray(this.questoesProgramacao) &&
-      Array.isArray(this.questoesParson)
-    ) {
-      let questoes = new Array(
-        this.questoesFechadas.length + this.questoesProgramacao.length + this.questoesParson.length
-      );
-      questoes = questoes.fill(0);
+    let questoes = new Array(
+      this.questoesFechadas.length + this.questoesProgramacao.length + this.questoesParson.length
+    );
+    questoes = questoes.fill(0);
 
-      this.questoesFechadas.forEach((questao) => {
-        questoes[questao.sequencia - 1] = questao;
-      });
+    this.questoesFechadas.forEach((questao) => {
+      questoes[questao.sequencia - 1] = questao;
+    });
 
-      this.questoesProgramacao.forEach((questao) => {
-        questoes[questao.sequencia - 1] = questao;
-      });
+    this.questoesProgramacao.forEach((questao) => {
+      questoes[questao.sequencia - 1] = questao;
+    });
 
-      this.questoesParson.forEach((questao) => {
-        questoes[questao.sequencia - 1] = questao;
-      });
+    this.questoesParson.forEach((questao) => {
+      questoes[questao.sequencia - 1] = questao;
+    });
 
-      return questoes;
-    }
+    return questoes;
   }
 
   objectToDocument() {

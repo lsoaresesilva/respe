@@ -24,7 +24,8 @@ import { Router } from '@angular/router';
 // declare var editor: any;
 declare var monaco: any;
 declare function carregarIde(readOnly, callback, instance, callbackOnEditorLoad, codigo): any;
-
+declare function atualizarDecorations(): any;
+declare function limparCores(): any;
 @Component({
   selector: 'app-editor-programacao',
   templateUrl: './editor-programacao.component.html',
@@ -124,7 +125,8 @@ export class EditorProgramacaoComponent implements AfterViewInit, OnChanges {
     if (this._submissao != null) {
       this.editorCodigo.codigo = this._submissao['codigo'];
       if (this.editor != null) {
-        this.editor.setValue(this.editorCodigo.codigo);
+        this.editor.getModel().setValue(this.editorCodigo.codigo);
+        atualizarDecorations();
       }
     }
   }
@@ -170,7 +172,7 @@ export class EditorProgramacaoComponent implements AfterViewInit, OnChanges {
         );
       });
     } else {
-      this.editorCodigo.limparCores();
+      limparCores();
       this.visualizarExecucacao(false, null);
     }
   }
@@ -208,7 +210,7 @@ export class EditorProgramacaoComponent implements AfterViewInit, OnChanges {
             submissao.processarRespostaServidor(resposta).subscribe((resultado) => {
               this.submissao = resultado;
               this.onSubmit.emit(this._submissao);
-              this.editorCodigo.limparCores();
+              limparCores();
             });
           },
           error: (erro) => {
@@ -259,7 +261,7 @@ export class EditorProgramacaoComponent implements AfterViewInit, OnChanges {
   }
 
   destacarErros(erros) {
-    this.editorCodigo.limparCores();
-    this.editorCodigo.destacarErros(this.submissao.erros);
+    limparCores();
+    this.editorCodigo.destacarErros(this.submissao.erro);
   }
 }

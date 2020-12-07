@@ -22,36 +22,55 @@ export class ListarQuestoesSequenciaComponent implements OnChanges {
   constructor(private router: Router, private login: LoginService) {}
 
   ngOnChanges(): void {
+    let consultas = {};
     if (
       this.assunto != null &&
       Array.isArray(this.assunto.questoesFechadas) &&
-      Array.isArray(this.assunto.questoesProgramacao) &&
-      this.assunto.questoesFechadas.length > 0 &&
-      this.assunto.questoesProgramacao.length > 0
+      this.assunto.questoesFechadas.length > 0
     ) {
-      let consultas = {};
       consultas['questoesFechadas'] = QuestaoFechada.verificarQuestoesRespondidas(
         this.login.getUsuarioLogado(),
         this.assunto.questoesFechadas
       );
+    }
 
+    if (
+      this.assunto != null &&
+      Array.isArray(this.assunto.questoesProgramacao) &&
+      this.assunto.questoesProgramacao.length > 0
+    ) {
       consultas['questoesProgramacao'] = QuestaoProgramacao.verificarQuestoesRespondidas(
         this.login.getUsuarioLogado(),
         this.assunto.questoesProgramacao
       );
+    }
 
+    if (
+      this.assunto != null &&
+      Array.isArray(this.assunto.questoesParson) &&
+      this.assunto.questoesParson.length > 0
+    ) {
       consultas['questoesParson'] = QuestaoParsonProblem.verificarQuestoesRespondidas(
         this.login.getUsuarioLogado(),
         this.assunto.questoesParson
       );
-
-      forkJoin(consultas).subscribe((respostas) => {
-        this.assunto.questoesFechadas = respostas['questoesFechadas'];
-        this.assunto.questoesProgramacao = respostas['questoesProgramacao'];
-        this.assunto.questoesParson = respostas['questoesParson'];
-        this.questoes = this.assunto.ordenarQuestoes();
-      });
     }
+
+    forkJoin(consultas).subscribe((respostas) => {
+      if (respostas['questoesFechadas'] != null) {
+        this.assunto.questoesFechadas = respostas['questoesFechadas'];
+      }
+
+      if (respostas['questoesProgramacao'] != null) {
+        this.assunto.questoesProgramacao = respostas['questoesProgramacao'];
+      }
+
+      if (respostas['questoesParson'] != null) {
+        this.assunto.questoesParson = respostas['questoesParson'];
+      }
+
+      this.questoes = this.assunto.ordenarQuestoes();
+    });
   }
 
   abrirQuestao(questao) {

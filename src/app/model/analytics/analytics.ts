@@ -279,7 +279,7 @@ export default class Analytics {
   }
 
   static calcularNumeroAtividadesTrabalhadasPorSemana(turma: Turma) {
-    return new Observable((observer) => {
+    return new Observable<Usuario[]>((observer) => {
       const atividadesPorEstudante = [];
 
       Usuario.getAll(new Query('codigoTurma', '==', turma.codigo)).subscribe(
