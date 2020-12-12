@@ -20,10 +20,9 @@
       ></textarea>
     </div>
     <div class="p-col-5">
-      Como você avalia a sua última semana de estudos? Utilize esse espaço para falar sobre o que
-      deu certo e também aquilo que não saiu como o planejado. Pense em coisas que lhe atrapalharam
-      ou que você fez e que lhe ajudou no aprendizado. Refletir sobre isso é importante para
-      melhorar seus estudos.
+      Como você avalia a sua última semana de estudos? Utilize esse espaço para escrever sobre o que
+      não deu certo, mas também aquilo que você fez que lhe ajudou a melhorar no aprendizado.
+      Refletir sobre isso é importante para melhorar seus estudos.
     </div>
   </div>
 
@@ -46,6 +45,18 @@
       semana, definir horários, preparar os materiais que vai precisar e definir objetivos (e.g.,
       quantos exercícios espera resolver essa semana?)
     </div>
+  </div>
+
+  <div class="p-grid">
+    <div class="p-col-7">
+      <h3>
+        Até o momento, como você avalia o seu nível de confiança com o aprendizado de programação?
+      </h3>
+    </div>
+  </div>
+
+  <div class="p-grid">
+    <p-dropdown [options]="niveisConfianca" [(ngModel)]="diario.nivelConfianca"></p-dropdown>
   </div>
 
   <div class="p-grid">

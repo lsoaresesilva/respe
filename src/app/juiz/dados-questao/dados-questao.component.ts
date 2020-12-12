@@ -3,6 +3,7 @@ import { QuestaoProgramacao } from 'src/app/model/questoes/questaoProgramacao';
 import Submissao from 'src/app/model/submissao';
 import { LoginService } from 'src/app/login-module/login.service';
 import { ApresentacaoService } from 'src/app/geral-module/apresentacao.service';
+import { DomSanitizer } from '@angular/platform-browser';
 
 @Component({
   selector: 'dados-questao',
@@ -16,7 +17,11 @@ export class DadosQuestaoComponent implements AfterViewInit {
   @Input()
   submissao?: Submissao;
 
-  constructor(private login: LoginService, private apresentacao: ApresentacaoService) {}
+  constructor(
+    private login: LoginService,
+    private apresentacao: ApresentacaoService,
+    private sanitizer: DomSanitizer
+  ) {}
 
   ngOnChanges(changes: import('@angular/core').SimpleChanges): void {
     // PROBLEMA: mudou a estrutura, não há mais resultado test case. apenas submissao
@@ -51,5 +56,17 @@ export class DadosQuestaoComponent implements AfterViewInit {
     }
 
     return saida;
+  }
+
+  gerarHtmlTextoComCodigo(questao) {
+    if (questao.possuiCodigoNoEnunciado()) {
+      const texto = questao.enunciado
+        .replace(
+          new RegExp("'''python", 'g'),
+          "<pre><code class='language-python' style='display: block; white-space: pre-wrap;' pCode>"
+        )
+        .replace(new RegExp("'''", 'g'), '</code></pre>');
+      return this.sanitizer.bypassSecurityTrustHtml(texto);
+    }
   }
 }

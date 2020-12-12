@@ -17,7 +17,7 @@ export class Planejamento extends Document {
   motivacao;
   nivelDificuldade: Dificuldade;
   status;
-  autoReflexao;
+
   metas;
   objetivoExercicio: ObjetivosExercicios;
   objetivoVideo;
@@ -52,7 +52,6 @@ export class Planejamento extends Document {
     this.tempoEstudo = tempoEstudo;
     this.estrategiaRealizacaoEstudo = estrategiaRealizacaoEstudo;
     this.status = status;
-    this.autoReflexao = autoReflexao;
     this.nivelDificuldade = nivelDificuldade;
     this.metas = metas;
     this.objetivoExercicio = objetivoExercicio;
@@ -137,9 +136,6 @@ export class Planejamento extends Document {
   objectToDocument() {
     const document = super.objectToDocument();
     document['estudanteId'] = this.estudante.pk();
-    if (this.autoReflexao != null) {
-      document['autoReflexao'] = this.autoReflexao.objectToDocument();
-    }
 
     return document;
   }

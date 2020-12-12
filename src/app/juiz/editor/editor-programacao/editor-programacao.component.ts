@@ -23,6 +23,7 @@ import { Router } from '@angular/router';
  */
 // declare var editor: any;
 declare var monaco: any;
+declare var editorProgramacao: any;
 declare function carregarIde(readOnly, callback, instance, callbackOnEditorLoad, codigo): any;
 declare function atualizarDecorations(): any;
 declare function limparCores(): any;
@@ -85,6 +86,7 @@ export class EditorProgramacaoComponent implements AfterViewInit, OnChanges {
     this.onServidorError = new EventEmitter();
     this.processandoSubmissao = false;
     this.usuario = this.login.getUsuarioLogado();
+    editorProgramacao = null;
   }
 
   ngOnChanges(changes: import('@angular/core').SimpleChanges): void {
@@ -126,7 +128,7 @@ export class EditorProgramacaoComponent implements AfterViewInit, OnChanges {
       this.editorCodigo.codigo = this._submissao['codigo'];
       if (this.editor != null) {
         this.editor.getModel().setValue(this.editorCodigo.codigo);
-        atualizarDecorations();
+        //atualizarDecorations();
       }
     }
   }

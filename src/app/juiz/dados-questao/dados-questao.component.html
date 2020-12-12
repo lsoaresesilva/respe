@@ -3,7 +3,13 @@
   <p>{{ questao?.nomeCurto }}</p>
 
   <h4>Enunciado</h4>
-  <p>{{ questao?.enunciado }}</p>
+  <div
+    *ngIf="questao?.possuiCodigoNoEnunciado(); else semCodigo"
+    [innerHtml]="gerarHtmlTextoComCodigo(questao)"
+  ></div>
+  <ng-template #semCodigo>
+    {{ questao?.enunciado }}
+  </ng-template>
 </div>
 <div id="testsCases">
   <h4>Testscases</h4>

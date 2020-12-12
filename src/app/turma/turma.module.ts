@@ -32,6 +32,7 @@ import { AnalyticsModule } from '../analytics-module/analytics.module';
 import { VisualizarPerfilEstudanteComponent } from './visualizar-perfil-estudante/visualizar-perfil-estudante.component';
 import { EstatisticasExperimentoComponent } from './estatisticas-experimento/estatisticas-experimento.component';
 import { ChartModule } from 'primeng/chart';
+import { GrafoEstudantesComponent } from './grafo-estudantes/grafo-estudantes.component';
 
 @NgModule({
   declarations: [
@@ -48,6 +49,7 @@ import { ChartModule } from 'primeng/chart';
     ListarMateriaisComponent,
     VisualizarPerfilEstudanteComponent,
     EstatisticasExperimentoComponent,
+    GrafoEstudantesComponent,
   ],
 
   imports: [

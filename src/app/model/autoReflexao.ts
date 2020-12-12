@@ -3,29 +3,20 @@ import { Assunto } from './assunto';
 import Usuario from './usuario';
 import { NivelConfianca } from './nivelConfianca';
 
-@Collection("autoReflexoes")
-export default class AutoReflexao {
+@Collection('autoReflexoes')
+export default class AutoReflexao extends Document {
+  nivelConfianca: NivelConfianca;
 
-    nivelConfianca:NivelConfianca;
+  constructor(id, nivelConfianca, public dificuldades, public acoesSucesso) {
+    super(id);
+    this.nivelConfianca = nivelConfianca;
+  }
 
-    constructor(nivelConfianca, public dificuldades, public acoesSucesso, public acoesFracasso) {
-        this.nivelConfianca = nivelConfianca;
+  validar() {
+    if (this.acoesSucesso != '' || this.dificuldades != '' || this.nivelConfianca > 0) {
+      return true;
+    } else {
+      return false;
     }
-
-    objectToDocument(){
-        return {
-            nivelConfiaca:this.nivelConfianca,
-            dificuldades:this.dificuldades,
-            acoesSucesso:this.acoesSucesso,
-            acoesFracasso:this.acoesFracasso
-        }
-    }
-
-    validar() {
-        if (this.acoesSucesso != "" || this.acoesFracasso != "" || this.dificuldades != "" || this.nivelConfianca > 0) {
-            return true;
-        } else {
-            return false;
-        }
-    }
+  }
 }

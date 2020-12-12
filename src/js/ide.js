@@ -38,29 +38,19 @@ function executarPython(cb){
 }
 */
 var intro = introJs();
-var editor = null;
+var editorProgramacao = null;
 var decorations = null;
 // TODO: usar Observable para disparar quando o editor estiver pronto. Assim o model Editor pode ter acesso à instância do mônico quando ela estiver pronta.
 
-function destacarLinha(linha, status) {
+/* function destacarLinha(linha, status) {
 
   if (linha != NaN && linha != undefined) {
     linha = parseInt(linha);
     if (linha > 0 && linha <= editor.getModel().getLineCount()) {
       const lineLength = editor.getModel().getLineLength(linha);
       monaco.editor.setModelMarkers(editor.getModel(), 'lets', { source: 'ESLint', startLineNumber: linha, startColumn: 1, endColumn: lineLength, endLineNumber: linha, severity: 3, message: "blabla" });
-      /* decorations = [
-        {
-          range: new monaco.Range(linha, 1, linha, lineLength),
-          options: {
-            isWholeLine: true,
-            className: 'erro',
-          },
-        },
-      ];
-      editor.deltaDecorations([], decorations); */
+
     }
-    //this.configuracao.decorations.push(editor.deltaDecorations([], ));
   }
 }
 
@@ -76,7 +66,7 @@ function atualizarDecorations() {
   if (decorations != null) {
     editor.deltaDecorations([], decorations);
   }
-}
+} */
 
 function carregarIde(readOnly, callback = null, instance = null, callbackOnEditorLoad = null, codigo) {
 
@@ -87,21 +77,21 @@ function carregarIde(readOnly, callback = null, instance = null, callbackOnEdito
     //document.getElementById("body").appendChild(appRoot);
     let container = document.getElementById('container');
     if (container != undefined) {
-      if (editor == null) {
-        editor = monaco.editor.create(container, {
+      if (editorProgramacao == null) {
+        editorProgramacao = monaco.editor.create(container, {
           value: prepararCodigo(codigo).join('\n'),
           language: 'python',
           readOnly: readOnly
 
         });
 
-        editor.onKeyDown(function () {
+        /* editor.onKeyDown(function () {
           limparCores();
-        });
+        }); */
       }
 
 
-      callbackOnEditorLoad(instance, editor);
+      callbackOnEditorLoad(instance, editorProgramacao);
 
       // TODO: modificar para colocar em outra função exclusiva de comentário e só aparecer para comentários
       /* var div = document.getElementById('iconeNovoComentario');

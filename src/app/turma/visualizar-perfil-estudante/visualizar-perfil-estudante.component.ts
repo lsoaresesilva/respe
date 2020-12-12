@@ -6,6 +6,8 @@ import { LoginService } from '../../login-module/login.service';
 import { Assunto } from 'src/app/model/assunto';
 import Submissao from 'src/app/model/submissao';
 import Query from 'src/app/model/firestore/query';
+import PageTrackRecord from 'src/app/model/analytics/pageTrack';
+import { AutoInstrucao } from 'src/app/model/autoInstrucao';
 
 @Component({
   selector: 'app-visualizar-perfil-estudante',
@@ -18,6 +20,8 @@ export class VisualizarPerfilEstudanteComponent implements OnInit {
   questoes: QuestaoProgramacao[] = [];
   submissoes: any[];
   respostaUsuario;
+
+  planejamentos;
 
   constructor(private route: ActivatedRoute, private login: LoginService) {
     this.estudante = new Usuario(null, null, null, null, null);
@@ -32,6 +36,36 @@ export class VisualizarPerfilEstudanteComponent implements OnInit {
         this.submissoes = resultado;
         this.buscarQuestoes(resultado);
       });
+
+      Assunto.getAll(new Query('isAtivo', '==', true)).subscribe((assuntos) => {
+        AutoInstrucao.getAll(new Query('estudanteId', '==', params['id'])).subscribe(
+          (instrucoes) => {
+            assuntos.forEach((assunto) => {
+              assunto.questoesProgramacao.forEach((questao) => {
+                for (let i = 0; i < instrucoes.length; i++) {
+                  if (instrucoes[i]['questaoId'] == questao.id) {
+                    let autoInstrucao = {
+                      problema: instrucoes[i].problema,
+                      variaveis: instrucoes[i].variaveis,
+                    };
+
+                    if (instrucoes[i].condicoes != null) {
+                      autoInstrucao['condicoes'] = instrucoes[i].condicoes;
+                    }
+
+                    this.planejamentos.push({
+                      questao: questao.nomeCurto,
+                      autoInstrucao: autoInstrucao,
+                    });
+                  }
+                }
+              });
+            });
+          }
+        );
+      });
+
+      this.planejamentos = [];
     });
   }
 
@@ -44,6 +78,7 @@ export class VisualizarPerfilEstudanteComponent implements OnInit {
       );
     });
   }
+
   buscarQuestoes(submissoes = []) {
     submissoes.forEach((submissao) => {
       Assunto.getAll().subscribe((assuntos) => {

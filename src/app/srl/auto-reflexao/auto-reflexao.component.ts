@@ -10,59 +10,37 @@ import { Planejamento } from 'src/app/model/planejamento';
 @Component({
   selector: 'app-auto-reflexao',
   templateUrl: './auto-reflexao.component.html',
-  styleUrls: ['./auto-reflexao.component.css']
+  styleUrls: ['./auto-reflexao.component.css'],
 })
 export class AutoReflexaoComponent implements OnInit {
-
-  planejamento: Planejamento;
+  autoReflexao: AutoReflexao;
   msgs: Message[];
   niveisConfianca: SelectItem[];
 
-
-  constructor(private router: Router, private route:ActivatedRoute) {
-    // TODO: carregar assunto via router
-    this.route.params.subscribe(params=>{
-      if(params["id"] != undefined){
-
-        Planejamento.get(params["id"]).subscribe(planejamento=>{
-          this.planejamento = planejamento;
-          if(this.planejamento.autoReflexao == null){
-            this.planejamento.autoReflexao = new AutoReflexao(0, "", "", "");
-          }
-        }, err=>{
-          this.msgs.push({ severity: 'error', summary: 'Erro', detail: 'Não é possível iniciar uma autoreflexão com um planejamento inválido.' });
-        })
-      }else{
-        this.msgs.push({ severity: 'error', summary: 'Erro', detail: 'Não é possível iniciar uma autoreflexão sem informar um planejamento.' });
-      }
-    })
-
-
-
-  }
+  constructor() {}
 
   ngOnInit() {
-
     this.msgs = [];
 
-    this.niveisConfianca=[
-      {label:'Selecione um nível de confiança', value:null},
-      {label:'Pouco confiante', value: NivelConfianca.pouco},
-      {label:'Confiante', value: NivelConfianca.normal},
-      {label:'Muito confiante', value:NivelConfianca.alto},
+    this.niveisConfianca = [
+      { label: 'Selecione um nível de confiança', value: null },
+      { label: 'Pouco confiante', value: NivelConfianca.pouco },
+      { label: 'Confiante', value: NivelConfianca.normal },
+      { label: 'Muito confiante', value: NivelConfianca.alto },
     ];
   }
 
   salvar() {
-    if(this.planejamento.autoReflexao.validar()){
-
-      this.planejamento.save().subscribe(resulado=>{
+    if (this.autoReflexao.validar()) {
+      this.autoReflexao.save().subscribe((resulado) => {
         this.msgs.push({ severity: 'success', summary: 'Dados salvos com sucesso.' });
-        this.router.navigate(["main", { outlets: { principal: ['listagem-planejamento'] } }])
-      })
-    }else{
-      this.msgs.push({ severity: 'error', summary: 'Erro', detail: 'Preencha os dados corretamente.' });
+      });
+    } else {
+      this.msgs.push({
+        severity: 'error',
+        summary: 'Erro',
+        detail: 'É preciso preencher todos os campos.',
+      });
     }
   }
-
 }

@@ -207,6 +207,12 @@ export class QuestaoProgramacao {
     return document;
   }
 
+  possuiCodigoNoEnunciado() {
+    if (this.enunciado != null) {
+      return this.enunciado.search("'''python") != -1 ? true : false;
+    }
+  }
+
   getExemploCorreto(): ModeloRespostaQuestao {
     if (Array.isArray(this.exemplos)) {
       return this.exemplos.filter((exemplo) => {

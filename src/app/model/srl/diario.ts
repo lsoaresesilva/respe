@@ -2,10 +2,17 @@ import { Document, Collection, date } from '../firestore/document';
 import { Observable } from 'rxjs';
 import Query from '../firestore/query';
 import Usuario from '../usuario';
+import { NivelConfianca } from '../nivelConfianca';
 
 @Collection('diarios')
 export default class Diario extends Document {
-  constructor(id, public reflexao, public planejamento, public estudante) {
+  constructor(
+    id,
+    public reflexao,
+    public planejamento,
+    public nivelConfianca: NivelConfianca,
+    public estudante
+  ) {
     super(id);
   }
   @date()
@@ -64,6 +71,7 @@ export default class Diario extends Document {
   validar() {
     if (
       this.reflexao != null &&
+      this.nivelConfianca != null &&
       this.reflexao !== '' &&
       this.planejamento != null &&
       this.planejamento !== ''
