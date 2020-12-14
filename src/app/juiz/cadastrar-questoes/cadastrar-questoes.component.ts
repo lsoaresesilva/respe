@@ -112,8 +112,12 @@ export class CadastrarQuestoesComponent implements OnInit {
     }
   }
 
-  adicionarTestCase() {
-    this.questao.testsCases.push(new TestCase(null, [], ''));
+  adicionarTestCase(isArray) {
+    if (!isArray) {
+      this.questao.testsCases.push(new TestCase(null, [], ''));
+    } else {
+      this.questao.testsCases.push(new TestCase(null, [], []));
+    }
   }
 
   messageCadastro() {

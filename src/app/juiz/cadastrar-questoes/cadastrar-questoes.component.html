@@ -53,7 +53,8 @@
     ></textarea>
 
     <h3>Tests cases</h3>
-    <p-button label="Novo test case" (click)="adicionarTestCase()"></p-button>
+    <p-button label="Novo" (click)="adicionarTestCase(false)"></p-button>
+    <p-button label="Novo (saída array)" (click)="adicionarTestCase(true)"></p-button>
     <app-cadastrar-teste-case *ngFor="let testCase of questao.testsCases" [testCase]="testCase">
     </app-cadastrar-teste-case>
 

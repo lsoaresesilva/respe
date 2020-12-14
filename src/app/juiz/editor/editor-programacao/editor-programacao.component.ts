@@ -26,7 +26,7 @@ declare var monaco: any;
 declare var editorProgramacao: any;
 declare function carregarIde(readOnly, callback, instance, callbackOnEditorLoad, codigo): any;
 declare function atualizarDecorations(): any;
-declare function limparCores(): any;
+
 @Component({
   selector: 'app-editor-programacao',
   templateUrl: './editor-programacao.component.html',
@@ -174,7 +174,6 @@ export class EditorProgramacaoComponent implements AfterViewInit, OnChanges {
         );
       });
     } else {
-      limparCores();
       this.visualizarExecucacao(false, null);
     }
   }
@@ -206,13 +205,12 @@ export class EditorProgramacaoComponent implements AfterViewInit, OnChanges {
 
       this.http
         .post<any>(url, json, httpOptions)
-        .pipe(timeout(6000))
+        .pipe(timeout(10000))
         .subscribe({
           next: (resposta) => {
             submissao.processarRespostaServidor(resposta).subscribe((resultado) => {
               this.submissao = resultado;
               this.onSubmit.emit(this._submissao);
-              limparCores();
             });
           },
           error: (erro) => {
@@ -222,7 +220,6 @@ export class EditorProgramacaoComponent implements AfterViewInit, OnChanges {
             } else {
               submissao.processarErroServidor(erro.error.mensagem).subscribe((resultado) => {
                 this.submissao = resultado;
-                this.destacarErros(this.submissao);
                 this.onError.emit(this._submissao);
               });
             }
@@ -260,10 +257,5 @@ export class EditorProgramacaoComponent implements AfterViewInit, OnChanges {
         // TODO: mostrar mensagem que o código foi salvo automaticamente.
       });
     }, 300000);
-  }
-
-  destacarErros(erros) {
-    limparCores();
-    this.editorCodigo.destacarErros(this.submissao.erro);
   }
 }

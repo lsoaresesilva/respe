@@ -3,8 +3,6 @@ import { QuestaoProgramacao } from './questoes/questaoProgramacao';
 declare var monaco: any;
 declare var editor: any;
 
-declare function destacarLinha(linha, status): any;
-
 export default class Editor {
   private constructor() {
     //this.editor = editor;
@@ -52,8 +50,4 @@ export default class Editor {
       //this.configuracao.decorations.push(editor.deltaDecorations([], ));
     }
   } */
-
-  destacarErros(erro) {
-    destacarLinha(erro.linha, 'erro');
-  }
 }
