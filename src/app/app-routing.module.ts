@@ -56,6 +56,7 @@ import { ListarAssuntosAdminComponent } from './admin/listar-assuntos-admin/list
 import { VisualizarAssuntoAdminComponent } from './admin/visualizar-assunto-admin/visualizar-assunto-admin.component';
 import { AnalyticsTurmaComponent } from './analytics-module/analytics-turma/analytics-turma.component';
 import { CadastrarParsonComponent } from './parson-problem/cadastrar-parson/cadastrar-parson.component';
+import { EstatisticasExperimentoComponent } from './turma/estatisticas-experimento/estatisticas-experimento.component';
 
 const routes: Routes = [
   {
@@ -99,6 +100,14 @@ const routes: Routes = [
 
       /* FIM ADMIN */
 
+      /* Turma */
+      {
+        path: 'estatisticas-experimento/:codigoTurma',
+        component: EstatisticasExperimentoComponent,
+        canActivate: [AuthGuard, ProfessorGuard],
+        outlet: 'principal',
+      },
+
       /* ANALYTICS */
       {
         path: 'analytics-turma/:turmaId',
@@ -136,7 +145,7 @@ const routes: Routes = [
       },
 
       {
-        path: 'cadastro-questao-parson/:assuntoId/:questaoId',
+        path: 'atualizacao-questao-parson/:assuntoId/:questaoId',
         component: CadastrarParsonComponent,
         canActivate: [AuthGuard, AdminGuard],
         outlet: 'principal',

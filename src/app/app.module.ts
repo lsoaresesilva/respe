@@ -3,7 +3,6 @@ import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { InputTextModule } from 'primeng/inputtext';
 import { MenubarModule } from 'primeng/menubar';
-import { FirebaseConfiguracao } from 'src/environments/firebase';
 import { LoginModule } from './login-module/login.module';
 import { MainComponent } from './geral-module/main/main.component';
 import { AnalyticsModule } from './analytics-module/analytics.module';
@@ -33,12 +32,14 @@ import { GamificationModule } from './gamification/gamification.module';
 import { ButtonModule } from 'primeng/button';
 import { ToolbarModule } from 'primeng/toolbar';
 import { AdminModule } from './admin/admin.module';
+import { ChatbotModule } from './chatbot/chatbot.module';
 
 @NgModule({
   schemas: [CUSTOM_ELEMENTS_SCHEMA],
   declarations: [AppComponent, MainComponent],
   imports: [
     AdminModule,
+    ChatbotModule,
     SrlModule,
     GamificationModule,
     ButtonModule,
@@ -54,7 +55,7 @@ import { AdminModule } from './admin/admin.module';
     LoginModule,
     BrowserModule,
     AppRoutingModule,
-    AngularFireModule.initializeApp(FirebaseConfiguracao),
+    AngularFireModule.initializeApp(environment.firebase),
     AngularFirestoreModule,
     InputTextModule,
     MenubarModule,

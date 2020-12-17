@@ -1,28 +1,58 @@
-<div *ngIf="this.questao != undefined">
-
-      <button *ngIf="modoVisualizacao == false" 
-            type="button" 
-            (click)="executar()" 
-            pButton 
-            id="btnExecutar"
-            label="Executar" 
-            icon="pi pi-play" 
-            iconPos="left"
-            class="ui-button-success"
-            style="margin-right: 10px;"></button>
-      <button *ngIf="usuario.grupoExperimento != 4 && modoVisualizacao == true" type="button"
-            (click)="visualizar(false)" pButton label="Voltar ao modo execução" ></button>
-     <!-- <button *ngIf="this.login.getUsuarioLogado().grupoExperimento != 4  && modoVisualizacao == false" type="button"
+<div *ngIf="this.questao != undefined" style="display: flex; justify-content: space-between">
+  <div>
+    <button
+      *ngIf="modoVisualizacao == false"
+      type="button"
+      (click)="executar()"
+      pButton
+      id="btnExecutar"
+      label="Executar"
+      icon="pi pi-play"
+      iconPos="left"
+      class="ui-button-success"
+      style="margin-right: 10px"
+    ></button>
+    <button
+      *ngIf="modoVisualizacao == true"
+      type="button"
+      (click)="visualizar(false)"
+      pButton
+      label="Voltar ao modo execução"
+    ></button>
+    <!-- <button *ngIf="this.login.getUsuarioLogado().grupoExperimento != 4  && modoVisualizacao == false" type="button"
             (click)="visualizar(true)" pButton label="Vizualizar execução"></button> -->
-      <button style="margin-left: 10px;" 
+    <button
+      style="margin-left: 10px"
       id="statusExecucaoAlgoritmo"
-      label="{{submissao.isFinalizada()?'Sucesso':'O algoritmo não está correto.'}}"
-      *ngIf="submissao != undefined && submissao.isFinalizada() != null" 
-      [ngClass]="{'ui-button-success':submissao.isFinalizada(), 'ui-button-danger':!submissao.isFinalizada()}" pButton></button>
-
-      <p-progressBar *ngIf="processandoSubmissao == true" mode="indeterminate" [style]="{'height': '6px', 'width':'100px'}"></p-progressBar>
-    
+      label="{{ submissao.isFinalizada() ? 'Sucesso' : 'O algoritmo não está correto' }}"
+      *ngIf="submissao != undefined && submissao.isFinalizada() != null"
+      [ngClass]="{
+        'p-button-success': submissao.isFinalizada(),
+        'p-button-danger': !submissao.isFinalizada()
+      }"
+      pButton
+    ></button>
+    <p-progressBar
+      *ngIf="processandoSubmissao == true"
+      mode="indeterminate"
+      [style]="{ height: '6px', width: '120px' }"
+    ></p-progressBar>
+  </div>
+  <div>
+    <button
+      type="button"
+      (click)="visualizarResposta(questao)"
+      pButton
+      label="Visualizar resposta"
+      *ngIf="questao.exemplos.length > 0"
+    ></button>
+  </div>
 </div>
 
-<div id="container" [ngStyle]="{'height':liteMode === true?'300px':'600px'}"
-            style="margin-top:10px; border:1px solid grey; position:relative;"></div>
+<div
+  id="container"
+  [ngStyle]="{ height: liteMode === true ? '300px' : '600px' }"
+  style="margin-top: 10px; border: 1px solid grey; position: relative"
+></div>
+
+<p-confirmDialog header="Atenção" icon="pi pi-exclamation-triangle"></p-confirmDialog>

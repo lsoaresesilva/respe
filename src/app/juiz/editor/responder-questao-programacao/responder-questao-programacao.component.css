@@ -1,27 +1,33 @@
-.statusSucesso{
-    color:rgb(55, 168, 55);
+.statusSucesso {
+  color: rgb(55, 168, 55);
 }
-.statusErro{
-    color:#FA5858;
+.statusErro {
+  color: #fa5858;
 }
 
-.textoStatus{
-    color:#848484;
+.textoStatus {
+  color: #848484;
 }
 
 .loading-indicator {
-    position: fixed;
-    z-index: 999;
-    height: 2em;
-    width: 2em;
-    overflow: show;
-    margin: auto;
-    top: 0;
-    left: 0;
-    bottom: 0;
-    right: 0;
-    }
+  position: fixed;
+  z-index: 999;
+  height: 2em;
+  width: 2em;
+  overflow: show;
+  margin: auto;
+  top: 0;
+  left: 0;
+  bottom: 0;
+  right: 0;
+}
 
-button{
-    margin-left: 5px;
+button {
+  margin-left: 5px;
+}
+
+.erro {
+  background: #f5a9a9 !important;
+  cursor: pointer;
+  font-weight: bold;
 }

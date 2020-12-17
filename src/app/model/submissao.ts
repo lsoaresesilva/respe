@@ -172,7 +172,7 @@ export default class Submissao extends Document {
     return submissaoFiltrada;
   }
 
-  private static filtrarRecente(submissoes = []) {
+  static filtrarRecente(submissoes = []) {
     let submissaoRecente = null;
     if (submissoes.length != 0) {
       if (submissoes.length == 1) {
@@ -278,6 +278,21 @@ export default class Submissao extends Document {
         }
       );
     });
+  }
+
+  /**
+   * Extrai todos os erros cometidos pelo estudante em suas submissões.
+   * @param submissoes
+   */
+  static getAllErros(submissoes): ErroCompilacao[] {
+    const erros: ErroCompilacao[] = [];
+    submissoes.forEach((submissao) => {
+      if (submissao.erro != null && submissao.erro instanceof ErroCompilacao) {
+        erros.push(submissao.erro);
+      }
+    });
+
+    return erros;
   }
 
   /*analisarErros() {

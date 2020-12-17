@@ -8,6 +8,7 @@ import Submissao from '../submissao';
 import Usuario from '../usuario';
 import { Util } from '../util';
 import { ErroCompilacao } from '../errors/analise-compilacao/erroCompilacao';
+import { ModeloRespostaQuestao } from '../modeloRespostaQuestao';
 
 export class QuestaoProgramacao {
   constructor(
@@ -18,7 +19,8 @@ export class QuestaoProgramacao {
     sequencia,
     assuntos,
     testsCases,
-    algoritmoInicial
+    algoritmoInicial,
+    public exemplos: ModeloRespostaQuestao[]
   ) {
     if (id == null) {
       this.id = Util.uuidv4();
@@ -121,6 +123,7 @@ export class QuestaoProgramacao {
         }
 
         questao.testsCases = TestCase.construir(questao.testsCases);
+        questao.exemplos = ModeloRespostaQuestao.construir(questao.exemplos);
 
         objetosQuestoes.push(
           new QuestaoProgramacao(
@@ -131,7 +134,8 @@ export class QuestaoProgramacao {
             questao.sequencia,
             questao.assuntos,
             questao.testsCases,
-            questao.algoritmoInicial
+            questao.algoritmoInicial,
+            questao.exemplos
           )
         );
       });
@@ -175,6 +179,10 @@ export class QuestaoProgramacao {
       document['algoritmoInicial'] = this.algoritmoInicial;
     }
 
+    if (this.exemplos != undefined) {
+      document['exemplos'] = this.exemplos;
+    }
+
     if (this.assuntos != null && this.assuntos.length > 0) {
       const assuntos = [];
       this.assuntos.forEach((assunto) => {
@@ -199,6 +207,20 @@ export class QuestaoProgramacao {
     return document;
   }
 
+  possuiCodigoNoEnunciado() {
+    if (this.enunciado != null) {
+      return this.enunciado.search("'''python") != -1 ? true : false;
+    }
+  }
+
+  getExemploCorreto(): ModeloRespostaQuestao {
+    if (Array.isArray(this.exemplos)) {
+      return this.exemplos.filter((exemplo) => {
+        return exemplo.isCorreto;
+      })[0];
+    }
+  }
+
   toJson() {
     const ts = [];
 
@@ -211,16 +233,6 @@ export class QuestaoProgramacao {
     return {
       testsCases: ts,
     };
-  }
-
-  getErrosEstudante(estudante) {
-    return new Observable((observer) => {
-      Submissao.getPorQuestao(this, estudante).subscribe((submissoes) => {
-        const erros = ErroCompilacao.getAllErros(submissoes);
-        observer.next(erros);
-        observer.complete();
-      });
-    });
   }
 
   /*  buscarAssuntos(assuntoPrincipal): Observable<any[]> {
@@ -283,4 +295,12 @@ export class QuestaoProgramacao {
   }
 
   prepararSave() {}
+
+  getTestCaseById(id): TestCase {
+    const testCase = this.testsCases.filter((testCase) => {
+      return testCase.id == id;
+    });
+
+    return testCase[0] != null ? testCase[0] : null;
+  }
 }

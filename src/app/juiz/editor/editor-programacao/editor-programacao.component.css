@@ -1,6 +1,5 @@
-
-
 .erro {
-    background: #F5A9A9 !important;
-    font-weight: bold;
+  background: #f5a9a9 !important;
+  cursor: pointer;
+  font-weight: bold;
 }

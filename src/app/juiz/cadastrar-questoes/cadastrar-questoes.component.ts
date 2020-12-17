@@ -24,7 +24,7 @@ export class CadastrarQuestoesComponent implements OnInit {
     private activatedRoute: ActivatedRoute,
     private messageService: MessageService
   ) {
-    this.questao = new QuestaoProgramacao(null, '', '', 0, 0, [], [], '');
+    this.questao = new QuestaoProgramacao(null, '', '', 0, 0, [], [], '', null);
   }
 
   ngOnInit() {
@@ -112,8 +112,12 @@ export class CadastrarQuestoesComponent implements OnInit {
     }
   }
 
-  adicionarTestCase() {
-    this.questao.testsCases.push(new TestCase(null, [], ''));
+  adicionarTestCase(isArray) {
+    if (!isArray) {
+      this.questao.testsCases.push(new TestCase(null, [], ''));
+    } else {
+      this.questao.testsCases.push(new TestCase(null, [], []));
+    }
   }
 
   messageCadastro() {

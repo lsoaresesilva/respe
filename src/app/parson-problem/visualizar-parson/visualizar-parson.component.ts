@@ -25,7 +25,15 @@ export class VisualizarParsonComponent implements OnInit {
     private route: ActivatedRoute,
     private login: LoginService,
     private messageService: MessageService
-  ) {}
+  ) {
+    this.usuario = this.login.getUsuarioLogado();
+            this.respostaQuestaoFechada = new RespostaQuestaoParson(
+              null,
+              this.usuario,
+              [],
+              this.questao
+            );
+  }
 
   ngOnInit(): void {
     this.route.params.subscribe((params) => {
@@ -35,13 +43,7 @@ export class VisualizarParsonComponent implements OnInit {
 
           if (assunto['questoesFechadas'] != undefined && assunto['questoesFechadas'].length > 0) {
             this.questao = assunto['getQuestaoParsonById'](params['questaoId']);
-            this.usuario = this.login.getUsuarioLogado();
-            this.respostaQuestaoFechada = new RespostaQuestaoParson(
-              null,
-              this.usuario,
-              [],
-              this.questao
-            );
+            this.respostaQuestaoFechada.questao = this.questao;
 
             RespostaQuestaoParson.getRespostaQuestaoEstudante(this.questao, this.usuario).subscribe(
               (respostaUsuario: RespostaQuestaoParson) => {

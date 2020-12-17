@@ -14,13 +14,18 @@ import Editor from 'src/app/model/editor';
 import { LoginService } from 'src/app/login-module/login.service';
 
 import { catchError, retry, timeout } from 'rxjs/operators';
+import { environment } from 'src/environments/environment';
+import { ConfirmationService } from 'primeng/api';
+import { Router } from '@angular/router';
 
 /**
  * Executa um javascript ide.js para acoplar o editor VStudio.
  */
 // declare var editor: any;
 declare var monaco: any;
+declare var editorProgramacao: any;
 declare function carregarIde(readOnly, callback, instance, callbackOnEditorLoad, codigo): any;
+declare function atualizarDecorations(): any;
 
 @Component({
   selector: 'app-editor-programacao',
@@ -28,8 +33,7 @@ declare function carregarIde(readOnly, callback, instance, callbackOnEditorLoad,
   styleUrls: ['./editor-programacao.component.css'],
 })
 export class EditorProgramacaoComponent implements AfterViewInit, OnChanges {
-  URL = "http://35.208.64.26:8000/";
-  //URL = 'http://localhost:8000/';
+  URL = environment.URL;
 
   processandoSubmissao;
 
@@ -69,13 +73,19 @@ export class EditorProgramacaoComponent implements AfterViewInit, OnChanges {
   @Output()
   onVisualization: EventEmitter<any>;
 
-  constructor(private http: HttpClient, public login: LoginService) {
+  constructor(
+    private http: HttpClient,
+    public login: LoginService,
+    private confirmationService: ConfirmationService,
+    private router: Router
+  ) {
     this.onError = new EventEmitter();
     this.onSubmit = new EventEmitter();
     this.onVisualization = new EventEmitter();
     this.onServidorError = new EventEmitter();
     this.processandoSubmissao = false;
     this.usuario = this.login.getUsuarioLogado();
+    editorProgramacao = null;
   }
 
   ngOnChanges(changes: import('@angular/core').SimpleChanges): void {
@@ -95,15 +105,29 @@ export class EditorProgramacaoComponent implements AfterViewInit, OnChanges {
       this.editorCodigo.codigo = '';
     }
 
-    
     carregarIde(false, null, this, this.carregarEditor, this.editorCodigo.codigo);
+  }
+
+  visualizarResposta(questao) {
+    this.confirmationService.confirm({
+      message:
+        'Se você visualizar a resposta dessa questão não ganhará pontos ao respondê-la. Tem certeza que deseja visualizar?',
+      acceptLabel: 'Sim',
+      rejectLabel: 'Não',
+      accept: () => {
+        this.router.navigate(['main', { outlets: { principal: ['exibir-codigo', questao.id] } }], {
+          state: { questao: questao },
+        });
+      },
+    });
   }
 
   atualizarEditorComSubmissao() {
     if (this._submissao != null) {
       this.editorCodigo.codigo = this._submissao['codigo'];
       if (this.editor != null) {
-        this.editor.setValue(this.editorCodigo.codigo);
+        this.editor.getModel().setValue(this.editorCodigo.codigo);
+        //atualizarDecorations();
       }
     }
   }
@@ -149,7 +173,6 @@ export class EditorProgramacaoComponent implements AfterViewInit, OnChanges {
         );
       });
     } else {
-      this.editorCodigo.limparCores();
       this.visualizarExecucacao(false, null);
     }
   }
@@ -181,13 +204,12 @@ export class EditorProgramacaoComponent implements AfterViewInit, OnChanges {
 
       this.http
         .post<any>(url, json, httpOptions)
-        .pipe(timeout(6000))
+        .pipe(timeout(10000))
         .subscribe({
           next: (resposta) => {
             submissao.processarRespostaServidor(resposta).subscribe((resultado) => {
               this.submissao = resultado;
               this.onSubmit.emit(this._submissao);
-              this.editorCodigo.limparCores();
             });
           },
           error: (erro) => {
@@ -197,10 +219,11 @@ export class EditorProgramacaoComponent implements AfterViewInit, OnChanges {
             } else {
               submissao.processarErroServidor(erro.error.mensagem).subscribe((resultado) => {
                 this.submissao = resultado;
-                this.destacarErros(this.submissao);
                 this.onError.emit(this._submissao);
               });
             }
+
+            this.processandoSubmissao = false;
           },
           complete: () => {
             this.processandoSubmissao = false;
@@ -217,12 +240,7 @@ export class EditorProgramacaoComponent implements AfterViewInit, OnChanges {
    */
   prepararSubmissao() {
     this.editorCodigo.codigo = this.editor.getValue();
-    const submissao = new Submissao(
-      null,
-      this.editor.getValue(),
-      this.usuario,
-      this.questao
-    );
+    const submissao = new Submissao(null, this.editor.getValue(), this.usuario, this.questao);
     return submissao;
   }
 
@@ -238,10 +256,5 @@ export class EditorProgramacaoComponent implements AfterViewInit, OnChanges {
         // TODO: mostrar mensagem que o código foi salvo automaticamente.
       });
     }, 300000);
-  }
-
-  destacarErros(erros) {
-    this.editorCodigo.limparCores();
-    this.editorCodigo.destacarErros(this.submissao.erros);
   }
 }

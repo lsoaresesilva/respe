@@ -6,76 +6,83 @@ import { MenuItem, MessageService } from 'primeng/api';
 @Component({
   selector: 'app-cadastrar-teste-case',
   templateUrl: './cadastrar-teste-case.component.html',
-  styleUrls: ['./cadastrar-teste-case.component.css']
+  styleUrls: ['./cadastrar-teste-case.component.css'],
 })
 export class CadastrarTesteCaseComponent implements OnInit {
-  @Input("testCase")
-
+  @Input('testCase')
   testeCase: TestCase;
   entrada: string;
+  saida;
   selectedEntrada: String;
   selectedTest: TestCase;
   items: MenuItem[];
 
-  constructor(private messageService: MessageService) { }
+  constructor(private messageService: MessageService) {}
 
+  ngOnInit() {}
 
+  adicionarEntradaSaida(tipo) {
+    let dado;
 
-  ngOnInit() {
-   
-    this.items = [
-  
-      { label: 'Apagar', icon: 'pi pi-times', command: (event) => this.retirarEntrada(this.selectedEntrada) }
-    ];
-  }
+    if (tipo === 'entrada') {
+      dado = this.entrada;
+    } else {
+      dado = this.saida;
+    }
 
-
-
-  adicionarEntrada() {
-
-    if (this.testeCase.validarEntrada(this.entrada)) {
-      this.testeCase.entradas.push(this.entrada);
-      this.entrada = null;
-      this.messageEntradaAdicionada();
-
-     
+    if (this.testeCase.validarEntradaSaida(dado)) {
+      if (tipo === 'entrada') {
+        this.testeCase.entradas.push(this.entrada);
+        this.entrada = null;
+      } else {
+        this.testeCase.saida.push(this.saida);
+        this.entrada = null;
+      }
     } else {
       this.messageEntradaVazia();
-     
-
     }
   }
 
-  retirarEntrada(entrada: String) {
-
+  retirarEntradaSaida(dado: String, tipo) {
     let index = -1;
-    for (let i = 0; i < this.testeCase.entradas.length; i++) {
-      if (this.testeCase.entradas[i] == entrada) {
+    let array;
+
+    if (tipo === 'entrada') {
+      array = this.testeCase.entradas;
+    } else {
+      array = this.testeCase.saida;
+    }
+
+    for (let i = 0; i < array.length; i++) {
+      if (array[i] == dado) {
         index = i;
         break;
       }
     }
-    this.testeCase.entradas.splice(index, 1);
-    this.messageEntradaRetirada();
+    array.splice(index, 1);
   }
 
-
   messageCadastrado() {
-    this.messageService.add({ severity: 'success', summary: "Test Case cadastrado", detail: "Esse test Case foi incluído na questão" });
+    this.messageService.add({
+      severity: 'success',
+      summary: 'Test Case cadastrado',
+      detail: 'Esse test Case foi incluído na questão',
+    });
   }
 
   messageError() {
-    this.messageService.add({ severity: 'error', summary: "teste Case inválido", detail: "Esse teste Case não foi cadastrado" });
+    this.messageService.add({
+      severity: 'error',
+      summary: 'teste Case inválido',
+      detail: 'Esse teste Case não foi cadastrado',
+    });
   }
 
   messageEntradaVazia() {
-    this.messageService.add({ severity: 'info', summary: "Entrada negada", detail: "ops... a entrada não pode estar vazia" });
-  }
-
-  messageEntradaRetirada() {
-    this.messageService.add({ severity: 'info', summary: "teste Case modificado", detail: "Entrada retirada" });
-  }
-  messageEntradaAdicionada() {
-    this.messageService.add({ severity: 'success', summary: "teste Case modificado", detail: "Entrada adicionada" });
+    this.messageService.add({
+      severity: 'info',
+      summary: 'Entrada negada',
+      detail: 'ops... a entrada não pode estar vazia',
+    });
   }
 }

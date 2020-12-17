@@ -1,11 +1,16 @@
 import ArrayUtilities from 'src/app/util/arrayUtilities';
-import { Collection, Document } from '../firestore/document';
+import { Collection, Document, ignore } from '../firestore/document';
 import { OrientacaoParson } from './enum/orientacaoParson';
 import Questao from './questao';
 import SegmentoParson from './segmentoParson';
 import { RespostaQuestaoParson } from '../juiz/respostaQuestaoParson';
+import { Observable } from 'rxjs';
+import Query from '../firestore/query';
 
 export default class QuestaoParsonProblem extends Questao {
+  @ignore()
+  respondida;
+
   constructor(
     id,
     enunciado,
@@ -48,6 +53,31 @@ export default class QuestaoParsonProblem extends Questao {
     }
 
     return objetos;
+  }
+
+  /* Verifica quais questões foram respondidas e altera o atributo respondida para true ou false; */
+  static verificarQuestoesRespondidas(estudante, questoes: QuestaoParsonProblem[]) {
+    return new Observable((observer) => {
+      if (Array.isArray(questoes) && questoes.length > 0) {
+        RespostaQuestaoParson.getAll(new Query('estudanteId', '==', estudante.pk())).subscribe(
+          (respostas) => {
+            questoes.forEach((questao) => {
+              respostas.forEach((resposta) => {
+                if (resposta.questaoId === questao.id) {
+                  questao.respondida = questao.isSequenciaCorreta(resposta);
+                }
+              });
+            });
+
+            observer.next(questoes);
+            observer.complete();
+          }
+        );
+      } else {
+        observer.next(questoes);
+        observer.complete();
+      }
+    });
   }
 
   objectToDocument() {

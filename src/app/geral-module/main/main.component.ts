@@ -3,19 +3,13 @@ import { MenuItem } from 'primeng/api';
 import { Router } from '@angular/router';
 import Usuario from 'src/app/model/usuario';
 import { LoginService } from 'src/app/login-module/login.service';
-import geradorCodigo from 'src/app/util/geradorCodigo';
-import GeradorCodigo from 'src/app/util/geradorCodigo';
-import EstudanteTurma from 'src/app/model/estudanteTurma';
-import Query from 'src/app/model/firestore/query';
-import { RespostaQuestaoExperimento } from 'src/app/model/experimento/old_check_to_delete/respostaQuestaoExperimento';
-import { PreTesteComponent } from 'src/app/experimento/pre-teste/pre-teste.component';
-import PosTeste from 'src/app/model/experimento/old_check_to_delete/posTeste';
 import { Groups } from 'src/app/model/experimento/groups';
 import { PerfilUsuario } from 'src/app/model/enums/perfilUsuario';
 import { ApresentacaoService } from '../apresentacao.service';
 import QuestionarioAutorregulacao from 'src/app/model/experimento/questionarioAutorregulacao';
-import Gamification from 'src/app/model/gamification/gamification';
+import ChatBot from 'src/app/model/chatbot/chatbot';
 import { GamificationFacade } from 'src/app/gamification/gamification.service';
+import TempoOnline from 'src/app/model/analytics/tempoOnline';
 
 @Component({
   selector: 'app-main',
@@ -36,6 +30,8 @@ export class MainComponent implements OnInit {
     private gamification: GamificationFacade
   ) {
     this.usuario = this.login.getUsuarioLogado();
+
+    let c = new ChatBot();
     if (this.usuario.perfil === PerfilUsuario.estudante) {
       this.gamification.inicializar(this.usuario);
     }
@@ -129,6 +125,10 @@ export class MainComponent implements OnInit {
 
   abrirRanking() {
     this.router.navigate(['main', { outlets: { principal: ['ranking'] } }]);
+  }
+
+  abrirListagemTurmas() {
+    this.router.navigate(['main', { outlets: { principal: ['listagem-turmas'] } }]);
   }
 
   apresentarPretestRegulacao() {

@@ -2,18 +2,19 @@
   <p>{{ estudante.nome }}</p>
 </h3>
 <p-toast [style]="{ marginTop: '80px' }"></p-toast>
-<p-table [value]="questoes">
-  <ng-template pTemplate="header">
-    <tr>
-      <th>Questão</th>
-      <th>Status</th>
-    </tr>
-  </ng-template>
-  <ng-template pTemplate="body" let-rowData let-questao>
+
+<h4>Analytics</h4>
+<!-- <app-dados-estudante [estudante]="estudante"></app-dados-estudante>
+
+<p-table [value]="planejamentos">
+  <ng-template pTemplate="body" let-rowData let-planejamento>
     <tr [pContextMenuRow]="rowData">
-      <td>{{ questao.nomeCurto }}</td>
-      <td>{{ questao.respostaUsuario }}</td>
+      <td>{{ planejamento.questao }}</td>
+      <td>{{ planejamento.autoInstrucao.problema }}</td>
+      <td>{{ planejamento.autoInstrucao.variaveis }}</td>
+      <td>{{ planejamento.autoInstrucao.condicoes }}</td>
     </tr>
   </ng-template>
-</p-table>
-<app-dados-estudante [estudante]="estudante"></app-dados-estudante>
+</p-table> -->
+
+<app-grafo-estudantes [estudante]="estudante"></app-grafo-estudantes>

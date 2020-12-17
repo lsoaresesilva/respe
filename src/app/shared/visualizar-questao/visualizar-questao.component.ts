@@ -5,6 +5,7 @@ import { QuestaoProgramacao } from 'src/app/model/questoes/questaoProgramacao';
 import { Assunto } from 'src/app/model/assunto';
 import { LoginService } from 'src/app/login-module/login.service';
 import { Groups } from 'src/app/model/experimento/groups';
+import { DomSanitizer } from '@angular/platform-browser';
 
 @Component({
   selector: 'app-visualizar-questao',
@@ -19,9 +20,10 @@ export class VisualizarQuestaoComponent implements OnInit {
   constructor(
     private route: ActivatedRoute,
     private router: Router,
-    private loginService: LoginService
+    private loginService: LoginService,
+    private sanitizer: DomSanitizer
   ) {
-    this.questao = new QuestaoProgramacao(null, null, null, null, null, [], [], '');
+    this.questao = new QuestaoProgramacao(null, null, null, null, null, [], [], '', null);
   }
 
   ngOnInit() {
@@ -77,6 +79,26 @@ export class VisualizarQuestaoComponent implements OnInit {
         'main',
         { outlets: { principal: ['atualizacao-questao', questao.id] } },
       ]);
+    }
+  }
+
+  apresentarSaida(saida) {
+    if (Array.isArray(saida)) {
+      return saida.join('<br />');
+    } else {
+      return saida;
+    }
+  }
+
+  gerarHtmlTextoComCodigo(questao) {
+    if (questao.possuiCodigoNoEnunciado()) {
+      const texto = questao.enunciado
+        .replace(
+          new RegExp("'''python", 'g'),
+          "<pre><code class='language-python' style='display: block; white-space: pre-wrap;' pCode>"
+        )
+        .replace(new RegExp("'''", 'g'), '</code></pre>');
+      return this.sanitizer.bypassSecurityTrustHtml(texto);
     }
   }
 }

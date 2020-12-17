@@ -1,32 +1,30 @@
 <p-toast></p-toast>
 
-<h1>{{questao?.nomeCurto}}</h1>
+<h1>{{ questao?.nomeCurto }}</h1>
 
-
- <p-fieldset legend="Questão: {{questao?.sequencia}}">
-  {{questao?.enunciado}}
+<p-fieldset legend="Questão: {{ questao?.sequencia }}">
+  <div
+    *ngIf="questao?.possuiCodigoNoEnunciado(); else semCodigo"
+    [innerHtml]="gerarHtmlTextoComCodigo(questao)"
+  ></div>
+  <ng-template #semCodigo>
+    {{ questao?.enunciado }}
+  </ng-template>
 </p-fieldset>
- 
-
 
 <p-table [value]="questao?.testsCases">
   <ng-template pTemplate="header">
-      <tr>
-          <th>Exemplo de Entrada</th>
-          <th>Exemplo de Saída</th>
-         
-      </tr>
+    <tr>
+      <th>Exemplo de Entrada</th>
+      <th>Exemplo de Saída</th>
+    </tr>
   </ng-template>
   <ng-template pTemplate="body" let-teste>
-      <tr>
-          <td>
-            <span *ngFor="let entrada of teste.entradas; let i = index">
-            {{entrada}}<br/>
-            </span>
-          </td>
-          <td>{{teste.saida}}</td>
-         
-      </tr>
+    <tr>
+      <td>
+        <span *ngFor="let entrada of teste.entradas; let i = index"> {{ entrada }}<br /> </span>
+      </td>
+      <td [innerHTML]="apresentarSaida(teste.saida)"></td>
+    </tr>
   </ng-template>
 </p-table>
- 

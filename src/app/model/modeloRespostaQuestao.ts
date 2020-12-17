@@ -1,47 +1,39 @@
 import { Collection, Document } from './firestore/document';
 import { QuestaoProgramacao } from './questoes/questaoProgramacao';
-import Query from './firestore/query';
+import { Util } from './util';
 
-@Collection('modeloRespostaQuestao')
-export class ModeloRespostaQuestao extends Document {
-  questao: QuestaoProgramacao;
-  codigo: String;
+export class ModeloRespostaQuestao {
+  constructor(public id, public algoritmo: String[], public isCorreto) {
+    if (id == null) {
+      this.id = Util.uuidv4();
+    } else {
+      this.id = id;
+    }
+  }
 
-  constructor(public id, codigo, questao) {
-    super(id);
-    this.codigo = codigo;
-    this.questao = questao;
+  /**
+   * Constrói objetos TestsCases a partir do atributo testsCases de uma questão (que é um array)
+   * @param testsCases
+   */
+  static construir(exemplosDocument: any[]) {
+    const exemplos: ModeloRespostaQuestao[] = [];
+
+    if (exemplosDocument != null) {
+      exemplosDocument.forEach((exemplo) => {
+        exemplos.push(new ModeloRespostaQuestao(exemplo.id, exemplo.algoritmo, exemplo.isCorreto));
+      });
+    }
+
+    return exemplos;
   }
 
   objectToDocument() {
-    let document = super.objectToDocument();
+    const document = { codigo: this.algoritmo, isCorreto: this.isCorreto };
     return document;
   }
 
-  verificaModeloExiste(): Boolean {
-    let quantdeModelos: Number;
-    console.log(this.questao);
-    //get all  de modeloResposta está sem funcionar está sem funcionar
-    ModeloRespostaQuestao.getAll(new Query('questaoId', '==', this.questao)).subscribe(
-      (modeloResultado) => {
-        quantdeModelos = modeloResultado.length;
-
-        if (quantdeModelos != 0) {
-          return false;
-        }
-      }
-    );
-    return true;
-  }
-
   validar() {
-    if (
-      this.codigo == null ||
-      this.codigo == '' ||
-      this.questao == null ||
-      this.questao == undefined ||
-      this.verificaModeloExiste() === false
-    ) {
+    if (!Array.isArray(this.algoritmo)) {
       return false;
     }
     return true;

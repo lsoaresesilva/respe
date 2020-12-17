@@ -5,6 +5,9 @@
 /tmp
 /out-tsc
 
+
+/dist
+
 # dependencies
 /node_modules
 
@@ -45,8 +48,3 @@ testem.log
 # System Files
 .DS_Store
 Thumbs.db
-
-# python cache
-backend/lets/letscode/model/__pycache__/
-backend/lets/letscode/model/firestore/__pycache__/
-backend/lets/letscode/views/__pycache__/
