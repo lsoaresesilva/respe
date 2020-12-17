@@ -5,12 +5,7 @@ import { PerfilUsuario } from './enums/perfilUsuario';
 import { sha256 } from 'js-sha256';
 import Experiment from './experimento/experiment';
 import { Groups } from './experimento/groups';
-import EstudanteTurma from './estudanteTurma';
-import Turma from './turma';
-
-
-@Collection("usuarios")
-export default class Usuario extends Document {
+export default class Usuario {
 
 
     @date()
@@ -21,19 +16,21 @@ export default class Usuario extends Document {
     conhecimentoPrevioProgramacao;
     faixaEtaria;
     turma;
+    email;
+    senha;
 
-    constructor(id, public email, public senha, public perfil: PerfilUsuario, public grupoExperimento: Groups) {
-        super(id);
+    constructor(public pk, public perfil: PerfilUsuario, public grupoExperimento: Groups) {
+
 
     }
 
-    static getAllEstudantesByTurma(codigoTurma: any) {
-        return new Observable<Usuario[]>(observer=>{
-            if(codigoTurma != null){
+    /*static getAllEstudantesByTurma(codigoTurma: any) {
+        return new Observable<Usuario[]>(observer => {
+            if (codigoTurma != null) {
 
-                Usuario.getAll(new Query("codigoTurma", "==", codigoTurma)).subscribe(estudantes=>{
-                    if(Array.isArray(estudantes)){
-                        estudantes = estudantes.filter(estudante=>{
+                Usuario.getAll(new Query("codigoTurma", "==", codigoTurma)).subscribe(estudantes => {
+                    if (Array.isArray(estudantes)) {
+                        estudantes = estudantes.filter(estudante => {
                             return estudante.perfil == PerfilUsuario.estudante;
                         })
 
@@ -41,12 +38,12 @@ export default class Usuario extends Document {
                         observer.complete();
                     }
                 })
-            }else{
+            } else {
                 observer.error(new Error("É preciso informar o código da turma"));
             }
 
         })
-        
+
     }
 
     objectToDocument() {
@@ -57,27 +54,59 @@ export default class Usuario extends Document {
             document["codigoTurma"] = this.turma.codigo;
 
         return document;
+    }*/
+
+    static get(id){
+        return new Observable(observer=>{
+            observer.next({})
+            observer.complete();
+        });
+    }
+
+    static getAll(query=null){
+        return new Observable(observer=>{
+            observer.next({})
+            observer.complete();
+        });
+    }
+
+    static getAllEstudantesByTurma(turma){
+        return new Observable(observer=>{
+            observer.next({})
+            observer.complete();
+        });
+    }
+
+    static delete(x){
+        return new Observable(observer=>{
+            observer.next({})
+            observer.complete();
+        });
+    }
+
+    toJson() {
+        return { conhecimentoPrevioProgramacao: this.conhecimentoPrevioProgramacao, nome: this.nome, genero: this.genero, faixaEtaria: this.faixaEtaria, email: this.email, senha: this.senha, perfil: this.perfil, grupoExperimento: this.grupoExperimento, codigoTurma: this.turma.codigo }
+    }
+
+    static fromJson(jsonString){
+        //let usuario = new Usuario();
+        if(jsonString != null && typeof jsonString == "string"){
+            let json = JSON.parse(jsonString);
+            if(json.pk != null && json.fields != null && json.fields.perfil != null && json.fields.grupoExperimento != null){
+                let usuario = new Usuario(json.pk, json.fields.perfil, json.fields.grupoExperimento);
+                return usuario;
+            }
+            
+        }   
+
+        return null;
     }
 
     stringfiy() {
-        return { id: this.pk(), email: this.email, senha: this.senha, perfil: this.perfil, minutos: this.minutos, grupoExperimento: this.grupoExperimento }
+        return { id: this.pk, perfil: this.perfil, grupoExperimento: this.grupoExperimento }
     }
 
-    save(perfil=PerfilUsuario.estudante): Observable<Usuario> {
 
-        return new Observable(observer => {
-            Usuario.count().subscribe(contagem => {
-                this.grupoExperimento = Experiment.assignToGroup(contagem);
-                this.perfil = perfil;
-                super.save().subscribe(result => {
-                    observer.next(result);
-                    observer.complete();
-                })
-            }, err => {
-                observer.error(err);
-            })
-        })
-    }
 
     /*atualizarTempo(){
         return new Observable(observer=>{
@@ -95,6 +124,8 @@ export default class Usuario extends Document {
         })
     }*/
 
+
+
     validarLogin() {
         if (this.email != null && this.email != "" && this.senha != null && this.senha != "") {
             return true;
@@ -105,68 +136,16 @@ export default class Usuario extends Document {
 
     validar() {
 
-        return new Observable(observer => {
-            this.isEmailCadastrado().subscribe(resultado => {
-                if (!resultado) {
-                    if (this.email == null || this.email == "" ||
-                        this.nome == null || this.nome == "" ||
-                        this.senha == null || this.senha == "" ||
-                        this.perfil == null || this.perfil <= 0 ||
-                        this.conhecimentoPrevioProgramacao == null || this.genero == null ||
-                        this.faixaEtaria == null) {
-                        observer.error(new Error("É preciso informar todos os dados para efetuar o cadastro."))
-                    } else {
-                        observer.next(true);
-                        observer.complete();
-                    }
-                } else {
-                    observer.error(new Error("Já existe um usuário cadastrado com este e-mail."))
-                }
-            }, err => {
-                observer.error(err);
-            })
-        })
-    }
-
-    static logar(query): Observable<Usuario> {
-        return new Observable(observer => {
-            let usuario = null;
-            Usuario.getAll(query).subscribe(usuarios => {
-                if (usuarios.length > 0) {
-                    usuario = new Usuario(usuarios[0].id, usuarios[0].email, usuarios[0].senha, usuarios[0].perfil, usuarios[0].grupoExperimento);
-                    usuario.minutos = 0;
-
-                    observer.next(usuario);
-                } else {
-                    observer.next(null);
-
-                }
-                observer.complete();
-            }, err => {
-                observer.error(err);
-            })
-        })
-    }
-
-
-    isEmailCadastrado() {
-        return new Observable(observer => {
-            if (this.email != null) {
-                Usuario.getAll(new Query("email", "==", this.email)).subscribe(usuarios => {
-                    if (usuarios.length == 1) {
-                        observer.next(true);
-                    } else {
-                        observer.next(false);
-                    }
-
-                    observer.complete();
-                });
-            } else {
-                observer.error(new Error("É preciso informar um e-mail válido."))
-            }
-
-        })
-
+        if (this.email == null || this.email == "" ||
+            this.nome == null || this.nome == "" ||
+            this.senha == null || this.senha == "" ||
+            this.perfil == null || this.perfil <= 0 ||
+            this.conhecimentoPrevioProgramacao == null || this.genero == null ||
+            this.faixaEtaria == null) {
+            return false;
+        } else {
+            return true;
+        }
     }
 
 

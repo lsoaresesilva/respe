@@ -20,7 +20,7 @@ export class LoginComponent implements OnInit {
   usuario: Usuario;
 
   constructor(private loginService: UsuarioService, private router: Router, private login: LoginService, private messageService: MessageService) {
-    this.usuario = new Usuario(null, null, null, 0, null);
+    this.usuario = new Usuario(null, null, null);
   }
 
   ngOnInit() {
@@ -66,7 +66,7 @@ export class LoginComponent implements OnInit {
 
 
 
-  signInWithGoogle() {
+  /*signInWithGoogle() {
     this.login.signInWithGoogle()
       .then((res) => {
         if (res != undefined) {
@@ -107,7 +107,7 @@ export class LoginComponent implements OnInit {
         }
       })
       .catch((err) => console.log(err));
-  }
+  }*/
 
 
 

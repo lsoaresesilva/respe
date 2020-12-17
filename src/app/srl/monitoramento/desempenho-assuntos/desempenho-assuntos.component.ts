@@ -24,7 +24,7 @@ export class DesempenhoAssuntosComponent implements AfterViewInit {
       if(this.usuarioId == null){
         usuario = this.login.getUsuarioLogado();
       }else{
-        usuario = new Usuario(this.usuarioId, null, null, null, null);
+        usuario = new Usuario(this.usuarioId, null, null);
       }
 
       Assunto.getAll().subscribe(assuntos=>{

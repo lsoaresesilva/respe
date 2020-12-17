@@ -3,17 +3,30 @@ import { AngularFirestoreCollection, AngularFirestore } from '@angular/fire/fire
 import Usuario from '../model/usuario';
 import { Observable } from 'rxjs';
 import { LoginNotFoundError } from '../model/errors/loginNotFound';
+import { HttpClient } from '@angular/common/http';
 
 @Injectable({
   providedIn: 'root'
 })
 export class UsuarioService {
 
-  private loginCollection: AngularFirestoreCollection<Usuario>;
-  
-  constructor(private db: AngularFirestore) { 
-    this.loginCollection = this.db.collection<Usuario>("login");
+  URL = "http://localhost:8000/"
 
+  constructor(private http: HttpClient) { 
+   
+  }
+
+  salvar(usuario:Usuario){
+    return new Observable(observer=>{
+      this.http.post(this.URL+"usuario/", usuario.toJson()).subscribe(resposta=>{
+        observer.next(resposta);
+        observer.complete()
+      }, err=>{
+        observer.error(err);
+      })
+    })
+    
+    
   }
 
   

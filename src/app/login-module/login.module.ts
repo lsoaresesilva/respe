@@ -31,6 +31,6 @@ import { MessageService } from 'primeng/api';
 
     
   ],
-  providers: [UsuarioService, MessageService]
+  providers: [MessageService]
 })
 export class LoginModule { }

@@ -27,6 +27,7 @@ import { AngularFireAuthModule } from '@angular/fire/auth';
 import { environment } from '../environments/environment';
 import { EscapeHtmlPipe } from './pipes/keep-html.pipe';
 import { SharedPipesModule } from './pipes/shared-pipes.module';
+import { HttpClientModule } from '@angular/common/http';
 
 
 
@@ -43,6 +44,7 @@ import { SharedPipesModule } from './pipes/shared-pipes.module';
   imports: [
     JuizModule,
     LivroModule,
+    HttpClientModule,
     TurmaModule,
     ExperimentoModule,
     SrlModule,

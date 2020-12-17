@@ -32,7 +32,8 @@ export class ListarEstudantesComponent implements OnInit {
         this.buscarEstudante(params['codigoTurma'])
       }else{ /** Significa que é uma listagem geral de estudantes. */
         Usuario.getAll(new Query("perfil", "==", PerfilUsuario.estudante)).subscribe(estudantes=>{
-          this.estudantes = estudantes;
+          // TODO: Fazer no backend
+          //this.estudantes = estudantes;
         })
       }
 
@@ -41,7 +42,8 @@ export class ListarEstudantesComponent implements OnInit {
 
   buscarEstudante(codigoTurma) {
     Usuario.getAllEstudantesByTurma(codigoTurma).subscribe(estudantes=>{
-      this.estudantes = estudantes;
+      // TODO: Fazer no backend
+      //this.estudantes = estudantes;
     })
   }
 
@@ -50,7 +52,8 @@ export class ListarEstudantesComponent implements OnInit {
   deleteEstudante(estudante: Usuario) {
       Usuario.delete(estudante.pk()).subscribe(resultado => {
         Usuario.getAll().subscribe(estudantes=>{
-          this.estudantes = estudantes;
+          // TODO: Fazer no backend
+          //this.estudantes = estudantes;
         });
         this.messageService.add({ severity: 'info', summary: 'Estudante deletado', detail: estudante.nome });
       }); 

@@ -24,8 +24,8 @@ export class ListarProfessoresComponent implements OnInit {
 
   ngOnInit() {
    
-    Usuario.getAll(new Query("perfil", "==", 2)).subscribe(professores=>{this.professores = professores});
-    
+    //Usuario.getAll(new Query("perfil", "==", 2)).subscribe(professores=>{this.professores = professores});
+    // TODO: corrigir com o backend em Python
     if(this.usuario.perfil == 3){
     this.items = [
     { label: 'Deletar', icon: 'pi pi-times', command: (event) => this.deletar(this.selectedProfessor) },
@@ -39,7 +39,8 @@ export class ListarProfessoresComponent implements OnInit {
 
   deletar(professor: Usuario) {
      Usuario.delete(professor.pk()).subscribe(resultado=>{
-      Usuario.getAll().subscribe(professor=>{this.professores= professor});
+      //Usuario.getAll().subscribe(professor=>{this.professores= professor});
+      // TODO: corrigir com o backend em Python
       this.messageDeletar();
     });
   }  

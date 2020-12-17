@@ -25,6 +25,9 @@ import {FileUploadModule} from 'primeng/fileupload';
 import { BrowserModule } from '@angular/platform-browser';
 import {FieldsetModule} from 'primeng/fieldset';
 import { EnviarMaterialComponent } from './enviar-material/enviar-material.component';
+import { UsuarioService } from '../login-module/usuario.service';
+import { LoginModule } from '../login-module/login.module';
+import { TurmaService } from './turma.service';
 
 
 @NgModule({
@@ -41,6 +44,7 @@ import { EnviarMaterialComponent } from './enviar-material/enviar-material.compo
     ToastModule,
     InputTextModule,
     TableModule,
+    LoginModule,
     SrlModule,
     ContextMenuModule,
     FileUploadModule,
@@ -55,6 +59,7 @@ import { EnviarMaterialComponent } from './enviar-material/enviar-material.compo
     DialogModule
 
   ],
-  exports:[VisualizarTurmaComponent, ListarEstudantesComponent]
+  exports:[VisualizarTurmaComponent, ListarEstudantesComponent],
+  providers:[UsuarioService, TurmaService]
 })
 export class TurmaModule { }

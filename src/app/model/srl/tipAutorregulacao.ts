@@ -1,27 +1,21 @@
-import {Document, Collection} from '../firestore/document'
-import { Observable } from 'rxjs';
 
-@Collection("tipsAutorregulacao")
-export default class TipAutorregulacao extends Document{
+export default class TipAutorregulacao{
 
-    constructor(id, public texto){
-        super(id)
+    constructor(public texto){
     }
 
-    static getAleatorio(){
-        return new Observable(observer=>{
-            TipAutorregulacao.getAll().subscribe(tips=>{
-                let tip = null;
-                if(tips.length > 0){
-                    let random = Math.floor(Math.random() * tips.length);
-                    tip = tips[random];
-                }
-                
-                observer.next(tip);
-                observer.complete();
-            })
-        })
-        
+    static fromJson(jsonString){
+        //let usuario = new Usuario();
+        if(jsonString != null && typeof jsonString == "string"){
+            let json = JSON.parse(jsonString);
+            if(json.fields.texto){
+                let tip = new TipAutorregulacao(json.fields.texto);
+                return tip;
+            }
+            
+        }   
+
+        return null;
     }
 
 }

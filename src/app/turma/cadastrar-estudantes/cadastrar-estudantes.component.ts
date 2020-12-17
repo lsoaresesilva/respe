@@ -7,6 +7,8 @@ import Turma from 'src/app/model/turma';
 import { ConhecimentoProgramacao } from 'src/app/model/enums/conhecimentoProgramacao';
 import { Genero } from 'src/app/model/enums/genero';
 import { FaixaEtaria } from 'src/app/model/enums/faixaEtaria';
+import { UsuarioService } from 'src/app/login-module/usuario.service';
+import { TurmaService } from '../turma.service';
 
 
 @Component({
@@ -17,13 +19,13 @@ import { FaixaEtaria } from 'src/app/model/enums/faixaEtaria';
 export class CadastrarEstudantesComponent implements OnInit {
 
   id;
-  conhecimentoProgramacao:SelectItem[];
-  genero:SelectItem[];
-  faixaEtaria:SelectItem[];
+  conhecimentoProgramacao: SelectItem[];
+  genero: SelectItem[];
+  faixaEtaria: SelectItem[];
   usuario;
   visibilidadeCadastro;
 
-  constructor(public router: Router, private route: ActivatedRoute, private messageService: MessageService) {
+  constructor(public router: Router, private route: ActivatedRoute, private messageService: MessageService, private usuarioService: UsuarioService, private turmaService:TurmaService) {
     this.conhecimentoProgramacao = [
       { label: 'Qual o seu conhecimento de programação?', value: null },
       { label: 'Nunca programei', value: ConhecimentoProgramacao.nenhum },
@@ -35,8 +37,8 @@ export class CadastrarEstudantesComponent implements OnInit {
     this.genero = [
       { label: 'Qual o seu gênero?', value: null },
       { label: 'Feminino', value: Genero.feminino },
-      { label: 'Masculino', value: Genero.feminino },
-      
+      { label: 'Masculino', value: Genero.masculino },
+
     ];
 
     this.faixaEtaria = [
@@ -59,62 +61,66 @@ export class CadastrarEstudantesComponent implements OnInit {
   }
 
   ngOnInit() {
-    this.usuario = new Usuario(null, null, null, PerfilUsuario.professor, null);
+    this.usuario = new Usuario(null, null, null);
     this.usuario.turma = new Turma(null, null, null, null);
     this.visibilidadeCadastro = false;
     //background: #0d476e;
-    
+
 
     this.route.params.subscribe(parametros => {
       if (parametros["codigoTurma"] != undefined) {
-        
+
         this.usuario.turma.codigo = parametros["codigoTurma"];
       }
 
-      if(parametros["email"] && parametros["nome"] != undefined){
+      if (parametros["email"] && parametros["nome"] != undefined) {
         this.usuario.nome = parametros["nome"];
         this.usuario.email = parametros["email"];
-       
+
       }
     })
   }
-  
+
   cadastrarEstudante() {
     if (this.usuario.turma.codigo == undefined) {
       this.messageService.add({ severity: 'error', summary: 'Houve um erro:', detail: "É preciso informar o código de uma turma." });
-      
-    }else{
-      Turma.validarCodigo(this.usuario.turma.codigo).subscribe(resultado => {
-        
+
+    } else {
+      this.turmaService.validarCodigo(this.usuario.turma.codigo).subscribe(resultado => {
+
         if (resultado === false) {
 
-         
+
           this.messageService.add({ severity: 'error', summary: 'Houve um erro:', detail: "Não existe uma turma cadastrada com este código." });
         } else {
-          this.usuario.validar().subscribe(resultado => {
-            if (resultado) {
-  
-              this.usuario.save().subscribe(resultado => {
-                //this.messageService.add({key:"loginToast", severity: 'success', summary: 'Vamos programar?!', detail: "" });
-                this.visibilidadeCadastro = true;
-                
-              },
-                err => {
+          if (this.usuario.validar()) {
+
+            this.usuarioService.salvar(this.usuario).subscribe(resultado => {
+              //this.messageService.add({key:"loginToast", severity: 'success', summary: 'Vamos programar?!', detail: "" });
+              this.visibilidadeCadastro = true;
+
+            },
+              err => {
+                if (err.status == 409) {
+                  this.messageService.add({ severity: 'error', summary: 'Houve um erro:', detail: "Já existe um usuário cadastrado com esse email." }); 0
+                } else {
                   this.messageService.add({ severity: 'error', summary: 'Houve um erro:', detail: err.toString() });
-                });
-  
-            }
-          }, err => {
-            this.messageService.add({ severity: 'error', summary: 'Houve um erro:', detail: err.toString() });
-          });
+                }
+
+              });
+
+          }else{
+            this.messageService.add({ severity: 'error', summary: 'Houve um erro:', detail: "É preciso preencher todos os campos." });
+          }
         }
       });
-    }
-    
+
+
+      }
   }
 
 
-  navegarLoginSucesso(){
+  navegarLoginSucesso() {
     this.visibilidadeCadastro = false;
     this.router.navigate([""]);
   }

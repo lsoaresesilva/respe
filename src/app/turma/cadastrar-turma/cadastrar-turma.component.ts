@@ -26,14 +26,14 @@ export class CadastrarTurmaComponent implements OnInit {
 
   ngOnInit() {
     this.turma = new Turma(null, null, [], null);
-    this.professor = new Usuario(null, null, null, null, null);
+    this.professor = new Usuario(null, null, null);
     this.estudantes = [];
 
   }
 
 
   searchP(event) {
-    Usuario.getAll(new Query("perfil", "==", 2)).subscribe(professores => {
+   /* Usuario.getAll(new Query("perfil", "==", 2)).subscribe(professores => {
       this.professores = [];
         professores.filter(professor => {
           if (professor.email != undefined && typeof professor.email === "string") {
@@ -46,7 +46,7 @@ export class CadastrarTurmaComponent implements OnInit {
         });
 
       return this.professores;
-    });
+    });*/
   }
 
   exibirMensagemCadastroSucesso() {

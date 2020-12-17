@@ -19,12 +19,12 @@ export class ListarPostagensComponent implements OnChanges {
       this.postagens.reverse();
 
       this.postagens.forEach(postagem => {
-        postagem.estudante = new Usuario(null, null, null, null, null);
+        postagem.estudante = new Usuario(null, null, null);
         Usuario.get(postagem.estudanteId).subscribe(estudante => {
           postagem.estudante = estudante;
         });
       });
-    });
+    }); 
 
   }
 

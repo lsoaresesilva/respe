@@ -9,20 +9,22 @@ import * as firebase from 'firebase/app';
 import { Router } from '@angular/router';
 import { AngularFirestore } from '@angular/fire/firestore';
 import RegistroLogin from '../model/registroLogin';
+import { HttpClient } from '@angular/common/http';
 
 @Injectable({
   providedIn: 'root'
 })
 export class LoginService {
 
-  constructor(private messageService: MessageService,private firebaseAuth: AngularFireAuth, private angularfire: AngularFirestore,private router: Router) { }
+  URL = "http://localhost:8000/"
+
+  constructor(private messageService: MessageService,private firebaseAuth: AngularFireAuth, private router: Router, private http:HttpClient) { }
 
   getUsuarioLogado():Usuario {
     if (this.isUsuarioLogado()) {
       let json = JSON.parse(sessionStorage.getItem("usuario"));
       if (json.id != undefined) {
-        let usuario = new Usuario(json.id, json.email, json.senha, json.perfil, json.grupoExperimento);
-        usuario.minutos = json.minutos;
+        let usuario = new Usuario(json.id, json.perfil, json.grupoExperimento);
         return usuario;
       } else {
         throw new Error("Usuário não foi logado corretamente, não há id e/ou perfil informados.");
@@ -41,7 +43,7 @@ export class LoginService {
     sessionStorage.setItem('usuario', JSON.stringify(usuario.stringfiy()));
   }
 
-  logarFacebook(usuario) {
+  /*logarFacebook(usuario) {
     return new Observable(observer => {
       Usuario.logar(new Query("email", "==", usuario.email)).subscribe(usuarioLogado => {
         if (usuarioLogado != null) {
@@ -57,9 +59,36 @@ export class LoginService {
       });
     })
 
+  }*/
+
+  logar(usuario:Usuario){
+    return new Observable(observer=>{
+      this.http.post(this.URL+"login/", {email:usuario.email, senha:usuario.senha}).subscribe(resposta=>{
+        let usuario = Usuario.fromJson(resposta);
+        if( usuario != null){
+          this.criarSessao(usuario);
+          observer.next(true);
+          observer.complete()
+        }else{
+          observer.error(new Error("Houve um problema no login: os dados enviados para o servidor não são válidos. Entre em contato com o administrador."))
+        }
+        
+        
+      }, err=>{
+        if(err.status == 404){
+          observer.next(false);
+          observer.complete();
+        }else{
+          observer.error(err);
+        }
+
+
+          
+      })
+    })
   }
 
-  logar(usuario: Usuario) {
+  /*logar(usuario: Usuario) {
     
     return new Observable(observer => {
       Usuario.logar([new Query("email", "==", usuario.email), new Query("senha", "==", sha256(usuario.senha))]).subscribe(usuarioLogado => {
@@ -79,7 +108,9 @@ export class LoginService {
         alert("Erro ao tentar realizar login: " + err.toString());
       });
     });
-  }
+  }*/
+
+
 
 
   validarLogin(usuario: Usuario) {

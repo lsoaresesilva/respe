@@ -79,7 +79,7 @@ export class Planejamento extends Document {
         let consultas: any = {};
         planejamentos.forEach(planejamento => {
 
-          planejamento["estudante"] = new Usuario(planejamento["estudanteId"], null, null, null, null);
+          planejamento["estudante"] = new Usuario(planejamento["estudanteId"], null, null);
           planejamento["autoReflexao"] = new AutoReflexao(planejamento["estudanteId"], null, null, null);
 
           if (planejamento["assuntoId"] != undefined && consultas[planejamento["assuntoId"]] == undefined) {
@@ -120,7 +120,7 @@ export class Planejamento extends Document {
     return new Observable(observer => {
       super.get(id).subscribe(planejamento => {
 
-        planejamento["estudante"] = new Usuario(planejamento["estudanteId"], null, null, null, null);
+        planejamento["estudante"] = new Usuario(planejamento["estudanteId"], null, null);
 
         if (planejamento["assuntoId"] != undefined) {
 

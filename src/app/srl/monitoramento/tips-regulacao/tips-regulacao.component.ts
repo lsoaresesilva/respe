@@ -23,14 +23,16 @@ export class TipsRegulacaoComponent implements OnInit {
     let usuario = this.login.getUsuarioLogado();
     let dialogExibida = sessionStorage.getItem("dialogTipsAutorregulacao");
     if (usuario != null && usuario.grupoExperimento != Groups.control && (dialogExibida == null || dialogExibida != "true")) {
-      TipAutorregulacao.getAleatorio().subscribe(tip => {
+      
+      
+      /*TipAutorregulacao.getAleatorio().subscribe(tip => {
         if (tip != null) {
           this.display = true;
           this.tip = tip;
           sessionStorage.setItem('dialogTipsAutorregulacao', "true");
         }
 
-      })
+      })*/
     }
 
   }
