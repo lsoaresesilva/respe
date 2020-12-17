@@ -58,7 +58,6 @@ export class EditorProgramacaoComponent implements AfterViewInit, OnChanges {
   }
 
   _submissao;
-
   editorCodigo?: Editor;
 
   @Output()
