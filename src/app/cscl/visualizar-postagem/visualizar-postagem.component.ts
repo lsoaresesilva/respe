@@ -38,7 +38,7 @@ export class VisualizarPostagemComponent implements OnInit {
           this.respostas = respostas
 
           this.respostas.forEach(resposta => {
-           resposta.estudante = new Usuario(null,null,null,null, null);
+           resposta.estudante = new Usuario(null,null,null,null, null, null);
 
             Usuario.get(resposta.estudanteId).subscribe(estudante =>{
               resposta.estudante = estudante;
@@ -84,7 +84,7 @@ export class VisualizarPostagemComponent implements OnInit {
           this.respostas = respostas
 
           this.respostas.forEach(resposta => {
-           resposta.estudante = new Usuario(null,null,null,null, null);
+           resposta.estudante = new Usuario(null,null,null,null, null, null);
 
             Usuario.get(resposta.estudanteId).subscribe(estudante =>{
               resposta.estudante = estudante;

@@ -1,0 +1,27 @@
+<!-- <p-dialog [(visible)]="visibilidade"  [modal]="true" [position]="bottom-right">
+    <div >
+        oissss
+    </div>
+    <p-footer>
+        <div>
+            <input pInputText id="textoChat">
+            <Button label="Enviar" icon="pi pi-check"></Button>
+        </div>
+    </p-footer>
+</p-dialog> -->
+<p-dialog [(visible)]="visibilidade" [modal]="false" position="bottom-right" [style]="{ width: '25vw', height:'25vw'}">
+    <p-header >
+        Bate-papo
+    </p-header>
+    <div style="height: '15vw'">
+        <p-card *ngFor="let m of mensagens" header={{m.usuario}}>
+            
+                {{m.texto}}
+            </p-card>
+    </div>
+    
+    <p-footer [style]="{ height: '10px'}">
+        <input pInputText id="textoChat" [(ngModel)]="mensagem.texto">
+            <button (click)="enviar()" icon="pi pi-check" pButton></button>
+    </p-footer>
+</p-dialog>

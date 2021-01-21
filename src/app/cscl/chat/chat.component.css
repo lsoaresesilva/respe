@@ -1,0 +1,24 @@
+.container {
+    border: 2px solid #dedede;
+    border-radius: 5px;
+    padding: 10px;
+    margin: 10px 0;
+    word-wrap: break-word;
+  }
+
+
+  .left{
+    float: left;
+  }
+
+  :host >>>   .p-card-title{
+      font-size: 10px !important; 
+  }
+
+  :host >>> .containerSelf .p-card{
+    background: "#ffccdd";
+  }
+
+  :host >>> .containerOutro .p-card{
+    background: "#ccccff";;
+  }

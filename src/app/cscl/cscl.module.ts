@@ -1,11 +1,11 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 
-import {InputTextareaModule} from 'primeng/inputtextarea';
-import {DialogModule} from 'primeng/dialog';
+import { InputTextareaModule } from 'primeng/inputtextarea';
+import { DialogModule } from 'primeng/dialog';
 import { ButtonModule } from 'primeng/button';
-import {OverlayPanelModule} from 'primeng/overlaypanel';
-import {AccordionModule} from 'primeng/accordion';
+import { OverlayPanelModule } from 'primeng/overlaypanel';
+import { AccordionModule } from 'primeng/accordion';
 import { FormsModule } from '@angular/forms';
 import { BoxComentarioComponent } from './box-comentario/box-comentario.component';
 import { BoxNovoComentarioComponent } from './box-novo-comentario/box-novo-comentario.component';
@@ -24,15 +24,21 @@ import { DataViewModule } from 'primeng/dataview';
 
 import { JuizModule } from '../juiz/juiz.module';
 
-import {MessagesModule} from 'primeng/messages';
-import {MessageModule} from 'primeng/message';
+import { MessagesModule } from 'primeng/messages';
+import { MessageModule } from 'primeng/message';
 import { CardModule } from 'primeng/card';
 import { ToastModule } from 'primeng/toast';
+import { ChatGrupoComponent } from './chat/chat.component';
+import { CriacaoGrupoComponent } from './criacao-grupo/criacao-grupo.component';
+import {DropdownModule} from 'primeng/dropdown';
+import {AutoCompleteModule} from 'primeng/autocomplete';
 
 @NgModule({
-  declarations: [ComentariosCodigoComponent, BoxComentarioComponent, BoxNovoComentarioComponent, VisualizarConteudoComponent, SanitizeHtmlDirective, ConteudoProgramacaoComponent, VisualizarSubmissaoQuestaoComponent,ListarEstudantesSubmissaoComponent, ListarPostagensComponent, CadastrarPostagemComponent, VisualizarPostagemComponent],
- 
+  declarations: [ComentariosCodigoComponent, BoxComentarioComponent, BoxNovoComentarioComponent, VisualizarConteudoComponent, SanitizeHtmlDirective, ConteudoProgramacaoComponent, VisualizarSubmissaoQuestaoComponent, ListarEstudantesSubmissaoComponent, ListarPostagensComponent, CadastrarPostagemComponent, VisualizarPostagemComponent, ChatGrupoComponent, CriacaoGrupoComponent],
+
   imports: [
+    AutoCompleteModule,
+    DropdownModule,
     JuizModule,
     CommonModule,
     InputTextareaModule,
@@ -47,11 +53,11 @@ import { ToastModule } from 'primeng/toast';
     ToastModule,
     DataViewModule,
     CardModule
-    
+
   ],
 
-  exports:[ListarPostagensComponent, ComentariosCodigoComponent, VisualizarConteudoComponent,VisualizarSubmissaoQuestaoComponent,ListarEstudantesSubmissaoComponent]
+  exports: [ChatGrupoComponent, ListarPostagensComponent, ComentariosCodigoComponent, VisualizarConteudoComponent, VisualizarSubmissaoQuestaoComponent, ListarEstudantesSubmissaoComponent]
 
- 
+
 })
 export class CsclModule { }
