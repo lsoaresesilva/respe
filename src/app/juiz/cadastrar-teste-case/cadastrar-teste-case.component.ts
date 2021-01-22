@@ -35,7 +35,12 @@ export class CadastrarTesteCaseComponent implements OnInit {
         this.testeCase.entradas.push(this.entrada);
         this.entrada = null;
       } else {
-        this.testeCase.saida.push(this.saida);
+        if(Array.isArray(this.testeCase.saida)){
+          this.testeCase.saida.push(this.saida);
+        }else{
+          this.testeCase.saida = this.saida;
+        }
+        
         this.entrada = null;
       }
     } else {

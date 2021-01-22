@@ -34,10 +34,15 @@ import { ToolbarModule } from 'primeng/toolbar';
 import { AdminModule } from './admin/admin.module';
 import { ChatbotModule } from './chatbot/chatbot.module';
 
+import { SocketIoModule, SocketIoConfig } from 'ngx-socket-io';
+
+const config: SocketIoConfig = { url: 'http://localhost:3001', options: {} };
+
 @NgModule({
   schemas: [CUSTOM_ELEMENTS_SCHEMA],
   declarations: [AppComponent, MainComponent],
   imports: [
+    //SocketIoModule.forRoot(config),
     AdminModule,
     ChatbotModule,
     SrlModule,

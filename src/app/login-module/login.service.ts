@@ -36,7 +36,8 @@ export class LoginService {
   }
 
   criarSessao(usuario: Usuario) {
-    sessionStorage.setItem('usuario', JSON.stringify(usuario.stringfiy()));
+    let usuarioString = JSON.stringify(usuario.stringfiy());
+    sessionStorage.setItem('usuario', usuarioString);
   }
 
   logarFacebook(usuario) {

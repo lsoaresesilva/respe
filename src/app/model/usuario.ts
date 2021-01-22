@@ -14,7 +14,8 @@ export default class Usuario extends Document {
     public email,
     public senha,
     public perfil: PerfilUsuario,
-    public grupoExperimento: Groups
+    public grupoExperimento: Groups,
+    public nome
   ) {
     super(id);
     this.minutos = 0;
@@ -22,7 +23,6 @@ export default class Usuario extends Document {
 
   @date()
   data;
-  nome;
   minutos;
   genero;
   conhecimentoPrevioProgramacao;
@@ -65,6 +65,15 @@ export default class Usuario extends Document {
     });
   }
 
+  static pesquisar(query) {
+    return new Observable((observer) => {
+      super.search(query).subscribe((usuarios: Usuario) => {
+        observer.next(usuarios);
+        observer.complete();
+      });
+    });
+  }
+
   static fromJson(json) {
     if (json != null && json.id != undefined) {
       const usuario = new Usuario(
@@ -72,7 +81,8 @@ export default class Usuario extends Document {
         json.email,
         json.senha,
         json.perfil,
-        json.grupoExperimento
+        json.grupoExperimento,
+        json.nome
       );
       usuario.minutos = json.minutos;
 
@@ -106,6 +116,7 @@ export default class Usuario extends Document {
       senha: this.senha,
       perfil: this.perfil,
       minutos: this.minutos,
+      nome: this.nome,
     };
 
     if (this.grupoExperimento != null) {

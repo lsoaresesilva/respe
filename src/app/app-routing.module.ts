@@ -57,6 +57,8 @@ import { VisualizarAssuntoAdminComponent } from './admin/visualizar-assunto-admi
 import { AnalyticsTurmaComponent } from './analytics-module/analytics-turma/analytics-turma.component';
 import { CadastrarParsonComponent } from './parson-problem/cadastrar-parson/cadastrar-parson.component';
 import { EstatisticasExperimentoComponent } from './turma/estatisticas-experimento/estatisticas-experimento.component';
+import { CriacaoGrupoComponent } from './cscl/criacao-grupo/criacao-grupo.component';
+import { ListarAtividadesGrupoComponent } from './cscl/listar-atividades-grupo/listar-atividades-grupo.component';
 
 const routes: Routes = [
   {
@@ -148,6 +150,29 @@ const routes: Routes = [
         path: 'atualizacao-questao-parson/:assuntoId/:questaoId',
         component: CadastrarParsonComponent,
         canActivate: [AuthGuard, AdminGuard],
+        outlet: 'principal',
+      },
+
+      /* CSCL */
+
+      {
+        path: 'criar-grupo',
+        component: CriacaoGrupoComponent,
+        canActivate: [AuthGuard],
+        outlet: 'principal',
+      },
+
+      {
+        path: 'listagem-atividades-grupo',
+        component: ListarAtividadesGrupoComponent,
+        canActivate: [AuthGuard],
+        outlet: 'principal',
+      },
+
+      {
+        path: 'entrar-grupo/:salaId/:assuntoId/:questaoId',
+        component: SelfInstructionComponent,
+        canActivate: [AuthGuard],
         outlet: 'principal',
       },
 

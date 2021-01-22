@@ -8,7 +8,7 @@ Gerar o link -->
 
 <div class="p-grid">
     <div class="p-col-12">
-        <p-autoComplete [(ngModel)]="alunoSelecionado" [suggestions]="pesquisaAlunos"
+        <p-autoComplete [(ngModel)]="estudanteSelecionado" [suggestions]="pesquisaAlunos"
             (completeMethod)="pesquisar($event)" [dropdown]="true" (onSelect)="selecionarAluno($event)">
 
             <ng-template let-aluno pTemplate="item">
@@ -22,7 +22,7 @@ Gerar o link -->
 <div class="p-grid">
     <div class="p-col-12">
 
-        <div *ngFor="let a of alunosSelecionados">
+        <div *ngFor="let a of estudantesSelecionados">
             {{a.nome}} <button pButton type="button" icon="pi pi-times" iconPos="left" (click)="excluir(a)"></button>
         </div>
     </div>

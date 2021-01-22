@@ -70,6 +70,7 @@ export class Planejamento extends Document {
               null,
               null,
               null,
+              null,
               null
             );
             planejamento['autoReflexao'] = new AutoReflexao(
@@ -96,6 +97,7 @@ export class Planejamento extends Document {
         (planejamento) => {
           planejamento['estudante'] = new Usuario(
             planejamento['estudanteId'],
+            null,
             null,
             null,
             null,

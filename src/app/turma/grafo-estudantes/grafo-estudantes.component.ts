@@ -24,13 +24,28 @@ export class GrafoEstudantesComponent implements OnChanges {
           pageTracks.forEach((track) => {
             let dataDoTrack = track.data.toDate();
             let mesDia = dataDoTrack.getDay().toString() + '/' + dataDoTrack.getMonth().toString();
-            let hasDia = dias.get(mesDia);
-            if (hasDia == null) {
-              dias.set(mesDia, []);
+            if(this.estudante.pk() != "0XQMMGnf8fO0v3ypOIxo"){
+              
+              let hasDia = dias.get(mesDia);
+              if (hasDia == null) {
+                dias.set(mesDia, []);
+              }
+
+              hasDia = dias.get(mesDia);
+              hasDia.push(track);
+            }else{
+              if(dataDoTrack.getDate() >= 16 && dataDoTrack.getMonth() == 11){
+                let hasDia = dias.get(mesDia);
+                if (hasDia == null) {
+                  dias.set(mesDia, []);
+                }
+
+                hasDia = dias.get(mesDia);
+                hasDia.push(track);
+              }
             }
 
-            hasDia = dias.get(mesDia);
-            hasDia.push(track);
+            
           });
 
           dias.forEach((dia) => {

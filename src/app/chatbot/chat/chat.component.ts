@@ -6,7 +6,7 @@ import { ChatbotService } from '../chatbot.service';
 import { DynamicDialogRef } from 'primeng/dynamicdialog';
 
 @Component({
-  selector: 'app-chat',
+  selector: 'app-chatbot',
   templateUrl: './chat.component.html',
   styleUrls: ['./chat.component.css'],
 })

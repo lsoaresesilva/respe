@@ -1,0 +1,17 @@
+<div class="p-grid"></div>
+<div class="p-col-12">
+    <p-table [value]="atividades" [rows]="20">
+        <ng-template pTemplate="header">
+            <tr>
+                <th>Atividades</th>
+            </tr>
+        </ng-template>
+        <ng-template let-atividade pTemplate="body">
+            <tr>
+                <td>
+                    <a href="{{atividade.link}}">{{atividade.nome}}</a>
+                </td>
+            </tr>
+        </ng-template>
+    </p-table>
+</div>

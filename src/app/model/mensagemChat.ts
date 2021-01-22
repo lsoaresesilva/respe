@@ -7,7 +7,14 @@ export default class MensagemChat extends Document{
     @date()
     data;
 
-    constructor(id, private estudante:Usuario, private texto){
+    constructor(id, public estudante:Usuario, public texto){
         super(id);
+    }
+
+    objectToDocument(){
+        let document = this.objectToDocument();
+        document["estudanteId"] = this.estudante.pk();
+
+        return document;
     }
 }

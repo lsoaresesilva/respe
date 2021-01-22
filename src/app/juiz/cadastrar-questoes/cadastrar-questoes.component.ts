@@ -24,7 +24,7 @@ export class CadastrarQuestoesComponent implements OnInit {
     private activatedRoute: ActivatedRoute,
     private messageService: MessageService
   ) {
-    this.questao = new QuestaoProgramacao(null, '', '', 0, 0, [], [], '', null);
+    this.questao = new QuestaoProgramacao(null, '', '', 0, 0, [], [], [], null);
   }
 
   ngOnInit() {

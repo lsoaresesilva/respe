@@ -5,6 +5,9 @@ import Query from '../firestore/query';
 
 @Collection("subsecoes")
 export default class SubSecao extends Document{
+    static getAllByAssunto(assunto: any) {
+      return new Observable<any[]>();
+    }
 
     constructor(id, secao, sequencia){ // TODO: colocar as chaves que ligam
         super(id);

@@ -1,5 +1,7 @@
 import { Component, OnInit } from '@angular/core';
+import { MessageService } from 'primeng/api';
 import { Assunto } from 'src/app/model/assunto';
+import AtividadeGrupo from 'src/app/model/atividadeGrupo';
 import Query from 'src/app/model/firestore/query';
 import Usuario from 'src/app/model/usuario';
 import { Util } from 'src/app/model/util';
@@ -12,9 +14,9 @@ import { ChatService } from '../chat.service';
 })
 export class CriacaoGrupoComponent implements OnInit {
 
-  alunoSelecionado;
+  estudanteSelecionado;
   pesquisaAlunos;
-  alunosSelecionados;
+  estudantesSelecionados;
 
   assuntos;
   assuntoSelecionado:Assunto;
@@ -22,8 +24,9 @@ export class CriacaoGrupoComponent implements OnInit {
   questoes;
   questaoSelecionada;
 
-  constructor(private chatService:ChatService) { 
-    this.alunosSelecionados = [];
+
+  constructor(private chatService:ChatService, private messageService: MessageService) { 
+    this.estudantesSelecionados = [];
     Assunto.getAll().subscribe(assuntos => {
       this.assuntos = assuntos;
     })
@@ -41,29 +44,32 @@ export class CriacaoGrupoComponent implements OnInit {
   }
 
   selecionarAluno(event){
-    this.alunosSelecionados.push(this.alunoSelecionado);
-    this.alunoSelecionado = null; 
+    this.estudantesSelecionados.push(this.estudanteSelecionado);
+    this.estudanteSelecionado = null; 
   }
 
   excluir(aluno){
     let index = 0;
-    for(let i = 0; i < this.alunosSelecionados.length; i++){
-      if(this.alunosSelecionados[i].nome == aluno.nome){
+    for(let i = 0; i < this.estudantesSelecionados.length; i++){
+      if(this.estudantesSelecionados[i].nome == aluno.nome){
         break;
       }
 
       index += 1;
     }
 
-    this.alunosSelecionados.splice(index, 1);
+    this.estudantesSelecionados.splice(index, 1);
     
   }
 
   criarSala(){
     let uuid = Util.uuidv4();
-    let link = "http://localhost:4200/main/(principal:entrar-grupo/)";
-
+    let link = "http://localhost:4200/main/(principal:entrar-grupo/"+uuid+"/"+this.assuntoSelecionado.pk()+"/"+this.questaoSelecionada.id+")";
+    let atividade = new AtividadeGrupo(null, this.questaoSelecionada.nomeCurto, link, this.estudantesSelecionados)
     /* Quando entrar no link ativar o socket no cliente do aluno */
+    atividade.save().subscribe(()=>{
+      this.messageService.add({severity:'success', summary:'Sucesso', detail:'Atividade criada com sucesso.'});
+    });
 
   }
 

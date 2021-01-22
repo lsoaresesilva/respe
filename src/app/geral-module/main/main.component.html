@@ -21,6 +21,13 @@
       (click)="abrirDesempenho()"
       *ngIf="usuario.grupoExperimento == 1 && usuario.perfil == 1"
     ></button>
+    <button
+    pButton
+    class="p-button-text"
+    label="Atividades em grupo"
+    (click)="abrirAtividadesGrupo()"
+    *ngIf="usuario.perfil == 1"
+  ></button>
     <!-- Menu administrador -->
     <button
       pButton
@@ -52,7 +59,7 @@
     <button pButton label="Sair" (click)="logout()" icon="pi pi-power-off"></button>
   </div>
 </p-toolbar>
-
+<app-chat></app-chat>
 <!-- <div style="display: flex;">
   <div style="width:70%">
     <p-menubar [model]="itens" >
@@ -78,7 +85,7 @@
   *ngIf="usuario.grupoExperimento != 4 && usuario.perfil == 1"
 ></app-tips-regulacao>
 <!-- <app-pre-teste [visibilidade]="visibilidadeDialog"></app-pre-teste>--->
-<app-chat></app-chat>
+<app-chatbot></app-chatbot>
 <div style="margin: 20px">
   <router-outlet name="principal"></router-outlet>
 </div>

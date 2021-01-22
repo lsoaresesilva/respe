@@ -22,7 +22,7 @@ export class LoginComponent implements OnInit {
     private login: LoginService,
     private messageService: MessageService
   ) {
-    this.usuario = new Usuario(null, null, null, 0, null);
+    this.usuario = new Usuario(null, null, null, 0, null, null);
     this.items = [
       {
         label: 'Quero aprender a programar',

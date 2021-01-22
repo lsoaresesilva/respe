@@ -6,7 +6,7 @@
 
 <p-toast [style]="{marginTop: '80px'}"></p-toast>
 
-<p-table [value]="professores" [(contextMenuSelection)]="selectedProfessor" [contextMenu]="cm">
+<p-table [value]="professores" >
     <ng-template pTemplate="header">
     
     </ng-template>
@@ -16,5 +16,3 @@
         </tr>
     </ng-template>
 </p-table>
-
-<p-contextMenu #cm [model]="items"></p-contextMenu>   
