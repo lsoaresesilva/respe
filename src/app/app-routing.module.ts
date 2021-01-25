@@ -59,6 +59,7 @@ import { CadastrarParsonComponent } from './parson-problem/cadastrar-parson/cada
 import { EstatisticasExperimentoComponent } from './turma/estatisticas-experimento/estatisticas-experimento.component';
 import { CriacaoGrupoComponent } from './cscl/criacao-grupo/criacao-grupo.component';
 import { ListarAtividadesGrupoComponent } from './cscl/listar-atividades-grupo/listar-atividades-grupo.component';
+import { EditorProgramacaoComponent } from './juiz/editor/editor-programacao/editor-programacao.component';
 
 const routes: Routes = [
   {
@@ -158,21 +159,21 @@ const routes: Routes = [
       {
         path: 'criar-grupo',
         component: CriacaoGrupoComponent,
-        canActivate: [AuthGuard],
+        canActivate: [AuthGuard, ProfessorGuard],
         outlet: 'principal',
       },
 
       {
         path: 'listagem-atividades-grupo',
         component: ListarAtividadesGrupoComponent,
-        canActivate: [AuthGuard],
+        canActivate: [AuthGuard, PageTrack],
         outlet: 'principal',
       },
 
       {
         path: 'entrar-grupo/:salaId/:assuntoId/:questaoId',
-        component: SelfInstructionComponent,
-        canActivate: [AuthGuard],
+        component: ResponderQuestaoProgramacao,
+        canActivate: [AuthGuard, PageTrack],
         outlet: 'principal',
       },
 

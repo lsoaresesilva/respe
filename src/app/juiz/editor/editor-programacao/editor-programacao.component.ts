@@ -13,10 +13,12 @@ import Submissao from 'src/app/model/submissao';
 import Editor from 'src/app/model/editor';
 import { LoginService } from 'src/app/login-module/login.service';
 
-import { catchError, retry, timeout } from 'rxjs/operators';
+import { catchError, retry, switchMap, timeout } from 'rxjs/operators';
 import { environment } from 'src/environments/environment';
 import { ConfirmationService } from 'primeng/api';
-import { Router } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
+import { ChatService } from 'src/app/cscl/chat.service';
+import { Assunto } from 'src/app/model/assunto';
 
 /**
  * Executa um javascript ide.js para acoplar o editor VStudio.
@@ -32,10 +34,11 @@ declare function atualizarDecorations(): any;
   templateUrl: './editor-programacao.component.html',
   styleUrls: ['./editor-programacao.component.css'],
 })
-export class EditorProgramacaoComponent implements AfterViewInit, OnChanges {
+export class EditorProgramacaoComponent implements AfterViewInit, OnChanges, OnInit {
   URL = environment.URL;
 
   processandoSubmissao;
+  salaId;
 
   editor; // instância do Mônaco Editor. Carregado por meio do arquivo ide.js
 
@@ -49,6 +52,8 @@ export class EditorProgramacaoComponent implements AfterViewInit, OnChanges {
   liteMode; // define que o editor executará em um modo de aparência menor.
   @Input()
   modoVisualizacao;
+  @Input()
+  sincronizado;
 
   usuario;
 
@@ -77,7 +82,9 @@ export class EditorProgramacaoComponent implements AfterViewInit, OnChanges {
     private http: HttpClient,
     public login: LoginService,
     private confirmationService: ConfirmationService,
-    private router: Router
+    private router: Router,
+    public chat:ChatService,
+    private route: ActivatedRoute,
   ) {
     this.onError = new EventEmitter();
     this.onSubmit = new EventEmitter();
@@ -86,6 +93,11 @@ export class EditorProgramacaoComponent implements AfterViewInit, OnChanges {
     this.processandoSubmissao = false;
     this.usuario = this.login.getUsuarioLogado();
     editorProgramacao = null;
+  }
+
+  ngOnInit(): void {
+    
+    
   }
 
   ngOnChanges(changes: import('@angular/core').SimpleChanges): void {
@@ -135,6 +147,28 @@ export class EditorProgramacaoComponent implements AfterViewInit, OnChanges {
   carregarEditor(editorProgramacaoComponentInstance, editor) {
     editorProgramacaoComponentInstance.editor = editor;
     editorProgramacaoComponentInstance.atualizarEditorComSubmissao();
+    if( editorProgramacaoComponentInstance.sincronizado ){
+      editorProgramacaoComponentInstance.sincronizarEditor(editor);
+    }
+    
+  }
+
+  /* 
+  Realiza a sincronização do editor entre diferentes estudantes. 
+  */
+  sincronizarEditor(editor){
+    let _this = this;
+    editor.onKeyUp(function (e) {
+        _this.chat.enviarKeyEditor(_this.login.getUsuarioLogado(), editor.getValue());
+    });
+
+    this.chat.receberCodigoEditor(function (data){
+      if (data.codigo !== _this.editor.getValue()) {
+        _this.editor.setValue(data.codigo)
+      }
+    });
+      
+    
   }
 
   visualizarExecucacao(modoVisualizacao, trace) {

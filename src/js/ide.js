@@ -3,11 +3,10 @@
  * @param  codigo
  */
 function prepararCodigo(codigo) {
-  if (codigo != undefined || codigo != "") {
+  if (codigo !== undefined || codigo !== '') {
     return [codigo];
-  } else {
-    return [""];
   }
+  return [''];
 }
 
 /*
@@ -37,9 +36,9 @@ function executarPython(cb){
 
 }
 */
-var intro = introJs();
-var editorProgramacao = null;
-var decorations = null;
+let intro = introJs();
+let editorProgramacao = null;
+let decorations = null;
 // TODO: usar Observable para disparar quando o editor estiver pronto. Assim o model Editor pode ter acesso à instância do mônico quando ela estiver pronta.
 
 /* function destacarLinha(linha, status) {
@@ -68,11 +67,15 @@ function atualizarDecorations() {
   }
 } */
 
-function carregarIde(readOnly, callback = null, instance = null, callbackOnEditorLoad = null, codigo) {
-
-
+function carregarIde(
+  readOnly,
+  callback = null,
+  instance = null,
+  callbackOnEditorLoad = null,
+  codigo,
+  socket
+) {
   require(['vs/editor/editor.main'], function () {
-
     //var appRoot = document.createElement("app-root");
     //document.getElementById("body").appendChild(appRoot);
     let container = document.getElementById('container');
@@ -81,8 +84,7 @@ function carregarIde(readOnly, callback = null, instance = null, callbackOnEdito
         editorProgramacao = monaco.editor.create(container, {
           value: prepararCodigo(codigo).join('\n'),
           language: 'python',
-          readOnly: readOnly
-
+          readOnly: readOnly,
         });
 
         /* editor.onKeyDown(function () {
@@ -90,8 +92,9 @@ function carregarIde(readOnly, callback = null, instance = null, callbackOnEdito
         }); */
       }
 
-
       callbackOnEditorLoad(instance, editorProgramacao);
+
+      
 
       // TODO: modificar para colocar em outra função exclusiva de comentário e só aparecer para comentários
       /* var div = document.getElementById('iconeNovoComentario');
@@ -127,8 +130,6 @@ function carregarIde(readOnly, callback = null, instance = null, callbackOnEdito
           }
 
       }); */
-
     }
   });
-
 }
