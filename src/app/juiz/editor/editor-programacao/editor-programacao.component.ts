@@ -166,6 +166,9 @@ export class EditorProgramacaoComponent implements AfterViewInit, OnChanges, OnI
         if (novoAlgoritmo !== algoritmoAntigo) {
           editor.setValue(novoAlgoritmo)
           editor.setPosition(editorProgramacaoComponentInstance.posicaoCursor);
+          /* editor.deltaDecorations([], [
+            { range: new monaco.Range(doc.data., 1, 3, 2), options: { className: 'my-cursor'} },
+        ]); */
         }
         
       });
