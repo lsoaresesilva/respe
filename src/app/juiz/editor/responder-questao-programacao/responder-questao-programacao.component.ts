@@ -56,9 +56,8 @@ export class ResponderQuestaoProgramacao implements OnInit, AfterViewInit {
 
   observableQuestao: Observable<any>;
 
-  sincronizado;
-
   usuario: Usuario;
+  salaId;
 
   // TODO: mover para um componente próprio
   traceExecucao;
@@ -88,7 +87,17 @@ export class ResponderQuestaoProgramacao implements OnInit, AfterViewInit {
     })*/
   }
 
-  ngAfterViewInit(): void {}
+  ngAfterViewInit(): void {
+    let _this = this;
+    setTimeout(function (){
+      _this.route.params.subscribe((params) => {
+        
+      });
+    }, 3000);
+
+    // TODO: incluir um aviso que está sincronizando com o servidor
+    
+  }
 
   ngOnInit() {
     this.usuario = this.login.getUsuarioLogado();
@@ -97,11 +106,9 @@ export class ResponderQuestaoProgramacao implements OnInit, AfterViewInit {
     }
 
     this.route.params.subscribe((params) => {
+      
       if (params['salaId'] != null) {
-        this.chat.iniciarConexao(params['salaId']);
-        this.sincronizado = true;
-      } else {
-        this.sincronizado = false;
+          this.salaId = params['salaId'];
       }
 
       if (params['assuntoId'] != undefined && params['questaoId'] != undefined) {

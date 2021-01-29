@@ -100,7 +100,7 @@ export default class Analytics {
     });
   }
 
-  private static calcularProgressoGeral(assuntos, estudante) {
+  public static calcularProgressoGeral(assuntos, estudante) {
     return new Observable((observer) => {
       if (estudante.pk() != null) {
         const consultasConclusao = [];

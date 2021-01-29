@@ -19,6 +19,11 @@ import { ConfirmationService } from 'primeng/api';
 import { ActivatedRoute, Router } from '@angular/router';
 import { ChatService } from 'src/app/cscl/chat.service';
 import { Assunto } from 'src/app/model/assunto';
+import Edicao from 'src/app/model/edicao';
+import Algoritmo from 'src/app/model/algoritmo';
+import SubmissaoGrupo from 'src/app/model/submissaoGrupo';
+import AtividadeGrupo from 'src/app/model/atividadeGrupo';
+
 
 /**
  * Executa um javascript ide.js para acoplar o editor VStudio.
@@ -38,7 +43,6 @@ export class EditorProgramacaoComponent implements AfterViewInit, OnChanges, OnI
   URL = environment.URL;
 
   processandoSubmissao;
-  salaId;
 
   editor; // instância do Mônaco Editor. Carregado por meio do arquivo ide.js
 
@@ -53,7 +57,7 @@ export class EditorProgramacaoComponent implements AfterViewInit, OnChanges, OnI
   @Input()
   modoVisualizacao;
   @Input()
-  sincronizado;
+  salaId;
 
   usuario;
 
@@ -78,6 +82,9 @@ export class EditorProgramacaoComponent implements AfterViewInit, OnChanges, OnI
   @Output()
   onVisualization: EventEmitter<any>;
 
+  document; // Armazena as edições colaborativas realizadas no editor.
+  posicaoCursor;
+
   constructor(
     private http: HttpClient,
     public login: LoginService,
@@ -97,11 +104,13 @@ export class EditorProgramacaoComponent implements AfterViewInit, OnChanges, OnI
 
   ngOnInit(): void {
     
+    this.posicaoCursor = {column:1, lineNumber:1};
     
   }
 
   ngOnChanges(changes: import('@angular/core').SimpleChanges): void {
     //this.atualizarEditorComSubmissao();
+    
   }
 
   ngAfterViewInit(): void {
@@ -147,29 +156,77 @@ export class EditorProgramacaoComponent implements AfterViewInit, OnChanges, OnI
   carregarEditor(editorProgramacaoComponentInstance, editor) {
     editorProgramacaoComponentInstance.editor = editor;
     editorProgramacaoComponentInstance.atualizarEditorComSubmissao();
-    if( editorProgramacaoComponentInstance.sincronizado ){
-      editorProgramacaoComponentInstance.sincronizarEditor(editor);
+
+    if(editorProgramacaoComponentInstance.salaId != null){
+      
+      editorProgramacaoComponentInstance.chat.iniciarConexao(editorProgramacaoComponentInstance.salaId, function(doc){
+        editorProgramacaoComponentInstance.document = doc;
+        let novoAlgoritmo = Algoritmo.criar(doc.data.algoritmo);
+        let algoritmoAntigo = editor.getValue()
+        if (novoAlgoritmo !== algoritmoAntigo) {
+          editor.setValue(novoAlgoritmo)
+          editor.setPosition(editorProgramacaoComponentInstance.posicaoCursor);
+        }
+        
+      });
+      
+      editorProgramacaoComponentInstance.sincronizarEditor(editorProgramacaoComponentInstance.editor);
     }
     
+    
+  }
+
+  sincronizarEditor(editor){
+    let _this = this;
+    let textoAntes = ""
+    let cursorAntes:any = {}
+
+    editor.onKeyDown(function (e){
+        cursorAntes = editor.getPosition();
+        let texto = editor.getModel().getLineContent(editor.getPosition().lineNumber);
+        textoAntes = texto;
+    });
+
+    editor.onKeyUp(function (e) {
+      
+        _this.posicaoCursor = editor.getPosition();
+        let texto = editor.getModel().getLineContent(editor.getPosition().lineNumber);
+        let op = [{p:['algoritmo', _this.posicaoCursor.lineNumber-1], ld:textoAntes, li:texto}, {p:["cursor", "lineNumber"], od:cursorAntes.lineNumber, oi:_this.posicaoCursor.lineNumber}, {p:["cursor", "column"], od:cursorAntes.column, oi:_this.posicaoCursor.column}]
+        //let op = {p:['a', 0], ld:100}
+        _this.document.submitOp(op); // TODO: jogar para o service
+        
+      
+      //
+      //let edicao = new Edicao(linha, texto, _this.login.getUsuarioLogado())
+      //_this.chat.enviarKeyEditor(edicao);
+    });
+
+    //this.chat.doc.submitOp(delta, { source: quill });
   }
 
   /* 
   Realiza a sincronização do editor entre diferentes estudantes. 
   */
-  sincronizarEditor(editor){
+  /* sincronizarEditor(editor){
     let _this = this;
     editor.onKeyUp(function (e) {
-        _this.chat.enviarKeyEditor(_this.login.getUsuarioLogado(), editor.getValue());
+      let linha = editor.getPosition().lineNumber;
+      let texto = editor.getModel().getLineContent(editor.getPosition().lineNumber);
+      let edicao = new Edicao(linha, texto, _this.login.getUsuarioLogado())
+      _this.chat.enviarKeyEditor(edicao);
     });
 
     this.chat.receberCodigoEditor(function (data){
-      if (data.codigo !== _this.editor.getValue()) {
-        _this.editor.setValue(data.codigo)
+      _this.edicoes = data.edicoes;
+      let novoAlgoritmo = Algoritmo.criar(data.edicoes);
+      let algoritmoAntigo = _this.editor.getValue()
+      if (novoAlgoritmo !== algoritmoAntigo) {
+        _this.editor.setValue(novoAlgoritmo)
       }
     });
       
     
-  }
+  } */
 
   visualizarExecucacao(modoVisualizacao, trace) {
     this.onVisualization.emit({
@@ -225,7 +282,12 @@ export class EditorProgramacaoComponent implements AfterViewInit, OnChanges, OnI
         }),
       };
 
-      /*if (this.submissao.hasErrors()) {
+      /*
+      Verificação antes da submissão do código para identificar erros.
+      Não está sendo utilizada, pois está com problemas.
+      Potencial para uso. */
+      /*
+      if (this.submissao.hasErrors()) {
         this.destacarErros(this.submissao);
         this.onError.emit(this.submissao);
       } else {*/
@@ -241,10 +303,20 @@ export class EditorProgramacaoComponent implements AfterViewInit, OnChanges, OnI
         .pipe(timeout(10000))
         .subscribe({
           next: (resposta) => {
+            if(this.salaId != null){
+              // TODO: Salvar submissao grupo
+              //let submissaoGrupo = new SubmissaoGrupo(null, this.edicoes, new AtividadeGrupo(this.salaId, null, null, null));
+              //submissaoGrupo.save().subscribe(()=>{
+
+              //});
+            }
+
             submissao.processarRespostaServidor(resposta).subscribe((resultado) => {
-              this.submissao = resultado;
-              this.onSubmit.emit(this._submissao);
+                this.submissao = resultado;
+                this.onSubmit.emit(this._submissao);
             });
+           
+            
           },
           error: (erro) => {
             // TODO: Jogar todo o erro para cima (quem chama esse component) e deixar que ele gerencie o Erro
@@ -278,17 +350,4 @@ export class EditorProgramacaoComponent implements AfterViewInit, OnChanges, OnI
     return submissao;
   }
 
-  /**
-   * Salva o código do estudante automaticamente a cada 5 minutos.
-   * OBS: Não está em uso, será refatorado para evitar overhead no BD.
-   */
-  salvarAutomaticamente() {
-    const __this = this;
-    setInterval(function () {
-      __this.prepararSubmissao();
-      this.submissao.save().subscribe((resultado) => {
-        // TODO: mostrar mensagem que o código foi salvo automaticamente.
-      });
-    }, 300000);
-  }
 }

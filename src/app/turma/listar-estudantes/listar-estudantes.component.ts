@@ -8,6 +8,7 @@ import { PerfilUsuario } from 'src/app/model/enums/perfilUsuario';
 import Turma from 'src/app/model/turma';
 import Analytics from 'src/app/model/analytics/analytics';
 import Submissao from 'src/app/model/submissao';
+import { Assunto } from 'src/app/model/assunto';
 
 @Component({
   selector: 'app-listar-estudantes',
@@ -34,7 +35,21 @@ export class ListarEstudantesComponent implements OnInit {
         this.turma.codigo = params['codigoTurma'];
         /* this.buscarEstudante(params['codigoTurma']); */
         Turma.getByQuery(new Query('codigo', '==', this.turma.codigo)).subscribe((turma: Turma) => {
-          Analytics.calcularNumeroAtividadesTrabalhadasPorSemana(turma).subscribe((estudantes) => {
+          Usuario.getAllEstudantesByTurma(turma.codigo).subscribe((estudantes) => {
+            this.estudantes$ = estudantes;
+            Assunto.getAll().subscribe(assuntos => {
+              this.estudantes$.forEach((estudante) => {
+                Analytics.calcularProgressoGeral(assuntos, estudante).subscribe(
+                  (progresso) => {
+                    estudante.progressoGeral = progresso
+                  }
+                );
+              });
+            });
+
+            
+          });
+          /* Analytics.calcularNumeroAtividadesTrabalhadasPorSemana(turma).subscribe((estudantes) => {
             this.estudantes$ = estudantes;
             this.estudantes$.forEach((estudante) => {
               Submissao.getAll(new Query('estudanteId', '==', estudante.id)).subscribe(
@@ -43,7 +58,7 @@ export class ListarEstudantesComponent implements OnInit {
                 }
               );
             });
-          });
+          }); */
         });
       } else {
         /** Significa que é uma listagem geral de estudantes. */

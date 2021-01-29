@@ -24,6 +24,7 @@
     "@angular/router": "~10.1.5",
     "@babel/plugin-transform-modules-commonjs": "^7.6.0",
     "@schematics/angular": "^9.1.0",
+    "@teamwork/websocket-json-stream": "^2.0.0",
     "@types/intro.js": "^2.4.6",
     "chart.js": "^2.7.3",
     "chromedriver": "^78.0.1",
@@ -39,9 +40,12 @@
     "primeicons": "^4.0.0",
     "primeng": "^11.1.0",
     "prismjs": "^1.17.1",
+    "process": "^0.11.10",
     "rxjs": "~6.6.3",
+    "sharedb": "^1.6.0",
     "timeme.js": "^2.0.4",
     "tslib": "^2.0.0",
+    "ws": "^7.4.2",
     "zone.js": "~0.10.2"
   },
   "devDependencies": {

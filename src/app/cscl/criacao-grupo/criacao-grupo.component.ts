@@ -64,10 +64,10 @@ export class CriacaoGrupoComponent implements OnInit {
 
   criarSala(){
     let uuid = Util.uuidv4();
-    let link = "http://localhost:4200/main/(principal:entrar-grupo/"+uuid+"/"+this.assuntoSelecionado.pk()+"/"+this.questaoSelecionada.id+")";
-    let atividade = new AtividadeGrupo(null, this.questaoSelecionada.nomeCurto, link, this.estudantesSelecionados)
+    
+    let atividade = new AtividadeGrupo(null, this.questaoSelecionada.nomeCurto, "", this.estudantesSelecionados)
     /* Quando entrar no link ativar o socket no cliente do aluno */
-    atividade.save().subscribe(()=>{
+    atividade.salvar(this.assuntoSelecionado, this.questaoSelecionada).subscribe(()=>{
       this.messageService.add({severity:'success', summary:'Sucesso', detail:'Atividade criada com sucesso.'});
     });
 

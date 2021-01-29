@@ -9,6 +9,7 @@ import { Assuntos } from './enums/assuntos';
 import QuestaoFechada from './questoes/questaoFechada';
 import QuestaoParsonProblem from './questoes/parsonProblem';
 import Query from './firestore/query';
+import { RespostaQuestaoParson } from './juiz/respostaQuestaoParson';
 
 @Collection('assuntos')
 export class Assunto extends Document {
@@ -120,14 +121,16 @@ export class Assunto extends Document {
     return new Observable((observer) => {
       forkJoin([
         Assunto.calcularPercentualConclusaoQuestoesFechadas(assunto, usuario),
+        Assunto.calcularPercentualConclusaoQuestoesParson(assunto, usuario),
         Assunto.calcularPercentualConclusaoQuestoesProgramacao(assunto, usuario, 0.6),
+        
       ]).subscribe((resultado) => {
         let percentualConclusao = 0;
         resultado.forEach((percentual) => {
           percentualConclusao += percentual;
         });
 
-        percentualConclusao /= 2;
+        percentualConclusao /= 3;
         percentualConclusao = Math.round(percentualConclusao * 100);
         observer.next(percentualConclusao);
         observer.complete();
@@ -179,6 +182,42 @@ export class Assunto extends Document {
           }
 
           const percentual = totalRespostas / assunto.questoesFechadas.length;
+          observer.next(percentual);
+          observer.complete();
+        });
+      } else {
+        observer.next(0);
+        observer.complete();
+      }
+    });
+  }
+
+  static calcularPercentualConclusaoQuestoesParson(
+    assunto: Assunto,
+    usuario: Usuario
+  ): Observable<number> {
+    // Recuperar todas as questões de um assunto
+    return new Observable((observer) => {
+      let totalRespostas = 0;
+      const respostas = [];
+      assunto.questoesParson.forEach((questao) => {
+        // Recuperar todas as respostas às questões fechadas
+
+        respostas.push(RespostaQuestaoParson.getRespostaQuestaoEstudante(questao, usuario));
+      });
+
+      if (respostas.length > 0 && assunto.questoesParson.length == respostas.length) {
+        forkJoin(respostas).subscribe((respostas) => {
+          for (let i = 0; i < assunto.questoesParson.length; i++) {
+            if (respostas[i] != null) {
+              // let resultado = QuestaoFechada.isRespostaCorreta(assunto.questoesFechadas[i], respostas[i]);
+              // if (resultado) {
+              totalRespostas++;
+              // }
+            }
+          }
+
+          const percentual = totalRespostas / assunto.questoesParson.length;
           observer.next(percentual);
           observer.complete();
         });

@@ -31,6 +31,11 @@ export default class Editor {
     }
   }
 
+  /* Constrói um algoritmo a partir das edições feitas por alunos colaborativamente. */
+  static construirAlgoritmo(edicoes){
+    
+  }
+
   /* destacarLinha(linha, status) {
     if (linha != NaN && linha != undefined) {
       linha = parseInt(linha);
