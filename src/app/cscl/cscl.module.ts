@@ -28,14 +28,16 @@ import { MessagesModule } from 'primeng/messages';
 import { MessageModule } from 'primeng/message';
 import { CardModule } from 'primeng/card';
 import { ToastModule } from 'primeng/toast';
-import { ChatGrupoComponent } from './chat/chat.component';
 import { CriacaoGrupoComponent } from './criacao-grupo/criacao-grupo.component';
 import {DropdownModule} from 'primeng/dropdown';
 import {AutoCompleteModule} from 'primeng/autocomplete';
 import { ListarAtividadesGrupoComponent } from './listar-atividades-grupo/listar-atividades-grupo.component';
 
 @NgModule({
-  declarations: [ComentariosCodigoComponent, BoxComentarioComponent, BoxNovoComentarioComponent, VisualizarConteudoComponent, SanitizeHtmlDirective, ConteudoProgramacaoComponent, VisualizarSubmissaoQuestaoComponent, ListarEstudantesSubmissaoComponent, ListarPostagensComponent, CadastrarPostagemComponent, VisualizarPostagemComponent, ChatGrupoComponent, CriacaoGrupoComponent, ListarAtividadesGrupoComponent],
+  declarations: [ComentariosCodigoComponent, BoxComentarioComponent, 
+    BoxNovoComentarioComponent, VisualizarConteudoComponent, SanitizeHtmlDirective, ConteudoProgramacaoComponent, 
+    VisualizarSubmissaoQuestaoComponent, ListarEstudantesSubmissaoComponent, ListarPostagensComponent, CadastrarPostagemComponent, 
+    VisualizarPostagemComponent, CriacaoGrupoComponent, ListarAtividadesGrupoComponent],
 
   imports: [
     AutoCompleteModule,
@@ -57,7 +59,7 @@ import { ListarAtividadesGrupoComponent } from './listar-atividades-grupo/listar
 
   ],
 
-  exports: [ListarAtividadesGrupoComponent, ChatGrupoComponent, ListarPostagensComponent, ComentariosCodigoComponent, VisualizarConteudoComponent, VisualizarSubmissaoQuestaoComponent, ListarEstudantesSubmissaoComponent]
+  exports: [ListarAtividadesGrupoComponent, ListarPostagensComponent, ComentariosCodigoComponent, VisualizarConteudoComponent, VisualizarSubmissaoQuestaoComponent, ListarEstudantesSubmissaoComponent]
 
 
 })

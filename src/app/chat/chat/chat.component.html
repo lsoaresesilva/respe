@@ -13,12 +13,12 @@
     <p-header >
         Bate-papo
     </p-header>
-    <div style="height: '15vw'">
-        <p-card *ngFor="let m of mensagens" header={{m.usuario}}>
+    <p-scrollPanel [style]="{height: '15vw', overflow:'auto'}" #scroll>
+        <p-card *ngFor="let m of mensagens$ | async" header={{m.estudante}}>
             
-                {{m.texto}}
-            </p-card>
-    </div>
+            {{m.texto}}
+        </p-card>
+    </p-scrollPanel>
     
     <p-footer [style]="{ height: '10px'}">
         <input pInputText id="textoChat" [(ngModel)]="mensagem.texto">

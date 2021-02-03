@@ -64,6 +64,7 @@ import { ProgressBarModule } from 'primeng/progressbar';
 import { SrlModule } from '../srl/srl.module';
 import { ListarQuestoesSequenciaComponent } from './listar-questoes-sequencia/listar-questoes-sequencia.component';
 import { ProgressSpinnerModule } from 'primeng/progressspinner';
+import { ChatModule } from '../chat/chat.module';
 
 @NgModule({
   declarations: [
@@ -95,6 +96,7 @@ import { ProgressSpinnerModule } from 'primeng/progressspinner';
 
   imports: [
     SrlModule,
+    ChatModule,
     CommonModule,
     TableModule,
     PanelModule,

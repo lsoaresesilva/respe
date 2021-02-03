@@ -15,6 +15,11 @@
       font-size: 10px !important; 
   }
 
+  :host >>>   .p-dialog-content{
+    overflow:hidden !important; 
+    height: 17vw;
+}
+
   :host >>> .containerSelf .p-card{
     background: "#ffccdd";
   }

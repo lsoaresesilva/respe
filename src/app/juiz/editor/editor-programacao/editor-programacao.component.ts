@@ -159,7 +159,14 @@ export class EditorProgramacaoComponent implements AfterViewInit, OnChanges, OnI
 
     if(editorProgramacaoComponentInstance.salaId != null){
       
-      editorProgramacaoComponentInstance.chat.iniciarConexao(editorProgramacaoComponentInstance.salaId, function(doc){
+/* 
+
+editorProgramacaoComponentInstance.chat.iniciarConexao(editorProgramacaoComponentInstance.salaId, function(doc){
+
+*/
+
+editorProgramacaoComponentInstance.chat.iniciarConexao(editorProgramacaoComponentInstance.salaId);
+editorProgramacaoComponentInstance.chat.observerCodigo.subscribe(doc=>{
         editorProgramacaoComponentInstance.document = doc;
         let novoAlgoritmo = Algoritmo.criar(doc.data.algoritmo);
         let algoritmoAntigo = editor.getValue()

@@ -1,4 +1,6 @@
 <div *ngIf="questao != null; else loading">
+  <app-chat></app-chat>
+  Oi chat 
   <div class="p-grid" style="margin: 10px 10px 10px 10px">
     <app-breadcrumb-assunto [assunto]="assunto" [questao]="questao"></app-breadcrumb-assunto>
 
@@ -68,6 +70,8 @@
     -->
   </div>
 </div>
+
+
 
 <ng-template #loading>Carregando questão...</ng-template>
 
