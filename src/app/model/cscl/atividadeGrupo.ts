@@ -1,8 +1,8 @@
 import { Observable } from "rxjs";
-import { Assunto } from "./assunto";
-import { Collection, Document } from "./firestore/document";
-import { QuestaoProgramacao } from "./questoes/questaoProgramacao";
-import Usuario from "./usuario";
+import { Assunto } from "../assunto";
+import { Collection, Document } from "../firestore/document";
+import { QuestaoProgramacao } from "../questoes/questaoProgramacao";
+import Usuario from "../usuario";
 
 @Collection("atividadeGrupo")
 export default class AtividadeGrupo extends Document{

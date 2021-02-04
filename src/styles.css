@@ -51,3 +51,8 @@ body {
   margin: 0;
   font-family: Roboto, 'Helvetica Neue', sans-serif;
 }
+
+.my-cursor {
+  background: pink;
+  width: 4px !important;
+}

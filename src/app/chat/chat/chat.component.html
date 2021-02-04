@@ -1,15 +1,5 @@
-<!-- <p-dialog [(visible)]="visibilidade"  [modal]="true" [position]="bottom-right">
-    <div >
-        oissss
-    </div>
-    <p-footer>
-        <div>
-            <input pInputText id="textoChat">
-            <Button label="Enviar" icon="pi pi-check"></Button>
-        </div>
-    </p-footer>
-</p-dialog> -->
-<p-dialog [(visible)]="visibilidade" [modal]="false" position="bottom-right" [style]="{ width: '25vw', height:'25vw'}">
+
+<p-dialog [(visible)]="visibilidade" [modal]="false" position="bottom-right" [style]="{ width: '20vw', height:'25vw'}" [closable]="false">
     <p-header >
         Bate-papo
     </p-header>
@@ -21,7 +11,7 @@
     </p-scrollPanel>
     
     <p-footer [style]="{ height: '10px'}">
-        <input pInputText id="textoChat" [(ngModel)]="mensagem.texto">
+        <input pInputText id="textoChat" [(ngModel)]="mensagem.texto" (keydown.enter)="enviar()" [style]="{ width: '90%', margin:'0 5px'}">
             <button (click)="enviar()" icon="pi pi-check" pButton></button>
     </p-footer>
 </p-dialog>

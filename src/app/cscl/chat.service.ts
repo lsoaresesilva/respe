@@ -5,7 +5,6 @@ import MensagemChat from '../model/mensagemChat';
 import Usuario from '../model/usuario';
 import * as io from 'socket.io-client';
 import { LoginService } from '../login-module/login.service';
-import Edicao from '../model/edicao';
 import Sharedb from 'sharedb/lib/client';
 
 @Injectable({

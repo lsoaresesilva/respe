@@ -33,6 +33,7 @@ import { GamificationFacade } from 'src/app/gamification/gamification.service';
 import { MonitorService } from 'src/app/chatbot/monitor.service';
 import { ConfirmationService } from 'primeng/api';
 import { ChatService } from 'src/app/cscl/chat.service';
+import AtividadeGrupo from 'src/app/model/cscl/atividadeGrupo';
 
 @Component({
   selector: 'responder-questao-programacao',
@@ -57,7 +58,8 @@ export class ResponderQuestaoProgramacao implements OnInit, AfterViewInit {
   observableQuestao: Observable<any>;
 
   usuario: Usuario;
-  salaId;
+  /* salaId; */
+  atividadeGrupo;
 
   // TODO: mover para um componente próprio
   traceExecucao;
@@ -108,7 +110,9 @@ export class ResponderQuestaoProgramacao implements OnInit, AfterViewInit {
     this.route.params.subscribe((params) => {
       
       if (params['salaId'] != null) {
-          this.salaId = params['salaId'];
+          AtividadeGrupo.get(params['salaId']).subscribe(atividadeGrupo=>{
+            this.atividadeGrupo = atividadeGrupo;
+          })
       }
 
       if (params['assuntoId'] != undefined && params['questaoId'] != undefined) {

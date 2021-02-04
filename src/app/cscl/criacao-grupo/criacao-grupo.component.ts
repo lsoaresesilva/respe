@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { MessageService } from 'primeng/api';
 import { Assunto } from 'src/app/model/assunto';
-import AtividadeGrupo from 'src/app/model/atividadeGrupo';
+import AtividadeGrupo from 'src/app/model/cscl/atividadeGrupo';
 import Query from 'src/app/model/firestore/query';
 import Usuario from 'src/app/model/usuario';
 import { Util } from 'src/app/model/util';

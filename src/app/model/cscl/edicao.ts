@@ -1,6 +1,6 @@
 export default class Edicao{
 
-    constructor(public linha, public texto, public estudante){
+    constructor(public linha, public texto){
 
     }
 
@@ -9,9 +9,9 @@ export default class Edicao{
             
         }
 
-        objeto["estudante"] = this.estudante.stringfiy();
-        objeto["linha"] = this.linha;
+        
         objeto["texto"] = this.texto;
+        objeto["linha"] = this.linha;
 
         return objeto;
     }

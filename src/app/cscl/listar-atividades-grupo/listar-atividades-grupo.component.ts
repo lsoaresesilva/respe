@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { LoginService } from 'src/app/login-module/login.service';
-import AtividadeGrupo from 'src/app/model/atividadeGrupo';
+import AtividadeGrupo from 'src/app/model/cscl/atividadeGrupo';
 import Query from 'src/app/model/firestore/query';
 
 @Component({

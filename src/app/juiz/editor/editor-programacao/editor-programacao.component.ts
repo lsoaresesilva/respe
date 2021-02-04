@@ -19,11 +19,11 @@ import { ConfirmationService } from 'primeng/api';
 import { ActivatedRoute, Router } from '@angular/router';
 import { ChatService } from 'src/app/cscl/chat.service';
 import { Assunto } from 'src/app/model/assunto';
-import Edicao from 'src/app/model/edicao';
+import Edicao from 'src/app/model/cscl/edicao';
 import Algoritmo from 'src/app/model/algoritmo';
-import SubmissaoGrupo from 'src/app/model/submissaoGrupo';
-import AtividadeGrupo from 'src/app/model/atividadeGrupo';
-
+import SubmissaoGrupo from 'src/app/model/cscl/submissaoGrupo';
+import AtividadeGrupo from 'src/app/model/cscl/atividadeGrupo';
+import HistoricoEdicoes from 'src/app/model/cscl/historicoEdicoes';
 
 /**
  * Executa um javascript ide.js para acoplar o editor VStudio.
@@ -57,9 +57,10 @@ export class EditorProgramacaoComponent implements AfterViewInit, OnChanges, OnI
   @Input()
   modoVisualizacao;
   @Input()
-  salaId;
+  atividadeGrupo;
 
   usuario;
+  salvamentoEdicoes;
 
   @Input() set submissao(value) {
     this._submissao = value;
@@ -90,8 +91,8 @@ export class EditorProgramacaoComponent implements AfterViewInit, OnChanges, OnI
     public login: LoginService,
     private confirmationService: ConfirmationService,
     private router: Router,
-    public chat:ChatService,
-    private route: ActivatedRoute,
+    public chat: ChatService,
+    private route: ActivatedRoute
   ) {
     this.onError = new EventEmitter();
     this.onSubmit = new EventEmitter();
@@ -103,14 +104,11 @@ export class EditorProgramacaoComponent implements AfterViewInit, OnChanges, OnI
   }
 
   ngOnInit(): void {
-    
-    this.posicaoCursor = {column:1, lineNumber:1};
-    
+    this.posicaoCursor = { column: 1, lineNumber: 1 };
   }
 
   ngOnChanges(changes: import('@angular/core').SimpleChanges): void {
     //this.atualizarEditorComSubmissao();
-    
   }
 
   ngAfterViewInit(): void {
@@ -157,55 +155,94 @@ export class EditorProgramacaoComponent implements AfterViewInit, OnChanges, OnI
     editorProgramacaoComponentInstance.editor = editor;
     editorProgramacaoComponentInstance.atualizarEditorComSubmissao();
 
-    if(editorProgramacaoComponentInstance.salaId != null){
-      
-/* 
+    if (editorProgramacaoComponentInstance.atividadeGrupo.pk() != null) {
+      /* 
 
 editorProgramacaoComponentInstance.chat.iniciarConexao(editorProgramacaoComponentInstance.salaId, function(doc){
 
 */
 
-editorProgramacaoComponentInstance.chat.iniciarConexao(editorProgramacaoComponentInstance.salaId);
-editorProgramacaoComponentInstance.chat.observerCodigo.subscribe(doc=>{
+      editorProgramacaoComponentInstance.chat.iniciarConexao(
+        editorProgramacaoComponentInstance.atividadeGrupo.pk()
+      );
+      editorProgramacaoComponentInstance.chat.observerCodigo.subscribe((doc) => {
         editorProgramacaoComponentInstance.document = doc;
         let novoAlgoritmo = Algoritmo.criar(doc.data.algoritmo);
-        let algoritmoAntigo = editor.getValue()
+        let algoritmoAntigo = editor.getValue();
         if (novoAlgoritmo !== algoritmoAntigo) {
-          editor.setValue(novoAlgoritmo)
+          editor.setValue(novoAlgoritmo);
           editor.setPosition(editorProgramacaoComponentInstance.posicaoCursor);
-          /* editor.deltaDecorations([], [
-            { range: new monaco.Range(doc.data., 1, 3, 2), options: { className: 'my-cursor'} },
-        ]); */
+          if (doc.data.autor != editorProgramacaoComponentInstance.usuario.id) {
+            editor.deltaDecorations(
+              [],
+              [
+                /* Column+1 por que ao digitar o texto no editor, o usuário que digitou avança o cursor para após o dígito. */
+                {
+                  range: new monaco.Range(
+                    doc.data.cursor.lineNumber,
+                    doc.data.cursor.column + 1,
+                    doc.data.cursor.lineNumber,
+                    doc.data.cursor.column + 1
+                  ),
+                  options: { className: 'my-cursor' },
+                },
+              ]
+            );
+
+            editor.render(true);
+          }
         }
-        
       });
-      
-      editorProgramacaoComponentInstance.sincronizarEditor(editorProgramacaoComponentInstance.editor);
+
+      editorProgramacaoComponentInstance.sincronizarEditor(
+        editorProgramacaoComponentInstance.editor
+      );
     }
-    
-    
   }
 
-  sincronizarEditor(editor){
+  sincronizarEditor(editor) {
     let _this = this;
-    let textoAntes = ""
-    let cursorAntes:any = {}
+    let textoAntes = '';
+    let cursorAntes: any = {};
+    let historicoEdicoes = new HistoricoEdicoes(null, this.atividadeGrupo, this.usuario);
 
-    editor.onKeyDown(function (e){
-        cursorAntes = editor.getPosition();
-        let texto = editor.getModel().getLineContent(editor.getPosition().lineNumber);
-        textoAntes = texto;
+    this.salvamentoEdicoes = setInterval(() => {
+      // TODO: passar uma referência do objeto atividade grupo de responder questão para editor e usar aqui
+      if (this.atividadeGrupo.pk() != null) {
+        if (historicoEdicoes.edicoes.length > 0) {
+          historicoEdicoes.save().subscribe(() => {
+            historicoEdicoes.resetar();
+          });
+        }
+      }
+    }, 120000);
+
+    editor.onKeyDown(function (e) {
+      cursorAntes = editor.getPosition();
+      let texto = editor.getModel().getLineContent(editor.getPosition().lineNumber);
+      textoAntes = texto;
     });
 
     editor.onKeyUp(function (e) {
-      
-        _this.posicaoCursor = editor.getPosition();
-        let texto = editor.getModel().getLineContent(editor.getPosition().lineNumber);
-        let op = [{p:['algoritmo', _this.posicaoCursor.lineNumber-1], ld:textoAntes, li:texto}, {p:["cursor", "lineNumber"], od:cursorAntes.lineNumber, oi:_this.posicaoCursor.lineNumber}, {p:["cursor", "column"], od:cursorAntes.column, oi:_this.posicaoCursor.column}]
-        //let op = {p:['a', 0], ld:100}
-        _this.document.submitOp(op); // TODO: jogar para o service
-        
-      
+      _this.posicaoCursor = editor.getPosition();
+
+      let texto = editor.getModel().getLineContent(editor.getPosition().lineNumber);
+      let op = [
+        { p: ['algoritmo', _this.posicaoCursor.lineNumber - 1], ld: textoAntes, li: texto },
+        {
+          p: ['cursor', 'lineNumber'],
+          od: cursorAntes.lineNumber,
+          oi: _this.posicaoCursor.lineNumber,
+        },
+        { p: ['cursor', 'column'], od: cursorAntes.column, oi: _this.posicaoCursor.column },
+        { p: ['autor'], od: _this.usuario.id, oi: _this.usuario.id },
+      ];
+
+      let edicao = new Edicao(_this.posicaoCursor.lineNumber, texto);
+      historicoEdicoes.inserir(edicao);
+
+      _this.document.submitOp(op); // TODO: jogar para o service
+
       //
       //let edicao = new Edicao(linha, texto, _this.login.getUsuarioLogado())
       //_this.chat.enviarKeyEditor(edicao);
@@ -313,20 +350,17 @@ editorProgramacaoComponentInstance.chat.observerCodigo.subscribe(doc=>{
         .pipe(timeout(10000))
         .subscribe({
           next: (resposta) => {
-            if(this.salaId != null){
+            if (this.atividadeGrupo.pk() != null) {
               // TODO: Salvar submissao grupo
               //let submissaoGrupo = new SubmissaoGrupo(null, this.edicoes, new AtividadeGrupo(this.salaId, null, null, null));
               //submissaoGrupo.save().subscribe(()=>{
-
               //});
             }
 
             submissao.processarRespostaServidor(resposta).subscribe((resultado) => {
-                this.submissao = resultado;
-                this.onSubmit.emit(this._submissao);
+              this.submissao = resultado;
+              this.onSubmit.emit(this._submissao);
             });
-           
-            
           },
           error: (erro) => {
             // TODO: Jogar todo o erro para cima (quem chama esse component) e deixar que ele gerencie o Erro
@@ -359,5 +393,4 @@ editorProgramacaoComponentInstance.chat.observerCodigo.subscribe(doc=>{
     const submissao = new Submissao(null, this.editor.getValue(), this.usuario, this.questao);
     return submissao;
   }
-
 }
