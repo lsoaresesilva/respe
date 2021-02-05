@@ -1,6 +1,5 @@
 <div *ngIf="questao != null; else loading">
-  <app-chat></app-chat>
-  Oi chat 
+  <app-chat [atividadeGrupo]="atividadeGrupo"></app-chat>
   <div class="p-grid" style="margin: 10px 10px 10px 10px">
     <app-breadcrumb-assunto [assunto]="assunto" [questao]="questao"></app-breadcrumb-assunto>
 

@@ -1,7 +1,7 @@
-import { ChangeDetectorRef, Component, NgZone, OnInit, ViewChild } from '@angular/core';
+import { ChangeDetectorRef, Component, Input, NgZone, OnChanges, OnInit, SimpleChanges, ViewChild } from '@angular/core';
 import { BehaviorSubject } from 'rxjs';
 import { LoginService } from 'src/app/login-module/login.service';
-import MensagemChat from 'src/app/model/mensagemChat';
+import MensagemChat from 'src/app/model/chat/mensagemChat';
 import { ChatService } from '../../cscl/chat.service';
 
 @Component({
@@ -9,19 +9,20 @@ import { ChatService } from '../../cscl/chat.service';
   templateUrl: './chat.component.html',
   styleUrls: ['./chat.component.css']
 })
-export class ChatGrupoComponent implements OnInit {
+export class ChatGrupoComponent implements OnInit, OnChanges {
 
   mensagens$;
   mensagens;
-  mensagem;
+  mensagem:MensagemChat;
   visibilidade;
   usuarioLogado;
 
   @ViewChild('scroll') scroll;
+  @Input("atividadeGrupo") atividadeGrupo;
 
   constructor(private loginService:LoginService, private chatService:ChatService, private changeDetectorRef: ChangeDetectorRef ) {
     this.usuarioLogado = this.loginService.getUsuarioLogado();
-    this.mensagem = new MensagemChat(null, this.usuarioLogado, "");
+    this.mensagem = new MensagemChat(null, this.usuarioLogado, "", this.atividadeGrupo);
     this.visibilidade = true;
 
     this.mensagens = [];
@@ -40,6 +41,11 @@ export class ChatGrupoComponent implements OnInit {
       this.scroll.scrollTop(height);
     })
    }
+  ngOnChanges(changes: SimpleChanges): void {
+    if(this.atividadeGrupo != null){
+      this.mensagem.atividadeGrupo = this.atividadeGrupo;
+    }
+  }
 
   ngOnInit(): void {
   }
