@@ -7,6 +7,10 @@ import { logging } from 'protractor';
 import Usuario from '../model/usuario';
 import { PerfilUsuario } from '../model/enums/perfilUsuario';
 
+/**
+ * Alternativa: https://fireship.io/lessons/realtime-presence-angular-firebase/
+ */
+
 @Injectable({
   providedIn: 'root',
 })
@@ -37,7 +41,7 @@ export class RastrearTempoOnlineService {
         TimeMe.getTimeOnPageInSeconds('32bits'),
         _this.usuarioLogado
       );
-      tempoConectado.save().subscribe(() => {});
+      //tempoConectado.save().subscribe(() => {});
     });
 
     TimeMe.callWhenUserReturns(function () {

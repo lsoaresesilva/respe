@@ -51,6 +51,13 @@
       (click)="abrirListagemTurmas()"
       *ngIf="usuario.perfil == 2"
     ></button>
+    <button
+      pButton
+      class="p-button-text"
+      label="Atividades em grupo"
+      (click)="abrirListagemGrupo()"
+      *ngIf="usuario.perfil == 2"
+    ></button>
   </div>
   <div style="margin: 0 auto; width: 10%">
     <app-progresso-proximo-nivel *ngIf="usuario.perfil == 1"></app-progresso-proximo-nivel>

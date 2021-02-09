@@ -155,7 +155,7 @@ export class EditorProgramacaoComponent implements AfterViewInit, OnChanges, OnI
     editorProgramacaoComponentInstance.editor = editor;
     editorProgramacaoComponentInstance.atualizarEditorComSubmissao();
 
-    if (editorProgramacaoComponentInstance.atividadeGrupo.pk() != null) {
+    if (editorProgramacaoComponentInstance.atividadeGrupo != null && editorProgramacaoComponentInstance.atividadeGrupo.pk() != null) {
       /* 
 
 editorProgramacaoComponentInstance.chat.iniciarConexao(editorProgramacaoComponentInstance.salaId, function(doc){
@@ -208,7 +208,7 @@ editorProgramacaoComponentInstance.chat.iniciarConexao(editorProgramacaoComponen
 
     this.salvamentoEdicoes = setInterval(() => {
       // TODO: passar uma referência do objeto atividade grupo de responder questão para editor e usar aqui
-      if (this.atividadeGrupo.pk() != null) {
+      if (this.atividadeGrupo != null && this.atividadeGrupo.pk() != null) {
         if (historicoEdicoes.edicoes.length > 0) {
           historicoEdicoes.save().subscribe(() => {
             historicoEdicoes.resetar();
@@ -350,11 +350,11 @@ editorProgramacaoComponentInstance.chat.iniciarConexao(editorProgramacaoComponen
         .pipe(timeout(10000))
         .subscribe({
           next: (resposta) => {
-            if (this.atividadeGrupo.pk() != null) {
+            if (this.atividadeGrupo != null && this.atividadeGrupo.pk() != null) {
               // TODO: Salvar submissao grupo
-              //let submissaoGrupo = new SubmissaoGrupo(null, this.edicoes, new AtividadeGrupo(this.salaId, null, null, null));
-              //submissaoGrupo.save().subscribe(()=>{
-              //});
+              let submissaoGrupo = new SubmissaoGrupo(null, this.editor.getValue(), this.atividadeGrupo);
+                submissaoGrupo.save().subscribe(()=>{
+              });
             }
 
             submissao.processarRespostaServidor(resposta).subscribe((resultado) => {

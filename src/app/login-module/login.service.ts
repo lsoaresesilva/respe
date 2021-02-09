@@ -10,7 +10,7 @@ import { Router } from '@angular/router';
 import { AngularFirestore } from '@angular/fire/firestore';
 import RegistroLogin from '../model/registroLogin';
 
-import { RastrearTempoOnlineService } from '../srl/rastrear-tempo-online.service';
+import { RastrearTempoOnlineService } from '../analytics-module/rastrear-tempo-online.service';
 import Gamification from '../model/gamification/gamification';
 
 @Injectable({
@@ -69,7 +69,7 @@ export class LoginService {
         (usuarioLogado: Usuario) => {
           if (usuarioLogado != null) {
             this.criarSessao(usuarioLogado);
-            //this.rastrearTempoOnline.iniciarTimer(usuarioLogado);
+            this.rastrearTempoOnline.iniciarTimer(usuarioLogado);
 
             const registroLogin = new RegistroLogin(null, usuarioLogado);
             registroLogin.save().subscribe(() => {});

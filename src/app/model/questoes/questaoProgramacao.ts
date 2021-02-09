@@ -115,12 +115,14 @@ export class QuestaoProgramacao {
             assuntos.push(Assunto.construir(assunto) /*new Assunto(assunto, null)*/);
           });
 
-          if (assunto != null) {
-            assuntos.push(assunto);
-          }
-
-          questoes[index].assuntos = assuntos;
+          
         }
+
+        if (assunto != null) {
+          assuntos.push(assunto);
+        }
+
+        questoes[index].assuntos = assuntos;
 
         questao.testsCases = TestCase.construir(questao.testsCases);
         questao.exemplos = ModeloRespostaQuestao.construir(questao.exemplos);

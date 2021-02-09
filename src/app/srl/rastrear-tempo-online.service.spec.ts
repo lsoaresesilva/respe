@@ -1,6 +1,6 @@
 import { TestBed } from '@angular/core/testing';
 
-import { RastrearTempoOnlineService } from './rastrear-tempo-online.service';
+import { RastrearTempoOnlineService } from '../analytics-module/rastrear-tempo-online.service';
 
 describe('RastrearTempoOnlineService', () => {
   let service: RastrearTempoOnlineService;

@@ -17,6 +17,7 @@ import { TentativaQuestoesComponent } from './tentativa-questoes/tentativa-quest
 import { AnalyticsTurmaComponent } from './analytics-turma/analytics-turma.component';
 import { TableModule } from 'primeng/table';
 import { SrlModule } from '../srl/srl.module';
+import {RastrearTempoOnlineService} from './rastrear-tempo-online.service'
 
 @NgModule({
   declarations: [
@@ -34,5 +35,6 @@ import { SrlModule } from '../srl/srl.module';
   ],
   imports: [SrlModule, CommonModule, ProgressBarModule, TableModule],
   exports: [DadosEstudanteComponent, AnalyticsTurmaComponent],
+  providers:[RastrearTempoOnlineService]
 })
 export class AnalyticsModule {}

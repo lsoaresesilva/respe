@@ -8,7 +8,20 @@ Gerar o link -->
 
 <div class="p-grid">
     <div class="p-col-12">
-        <p-autoComplete [(ngModel)]="estudanteSelecionado" [suggestions]="pesquisaAlunos"
+        <p-autoComplete [(ngModel)]="turmaSelecionada" [suggestions]="pesquisaTurmas"
+            (completeMethod)="pesquisarTurma($event)" [dropdown]="true" (onSelect)="selecionarTurma($event)">
+
+            <ng-template let-turma pTemplate="item">
+                <span>{{turma.nome}}</span>
+            </ng-template>
+
+        </p-autoComplete>
+    </div>
+</div>
+
+<div class="p-grid" *ngIf="estudantesTurma != null">
+    <div class="p-col-12">
+        <p-autoComplete [(ngModel)]="estudanteSelecionado" [suggestions]="pesquisaEstudantes"
             (completeMethod)="pesquisar($event)" [dropdown]="true" (onSelect)="selecionarAluno($event)">
 
             <ng-template let-aluno pTemplate="item">

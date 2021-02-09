@@ -107,6 +107,11 @@ export class MainComponent implements OnInit {
     this.apresentarPretestRegulacao();
   }
 
+  abrirListagemGrupo(){
+    this.router.navigate(['main', { outlets: { principal: ['listagem-atividades-grupo'] } }]);
+  
+  }
+
   abrirDesempenho() {
     this.router.navigate(['main', { outlets: { principal: ['meu-desempenho'] } }]);
   }
