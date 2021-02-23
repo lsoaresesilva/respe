@@ -1,4 +1,5 @@
-import { forkJoin, Observable } from 'rxjs';
+import { EMPTY, empty, forkJoin, Observable, of } from 'rxjs';
+import { catchError } from 'rxjs/operators';
 import { Collection, Document, ignore } from '../firestore/document';
 import Query from '../firestore/query';
 import Turma from '../turma';
@@ -111,12 +112,18 @@ export default class Gamification extends Document{
           const consultas = {};
 
           rank.forEach(r =>{
-            consultas[r.pk()] = Usuario.get(r["estudanteId"]);
+            consultas[r.pk()] = Usuario.get(r["estudanteId"]).pipe(
+              catchError(err => of(err)),
+            );;
           })
 
           forkJoin(consultas).subscribe(respostas=>{
             rank.forEach(r =>{
-              r.estudante = respostas[r.pk()];
+              let object = respostas[r.pk()] as any;
+              if(object instanceof Usuario){
+                r.estudante = respostas[r.pk()];
+              }
+              
             });
 
             observer.next(rank);
