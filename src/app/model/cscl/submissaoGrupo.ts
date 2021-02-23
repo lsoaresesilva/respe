@@ -9,22 +9,22 @@ export default class SubmissaoGrupo extends Document {
   @date()
   data 
 
-  constructor(id, public submissao:Submissao, public atividadeGrupo:AtividadeGrupo) {
+  constructor(id, public submissao, public atividadeGrupo:AtividadeGrupo) {
     super(id);
     
   }
 
   objectToDocument(){
     let document = super.objectToDocument();
-
-    if(this.submissao.pk() != null){
+    
+    if(this.submissao != null && this.submissao.pk() != null){
       document["submissaoId"] = this.submissao.pk();
     }
 
-
-    if(this.atividadeGrupo.pk() != null){
+    if(this.atividadeGrupo != null && this.atividadeGrupo.pk() != null){
       document["atividadeGrupoId"] = this.atividadeGrupo.pk();
     }
+    
 
     return document;
   }
