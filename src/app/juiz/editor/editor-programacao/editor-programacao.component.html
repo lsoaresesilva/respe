@@ -47,6 +47,15 @@
       *ngIf="questao.exemplos.length > 0"
     ></button>
   </div>
+  <div>
+    <button
+      type="button"
+      (click)="enviarRespostaAtividadeGrupo()"
+      pButton
+      label="Enviar resposta"
+      *ngIf="atividadeGrupo != null"
+    ></button>
+  </div>
 </div>
 
 <div

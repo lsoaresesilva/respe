@@ -15,7 +15,7 @@ import { LoginService } from 'src/app/login-module/login.service';
 
 import { catchError, retry, switchMap, timeout } from 'rxjs/operators';
 import { environment } from 'src/environments/environment';
-import { ConfirmationService } from 'primeng/api';
+import { ConfirmationService, MessageService } from 'primeng/api';
 import { ActivatedRoute, Router } from '@angular/router';
 import { ChatService } from 'src/app/cscl/chat.service';
 import { Assunto } from 'src/app/model/assunto';
@@ -92,7 +92,8 @@ export class EditorProgramacaoComponent implements AfterViewInit, OnChanges, OnI
     private confirmationService: ConfirmationService,
     private router: Router,
     public chat: ChatService,
-    private route: ActivatedRoute
+    private route: ActivatedRoute,
+    private messageService: MessageService
   ) {
     this.onError = new EventEmitter();
     this.onSubmit = new EventEmitter();
@@ -350,15 +351,14 @@ editorProgramacaoComponentInstance.chat.iniciarConexao(editorProgramacaoComponen
         .pipe(timeout(10000))
         .subscribe({
           next: (resposta) => {
-            if (this.atividadeGrupo.pk() != null) {
-              // TODO: Salvar submissao grupo
-              //let submissaoGrupo = new SubmissaoGrupo(null, this.edicoes, new AtividadeGrupo(this.salaId, null, null, null));
-              //submissaoGrupo.save().subscribe(()=>{
-              //});
-            }
+
+            
+            
 
             submissao.processarRespostaServidor(resposta).subscribe((resultado) => {
               this.submissao = resultado;
+
+
               this.onSubmit.emit(this._submissao);
             });
           },
@@ -369,6 +369,8 @@ editorProgramacaoComponentInstance.chat.iniciarConexao(editorProgramacaoComponen
             } else {
               submissao.processarErroServidor(erro.error.mensagem).subscribe((resultado) => {
                 this.submissao = resultado;
+
+
                 this.onError.emit(this._submissao);
               });
             }
@@ -392,5 +394,37 @@ editorProgramacaoComponentInstance.chat.iniciarConexao(editorProgramacaoComponen
     this.editorCodigo.codigo = this.editor.getValue();
     const submissao = new Submissao(null, this.editor.getValue(), this.usuario, this.questao);
     return submissao;
+  }
+
+  enviarRespostaAtividadeGrupo(){
+    
+
+    if (this.atividadeGrupo == null && this.atividadeGrupo.pk() == null) {
+
+      this.messageService.add({
+        severity: 'error',
+        summary: 'Falha ao enviar atividade',
+        detail: 'Isso não parece ser uma atividade em grupo.',
+      });
+      
+    }
+
+    if(this.submissao == null || this.submissao.pk() == null){
+      this.messageService.add({
+        severity: 'error',
+        summary: 'Falha ao enviar atividade',
+        detail: 'Antes de entregar a atividade é preciso executar o seu código. Após isso tente novamente entregar a atividade',
+      });
+    }
+
+
+    let submissaoGrupo = new SubmissaoGrupo(null, this.submissao, this.atividadeGrupo);
+                  submissaoGrupo.save().subscribe(()=>{
+                    this.messageService.add({
+                      severity: 'success',
+                      summary: 'Sucesso',
+                      detail: 'Atividade entregue com sucesso.',
+                    });
+                });
   }
 }
