@@ -29,6 +29,10 @@ export class Util {
         return  Math.floor((Date.UTC(dateTwo.getFullYear(), dateTwo.getMonth(), dateTwo.getDate()) - Date.UTC(dateOne.getFullYear(), dateOne.getMonth(), dateOne.getDate()) ) /(1000 * 60 * 60 * 24));
     }
 
+    static formatarData(data){
+        return new Date (data.seconds * 1000).toLocaleString();
+    }
+
 
 
 }

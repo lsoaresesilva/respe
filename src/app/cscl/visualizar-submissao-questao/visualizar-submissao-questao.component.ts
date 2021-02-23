@@ -5,6 +5,7 @@ import { LoginService } from 'src/app/login-module/login.service';
 import Submissao from 'src/app/model/submissao';
 import { Assunto } from 'src/app/model/assunto';
 import Usuario from 'src/app/model/usuario';
+import { Util } from 'src/app/model/util';
 
 @Component({
   selector: 'app-visualizar-submissao-questao',
@@ -39,7 +40,7 @@ export class VisualizarSubmissaoQuestaoComponent implements OnInit {
   
    
   formatarData(data){
-    this.dataFormatada = new Date (data.seconds * 1000).toLocaleString();
+    this.dataFormatada = Util.formatarData(data);
   }
 
   

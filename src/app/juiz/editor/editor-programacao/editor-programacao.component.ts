@@ -155,7 +155,7 @@ export class EditorProgramacaoComponent implements AfterViewInit, OnChanges, OnI
     editorProgramacaoComponentInstance.editor = editor;
     editorProgramacaoComponentInstance.atualizarEditorComSubmissao();
 
-    if (editorProgramacaoComponentInstance.atividadeGrupo.pk() != null) {
+    if (editorProgramacaoComponentInstance.atividadeGrupo != null && editorProgramacaoComponentInstance.atividadeGrupo.pk() != null) {
       /* 
 
 editorProgramacaoComponentInstance.chat.iniciarConexao(editorProgramacaoComponentInstance.salaId, function(doc){
@@ -243,37 +243,11 @@ editorProgramacaoComponentInstance.chat.iniciarConexao(editorProgramacaoComponen
 
       _this.document.submitOp(op); // TODO: jogar para o service
 
-      //
-      //let edicao = new Edicao(linha, texto, _this.login.getUsuarioLogado())
-      //_this.chat.enviarKeyEditor(edicao);
+
     });
 
-    //this.chat.doc.submitOp(delta, { source: quill });
   }
 
-  /* 
-  Realiza a sincronização do editor entre diferentes estudantes. 
-  */
-  /* sincronizarEditor(editor){
-    let _this = this;
-    editor.onKeyUp(function (e) {
-      let linha = editor.getPosition().lineNumber;
-      let texto = editor.getModel().getLineContent(editor.getPosition().lineNumber);
-      let edicao = new Edicao(linha, texto, _this.login.getUsuarioLogado())
-      _this.chat.enviarKeyEditor(edicao);
-    });
-
-    this.chat.receberCodigoEditor(function (data){
-      _this.edicoes = data.edicoes;
-      let novoAlgoritmo = Algoritmo.criar(data.edicoes);
-      let algoritmoAntigo = _this.editor.getValue()
-      if (novoAlgoritmo !== algoritmoAntigo) {
-        _this.editor.setValue(novoAlgoritmo)
-      }
-    });
-      
-    
-  } */
 
   visualizarExecucacao(modoVisualizacao, trace) {
     this.onVisualization.emit({
@@ -350,15 +324,18 @@ editorProgramacaoComponentInstance.chat.iniciarConexao(editorProgramacaoComponen
         .pipe(timeout(10000))
         .subscribe({
           next: (resposta) => {
-            if (this.atividadeGrupo.pk() != null) {
-              // TODO: Salvar submissao grupo
-              //let submissaoGrupo = new SubmissaoGrupo(null, this.edicoes, new AtividadeGrupo(this.salaId, null, null, null));
-              //submissaoGrupo.save().subscribe(()=>{
-              //});
-            }
+        
 
             submissao.processarRespostaServidor(resposta).subscribe((resultado) => {
               this.submissao = resultado;
+
+              if (this.atividadeGrupo.pk() != null) {
+                // TODO: Salvar submissao grupo
+                let submissaoGrupo = new SubmissaoGrupo(null, submissao, new AtividadeGrupo(this.atividadeGrupo.pk(), null, null, null));
+                submissaoGrupo.save().subscribe(()=>{
+                });
+              }
+
               this.onSubmit.emit(this._submissao);
             });
           },

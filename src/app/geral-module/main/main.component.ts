@@ -112,11 +112,15 @@ export class MainComponent implements OnInit {
   }
 
   abrirPlanejamento() {
-    this.router.navigate(['main', { outlets: { principal: ['listagem-planejamento'] } }]);
+    this.router.navigate(['main', { outlets: { principal: ['listagem-assuntos'] } }]);
   }
 
   abrirAtividadesGrupo() {
     this.router.navigate(['main', { outlets: { principal: ['listagem-atividades-grupo'] } }]);
+  }
+
+  abrirDiario() {
+    this.router.navigate(['main', { outlets: { principal: ['listagem-diarios'] } }]);
   }
 
   abrirAssuntos() {

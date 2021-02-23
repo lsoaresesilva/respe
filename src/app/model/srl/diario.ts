@@ -3,6 +3,8 @@ import { Observable } from 'rxjs';
 import Query from '../firestore/query';
 import Usuario from '../usuario';
 import { NivelConfianca } from '../nivelConfianca';
+import { ObjetivosExercicios } from '../enums/objetivosExercicios';
+import { Motivacao } from '../enums/motivacao';
 
 @Collection('diarios')
 export default class Diario extends Document {
@@ -11,6 +13,9 @@ export default class Diario extends Document {
     public reflexao,
     public planejamento,
     public nivelConfianca: NivelConfianca,
+    public tempoEstudo,
+    public objetivoExercicio: ObjetivosExercicios,
+    public motivacao: Motivacao,
     public estudante
   ) {
     super(id);
@@ -71,10 +76,15 @@ export default class Diario extends Document {
   validar() {
     if (
       this.reflexao != null &&
-      this.nivelConfianca != null &&
       this.reflexao !== '' &&
+      this.reflexao.length >= 50 &&
+      this.nivelConfianca != null &&
       this.planejamento != null &&
-      this.planejamento !== ''
+      this.planejamento !== '' &&
+      this.planejamento.length >= 50 &&
+      this.objetivoExercicio != null &&
+      this.motivacao != null &&
+      this.tempoEstudo != null
     ) {
       return true;
     }

@@ -1,0 +1,19 @@
+<ng-template *ngIf="diario != null;else loading"></ng-template>
+<div class="p-grid">
+    <div class="p-col-2">Planejamento</div>
+    <div class="p-col-10">
+        {{diario.planejamento}}
+    </div>
+</div>
+
+
+<div class="p-grid">
+    <div class="p-col-2">Reflexao</div>
+    <div class="p-col-10">
+        {{diario.reflexao}}
+    </div>
+</div>
+
+<ng-template #loading>
+    Carregando diário...
+</ng-template>

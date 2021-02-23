@@ -15,23 +15,17 @@
          -->
 </div>
 
-<div class="p-grid">
-  <div class="p-col-3">
+<div class="p-d-flex p-flex-column p-flex-md-row">
+  <div class="p-mb-4 p-mr-4">
     <app-card-erros-programacao-doughnut [erros]="erros"></app-card-erros-programacao-doughnut>
   </div>
-  <div class="p-col-3">
+  <div class="p-mb-4 p-mr-4">
     <app-card-historico-erros *ngIf="erros != undefined" [erros]="erros">
     </app-card-historico-erros>
   </div>
-  <div class="p-col-6" *ngIf="erros != undefined">
+  <div class="p-mb-4 p-mr-4" *ngIf="erros != undefined">
     <app-analise-desempenho-estudante [erros]="erros"></app-analise-desempenho-estudante>
   </div>
 </div>
 
-<div class="p-grid">
-  <div class="p-col-3">
-    <h2>Progresso nos assuntos</h2>
-    <app-desempenho-assuntos></app-desempenho-assuntos>
-  </div>
-  <div class="p-col-5"></div>
-</div>
+<app-desempenho-metricas></app-desempenho-metricas>

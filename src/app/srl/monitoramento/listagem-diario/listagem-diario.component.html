@@ -1,0 +1,21 @@
+
+<div class="p-grid">
+  <div class="p-col-12">
+    <p-table [value]="diarios$" [autoLayout]="true">
+      <ng-template pTemplate="header"> 
+          <tr>
+            <th>Data</th>
+            <th>Planejamento</th>
+            <th>Reflexão</th>
+          </tr>
+      </ng-template>
+      <ng-template pTemplate="body" let-rowData let-diario>
+        <tr [pContextMenuRow]="rowData">
+          <td style="width: 10%;">{{ formatarData(diario.data) }}</td>
+          <td style="word-break:break-all;">{{ diario.planejamento }}</td>
+          <td style="word-break:break-all;">{{ diario.reflexao }}</td>
+        </tr>
+      </ng-template>
+    </p-table>
+  </div>
+</div>

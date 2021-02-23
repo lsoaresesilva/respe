@@ -57,7 +57,7 @@ export class LoginComponent implements OnInit {
         if (usuario.grupoExperimento == Groups.control) {
           this.router.navigate(['main', { outlets: { principal: ['listagem-assuntos'] } }]);
         } else {
-          this.router.navigate(['main', { outlets: { principal: ['meu-desempenho'] } }]);
+          this.router.navigate(['main', { outlets: { principal: ['index'] } }]);
         }
       } else if (usuario.perfil == PerfilUsuario.professor) {
         this.router.navigate(['main', { outlets: { principal: ['listagem-turmas'] } }]);

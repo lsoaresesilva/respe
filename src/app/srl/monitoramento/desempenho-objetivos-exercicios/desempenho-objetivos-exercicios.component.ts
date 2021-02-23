@@ -8,6 +8,7 @@ import { AnalisarObjetivosService } from '../../analisar-objetivos.service';
   styleUrls: ['./desempenho-objetivos-exercicios.component.css'],
 })
 export class DesempenhoObjetivosExerciciosComponent implements OnInit {
+  
   progresso;
 
   constructor(private analiseObjetivo: AnalisarObjetivosService, private login: LoginService) {}

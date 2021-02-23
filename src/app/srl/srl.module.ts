@@ -58,6 +58,9 @@ import { DesempenhoObjetivosNotaComponent } from './monitoramento/desempenho-obj
 import { CardErrosProgramacaoDoughnutComponent } from './monitoramento/card-erros-programacao-doughnut/card-erros-programacao-doughnut.component';
 import { CodeHighlighterModule } from 'primeng/codehighlighter';
 import { RevisaoCodigoComponent } from './reflexao/revisao-codigo/revisao-codigo.component';
+import { ListagemDiarioComponent } from './monitoramento/listagem-diario/listagem-diario.component';
+import { DesempenhoMetricasComponent } from './monitoramento/desempenho-metricas/desempenho-metricas.component';
+import { VisualizacaoDiarioComponent } from './monitoramento/visualizacao-diario/visualizacao-diario.component';
 
 @NgModule({
   declarations: [
@@ -85,6 +88,9 @@ import { RevisaoCodigoComponent } from './reflexao/revisao-codigo/revisao-codigo
     DesempenhoObjetivosNotaComponent,
     CardErrosProgramacaoDoughnutComponent,
     RevisaoCodigoComponent,
+    ListagemDiarioComponent,
+    DesempenhoMetricasComponent,
+    VisualizacaoDiarioComponent,
   ],
   imports: [
     CodeHighlighterModule,

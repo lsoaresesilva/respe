@@ -1,9 +1,9 @@
 <p-toast [style]="{ marginTop: '80px' }"></p-toast>
 <h1>Assuntos</h1>
 
-<div class="ui-g">
-  <div class="ui-g-4"></div>
-  <div class="ui-g-4">
+<div class="p-grid">
+  <div class="p-col-4"></div>
+  <div class="p-col-4" *ngIf="usuario.grupoExperimento == 4; else loading">
     <p-table id="assuntosProgramacao" [value]="assuntos">
       <ng-template pTemplate="header"> </ng-template>
       <ng-template pTemplate="body" let-rowData let-assunto>
@@ -13,5 +13,10 @@
       </ng-template>
     </p-table>
   </div>
+  <ng-template #loading>
+    <div class="p-col-4" #loading>
+      <app-desempenho-assuntos></app-desempenho-assuntos>
+    </div>
+  </ng-template>
   <div class="ui-g-4"></div>
 </div>

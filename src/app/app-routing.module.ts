@@ -60,6 +60,8 @@ import { EstatisticasExperimentoComponent } from './turma/estatisticas-experimen
 import { CriacaoGrupoComponent } from './cscl/criacao-grupo/criacao-grupo.component';
 import { ListarAtividadesGrupoComponent } from './cscl/listar-atividades-grupo/listar-atividades-grupo.component';
 import { EditorProgramacaoComponent } from './juiz/editor/editor-programacao/editor-programacao.component';
+import { ListagemDiarioComponent } from './srl/monitoramento/listagem-diario/listagem-diario.component';
+import { VisualizacaoDiarioComponent } from './srl/monitoramento/visualizacao-diario/visualizacao-diario.component';
 
 const routes: Routes = [
   {
@@ -179,8 +181,26 @@ const routes: Routes = [
 
       /** SRL */
 
-      /** Monitoramento */
+      {
+        path: 'index',
+        component: AcompanharDesempenhoComponent,
+        outlet: 'principal',
+        canActivate: [AuthGuard, ExperimentoGuard, PageTrack],
+      },
 
+      /** Monitoramento */
+      {
+        path: 'listagem-diarios',
+        component: ListagemDiarioComponent,
+        outlet: 'principal',
+        canActivate: [AuthGuard, ExperimentoGuard, PageTrack],
+      },
+      {
+        path: 'visualizacao-diario/:id',
+        component: VisualizacaoDiarioComponent,
+        outlet: 'principal',
+        canActivate: [AuthGuard, ExperimentoGuard, PageTrack],
+      },
       {
         path: 'meu-desempenho',
         component: AcompanharDesempenhoComponent,

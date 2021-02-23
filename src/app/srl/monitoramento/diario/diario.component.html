@@ -1,10 +1,34 @@
 <p-dialog
-  header="Como está o seu progresso?"
+  header="Vamos planejar os estudos?"
   [(visible)]="display"
   [style]="{ width: '900px' }"
   [modal]="true"
   [closable]="false"
 >
+<p-toast></p-toast>
+<div class="p-grid">
+  <div class="p-col-8"><h3>Quantas horas nessa semana você pretende dedicar-se ao curso?</h3></div>
+</div>
+<div class="p-grid">
+  <div class="p-col-6" style="margin: 20px 0 20px 0">
+    <p-slider [(ngModel)]="diario.tempoEstudo" [min]="1" [max]="20"></p-slider>
+  </div>
+  <div class="p-col-1">{{ diario.tempoEstudo }} horas</div>
+</div>
+
+<div class="p-grid">
+  <div class="p-col-7"><h3>Quantos exercícios espera completar por semana?</h3></div>
+</div>
+
+<div class="p-grid">
+  <div class="p-col-7">
+    <p-dropdown
+      [options]="niveisObjetivosExercicios"
+      [(ngModel)]="diario.objetivoExercicio"
+    ></p-dropdown>
+  </div>
+  <div class="p-col-3"></div>
+</div>
   <div class="p-grid">
     <div class="p-col-7"><h3>Como foi a última semana de estudos?</h3></div>
   </div>
@@ -15,9 +39,9 @@
         [rows]="5"
         [cols]="50"
         pInputTextarea
-        autoResize="autoResize"
         [(ngModel)]="diario.reflexao"
       ></textarea>
+      {{contagemCaracteres(diario.reflexao)}} caracteres faltando. Fique à vontade para escrever mais :)
     </div>
     <div class="p-col-5">
       Como você avalia a sua última semana de estudos? Utilize esse espaço para escrever sobre o que
@@ -36,9 +60,9 @@
         [rows]="5"
         [cols]="50"
         pInputTextarea
-        autoResize="autoResize"
         [(ngModel)]="diario.planejamento"
       ></textarea>
+      {{contagemCaracteres(diario.planejamento)}} caracteres faltando. Fique à vontade para escrever mais :)
     </div>
     <div class="p-col-5">
       Como você pensou em estudar essa semana? É importante planejar uma quantidade de horas por
@@ -56,10 +80,21 @@
   </div>
 
   <div class="p-grid">
-    <p-dropdown [options]="niveisConfianca" [(ngModel)]="diario.nivelConfianca"></p-dropdown>
+    <div class="p-col-8"><p-dropdown [options]="niveisConfianca" [(ngModel)]="diario.nivelConfianca"></p-dropdown></div>
+    
   </div>
 
   <div class="p-grid">
+    <div class="p-col-8"><h3>Qual a sua motivação com o aprendizado de programação?</h3></div>
+  </div>
+  
+  <div class="p-grid">
+    <div class="p-col-8">
+      <p-dropdown [options]="motivacao" [(ngModel)]="diario.motivacao"></p-dropdown>
+    </div>
+  </div>
+
+  <div class="p-grid" style="margin-top: 10px;">
     <div class="p-col-2">
       <button pButton type="button" (click)="salvar()" label="Salvar"></button>
     </div>
