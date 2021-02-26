@@ -3,6 +3,7 @@ import { Observable, forkJoin } from 'rxjs';
 import Usuario from './usuario';
 import GeradorCodigo from '../util/geradorCodigo';
 import Query from './firestore/query';
+import { PerfilUsuario } from './enums/perfilUsuario';
 
 @Collection('turmas')
 export default class Turma extends Document {
@@ -115,4 +116,33 @@ export default class Turma extends Document {
 
     return false;
   }
+
+  static getAllEstudantes(codigoTurma: any) {
+    return new Observable<Usuario[]>((observer) => {
+      if (codigoTurma != null) {
+        Usuario.getAll(new Query('codigoTurma', '==', codigoTurma)).subscribe((estudantes) => {
+          if (Array.isArray(estudantes)) {
+            estudantes = estudantes.filter((estudante) => {
+              return estudante.perfil == PerfilUsuario.estudante;
+            });
+
+            observer.next(estudantes);
+            observer.complete();
+          }
+        });
+      } else {
+        observer.error(new Error('É preciso informar o código da turma'));
+      }
+    });
+  }
+
+  static pesquisar(query) {
+    return new Observable((observer) => {
+      super.search(query).subscribe((turmas: Turma) => {
+        observer.next(turmas);
+        observer.complete();
+      });
+    });
+  }
+
 }

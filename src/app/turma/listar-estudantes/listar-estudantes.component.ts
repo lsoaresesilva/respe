@@ -34,8 +34,8 @@ export class ListarEstudantesComponent implements OnInit {
       if (params['codigoTurma'] != null) {
         this.turma.codigo = params['codigoTurma'];
         /* this.buscarEstudante(params['codigoTurma']); */
-        Turma.getByQuery(new Query('codigo', '==', this.turma.codigo)).subscribe((turma: Turma) => {
-          Usuario.getAllEstudantesByTurma(turma.codigo).subscribe((estudantes) => {
+        
+        Turma.getAllEstudantes(params['codigoTurma']).subscribe((estudantes) => {
             this.estudantes$ = estudantes;
             Assunto.getAll().subscribe(assuntos => {
               this.estudantes$.forEach((estudante) => {
@@ -45,7 +45,6 @@ export class ListarEstudantesComponent implements OnInit {
                   }
                 );
               });
-            });
 
             
           });

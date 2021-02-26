@@ -39,16 +39,16 @@ describe('Testes de Experiment', () => {
   });
 
   it('Deve calcular a quantidade de alunos por categoria de conhecimento', () => {
-    u1 = new Usuario(null, null, null, null, Groups.control);
+    u1 = new Usuario(null, null, null, null, Groups.control, null);
     u1.conhecimentoPrevioProgramacao = ConhecimentoProgramacao.nenhum;
 
-    u2 = new Usuario(null, null, null, null, Groups.experimentalA);
+    u2 = new Usuario(null, null, null, null, Groups.experimentalA, null);
     u2.conhecimentoPrevioProgramacao = ConhecimentoProgramacao.nenhum;
 
-    u3 = new Usuario(null, null, null, null, Groups.experimentalA);
+    u3 = new Usuario(null, null, null, null, Groups.experimentalA, null);
     u3.conhecimentoPrevioProgramacao = ConhecimentoProgramacao.nenhum;
 
-    u4 = new Usuario(null, null, null, null, Groups.control);
+    u4 = new Usuario(null, null, null, null, Groups.control, null);
     u4.conhecimentoPrevioProgramacao = ConhecimentoProgramacao.pouco;
 
     usuarios = [u1, u2, u3, u4];
@@ -61,16 +61,16 @@ describe('Testes de Experiment', () => {
   });
 
   it('Deve atribuir os alunos ao grupo corretamente', () => {
-    u1 = new Usuario(null, null, null, null, Groups.control);
+    u1 = new Usuario(null, null, null, null, Groups.control, null);
     u1.conhecimentoPrevioProgramacao = ConhecimentoProgramacao.nenhum;
 
-    u2 = new Usuario(null, null, null, null, Groups.experimentalA);
+    u2 = new Usuario(null, null, null, null, Groups.experimentalA, null);
     u2.conhecimentoPrevioProgramacao = ConhecimentoProgramacao.nenhum;
 
-    u3 = new Usuario(null, null, null, null, Groups.experimentalA);
+    u3 = new Usuario(null, null, null, null, Groups.experimentalA, null);
     u3.conhecimentoPrevioProgramacao = ConhecimentoProgramacao.nenhum;
 
-    u4 = new Usuario(null, null, null, null, Groups.control);
+    u4 = new Usuario(null, null, null, null, Groups.control, null);
     u4.conhecimentoPrevioProgramacao = ConhecimentoProgramacao.pouco;
 
     usuarios = [u1, u2, u3, u4];

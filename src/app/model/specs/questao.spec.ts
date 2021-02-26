@@ -34,9 +34,9 @@ describe('Testes de questão', () => {
   });
 
   it('deve validar false para uma questão inválida', () => {
-    let q = new QuestaoProgramacao(null, null, null, null, null, null, null, null);
+    let q = new QuestaoProgramacao(null, null, null, null, null, null, null, null, null);
     expect(q.validar()).toBeFalsy();
-    q = new QuestaoProgramacao(null, null, null, null, null, null, [], null);
+    q = new QuestaoProgramacao(null, null, null, null, null, null, [], null, null);
     expect(q.validar()).toBeFalsy();
   });
 
@@ -49,7 +49,7 @@ describe('Testes de questão', () => {
       1,
       [new Assunto(null, null)],
       [new TestCase(123, [2], 3)],
-      null
+      null, null
     );
     expect(q.validar()).toBeTruthy();
   });
@@ -65,7 +65,7 @@ describe('Testes de questão', () => {
         1,
         [a],
         [],
-        null
+        null, null
       );
 
       let t = new TestCase(null, ['a', 'b'], 'c');
@@ -88,7 +88,7 @@ describe('Testes de questão', () => {
   });
 
   it('Deve indicar que a questão foi concluída pelo estudante', (done) => {
-    let u = new Usuario('12345', null, null, null, 0);
+    let u = new Usuario('12345', null, null, null, 0, null);
 
     let a = new Assunto(null, 'umAssunto');
     let q = new QuestaoProgramacao(
@@ -99,7 +99,7 @@ describe('Testes de questão', () => {
       1,
       [a],
       [],
-      null
+      null, null
     );
     let t = new TestCase(null, ['a', 'b'], 'c');
     let t1 = new TestCase(null, ['d', 'e'], 'a');
@@ -140,7 +140,7 @@ describe('Testes de questão', () => {
         1,
         [afuncoes.pk()],
         [],
-        ''
+        '', null
       );
 
       // Inclui a questão criada ao array de questões de programação do assunto de condições

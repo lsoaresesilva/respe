@@ -37,24 +37,7 @@ export default class Usuario extends Document {
   @ignore()
   totalRespostasProgramacao?;
 
-  static getAllEstudantesByTurma(codigoTurma: any) {
-    return new Observable<Usuario[]>((observer) => {
-      if (codigoTurma != null) {
-        Usuario.getAll(new Query('codigoTurma', '==', codigoTurma)).subscribe((estudantes) => {
-          if (Array.isArray(estudantes)) {
-            estudantes = estudantes.filter((estudante) => {
-              return estudante.perfil == PerfilUsuario.estudante;
-            });
-
-            observer.next(estudantes);
-            observer.complete();
-          }
-        });
-      } else {
-        observer.error(new Error('É preciso informar o código da turma'));
-      }
-    });
-  }
+  
 
   static getByQuery(query) {
     return new Observable((observer) => {

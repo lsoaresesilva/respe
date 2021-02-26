@@ -35,7 +35,7 @@ describe('Testes de Submissão', () => {
   });
 
   it('Deve filtrar todas as submissões da última semana', () => {
-    const estudante = new Usuario('CvsVQsPKIExzNWFh2TWW', null, null, null, 0);
+    const estudante = new Usuario('CvsVQsPKIExzNWFh2TWW', null, null, null, 0, null);
     const questao = new QuestaoProgramacao(
       'LwC2ItAVtfkDhcE9jvpT',
       null,
@@ -44,7 +44,7 @@ describe('Testes de Submissão', () => {
       null,
       null,
       [],
-      null
+      null, null
     );
     const submissao = new Submissao(null, 'x = 2\ny = c', estudante, questao);
     submissao.data = firestore.Timestamp.now();
@@ -55,7 +55,7 @@ describe('Testes de Submissão', () => {
     oitoDiasAtras.setDate(new Date().getDate() - 8);
     submissaoDois.data = firestore.Timestamp.fromDate(oitoDiasAtras);
 
-    const questaoDois = new QuestaoProgramacao('abcde', null, null, null, null, null, [], null);
+    const questaoDois = new QuestaoProgramacao('abcde', null, null, null, null, null, [], null, null);
     const submissaoTres = new Submissao(null, 'x = 2\ny = c', estudante, questao);
 
     const doisDiasAtras = new Date();
@@ -74,7 +74,7 @@ describe('Testes de Submissão', () => {
   });
 
   it('Deve obter as questões de um conjunto de submissões', () => {
-    const estudante = new Usuario('CvsVQsPKIExzNWFh2TWW', null, null, null, 0);
+    const estudante = new Usuario('CvsVQsPKIExzNWFh2TWW', null, null, null, 0, null);
     const questao = new QuestaoProgramacao(
       'LwC2ItAVtfkDhcE9jvpT',
       null,
@@ -83,7 +83,7 @@ describe('Testes de Submissão', () => {
       null,
       null,
       [],
-      null
+      null, null
     );
     const submissao = new Submissao(null, 'x = 2\ny = c', estudante, questao);
     submissao['questaoId'] = questao.id;
@@ -96,7 +96,7 @@ describe('Testes de Submissão', () => {
     oitoDiasAtras.setDate(new Date().getDate() - 8);
     submissaoDois.data = firestore.Timestamp.fromDate(oitoDiasAtras);
 
-    const questaoDois = new QuestaoProgramacao('abcde', null, null, null, null, null, [], null);
+    const questaoDois = new QuestaoProgramacao('abcde', null, null, null, null, null, [], null, null);
     const submissaoTres = new Submissao(null, 'x = 2\ny = c', estudante, questaoDois);
     submissaoDois['questaoId'] = questaoDois.id;
 
@@ -119,7 +119,7 @@ describe('Testes de Submissão', () => {
   });
 
   xit('Deve carregar uma submissão com erro', (done) => {
-    const estudante = new Usuario('CvsVQsPKIExzNWFh2TWW', null, null, null, 0);
+    const estudante = new Usuario('CvsVQsPKIExzNWFh2TWW', null, null, null, 0, null);
     const questao = new QuestaoProgramacao(
       'LwC2ItAVtfkDhcE9jvpT',
       null,
@@ -128,7 +128,7 @@ describe('Testes de Submissão', () => {
       null,
       null,
       [],
-      null
+      null, null
     );
     const submissao = new Submissao(null, 'x = 2\ny = c', estudante, questao);
 
@@ -149,7 +149,7 @@ describe('Testes de Submissão', () => {
   });
 
   xit('Deve carregar uma submissão mais recente', (done) => {
-    const estudante = new Usuario('CvsVQsPKIExzNWFh2TWW', null, null, null, 0);
+    const estudante = new Usuario('CvsVQsPKIExzNWFh2TWW', null, null, null, 0, null);
     const questao = new QuestaoProgramacao(
       'LwC2ItAVtfkDhcE9jvpT',
       null,
@@ -158,7 +158,7 @@ describe('Testes de Submissão', () => {
       null,
       null,
       [],
-      null
+      null, null
     );
     const s1 = new Submissao(null, 'x = 2\ny = c', estudante, questao);
     const s2 = new Submissao(null, 'x = 2\ny = c', estudante, questao);
@@ -177,9 +177,9 @@ describe('Testes de Submissão', () => {
   });
 
   xit('Deve carregar as submissões de uma questão', (done) => {
-    const e1 = new Usuario('123', null, null, null, 0);
-    const e2 = new Usuario('456', null, null, null, 0);
-    const e3 = new Usuario('789', null, null, null, 0);
+    const e1 = new Usuario('123', null, null, null, 0, null);
+    const e2 = new Usuario('456', null, null, null, 0, null);
+    const e3 = new Usuario('789', null, null, null, 0, null);
 
     const t1 = new TestCase(null, [1, 2], 3);
     const t2 = new TestCase(null, [2, 2], 4);
@@ -192,7 +192,7 @@ describe('Testes de Submissão', () => {
       null,
       null,
       [t1, t2],
-      null
+      null, null
     );
     const s1 = new Submissao(null, 'x = 2\ny = c', e1, questao);
     const rt1s1 = new ResultadoTestCase(null, true, null, t1);

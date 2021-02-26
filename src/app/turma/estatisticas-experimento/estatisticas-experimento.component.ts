@@ -8,6 +8,7 @@ import { CategoriaErro } from 'src/app/model/errors/enum/categoriasErro';
 import Experiment from 'src/app/model/experimento/experiment';
 import { Groups } from 'src/app/model/experimento/groups';
 import Query from 'src/app/model/firestore/query';
+import Turma from 'src/app/model/turma';
 import Usuario from 'src/app/model/usuario';
 
 @Component({
@@ -24,7 +25,7 @@ export class EstatisticasExperimentoComponent implements OnInit {
   ngOnInit(): void {
     this.route.params.subscribe((params) => {
       if (params['codigoTurma'] != null) {
-        Usuario.getAllEstudantesByTurma(params['codigoTurma']).subscribe((estudantes) => {
+        Turma.getAllEstudantes(params['codigoTurma']).subscribe((estudantes) => {
           const categorias = Experiment.construirCategoriasAlunos(estudantes);
           this.dados_categoria_experimental = this.construirDados(Groups.experimentalA, categorias);
           this.dados_categoria_controle = this.construirDados(Groups.control, categorias);

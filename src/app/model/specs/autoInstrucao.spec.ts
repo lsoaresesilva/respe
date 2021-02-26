@@ -49,7 +49,7 @@ describe('Testes de Auto instrução', () => {
     let ac: Assunto = new Assunto(null, 'Condições');
     let af: Assunto = new Assunto(null, 'Funções');
     let ar: Assunto = new Assunto(null, 'Repetições');
-    let q: QuestaoProgramacao = new QuestaoProgramacao(null, '', '', '', '', [ac, af], null, null);
+    let q: QuestaoProgramacao = new QuestaoProgramacao(null, '', '', '', '', [ac, af], null, null, null);
     ar.questoesProgramacao.push(q);
     let autoinstrucao1: AutoInstrucao = new AutoInstrucao(null, null, q, '', '', '', '', '', '');
     expect(autoinstrucao1.isValido(ar)).toBeFalse();
@@ -66,7 +66,7 @@ describe('Testes de Auto instrução', () => {
     );
     expect(autoinstrucao2.isValido(ar)).toBeTrue();
 
-    let q2: QuestaoProgramacao = new QuestaoProgramacao(null, '', '', '', '', [ac], null, null);
+    let q2: QuestaoProgramacao = new QuestaoProgramacao(null, '', '', '', '', [ac], null, null, null);
     ar.questoesProgramacao.push(q2);
 
     let autoinstrucao3: AutoInstrucao = new AutoInstrucao(

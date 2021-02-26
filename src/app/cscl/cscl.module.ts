@@ -31,16 +31,20 @@ import { ToastModule } from 'primeng/toast';
 import { CriacaoGrupoComponent } from './criacao-grupo/criacao-grupo.component';
 import {DropdownModule} from 'primeng/dropdown';
 import {AutoCompleteModule} from 'primeng/autocomplete';
+
+import {MultiSelectModule} from 'primeng/multiselect';
 import { ListarAtividadesGrupoComponent } from './listar-atividades-grupo/listar-atividades-grupo.component';
+import { ListarAtividadesGrupoProfessorComponent } from './listar-atividades-grupo-professor/listar-atividades-grupo-professor.component';
 
 @NgModule({
   declarations: [ComentariosCodigoComponent, BoxComentarioComponent, 
     BoxNovoComentarioComponent, VisualizarConteudoComponent, SanitizeHtmlDirective, ConteudoProgramacaoComponent, 
     VisualizarSubmissaoQuestaoComponent, ListarEstudantesSubmissaoComponent, ListarPostagensComponent, CadastrarPostagemComponent, 
-    VisualizarPostagemComponent, CriacaoGrupoComponent, ListarAtividadesGrupoComponent],
+    VisualizarPostagemComponent, CriacaoGrupoComponent, ListarAtividadesGrupoComponent, ListarAtividadesGrupoProfessorComponent],
 
   imports: [
     CalendarModule,
+    MultiSelectModule,
     AutoCompleteModule,
     DropdownModule,
     JuizModule,

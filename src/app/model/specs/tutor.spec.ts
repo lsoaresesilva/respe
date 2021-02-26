@@ -32,7 +32,7 @@ describe('Testes de TUTOR', () => {
 
   it('Deve falhar ao tentar calcular o error quotient sem submissoes', () => {
     expect(function () {
-      Tutor.calcularErrorQuotient(null);
+      //Tutor.calcularErrorQuotient(null);
     }).toThrow();
   }); /*
 

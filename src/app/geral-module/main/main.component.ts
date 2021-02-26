@@ -139,6 +139,10 @@ export class MainComponent implements OnInit {
     this.router.navigate(['main', { outlets: { principal: ['listagem-turmas'] } }]);
   }
 
+  abrirListagemGrupoProfessor(){
+    this.router.navigate(['main', { outlets: { principal: ['listagem-atividades-grupo-professor'] } }]);
+  }
+
   apresentarPretestRegulacao() {
     const usuario = this.login.getUsuarioLogado();
     if (
