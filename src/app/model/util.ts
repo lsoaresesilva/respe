@@ -33,6 +33,10 @@ export class Util {
         return new Date (data.seconds * 1000).toLocaleString();
     }
 
+    static firestoreDateToDate(data){
+        return new Date (data.seconds * 1000);
+    }
+
 
 
 }

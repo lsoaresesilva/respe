@@ -65,6 +65,7 @@ export default class QuestaoParsonProblem extends Questao {
               respostas.forEach((resposta) => {
                 if (resposta.questaoId === questao.id) {
                   questao.respondida = questao.isSequenciaCorreta(resposta);
+                  questao["percentualResposta"] = 0;
                 }
               });
             });

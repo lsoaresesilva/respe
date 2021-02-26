@@ -4,7 +4,7 @@ import { LoginService } from 'src/app/login-module/login.service';
 import { Assunto } from 'src/app/model/assunto';
 import { Groups } from 'src/app/model/experimento/groups';
 import { QuestaoProgramacao } from 'src/app/model/questoes/questaoProgramacao';
-import { forkJoin } from 'rxjs';
+import { forkJoin, Observable } from 'rxjs';
 import QuestaoFechada from 'src/app/model/questoes/questaoFechada';
 import QuestaoParsonProblem from 'src/app/model/questoes/parsonProblem';
 
@@ -16,10 +16,15 @@ import QuestaoParsonProblem from 'src/app/model/questoes/parsonProblem';
 export class ListarQuestoesSequenciaComponent implements OnChanges {
   @Input()
   assunto?: Assunto;
-
+  valor;
   questoes;
 
-  constructor(private router: Router, private login: LoginService) {}
+  events;
+
+  constructor(private router: Router, private login: LoginService) {
+    this.valor = 2;
+    
+  }
 
   ngOnChanges(): void {
     let consultas = {};
@@ -70,6 +75,9 @@ export class ListarQuestoesSequenciaComponent implements OnChanges {
       }
 
       this.questoes = this.assunto.ordenarQuestoes();
+
+      this.construirTimelineQuestoes();
+
     });
   }
 
@@ -102,11 +110,23 @@ export class ListarQuestoesSequenciaComponent implements OnChanges {
 
   getCorQuestao(questao) {
     if (questao.respondida === true) {
-      return '--my-color-var: rgb(103, 202, 103)';
+      return 'color: rgb(103, 202, 103)';
     } else if (questao.respondida === false) {
-      return '--my-color-var: rgb(220,20,60)';
+      return 'color: rgb(220,20,60)';
     }
 
-    return '--my-color-var: black';
+    return 'color: black';
+  }
+
+  construirTimelineQuestoes(){
+    let questoes = []
+    this.questoes.forEach(questao => {
+      questoes.push(questao)
+    });
+
+    this.events = new Observable<any[]>(observer=>{
+      observer.next(questoes);
+      observer.complete();
+    })
   }
 }

@@ -23,7 +23,7 @@ import { VisualizarPostagemComponent } from './visualizar-postagem/visualizar-po
 import { DataViewModule } from 'primeng/dataview';
 
 import { JuizModule } from '../juiz/juiz.module';
-
+import {CalendarModule} from 'primeng/calendar';
 import { MessagesModule } from 'primeng/messages';
 import { MessageModule } from 'primeng/message';
 import { CardModule } from 'primeng/card';
@@ -40,6 +40,7 @@ import { ListarAtividadesGrupoComponent } from './listar-atividades-grupo/listar
     VisualizarPostagemComponent, CriacaoGrupoComponent, ListarAtividadesGrupoComponent],
 
   imports: [
+    CalendarModule,
     AutoCompleteModule,
     DropdownModule,
     JuizModule,

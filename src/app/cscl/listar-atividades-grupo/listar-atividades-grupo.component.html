@@ -1,17 +1,25 @@
 <div class="p-grid"></div>
-<div class="p-col-12">
+<div class="p-col-12" *ngIf="atividades.length > 0; else semAtividades">
     <p-table [value]="atividades" [rows]="20">
         <ng-template pTemplate="header">
             <tr>
                 <th>Atividades</th>
+                <th>Data expiração</th>
             </tr>
         </ng-template>
         <ng-template let-atividade pTemplate="body">
             <tr>
                 <td>
-                    <a href="{{atividade.link}}">{{atividade.nome}}</a>
+                    <a href="{{atividade.link}}" *ngIf="atividade.isAtivo(); else inativo">{{atividade.nome}}</a>
+                    <ng-template #inativo>{{atividade.nome}} (Prazo expirado)</ng-template>
+                </td>
+                <td>
+                    {{converterParaDate(atividade.dataExpiracao).toLocaleDateString("pt-BR", {hour: '2-digit', minute:'2-digit'})}}
                 </td>
             </tr>
         </ng-template>
     </p-table>
 </div>
+<ng-template #semAtividades>
+    Não há atividades para você.
+</ng-template>

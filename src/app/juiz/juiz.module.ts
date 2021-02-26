@@ -23,8 +23,11 @@ import { AutoCompleteModule } from 'primeng/autocomplete';
 import { ToastModule } from 'primeng/toast';
 import { InputTextModule } from 'primeng/inputtext';
 import { DialogModule } from 'primeng/dialog';
-
+import {TimelineModule} from 'primeng/timeline';
 import { ContextMenuModule } from 'primeng/contextmenu';
+import {KnobModule} from 'primeng/knob';
+
+
 import { VisualizarExecucacao } from './vizualizar-execucao/vizualizar-execucao.component';
 
 import { RadioButtonModule } from 'primeng/radiobutton';
@@ -98,6 +101,8 @@ import { ChatModule } from '../chat/chat.module';
     SrlModule,
     ChatModule,
     CommonModule,
+    TimelineModule,
+    KnobModule,
     TableModule,
     PanelModule,
     ButtonModule,

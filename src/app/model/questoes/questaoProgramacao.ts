@@ -87,6 +87,7 @@ export class QuestaoProgramacao {
           questoes.forEach((questao) => {
             if (questoesFinalizadas[questao.id] != null) {
               questao.respondida = questoesFinalizadas[questao.id] === 100 ? true : false;
+              questao.percentualResposta = questoesFinalizadas[questao.id];
             }
           });
 

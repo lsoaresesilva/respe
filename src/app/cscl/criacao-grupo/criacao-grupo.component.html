@@ -8,6 +8,12 @@ Gerar o link -->
 
 <div class="p-grid">
     <div class="p-col-12">
+        Selecionar estudantes
+    </div>
+</div>
+
+<div class="p-grid">
+    <div class="p-col-12">
         <p-autoComplete [(ngModel)]="estudanteSelecionado" [suggestions]="pesquisaAlunos"
             (completeMethod)="pesquisar($event)" [dropdown]="true" (onSelect)="selecionarAluno($event)">
 
@@ -21,16 +27,35 @@ Gerar o link -->
 
 <div class="p-grid">
     <div class="p-col-12">
+        Estudantes selecionados
+    </div>
+</div>
+
+<div class="p-grid">
+    <div class="p-col-12">
 
         <div *ngFor="let a of estudantesSelecionados">
             {{a.nome}} <button pButton type="button" icon="pi pi-times" iconPos="left" (click)="excluir(a)"></button>
         </div>
     </div>
 </div>
+
+<div class="p-grid">
+    <div class="p-col-12">
+        Selecionar assunto
+    </div>
+</div>
+
 <div class="p-grid">
     <div class="p-col-12">
         <p-dropdown [options]="assuntos" [(ngModel)]="assuntoSelecionado" optionLabel="nome"
             (onClick)="selecionarAssunto()"></p-dropdown>
+    </div>
+</div>
+
+<div class="p-grid">
+    <div class="p-col-12">
+        Selecionar questão
     </div>
 </div>
 
@@ -58,6 +83,13 @@ Gerar o link -->
     </div>
 </div>
 
-
+<div class="p-grid">
+    <div class="p-col-1">
+        Data limite
+    </div>
+    <div class="p-col-11">
+        <p-calendar [(ngModel)]="dataExpiracao" showTime="true" hourFormat="24"></p-calendar>
+    </div>
+</div>
 
 <button pButton type="button" label="Criar sala" (click)="criarSala()"></button>

@@ -86,6 +86,7 @@ export default class QuestaoFechada {
               respostas.forEach((resposta) => {
                 if (resposta.questaoId === questao.id) {
                   questao.respondida = QuestaoFechada.isRespostaCorreta(questao, resposta);
+                  questao.percentualResposta = questao.respondida == true || questao.respondida == false?100:0;
                 }
               });
             });

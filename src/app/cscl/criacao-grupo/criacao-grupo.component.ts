@@ -14,6 +14,8 @@ import { ChatService } from '../chat.service';
 })
 export class CriacaoGrupoComponent implements OnInit {
 
+  dataExpiracao;
+
   estudanteSelecionado;
   pesquisaAlunos;
   estudantesSelecionados;
@@ -65,9 +67,9 @@ export class CriacaoGrupoComponent implements OnInit {
   criarSala(){
     let uuid = Util.uuidv4();
     
-    let atividade = new AtividadeGrupo(null, this.questaoSelecionada.nomeCurto, "", this.estudantesSelecionados)
+    let atividadeGrupo = new AtividadeGrupo(null, this.questaoSelecionada.nomeCurto, "", this.dataExpiracao, this.estudantesSelecionados)
     /* Quando entrar no link ativar o socket no cliente do aluno */
-    atividade.salvar(this.assuntoSelecionado, this.questaoSelecionada).subscribe(()=>{
+    atividadeGrupo.salvar(this.assuntoSelecionado, this.questaoSelecionada).subscribe(()=>{
       this.messageService.add({severity:'success', summary:'Sucesso', detail:'Atividade criada com sucesso.'});
     });
 
