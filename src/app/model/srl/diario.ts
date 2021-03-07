@@ -23,35 +23,23 @@ export default class Diario extends Document {
   @date()
   data;
 
-  static possuiDiarioAtualizado(estudante: Usuario) {
-    return new Observable((observer) => {
-      if (estudante != null) {
-        // Pegar todos os diários
+  static possuiDiarioAtualizado(diarios) {
+    // Pegar todos os diários
 
-        super.getAll(new Query('estudanteId', '==', estudante.pk())).subscribe(
-          (diarios) => {
-            if (Array.isArray(diarios) && diarios.length > 0) {
-              // Verificar se a data do último foi de 7 dias atrás
-              const diarioRecente = Diario.getRecente(diarios);
-              const semanaAtras = new Date();
-              const diffTime = semanaAtras.getTime() - diarioRecente['data'].toDate().getTime();
-              const diffDays = Math.ceil(diffTime / (1000 * 3600 * 24));
-              if (diffDays >= 7) {
-                observer.next(false);
-              } else {
-                observer.next(true);
-              }
-            } else {
-              observer.next(false);
-            }
-            observer.complete();
-          },
-          (err) => {
-            observer.error(err);
-          }
-        );
+    if (Array.isArray(diarios) && diarios.length > 0) {
+      // Verificar se a data do último foi de 7 dias atrás
+      const diarioRecente = Diario.getRecente(diarios);
+      const semanaAtras = new Date();
+      const diffTime = semanaAtras.getTime() - diarioRecente['data'].toDate().getTime();
+      const diffDays = Math.ceil(diffTime / (1000 * 3600 * 24));
+      if (diffDays >= 7) {
+        return false;
+      } else {
+        return true;
       }
-    });
+    } else {
+      return false;
+    }
   }
 
   static getRecente(diarios) {
@@ -73,11 +61,8 @@ export default class Diario extends Document {
     return document;
   }
 
-  validar() {
+  validar(primeiraSemana = false) {
     if (
-      this.reflexao != null &&
-      this.reflexao !== '' &&
-      this.reflexao.length >= 50 &&
       this.nivelConfianca != null &&
       this.planejamento != null &&
       this.planejamento !== '' &&
@@ -86,7 +71,13 @@ export default class Diario extends Document {
       this.motivacao != null &&
       this.tempoEstudo != null
     ) {
-      return true;
+      if (!primeiraSemana) {
+        if (this.reflexao != null && this.reflexao !== '' && this.reflexao.length >= 50) {
+          return true;
+        }
+      }else{
+        return true
+      }
     }
 
     return false;

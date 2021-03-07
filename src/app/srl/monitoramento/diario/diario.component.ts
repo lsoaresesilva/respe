@@ -5,6 +5,7 @@ import { MessageService, SelectItem } from 'primeng/api';
 import { NivelConfianca } from 'src/app/model/nivelConfianca';
 import { ObjetivosExercicios } from 'src/app/model/enums/objetivosExercicios';
 import { Motivacao } from 'src/app/model/enums/motivacao';
+import Query from 'src/app/model/firestore/query';
 
 @Component({
   selector: 'app-diario',
@@ -16,12 +17,13 @@ export class DiarioComponent implements OnInit {
   diario: Diario;
   niveisObjetivosExercicios: SelectItem[];
   niveisConfianca: SelectItem[];
-
+  isPrimeiraSemana;
   motivacao: SelectItem[];
 
   constructor(private login: LoginService, private messageService: MessageService) {
     this.diario = new Diario(null, "", "", null, null, null, null, this.login.getUsuarioLogado());
     this.display = false;
+    this.isPrimeiraSemana = false;
   }
 
   ngOnInit() {
@@ -52,13 +54,19 @@ export class DiarioComponent implements OnInit {
   }
 
   apresentarDiario() {
-    Diario.possuiDiarioAtualizado(this.login.getUsuarioLogado()).subscribe((resultado) => {
-      this.display = !resultado;
-    });
+    Diario.getAll(new Query('estudanteId', '==', this.login.getUsuarioLogado().pk())).subscribe(diarios=>{
+
+      if(diarios.length == 0){
+        this.isPrimeiraSemana = true;
+      }
+
+      this.display = !Diario.possuiDiarioAtualizado(diarios);
+    })
+    
   }
 
   salvar() {
-    if (this.diario.validar()) {
+    if (this.diario.validar(this.isPrimeiraSemana)) {
       this.diario.save().subscribe(
         () => {},
         () => {},
