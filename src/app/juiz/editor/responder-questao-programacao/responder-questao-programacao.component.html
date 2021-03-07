@@ -28,6 +28,17 @@
         <div class="p-col-4">
           <div class="p-grid">
             <div class="p-col-12">
+              <div>
+                <button
+                  type="button"
+                  (click)="visualizarPlanejamento()"
+                  pButton
+                  label="Visualizar planejamento"
+                  class="p-button-help"
+                ></button>
+              </div>
+            </div>
+            <div class="p-col-12">
               <dados-questao [questao]="questao" [submissao]="submissao" id="dadosQuestao"></dados-questao>
             </div>
             <div class="p-col-12">

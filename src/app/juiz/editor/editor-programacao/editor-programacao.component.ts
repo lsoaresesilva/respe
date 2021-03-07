@@ -370,6 +370,8 @@ editorProgramacaoComponentInstance.chat.iniciarConexao(editorProgramacaoComponen
     return submissao;
   }
 
+  
+
   enviarRespostaAtividadeGrupo(){
     
 

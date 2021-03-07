@@ -262,6 +262,20 @@ const routes: Routes = [
         outlet: 'principal',
       },
       {
+        path: 'self-instruction/:assuntoId/:questaoId',
+        component: SelfInstructionComponent,
+        canActivate: [AuthGuard, ExperimentoGuard, PageTrack],
+        outlet: 'principal',
+      },
+      {
+        path: 'self-instruction-editor/:assuntoId/:questaoId',
+        component: SelfInstructionComponent,
+        canActivate: [AuthGuard, ExperimentoGuard, PageTrack],
+        outlet: 'principal',
+      },
+
+    /* Fim SRL */
+      {
         path: 'cadastro-assunto',
         component: CadastrarAssuntosComponent,
         canActivate: [AuthGuard, AdminGuard],
@@ -407,12 +421,7 @@ const routes: Routes = [
         canActivate: [AuthGuard, PageTrack],
         outlet: 'principal',
       },
-      {
-        path: 'self-instruction/:assuntoId/:questaoId',
-        component: SelfInstructionComponent,
-        canActivate: [AuthGuard, ExperimentoGuard, PageTrack],
-        outlet: 'principal',
-      },
+     
       {
         path: 'estudantes-questao/:assuntoId/:questaoId',
         component: ListarEstudantesSubmissaoComponent,

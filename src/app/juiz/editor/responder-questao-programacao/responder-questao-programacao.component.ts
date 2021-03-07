@@ -101,6 +101,13 @@ export class ResponderQuestaoProgramacao implements OnInit, AfterViewInit {
     
   }
 
+  visualizarPlanejamento(){
+    this.router.navigate([
+      'main',
+      { outlets: { principal: ['self-instruction-editor', this.assunto.pk(), this.questao.id] } },
+    ]);
+  }
+
   ngOnInit() {
     this.usuario = this.login.getUsuarioLogado();
     if (this.usuario == null) {
