@@ -27,16 +27,7 @@
             <label>Nome</label>
           </span>
         </div>
-        <div class="p-col-12">
-          <span class="ui-float-label">
-            <p-dropdown [options]="genero" [(ngModel)]="usuario.genero"></p-dropdown>
-          </span>
-        </div>
-        <div class="p-col-12" style="margin-bottom:10px">
-          <span class="ui-float-label">
-            <p-dropdown [options]="faixaEtaria" [(ngModel)]="usuario.faixaEtaria"></p-dropdown>
-          </span>
-        </div>
+        
         <div class="p-col-12">
           <span class="ui-float-label">
             <input id="email" [(ngModel)]="usuario.email" type="text" size="30" name="emailCadastro" pInputText>
@@ -49,12 +40,7 @@
             <label>Senha</label>
           </span>
         </div>
-        <div class="p-col-12">
-          <span class="ui-float-label">
-            <p-dropdown [options]="conhecimentoProgramacao" [(ngModel)]="usuario.conhecimentoPrevioProgramacao">
-            </p-dropdown>
-          </span>
-        </div>
+        
         <div class="p-col-12">
           <button id="cadastrar" pButton type="button" label="Salvar" (click)="cadastrarEstudante()"
             class="ui-button-raised "></button>

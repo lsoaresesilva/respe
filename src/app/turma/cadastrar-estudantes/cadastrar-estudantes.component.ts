@@ -7,6 +7,7 @@ import Turma from 'src/app/model/turma';
 import { ConhecimentoProgramacao } from 'src/app/model/enums/conhecimentoProgramacao';
 import { Genero } from 'src/app/model/enums/genero';
 import { FaixaEtaria } from 'src/app/model/enums/faixaEtaria';
+import { Groups } from 'src/app/model/experimento/groups';
 
 @Component({
   selector: 'app-cadastrar-estudantes',
@@ -90,7 +91,7 @@ export class CadastrarEstudantesComponent implements OnInit {
     this.usuario.validar().subscribe(
       (resultado) => {
         if (resultado) {
-          this.usuario.save().subscribe(
+          this.usuario.salvar(PerfilUsuario.estudante, Groups.experimentalA).subscribe(
             () => {
               this.visibilidadeCadastro = true;
             },

@@ -1,6 +1,13 @@
 <div class="grid-container" *ngIf="gamification.gamificationModel$ != undefined">
+    
+
+    
+    
     <p-progressBar [style]="{'width':'80%', 'overflow':'auto !important'}" [value]="gamification.gamificationModel$.progresso"></p-progressBar>
 
-    <div>{{gamification.gamificationModel$.level+1}}</div>
+    <div>
+        {{gamification.gamificationModel$.level+1}}
+        <img src="/assets/trophy.png" style="width: 20px;height:20px" />
+    </div>
   
 </div>

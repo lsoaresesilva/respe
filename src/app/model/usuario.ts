@@ -113,23 +113,36 @@ export default class Usuario extends Document {
     return objeto;
   }
 
-  save(perfil = PerfilUsuario.estudante): Observable<Usuario> {
+  salvar(perfil = PerfilUsuario.estudante, group:Groups = null, isRandom = false): Observable<Usuario> {
+    
     return new Observable((observer) => {
-      Usuario.getAll([
-        new Query('codigoTurma', '==', this.turma.codigo),
-        new Query('perfil', '==', PerfilUsuario.estudante),
-      ]).subscribe((usuarios) => {
-        const categorias = Experiment.construirCategoriasAlunos(usuarios);
-        this.grupoExperimento = Experiment.assignToGroup(
-          categorias,
-          this.conhecimentoPrevioProgramacao
-        );
-        this.perfil = perfil;
-        super.save().subscribe((result) => {
+      this.perfil = perfil;
+      if(!isRandom){
+        this.grupoExperimento = group;
+        super.save().subscribe((result)=>{
           observer.next(result);
           observer.complete();
+        })
+      }else{
+        Usuario.getAll([
+          new Query('codigoTurma', '==', this.turma.codigo),
+          new Query('perfil', '==', PerfilUsuario.estudante),
+        ]).subscribe((usuarios) => {
+          const categorias = Experiment.construirCategoriasAlunos(usuarios);
+          this.grupoExperimento = Experiment.assignToGroup(
+            categorias,
+            this.conhecimentoPrevioProgramacao
+          );
+          
+          super.save().subscribe((result) => {
+            observer.next(result);
+            observer.complete();
+          });
         });
-      });
+      }
+
+
+      
     });
   }
 
@@ -181,12 +194,12 @@ export default class Usuario extends Document {
               this.nome == null ||
               this.nome == '' ||
               this.senha == null ||
-              this.senha == '' ||
+              this.senha == '' /* ||
               this.perfil == null ||
               this.perfil <= 0 ||
               this.conhecimentoPrevioProgramacao == null ||
               this.genero == null ||
-              this.faixaEtaria == null
+              this.faixaEtaria == null */
             ) {
               observer.error(
                 new Error('É preciso informar todos os dados para efetuar o cadastro.')
