@@ -5,6 +5,7 @@ import Usuario from '../usuario';
 import { NivelConfianca } from '../nivelConfianca';
 import { ObjetivosExercicios } from '../enums/objetivosExercicios';
 import { Motivacao } from '../enums/motivacao';
+import { CategoriaPergunta } from '../diario/categoriaPergunta';
 
 @Collection('diarios')
 export default class Diario extends Document {
@@ -82,4 +83,7 @@ export default class Diario extends Document {
 
     return false;
   }
+
+
+  
 }

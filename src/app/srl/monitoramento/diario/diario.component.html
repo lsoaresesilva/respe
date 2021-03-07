@@ -40,13 +40,11 @@
         [cols]="50"
         pInputTextarea
         [(ngModel)]="diario.reflexao"
-      ></textarea>
+      ></textarea><br>
       {{contagemCaracteres(diario.reflexao)}} caracteres faltando. Fique à vontade para escrever mais :)
     </div>
     <div class="p-col-5">
-      Como você avalia a sua última semana de estudos? Utilize esse espaço para escrever sobre o que
-      não deu certo, mas também aquilo que você fez que lhe ajudou a melhorar no aprendizado.
-      Refletir sobre isso é importante para melhorar seus estudos.
+      {{hintReflexao.texto}}
     </div>
   </div>
 
@@ -61,13 +59,11 @@
         [cols]="50"
         pInputTextarea
         [(ngModel)]="diario.planejamento"
-      ></textarea>
+      ></textarea><br>
       {{contagemCaracteres(diario.planejamento)}} caracteres faltando. Fique à vontade para escrever mais :)
     </div>
     <div class="p-col-5">
-      Como você pensou em estudar essa semana? É importante planejar uma quantidade de horas por
-      semana, definir horários, preparar os materiais que vai precisar e definir objetivos (e.g.,
-      quantos exercícios espera resolver essa semana?)
+      {{hintPlanejamento.texto}}
     </div>
   </div>
 
