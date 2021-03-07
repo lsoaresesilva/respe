@@ -4,6 +4,7 @@ import Usuario from './usuario';
 import GeradorCodigo from '../util/geradorCodigo';
 import Query from './firestore/query';
 import { PerfilUsuario } from './enums/perfilUsuario';
+import AtividadeGrupo from './cscl/atividadeGrupo';
 
 @Collection('turmas')
 export default class Turma extends Document {
@@ -134,6 +135,15 @@ export default class Turma extends Document {
         observer.error(new Error('É preciso informar o código da turma'));
       }
     });
+  }
+
+  getallAtividadesGrupo(){
+    return new Observable<AtividadeGrupo[]>((observer) => {
+    AtividadeGrupo.getAll(new Query("turmaCodigo", "==", this.codigo)).subscribe(atividades=>{
+      observer.next(atividades);
+      observer.complete();
+    })
+  });
   }
 
   static pesquisar(query) {

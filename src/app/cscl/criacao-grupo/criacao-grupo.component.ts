@@ -107,10 +107,10 @@ export class CriacaoGrupoComponent implements OnInit {
     atividadeGrupo.salvar(this.assuntoSelecionado, this.questaoSelecionada).subscribe(() => {
       
     }); */
-    let grupos = AtividadeGrupo.criarGrupos(this.estudantesSelecionados, this.dataExpiracao, this.assuntoSelecionado, this.questaoSelecionada);
+    let grupos = AtividadeGrupo.criarGrupos(this.estudantesSelecionados, this.dataExpiracao, this.assuntoSelecionado, this.questaoSelecionada, this.turmaSelecionada);
     let salvar = []
     grupos.forEach(grupo=>{
-      salvar.push(grupo.salvar());
+      salvar.push(grupo.save());
     })
 
     forkJoin(salvar).subscribe(r=>{

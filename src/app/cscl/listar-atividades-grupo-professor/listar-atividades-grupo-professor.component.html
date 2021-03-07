@@ -1,1 +1,47 @@
-<button pButton label="Criar grupo" (click)="abrirCriacaoGrupo()">
+<div class="p-grid">
+    <div class="p-col-12">
+        <button pButton label="Criar grupo" (click)="abrirCriacaoGrupo()"></button>
+
+    </div>
+</div>
+
+
+
+<div class="p-grid">
+    <div class="p-col-12">
+        <p-autoComplete [(ngModel)]="turmaSelecionada" [suggestions]="pesquisaTurmas"
+            (completeMethod)="pesquisarTurma($event)" [dropdown]="true" (onSelect)="selecionarTurma($event)">
+
+            <ng-template let-turma pTemplate="item">
+                <span>{{turma.codigo}}</span>
+            </ng-template>
+
+        </p-autoComplete>
+    </div>
+</div>
+
+<div class="p-grid" *ngIf="atividades != null; else semAtividades">
+    <div class="p-col-12">
+        <p-table [value]="atividades" [rows]="20">
+            <ng-template pTemplate="header">
+                <tr>
+                    <th>Atividades</th>
+                    <th>Data expiração</th>
+                </tr>
+            </ng-template>
+            <ng-template let-atividade pTemplate="body">
+                <tr>
+                    <td>
+                        <span (click)="abrirAtividade(atividade)" style="cursor: pointer;">{{atividade.nome}}</span>
+                    </td>
+                    <td>
+                        {{converterParaDate(atividade.dataExpiracao).toLocaleDateString("pt-BR", {hour: '2-digit',
+                        minute:'2-digit'})}}
+                    </td>
+                </tr>
+            </ng-template>
+        </p-table>
+    </div>
+</div>
+
+<ng-template #semAtividades>Não há atividades para a turma selecionada</ng-template>
