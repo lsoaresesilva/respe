@@ -110,12 +110,12 @@ export class ListarQuestoesSequenciaComponent implements OnChanges {
 
   getCorQuestao(questao) {
     if (questao.respondida === true) {
-      return 'color: rgb(103, 202, 103)';
+      return 'color: rgb(103, 202, 103); cursor:pointer';
     } else if (questao.respondida === false) {
-      return 'color: rgb(220,20,60)';
+      return 'color: rgb(220,20,60); cursor:pointer';
     }
 
-    return 'color: black';
+    return 'color: black; cursor:pointer';
   }
 
   construirTimelineQuestoes(){

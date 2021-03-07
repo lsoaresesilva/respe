@@ -10,7 +10,7 @@
  -->
  <p-timeline [value]="events | async" align="alternate">
   <ng-template pTemplate="marker" let-questao>
-    <p-knob [(ngModel)]="questao.percentualResposta" [size]="25"></p-knob>
+    <p-knob [(ngModel)]="questao.percentualResposta" [size]="25" [readonly]="true"></p-knob>
 </ng-template>
   <ng-template pTemplate="content" let-questao>
     <span (click)="abrirQuestao(questao)" [style]="getCorQuestao(questao)">{{questao.nomeCurto}}</span>
