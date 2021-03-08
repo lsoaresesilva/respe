@@ -147,11 +147,15 @@ export class MonitorService {
               this.chatbot.enviarMensagem(mensagemSuporte.mensagens);
             }
           }else{
-            if(errorQuotient > 0.8){
+            if(errorQuotient > 0.7){
               if(!this.suporteMotivacional.includes(questao.id)){
 
                 this.suporteMotivacional.push(questao.id)
-                // verificar se já tem alguma mensagem enviada, se tiver, procurar aleatoriamente na lista uma que ainda não foi e incluí-la na lista para que não seja usada novamente.
+                const mensagemSuporte = MensagemSuporteMonitor.getMensagemMotivacional();
+                if (mensagemSuporte != null && Array.isArray(mensagemSuporte.mensagens)) {
+                  this.chatbot.enviarMensagem(mensagemSuporte.mensagens);
+                }
+                
               }
             }
           }
