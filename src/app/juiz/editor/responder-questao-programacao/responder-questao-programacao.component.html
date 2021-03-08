@@ -2,6 +2,7 @@
 <p-toast></p-toast>
 <div *ngIf="questao != null; else loading">
   <app-chat *ngIf="this.atividadeGrupo != null"></app-chat>
+  <app-chatbot *ngIf="this.atividadeGrupo == null"></app-chatbot>
   <div class="p-grid" style="margin: 10px 10px 10px 10px">
     <app-breadcrumb-assunto [assunto]="assunto" [questao]="questao"></app-breadcrumb-assunto>
 

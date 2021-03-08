@@ -174,7 +174,7 @@ export class ResponderQuestaoProgramacao implements OnInit, AfterViewInit {
     this.consoleEditor.erroServidor = null;
     this.consoleEditor.submissao = this.submissao;
     this.atualizarCardErros();
-    //this.monitor.apresentarAjudaEstudanteErroSintaxe(this.questao, this.usuario);
+    this.monitor.monitorarErrosEstudante(this.questao, this.usuario);
   }
 
   onEditorSubmit(submissao) {
