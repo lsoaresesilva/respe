@@ -10,6 +10,7 @@ import QuestaoFechada from './questoes/questaoFechada';
 import QuestaoParsonProblem from './questoes/parsonProblem';
 import Query from './firestore/query';
 import { RespostaQuestaoParson } from './juiz/respostaQuestaoParson';
+import QuestaoColaborativa from './cscl/questaoColaborativa';
 
 @Collection('assuntos')
 export class Assunto extends Document {
@@ -19,6 +20,7 @@ export class Assunto extends Document {
     this.questoesProgramacao = [];
     this.objetivosEducacionais = [];
     this.questoesParson = [];
+    this.questoesColaborativas = [];
   }
 
   sequencia;
@@ -26,6 +28,7 @@ export class Assunto extends Document {
   questoesProgramacao;
   questoesFechadas;
   questoesParson: any;
+  questoesColaborativas;
   objetivosEducacionais: [];
   isAtivo;
 
@@ -88,6 +91,7 @@ export class Assunto extends Document {
             assunto
           );
           assunto['questoesFechadas'] = QuestaoFechada.construir(assunto['questoesFechadas']);
+          assunto['questoesColaborativas'] = QuestaoColaborativa.construir(assunto['questoesColaborativas'], assunto);
           assunto['questoesParson'] = QuestaoParsonProblem.construir(assunto['questoesParson']);
           observer.next(assunto);
           observer.complete();
@@ -403,8 +407,19 @@ export class Assunto extends Document {
       document['questoesParson'] = questoesParson;
     }
 
+    if (Array.isArray(this.questoesColaborativas) && this.questoesColaborativas.length > 0) {
+      const questoesColaborativas = [];
+      this.questoesColaborativas.forEach((questao) => {
+        if (typeof questao.objectToDocument === 'function') {
+          questoesColaborativas.push(questao.objectToDocument());
+        }
+      });
+
+      document['questoesColaborativas'] = questoesColaborativas;
+    }
+
     if (this.objetivosEducacionais.length > 0) {
-      document['questoeobjetivosEducacionaissFechadas'] = this.objetivosEducacionais;
+      document['questoeobjetivosEducacionaisFechadas'] = this.objetivosEducacionais;
     }
 
     return document;

@@ -90,7 +90,7 @@ Gerar o link -->
             </ng-template>
             <ng-template pTemplate="body" let-questao>
                 <tr>
-                    <td (click)="selecionarQuestao(questao)">{{questao.nomeCurto}}</td>
+                    <td (click)="selecionarQuestao(questao)">{{questao.questao.nomeCurto}}</td>
                 </tr>
             </ng-template>
         </p-table>

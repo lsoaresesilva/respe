@@ -33,7 +33,6 @@ export class CadastrarTesteCaseComponent implements OnInit {
     if (this.testeCase.validarEntradaSaida(dado)) {
       if (tipo === 'entrada') {
         this.testeCase.entradas.push(this.entrada);
-        this.entrada = null;
       } else {
         if(Array.isArray(this.testeCase.saida)){
           this.testeCase.saida.push(this.saida);
@@ -41,30 +40,44 @@ export class CadastrarTesteCaseComponent implements OnInit {
           this.testeCase.saida = this.saida;
         }
         
-        this.entrada = null;
+        
       }
+      this.entrada = null;
+      this.saida = null;
     } else {
       this.messageEntradaVazia();
     }
   }
 
+  isArray(dado){
+    return Array.isArray(dado);
+  }
+
   retirarEntradaSaida(dado: String, tipo) {
     let index = -1;
-    let array;
+    let dadoTestCase;
 
     if (tipo === 'entrada') {
-      array = this.testeCase.entradas;
+      dadoTestCase = this.testeCase.entradas;
     } else {
-      array = this.testeCase.saida;
+      dadoTestCase = this.testeCase.saida;
     }
 
-    for (let i = 0; i < array.length; i++) {
-      if (array[i] == dado) {
-        index = i;
-        break;
+    if(Array.isArray(dadoTestCase)){
+      for (let i = 0; i < dadoTestCase.length; i++) {
+        if (dadoTestCase[i] == dado) {
+          index = i;
+          break;
+        }
+      }
+      dadoTestCase.splice(index, 1);
+    }else{
+      if (tipo === 'saida') {
+        this.testeCase.saida = null;
       }
     }
-    array.splice(index, 1);
+
+   
   }
 
   messageCadastrado() {

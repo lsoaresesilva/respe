@@ -101,6 +101,26 @@ export class QuestaoProgramacao {
     });
   }
 
+  static _construirIndividual(questao, assunto){
+    const assuntos = [];
+    if (questao.assuntos != null && questao.assuntos.length > 0) {
+      questao.assuntos.forEach((assunto) => {
+        assuntos.push(Assunto.construir(assunto) /*new Assunto(assunto, null)*/);
+      });
+
+      if (assunto != null) {
+        assuntos.push(assunto);
+      }
+
+      questao.assuntos = assuntos;
+    }
+
+    questao.testsCases = TestCase.construir(questao.testsCases);
+    questao.exemplos = ModeloRespostaQuestao.construir(questao.exemplos);
+
+    return questao
+  }
+
   /**
    * Constrói objetos Questao a partir do atributo questoes de um assunto (que é um array)
    * @param testsCases
@@ -110,21 +130,8 @@ export class QuestaoProgramacao {
 
     if (questoes != null) {
       questoes.forEach((questao, index) => {
-        const assuntos = [];
-        if (questao.assuntos != null && questao.assuntos.length > 0) {
-          questao.assuntos.forEach((assunto) => {
-            assuntos.push(Assunto.construir(assunto) /*new Assunto(assunto, null)*/);
-          });
-
-          if (assunto != null) {
-            assuntos.push(assunto);
-          }
-
-          questoes[index].assuntos = assuntos;
-        }
-
-        questao.testsCases = TestCase.construir(questao.testsCases);
-        questao.exemplos = ModeloRespostaQuestao.construir(questao.exemplos);
+        
+        questao = this._construirIndividual(questao, assunto);
 
         objetosQuestoes.push(
           new QuestaoProgramacao(
@@ -203,6 +210,14 @@ export class QuestaoProgramacao {
         ts.push(testCase.objectToDocument());
       });
       document['testsCases'] = ts;
+    }
+
+    if (this.exemplos != null && this.exemplos.length > 0) {
+      const exmp = [];
+      this.exemplos.forEach((exemplo) => {
+        exmp.push(exemplo.objectToDocument());
+      });
+      document['exemplos'] = exmp;
     }
 
     return document;

@@ -32,7 +32,7 @@
 <button pButton type="button" label="Adicionar" (click)="adicionarEntradaSaida('saida')"></button>
 <br /><br />
 
-<p-table [value]="testeCase.saida">
+<p-table [value]="testeCase.saida" *ngIf="isArray(testeCase.saida); else testCaseNaoArray">
   <ng-template pTemplate="header">
     <tr>
       <th>Saídas</th>
@@ -48,6 +48,12 @@
     </tr>
   </ng-template>
 </p-table>
+<ng-template #testCaseNaoArray >
+  <div class="p-grid" *ngIf="testeCase.saida != null" >
+    <div class="p-col-3">{{testeCase.saida}}</div>
+    <div class="p-col-4"><button label="Remover" (click)="retirarEntradaSaida(saida, 'saida')" pButton></button></div>
+  </div>
+</ng-template>
 <br />
 <br />
 <br />

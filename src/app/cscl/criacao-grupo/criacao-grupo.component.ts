@@ -124,11 +124,11 @@ export class CriacaoGrupoComponent implements OnInit {
 
   selecionarAssunto() {
     if (this.assuntoSelecionado != null) {
-      this.questoes = this.assuntoSelecionado.questoesProgramacao;
+      this.questoes = this.assuntoSelecionado.questoesColaborativas;
     }
   }
 
   selecionarQuestao(questao) {
-    this.questaoSelecionada = questao;
+    this.questaoSelecionada = questao.questao;
   }
 }

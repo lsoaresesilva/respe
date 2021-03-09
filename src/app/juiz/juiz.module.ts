@@ -44,7 +44,7 @@ import { CadastrarQuestoesFechadasComponent } from './cadastrar-questoes-fechada
 import { VisualizarQuestaoFechadaComponent } from './visualizar-questao-fechada/visualizar-questao-fechada.component';
 import { ListarQuestoesFechadasComponent } from './listar-questoes-fechadas/listar-questoes-fechadas.component';
 import { EscolherQuestaoComponent } from './escolher-questao/escolher-questao.component';
-
+import {ToggleButtonModule} from 'primeng/togglebutton';
 import { FieldsetModule } from 'primeng/fieldset';
 import { InputMaskModule } from 'primeng/inputmask';
 import { ConfirmDialogModule } from 'primeng/confirmdialog';
@@ -108,6 +108,7 @@ import { ChatModule } from '../chat/chat.module';
     ButtonModule,
     DropdownModule,
     FormsModule,
+    ToggleButtonModule,
     BrowserAnimationsModule,
     ReactiveFormsModule,
     SpinnerModule,

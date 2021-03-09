@@ -6,6 +6,7 @@ import { Router, ActivatedRoute } from '@angular/router';
 import { Assunto } from '../../model/assunto';
 import TestCase from 'src/app/model/testCase';
 import { MessageService } from 'primeng/api';
+import QuestaoColaborativa from 'src/app/model/cscl/questaoColaborativa';
 
 @Component({
   selector: 'app-cadastrar-questoes',
@@ -17,7 +18,8 @@ export class CadastrarQuestoesComponent implements OnInit {
   questao?: QuestaoProgramacao;
   dificuldades: SelectItem[];
   assuntos;
-  isAlterar: Boolean = false;
+  isAlterar: Boolean;
+  isQuestaoColaborativa: Boolean;
 
   constructor(
     private router: Router,
@@ -25,6 +27,8 @@ export class CadastrarQuestoesComponent implements OnInit {
     private messageService: MessageService
   ) {
     this.questao = new QuestaoProgramacao(null, '', '', 0, 0, [], [], [], null);
+    this.isAlterar = false;
+    this.isQuestaoColaborativa = false;
   }
 
   ngOnInit() {
@@ -78,10 +82,6 @@ export class CadastrarQuestoesComponent implements OnInit {
     }
 
     if (this.questao.validar()) {
-      if (this.isAlterar == false) {
-        this.assunto.questoesProgramacao.push(this.questao);
-      }
-
       if (this.questao.assuntos != null) {
         this.questao.assuntos = this.questao.assuntos.map((assunto) => {
           if (typeof assunto === 'string') {
@@ -91,8 +91,21 @@ export class CadastrarQuestoesComponent implements OnInit {
         });
       }
 
-      if (this.assunto.questoesProgramacao == null) {
-        this.assunto.questoesProgramacao = [];
+      if (this.isQuestaoColaborativa) {
+        let questaoColaborativa = new QuestaoColaborativa(null, this.questao);
+        if (this.assunto.questoesColaborativas == null) {
+          this.assunto.questoesColaborativas = [];
+        }
+
+        this.assunto.questoesColaborativas.push(questaoColaborativa);
+      } else {
+        if (this.assunto.questoesProgramacao == null) {
+          this.assunto.questoesProgramacao = [];
+        }
+
+        if (this.isAlterar == false) {
+          this.assunto.questoesProgramacao.push(this.questao);
+        }
       }
 
       this.assunto.save().subscribe(

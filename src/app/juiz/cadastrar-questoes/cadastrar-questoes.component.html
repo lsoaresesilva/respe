@@ -1,8 +1,4 @@
-<p-toast
-  [style]="{ marginTop: '80px' }"
-  [showTransitionOptions]="'10ms'"
-  [hideTransitionOptions]="'10ms'"
-></p-toast>
+<p-toast [style]="{ marginTop: '80px' }" [showTransitionOptions]="'10ms'" [hideTransitionOptions]="'10ms'"></p-toast>
 <div class="p-grid">
   <div class="p-col-12">
     <div *ngIf="isAlterar">
@@ -12,55 +8,81 @@
       <h1 class="first">Alterar questao</h1>
     </ng-template>
   </div>
+</div>
+<div class="p-grid">
   <div class="p-col-12">
     <h3 class="first">Título (curto)</h3>
     <input id="nomeCurto" type="text" [(ngModel)]="questao.nomeCurto" pInputText />
 
     <h3 class="first">Enunciado</h3>
-    <textarea
-      [rows]="6"
-      [cols]="60"
-      pInputTextarea
-      autoResize="autoResize"
-      [(ngModel)]="questao.enunciado"
-    ></textarea>
-
-    <div class="ui-g" style="width: 250px; margin-bottom: 10px">
-      <h3>Assuntos</h3>
-      <div class="ui-g-12">
-        <p-checkbox
-          *ngFor="let assunto of assuntos"
-          class="assuntos"
-          name="{{ assunto.nome }}"
-          value="{{ assunto.id }}"
-          [(ngModel)]="questao.assuntos"
-          label="{{ assunto.nome }}"
-          inputId="{{ assunto.id }}"
-        ></p-checkbox>
-      </div>
-    </div>
-
+    <textarea [rows]="6" [cols]="60" pInputTextarea autoResize="autoResize" [(ngModel)]="questao.enunciado"></textarea>
+  </div>
+</div>
+<div class="p-grid">
+  <div class="p-col-12">
+    <h3>Assuntos</h3>
+  </div>
+</div>
+<div class="p-grid">
+  <div class="p-col-12">
+    <p-checkbox *ngFor="let assunto of assuntos" class="assuntos" name="{{ assunto.nome }}" value="{{ assunto.id }}"
+      [(ngModel)]="questao.assuntos" label="{{ assunto.nome }}" inputId="{{ assunto.id }}"></p-checkbox>
+  </div>
+</div>
+<div class="p-grid">
+  <div class="p-col-12">
     <h3 class="first">Dificuldade</h3>
+  </div>
+</div>
+<div class="p-grid" style="margin-bottom: 10px">
+  <div class="p-col-12">
     <p-dropdown [options]="dificuldades" [(ngModel)]="questao.dificuldade"></p-dropdown>
+  </div>
+</div>
 
+<div class="p-grid" style="margin-bottom: 10px">
+  <div class="p-col-12">
     <h3 class="first">Algoritmo inicial</h3>
-    <textarea
-      [rows]="6"
-      [cols]="60"
-      pInputTextarea
-      autoResize="autoResize"
-      [(ngModel)]="questao.algoritmoInicial"
-    ></textarea>
-
+  </div>
+</div>
+<div class="p-grid" style="margin-bottom: 10px">
+  <div class="p-col-12">
+    <textarea [rows]="6" [cols]="60" pInputTextarea autoResize="autoResize"
+      [(ngModel)]="questao.algoritmoInicial"></textarea>
+  </div>
+</div>
+<div class="p-grid" style="margin-bottom: 10px">
+  <div class="p-col-2">
+    Questão colaborativa
+  </div>
+  <div class="p-col-2">
+    <p-toggleButton onLabel="Sim" offLabel="Não"
+    onIcon="pi pi-check" offIcon="pi pi-times" [(ngModel)]="isQuestaoColaborativa"></p-toggleButton>
+  </div>
+</div>
+<div class="p-grid" style="margin-bottom: 10px">
+  <div class="p-col-12">
     <h3>Tests cases</h3>
+  </div>
+
+</div>
+<div class="p-grid" style="margin-bottom: 10px">
+  <div class="p-col-2">
     <p-button label="Novo" (click)="adicionarTestCase(false)"></p-button>
+  </div>
+  <div class="p-col-10">
     <p-button label="Novo (saída array)" (click)="adicionarTestCase(true)"></p-button>
+  </div>
+
+</div>
+<div class="p-grid" style="margin-bottom: 10px">
+  <div class="p-col-12">
     <app-cadastrar-teste-case *ngFor="let testCase of questao.testsCases" [testCase]="testCase">
     </app-cadastrar-teste-case>
-
-    <br />
   </div>
-  <div class="p-col-12">
+</div>
+<div class="p-grid">
+  <div class="p-col-2">
     <button pButton type="button" label="Cadastrar" (click)="cadastrar()"></button>
   </div>
 </div>
