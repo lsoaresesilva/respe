@@ -5,6 +5,7 @@ import { QuestaoProgramacao } from "../questoes/questaoProgramacao";
 import Usuario from "../usuario";
 import * as firebase from 'firebase';
 import { Util } from "../util";
+import Turma from "../turma";
 
 @Collection("atividadeGrupo")
 export default class AtividadeGrupo extends Document{
@@ -17,7 +18,9 @@ export default class AtividadeGrupo extends Document{
     @ignore()
     questao;
 
-    constructor(id, public nome, public link, public dataExpiracao:Date, public estudantes:Usuario[]){
+    /* TODO: Criar um map para as duplas */
+
+    constructor(id, public nome, public link, public dataExpiracao:Date, public estudantes:Usuario[], public turma:Turma){
         super(id);
     }
 
@@ -32,20 +35,16 @@ export default class AtividadeGrupo extends Document{
 
         document["dataExpiracao"] = firebase.firestore.Timestamp.fromDate(this.dataExpiracao);
 
+        if(this.turma != null){
+            document["turmaCodigo"] = this.turma.codigo;
+        }
+
         return document;
     }
 
-    salvar(){
-        return new Observable(observer=>{
-            super.save().subscribe(resultado=>{
-                this.link = "http://localhost:4200/main/(principal:entrar-grupo/"+this.pk()+"/"+this.assunto.pk()+"/"+this.questao.id+")";
-                this.save().subscribe(()=>{
-                    observer.next();
-                    observer.complete();
-                })
-            })
-        });
-        
+
+    gerarLink(){
+        return "http://localhost:4200/main/(principal:entrar-grupo/"+this.pk()+"/"+this.assunto.pk()+"/"+this.questao.id+")";
     }
 
     isAtivo(){
@@ -54,7 +53,7 @@ export default class AtividadeGrupo extends Document{
         return isMenor;
     }
 
-    static criarGrupos(estudantes:Usuario[], dataExpiracao, assunto, questao:QuestaoProgramacao, estudantesPorGrupo = 2){
+    static criarGrupos(estudantes:Usuario[], dataExpiracao, assunto, questao:QuestaoProgramacao, turma:Turma, estudantesPorGrupo = 2){
         let grupos:AtividadeGrupo[] = [];
         let totalGrupos = Math.floor(estudantes.length/estudantesPorGrupo);
 
@@ -102,7 +101,7 @@ export default class AtividadeGrupo extends Document{
                 if(estudanteEmGrupo == null){
 
                     if(grupos.length < totalGrupos){
-                        let atividadeGrupo = new AtividadeGrupo(null, questao.nomeCurto, "", dataExpiracao, [estudante]);
+                        let atividadeGrupo = new AtividadeGrupo(null, questao.nomeCurto, "", dataExpiracao, [estudante], turma);
                         atividadeGrupo.assunto = assunto;
                         atividadeGrupo.questao = questao;
                         grupos.push(atividadeGrupo);

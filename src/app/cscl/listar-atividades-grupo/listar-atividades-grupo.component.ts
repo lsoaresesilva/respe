@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { LoginService } from 'src/app/login-module/login.service';
 import AtividadeGrupo from 'src/app/model/cscl/atividadeGrupo';
 import Query from 'src/app/model/firestore/query';
+import Turma from 'src/app/model/turma';
 import { Util } from 'src/app/model/util';
 
 @Component({
@@ -11,7 +12,9 @@ import { Util } from 'src/app/model/util';
 })
 export class ListarAtividadesGrupoComponent implements OnInit {
 
-  atividades
+  atividades;
+
+  
 
   constructor(private login:LoginService) {
     this.atividades = []
@@ -27,6 +30,8 @@ export class ListarAtividadesGrupoComponent implements OnInit {
   converterParaDate(data){
     return Util.firestoreDateToDate(data);
   }
+
+  
 
 
 }

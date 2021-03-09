@@ -63,6 +63,7 @@ import { EditorProgramacaoComponent } from './juiz/editor/editor-programacao/edi
 import { ListagemDiarioComponent } from './srl/monitoramento/listagem-diario/listagem-diario.component';
 import { VisualizacaoDiarioComponent } from './srl/monitoramento/visualizacao-diario/visualizacao-diario.component';
 import { ListarAtividadesGrupoProfessorComponent } from './cscl/listar-atividades-grupo-professor/listar-atividades-grupo-professor.component';
+import { VisualizarAtividadeGrupoProfessorComponent } from './cscl/visualizar-atividade-grupo-professor/visualizar-atividade-grupo-professor.component';
 
 const routes: Routes = [
   {
@@ -176,6 +177,13 @@ const routes: Routes = [
       {
         path: 'listagem-atividades-grupo-professor',
         component: ListarAtividadesGrupoProfessorComponent,
+        canActivate: [AuthGuard, PageTrack, ProfessorGuard],
+        outlet: 'principal',
+      },
+
+      {
+        path: 'visualizacao-atividade-grupo-professor/:id',
+        component: VisualizarAtividadeGrupoProfessorComponent,
         canActivate: [AuthGuard, PageTrack, ProfessorGuard],
         outlet: 'principal',
       },
