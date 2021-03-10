@@ -1,10 +1,10 @@
-
 <p-toast></p-toast>
 <div *ngIf="questao != null; else loading">
   <app-chat *ngIf="this.atividadeGrupo != null"></app-chat>
 
   <div class="p-grid" style="margin: 10px 10px 10px 10px">
-    <app-breadcrumb-assunto [assunto]="assunto" [questao]="questao" *ngIf="atividadeGrupo == null"></app-breadcrumb-assunto>
+    <app-breadcrumb-assunto [assunto]="assunto" [questao]="questao" *ngIf="atividadeGrupo == null">
+    </app-breadcrumb-assunto>
 
 
     <!-- 
@@ -29,15 +29,14 @@
         <div class="p-col-4">
           <div class="p-grid">
             <div class="p-col-12">
-              <div>
-                <button
-                  type="button"
-                  (click)="visualizarPlanejamento()"
-                  pButton
-                  label="Visualizar planejamento"
-                  class="p-button-help"
-                  *ngIf="atividadeGrupo == null"
-                ></button>
+              <div class="p-grid">
+                <div class="p-col-6">
+                  <button type="button" (click)="visualizarPlanejamento()" pButton label="Visualizar planejamento"
+                    class="p-button-help" *ngIf="atividadeGrupo == null"></button>
+                </div>
+                <div class="p-col-6">
+                  <app-btn-avancar-questao [assunto]="assunto" [questao]="questao"></app-btn-avancar-questao>
+                </div>
               </div>
             </div>
             <div class="p-col-12">
@@ -45,14 +44,14 @@
             </div>
             <div class="p-col-12">
               <ng-container *ngIf="usuario.grupoExperimento != 4">
-                
-                  <app-card-erros-programacao-pizza [erros]="errosEstudante"></app-card-erros-programacao-pizza>
+
+                <app-card-erros-programacao-pizza [erros]="errosEstudante"></app-card-erros-programacao-pizza>
               </ng-container>
             </div>
           </div>
-          
+
         </div>
-      
+
         <div class="p-col-8">
           <div class="p-grid">
             <div class="p-col-12">

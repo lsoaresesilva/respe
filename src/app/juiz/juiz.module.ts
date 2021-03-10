@@ -68,6 +68,7 @@ import { SrlModule } from '../srl/srl.module';
 import { ListarQuestoesSequenciaComponent } from './listar-questoes-sequencia/listar-questoes-sequencia.component';
 import { ProgressSpinnerModule } from 'primeng/progressspinner';
 import { ChatModule } from '../chat/chat.module';
+import { BtnAvancarQuestaoComponent } from './btn-avancar-questao/btn-avancar-questao.component';
 
 @NgModule({
   declarations: [
@@ -95,6 +96,7 @@ import { ChatModule } from '../chat/chat.module';
     BreadcrumbAssuntoComponent,
     ApresentacaoEntradasTestcaseComponent,
     ListarQuestoesSequenciaComponent,
+    BtnAvancarQuestaoComponent,
   ],
 
   imports: [
@@ -145,7 +147,8 @@ import { ChatModule } from '../chat/chat.module';
     ListarQuestoesFechadasComponent,
     VisualizarQuestaoFechadaComponent,
     ResponderQuestaoProgramacaoLiteComponent,
-    BreadcrumbAssuntoComponent
+    BreadcrumbAssuntoComponent,
+    BtnAvancarQuestaoComponent
   ],
 
   providers: [MessageService, LoginService, EditorService, ConfirmationService],
