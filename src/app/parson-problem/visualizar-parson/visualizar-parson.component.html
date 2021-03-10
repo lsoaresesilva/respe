@@ -45,14 +45,17 @@
 </div>
 
 <div class="p-grid">
-  <div class="p-col-4">
+  <div class="p-col-10">
     <button
-      pButton
-      label="Enviar resposta"
-      type="button"
-      class="p-button-primary"
-      (click)="enviar()"
-      [disabled]="respostaQuestaoFechada.pk() != undefined"
-    ></button>
+    pButton
+    label="Enviar resposta"
+    type="button"
+    class="p-button-primary"
+    (click)="enviar()"
+    [disabled]="respostaQuestaoFechada.pk() != undefined"
+  ></button>
+  </div>
+  <div class="p-col-2 p-jc-end">
+    <app-btn-avancar-questao [assunto]="assunto" [questao]="questao"></app-btn-avancar-questao>
   </div>
 </div>

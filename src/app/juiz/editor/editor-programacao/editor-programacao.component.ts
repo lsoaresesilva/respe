@@ -335,7 +335,7 @@ editorProgramacaoComponentInstance.chat.iniciarConexao(editorProgramacaoComponen
 
       this.http
         .post<any>(url, json, httpOptions)
-        .pipe(timeout(10000))
+        .pipe(timeout(20000))
         .subscribe({
           next: (resposta) => {
 

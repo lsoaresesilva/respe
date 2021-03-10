@@ -371,6 +371,15 @@ export class Assunto extends Document {
     return questoes;
   }
 
+  /**
+   * Retorna a próxima questão sabendo qual está atualmente.
+   */
+  proximaQuestao(questaoAtual){
+    let questoesOrdenadas = this.ordenarQuestoes();
+    let proximaQuestao = questoesOrdenadas.filter((questao)=>questao.sequencia == questaoAtual.sequencia+1);
+    return proximaQuestao.length > 0?proximaQuestao[0]:null;
+  }
+
   objectToDocument() {
     const document = super.objectToDocument();
 
