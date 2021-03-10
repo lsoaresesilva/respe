@@ -55,6 +55,7 @@
       pButton
       label="Enviar resposta"
       *ngIf="atividadeGrupo != null"
+      [disabled]="statusBtnEnvioAtividadeGrupo"
     ></button>
   </div>
 </div>

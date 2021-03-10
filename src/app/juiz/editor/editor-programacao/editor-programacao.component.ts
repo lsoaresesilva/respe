@@ -56,11 +56,18 @@ export class EditorProgramacaoComponent implements AfterViewInit, OnChanges, OnI
   liteMode; // define que o editor executará em um modo de aparência menor.
   @Input()
   modoVisualizacao;
+  
+  /*CSCL*/
+
   @Input()
   atividadeGrupo;
 
+  statusBtnEnvioAtividadeGrupo;
+  
   usuario;
   salvamentoEdicoes;
+
+
 
   @Input() set submissao(value) {
     this._submissao = value;
@@ -102,6 +109,12 @@ export class EditorProgramacaoComponent implements AfterViewInit, OnChanges, OnI
     this.processandoSubmissao = false;
     this.usuario = this.login.getUsuarioLogado();
     editorProgramacao = null;
+
+    /**
+     * TODO: verificar se já foi feita a submissão de atividade em grupo, se sim inicia como true.
+     */
+
+    this.statusBtnEnvioAtividadeGrupo =false;
   }
 
   ngOnInit(): void {
@@ -396,6 +409,12 @@ editorProgramacaoComponentInstance.chat.iniciarConexao(editorProgramacaoComponen
 
     let submissaoGrupo = new SubmissaoGrupo(null, this.submissao, this.atividadeGrupo);
                   submissaoGrupo.save().subscribe(()=>{
+                    this.statusBtnEnvioAtividadeGrupo = true;
+
+                    /**
+                     * TODO: desabilitar o botão também para os outros usuários.
+                     */
+
                     this.messageService.add({
                       severity: 'success',
                       summary: 'Sucesso',

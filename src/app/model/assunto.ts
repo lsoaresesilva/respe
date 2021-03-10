@@ -436,6 +436,17 @@ export class Assunto extends Document {
     return questaoLocalizada;
   }
 
+  getQuestaoColaborativaById(questaoId):QuestaoColaborativa | null {
+    let questaoLocalizada = null;
+    this.questoesColaborativas.forEach((questao) => {
+      if (questao.id == questaoId) {
+        questaoLocalizada = questao;
+      }
+    });
+
+    return questaoLocalizada;
+  }
+
   getQuestaoFechadaById(questaoId) {
     let questaoLocalizada = null;
     this.questoesFechadas.forEach((questao) => {

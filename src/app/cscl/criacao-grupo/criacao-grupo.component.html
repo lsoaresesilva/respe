@@ -5,7 +5,7 @@ Adicionar o aluno
 Criar a sala
 
 Gerar o link -->
-
+<p-toast></p-toast>
 <div class="p-grid">
     <div class="p-col-12">
         Selecionar turma
@@ -62,14 +62,8 @@ Gerar o link -->
 
 <div class="p-grid">
     <div class="p-col-12">
-        Selecionar assunto
-    </div>
-</div>
-
-<div class="p-grid">
-    <div class="p-col-12">
-        <p-dropdown [options]="assuntos" [(ngModel)]="assuntoSelecionado" optionLabel="nome"
-            (onClick)="selecionarAssunto()"></p-dropdown>
+        <p-dropdown [options]="assuntos" [(ngModel)]="assuntoSelecionado" optionLabel="nome" placeholder="Selecione um assunto"
+            (onChange)="selecionarAssunto($event)"></p-dropdown>
     </div>
 </div>
 
@@ -98,8 +92,11 @@ Gerar o link -->
 </div>
 
 <div class="p-grid" *ngIf="questaoSelecionada != null">
-    <div class="p-col-12">
-        Questão selecionada: {{questaoSelecionada.nomeCurto}}
+    <div class="p-col-4">
+        Questão selecionada: {{questaoSelecionada.questao.nomeCurto}}
+    </div>
+    <div class="p-col-4">
+        <button pButton label="Excluir" (click)="removerQuestao()"></button>
     </div>
 </div>
 

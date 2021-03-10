@@ -69,6 +69,7 @@ export class CriacaoGrupoComponent implements OnInit {
   }
 
   selecionarTurma(event) {
+    this.estudantesSelecionados = [];
     Turma.getAllEstudantes(this.turmaSelecionada.codigo).subscribe((estudantes) => {
       this.estudantesTurma = estudantes;
       this.pesquisaEstudantes = estudantes;
@@ -94,7 +95,28 @@ export class CriacaoGrupoComponent implements OnInit {
   }
 
   criarSala() {
-    let uuid = Util.uuidv4();
+    let atividade = new AtividadeGrupo(null, this.questaoSelecionada.questao.nomeCurto, this.assuntoSelecionado, this.questaoSelecionada, this.dataExpiracao, this.estudantesSelecionados, this.turmaSelecionada);
+    if(atividade.validar()){
+      let grupos = AtividadeGrupo.criarGrupos(this.estudantesSelecionados, this.dataExpiracao, this.assuntoSelecionado, this.questaoSelecionada, this.turmaSelecionada);
+      let salvar = []
+      grupos.forEach(grupo=>{
+        salvar.push(grupo.save());
+      })
+  
+      forkJoin(salvar).subscribe(r=>{
+        this.messageService.add({
+          severity: 'success',
+          summary: 'Sucesso',
+          detail: 'Atividade criada com sucesso.',
+        });
+      })
+    }else{
+      this.messageService.add({
+        severity: 'error',
+        summary: 'Erro',
+        detail: 'É preciso preencher todos os dados!',
+      });
+    }
     //
     /* let atividadeGrupo = new AtividadeGrupo(
       null,
@@ -107,28 +129,25 @@ export class CriacaoGrupoComponent implements OnInit {
     atividadeGrupo.salvar(this.assuntoSelecionado, this.questaoSelecionada).subscribe(() => {
       
     }); */
-    let grupos = AtividadeGrupo.criarGrupos(this.estudantesSelecionados, this.dataExpiracao, this.assuntoSelecionado, this.questaoSelecionada, this.turmaSelecionada);
-    let salvar = []
-    grupos.forEach(grupo=>{
-      salvar.push(grupo.save());
-    })
-
-    forkJoin(salvar).subscribe(r=>{
-      this.messageService.add({
-        severity: 'success',
-        summary: 'Sucesso',
-        detail: 'Atividade criada com sucesso.',
-      });
-    })
+    
   }
 
-  selecionarAssunto() {
+  selecionarAssunto(event) {
     if (this.assuntoSelecionado != null) {
       this.questoes = this.assuntoSelecionado.questoesColaborativas;
+    }else{
+      if(event.value != null){
+        this.assuntoSelecionado = event.value;
+        this.questoes = this.assuntoSelecionado.questoesColaborativas;
+      }
     }
   }
 
   selecionarQuestao(questao) {
-    this.questaoSelecionada = questao.questao;
+    this.questaoSelecionada = questao;
+  }
+
+  removerQuestao(){
+    this.questaoSelecionada = null;
   }
 }

@@ -116,47 +116,82 @@ export class ResponderQuestaoProgramacao implements OnInit, AfterViewInit {
 
     this.route.params.subscribe((params) => {
       
-      if (params['salaId'] != null) {
+      if (params['salaId'] != null && params['assuntoId'] != undefined && params['questaoId'] != undefined) {
           AtividadeGrupo.get(params['salaId']).subscribe(atividadeGrupo=>{
             this.atividadeGrupo = atividadeGrupo;
-          })
-      }
 
-      if (params['assuntoId'] != undefined && params['questaoId'] != undefined) {
-        Assunto.get(params['assuntoId']).subscribe((assunto) => {
-          this.assunto = assunto;
+            Assunto.get(params['assuntoId']).subscribe((assunto) => {
+              this.assunto = assunto  as Assunto;
+    
+              if (
+                assunto['questoesColaborativas'] != undefined &&
+                assunto['questoesColaborativas'].length > 0
+              ) {
 
-          if (
-            assunto['questoesProgramacao'] != undefined &&
-            assunto['questoesProgramacao'].length > 0
-          ) {
-            assunto['questoesProgramacao'].forEach((questao) => {
-              if (questao.id == params['questaoId']) {
-                this.questao = questao;
+                let questaoColaborativa = this.assunto.getQuestaoColaborativaById(params['questaoId']);
+                if(questaoColaborativa != null && questaoColaborativa.questao != null){
+                  let questao = QuestaoProgramacao._construirIndividual(questaoColaborativa.questao, this.assunto) as QuestaoProgramacao;
+                  if(questao != null){
+                    this.questao = questao;
 
-                if (this.usuario != null) {
-                  Submissao.getRecentePorQuestao(this.questao, this.usuario).subscribe(
-                    (submissao: Submissao) => {
-                      if (submissao != null) this.submissao = submissao;
-                      //this.pausaIde = false;
-
-                      this.atualizarCardErros();
+                    if (this.usuario != null) {
+                      Submissao.getRecentePorQuestao(this.questao, this.usuario).subscribe(
+                        (submissao: Submissao) => {
+                          if (submissao != null) this.submissao = submissao;
+                          //this.pausaIde = false;
+    
+                          this.atualizarCardErros();
+                        }
+                      );
                     }
-                  );
+
+                    this.editorCodigo = Editor.getInstance();
+                  }else{
+                    throw new Error('Não é possível iniciar o editor sem uma questão.');
+                  }
                 }
               }
             });
-
-            if (this.questao == undefined) {
-              throw new Error('Não é possível iniciar o editor sem uma questão.');
-            } else {
-              this.editorCodigo = Editor.getInstance();
+          })
+      }else{
+        if (params['assuntoId'] != undefined && params['questaoId'] != undefined) {
+          Assunto.get(params['assuntoId']).subscribe((assunto) => {
+            this.assunto = assunto as Assunto;
+  
+            if (
+              assunto['questoesProgramacao'] != undefined &&
+              assunto['questoesProgramacao'].length > 0
+            ) {
+              assunto['questoesProgramacao'].forEach((questao) => {
+                if (questao.id == params['questaoId']) {
+                  this.questao = questao;
+  
+                  if (this.usuario != null) {
+                    Submissao.getRecentePorQuestao(this.questao, this.usuario).subscribe(
+                      (submissao: Submissao) => {
+                        if (submissao != null) this.submissao = submissao;
+                        //this.pausaIde = false;
+  
+                        this.atualizarCardErros();
+                      }
+                    );
+                  }
+                }
+              });
+  
+              if (this.questao == undefined) {
+                throw new Error('Não é possível iniciar o editor sem uma questão.');
+              } else {
+                this.editorCodigo = Editor.getInstance();
+              }
             }
-          }
-        });
-      } else {
-        throw new Error('Não é possível iniciar o editor sem uma questão.');
+          });
+        } else {
+          throw new Error('Não é possível iniciar o editor sem uma questão.');
+        }
       }
+
+      
     });
 
     //this.salvarAutomaticamente(); # desabilitado temporariamente por questões de performance.

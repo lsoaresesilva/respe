@@ -101,10 +101,11 @@ export class QuestaoProgramacao {
     });
   }
 
-  static _construirIndividual(questao, assunto){
+  /** TODO: Verificar se é possível construir, caso contrário disparar um erro. */
+  static _construirIndividual(questaoDocument, assunto):QuestaoProgramacao{
     const assuntos = [];
-    if (questao.assuntos != null && questao.assuntos.length > 0) {
-      questao.assuntos.forEach((assunto) => {
+    if (questaoDocument.assuntos != null && questaoDocument.assuntos.length > 0) {
+      questaoDocument.assuntos.forEach((assunto) => {
         assuntos.push(Assunto.construir(assunto) /*new Assunto(assunto, null)*/);
       });
 
@@ -112,11 +113,14 @@ export class QuestaoProgramacao {
         assuntos.push(assunto);
       }
 
-      questao.assuntos = assuntos;
+      //questao.assuntos = assuntos;
     }
 
-    questao.testsCases = TestCase.construir(questao.testsCases);
-    questao.exemplos = ModeloRespostaQuestao.construir(questao.exemplos);
+    let testsCases = TestCase.construir(questaoDocument.testsCases);
+    let exemplos = ModeloRespostaQuestao.construir(questaoDocument.exemplos);
+    
+    let questao = new QuestaoProgramacao(questaoDocument.id, questaoDocument.nomeCurto, questaoDocument.enunciado, questaoDocument.dificuldade, questaoDocument.sequencia, assuntos, testsCases, questaoDocument.algoritmoInicial, exemplos )
+    
 
     return questao
   }
