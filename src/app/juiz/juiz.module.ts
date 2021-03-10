@@ -145,6 +145,7 @@ import { ChatModule } from '../chat/chat.module';
     ListarQuestoesFechadasComponent,
     VisualizarQuestaoFechadaComponent,
     ResponderQuestaoProgramacaoLiteComponent,
+    BreadcrumbAssuntoComponent
   ],
 
   providers: [MessageService, LoginService, EditorService, ConfirmationService],

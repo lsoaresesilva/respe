@@ -10,10 +10,12 @@ import { ToastModule } from 'primeng/toast';
 import { FormsModule } from '@angular/forms';
 
 import { DropdownModule } from 'primeng/dropdown';
+import { JuizModule } from '../juiz/juiz.module';
 
 @NgModule({
   declarations: [VisualizarParsonComponent, CadastrarParsonComponent],
   imports: [
+    JuizModule,
     CommonModule,
     CardModule,
     OrderListModule,
@@ -21,7 +23,7 @@ import { DropdownModule } from 'primeng/dropdown';
     ButtonModule,
     ToastModule,
     FormsModule,
-    DropdownModule,
+    DropdownModule
   ],
   exports: [VisualizarParsonComponent, CadastrarParsonComponent],
 })
