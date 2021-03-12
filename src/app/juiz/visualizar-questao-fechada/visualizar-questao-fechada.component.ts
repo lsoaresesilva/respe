@@ -61,6 +61,10 @@ export class VisualizarQuestaoFechadaComponent implements OnInit {
     }
   }
 
+  formatarHtml(questao){
+    return this.sanitizer.bypassSecurityTrustHtml(questao.enunciado);
+  }
+
   ngOnInit() {
     if (this.questao == null) {
       this.route.params.subscribe((params) => {
