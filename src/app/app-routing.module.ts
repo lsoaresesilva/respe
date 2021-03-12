@@ -64,6 +64,7 @@ import { ListagemDiarioComponent } from './srl/monitoramento/listagem-diario/lis
 import { VisualizacaoDiarioComponent } from './srl/monitoramento/visualizacao-diario/visualizacao-diario.component';
 import { ListarAtividadesGrupoProfessorComponent } from './cscl/listar-atividades-grupo-professor/listar-atividades-grupo-professor.component';
 import { VisualizarAtividadeGrupoProfessorComponent } from './cscl/visualizar-atividade-grupo-professor/visualizar-atividade-grupo-professor.component';
+import { VisualizarSolucoesAtividadeGrupoComponent } from './cscl/visualizar-solucoes-atividade-grupo/visualizar-solucoes-atividade-grupo.component';
 
 const routes: Routes = [
   {
@@ -189,7 +190,14 @@ const routes: Routes = [
       },
 
       {
-        path: 'entrar-grupo/:salaId/:assuntoId/:questaoId',
+        path: 'visualizacao-solucao-atividade-grupo/:atividadeGrupoId/:grupoId',
+        component: VisualizarSolucoesAtividadeGrupoComponent,
+        canActivate: [AuthGuard, PageTrack, ProfessorGuard],
+        outlet: 'principal',
+      },
+
+      {
+        path: 'entrar-grupo/:atividadeGrupoId/:grupoId/:assuntoId/:questaoId',
         component: ResponderQuestaoProgramacao,
         canActivate: [AuthGuard, PageTrack],
         outlet: 'principal',
@@ -412,7 +420,7 @@ const routes: Routes = [
         outlet: 'principal',
       },
       {
-        path: 'visualizar-submissao-questao/:submissaoId',
+        path: 'visualizar-submissao-questao/:submissaoId/:isAtividadeGrupo',
         component: VisualizarSubmissaoQuestaoComponent,
         canActivate: [AuthGuard],
         outlet: 'principal',

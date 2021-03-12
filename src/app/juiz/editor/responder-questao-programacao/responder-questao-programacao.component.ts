@@ -34,6 +34,7 @@ import { MonitorService } from 'src/app/chatbot/monitor.service';
 import { ConfirmationService } from 'primeng/api';
 import { ChatService } from 'src/app/cscl/chat.service';
 import AtividadeGrupo from 'src/app/model/cscl/atividadeGrupo';
+import Grupo from 'src/app/model/cscl/grupo';
 
 @Component({
   selector: 'responder-questao-programacao',
@@ -58,8 +59,10 @@ export class ResponderQuestaoProgramacao implements OnInit, AfterViewInit {
   observableQuestao: Observable<any>;
 
   usuario: Usuario;
-  /* salaId; */
-  atividadeGrupo;
+
+  /* CSCL */
+  atividadeGrupo:AtividadeGrupo;
+  grupo:Grupo;
 
   // TODO: mover para um componente próprio
   traceExecucao;
@@ -116,42 +119,47 @@ export class ResponderQuestaoProgramacao implements OnInit, AfterViewInit {
 
     this.route.params.subscribe((params) => {
       
-      if (params['salaId'] != null && params['assuntoId'] != undefined && params['questaoId'] != undefined) {
-          AtividadeGrupo.get(params['salaId']).subscribe(atividadeGrupo=>{
-            this.atividadeGrupo = atividadeGrupo;
-
-            Assunto.get(params['assuntoId']).subscribe((assunto) => {
-              this.assunto = assunto  as Assunto;
-    
-              if (
-                assunto['questoesColaborativas'] != undefined &&
-                assunto['questoesColaborativas'].length > 0
-              ) {
-
-                let questaoColaborativa = this.assunto.getQuestaoColaborativaById(params['questaoId']);
-                if(questaoColaborativa != null && questaoColaborativa.questao != null){
-                  let questao = QuestaoProgramacao._construirIndividual(questaoColaborativa.questao, this.assunto) as QuestaoProgramacao;
-                  if(questao != null){
-                    this.questao = questao;
-
-                    if (this.usuario != null) {
-                      Submissao.getRecentePorQuestao(this.questao, this.usuario).subscribe(
-                        (submissao: Submissao) => {
-                          if (submissao != null) this.submissao = submissao;
-                          //this.pausaIde = false;
-    
-                          this.atualizarCardErros();
-                        }
-                      );
+      if (params['atividadeGrupoId'] != null && params['grupoId'] != undefined && params['assuntoId'] != undefined && params['questaoId'] != undefined) {
+          AtividadeGrupo.get(params['atividadeGrupoId']).subscribe(atividadeGrupo=>{
+            this.atividadeGrupo = atividadeGrupo as AtividadeGrupo;
+            this.grupo = this.atividadeGrupo.getGrupo(params['grupoId']);
+            if(this.grupo != null){
+              Assunto.get(params['assuntoId']).subscribe((assunto) => {
+                this.assunto = assunto  as Assunto;
+      
+                if (
+                  assunto['questoesColaborativas'] != undefined &&
+                  assunto['questoesColaborativas'].length > 0
+                ) {
+  
+                  let questaoColaborativa = this.assunto.getQuestaoColaborativaById(params['questaoId']);
+                  if(questaoColaborativa != null && questaoColaborativa.questao != null){
+                    let questao = QuestaoProgramacao._construirIndividual(questaoColaborativa.questao, this.assunto) as QuestaoProgramacao;
+                    if(questao != null){
+                      this.questao = questao;
+  
+                      if (this.usuario != null) {
+                        Submissao.getRecentePorQuestao(this.questao, this.usuario).subscribe(
+                          (submissao: Submissao) => {
+                            if (submissao != null) this.submissao = submissao;
+                            //this.pausaIde = false;
+      
+                            this.atualizarCardErros();
+                          }
+                        );
+                      }
+  
+                      this.editorCodigo = Editor.getInstance();
+                    }else{
+                      throw new Error('Não é possível iniciar o editor sem uma questão.');
                     }
-
-                    this.editorCodigo = Editor.getInstance();
-                  }else{
-                    throw new Error('Não é possível iniciar o editor sem uma questão.');
                   }
                 }
-              }
-            });
+              });
+            }else{
+              // TODO: Mostrar mensagem de erro, pois não é possível iniciar uma atividade em grupo, pois o grupo informado não existe
+            }
+            
           })
       }else{
         if (params['assuntoId'] != undefined && params['questaoId'] != undefined) {
@@ -304,6 +312,7 @@ export class ResponderQuestaoProgramacao implements OnInit, AfterViewInit {
         submissao.pk(),
         submissao.codigo,
         submissao.estudante,
+        submissao.assunto,
         submissao.questao
       );
       _submissaoClone['estudanteId'] = submissao.estudanteId;

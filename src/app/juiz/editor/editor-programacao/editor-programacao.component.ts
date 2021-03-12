@@ -56,18 +56,18 @@ export class EditorProgramacaoComponent implements AfterViewInit, OnChanges, OnI
   liteMode; // define que o editor executará em um modo de aparência menor.
   @Input()
   modoVisualizacao;
-  
+
   /*CSCL*/
 
   @Input()
   atividadeGrupo;
+  @Input()
+  grupo;
 
   statusBtnEnvioAtividadeGrupo;
-  
+
   usuario;
   salvamentoEdicoes;
-
-
 
   @Input() set submissao(value) {
     this._submissao = value;
@@ -114,7 +114,7 @@ export class EditorProgramacaoComponent implements AfterViewInit, OnChanges, OnI
      * TODO: verificar se já foi feita a submissão de atividade em grupo, se sim inicia como true.
      */
 
-    this.statusBtnEnvioAtividadeGrupo =false;
+    this.statusBtnEnvioAtividadeGrupo = false;
   }
 
   ngOnInit(): void {
@@ -169,7 +169,10 @@ export class EditorProgramacaoComponent implements AfterViewInit, OnChanges, OnI
     editorProgramacaoComponentInstance.editor = editor;
     editorProgramacaoComponentInstance.atualizarEditorComSubmissao();
 
-    if (editorProgramacaoComponentInstance.atividadeGrupo != null && editorProgramacaoComponentInstance.atividadeGrupo.pk() != null) {
+    if (
+      editorProgramacaoComponentInstance.atividadeGrupo != null &&
+      editorProgramacaoComponentInstance.atividadeGrupo.pk() != null
+    ) {
       /* 
 
 editorProgramacaoComponentInstance.chat.iniciarConexao(editorProgramacaoComponentInstance.salaId, function(doc){
@@ -218,7 +221,7 @@ editorProgramacaoComponentInstance.chat.iniciarConexao(editorProgramacaoComponen
     let _this = this;
     let textoAntes = '';
     let cursorAntes: any = {};
-    let historicoEdicoes = new HistoricoEdicoes(null, this.atividadeGrupo, this.usuario);
+    let historicoEdicoes = new HistoricoEdicoes(null, this.atividadeGrupo, this.grupo, this.usuario);
 
     this.salvamentoEdicoes = setInterval(() => {
       // TODO: passar uma referência do objeto atividade grupo de responder questão para editor e usar aqui
@@ -256,12 +259,8 @@ editorProgramacaoComponentInstance.chat.iniciarConexao(editorProgramacaoComponen
       historicoEdicoes.inserir(edicao);
 
       _this.document.submitOp(op); // TODO: jogar para o service
-
-
     });
-
   }
-
 
   visualizarExecucacao(modoVisualizacao, trace) {
     this.onVisualization.emit({
@@ -338,13 +337,8 @@ editorProgramacaoComponentInstance.chat.iniciarConexao(editorProgramacaoComponen
         .pipe(timeout(20000))
         .subscribe({
           next: (resposta) => {
-
-            
-            
-
             submissao.processarRespostaServidor(resposta).subscribe((resultado) => {
               this.submissao = resultado;
-
 
               this.onSubmit.emit(this._submissao);
             });
@@ -356,7 +350,6 @@ editorProgramacaoComponentInstance.chat.iniciarConexao(editorProgramacaoComponen
             } else {
               submissao.processarErroServidor(erro.error.mensagem).subscribe((resultado) => {
                 this.submissao = resultado;
-
 
                 this.onError.emit(this._submissao);
               });
@@ -379,47 +372,41 @@ editorProgramacaoComponentInstance.chat.iniciarConexao(editorProgramacaoComponen
    */
   prepararSubmissao() {
     this.editorCodigo.codigo = this.editor.getValue();
-    const submissao = new Submissao(null, this.editor.getValue(), this.usuario, this.questao);
+    const submissao = new Submissao(null, this.editor.getValue(), this.usuario, this.assunto, this.questao);
     return submissao;
   }
 
-  
-
-  enviarRespostaAtividadeGrupo(){
-    
-
+  enviarRespostaAtividadeGrupo() {
     if (this.atividadeGrupo == null && this.atividadeGrupo.pk() == null) {
-
       this.messageService.add({
         severity: 'error',
         summary: 'Falha ao enviar atividade',
         detail: 'Isso não parece ser uma atividade em grupo.',
       });
-      
     }
 
-    if(this.submissao == null || this.submissao.pk() == null){
+    if (this.submissao == null || this.submissao.pk() == null) {
       this.messageService.add({
         severity: 'error',
         summary: 'Falha ao enviar atividade',
-        detail: 'Antes de entregar a atividade é preciso executar o seu código. Após isso tente novamente entregar a atividade',
+        detail:
+          'Antes de entregar a atividade é preciso executar o seu código. Após isso tente novamente entregar a atividade',
       });
     }
 
+    let submissaoGrupo = new SubmissaoGrupo(null, this.submissao, this.grupo, this.atividadeGrupo);
+    submissaoGrupo.save().subscribe(() => {
+      this.statusBtnEnvioAtividadeGrupo = true;
 
-    let submissaoGrupo = new SubmissaoGrupo(null, this.submissao, this.atividadeGrupo);
-                  submissaoGrupo.save().subscribe(()=>{
-                    this.statusBtnEnvioAtividadeGrupo = true;
+      /**
+       * TODO: desabilitar o botão também para os outros usuários.
+       */
 
-                    /**
-                     * TODO: desabilitar o botão também para os outros usuários.
-                     */
-
-                    this.messageService.add({
-                      severity: 'success',
-                      summary: 'Sucesso',
-                      detail: 'Atividade entregue com sucesso.',
-                    });
-                });
+      this.messageService.add({
+        severity: 'success',
+        summary: 'Sucesso',
+        detail: 'Atividade entregue com sucesso.',
+      });
+    });
   }
 }

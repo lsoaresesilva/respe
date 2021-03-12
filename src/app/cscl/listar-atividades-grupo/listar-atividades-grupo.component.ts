@@ -13,22 +13,36 @@ import { Util } from 'src/app/model/util';
 export class ListarAtividadesGrupoComponent implements OnInit {
 
   atividades;
-
+  usuario;
   
 
   constructor(private login:LoginService) {
     this.atividades = []
+    this.usuario = this.login.getUsuarioLogado();
    }
 
   ngOnInit(): void {
 
-    AtividadeGrupo.getAll(new Query("estudantes", "array-contains", this.login.getUsuarioLogado().pk())).subscribe(as => {
+    AtividadeGrupo.getAll(new Query("estudantes", "array-contains", this.usuario.pk())).subscribe(as => {
       this.atividades = as;
+      this.gerarLink();
     });
+
   }
 
   converterParaDate(data){
     return Util.firestoreDateToDate(data);
+  }
+
+  /**
+   * Gera o link para cada atividade
+   */
+  gerarLink(){
+    if(Array.isArray(this.atividades) && this.usuario != null){
+      this.atividades.forEach(atividade=>{
+        atividade.link = atividade.gerarLink(this.usuario);
+      })
+    }
   }
 
   

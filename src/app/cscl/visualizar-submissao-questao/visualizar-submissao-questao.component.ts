@@ -16,9 +16,10 @@ export class VisualizarSubmissaoQuestaoComponent implements OnInit {
  submissao;
  usuario;
  dataFormatada;
+ questao;
  
   constructor(private messageService: MessageService,private router:Router, public login:LoginService,private route: ActivatedRoute) {
-    this.submissao= new Submissao (null,null,null,[]);
+    this.submissao= new Submissao (null,null,null,null, null);
     this.usuario = new Usuario (null,null,null,null, null, null);
    }
 
@@ -29,13 +30,41 @@ export class VisualizarSubmissaoQuestaoComponent implements OnInit {
       Submissao.get(params['submissaoId']).subscribe( resultado => {
         
         this.submissao =resultado;
-        this.formatarData(this.submissao.data);
-        Usuario.get(this.submissao.estudanteId).subscribe(resultado=>{this.usuario=resultado});
+        if(this.submissao != null){
+          if(this.submissao.assuntoId != null && this.submissao.questaoId != null){
+            Assunto.get(this.submissao.assuntoId).subscribe(assunto=>{
+              let a = assunto as Assunto;
+              if(params['isAtividadeGrupo'] != null){
+                let questaoColaborativa = a.questoesColaborativas.find(questaoColaborativa=>{
+                  if(questaoColaborativa.questao.id == this.submissao.questaoId){
+                    return true;
+                  }
+
+                })
+
+                if(questaoColaborativa != null){
+                  this.questao = questaoColaborativa.questao;
+                }
+              }else{
+                this.questao = a.getQuestaoProgramacaoById(this.submissao.questaoId);
+              }
+
+              
+              
+            })
+          }
+          
+          this.formatarData(this.submissao.data);
+          Usuario.get(this.submissao.estudanteId).subscribe(resultado=>{this.usuario=resultado});
+        }
+        
         
       });
     });    
     
   }
+
+
 
   
    

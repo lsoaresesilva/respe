@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
+import AtividadeGrupo from 'src/app/model/cscl/atividadeGrupo';
 import Query from 'src/app/model/firestore/query';
 import Turma from 'src/app/model/turma';
 import { Util } from 'src/app/model/util';

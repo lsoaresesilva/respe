@@ -11,7 +11,7 @@
             <ng-template let-atividade pTemplate="body">
                 <tr>
                     <td>
-                        <a href="{{atividade.gerarLink()}}" *ngIf="atividade.isAtivo(); else inativo">{{atividade.nome}}</a>
+                        <a href="{{atividade.link}}" *ngIf="atividade.isAtivo(); else inativo">{{atividade.nome}}</a>
                         <ng-template #inativo>{{atividade.nome}} (Prazo expirado)</ng-template>
                     </td>
                     <td>

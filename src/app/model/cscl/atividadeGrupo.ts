@@ -7,6 +7,7 @@ import * as firebase from 'firebase';
 import { Util } from '../util';
 import Turma from '../turma';
 import QuestaoColaborativa from './questaoColaborativa';
+import Grupo from './grupo';
 
 @Collection('atividadeGrupo')
 export default class AtividadeGrupo extends Document {
@@ -15,7 +16,8 @@ export default class AtividadeGrupo extends Document {
   @ignore()
   link;
 
-  /* TODO: Criar um map para as duplas, pois na realidade é uma atividade para vários alunos que são organizados em duplas. Atualmente cada dupla vincula-se a uma atividade grupo. */
+  // Guarda todos os estudantes vinculados à atividade em grupo. Isso é necessário para optimizar a pesquisa do Firestore quando queremos achar as atividades em grupo de um estudante.
+  estudantes;
 
   constructor(
     id,
@@ -23,20 +25,15 @@ export default class AtividadeGrupo extends Document {
     public assunto: Assunto,
     public questao: QuestaoColaborativa,
     public dataExpiracao: Date,
-    public estudantes: Usuario[],
-    public turma: Turma
+    public turma: Turma,
+    public grupos:Grupo[]
   ) {
     super(id);
   }
 
   objectToDocument() {
     let document = super.objectToDocument();
-    if (Array.isArray(this.estudantes)) {
-      document['estudantes'] = [];
-      this.estudantes.forEach((estudante) => {
-        document['estudantes'].push(estudante.pk());
-      });
-    }
+    
 
     document['dataExpiracao'] = firebase.firestore.Timestamp.fromDate(this.dataExpiracao);
 
@@ -52,12 +49,30 @@ export default class AtividadeGrupo extends Document {
       document['questaoColaborativaId'] = this.questao.id;
     }
 
+    if (Array.isArray(this.grupos)) {
+      document['grupos'] = [];
+      this.grupos.forEach((grupo) => {
+        document['grupos'].push(grupo.objectToDocument());
+      });
+    }
+
+    if (Array.isArray(this.estudantes)) {
+      document['estudantes'] = [];
+      this.estudantes.forEach((estudante) => {
+        document['estudantes'].push(estudante.pk());
+      });
+    }
+
     return document;
   }
 
-  gerarLink() {
+  gerarLink(estudante:Usuario) {
+    
+    let grupoEstudante = this.getGrupoByEstudante(estudante);
     let link =  'http://localhost:4200/main/(principal:entrar-grupo/' +
     this.pk() +
+    '/' +
+    grupoEstudante.id +
     '/' +
     this["assuntoId"] +
     '/' +
@@ -80,7 +95,7 @@ export default class AtividadeGrupo extends Document {
     turma: Turma,
     estudantesPorGrupo = 2
   ) {
-    let grupos: AtividadeGrupo[] = [];
+    let grupos: Grupo[] = [];
     let totalGrupos = Math.floor(estudantes.length / estudantesPorGrupo);
 
     // Gera um número aleatpório para definir em qual grupo o estudante será alocado
@@ -126,16 +141,8 @@ export default class AtividadeGrupo extends Document {
 
         if (estudanteEmGrupo == null) {
           if (grupos.length < totalGrupos) {
-            let atividadeGrupo = new AtividadeGrupo(
-              null,
-              questaoColaborativa.questao.nomeCurto,
-              assunto,
-              questaoColaborativa,
-              dataExpiracao,
-              [estudante],
-              turma
-            );
-            grupos.push(atividadeGrupo);
+            let grupo = new Grupo(null, [estudante]);
+            grupos.push(grupo);
           } else {
             let gruposComEspaco = gruposDisponiveis();
             if (gruposComEspaco.length == 0) {
@@ -150,13 +157,25 @@ export default class AtividadeGrupo extends Document {
       });
     }
 
-    return grupos;
+    let atividadeGrupo = new AtividadeGrupo(
+      null,
+      questaoColaborativa.questao.nomeCurto,
+      assunto,
+      questaoColaborativa,
+      dataExpiracao,
+      turma,
+      grupos
+    );
+
+    atividadeGrupo.estudantes = estudantes;
+
+    return atividadeGrupo;
   }
 
   validar() {
     if (
       this.dataExpiracao == null ||
-      this.estudantes == null ||
+      this.grupos == null ||
       this.questao == null ||
       this.assunto == null
     ) {
@@ -164,5 +183,45 @@ export default class AtividadeGrupo extends Document {
     }
 
     return true;
+  }
+
+  /**
+   * Agrupa as atividades de acordo com as questões.
+   * Sabemos que para uma questão várias atividades em grupo serão criadas, portanto, faz sentido agrupar todas em uma única para fins de visualização geral.
+   * 
+   */
+  static agruparAtividades(atividadesGrupo:AtividadeGrupo[]){
+    let atividades:AtividadeGrupo[] = [];
+    if(Array.isArray(atividadesGrupo)){
+      atividadesGrupo.forEach(atvGrupo=>{
+        let isAtividadeInserida = atividades.find(function(atividadesInserida){
+          if(atividadesInserida.questao.id == atvGrupo.questao.id){
+            return true;
+          }
+        })
+
+        if(isAtividadeInserida == null){
+          atividades.push(atvGrupo);
+        }
+      })
+    }
+
+    return atividades;
+  }
+
+  getGrupo(grupoId){
+    return this.grupos.find(function(grupo){
+      if(grupo.id == grupoId){
+        return true;
+      }
+    })
+  }
+
+  getGrupoByEstudante(estudante:Usuario){
+    return this.grupos.find(function(grupo){
+      if(grupo.estudantes.includes(estudante.pk())){
+        return true;
+      }
+    });
   }
 }

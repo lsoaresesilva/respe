@@ -36,12 +36,16 @@ import {MultiSelectModule} from 'primeng/multiselect';
 import { ListarAtividadesGrupoComponent } from './listar-atividades-grupo/listar-atividades-grupo.component';
 import { ListarAtividadesGrupoProfessorComponent } from './listar-atividades-grupo-professor/listar-atividades-grupo-professor.component';
 import { VisualizarAtividadeGrupoProfessorComponent } from './visualizar-atividade-grupo-professor/visualizar-atividade-grupo-professor.component';
+import { VisualizarSolucoesAtividadeGrupoComponent } from './visualizar-solucoes-atividade-grupo/visualizar-solucoes-atividade-grupo.component';
+
+import { HighlightModule, HIGHLIGHT_OPTIONS } from 'ngx-highlightjs';
+ 
 
 @NgModule({
   declarations: [ComentariosCodigoComponent, BoxComentarioComponent, 
     BoxNovoComentarioComponent, VisualizarConteudoComponent, SanitizeHtmlDirective, ConteudoProgramacaoComponent, 
     VisualizarSubmissaoQuestaoComponent, ListarEstudantesSubmissaoComponent, ListarPostagensComponent, CadastrarPostagemComponent, 
-    VisualizarPostagemComponent, CriacaoGrupoComponent, ListarAtividadesGrupoComponent, ListarAtividadesGrupoProfessorComponent, VisualizarAtividadeGrupoProfessorComponent],
+    VisualizarPostagemComponent, CriacaoGrupoComponent, ListarAtividadesGrupoComponent, ListarAtividadesGrupoProfessorComponent, VisualizarAtividadeGrupoProfessorComponent, VisualizarSolucoesAtividadeGrupoComponent],
 
   imports: [
     CalendarModule,
@@ -61,12 +65,24 @@ import { VisualizarAtividadeGrupoProfessorComponent } from './visualizar-ativida
     TableModule,
     ToastModule,
     DataViewModule,
-    CardModule
+    CardModule,
+    HighlightModule
 
   ],
 
-  exports: [ListarAtividadesGrupoComponent, ListarPostagensComponent, ComentariosCodigoComponent, VisualizarConteudoComponent, VisualizarSubmissaoQuestaoComponent, ListarEstudantesSubmissaoComponent]
-
+  exports: [ListarAtividadesGrupoComponent, ListarPostagensComponent, ComentariosCodigoComponent, VisualizarConteudoComponent, VisualizarSubmissaoQuestaoComponent, ListarEstudantesSubmissaoComponent],
+  providers: [
+    {
+      provide: HIGHLIGHT_OPTIONS,
+      useValue: {
+        coreLibraryLoader: () => import('highlight.js/lib/core'),
+        lineNumbersLoader: () => import('highlightjs-line-numbers.js'), // Optional, only if you want the line numbers
+        languages: {
+          python: () => import('highlight.js/lib/languages/python')
+        }
+      }
+    }
+  ],
 
 })
 export class CsclModule { }

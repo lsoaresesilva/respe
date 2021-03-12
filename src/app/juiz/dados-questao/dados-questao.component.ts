@@ -23,40 +23,13 @@ export class DadosQuestaoComponent implements AfterViewInit {
     private sanitizer: DomSanitizer
   ) {}
 
-  ngOnChanges(changes: import('@angular/core').SimpleChanges): void {
-    // PROBLEMA: mudou a estrutura, não há mais resultado test case. apenas submissao
-
-    if (
-      this.submissao != undefined &&
-      this.submissao.resultadosTestsCases != undefined &&
-      this.questao.testsCases != undefined
-    ) {
-      this.submissao.resultadosTestsCases.forEach((resultadoTestCase) => {
-        this.questao.testsCases.forEach((testCase) => {
-          if (testCase.id == resultadoTestCase.testCase.id) {
-            testCase['resultado'] = resultadoTestCase;
-          }
-        });
-      });
-    }
-  }
+  
 
   ngAfterViewInit() {
     this.apresentacao.apresentarEditor(this.login.getUsuarioLogado());
   }
 
-  apresentarSaidas(saida) {
-    if (Array.isArray(saida)) {
-      let retorno = '';
-      saida.forEach(function (valor) {
-        retorno += valor + '</br>';
-      });
-
-      return retorno;
-    }
-
-    return saida;
-  }
+  
 
   gerarHtmlTextoComCodigo(questao) {
     if (questao.possuiCodigoNoEnunciado()) {

@@ -48,7 +48,9 @@ export class CriacaoGrupoComponent implements OnInit {
   pesquisar(event) {
     if (Array.isArray(this.estudantesTurma)) {
       if (event.query != '' && event.query.length > 2) {
-        this.pesquisaEstudantes = this.estudantesTurma.filter(function pesquisaEstudantes(estudante) {
+        this.pesquisaEstudantes = this.estudantesTurma.filter(function pesquisaEstudantes(
+          estudante
+        ) {
           if (estudante.nome.toLowerCase().includes(event.query.toLowerCase())) {
             return true;
           }
@@ -56,7 +58,7 @@ export class CriacaoGrupoComponent implements OnInit {
           return false;
         });
         let x = 0;
-      }else{
+      } else {
         this.pesquisaEstudantes = this.estudantesTurma;
       }
     }
@@ -95,22 +97,31 @@ export class CriacaoGrupoComponent implements OnInit {
   }
 
   criarSala() {
-    let atividade = new AtividadeGrupo(null, this.questaoSelecionada.questao.nomeCurto, this.assuntoSelecionado, this.questaoSelecionada, this.dataExpiracao, this.estudantesSelecionados, this.turmaSelecionada);
-    if(atividade.validar()){
-      let grupos = AtividadeGrupo.criarGrupos(this.estudantesSelecionados, this.dataExpiracao, this.assuntoSelecionado, this.questaoSelecionada, this.turmaSelecionada);
-      let salvar = []
-      grupos.forEach(grupo=>{
-        salvar.push(grupo.save());
-      })
-  
-      forkJoin(salvar).subscribe(r=>{
+    let atividade = new AtividadeGrupo(
+      null,
+      this.questaoSelecionada.questao.nomeCurto,
+      this.assuntoSelecionado,
+      this.questaoSelecionada,
+      this.dataExpiracao,
+      this.turmaSelecionada,
+      this.estudantesSelecionados
+    );
+    if (atividade.validar()) {
+      let atividade = AtividadeGrupo.criarGrupos(
+        this.estudantesSelecionados,
+        this.dataExpiracao,
+        this.assuntoSelecionado,
+        this.questaoSelecionada,
+        this.turmaSelecionada
+      );
+      atividade.save().subscribe((r) => {
         this.messageService.add({
           severity: 'success',
           summary: 'Sucesso',
           detail: 'Atividade criada com sucesso.',
         });
-      })
-    }else{
+      });
+    } else {
       this.messageService.add({
         severity: 'error',
         summary: 'Erro',
@@ -129,14 +140,13 @@ export class CriacaoGrupoComponent implements OnInit {
     atividadeGrupo.salvar(this.assuntoSelecionado, this.questaoSelecionada).subscribe(() => {
       
     }); */
-    
   }
 
   selecionarAssunto(event) {
     if (this.assuntoSelecionado != null) {
       this.questoes = this.assuntoSelecionado.questoesColaborativas;
-    }else{
-      if(event.value != null){
+    } else {
+      if (event.value != null) {
         this.assuntoSelecionado = event.value;
         this.questoes = this.assuntoSelecionado.questoesColaborativas;
       }
@@ -147,7 +157,7 @@ export class CriacaoGrupoComponent implements OnInit {
     this.questaoSelecionada = questao;
   }
 
-  removerQuestao(){
+  removerQuestao() {
     this.questaoSelecionada = null;
   }
 }

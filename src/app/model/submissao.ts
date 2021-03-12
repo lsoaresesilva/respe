@@ -7,21 +7,19 @@ import Usuario from './usuario';
 import ResultadoTestCase from './resultadoTestCase';
 import ErroCompilacaoFactory from './errors/analise-compilacao/erroCompilacaoFactory';
 import { ErroCompilacao } from './errors/analise-compilacao/erroCompilacao';
+import { Assunto } from './assunto';
 
 @Collection('submissoes')
 export default class Submissao extends Document {
-  constructor(id, public codigo: string, estudante, questao) {
+  constructor(id, public codigo: string, public estudante: Usuario, public assunto:Assunto, public questao: QuestaoProgramacao) {
     super(id);
-    this.estudante = estudante;
-    this.questao = questao;
+    
     this.erro = null;
     this.resultadosTestsCases = [];
   }
 
   @date()
   data;
-  estudante: Usuario;
-  questao: QuestaoProgramacao;
   erro;
   resultadosTestsCases: ResultadoTestCase[];
   @ignore()
@@ -314,8 +312,20 @@ export default class Submissao extends Document {
 
   objectToDocument() {
     const document = super.objectToDocument();
-    document['estudanteId'] = this.estudante.pk();
-    document['questaoId'] = this.questao.id;
+    
+    if(this.estudante != null && this.estudante.pk() != null){
+      document['estudanteId'] = this.estudante.pk();
+    }
+
+    if(this.questao != null && this.questao.id != null){
+      document['questaoId'] = this.questao.id;
+    }
+
+    if(this.assunto != null && this.assunto.pk() != null){
+      document['assuntoId'] = this.assunto.pk();
+    }
+    
+    
     document['codigo'] = this.codigo;
     if (this.erro != null && this.erro instanceof ErroCompilacao) {
       document['erro'] = this.erro.objectToDocument();

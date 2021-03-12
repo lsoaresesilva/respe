@@ -1,2 +1,15 @@
-<!-- 1. Listar os grupos e apresentar em uma tabela -->
-works!
+<p-table [value]="atividadeGrupo?.grupos">
+    <ng-template pTemplate="header">
+        <tr>
+            <th>Estudantes</th>
+        </tr>
+    </ng-template>
+    <ng-template let-grupo pTemplate="body">
+        <tr>
+            <td>
+                <span style="cursor: pointer;" (click)="abrirSolucoesAtividadeGrupo(grupo)" *ngFor="let estudante of grupo.estudantes; let isLast=last">{{estudante?.nome}}{{isLast ? '' : ', '}}</span>
+            </td>
+            
+        </tr>
+    </ng-template>
+</p-table>

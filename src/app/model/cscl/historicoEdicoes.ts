@@ -2,6 +2,7 @@ import { Collection, date, Document } from "../firestore/document";
 import Usuario from "../usuario";
 import AtividadeGrupo from "./atividadeGrupo";
 import Edicao from "./edicao";
+import Grupo from "./grupo";
 
 @Collection('historicoEdicoes')
 export default class HistoricoEdicoes extends Document {
@@ -11,7 +12,7 @@ export default class HistoricoEdicoes extends Document {
     @date()
     data;
 
-    constructor(id, public atividadeGrupo:AtividadeGrupo, public estudante:Usuario){
+    constructor(id, public atividadeGrupo:AtividadeGrupo, public grupo:Grupo, public estudante:Usuario){
         super(id);
         this.resetar();
     }
@@ -51,6 +52,10 @@ export default class HistoricoEdicoes extends Document {
     
         if(this.atividadeGrupo != null){
             objeto["atividadeGrupoId"] = this.atividadeGrupo.pk();
+        }
+
+        if(this.grupo != null){
+            objeto["grupoId"] = this.grupo.id;
         }
 
         if(this.estudante.pk() != null){
