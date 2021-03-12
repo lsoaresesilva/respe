@@ -15,12 +15,17 @@
     <button
       *ngIf="modoVisualizacao == true"
       type="button"
-      (click)="visualizar(false)"
+      (click)="suspenderVisualizacao()"
       pButton
       label="Voltar ao modo execução"
     ></button>
-    <!-- <button *ngIf="this.login.getUsuarioLogado().grupoExperimento != 4  && modoVisualizacao == false" type="button"
-            (click)="visualizar(true)" pButton label="Vizualizar execução"></button> -->
+    <button *ngIf="this.login.getUsuarioLogado().grupoExperimento != 4  && modoVisualizacao == false" type="button"
+            (click)="visualizar(true)" pButton label="Vizualizar execução"
+            icon="pi pi-eye"
+            class="p-button-warning"></button>
+    
+  </div>
+  <div>
     <button
       style="margin-left: 10px"
       id="statusExecucaoAlgoritmo"
@@ -39,13 +44,13 @@
     ></p-progressBar>
   </div>
   <div>
-    <button
+   <!--  <button
       type="button"
       (click)="visualizarResposta(questao)"
       pButton
       label="Visualizar resposta"
       *ngIf="questao.exemplos.length > 0"
-    ></button>
+    ></button> -->
   </div>
   
   <div>
@@ -62,7 +67,7 @@
 
 <div
   id="container"
-  [ngStyle]="{ height: liteMode === true ? '300px' : '600px' }"
+  [ngStyle]="{ height: liteMode === true ? '300px' : '400px' }"
   style="margin-top: 10px; border: 1px solid grey; position: relative"
 ></div>
 

@@ -57,7 +57,7 @@ export class ResponderQuestaoProgramacao implements OnInit, AfterViewInit {
   duvida: string = '';
 
   observableQuestao: Observable<any>;
-
+  editorCodigo;
   usuario: Usuario;
 
   /* CSCL */
@@ -149,7 +149,7 @@ export class ResponderQuestaoProgramacao implements OnInit, AfterViewInit {
                         );
                       }
   
-                      this.editorCodigo = Editor.getInstance();
+                      
                     }else{
                       throw new Error('Não é possível iniciar o editor sem uma questão.');
                     }
@@ -190,7 +190,7 @@ export class ResponderQuestaoProgramacao implements OnInit, AfterViewInit {
               if (this.questao == undefined) {
                 throw new Error('Não é possível iniciar o editor sem uma questão.');
               } else {
-                this.editorCodigo = Editor.getInstance();
+               // this.editorCodigo = Editor.getInstance();
               }
             }
           });
@@ -210,6 +210,10 @@ export class ResponderQuestaoProgramacao implements OnInit, AfterViewInit {
       const erros = Submissao.getAllErros(submissoes);
       this.errosEstudante = erros;
     });
+  }
+
+  onEditorReady(editor){
+    this.editorCodigo = editor;
   }
 
   onEditorError(submissao) {
@@ -253,10 +257,7 @@ export class ResponderQuestaoProgramacao implements OnInit, AfterViewInit {
     else this.statusExecucao = textoStatus + "<span class='statusSucesso'>Sucesso</span>";
   }
 
-  atualizarLinhaEditor(linha) {
-    this.editorCodigo.limparCores();
-    this.editorCodigo.destacarLinha(linha, 'possivelSolucao');
-  }
+  
 
   voltarParaModoExecucao() {
     this.modoVisualizacao = false;

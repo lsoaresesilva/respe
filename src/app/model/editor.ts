@@ -12,6 +12,7 @@ export default class Editor {
 
   static instance;
   codigo;
+  decorations;
 
   configuracao: ConfiguracaoEditor;
 

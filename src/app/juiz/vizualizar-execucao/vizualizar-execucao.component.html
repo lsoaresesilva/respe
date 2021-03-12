@@ -5,21 +5,36 @@
     <p-table [value]="linha">
       <ng-template pTemplate="header">
         <tr>
-          <th style="width: 100%">Memória do computador</th>
+          <th style="width: 100%">Valores das variáveis</th>
         </tr>
       </ng-template>
       <ng-template pTemplate="body" let-linha>
         <tr>
           <td>
-            <p-card *ngFor="let variavel of linha.ordered_globals, let i = index; let valor of linha.globals" header="{{variavel}}">
-              <span *ngIf="isArray(linha.globals[valor]); else variavelPrimitiva ">
-                {{getValorArray(linha.globals[valor][1])}}
-              </span>
-              <ng-template #variavelPrimitiva>
-                  {{linha.globals[valor]}}
-                </ng-template>
-              
-            </p-card>
+
+            <p-table [value]="linha.ordered_globals">
+              <ng-template pTemplate="header">
+                <tr>
+                  <th >Variável</th>
+                  <th >Valor</th>
+                </tr>
+              </ng-template>
+              <ng-template pTemplate="body" let-variavel>
+                <tr>
+                  <td>
+                   {{variavel}}
+                  </td>
+                  <td><span *ngIf="isArray(linha.globals[variavel]); else variavelPrimitiva ">
+                    {{getValorArray(linha.globals[variavel][1])}}
+                  </span>
+                  <ng-template #variavelPrimitiva>
+                      {{linha.globals[variavel]}}
+                    </ng-template></td>
+                </tr>
+              </ng-template>
+            </p-table>
+
+            
           </td>
         </tr>
       </ng-template>

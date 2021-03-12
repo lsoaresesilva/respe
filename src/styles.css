@@ -16,6 +16,10 @@
   font-weight: bold;
 }
 
+.limpar {
+  background: #ffffff !important;
+}
+
 .saida {
   border: 1px solid grey;
   width: 100%;

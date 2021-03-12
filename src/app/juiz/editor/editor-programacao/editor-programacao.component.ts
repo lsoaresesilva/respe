@@ -24,6 +24,7 @@ import Algoritmo from 'src/app/model/algoritmo';
 import SubmissaoGrupo from 'src/app/model/cscl/submissaoGrupo';
 import AtividadeGrupo from 'src/app/model/cscl/atividadeGrupo';
 import HistoricoEdicoes from 'src/app/model/cscl/historicoEdicoes';
+import TraceVisualizacao from 'src/app/model/visualizacao/traceVisualizacao';
 
 /**
  * Executa um javascript ide.js para acoplar o editor VStudio.
@@ -89,6 +90,8 @@ export class EditorProgramacaoComponent implements AfterViewInit, OnChanges, OnI
   onServidorError: EventEmitter<any>;
   @Output()
   onVisualization: EventEmitter<any>;
+  @Output()
+  onEditorReady: EventEmitter<any>;
 
   document; // Armazena as edições colaborativas realizadas no editor.
   posicaoCursor;
@@ -106,6 +109,7 @@ export class EditorProgramacaoComponent implements AfterViewInit, OnChanges, OnI
     this.onSubmit = new EventEmitter();
     this.onVisualization = new EventEmitter();
     this.onServidorError = new EventEmitter();
+    this.onEditorReady = new EventEmitter();
     this.processandoSubmissao = false;
     this.usuario = this.login.getUsuarioLogado();
     editorProgramacao = null;
@@ -167,6 +171,7 @@ export class EditorProgramacaoComponent implements AfterViewInit, OnChanges, OnI
 
   carregarEditor(editorProgramacaoComponentInstance, editor) {
     editorProgramacaoComponentInstance.editor = editor;
+    editorProgramacaoComponentInstance.onEditorReady.emit(editor);
     editorProgramacaoComponentInstance.atualizarEditorComSubmissao();
 
     if (
@@ -273,6 +278,29 @@ editorProgramacaoComponentInstance.chat.iniciarConexao(editorProgramacaoComponen
     this.onVisualization.emit(false);
   }
 
+  suspenderVisualizacao(){
+
+    if(this.editor != null){
+
+      /* let decorations = this.editor.getModel().getAllDecorations();
+
+      if(Array.isArray(decorations)){
+        decorations.forEach(d=>{
+          this.editor.deltaDecorations(d, []);
+        })
+      } */
+
+      Editor.getInstance().decorations = this.editor.deltaDecorations(Editor.getInstance().decorations, []);
+      
+    }
+    
+
+    this.onVisualization.emit({
+      modoVisualizacao: false,
+      trace: null,
+    });
+  }
+
   visualizar(status) {
     if (status) {
       this.prepararSubmissao();
@@ -288,9 +316,25 @@ editorProgramacaoComponentInstance.chat.iniciarConexao(editorProgramacaoComponen
 
         this.http.post(this.URL + 'codigo/', json, httpOptions).subscribe(
           (resposta) => {
-            const respostaParser: string = String(resposta).replace('script str', '');
+            if(TraceVisualizacao.possuiErro(String(resposta))){
+              this.messageService.add({
+                severity: 'error',
+                summary: 'Não é possível visualizar a execução',
+                detail: 'O seu algoritmo possui algum erro e por isso não é possível visualizar sua execução.',
+              });
+            }else{
+              const padrao = /(.*?){.*"code"/gs
+              let re = new RegExp(padrao);
+              let x = re.exec(String(resposta))
+              if(Array.isArray(x) && x.length > 1){
+                const respostaParser: string = String(resposta).replace(x[1], '');
 
-            this.visualizarExecucacao(true, JSON.parse(respostaParser)); // TODO:
+
+                this.visualizarExecucacao(true, JSON.parse(respostaParser)); // TODO:
+              }
+            }
+            
+            
           },
           (err) => {
             // this.prepararMensagemExceptionHttp(err);
