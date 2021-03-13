@@ -65,6 +65,7 @@ import { VisualizacaoDiarioComponent } from './srl/monitoramento/visualizacao-di
 import { ListarAtividadesGrupoProfessorComponent } from './cscl/listar-atividades-grupo-professor/listar-atividades-grupo-professor.component';
 import { VisualizarAtividadeGrupoProfessorComponent } from './cscl/visualizar-atividade-grupo-professor/visualizar-atividade-grupo-professor.component';
 import { VisualizarSolucoesAtividadeGrupoComponent } from './cscl/visualizar-solucoes-atividade-grupo/visualizar-solucoes-atividade-grupo.component';
+import { ExportarDadosComponent } from './admin/exportar-dados/exportar-dados.component';
 
 const routes: Routes = [
   {
@@ -368,6 +369,12 @@ const routes: Routes = [
       {
         path: 'atualizacao-turma/:id',
         component: CadastrarTurmaComponent,
+        canActivate: [AuthGuard, AdminGuard],
+        outlet: 'principal',
+      },
+      {
+        path: 'exportar-dados',
+        component: ExportarDadosComponent,
         canActivate: [AuthGuard, AdminGuard],
         outlet: 'principal',
       },

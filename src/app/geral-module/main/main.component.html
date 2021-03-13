@@ -50,6 +50,13 @@
       (click)="abrirRanking()"
       *ngIf="usuario.perfil == 1"
     ></button>
+    <button
+      pButton
+      class="p-button-text"
+      label="Exportar dados"
+      (click)="exportarDados()"
+      *ngIf="usuario.perfil == 3"
+    ></button>
     <!-- Menu professor -->
     <button
       pButton

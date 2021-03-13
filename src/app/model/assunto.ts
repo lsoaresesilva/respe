@@ -340,6 +340,16 @@ export class Assunto extends Document {
     this.questoesParson = questoesParson;
   }
 
+  toJson(){
+    let document = super.objectToDocument();
+    document["questoesFechadas"] = this.questoesFechadas;
+    document["questoesProgramacao"] = this.questoesProgramacao;
+    document["questoesParson"] = this.questoesParson;
+    document["questoesColaborativas"] = this.questoesColaborativas;
+
+    return JSON.stringify(document);
+  }
+
   getUltimaSequencia() {
     return (
       this.questoesFechadas.length +

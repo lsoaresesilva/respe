@@ -43,6 +43,7 @@ export class VisualizarQuestaoFechadaComponent implements OnInit {
       new Alternativa(null, null, null),
       this.questao
     );
+    this.mostrar = false;
   }
 
   /* selecionarAlternativa(alternativa) {

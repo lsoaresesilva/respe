@@ -102,6 +102,10 @@ export class MainComponent implements OnInit {
     }
   }
 
+  exportarDados(){
+    this.router.navigate(['main', { outlets: { principal: ['exportar-dados'] } }]);
+  }
+
   ngOnInit() {
     this.criarMenu();
     this.apresentarPretestRegulacao();

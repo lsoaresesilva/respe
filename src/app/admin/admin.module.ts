@@ -9,9 +9,10 @@ import { FormsModule } from '@angular/forms';
 import { ContextMenuModule } from 'primeng/contextmenu';
 import { ButtonModule } from 'primeng/button';
 import { OrderListModule } from 'primeng/orderlist';
+import { ExportarDadosComponent } from './exportar-dados/exportar-dados.component';
 
 @NgModule({
-  declarations: [ListarAssuntosAdminComponent, VisualizarAssuntoAdminComponent],
+  declarations: [ListarAssuntosAdminComponent, VisualizarAssuntoAdminComponent, ExportarDadosComponent],
   imports: [
     CommonModule,
     TableModule,
