@@ -4,6 +4,8 @@
   font-weight: bold;
 }
 
+.highlight {background-color: #f5a9a9}
+
 .erro {
   background: #f5a9a9 !important;
   cursor: pointer;
