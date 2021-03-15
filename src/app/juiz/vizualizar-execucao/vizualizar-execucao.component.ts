@@ -1,5 +1,8 @@
-import { Component, OnInit, Input, OnChanges, Output, EventEmitter } from '@angular/core';
+import { Component, OnInit, Input, OnChanges, Output, EventEmitter, SimpleChanges } from '@angular/core';
+import Editor from 'src/app/model/editor';
 import { Linha } from 'src/app/model/linha';
+
+declare var monaco: any;
 
 @Component({
   selector: 'visualizar-execucao',
@@ -10,9 +13,14 @@ export class VisualizarExecucacao implements OnInit {
   
 
   @Input("traceExecucao") traceExecucao;
-  @Output() mudancaLinha = new EventEmitter();
+  @Input()
+  editor;
+
+  decorations;
 
   constructor() { }
+  
+  
 
   linhaAtual = 0 ;
   sequenciaExecucao = -1; // usado para percorrer o array de traces
@@ -22,6 +30,8 @@ export class VisualizarExecucacao implements OnInit {
 
     this.atualizar();
   }
+
+  
 
   visualizar(sequencia){
     if(sequencia == "++")
@@ -39,10 +49,11 @@ export class VisualizarExecucacao implements OnInit {
   atualizar(){
     if(this.sequenciaExecucao >= 0){
       this.linha[0]=this.traceExecucao.trace[this.sequenciaExecucao];
-      this.mudancaLinha.emit(this.linhaAtual);
+      this.destacarLinha(this.linhaAtual, 'possivelSolucao')
+      //this.mudancaLinha.emit(this.linhaAtual);
     }else{
       this.linha[0] = this.traceExecucao.trace[0];
-      this.mudancaLinha.emit(0);
+      this.destacarLinha(0, 'possivelSolucao')
     }
     
   }
@@ -61,5 +72,33 @@ export class VisualizarExecucacao implements OnInit {
     })
 
     return valores;
+  }
+
+
+  destacarLinha(linha, status) {
+    if (linha != NaN && linha != undefined) {
+      linha = parseInt(linha);
+      if (linha > 0 && linha <= this.editor.getModel().getLineCount()) {
+        const lineLength = this.editor.getModel().getLineLength(linha);
+        let decorations = [
+          {
+            range: new monaco.Range(linha, 1, linha, lineLength),
+            options: {
+              isWholeLine: true,
+              className: status,
+            },
+          },
+        ];
+
+        
+        if( Editor.getInstance().decorations == null){
+          Editor.getInstance().decorations = this.editor.deltaDecorations([], [{ range: new monaco.Range(1,1,1,1), options : { } }]);
+        }
+          
+        Editor.getInstance().decorations = this.editor.deltaDecorations(Editor.getInstance().decorations, decorations);
+        
+        
+      }
+    }
   }
 }

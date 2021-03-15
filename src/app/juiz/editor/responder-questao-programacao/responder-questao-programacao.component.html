@@ -58,13 +58,18 @@
               <app-editor-programacao id="editorProgramacao" [modoVisualizacao]="modoVisualizacao"
                 [submissao]="submissao" [questao]="questao" [assunto]="assunto" [atividadeGrupo]="atividadeGrupo" [grupo]="grupo"
                 (onError)="onEditorError($event)" (onVisualization)="onVisualization($event)"
-                (onServidorError)="onServidorError($event)" (onSubmit)="onEditorSubmit($event)">
+                (onServidorError)="onServidorError($event)" (onSubmit)="onEditorSubmit($event)"
+                (onEditorReady)="onEditorReady($event)">
               </app-editor-programacao>
             </div>
             <div class="p-col-12">
-              <div *ngIf="modoVisualizacao == false" style="margin-top: 10px">
-                <app-console [submissao]="submissao" [consoleEditor]="consoleEditor" ></app-console>
+              <div *ngIf="modoVisualizacao == false; else visualizacao" style="margin-top: 10px">
+                <app-console [submissao]="submissao" [consoleEditor]="consoleEditor"></app-console>
               </div>
+              <ng-template #visualizacao>
+                <visualizar-execucao [traceExecucao]="traceExecucao" [editor]="editorCodigo">
+                </visualizar-execucao>
+              </ng-template>
             </div>
           </div>
         </div>
@@ -73,17 +78,7 @@
   </div>
 
   <!-- PRECISA VER SE HAVERÁ ESSA COLUNA NO EDITOR. ELA SÓ FAZ SENTIDO EXISTIR POR CONTA DA VISUALIZAÇÃO DE ALGORITMOS, VER OUTRO LUGAR PARA COLOCAR.
-    <div class="p-col-3">
-      <div *ngIf="modoVisualizacao  == false; else visualizacao">
-        <app-visualizar-testes [testsCases]="questao.testsCases"
-              [submissao]="submissao">
-            </app-visualizar-testes>
-      </div>
-      <ng-template #visualizacao>
-        <visualizar-execucao [traceExecucao]="traceExecucao" (mudancaLinha)="atualizarLinhaEditor($event)">
-        </visualizar-execucao>
-      </ng-template>
-    </div>
+    
     -->
 </div>
 
