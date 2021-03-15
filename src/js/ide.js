@@ -73,7 +73,7 @@ function carregarIde(
   instance = null,
   callbackOnEditorLoad = null,
   codigo,
-  socket
+  isAtividadeGrupo = false
 ) {
   require(['vs/editor/editor.main'], function () {
     //var appRoot = document.createElement("app-root");
@@ -85,6 +85,7 @@ function carregarIde(
           value: prepararCodigo(codigo).join('\n'),
           language: 'python',
           readOnly: readOnly,
+          wordBasedSuggestions:!isAtividadeGrupo
         });
 
         /* editor.onKeyDown(function () {

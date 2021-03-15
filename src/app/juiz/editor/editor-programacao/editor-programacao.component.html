@@ -12,6 +12,11 @@
       class="ui-button-success"
       style="margin-right: 10px"
     ></button>
+    <p-progressBar
+    *ngIf="processandoSubmissao == true"
+    mode="indeterminate"
+    [style]="{ height: '6px', width: '120px' }"
+  ></p-progressBar>
 <!--     <button
       *ngIf="modoVisualizacao == true"
       type="button"
@@ -37,11 +42,7 @@
       }"
       pButton
     ></button>
-    <p-progressBar
-      *ngIf="processandoSubmissao == true"
-      mode="indeterminate"
-      [style]="{ height: '6px', width: '120px' }"
-    ></p-progressBar>
+   
   </div>
   <div>
    <!--  <button
