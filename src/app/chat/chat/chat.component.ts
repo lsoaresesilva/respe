@@ -41,6 +41,7 @@ export class ChatGrupoComponent implements OnInit, OnChanges {
       this.scroll.scrollTop(height);
     })
    }
+   
   ngOnChanges(changes: SimpleChanges): void {
     if(this.atividadeGrupo != null){
       this.mensagem.atividadeGrupo = this.atividadeGrupo;

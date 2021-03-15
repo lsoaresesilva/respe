@@ -1,6 +1,6 @@
 <p-toast></p-toast>
 <div *ngIf="questao != null; else loading">
-  <app-chat *ngIf="this.atividadeGrupo != null"></app-chat>
+  <app-chat *ngIf="this.atividadeGrupo != null" [atividadeGrupo]="atividadeGrupo"></app-chat>
 
   <div class="p-grid" style="margin: 10px 10px 10px 10px">
     <app-breadcrumb-assunto [assunto]="assunto" [questao]="questao" *ngIf="atividadeGrupo == null">
@@ -35,7 +35,7 @@
                     class="p-button-help" *ngIf="atividadeGrupo == null"></button>
                 </div>
                 <div class="p-col-6">
-                  <app-btn-avancar-questao [assunto]="assunto" [questao]="questao"></app-btn-avancar-questao>
+                  <app-btn-avancar-questao [assunto]="assunto" [questao]="questao" *ngIf="atividadeGrupo == null"></app-btn-avancar-questao>
                 </div>
               </div>
             </div>

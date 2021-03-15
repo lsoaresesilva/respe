@@ -42,4 +42,8 @@ export class DadosQuestaoComponent implements AfterViewInit {
       return this.sanitizer.bypassSecurityTrustHtml(texto);
     }
   }
+
+  formatarHtml(questao){
+    return this.sanitizer.bypassSecurityTrustHtml(questao.enunciado);
+  }
 }

@@ -11,7 +11,7 @@
     </p-scrollPanel>
     
     <p-footer [style]="{ height: '10px'}">
-        <input pInputText id="textoChat" [(ngModel)]="mensagem.texto" (keydown.enter)="enviar()" [style]="{ width: '90%', margin:'0 5px'}">
+        <input pInputText id="textoChat" [(ngModel)]="mensagem.texto" (keydown.enter)="enviar()" [style]="{ width: '80%', margin:'0 5px'}">
             <button (click)="enviar()" icon="pi pi-check" pButton></button>
     </p-footer>
 </p-dialog>

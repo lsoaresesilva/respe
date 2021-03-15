@@ -8,7 +8,7 @@
     [innerHtml]="gerarHtmlTextoComCodigo(questao)"
   ></div>
   <ng-template #semCodigo>
-    {{ questao?.enunciado }}
+    <div [innerHtml]="formatarHtml(questao)"></div>
   </ng-template>
 </div>
 <div id="testsCases">

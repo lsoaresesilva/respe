@@ -4,8 +4,8 @@
 
 export const environment = {
   production: false,
-  //URL: 'http://35.208.64.26:8000/',
-   URL: 'http://localhost:8000/',
+  URL: 'http://35.208.64.26:8000/',
+  // URL: 'http://localhost:8000/',
   /* firebase: {
     apiKey: 'AIzaSyDKVWx2BMepi_gMdtv-jRz1xnBCDn7jK5A',
     authDomain: 'letscode-3fd06.firebaseapp.com',
