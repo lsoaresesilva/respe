@@ -63,6 +63,8 @@ export abstract class ErroCompilacao {
           return CategoriaErro.typeError;
         } else if (consulta[1] == 'IndentationError') {
           return CategoriaErro.identationError;
+        } else if (consulta[1] == 'TimedoutError') {
+          return CategoriaErro.timedoutError;
         }
       }
     }

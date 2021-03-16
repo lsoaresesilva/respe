@@ -632,7 +632,7 @@ export class EditorProgramacaoComponent implements AfterViewInit, OnChanges, OnI
           },
           error: (erro) => {
             // TODO: Jogar todo o erro para cima (quem chama esse component) e deixar que ele gerencie o Erro
-            if (erro.name === 'TimeoutError' || erro.error.mensagem == null) {
+            if (erro.name === 'TimeoutError' || (erro.error != null && erro.error.mensagem == null)) {
               this.onServidorError.emit(erro);
             } else {
               submissao.processarErroServidor(erro.error.mensagem).subscribe((resultado) => {
