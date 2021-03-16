@@ -89,10 +89,6 @@ export default class AtividadeGrupo extends Document {
 
   static criarGrupos(
     estudantes: Usuario[],
-    dataExpiracao,
-    assunto,
-    questaoColaborativa: QuestaoColaborativa,
-    turma: Turma,
     estudantesPorGrupo = 2
   ) {
     let grupos: Grupo[] = [];
@@ -157,6 +153,16 @@ export default class AtividadeGrupo extends Document {
       });
     }
 
+    return grupos;
+  }
+
+  static criarAtividade(dataExpiracao,
+    assunto,
+    questaoColaborativa: QuestaoColaborativa,
+    turma: Turma,
+    estudantes,
+    grupos){
+
     let atividadeGrupo = new AtividadeGrupo(
       null,
       questaoColaborativa.questao.nomeCurto,
@@ -172,12 +178,12 @@ export default class AtividadeGrupo extends Document {
     return atividadeGrupo;
   }
 
-  validar() {
+  static validar(dataExpiracao, grupos, questao, assunto) {
     if (
-      this.dataExpiracao == null ||
-      this.grupos == null ||
-      this.questao == null ||
-      this.assunto == null
+      dataExpiracao == null ||
+      grupos == null ||
+      questao == null ||
+      assunto == null
     ) {
       return false;
     }

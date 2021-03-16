@@ -678,19 +678,28 @@ editorProgramacaoComponentInstance.chat.iniciarConexao(editorProgramacaoComponen
       });
     }
 
-    let submissaoGrupo = new SubmissaoGrupo(null, this.submissao, this.grupo, this.atividadeGrupo);
-    submissaoGrupo.save().subscribe(() => {
-      this.statusBtnEnvioAtividadeGrupo = true;
+    this.confirmationService.confirm({
+      message: 'Somente é possível realizar uma entrega. Tem certeza?',
+      acceptLabel: 'Sim',
+      rejectLabel: 'Não',
+      accept: () => {
+        let submissaoGrupo = new SubmissaoGrupo(null, this.submissao, this.grupo, this.atividadeGrupo);
+        submissaoGrupo.save().subscribe(() => {
+          this.statusBtnEnvioAtividadeGrupo = true;
 
-      /**
-       * TODO: desabilitar o botão também para os outros usuários.
-       */
+          /**
+           * TODO: desabilitar o botão também para os outros usuários.
+           */
 
-      this.messageService.add({
-        severity: 'success',
-        summary: 'Sucesso',
-        detail: 'Atividade entregue com sucesso.',
-      });
+          this.messageService.add({
+            severity: 'success',
+            summary: 'Sucesso',
+            detail: 'Atividade entregue com sucesso.',
+          });
+        });
+      },
     });
+
+    
   }
 }

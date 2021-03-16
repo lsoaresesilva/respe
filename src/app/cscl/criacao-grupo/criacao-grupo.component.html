@@ -91,13 +91,16 @@ Gerar o link -->
     </div>
 </div>
 
-<div class="p-grid" *ngIf="questaoSelecionada != null">
-    <div class="p-col-4">
-        Questão selecionada: {{questaoSelecionada.questao.nomeCurto}}
+<div class="p-grid" *ngIf="questoesSelecionadas != null">
+    <div *ngFor="let questao of questoesSelecionadas">
+        <div class="p-col-4">
+            Questão selecionada: {{questao.questao.nomeCurto}}
+        </div>
+        <div class="p-col-4">
+            <button pButton label="Excluir" (click)="removerQuestao(questao)"></button>
+        </div>
     </div>
-    <div class="p-col-4">
-        <button pButton label="Excluir" (click)="removerQuestao()"></button>
-    </div>
+    
 </div>
 
 <div class="p-grid">

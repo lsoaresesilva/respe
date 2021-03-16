@@ -3,6 +3,7 @@ import { MessageService } from 'primeng/api';
 import { forkJoin } from 'rxjs';
 import { Assunto } from 'src/app/model/assunto';
 import AtividadeGrupo from 'src/app/model/cscl/atividadeGrupo';
+import QuestaoColaborativa from 'src/app/model/cscl/questaoColaborativa';
 import Query from 'src/app/model/firestore/query';
 import Turma from 'src/app/model/turma';
 import Usuario from 'src/app/model/usuario';
@@ -29,10 +30,11 @@ export class CriacaoGrupoComponent implements OnInit {
   assuntoSelecionado: Assunto;
 
   questoes;
-  questaoSelecionada;
+  questoesSelecionadas;
 
   constructor(private chatService: ChatService, private messageService: MessageService) {
     this.estudantesSelecionados = [];
+    this.questoesSelecionadas = [];
 
     Turma.getAll().subscribe((turmas) => {
       this.pesquisaTurmas = turmas;
@@ -97,24 +99,32 @@ export class CriacaoGrupoComponent implements OnInit {
   }
 
   criarSala() {
-    let atividade = new AtividadeGrupo(
-      null,
-      this.questaoSelecionada.questao.nomeCurto,
-      this.assuntoSelecionado,
-      this.questaoSelecionada,
-      this.dataExpiracao,
-      this.turmaSelecionada,
-      this.estudantesSelecionados
-    );
-    if (atividade.validar()) {
-      let atividade = AtividadeGrupo.criarGrupos(
-        this.estudantesSelecionados,
+    let grupos = AtividadeGrupo.criarGrupos(this.estudantesSelecionados);
+
+    let salvamentosAtividades = [];
+
+    if (
+      AtividadeGrupo.validar(
         this.dataExpiracao,
-        this.assuntoSelecionado,
-        this.questaoSelecionada,
-        this.turmaSelecionada
-      );
-      atividade.save().subscribe((r) => {
+        grupos,
+        this.questoesSelecionadas[0],
+        this.assuntoSelecionado
+      )
+    ) {
+      this.questoesSelecionadas.forEach((questao) => {
+        let atividade = AtividadeGrupo.criarAtividade(
+          this.dataExpiracao,
+          this.assuntoSelecionado,
+          questao,
+          this.turmaSelecionada,
+          this.estudantesSelecionados,
+          grupos
+        );
+
+        salvamentosAtividades.push(atividade.save());
+      });
+
+      forkJoin(salvamentosAtividades).subscribe(() => {
         this.messageService.add({
           severity: 'success',
           summary: 'Sucesso',
@@ -154,10 +164,20 @@ export class CriacaoGrupoComponent implements OnInit {
   }
 
   selecionarQuestao(questao) {
-    this.questaoSelecionada = questao;
+    this.questoesSelecionadas.push(questao);
   }
 
-  removerQuestao() {
-    this.questaoSelecionada = null;
+  removerQuestao(questao:QuestaoColaborativa) {
+    let index = -1;
+    for(let i = 0; i < this.questoesSelecionadas.length; i++){
+      if(this.questoesSelecionadas[i].id == questao.id){
+        index = i;
+        break
+      }
+    }
+
+    if(index != -1){
+      this.questoesSelecionadas.splice(index, 1);
+    }
   }
 }
