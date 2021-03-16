@@ -4,6 +4,10 @@
       ></p-confirmDialog>
 <div *ngIf="this.questao != undefined" style="display: flex; justify-content: space-between">
   <div>
+    <img src="/assets/connected.png" style="width:16px; height:16px;margin-right: 10px" *ngIf="isConectado == true; else offline"/>
+    <ng-template #offline>
+      <img src="/assets/offline.png" style="margin-right:10px" *ngIf="atividadeGrupo != null"/>
+    </ng-template>
     <button
       *ngIf="modoVisualizacao == false"
       type="button"

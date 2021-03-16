@@ -96,6 +96,8 @@ export class EditorProgramacaoComponent implements AfterViewInit, OnChanges, OnI
   document; // Armazena as edições colaborativas realizadas no editor.
   posicaoCursor;
 
+  isConectado;
+
   constructor(
     private http: HttpClient,
     public login: LoginService,
@@ -119,6 +121,7 @@ export class EditorProgramacaoComponent implements AfterViewInit, OnChanges, OnI
      */
 
     this.statusBtnEnvioAtividadeGrupo = false;
+    this.isConectado = false;
   }
 
   ngOnInit(): void {
@@ -183,16 +186,13 @@ export class EditorProgramacaoComponent implements AfterViewInit, OnChanges, OnI
       editorProgramacaoComponentInstance.atividadeGrupo != null &&
       editorProgramacaoComponentInstance.atividadeGrupo.pk() != null
     ) {
-      /* 
 
-editorProgramacaoComponentInstance.chat.iniciarConexao(editorProgramacaoComponentInstance.salaId, function(doc){
-
-*/
 
       editorProgramacaoComponentInstance.chat.iniciarConexao(
         editorProgramacaoComponentInstance.atividadeGrupo.pk()
       );
       editorProgramacaoComponentInstance.chat.observerCodigo.subscribe((doc) => {
+        editorProgramacaoComponentInstance.isConectado = true
         editorProgramacaoComponentInstance.document = doc;
         let novoAlgoritmo = Algoritmo.criar(doc.data.algoritmo);
         let algoritmoAntigo = editor.getValue();
@@ -227,6 +227,9 @@ editorProgramacaoComponentInstance.chat.iniciarConexao(editorProgramacaoComponen
     }
   }
 
+  /**
+   * Faz o controle para que os estudantes tenham o seu código sincronizado.
+   */
   sincronizarEditor(editor) {
     let _this = this;
     let textoAntes = '';

@@ -29,6 +29,10 @@ export class ChatService {
   iniciarConexao(sala) {
     this.sala = sala;
     let usuarioLogado = this.login.getUsuarioLogado();
+
+    /**
+     * Socket para a sincronização do chat
+     */
     this.socketChat = io.connect('http://localhost:3001', {
       query: { sala: sala, usuario: { id: usuarioLogado.pk(), nome: usuarioLogado.nome } },
     });
@@ -37,6 +41,14 @@ export class ChatService {
       this.observerChat.next(JSON.parse(message));
     });
 
+    this.socketChat.on('connection', (message) => {
+      console.log("Conexaaao")
+    });
+
+
+    /**
+     * Socket para a sincronização do editor
+     */
     this.socket = new WebSocket('ws://127.0.0.1:8080');
     let _this = this;
     this.socket.onopen = function (event) {
