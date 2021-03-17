@@ -1,13 +1,9 @@
-<p-confirmDialog
-        header="Atenção"
-        icon="pi pi-exclamation-triangle"
-      ></p-confirmDialog>
+
+<p-confirmDialog header="Atenção" icon="pi pi-exclamation-triangle"></p-confirmDialog>
+
 <div *ngIf="this.questao != undefined" style="display: flex; justify-content: space-between">
-  <div>
-    <img src="/assets/connected.png" style="width:16px; height:16px;margin-right: 10px" *ngIf="isConectado == true; else offline"/>
-    <ng-template #offline>
-      <img src="/assets/offline.png" style="margin-right:10px" *ngIf="atividadeGrupo != null"/>
-    </ng-template>
+  
+  <div> 
     <button
       *ngIf="modoVisualizacao == false"
       type="button"
@@ -19,6 +15,15 @@
       iconPos="left"
       class="ui-button-success"
       style="margin-right: 10px"
+    ></button>
+    <button pButton pRipple type="button" icon="{{ submissao.isFinalizada() ? 'pi pi-check' : 'pi pi-times' }}" [ngClass]="{
+      'p-button-rounded p-button-success': submissao.isFinalizada(),
+      'p-button-rounded p-button-danger': !submissao.isFinalizada()
+    }"
+    pTooltip="{{ submissao.isFinalizada() ? 'Seu algoritmo está correto.' : 'Seu algoritmo apresenta um problema.' }}"
+    style="margin-left: 10px"
+      id="statusExecucaoAlgoritmo"
+    *ngIf="submissao != undefined && submissao.isFinalizada() != null"
     ></button>
     <p-progressBar
     *ngIf="processandoSubmissao == true"
@@ -38,28 +43,26 @@
             class="p-button-warning"></button> -->
     
   </div>
-  <div>
-    <button
-      style="margin-left: 10px"
-      id="statusExecucaoAlgoritmo"
-      label="{{ submissao.isFinalizada() ? 'Sucesso' : 'O algoritmo não está correto' }}"
-      *ngIf="submissao != undefined && submissao.isFinalizada() != null"
-      [ngClass]="{
-        'p-button-success': submissao.isFinalizada(),
-        'p-button-danger': !submissao.isFinalizada()
-      }"
-      pButton
-    ></button>
+  <div style="max-width: 20px;">
+    <img src="/assets/connected.png" style="width:16px; height:16px;margin-right: 10px" *ngIf="isConectado == true; else offline"/>
+    <ng-template #offline>
+      <img src="/assets/offline.png" style="margin-right:10px" *ngIf="atividadeGrupo != null"/>
+    </ng-template>
+  </div>
+  <div> 
+
+    
    
   </div>
   <div>
-   <!--  <button
+   <button
       type="button"
       (click)="visualizarResposta(questao)"
       pButton
+      icon="pi pi-eye"
       label="Visualizar resposta"
       *ngIf="questao.exemplos.length > 0"
-    ></button> -->
+    ></button>
   </div>
   
   <div>
@@ -79,5 +82,3 @@
   [ngStyle]="{ height: liteMode === true ? '300px' : '400px' }"
   style="margin-top: 10px; border: 1px solid grey; position: relative"
 ></div>
-
-<p-confirmDialog header="Atenção" icon="pi pi-exclamation-triangle"></p-confirmDialog>

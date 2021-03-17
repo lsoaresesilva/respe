@@ -6,6 +6,7 @@ import Query from 'src/app/model/firestore/query';
 import { QuestaoProgramacao } from 'src/app/model/questoes/questaoProgramacao';
 import { ActivatedRoute, Router } from '@angular/router';
 import { MessageService } from 'primeng/api';
+import { DynamicDialogConfig } from 'primeng/dynamicdialog';
 
 /*
 http://localhost:4200/main/(principal:editor/jW22yOF9a28N0aQlNNGR/76e4017f-6006-476f-8b47-88b0e33dbf84)
@@ -22,16 +23,17 @@ export class ExibirSolucaoComponent {
   constructor(
     private login: LoginService,
     private router: Router,
-    private messageService: MessageService
+    private messageService: MessageService,
+    public config: DynamicDialogConfig
   ) {
-    const navigation = this.router.getCurrentNavigation();
-    console.log('Navigation');
-    console.log(navigation);
-    const questao = navigation.extras.state.questao as QuestaoProgramacao;
+    /* const navigation = this.router.getCurrentNavigation();
+  
+    const questao = navigation.extras.state.questao as QuestaoProgramacao; */
+    const questao = this.config.data.questao;
     if (questao != null) {
       const solucao = questao.getExemploCorreto();
-      if (Array.isArray(solucao.algoritmo)) {
-        this.saida = solucao.algoritmo.join('\n');
+      if (Array.isArray(solucao.codigo)) {
+        this.saida = solucao.codigo.join('\n');
         // Verificar se já foi salvo no BD.
         const estudante = this.login.getUsuarioLogado();
         VisualizacaoRespostasQuestoes.getByEstudante(questao, estudante).subscribe((visualizou) => {

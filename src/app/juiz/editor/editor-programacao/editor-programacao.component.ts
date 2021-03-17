@@ -25,6 +25,8 @@ import SubmissaoGrupo from 'src/app/model/cscl/submissaoGrupo';
 import AtividadeGrupo from 'src/app/model/cscl/atividadeGrupo';
 import HistoricoEdicoes from 'src/app/model/cscl/historicoEdicoes';
 import TraceVisualizacao from 'src/app/model/visualizacao/traceVisualizacao';
+import { DialogService } from 'primeng/dynamicdialog';
+import { ExibirSolucaoComponent } from 'src/app/srl/monitoramento/exibir-solucao/exibir-solucao.component';
 
 /**
  * Executa um javascript ide.js para acoplar o editor VStudio.
@@ -105,7 +107,8 @@ export class EditorProgramacaoComponent implements AfterViewInit, OnChanges, OnI
     private router: Router,
     public chat: ChatService,
     private route: ActivatedRoute,
-    private messageService: MessageService
+    private messageService: MessageService,
+    public dialogService: DialogService
   ) {
     this.onError = new EventEmitter();
     this.onSubmit = new EventEmitter();
@@ -160,9 +163,23 @@ export class EditorProgramacaoComponent implements AfterViewInit, OnChanges, OnI
       acceptLabel: 'Sim',
       rejectLabel: 'Não',
       accept: () => {
-        this.router.navigate(['main', { outlets: { principal: ['exibir-codigo', questao.id] } }], {
+        
+        const ref = this.dialogService.open(ExibirSolucaoComponent, {
+          header: 'Algoritmo com a solução do problema',
+          width: '60%',
+          data: {
+            questao:questao
+          },
+        }
+        );
+
+        ref.onClose.subscribe(()=>{
+          this.confirmationService.close();
+        })
+        
+        /* this.router.navigate(['main', { outlets: { principal: ['exibir-codigo', questao.id] } }], {
           state: { questao: questao },
-        });
+        }); */
       },
     });
   }
@@ -621,7 +638,7 @@ export class EditorProgramacaoComponent implements AfterViewInit, OnChanges, OnI
 
       this.http
         .post<any>(url, json, httpOptions)
-        .pipe(timeout(20000))
+        .pipe(timeout(30000))
         .subscribe({
           next: (resposta) => {
             submissao.processarRespostaServidor(resposta).subscribe((resultado) => {

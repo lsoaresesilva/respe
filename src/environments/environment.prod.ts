@@ -1,6 +1,9 @@
 export const environment = {
   production: true,
   URL: 'http://35.208.64.26:8000/',
+  URL_SERVIDOR:'http://35.208.64.26/',
+  URL_CHAT:'http://35.208.64.26:3001',
+  URL_SERVIDOR_DOC:'ws://35.208.64.26:8080',
   firebase: {
     apiKey: 'AIzaSyDQ6iOddJoIKtSQhXe-JYPNbyZFAFIIiHM',
     authDomain: 'letscode-producao.firebaseapp.com',

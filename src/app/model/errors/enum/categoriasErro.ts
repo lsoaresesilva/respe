@@ -6,6 +6,7 @@ export enum CategoriaErro {
   syntaxError = '2',
   typeError = '3',
   identationError = '4',
+  timedoutError = '5',
 }
 
 export function getCategoriaPorInstancia(erro: ErroCompilacao) {

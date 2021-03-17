@@ -6,6 +6,7 @@ import Usuario from '../model/usuario';
 import * as io from 'socket.io-client';
 import { LoginService } from '../login-module/login.service';
 import Sharedb from 'sharedb/lib/client';
+import { environment } from 'src/environments/environment';
 
 @Injectable({
   providedIn: 'root',
@@ -33,7 +34,7 @@ export class ChatService {
     /**
      * Socket para a sincronização do chat
      */
-    this.socketChat = io.connect('http://localhost:3001', {
+    this.socketChat = io.connect(environment.URL_CHAT, {
       query: { sala: sala, usuario: { id: usuarioLogado.pk(), nome: usuarioLogado.nome } },
     });
 
@@ -49,7 +50,7 @@ export class ChatService {
     /**
      * Socket para a sincronização do editor
      */
-    this.socket = new WebSocket('ws://127.0.0.1:8080');
+    this.socket = new WebSocket(environment.URL_SERVIDOR_DOC);
     let _this = this;
     this.socket.onopen = function (event) {
       // Dados para abertura da conexão

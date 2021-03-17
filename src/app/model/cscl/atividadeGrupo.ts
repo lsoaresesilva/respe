@@ -8,6 +8,7 @@ import { Util } from '../util';
 import Turma from '../turma';
 import QuestaoColaborativa from './questaoColaborativa';
 import Grupo from './grupo';
+import { environment } from 'src/environments/environment';
 
 @Collection('atividadeGrupo')
 export default class AtividadeGrupo extends Document {
@@ -69,7 +70,7 @@ export default class AtividadeGrupo extends Document {
   gerarLink(estudante:Usuario) {
     
     let grupoEstudante = this.getGrupoByEstudante(estudante);
-    let link =  'http://localhost:4200/main/(principal:entrar-grupo/' +
+    let link =  environment.URL_SERVIDOR+'main/(principal:entrar-grupo/' +
     this.pk() +
     '/' +
     grupoEstudante.id +

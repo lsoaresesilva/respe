@@ -10,6 +10,7 @@ import { SpinnerModule } from 'primeng/spinner';
 import { CadastrarTesteCaseComponent } from './cadastrar-teste-case/cadastrar-teste-case.component';
 import { InputTextareaModule } from 'primeng/inputtextarea';
 import { CardModule } from 'primeng/card';
+import {TooltipModule} from 'primeng/tooltip';
 import { CheckboxModule } from 'primeng/checkbox';
 import { ListarQuestoesComponent } from './listar-questoes/listar-questoes.component';
 import { MessageService } from 'primeng/api';
@@ -45,6 +46,7 @@ import { VisualizarQuestaoFechadaComponent } from './visualizar-questao-fechada/
 import { ListarQuestoesFechadasComponent } from './listar-questoes-fechadas/listar-questoes-fechadas.component';
 import { EscolherQuestaoComponent } from './escolher-questao/escolher-questao.component';
 import {ToggleButtonModule} from 'primeng/togglebutton';
+import {DialogService, DynamicDialogModule} from 'primeng/dynamicdialog';
 import { FieldsetModule } from 'primeng/fieldset';
 import { InputMaskModule } from 'primeng/inputmask';
 import { ConfirmDialogModule } from 'primeng/confirmdialog';
@@ -69,6 +71,7 @@ import { ListarQuestoesSequenciaComponent } from './listar-questoes-sequencia/li
 import { ProgressSpinnerModule } from 'primeng/progressspinner';
 import { ChatModule } from '../chat/chat.module';
 import { BtnAvancarQuestaoComponent } from './btn-avancar-questao/btn-avancar-questao.component';
+import { ExibirSolucaoComponent } from '../srl/monitoramento/exibir-solucao/exibir-solucao.component';
 
 @NgModule({
   declarations: [
@@ -104,6 +107,8 @@ import { BtnAvancarQuestaoComponent } from './btn-avancar-questao/btn-avancar-qu
     ChatModule,
     CommonModule,
     TimelineModule,
+    TooltipModule,
+    DynamicDialogModule,
     KnobModule,
     TableModule,
     PanelModule,
@@ -150,8 +155,10 @@ import { BtnAvancarQuestaoComponent } from './btn-avancar-questao/btn-avancar-qu
     BreadcrumbAssuntoComponent,
     BtnAvancarQuestaoComponent
   ],
-
-  providers: [MessageService, LoginService, EditorService, ConfirmationService],
+  entryComponents: [
+    ExibirSolucaoComponent
+],
+  providers: [MessageService, LoginService, EditorService, ConfirmationService, DialogService],
   schemas: [CUSTOM_ELEMENTS_SCHEMA],
 })
 export class JuizModule {}

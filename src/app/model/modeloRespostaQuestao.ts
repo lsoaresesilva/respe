@@ -3,7 +3,7 @@ import { QuestaoProgramacao } from './questoes/questaoProgramacao';
 import { Util } from './util';
 
 export class ModeloRespostaQuestao {
-  constructor(public id, public algoritmo: String[], public isCorreto) {
+  constructor(public id, public codigo: String[], public isCorreto) {
     if (id == null) {
       this.id = Util.uuidv4();
     } else {
@@ -20,7 +20,7 @@ export class ModeloRespostaQuestao {
 
     if (exemplosDocument != null) {
       exemplosDocument.forEach((exemplo) => {
-        exemplos.push(new ModeloRespostaQuestao(exemplo.id, exemplo.algoritmo, exemplo.isCorreto));
+        exemplos.push(new ModeloRespostaQuestao(exemplo.id, exemplo.codigo, exemplo.isCorreto));
       });
     }
 
@@ -28,12 +28,12 @@ export class ModeloRespostaQuestao {
   }
 
   objectToDocument() {
-    const document = { codigo: this.algoritmo, isCorreto: this.isCorreto };
+    const document = { codigo: this.codigo, isCorreto: this.isCorreto };
     return document;
   }
 
   validar() {
-    if (!Array.isArray(this.algoritmo)) {
+    if (!Array.isArray(this.codigo)) {
       return false;
     }
     return true;
