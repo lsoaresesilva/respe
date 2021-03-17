@@ -241,14 +241,26 @@ export class QuestaoProgramacao {
     }
   }
 
-  toJson() {
+  toJson(isVisualizacao = false, id = null) {
     const ts = [];
 
-    if (this.testsCases != null && this.testsCases.length > 0) {
-      this.testsCases.forEach((testCase) => {
-        ts.push(testCase.objectToDocument());
-      });
+    if(isVisualizacao && id != null){
+      if (this.testsCases != null && this.testsCases.length > 0) {
+        this.testsCases.forEach((testCase) => {
+          if(testCase.id == id){
+            ts.push(testCase.objectToDocument());
+          }
+          
+        });
+      }
+    }else{
+      if (this.testsCases != null && this.testsCases.length > 0) {
+        this.testsCases.forEach((testCase) => {
+          ts.push(testCase.objectToDocument());
+        });
+      }
     }
+    
 
     return {
       testsCases: ts,

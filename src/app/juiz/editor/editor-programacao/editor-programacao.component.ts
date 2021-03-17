@@ -34,7 +34,14 @@ import { ExibirSolucaoComponent } from 'src/app/srl/monitoramento/exibir-solucao
 // declare var editor: any;
 declare var monaco: any;
 declare var editorProgramacao: any;
-declare function carregarIde(readOnly, callback, instance, callbackOnEditorLoad, codigo, isAtividadeGrupo): any;
+declare function carregarIde(
+  readOnly,
+  callback,
+  instance,
+  callbackOnEditorLoad,
+  codigo,
+  isAtividadeGrupo
+): any;
 declare function atualizarDecorations(): any;
 
 @Component({
@@ -46,6 +53,7 @@ export class EditorProgramacaoComponent implements AfterViewInit, OnChanges, OnI
   URL = environment.URL;
 
   processandoSubmissao;
+  processandoVisualizacao;
 
   editor; // instância do Mônaco Editor. Carregado por meio do arquivo ide.js
 
@@ -84,6 +92,8 @@ export class EditorProgramacaoComponent implements AfterViewInit, OnChanges, OnI
   _submissao;
   editorCodigo?: Editor;
 
+  items; // Botões da visualização de algoritmos
+
   @Output()
   onError: EventEmitter<any>;
   @Output()
@@ -116,6 +126,7 @@ export class EditorProgramacaoComponent implements AfterViewInit, OnChanges, OnI
     this.onServidorError = new EventEmitter();
     this.onEditorReady = new EventEmitter();
     this.processandoSubmissao = false;
+    this.processandoVisualizacao = false;
     this.usuario = this.login.getUsuarioLogado();
     editorProgramacao = null;
 
@@ -125,6 +136,8 @@ export class EditorProgramacaoComponent implements AfterViewInit, OnChanges, OnI
 
     this.statusBtnEnvioAtividadeGrupo = false;
     this.isConectado = false;
+    this.modoVisualizacao = false;
+    this.items = [];
   }
 
   ngOnInit(): void {
@@ -148,8 +161,26 @@ export class EditorProgramacaoComponent implements AfterViewInit, OnChanges, OnI
       this.editorCodigo.codigo = '';
     }
 
+    if (
+      this.questao != null &&
+      this.questao.testsCases != null &&
+      Array.isArray(this.questao.testsCases)
+    ) {
+      
+      let i = 0;
+      this.questao.testsCases.forEach((testCase) => {
+        i++;
+        this.items.push({
+          label: 'Entrada ' + i,
+          command: () => {
+            this.visualizar(testCase);
+          },
+        });
+      });
+    }
+
     let isAtividadeGrupo = false;
-    if(this.atividadeGrupo != null){
+    if (this.atividadeGrupo != null) {
       isAtividadeGrupo = true;
     }
 
@@ -163,23 +194,17 @@ export class EditorProgramacaoComponent implements AfterViewInit, OnChanges, OnI
       acceptLabel: 'Sim',
       rejectLabel: 'Não',
       accept: () => {
-        
         const ref = this.dialogService.open(ExibirSolucaoComponent, {
           header: 'Algoritmo com a solução do problema',
           width: '60%',
           data: {
-            questao:questao
+            questao: questao,
           },
-        }
-        );
+        });
 
-        ref.onClose.subscribe(()=>{
+        ref.onClose.subscribe(() => {
           this.confirmationService.close();
-        })
-        
-        /* this.router.navigate(['main', { outlets: { principal: ['exibir-codigo', questao.id] } }], {
-          state: { questao: questao },
-        }); */
+        });
       },
     });
   }
@@ -203,13 +228,11 @@ export class EditorProgramacaoComponent implements AfterViewInit, OnChanges, OnI
       editorProgramacaoComponentInstance.atividadeGrupo != null &&
       editorProgramacaoComponentInstance.atividadeGrupo.pk() != null
     ) {
-
-
       editorProgramacaoComponentInstance.chat.iniciarConexao(
         editorProgramacaoComponentInstance.atividadeGrupo.pk()
       );
       editorProgramacaoComponentInstance.chat.observerCodigo.subscribe((doc) => {
-        editorProgramacaoComponentInstance.isConectado = true
+        editorProgramacaoComponentInstance.isConectado = true;
         editorProgramacaoComponentInstance.document = doc;
         let novoAlgoritmo = Algoritmo.criar(doc.data.algoritmo);
         let algoritmoAntigo = editor.getValue();
@@ -250,9 +273,14 @@ export class EditorProgramacaoComponent implements AfterViewInit, OnChanges, OnI
   sincronizarEditor(editor) {
     let _this = this;
     let textoAntes = '';
-    let textoLinhaAnterior = "";
+    let textoLinhaAnterior = '';
     let cursorAntes: any = {};
-    let historicoEdicoes = new HistoricoEdicoes(null, this.atividadeGrupo, this.grupo, this.usuario);
+    let historicoEdicoes = new HistoricoEdicoes(
+      null,
+      this.atividadeGrupo,
+      this.grupo,
+      this.usuario
+    );
     let selection = null;
     let ultimaColunaLinha = null;
 
@@ -271,7 +299,7 @@ export class EditorProgramacaoComponent implements AfterViewInit, OnChanges, OnI
       cursorAntes = editor.getPosition();
       let texto = editor.getModel().getLineContent(editor.getPosition().lineNumber);
       textoAntes = texto;
-      textoLinhaAnterior = editor.getModel().getLineContent(editor.getPosition().lineNumber-1);
+      textoLinhaAnterior = editor.getModel().getLineContent(editor.getPosition().lineNumber - 1);
       selection = editor.getSelection();
       ultimaColunaLinha = editor.getModel().getLineMaxColumn(editor.getPosition().lineNumber);
     });
@@ -281,9 +309,9 @@ export class EditorProgramacaoComponent implements AfterViewInit, OnChanges, OnI
       let op = null;
       let linhaAtual = editor.getPosition().lineNumber;
       let texto = editor.getModel().getLineContent(editor.getPosition().lineNumber);
-      
-      let possuiNumerosOuLetras = /([A-Z])+|([a-z])+|\w+|([0-9])+/g
-      let regex = new RegExp(possuiNumerosOuLetras)
+
+      let possuiNumerosOuLetras = /([A-Z])+|([a-z])+|\w+|([0-9])+/g;
+      let regex = new RegExp(possuiNumerosOuLetras);
       let test = regex.exec(textoAntes);
 
       /* if(texto == "    " || texto == "" && (e.browserEvent.key === "Enter" || e.browserEvent.keyCode == 13)){
@@ -313,11 +341,9 @@ export class EditorProgramacaoComponent implements AfterViewInit, OnChanges, OnI
         historicoEdicoes.inserir(edicao);
       } */
 
-      
-
-      if(test == null && (e.browserEvent.key === "Enter" || e.browserEvent.keyCode == 13)){
+      if (test == null && (e.browserEvent.key === 'Enter' || e.browserEvent.keyCode == 13)) {
         op = [
-          { p: ['algoritmo', _this.posicaoCursor.lineNumber - 1], li: "" },
+          { p: ['algoritmo', _this.posicaoCursor.lineNumber - 1], li: '' },
           {
             p: ['cursor', 'lineNumber'],
             od: cursorAntes.lineNumber,
@@ -326,12 +352,17 @@ export class EditorProgramacaoComponent implements AfterViewInit, OnChanges, OnI
           { p: ['cursor', 'column'], od: cursorAntes.column, oi: _this.posicaoCursor.column },
           { p: ['autor'], od: _this.usuario.id, oi: _this.usuario.id },
         ];
-      }else if(test == null && (e.browserEvent.key === "Backspace" || e.browserEvent.keyCode == 8 || e.browserEvent.key === "Del" || e.browserEvent.keyCode == 46)){
-        
+      } else if (
+        test == null &&
+        (e.browserEvent.key === 'Backspace' ||
+          e.browserEvent.keyCode == 8 ||
+          e.browserEvent.key === 'Del' ||
+          e.browserEvent.keyCode == 46)
+      ) {
         // Apagar uma linha em que acima tenha um texto
-        if(cursorAntes.lineNumber > _this.posicaoCursor.lineNumber){
+        if (cursorAntes.lineNumber > _this.posicaoCursor.lineNumber) {
           op = [
-            { p: ['algoritmo', _this.posicaoCursor.lineNumber], ld: "" },
+            { p: ['algoritmo', _this.posicaoCursor.lineNumber], ld: '' },
             {
               p: ['cursor', 'lineNumber'],
               od: cursorAntes.lineNumber,
@@ -340,14 +371,13 @@ export class EditorProgramacaoComponent implements AfterViewInit, OnChanges, OnI
             { p: ['cursor', 'column'], od: cursorAntes.column, oi: _this.posicaoCursor.column },
             { p: ['autor'], od: _this.usuario.id, oi: _this.usuario.id },
           ];
-        }else{
-
+        } else {
           // Fazer: Apagar múltiplos caracteres
 
-          if(selection.startLineNumber != selection.endLineNumber){
-            for(let i = selection.startLineNumber; i < selection.endLineNumber+1; i++){
+          if (selection.startLineNumber != selection.endLineNumber) {
+            for (let i = selection.startLineNumber; i < selection.endLineNumber + 1; i++) {
               op = [
-                { p: ['algoritmo', i-1], ld: "" },
+                { p: ['algoritmo', i - 1], ld: '' },
                 {
                   p: ['cursor', 'lineNumber'],
                   od: cursorAntes.lineNumber,
@@ -356,17 +386,15 @@ export class EditorProgramacaoComponent implements AfterViewInit, OnChanges, OnI
                 { p: ['cursor', 'column'], od: cursorAntes.column, oi: _this.posicaoCursor.column },
                 { p: ['autor'], od: _this.usuario.id, oi: _this.usuario.id },
               ];
-  
+
               _this.document.submitOp(op); // TODO: jogar para o service
             }
-            
 
             op = null;
-
-          }else{
-            if(texto != textoAntes){
+          } else {
+            if (texto != textoAntes) {
               op = [
-                { p: ['algoritmo', _this.posicaoCursor.lineNumber-1], ld: textoAntes, li:texto },
+                { p: ['algoritmo', _this.posicaoCursor.lineNumber - 1], ld: textoAntes, li: texto },
                 {
                   p: ['cursor', 'lineNumber'],
                   od: cursorAntes.lineNumber,
@@ -375,9 +403,9 @@ export class EditorProgramacaoComponent implements AfterViewInit, OnChanges, OnI
                 { p: ['cursor', 'column'], od: cursorAntes.column, oi: _this.posicaoCursor.column },
                 { p: ['autor'], od: _this.usuario.id, oi: _this.usuario.id },
               ];
-            }else{
+            } else {
               op = [
-                { p: ['algoritmo', _this.posicaoCursor.lineNumber-1], ld: "" },
+                { p: ['algoritmo', _this.posicaoCursor.lineNumber - 1], ld: '' },
                 {
                   p: ['cursor', 'lineNumber'],
                   od: cursorAntes.lineNumber,
@@ -387,21 +415,19 @@ export class EditorProgramacaoComponent implements AfterViewInit, OnChanges, OnI
                 { p: ['autor'], od: _this.usuario.id, oi: _this.usuario.id },
               ];
             }
-            
           }
-
-          
         }
-        
-
-        
-      }else{ 
-       
-        if(e.browserEvent.key === "Backspace" || e.browserEvent.keyCode == 8 || e.browserEvent.key === "Del" || e.browserEvent.keyCode == 46){
-          
-          if(cursorAntes.lineNumber > _this.posicaoCursor.lineNumber){ //  Cursor no início da linha, apagar com backspace (sobe para linha anterior)
+      } else {
+        if (
+          e.browserEvent.key === 'Backspace' ||
+          e.browserEvent.keyCode == 8 ||
+          e.browserEvent.key === 'Del' ||
+          e.browserEvent.keyCode == 46
+        ) {
+          if (cursorAntes.lineNumber > _this.posicaoCursor.lineNumber) {
+            //  Cursor no início da linha, apagar com backspace (sobe para linha anterior)
             op = [
-              { p: ['algoritmo', _this.posicaoCursor.lineNumber], ld: ""},
+              { p: ['algoritmo', _this.posicaoCursor.lineNumber], ld: '' },
               {
                 p: ['cursor', 'lineNumber'],
                 od: cursorAntes.lineNumber,
@@ -414,7 +440,11 @@ export class EditorProgramacaoComponent implements AfterViewInit, OnChanges, OnI
             _this.document.submitOp(op); // TODO: jogar para o service
 
             op = [
-              { p: ['algoritmo', _this.posicaoCursor.lineNumber-1], ld: textoLinhaAnterior, li:texto },
+              {
+                p: ['algoritmo', _this.posicaoCursor.lineNumber - 1],
+                ld: textoLinhaAnterior,
+                li: texto,
+              },
               {
                 p: ['cursor', 'lineNumber'],
                 od: cursorAntes.lineNumber,
@@ -427,10 +457,9 @@ export class EditorProgramacaoComponent implements AfterViewInit, OnChanges, OnI
             _this.document.submitOp(op); // TODO: jogar para o service
 
             op = null;
-
-          }else{
+          } else {
             op = [
-              { p: ['algoritmo', _this.posicaoCursor.lineNumber-1], ld: textoAntes, li:texto },
+              { p: ['algoritmo', _this.posicaoCursor.lineNumber - 1], ld: textoAntes, li: texto },
               {
                 p: ['cursor', 'lineNumber'],
                 od: cursorAntes.lineNumber,
@@ -443,10 +472,15 @@ export class EditorProgramacaoComponent implements AfterViewInit, OnChanges, OnI
             _this.document.submitOp(op); // TODO: jogar para o service
 
             // tem que estar na ultima coluna    //
-             
-            if((ultimaColunaLinha != null && ultimaColunaLinha == cursorAntes.column) && (e.browserEvent.key === "Del" || e.browserEvent.keyCode == 46)){ // Usar o delete no fim de uma linha (puxando o conteúdo de baixo para linha anterior)
+
+            if (
+              ultimaColunaLinha != null &&
+              ultimaColunaLinha == cursorAntes.column &&
+              (e.browserEvent.key === 'Del' || e.browserEvent.keyCode == 46)
+            ) {
+              // Usar o delete no fim de uma linha (puxando o conteúdo de baixo para linha anterior)
               op = [
-                { p: ['algoritmo', _this.posicaoCursor.lineNumber], ld: "" },
+                { p: ['algoritmo', _this.posicaoCursor.lineNumber], ld: '' },
                 {
                   p: ['cursor', 'lineNumber'],
                   od: cursorAntes.lineNumber,
@@ -457,19 +491,18 @@ export class EditorProgramacaoComponent implements AfterViewInit, OnChanges, OnI
               ];
 
               _this.document.submitOp(op); // TODO: jogar para o service
-
             }
-            
 
-            
-            op = null
+            op = null;
           }
-          
-         
-        }else if(e.browserEvent.key === "Enter" || e.browserEvent.keyCode == 13){
-          let primeiraParte = editor.getModel().getLineContent(editor.getPosition().lineNumber-1);
+        } else if (e.browserEvent.key === 'Enter' || e.browserEvent.keyCode == 13) {
+          let primeiraParte = editor.getModel().getLineContent(editor.getPosition().lineNumber - 1);
           op = [
-            { p: ['algoritmo', _this.posicaoCursor.lineNumber-2], ld: textoAntes, li:primeiraParte },
+            {
+              p: ['algoritmo', _this.posicaoCursor.lineNumber - 2],
+              ld: textoAntes,
+              li: primeiraParte,
+            },
             {
               p: ['cursor', 'lineNumber'],
               od: cursorAntes.lineNumber,
@@ -494,7 +527,7 @@ export class EditorProgramacaoComponent implements AfterViewInit, OnChanges, OnI
           _this.document.submitOp(op); // TODO: jogar para o service
 
           op = null;
-        }else{
+        } else {
           op = [
             { p: ['algoritmo', _this.posicaoCursor.lineNumber - 1], ld: textoAntes, li: texto },
             {
@@ -507,23 +540,14 @@ export class EditorProgramacaoComponent implements AfterViewInit, OnChanges, OnI
           ];
         }
 
-        
-        
-        
-        
-
         let edicao = new Edicao(_this.posicaoCursor.lineNumber, texto);
         historicoEdicoes.inserir(edicao);
+      }
 
-        
-       } 
-
-       if(op != null){
+      if (op != null) {
         _this.document.submitOp(op); // TODO: jogar para o service
         op = null;
-       }
-        
-      
+      }
     });
   }
 
@@ -538,10 +562,8 @@ export class EditorProgramacaoComponent implements AfterViewInit, OnChanges, OnI
     this.onVisualization.emit(false);
   }
 
-  suspenderVisualizacao(){
-
-    if(this.editor != null){
-
+  suspenderVisualizacao() {
+    if (this.editor != null) {
       /* let decorations = this.editor.getModel().getAllDecorations();
 
       if(Array.isArray(decorations)){
@@ -550,10 +572,11 @@ export class EditorProgramacaoComponent implements AfterViewInit, OnChanges, OnI
         })
       } */
 
-      Editor.getInstance().decorations = this.editor.deltaDecorations(Editor.getInstance().decorations, []);
-      
+      Editor.getInstance().decorations = this.editor.deltaDecorations(
+        Editor.getInstance().decorations,
+        []
+      );
     }
-    
 
     this.onVisualization.emit({
       modoVisualizacao: false,
@@ -561,48 +584,55 @@ export class EditorProgramacaoComponent implements AfterViewInit, OnChanges, OnI
     });
   }
 
-  visualizar(status) {
-    if (status) {
-      this.prepararSubmissao();
-      this.submissao.save().subscribe((resultado) => {
-        this.submissao = resultado;
-        const httpOptions = {
-          headers: new HttpHeaders({
-            'Content-Type': 'application/json',
-          }),
-        };
-        // TODO: definir um timedout
-        const json = this.submissao.construirJson(this.questao, 'visualização');
+  visualizar(testCase) {
+    const submissao = this.prepararSubmissao();
+    
+    if (submissao.validar()) {
+      this.processandoVisualizacao = true;
+      
+      const httpOptions = {
+        headers: new HttpHeaders({
+          'Content-Type': 'application/json',
+        }),
+      };
+      // TODO: definir um timedout
+      const json = this.submissao.construirJsonVisualizacao(this.questao, testCase);
 
-        this.http.post(this.URL + 'codigo/', json, httpOptions).subscribe(
-          (resposta) => {
-            if(TraceVisualizacao.possuiErro(String(resposta))){
-              this.messageService.add({
-                severity: 'error',
-                summary: 'Não é possível visualizar a execução',
-                detail: 'O seu algoritmo possui algum erro e por isso não é possível visualizar sua execução.',
-              });
-            }else{
-              const padrao = /(.*?){.*"code"/gs
-              let re = new RegExp(padrao);
-              let x = re.exec(String(resposta))
-              if(Array.isArray(x) && x.length > 1){
-                const respostaParser: string = String(resposta).replace(x[1], '');
+      this.http.post(this.URL + 'codigo/', json, httpOptions).subscribe(
+        (resposta) => {
+          if (TraceVisualizacao.possuiErro(String(resposta))) {
+            this.processandoVisualizacao = false;
+            this.messageService.add({
+              severity: 'error',
+              summary: 'Não é possível visualizar a execução',
+              detail:
+                'O seu algoritmo possui algum erro e por isso não é possível visualizar sua execução.',
+            });
+          } else {
+            this.processandoVisualizacao = false;
+            const padrao = /(.*?){.*"code"/gs;
+            let re = new RegExp(padrao);
+            let x = re.exec(String(resposta));
+            if (Array.isArray(x) && x.length > 1) {
+              const respostaParser: string = String(resposta).replace(x[1], '');
 
-
-                this.visualizarExecucacao(true, JSON.parse(respostaParser)); // TODO:
-              }
+              this.visualizarExecucacao(true, JSON.parse(respostaParser)); // TODO:
             }
-            
-            
-          },
-          (err) => {
-            // this.prepararMensagemExceptionHttp(err);
           }
-        );
+        },
+        (err) => {
+          this.processandoVisualizacao = false;
+          // this.prepararMensagemExceptionHttp(err);
+        }
+      );
+    
+    }else{
+      this.messageService.add({
+        severity: 'error',
+        summary: 'Erro',
+        detail:
+          'Não é possível executar o código, pois ele está vazio.',
       });
-    } else {
-      this.visualizarExecucacao(false, null);
     }
   }
 
@@ -649,7 +679,10 @@ export class EditorProgramacaoComponent implements AfterViewInit, OnChanges, OnI
           },
           error: (erro) => {
             // TODO: Jogar todo o erro para cima (quem chama esse component) e deixar que ele gerencie o Erro
-            if (erro.name === 'TimeoutError' || (erro.error != null && erro.error.mensagem == null)) {
+            if (
+              erro.name === 'TimeoutError' ||
+              (erro.error != null && erro.error.mensagem == null)
+            ) {
               this.onServidorError.emit(erro);
             } else {
               submissao.processarErroServidor(erro.error.mensagem).subscribe((resultado) => {
@@ -667,7 +700,12 @@ export class EditorProgramacaoComponent implements AfterViewInit, OnChanges, OnI
         });
     } else {
       this.processandoSubmissao = false;
-      alert('Não há algoritmo a ser executado.');
+      this.messageService.add({
+        severity: 'error',
+        summary: 'Erro',
+        detail:
+          'Não é possível executar o código, pois ele está vazio.',
+      });
     }
   }
 
@@ -676,7 +714,13 @@ export class EditorProgramacaoComponent implements AfterViewInit, OnChanges, OnI
    */
   prepararSubmissao() {
     this.editorCodigo.codigo = this.editor.getValue();
-    const submissao = new Submissao(null, this.editor.getValue(), this.usuario, this.assunto, this.questao);
+    const submissao = new Submissao(
+      null,
+      this.editor.getValue(),
+      this.usuario,
+      this.assunto,
+      this.questao
+    );
     return submissao;
   }
 
@@ -703,7 +747,12 @@ export class EditorProgramacaoComponent implements AfterViewInit, OnChanges, OnI
       acceptLabel: 'Sim',
       rejectLabel: 'Não',
       accept: () => {
-        let submissaoGrupo = new SubmissaoGrupo(null, this.submissao, this.grupo, this.atividadeGrupo);
+        let submissaoGrupo = new SubmissaoGrupo(
+          null,
+          this.submissao,
+          this.grupo,
+          this.atividadeGrupo
+        );
         submissaoGrupo.save().subscribe(() => {
           this.statusBtnEnvioAtividadeGrupo = true;
 
@@ -719,7 +768,5 @@ export class EditorProgramacaoComponent implements AfterViewInit, OnChanges, OnI
         });
       },
     });
-
-    
   }
 }

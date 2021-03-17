@@ -30,18 +30,23 @@
     mode="indeterminate"
     [style]="{ height: '6px', width: '120px' }"
   ></p-progressBar>
-<!--     <button
+  </div>
+  <div>
+     <button
       *ngIf="modoVisualizacao == true"
       type="button"
       (click)="suspenderVisualizacao()"
       pButton
       label="Voltar ao modo execução"
     ></button>
-    <button *ngIf="this.login.getUsuarioLogado().grupoExperimento != 4  && modoVisualizacao == false" type="button"
-            (click)="visualizar(true)" pButton label="Vizualizar execução"
-            icon="pi pi-eye"
-            class="p-button-warning"></button> -->
-    
+
+    <p-splitButton *ngIf="this.login.getUsuarioLogado().grupoExperimento != 4  && modoVisualizacao == false" 
+                    label="Vizualizar execução" icon="pi pi-eye" [model]="items" class="p-button-warning"></p-splitButton>
+    <p-progressBar
+    *ngIf="processandoVisualizacao == true"
+    mode="indeterminate"
+    [style]="{ height: '6px', width: '180px' }"
+  ></p-progressBar>
   </div>
   <div style="max-width: 20px;">
     <img src="/assets/connected.png" style="width:16px; height:16px;margin-right: 10px" *ngIf="isConectado == true; else offline"/>

@@ -358,6 +358,15 @@ export default class Submissao extends Document {
     return json;
   }
 
+  construirJsonVisualizacao(questao: QuestaoProgramacao, testCase) {
+    const json = {};
+    json['submissao'] = this.toJson();
+    json['tipo'] = "visualização";
+    json['questao'] = questao.toJson(true, testCase.id);
+
+    return json;
+  }
+
   isFinalizada() {
     if (this.resultadosTestsCases != null && this.resultadosTestsCases.length > 0) {
       let sucesso = true;

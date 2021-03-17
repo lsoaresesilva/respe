@@ -18,6 +18,8 @@ export class VisualizarExecucacao implements OnInit {
 
   decorations;
 
+  visualizacao;
+
   constructor() { }
   
   
@@ -27,10 +29,34 @@ export class VisualizarExecucacao implements OnInit {
   linha:Linha[] = [{event:null,func_name:null,globals:null,heap:null,line:null,ordered_globals:null,stack_to_render:null,stdout:null}] // informações sobre a linha atual em execução
 
   ngOnInit() {
-
+    this.visualizacao = [];
     this.atualizar();
   }
 
+  prepararVisualizacao(dadosLinha){
+    if(Array.isArray(dadosLinha.ordered_globals)){
+      let dados = [];
+      dadosLinha.ordered_globals.forEach(variavel => {
+        let valor = undefined;
+        if(Array.isArray(dadosLinha.globals[variavel])){
+          valor = this.getValorArray(dadosLinha.globals[variavel][1])
+        }else{
+          valor = dadosLinha.globals[variavel];
+        }
+  
+        let tipo = typeof valor;
+        dados.push({
+          variavel:variavel,
+          valor:valor,
+          tipo:tipo
+        })
+      });
+      
+  
+      return dados;
+    }
+    
+  }
   
 
   visualizar(sequencia){
@@ -48,11 +74,20 @@ export class VisualizarExecucacao implements OnInit {
 
   atualizar(){
     if(this.sequenciaExecucao >= 0){
-      this.linha[0]=this.traceExecucao.trace[this.sequenciaExecucao];
+      /* this.linha[0]=this.traceExecucao.trace[this.sequenciaExecucao]; */
+      let visualizacao = this.prepararVisualizacao(this.traceExecucao.trace[this.sequenciaExecucao]);
+      if(visualizacao.length > 0){
+        this.visualizacao = visualizacao;
+      }
+      
       this.destacarLinha(this.linhaAtual, 'possivelSolucao')
       //this.mudancaLinha.emit(this.linhaAtual);
     }else{
-      this.linha[0] = this.traceExecucao.trace[0];
+      /* this.linha[0] = this.traceExecucao.trace[0]; */
+      let visualizacao = this.prepararVisualizacao(this.traceExecucao.trace[0]);
+      if(visualizacao.length > 0){
+        this.visualizacao = visualizacao;
+      }
       this.destacarLinha(0, 'possivelSolucao')
     }
     
@@ -100,5 +135,15 @@ export class VisualizarExecucacao implements OnInit {
         
       }
     }
+  }
+
+  getTipoVariavelNaoPrimitiva(posicao){
+    console.log("ble")
+    return typeof this.getValorArray(posicao);
+  }
+
+  getTipoVariavelPrimitiva(variavel){
+    console.log("bla")
+    return typeof variavel;
   }
 }

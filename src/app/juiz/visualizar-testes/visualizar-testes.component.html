@@ -17,7 +17,7 @@
       </td>
       <td [innerHTML]="apresentarSaidas(testCase.saida)"></td>
       <td>
-        <span *ngIf="submissao != null">
+        <span *ngIf="submissao != null && testCase.resultado != null">
           {{ testCase.resultado.status == true ? 'Correto' : 'Incorreto' }}
         </span>
       </td>

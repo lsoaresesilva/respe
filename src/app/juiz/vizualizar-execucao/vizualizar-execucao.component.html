@@ -1,4 +1,3 @@
-
 <div class="p-grid">
 
   <div class="p-col">
@@ -12,39 +11,73 @@
         <tr>
           <td>
 
-            <p-table [value]="linha.ordered_globals">
-              <ng-template pTemplate="header">
+            <!-- <p-table [value]="linha.ordered_globals">
+                <ng-template pTemplate="header">
                 <tr>
-                  <th >Variável</th>
-                  <th >Valor</th>
+                  <th>Variável</th>
+                  <th>Valor</th>
+                  <th>Tipo de dado</th>
                 </tr>
               </ng-template>
               <ng-template pTemplate="body" let-variavel>
                 <tr>
                   <td>
-                   {{variavel}}
+                    {{variavel}}
                   </td>
                   <td><span *ngIf="isArray(linha.globals[variavel]); else variavelPrimitiva ">
-                    {{getValorArray(linha.globals[variavel][1])}}
-                  </span>
-                  <ng-template #variavelPrimitiva>
+                      {{getValorArray(linha.globals[variavel][1])}}
+                    </span>
+                    <ng-template #variavelPrimitiva>
                       {{linha.globals[variavel]}}
-                    </ng-template></td>
+                    </ng-template>
+                  </td>
+                  <td>
+                    <div *ngIf="isArray(linha.globals[variavel]); else variavelPrimitiva ">
+                      {{getTipoVariavelNaoPrimitiva(linha.globals[variavel][1])}}
+                    </div>
+                    <ng-template #variavelPrimitiva>
+                      {{getTipoVariavelPrimitiva(linha.globals[variavel])}}
+                    </ng-template>
+                  </td>
+
                 </tr>
               </ng-template>
-            </p-table>
+            </p-table> -->
+            <p-table [value]="visualizacao">
+              <ng-template pTemplate="header">
+              <tr>
+                <th>Variável</th>
+                <th>Valor</th>
+                <th>Tipo de dado</th>
+              </tr>
+            </ng-template>
+            <ng-template pTemplate="body" let-variavel>
+              <tr>
+                <td>
+                  {{variavel.variavel}}
+                </td>
+                <td>
+                  {{variavel.valor}}
+                </td>
+                <td>
+                  {{variavel.tipo}}
+                </td>
 
-            
-          </td>
-        </tr>
-      </ng-template>
+              </tr>
+            </ng-template>
+          </p-table>
+
+    </td>
+    </tr>
+    </ng-template>
     </p-table>
   </div>
 </div>
 <div class="p-grid">
   <div class="p-col">
-    <button pButton type="button" label="Voltar" (click)="visualizar('--')" [disabled]="sequenciaExecucao==0"></button>
-    <button pButton type="button" label="Avançar" (click)="visualizar('++')"
+    <button pButton type="button" label="Voltar" icon="pi pi-angle-left" (click)="visualizar('--')"
+      [disabled]="sequenciaExecucao==0" style="margin-right:5px"></button>
+    <button pButton type="button" label="Avançar" icon="pi pi-angle-right" (click)="visualizar('++')"
       [disabled]="sequenciaExecucao==traceExecucao.trace.length-1"></button>
   </div>
 </div>

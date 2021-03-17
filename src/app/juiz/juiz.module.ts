@@ -73,6 +73,8 @@ import { ChatModule } from '../chat/chat.module';
 import { BtnAvancarQuestaoComponent } from './btn-avancar-questao/btn-avancar-questao.component';
 import { ExibirSolucaoComponent } from '../srl/monitoramento/exibir-solucao/exibir-solucao.component';
 
+import {SplitButtonModule} from 'primeng/splitbutton';
+
 @NgModule({
   declarations: [
     VisualizarTestesComponent,
@@ -106,6 +108,7 @@ import { ExibirSolucaoComponent } from '../srl/monitoramento/exibir-solucao/exib
     SrlModule,
     ChatModule,
     CommonModule,
+    SplitButtonModule,
     TimelineModule,
     TooltipModule,
     DynamicDialogModule,
