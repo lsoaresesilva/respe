@@ -27,6 +27,7 @@ import HistoricoEdicoes from 'src/app/model/cscl/historicoEdicoes';
 import TraceVisualizacao from 'src/app/model/visualizacao/traceVisualizacao';
 import { DialogService } from 'primeng/dynamicdialog';
 import { ExibirSolucaoComponent } from 'src/app/srl/monitoramento/exibir-solucao/exibir-solucao.component';
+import PageTrackRecord from 'src/app/model/analytics/pageTrack';
 
 /**
  * Executa um javascript ide.js para acoplar o editor VStudio.
@@ -194,6 +195,8 @@ export class EditorProgramacaoComponent implements AfterViewInit, OnChanges, OnI
       acceptLabel: 'Sim',
       rejectLabel: 'Não',
       accept: () => {
+        const pageTrack = new PageTrackRecord(null, "visualizacao-resposta-questao", this.login.getUsuarioLogado());
+        pageTrack.save().subscribe(() => {});
         const ref = this.dialogService.open(ExibirSolucaoComponent, {
           header: 'Algoritmo com a solução do problema',
           width: '60%',
@@ -586,7 +589,8 @@ export class EditorProgramacaoComponent implements AfterViewInit, OnChanges, OnI
 
   visualizar(testCase) {
     const submissao = this.prepararSubmissao();
-    
+    const pageTrack = new PageTrackRecord(null, "visualizacao-algoritmo", this.login.getUsuarioLogado());
+    pageTrack.save().subscribe(() => {});
     if (submissao.validar()) {
       this.processandoVisualizacao = true;
       
