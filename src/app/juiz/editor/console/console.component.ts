@@ -30,20 +30,43 @@ export class ConsoleComponent implements OnChanges {
     return getLabelPorCategoriaNumero(categoria);
   }
 
-  destacarDiferencasSaidas(testCase, saidaReal){ 
-    
-    let    text = '';
+  destacarDiferencasSaidas(testCase, saidaReal, pos) {
+    let text = '';
     let saidaEsperada = testCase.saida;
     let oldText = saidaEsperada;
-    text += "<span style='font-weight:bold'>Saída real: </span>"
-    saidaReal.split('').forEach(function(val, i){
-      if (val != oldText.charAt(i))
-        text += "<span class='highlight'>"+val+"</span>";  
-      else
-        text += val;            
-    });
-    text += "<br><span style='font-weight:bold'>Saída esperada: </span><span>"+saidaEsperada+"</span>"
+    if (!Array.isArray(saidaEsperada)) {
+      text += "<span style='font-weight:bold'>Saída real: </span>";
+      saidaReal.split('').forEach(function (val, i) {
+        if (val != oldText.charAt(i)) text += "<span class='highlight'>" + val + '</span>';
+        else text += val;
+      });
+      text +=
+      "<br><span style='font-weight:bold'>Saída esperada: </span><span>" +
+      saidaEsperada +
+      '</span>';
+    } else {
+      text += "<span style='font-weight:bold'>Saída real: </span>";
+      
+        
+          saidaReal.split('').forEach(function (val, i) {
+            if (val != oldText[pos].charAt(i)){
+              text += "<span class='highlight'>" + val + '</span>';
+            } 
+            else{
+              text += val;
+            } 
+          });
+          text +=
+      "<br><span style='font-weight:bold'>Saída esperada: </span><span>" +
+      saidaEsperada[pos] +
+      '</span>';
+        
+     
+      
+    }
+
+   
+
     return this.sanitizer.bypassSecurityTrustHtml(text);
   }
-  
 }

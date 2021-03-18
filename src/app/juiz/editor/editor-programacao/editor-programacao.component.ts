@@ -286,7 +286,7 @@ export class EditorProgramacaoComponent implements AfterViewInit, OnChanges, OnI
     );
     let selection = null;
     let ultimaColunaLinha = null;
-
+    let modeloAntesEdicao = null;
     this.salvamentoEdicoes = setInterval(() => {
       // TODO: passar uma referência do objeto atividade grupo de responder questão para editor e usar aqui
       if (this.atividadeGrupo.pk() != null) {
@@ -301,8 +301,12 @@ export class EditorProgramacaoComponent implements AfterViewInit, OnChanges, OnI
     editor.onKeyDown(function (e) {
       cursorAntes = editor.getPosition();
       let texto = editor.getModel().getLineContent(editor.getPosition().lineNumber);
+      modeloAntesEdicao = editor.getModel();
       textoAntes = texto;
-      textoLinhaAnterior = editor.getModel().getLineContent(editor.getPosition().lineNumber - 1);
+      if(cursorAntes.lineNumber > 1){
+        textoLinhaAnterior = editor.getModel().getLineContent(editor.getPosition().lineNumber - 1);
+      }
+      
       selection = editor.getSelection();
       ultimaColunaLinha = editor.getModel().getLineMaxColumn(editor.getPosition().lineNumber);
     });
@@ -312,7 +316,7 @@ export class EditorProgramacaoComponent implements AfterViewInit, OnChanges, OnI
       let op = null;
       let linhaAtual = editor.getPosition().lineNumber;
       let texto = editor.getModel().getLineContent(editor.getPosition().lineNumber);
-
+      
       let possuiNumerosOuLetras = /([A-Z])+|([a-z])+|\w+|([0-9])+/g;
       let regex = new RegExp(possuiNumerosOuLetras);
       let test = regex.exec(textoAntes);
@@ -427,7 +431,30 @@ export class EditorProgramacaoComponent implements AfterViewInit, OnChanges, OnI
           e.browserEvent.key === 'Del' ||
           e.browserEvent.keyCode == 46
         ) {
-          if (cursorAntes.lineNumber > _this.posicaoCursor.lineNumber) {
+          /* // Apagar seleção de múltiplos textos
+          if (selection.startLineNumber != selection.endLineNumber) {
+            op = [];
+            for (let i = selection.startLineNumber; i < selection.endLineNumber + 1; i++) {
+              if(modeloAntesEdicao != null){
+                let textoDeletar = modeloAntesEdicao.getLineContent(i);
+                op.push({ p: ['algoritmo', i - 1], ld: textoDeletar });
+              }
+              
+            }
+            op.push({
+              p: ['cursor', 'lineNumber'],
+              od: cursorAntes.lineNumber,
+              oi: _this.posicaoCursor.lineNumber,
+            });
+
+            op.push({ p: ['cursor', 'column'], od: cursorAntes.column, oi: _this.posicaoCursor.column });
+            op.push({ p: ['autor'], od: _this.usuario.id, oi: _this.usuario.id })
+            
+
+            _this.document.submitOp(op); // TODO: jogar para o service
+
+            op = null;
+          }else  */if (cursorAntes.lineNumber > _this.posicaoCursor.lineNumber) {
             //  Cursor no início da linha, apagar com backspace (sobe para linha anterior)
             op = [
               { p: ['algoritmo', _this.posicaoCursor.lineNumber], ld: '' },
