@@ -4,7 +4,7 @@
 
 
 * [BUG] - Correção de bug que o editor não carregava.
-
+* [BUG] - Correção de bug que não salvava submissão quando o servidor estava fora do ar.
 
 ## 18/03/2021 
 
