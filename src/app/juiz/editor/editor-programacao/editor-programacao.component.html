@@ -79,4 +79,7 @@
   id="container"
   [ngStyle]="{ height: liteMode === true ? '300px' : '400px' }"
   style="margin-top: 10px; border: 1px solid grey; position: relative"
+  
 ></div>
+
+<div *ngIf="isEditorPronto == false">Carregando editor..</div>

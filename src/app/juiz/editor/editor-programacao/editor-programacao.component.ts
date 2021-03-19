@@ -108,8 +108,9 @@ export class EditorProgramacaoComponent implements AfterViewInit, OnChanges, OnI
 
   document; // Armazena as edições colaborativas realizadas no editor.
   posicaoCursor;
+  isConectado; // Armazena o status do editor em relação aos sockets de CSCL
 
-  isConectado;
+  isEditorPronto;
 
   constructor(
     private http: HttpClient,
@@ -139,6 +140,7 @@ export class EditorProgramacaoComponent implements AfterViewInit, OnChanges, OnI
     this.isConectado = false;
     this.modoVisualizacao = false;
     this.items = [];
+    this.isEditorPronto = false;
   }
 
   ngOnInit(): void {
@@ -161,6 +163,9 @@ export class EditorProgramacaoComponent implements AfterViewInit, OnChanges, OnI
     } else {
       this.editorCodigo.codigo = '';
     }
+
+    let _this = this;
+    
 
     if (
       this.questao != null &&
@@ -185,7 +190,12 @@ export class EditorProgramacaoComponent implements AfterViewInit, OnChanges, OnI
       isAtividadeGrupo = true;
     }
 
-    carregarIde(false, null, this, this.carregarEditor, this.editorCodigo.codigo, isAtividadeGrupo);
+    setTimeout(function(){
+      carregarIde(false, function(){
+        _this.isEditorPronto = true;
+      }, _this, _this.carregarEditor, _this.editorCodigo.codigo, isAtividadeGrupo);
+    }, 500)
+    
   }
 
   visualizarResposta(questao) {

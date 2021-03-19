@@ -64,6 +64,7 @@ import { ConsoleComponent } from './editor/console/console.component';
 import { BreadcrumbAssuntoComponent } from './breadcrumb-assunto/breadcrumb-assunto.component';
 import { ApresentacaoEntradasTestcaseComponent } from './apresentacao-entradas-testcase/apresentacao-entradas-testcase.component';
 import { EscapeHtmlPipe } from '../pipes/keep-html.pipe';
+import {SkeletonModule} from 'primeng/skeleton';
 import { SharedPipesModule } from '../pipes/shared-pipes.module';
 import { ProgressBarModule } from 'primeng/progressbar';
 import { SrlModule } from '../srl/srl.module';
@@ -109,6 +110,7 @@ import {SplitButtonModule} from 'primeng/splitbutton';
     ChatModule,
     CommonModule,
     SplitButtonModule,
+    SkeletonModule,
     TimelineModule,
     TooltipModule,
     DynamicDialogModule,

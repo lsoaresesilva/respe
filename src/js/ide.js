@@ -88,6 +88,10 @@ function carregarIde(
           wordBasedSuggestions:!isAtividadeGrupo
         });
 
+        if(editorProgramacao != null){
+          callback();
+        }
+
         /* editor.onKeyDown(function () {
           limparCores();
         }); */
