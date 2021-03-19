@@ -37,13 +37,7 @@ export class VisualizarQuestaoFechadaComponent implements OnInit {
     private confirmationService: ConfirmationService,
     private gamification: GamificationFacade
   ) {
-    this.respostaQuestaoFechada = new RespostaQuestaoFechada(
-      null,
-      this.login.getUsuarioLogado(),
-      new Alternativa(null, null, null),
-      this.questao
-    );
-    this.mostrar = false;
+    
   }
 
   /* selecionarAlternativa(alternativa) {
@@ -70,6 +64,14 @@ export class VisualizarQuestaoFechadaComponent implements OnInit {
     if (this.questao == null) {
       this.route.params.subscribe((params) => {
         if (params['assuntoId'] != undefined && params['questaoId'] != undefined) {
+          this.respostaQuestaoFechada = new RespostaQuestaoFechada(
+            null,
+            this.login.getUsuarioLogado(),
+            new Alternativa(null, null, null),
+            this.questao
+          );
+          this.mostrar = false;
+
           Assunto.get(params['assuntoId']).subscribe((assunto) => {
             this.assunto = assunto;
             const usuario = this.login.getUsuarioLogado();
