@@ -41,31 +41,27 @@ export class ConsoleComponent implements OnChanges {
         else text += val;
       });
       text +=
-      "<br><span style='font-weight:bold'>Saída esperada: </span><span>" +
-      saidaEsperada +
-      '</span>';
+        "<br><span style='font-weight:bold'>Saída esperada: </span><span>" +
+        saidaEsperada +
+        '</span>';
     } else {
       text += "<span style='font-weight:bold'>Saída real: </span>";
-      
-        
-          saidaReal.split('').forEach(function (val, i) {
-            if (val != oldText[pos].charAt(i)){
-              text += "<span class='highlight'>" + val + '</span>';
-            } 
-            else{
-              text += val;
-            } 
-          });
-          text +=
-      "<br><span style='font-weight:bold'>Saída esperada: </span><span>" +
-      saidaEsperada[pos] +
-      '</span>';
-        
-     
-      
-    }
 
-   
+      saidaReal.split('').forEach(function (val, i) {
+        if (oldText[pos] != null) {
+          if (val != oldText[pos].charAt(i)) {
+            text += "<span class='highlight'>" + val + '</span>';
+          } else {
+            text += val;
+          }
+        } else {
+          text += val;
+        }
+      });
+      let valorSaidaEsperada = saidaEsperada[pos] != null? saidaEsperada[pos]: ''
+      text +=
+        "<br><span style='font-weight:bold'>Saída esperada: </span><span>" + valorSaidaEsperada + '</span>';
+    }
 
     return this.sanitizer.bypassSecurityTrustHtml(text);
   }

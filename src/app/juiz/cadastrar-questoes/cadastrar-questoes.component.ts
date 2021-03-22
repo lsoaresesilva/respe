@@ -7,6 +7,7 @@ import { Assunto } from '../../model/assunto';
 import TestCase from 'src/app/model/testCase';
 import { MessageService } from 'primeng/api';
 import QuestaoColaborativa from 'src/app/model/cscl/questaoColaborativa';
+import { ModeloRespostaQuestao } from 'src/app/model/modeloRespostaQuestao';
 
 @Component({
   selector: 'app-cadastrar-questoes',
@@ -21,6 +22,8 @@ export class CadastrarQuestoesComponent implements OnInit {
   isAlterar: Boolean;
   isQuestaoColaborativa: Boolean;
 
+  solucao;
+
   constructor(
     private router: Router,
     private activatedRoute: ActivatedRoute,
@@ -29,6 +32,7 @@ export class CadastrarQuestoesComponent implements OnInit {
     this.questao = new QuestaoProgramacao(null, '', '', 0, 0, [], [], [], null);
     this.isAlterar = false;
     this.isQuestaoColaborativa = false;
+    this.solucao = new ModeloRespostaQuestao(null, [], true);
   }
 
   ngOnInit() {
@@ -82,6 +86,11 @@ export class CadastrarQuestoesComponent implements OnInit {
     }
 
     if (this.questao.validar()) {
+      if(this.solucao.codigo.length > 0){
+        this.solucao.codigo = this.solucao.codigo.split('\n');
+        this.questao.solucao = this.solucao;
+      }
+
       if (this.questao.assuntos != null) {
         this.questao.assuntos = this.questao.assuntos.map((assunto) => {
           if (typeof assunto === 'string') {

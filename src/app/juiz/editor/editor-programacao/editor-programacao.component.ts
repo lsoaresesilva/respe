@@ -83,6 +83,10 @@ export class EditorProgramacaoComponent implements AfterViewInit, OnChanges, OnI
 
   @Input() set submissao(value) {
     this._submissao = value;
+    if(this._submissao != null && this._submissao.isFinalizada != null){
+      this.isSubmissaofinalizada = this._submissao.isFinalizada();
+    }
+    
     this.atualizarEditorComSubmissao();
   }
 
@@ -111,6 +115,7 @@ export class EditorProgramacaoComponent implements AfterViewInit, OnChanges, OnI
   isConectado; // Armazena o status do editor em relação aos sockets de CSCL
 
   isEditorPronto;
+  isSubmissaofinalizada;
 
   constructor(
     private http: HttpClient,
@@ -141,6 +146,7 @@ export class EditorProgramacaoComponent implements AfterViewInit, OnChanges, OnI
     this.modoVisualizacao = false;
     this.items = [];
     this.isEditorPronto = false;
+    this.isSubmissaofinalizada = false;
   }
 
   ngOnInit(): void {
@@ -222,8 +228,25 @@ export class EditorProgramacaoComponent implements AfterViewInit, OnChanges, OnI
     });
   }
 
+  visualizarRespostaOutrosEstudantes(questao) {
+    if(this.isSubmissaofinalizada){
+      const pageTrack = new PageTrackRecord(null, "visualizacao-resposta-questao", this.login.getUsuarioLogado());
+      pageTrack.save().subscribe(() => {});
+      const ref = this.dialogService.open(ExibirSolucaoComponent, {
+        header: 'Escolha uma solução',
+        width: '60%',
+        data: {
+          questao: questao
+        }});
+    }
+    
+
+
+  }
+
   atualizarEditorComSubmissao() {
     if (this._submissao != null) {
+      this.isSubmissaofinalizada = this._submissao.isFinalizada();
       this.editorCodigo.codigo = this._submissao['codigo'];
       if (this.editor != null) {
         this.editor.getModel().setValue(this.editorCodigo.codigo);
@@ -714,6 +737,7 @@ export class EditorProgramacaoComponent implements AfterViewInit, OnChanges, OnI
           next: (resposta) => {
             submissao.processarRespostaServidor(resposta).subscribe((resultado) => {
               this.submissao = resultado;
+              
 
               this.onSubmit.emit(this._submissao);
             });
@@ -750,6 +774,8 @@ export class EditorProgramacaoComponent implements AfterViewInit, OnChanges, OnI
       });
     }
   }
+
+
 
   /**
    * Constrói uma submissão que será salva no banco de dados.

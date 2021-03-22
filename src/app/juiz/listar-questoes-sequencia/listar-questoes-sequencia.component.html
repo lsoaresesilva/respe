@@ -13,6 +13,6 @@
     <p-knob [(ngModel)]="questao.percentualResposta" [size]="25" [readonly]="true"></p-knob>
 </ng-template>
   <ng-template pTemplate="content" let-questao>
-    <span (click)="abrirQuestao(questao)" [style]="getCorQuestao(questao)">{{questao.nomeCurto}}</span>
+    <span (click)="abrirQuestao(questao)" [style]="getCorQuestao(questao)">{{questao.sequencia}}. {{questao.nomeCurto}}</span>
   </ng-template>
 </p-timeline>

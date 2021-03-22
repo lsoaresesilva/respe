@@ -20,7 +20,7 @@ export class QuestaoProgramacao {
     assuntos,
     testsCases,
     algoritmoInicial,
-    public exemplos: ModeloRespostaQuestao[]
+    public solucao: ModeloRespostaQuestao
   ) {
     if (id == null) {
       this.id = Util.uuidv4();
@@ -34,6 +34,7 @@ export class QuestaoProgramacao {
     this.assuntos = assuntos;
     this.testsCases = testsCases;
     this.algoritmoInicial = algoritmoInicial;
+    
   }
 
   nomeCurto: string;
@@ -117,9 +118,9 @@ export class QuestaoProgramacao {
     }
 
     let testsCases = TestCase.construir(questaoDocument.testsCases);
-    let exemplos = ModeloRespostaQuestao.construir(questaoDocument.exemplos);
+    let solucao = ModeloRespostaQuestao.construir(questaoDocument.solucao);
     
-    let questao = new QuestaoProgramacao(questaoDocument.id, questaoDocument.nomeCurto, questaoDocument.enunciado, questaoDocument.dificuldade, questaoDocument.sequencia, assuntos, testsCases, questaoDocument.algoritmoInicial, exemplos )
+    let questao = new QuestaoProgramacao(questaoDocument.id, questaoDocument.nomeCurto, questaoDocument.enunciado, questaoDocument.dificuldade, questaoDocument.sequencia, assuntos, testsCases, questaoDocument.algoritmoInicial, solucao )
     
 
     return questao
@@ -147,7 +148,7 @@ export class QuestaoProgramacao {
             questao.assuntos,
             questao.testsCases,
             questao.algoritmoInicial,
-            questao.exemplos
+            questao.solucao
           )
         );
       });
@@ -191,8 +192,8 @@ export class QuestaoProgramacao {
       document['algoritmoInicial'] = this.algoritmoInicial;
     }
 
-    if (this.exemplos != undefined) {
-      document['exemplos'] = this.exemplos;
+    if (this.solucao != undefined) {
+      document['solucao'] = this.solucao;
     }
 
     if (this.assuntos != null && this.assuntos.length > 0) {
@@ -216,12 +217,8 @@ export class QuestaoProgramacao {
       document['testsCases'] = ts;
     }
 
-    if (this.exemplos != null && this.exemplos.length > 0) {
-      const exmp = [];
-      this.exemplos.forEach((exemplo) => {
-        exmp.push(exemplo.objectToDocument());
-      });
-      document['exemplos'] = exmp;
+    if (this.solucao != null) {
+        document['solucao'] = this.solucao.objectToDocument();
     }
 
     return document;
@@ -234,10 +231,8 @@ export class QuestaoProgramacao {
   }
 
   getExemploCorreto(): ModeloRespostaQuestao {
-    if (Array.isArray(this.exemplos)) {
-      return this.exemplos.filter((exemplo) => {
-        return exemplo.isCorreto;
-      })[0];
+    if (this.solucao != null) {
+     return this.solucao;
     }
   }
 

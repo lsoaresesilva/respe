@@ -15,16 +15,11 @@ export class ModeloRespostaQuestao {
    * Constrói objetos TestsCases a partir do atributo testsCases de uma questão (que é um array)
    * @param testsCases
    */
-  static construir(exemplosDocument: any[]) {
-    const exemplos: ModeloRespostaQuestao[] = [];
-
-    if (exemplosDocument != null) {
-      exemplosDocument.forEach((exemplo) => {
-        exemplos.push(new ModeloRespostaQuestao(exemplo.id, exemplo.codigo, exemplo.isCorreto));
-      });
+  static construir(exemploDocument) {
+    if(exemploDocument != null){
+      const exemplo: ModeloRespostaQuestao = new ModeloRespostaQuestao(exemploDocument.id, exemploDocument.codigo, exemploDocument.isCorreto);
+      return exemplo;
     }
-
-    return exemplos;
   }
 
   objectToDocument() {

@@ -49,15 +49,23 @@
   ></p-progressBar>
   </div>
   <div>
-   <button
+    <!-- <button
+      type="button"
+      (click)="visualizarRespostaOutrosEstudantes(questao)"
+      pButton
+      icon="pi pi-eye"
+      label="Respostas de outros alunos"
+      *ngIf="isSubmissaofinalizada == true"
+    ></button> -->
+    <button
       type="button"
       (click)="visualizarResposta(questao)"
       pButton
       icon="pi pi-eye"
       label="Visualizar resposta"
-      *ngIf="questao.exemplos.length > 0"
+      *ngIf="questao.solucao != null"
     ></button>
-  </div>
+   </div> 
   
   <div>
     <img src="/assets/connected.png" style="width:16px; height:16px;margin-right: 10px" *ngIf="isConectado == true; else offline"/>

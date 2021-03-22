@@ -61,6 +61,7 @@ import { RevisaoCodigoComponent } from './reflexao/revisao-codigo/revisao-codigo
 import { ListagemDiarioComponent } from './monitoramento/listagem-diario/listagem-diario.component';
 import { DesempenhoMetricasComponent } from './monitoramento/desempenho-metricas/desempenho-metricas.component';
 import { VisualizacaoDiarioComponent } from './monitoramento/visualizacao-diario/visualizacao-diario.component';
+import { ExibirSolucaoAlunosComponent } from './auto-reflexao/exibir-solucao-alunos/exibir-solucao-alunos.component';
 
 @NgModule({
   declarations: [
@@ -91,6 +92,7 @@ import { VisualizacaoDiarioComponent } from './monitoramento/visualizacao-diario
     ListagemDiarioComponent,
     DesempenhoMetricasComponent,
     VisualizacaoDiarioComponent,
+    ExibirSolucaoAlunosComponent,
   ],
   imports: [
     CodeHighlighterModule,
