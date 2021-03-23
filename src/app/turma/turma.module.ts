@@ -34,6 +34,7 @@ import { EstatisticasExperimentoComponent } from './estatisticas-experimento/est
 import { ChartModule } from 'primeng/chart';
 import { GrafoEstudantesComponent } from './grafo-estudantes/grafo-estudantes.component';
 import { NgxGraphModule } from '@swimlane/ngx-graph';
+import { ListarDiariosComponent } from './listar-diarios/listar-diarios.component';
 
 @NgModule({
   declarations: [
@@ -51,6 +52,7 @@ import { NgxGraphModule } from '@swimlane/ngx-graph';
     VisualizarPerfilEstudanteComponent,
     EstatisticasExperimentoComponent,
     GrafoEstudantesComponent,
+    ListarDiariosComponent,
   ],
 
   imports: [
