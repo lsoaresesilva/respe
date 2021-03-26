@@ -39,20 +39,23 @@ import { VisualizarAtividadeGrupoProfessorComponent } from './visualizar-ativida
 import { VisualizarSolucoesAtividadeGrupoComponent } from './visualizar-solucoes-atividade-grupo/visualizar-solucoes-atividade-grupo.component';
 
 import { HighlightModule, HIGHLIGHT_OPTIONS } from 'ngx-highlightjs';
+import { EditorColaborativoComponent } from './editor-colaborativo/editor-colaborativo.component';
+import { CodemirrorModule } from '@ctrl/ngx-codemirror';
  
 
 @NgModule({
   declarations: [ComentariosCodigoComponent, BoxComentarioComponent, 
     BoxNovoComentarioComponent, VisualizarConteudoComponent, SanitizeHtmlDirective, ConteudoProgramacaoComponent, 
     VisualizarSubmissaoQuestaoComponent, ListarEstudantesSubmissaoComponent, ListarPostagensComponent, CadastrarPostagemComponent, 
-    VisualizarPostagemComponent, CriacaoGrupoComponent, ListarAtividadesGrupoComponent, ListarAtividadesGrupoProfessorComponent, VisualizarAtividadeGrupoProfessorComponent, VisualizarSolucoesAtividadeGrupoComponent],
+    VisualizarPostagemComponent, CriacaoGrupoComponent, ListarAtividadesGrupoComponent, ListarAtividadesGrupoProfessorComponent, VisualizarAtividadeGrupoProfessorComponent, VisualizarSolucoesAtividadeGrupoComponent, EditorColaborativoComponent],
 
   imports: [
     CalendarModule,
     MultiSelectModule,
     AutoCompleteModule,
     DropdownModule,
-    JuizModule,
+    FormsModule,
+    CodemirrorModule,
     CommonModule,
     InputTextareaModule,
     DialogModule,
@@ -70,7 +73,7 @@ import { HighlightModule, HIGHLIGHT_OPTIONS } from 'ngx-highlightjs';
 
   ],
 
-  exports: [ListarAtividadesGrupoComponent, ListarPostagensComponent, ComentariosCodigoComponent, VisualizarConteudoComponent, VisualizarSubmissaoQuestaoComponent, ListarEstudantesSubmissaoComponent],
+  exports: [EditorColaborativoComponent, ListarAtividadesGrupoComponent, ListarPostagensComponent, ComentariosCodigoComponent, VisualizarConteudoComponent, VisualizarSubmissaoQuestaoComponent, ListarEstudantesSubmissaoComponent],
   providers: [
     {
       provide: HIGHLIGHT_OPTIONS,
