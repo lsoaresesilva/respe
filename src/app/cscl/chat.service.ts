@@ -22,9 +22,19 @@ export class ChatService {
   observerChat: Subject<any>;
 
   constructor(private login: LoginService) {
-    this.observerCodigo = new Subject();
+    /* this.observerCodigo = new Subject(); */
     this.observerChat = new Subject();
     //this.receberMensagem();
+  }
+
+  exibirParticipantesChat(participantes:any[]){
+    if(participantes != null && participantes.length > 0){
+      this.observerChat.next(new MensagemChat(null, new Usuario(null, "", "", 0, 0, "Servidor"), "Membros do grupo:", null))
+      participantes.forEach(participante=>{
+        this.observerChat.next(new MensagemChat(null, new Usuario(null, "", "", 0, 0, "Servidor"), participante.nome, null));
+      })
+      
+    }
   }
 
   iniciarConexao(sala) {
@@ -50,7 +60,7 @@ export class ChatService {
     /**
      * Socket para a sincronização do editor
      */
-    this.socket = new WebSocket(environment.URL_SERVIDOR_DOC);
+    /* this.socket = new WebSocket(environment.URL_SERVIDOR_DOC);
     let _this = this;
     this.socket.onopen = function (event) {
       // Dados para abertura da conexão
@@ -95,45 +105,10 @@ export class ChatService {
           }
         }
       };
-    };
+    }; */
   }
 
-  /* 
-
-  iniciarConexao(sala, callback){
-    let usuarioLogado = this.login.getUsuarioLogado();
-    //this.socket =  io.connect('http://localhost:3001', {query: {sala:sala, usuario:{id:usuarioLogado.pk(), nome:usuarioLogado.nome}}});
-    this.socket = new WebSocket('ws://127.0.0.1:8080');
-    let _this = this;
-    this.socket.onopen = function(event) {
-      let data = JSON.stringify({sala:sala})
-      _this.socket.send(data);
-
-      _this.socket.onmessage = function (event) {
-        let data = JSON.parse(event.data)
-        if(data.status == "OK"){
-          _this.connection = new Sharedb.Connection(_this.socket);
-          _this.doc = _this.connection.get('documents', sala);
-          _this.doc.subscribe(function (err) {
-            if (err) throw err;
-            callback(_this.doc);
-      
-            _this.doc.on('op', function (op, source) {
-              
-              callback(_this.doc)
-            });
-          });
-        }
-        
-      }
-
-      
-    };
-    
-    
-
-    
-  } */
+ 
 
   enviarMensagem(mensagem: MensagemChat) {
     if (mensagem != null) {
