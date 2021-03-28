@@ -1,7 +1,7 @@
 
 <p-dialog [(visible)]="visibilidade" [modal]="false" position="bottom-right" [style]="{ width: '20vw', height:'25vw'}" [closable]="false">
     <p-header >
-        Bate-papo
+        Bate-papo ({{participantes | async}}) <app-voice-chat [grupo]="grupo"></app-voice-chat>
     </p-header>
     <p-scrollPanel [style]="{height: '15vw', overflow:'auto'}" #scroll>
         <p-card *ngFor="let m of mensagens$ | async" header={{m.estudante}}>

@@ -100,7 +100,6 @@ export class ResponderQuestaoProgramacao implements OnInit, AfterViewInit {
       });
     }, 3000);
 
-    // TODO: incluir um aviso que está sincronizando com o servidor
     
   }
 
@@ -124,6 +123,12 @@ export class ResponderQuestaoProgramacao implements OnInit, AfterViewInit {
             this.atividadeGrupo = atividadeGrupo as AtividadeGrupo;
             this.grupo = this.atividadeGrupo.getGrupo(params['grupoId']);
             if(this.grupo != null){
+
+              
+              
+          
+
+
               Assunto.get(params['assuntoId']).subscribe((assunto) => {
                 this.assunto = assunto  as Assunto;
       

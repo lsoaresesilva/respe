@@ -16,9 +16,11 @@ export class ChatGrupoComponent implements OnInit, OnChanges {
   mensagem:MensagemChat;
   visibilidade;
   usuarioLogado;
+  participantes;
 
   @ViewChild('scroll') scroll;
   @Input("atividadeGrupo") atividadeGrupo;
+  @Input("grupo") grupo;
 
   constructor(private loginService:LoginService, private chatService:ChatService, private changeDetectorRef: ChangeDetectorRef ) {
     this.usuarioLogado = this.loginService.getUsuarioLogado();
@@ -26,6 +28,7 @@ export class ChatGrupoComponent implements OnInit, OnChanges {
     this.visibilidade = true;
 
     this.mensagens = [];
+    this.participantes = new BehaviorSubject([]);
     this.mensagens$ = new BehaviorSubject([]);
 
     /* this.chatService.observerChat.subscribe(mensagem =>{
@@ -46,9 +49,25 @@ export class ChatGrupoComponent implements OnInit, OnChanges {
     if(this.atividadeGrupo != null){
       this.mensagem.atividadeGrupo = this.atividadeGrupo;
     }
+
+    if(this.grupo != null){
+      this.grupo.getEstudantes().subscribe(estudantes=>{
+        let p = []
+        estudantes.forEach(estudante => {
+          if(estudante.nome != null){
+            p.push(estudante.nome.substring(0,10));
+          }
+          
+        });
+
+        this.participantes.next(p);
+        
+      })
+    }
   }
 
   ngOnInit(): void {
+   
   }
 
 

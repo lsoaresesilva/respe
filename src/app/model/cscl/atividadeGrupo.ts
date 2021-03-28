@@ -216,12 +216,33 @@ export default class AtividadeGrupo extends Document {
     return atividades;
   }
 
+  static get(id) {
+    return new Observable(observer=>{
+      return super.get(id).subscribe(atividadeGrupo=>{
+        if(atividadeGrupo["grupos"] != null && Array.isArray(atividadeGrupo["grupos"])){
+          let grupos = [];
+          atividadeGrupo["grupos"].forEach(grupo=>{
+            let g = Grupo.construir(grupo);
+            grupos.push(g);
+          })
+
+          atividadeGrupo["grupos"] = grupos;
+        }
+
+        observer.next(atividadeGrupo);
+        observer.complete();
+      })
+    })
+    
+  }
+
+
   getGrupo(grupoId){
     return this.grupos.find(function(grupo){
       if(grupo.id == grupoId){
         return true;
       }
-    })
+    });
   }
 
   getGrupoByEstudante(estudante:Usuario){

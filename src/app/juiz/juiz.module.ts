@@ -112,6 +112,7 @@ import {SplitButtonModule} from 'primeng/splitbutton';
     SplitButtonModule,
     SkeletonModule,
     TimelineModule,
+    CsclModule,
     TooltipModule,
     DynamicDialogModule,
     KnobModule,

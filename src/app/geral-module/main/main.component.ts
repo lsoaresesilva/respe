@@ -147,6 +147,10 @@ export class MainComponent implements OnInit {
     this.router.navigate(['main', { outlets: { principal: ['listagem-atividades-grupo-professor'] } }]);
   }
 
+  abrirListagemDiario(){
+    this.router.navigate(['main', { outlets: { principal: ['listagem-diarios-professor'] } }]);
+  }
+
   apresentarPretestRegulacao() {
     const usuario = this.login.getUsuarioLogado();
     if (

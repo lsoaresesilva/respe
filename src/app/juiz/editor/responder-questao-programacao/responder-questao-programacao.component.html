@@ -1,6 +1,6 @@
 <p-toast></p-toast>
 <div *ngIf="questao != null; else loading">
-  <app-chat *ngIf="this.atividadeGrupo != null" [atividadeGrupo]="atividadeGrupo"></app-chat>
+  <app-chat *ngIf="this.atividadeGrupo != null" [atividadeGrupo]="atividadeGrupo" [grupo]="grupo"></app-chat>
 
   <div class="p-grid" style="margin: 10px 10px 10px 10px">
     <app-breadcrumb-assunto [assunto]="assunto" [questao]="questao" *ngIf="atividadeGrupo == null">
@@ -62,6 +62,11 @@
                 (onEditorReady)="onEditorReady($event)">
               </app-editor-programacao>
             </div>
+            <!-- <ng-template #atividadeColaborativa>
+              <div class="p-col-12" *ngIf="atividadeGrupo != null" style="height: 400px;">
+                <app-editor-colaborativo></app-editor-colaborativo>
+              </div>
+            </ng-template> -->
             <div class="p-col-12">
               <div *ngIf="modoVisualizacao == false; else visualizacao" style="margin-top: 10px">
                 <app-console [submissao]="submissao" [consoleEditor]="consoleEditor"></app-console>

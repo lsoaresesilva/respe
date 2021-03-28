@@ -66,6 +66,7 @@ import { ListarAtividadesGrupoProfessorComponent } from './cscl/listar-atividade
 import { VisualizarAtividadeGrupoProfessorComponent } from './cscl/visualizar-atividade-grupo-professor/visualizar-atividade-grupo-professor.component';
 import { VisualizarSolucoesAtividadeGrupoComponent } from './cscl/visualizar-solucoes-atividade-grupo/visualizar-solucoes-atividade-grupo.component';
 import { ExportarDadosComponent } from './admin/exportar-dados/exportar-dados.component';
+import { ListarDiariosComponent } from './turma/listar-diarios/listar-diarios.component';
 
 const routes: Routes = [
   {
@@ -204,6 +205,8 @@ const routes: Routes = [
         outlet: 'principal',
       },
 
+    
+
       /** SRL */
 
       {
@@ -330,6 +333,8 @@ const routes: Routes = [
         outlet: 'principal',
       },
 
+      /** Início Turma */
+
       {
         path: 'atualizacao-estudante/:id',
         component: CadastrarEstudantesComponent,
@@ -384,6 +389,14 @@ const routes: Routes = [
         canActivate: [AuthGuard, ProfessorGuard],
         outlet: 'principal',
       },
+      {
+        path: 'listagem-diarios-professor',
+        component: ListarDiariosComponent,
+        outlet: 'principal',
+        canActivate: [AuthGuard, ProfessorGuard],
+      },
+
+      /** Fim Turma */
       {
         path: 'visualizacao-questao/:assuntoId/:questaoId',
         component: VisualizarQuestaoComponent,

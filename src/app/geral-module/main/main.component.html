@@ -72,6 +72,13 @@
     (click)="abrirListagemGrupoProfessor()"
     *ngIf="usuario.perfil == 2"
   ></button>
+  <button
+    pButton
+    class="p-button-text"
+    label="Listagem diários"
+    (click)="abrirListagemDiario()"
+    *ngIf="usuario.perfil == 2"
+  ></button>
   </div>
   <div style="margin: 0 auto; width: 15%">
     <app-progresso-proximo-nivel *ngIf="usuario.perfil == 1"></app-progresso-proximo-nivel>

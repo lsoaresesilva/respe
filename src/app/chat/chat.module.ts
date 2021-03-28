@@ -8,10 +8,11 @@ import { ButtonModule } from 'primeng/button';
 import { CardModule } from 'primeng/card';
 import { InputTextModule } from 'primeng/inputtext';
 import {ScrollPanelModule} from 'primeng/scrollpanel';
+import { VoiceChatComponent } from './voice-chat/voice-chat.component';
 
 
 @NgModule({
-  declarations: [ChatGrupoComponent],
+  declarations: [ChatGrupoComponent, VoiceChatComponent],
   imports: [
     CommonModule,
     DialogModule,

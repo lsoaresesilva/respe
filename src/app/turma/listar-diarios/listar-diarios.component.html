@@ -19,8 +19,8 @@
 
 
 <div class="p-grid" *ngIf="turmaSelecionada != null">
-    <div class="p-col-12" *ngFor="let diario of diarios$">
-        {{diario.estudante.nome}}
+    <div class="p-col-12" *ngFor="let diario of diarios$; let i = index">
+        {{i+1}} {{diario.estudante.nome}}
       <p-table [value]="diario.diarios" [autoLayout]="true">
         <ng-template pTemplate="header"> 
             <tr>
