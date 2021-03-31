@@ -3,6 +3,8 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { forkJoin } from 'rxjs';
 import AtividadeGrupo from 'src/app/model/cscl/atividadeGrupo';
 import Grupo from 'src/app/model/cscl/grupo';
+import { PerfilUsuario } from 'src/app/model/enums/perfilUsuario';
+import { Groups } from 'src/app/model/experimento/groups';
 import Usuario from 'src/app/model/usuario';
 
 @Component({
@@ -56,5 +58,12 @@ export class VisualizarAtividadeGrupoProfessorComponent implements OnInit {
 
   abrirSolucoesAtividadeGrupo(grupo:Grupo){
     this.router.navigate(['main', { outlets: { principal: ['visualizacao-solucao-atividade-grupo', this.atividadeGrupo.pk(), grupo.id] } }]);
+  }
+
+  gerarLink(grupo:Grupo){
+    if(grupo.estudantes.length > 0){
+      return this.atividadeGrupo.gerarLink(new Usuario(grupo.estudantes[0], "", "", PerfilUsuario.estudante, Groups.experimentalA, ""));
+    }
+    
   }
 }

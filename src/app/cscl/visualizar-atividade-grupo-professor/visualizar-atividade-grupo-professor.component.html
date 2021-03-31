@@ -2,6 +2,7 @@
     <ng-template pTemplate="header">
         <tr>
             <th>Estudantes</th>
+            <th>Ações</th>
         </tr>
     </ng-template>
     <ng-template let-grupo pTemplate="body">
@@ -9,7 +10,9 @@
             <td>
                 <span style="cursor: pointer;" (click)="abrirSolucoesAtividadeGrupo(grupo)" *ngFor="let estudante of grupo.estudantes; let isLast=last">{{estudante?.nome}}{{isLast ? '' : ', '}}</span>
             </td>
-            
+            <td>
+                <a [href]="gerarLink(grupo)">Entrar na sala</a>
+            </td>
         </tr>
     </ng-template>
 </p-table>
