@@ -13,7 +13,7 @@ import { Observable } from 'rxjs';
 export class VisualizarTurmaComponent implements OnInit {
   turma$?;
 
-  private usuario;
+  usuario;
   minhaTurma;
 
   constructor(private route: ActivatedRoute, private router: Router, private login: LoginService) {

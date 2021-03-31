@@ -11,7 +11,7 @@ export class RespostaQuestaoParson extends Document {
   constructor(
     public id,
     public estudante: Usuario,
-    public algoritmo: SegmentoParson[],
+    public algoritmo,
     public questao: QuestaoParsonProblem
   ) {
     super(id);

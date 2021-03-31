@@ -1,1 +1,4 @@
-<button (click)="entrarSala()" icon="pi pi-phone" pButton></button>
+<button (click)="entrarSala()" icon="pi pi-volume-up" *ngIf="isErro == false; else btnProblemaConexao" iconPos="left" pButton [ngClass]="isMicrofoneAtivo?'p-button-success p-button-rounded':'p-button-warning p-button-rounded'"></button>
+<ng-template #btnProblemaConexao>
+    <button (click)="entrarSala()" icon="pi pi-volume-up" iconPos="left" pButton class="p-button-danger p-button-rounded"></button>
+</ng-template>

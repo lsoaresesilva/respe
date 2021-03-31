@@ -1,0 +1,2 @@
+<app-voice-chat [grupo]="grupo"></app-voice-chat> Bate-papo (&nbsp;<span
+    *ngFor="let estudante of participantes | async;let i = index" [ngStyle]="{'color':estudante.isConectado == true? '#339966':'#e60000'}">{{estudante.nome}} <span style="color:black">{{i === participantes.getValue().length -1 ? '' : ',&nbsp;' }}</span></span>)

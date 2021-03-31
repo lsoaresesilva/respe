@@ -68,10 +68,7 @@
    </div> 
   
   <div>
-    <img src="/assets/connected.png" style="width:16px; height:16px;margin-right: 10px" *ngIf="isConectado == true; else offline"/>
-    <ng-template #offline>
-      <img src="/assets/offline.png" style="margin-right:10px" *ngIf="atividadeGrupo != null"/>
-    </ng-template>
+    
     <button
       type="button"
       (click)="enviarRespostaAtividadeGrupo()"

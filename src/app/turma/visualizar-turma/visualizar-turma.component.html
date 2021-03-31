@@ -1,7 +1,7 @@
 <div *ngIf="turma$ | async as turma" style="margin-top: 10px">
-  <h1>{{ turma.nome }}</h1>
+  <h1>{{ turma$.nome }}</h1>
   <div style="display: flex">
-    <div *ngIf="this.usuario.perfil == 2">
+    <div *ngIf="usuario.perfil == 2">
       <button
         pButton
         type="button"

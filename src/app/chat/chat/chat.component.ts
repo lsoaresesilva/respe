@@ -28,7 +28,7 @@ export class ChatGrupoComponent implements OnInit, OnChanges {
     this.visibilidade = true;
 
     this.mensagens = [];
-    this.participantes = new BehaviorSubject([]);
+    
     this.mensagens$ = new BehaviorSubject([]);
 
     /* this.chatService.observerChat.subscribe(mensagem =>{
@@ -43,6 +43,8 @@ export class ChatGrupoComponent implements OnInit, OnChanges {
       let height = this.scroll.el.nativeElement.getBoundingClientRect().height*this.mensagens.length;
       this.scroll.scrollTop(height);
     })
+
+    
    }
    
   ngOnChanges(changes: SimpleChanges): void {
@@ -50,20 +52,7 @@ export class ChatGrupoComponent implements OnInit, OnChanges {
       this.mensagem.atividadeGrupo = this.atividadeGrupo;
     }
 
-    if(this.grupo != null){
-      this.grupo.getEstudantes().subscribe(estudantes=>{
-        let p = []
-        estudantes.forEach(estudante => {
-          if(estudante.nome != null){
-            p.push(estudante.nome.substring(0,10));
-          }
-          
-        });
-
-        this.participantes.next(p);
-        
-      })
-    }
+    
   }
 
   ngOnInit(): void {

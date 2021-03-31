@@ -93,7 +93,7 @@
 
 <p-dialog header="Indique o motivo do pedido de ajuda (dúvida):" [(visible)]="dialogPedirAjuda">
   <span class="ui-float-label">
-    <textarea pInputTextarea autoResize="autoResize" [cols]="44" [(ngModel)]="duvida"></textarea>
+    <textarea pInputTextarea [cols]="44" [(ngModel)]="duvida"></textarea>
     <label for="float-input">Digite o motivo</label>
   </span>
   <button type="button" pButton icon="pi pi-check" (click)="dialogPedirAjuda = false; enviarPedidoDeAjuda()"

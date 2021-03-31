@@ -9,10 +9,12 @@ import { CardModule } from 'primeng/card';
 import { InputTextModule } from 'primeng/inputtext';
 import {ScrollPanelModule} from 'primeng/scrollpanel';
 import { VoiceChatComponent } from './voice-chat/voice-chat.component';
+import { GravacaoVideoService } from './gravacao-video.service';
+import { CabecachoChatComponent } from './cabecacho-chat/cabecacho-chat.component';
 
 
 @NgModule({
-  declarations: [ChatGrupoComponent, VoiceChatComponent],
+  declarations: [ChatGrupoComponent, VoiceChatComponent, CabecachoChatComponent],
   imports: [
     CommonModule,
     DialogModule,
@@ -23,6 +25,6 @@ import { VoiceChatComponent } from './voice-chat/voice-chat.component';
     ScrollPanelModule
   ],
   exports:[ChatGrupoComponent],
-  providers:[ChatService]
+  providers:[ChatService, GravacaoVideoService]
 })
 export class ChatModule { }

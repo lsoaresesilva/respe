@@ -1,7 +1,7 @@
 
-<p-dialog [(visible)]="visibilidade" [modal]="false" position="bottom-right" [style]="{ width: '20vw', height:'25vw'}" [closable]="false">
+<p-dialog [(visible)]="visibilidade" [modal]="false" position="bottom-right" [style]="{ width: '20vw', height:'25vw'}" [closable]="false" [draggable]="false">
     <p-header >
-        Bate-papo ({{participantes | async}}) <app-voice-chat [grupo]="grupo"></app-voice-chat>
+        <app-cabecacho-chat [grupo]="grupo"></app-cabecacho-chat>
     </p-header>
     <p-scrollPanel [style]="{height: '15vw', overflow:'auto'}" #scroll>
         <p-card *ngFor="let m of mensagens$ | async" header={{m.estudante}}>
@@ -11,7 +11,8 @@
     </p-scrollPanel>
     
     <p-footer [style]="{ height: '10px'}">
-        <input pInputText id="textoChat" [(ngModel)]="mensagem.texto" (keydown.enter)="enviar()" [style]="{ width: '80%', margin:'0 5px'}">
-            <button (click)="enviar()" icon="pi pi-check" pButton></button>
+        
+        <input pInputText id="textoChat" [(ngModel)]="mensagem.texto" (keydown.enter)="enviar()" style="width:80%">
+            <button (click)="enviar()" icon="pi pi-arrow-circle-right" style="width:10%" pButton></button>
     </p-footer>
 </p-dialog>

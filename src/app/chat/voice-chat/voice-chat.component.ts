@@ -1,38 +1,50 @@
 import { Component, Input, OnInit } from '@angular/core';
-import AgoraRTC, { IAgoraRTCClient } from "agora-rtc-sdk-ng"
+import AgoraRTC, { IAgoraRTCClient } from 'agora-rtc-sdk-ng';
+import { retry } from 'rxjs/operators';
+import { GravacaoVideoService } from '../gravacao-video.service';
 
 @Component({
   selector: 'app-voice-chat',
   templateUrl: './voice-chat.component.html',
-  styleUrls: ['./voice-chat.component.css']
+  styleUrls: ['./voice-chat.component.css'],
 })
 export class VoiceChatComponent implements OnInit {
-
-  client:IAgoraRTCClient;
-  APPID;
+  isMicrofoneAtivo;
+  isErro;
 
   @Input()
   grupo;
 
-  constructor() {
-    this.APPID = "b0349b9646134aad89d0824ad07820e3";
-
-   }
-
-  ngOnInit(): void {
-
-    this.client = AgoraRTC.createClient({ mode: "rtc", codec: "vp8" });
-
+  constructor(private gravacao: GravacaoVideoService) {
+    
+    this.isMicrofoneAtivo = false;
+    this.isErro = false;
   }
 
-  async entrarSala(){
-    if(this.grupo != null){
-      const uid = await this.client.join(this.APPID, this.grupo.id, "006b0349b9646134aad89d0824ad07820e3IACxPgORluS8j4fyin1/gWn+9vhEn2L+osui2OsMBMNzt2h7tDUAAAAAEADYCUcof1xiYAEAAQB+XGJg");
-      let localAudioTrack = await AgoraRTC.createMicrophoneAudioTrack();
-      await this.client.publish([localAudioTrack]); 
+  ngOnInit(): void {
+    this.gravacao.inicializar();
+    this.gravacao.receberDadosNovoUsuario();
+  }
 
+  async entrarSala() {
+    try{
+      const uid = await this.gravacao.entrarSala(this.grupo);
+      this.isMicrofoneAtivo = true;
+      this.gravacao.gravar(this.grupo.id).subscribe((resposta)=>{
+        this.isErro = false;
+      }, (err)=>{
+        this.isErro = true;
+      })
+      this.isErro = false;
+    }catch(e){
+      this.isErro = true;
     }
     
   }
 
+  
+
+  
+
+  
 }

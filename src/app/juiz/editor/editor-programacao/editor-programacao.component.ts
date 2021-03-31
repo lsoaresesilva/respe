@@ -84,10 +84,10 @@ export class EditorProgramacaoComponent implements AfterViewInit, OnChanges, OnI
 
   @Input() set submissao(value) {
     this._submissao = value;
-    if(this._submissao != null && this._submissao.isFinalizada != null){
+    if (this._submissao != null && this._submissao.isFinalizada != null) {
       this.isSubmissaofinalizada = this._submissao.isFinalizada();
     }
-    
+
     this.atualizarEditorComSubmissao();
   }
 
@@ -172,14 +172,12 @@ export class EditorProgramacaoComponent implements AfterViewInit, OnChanges, OnI
     }
 
     let _this = this;
-    
 
     if (
       this.questao != null &&
       this.questao.testsCases != null &&
       Array.isArray(this.questao.testsCases)
     ) {
-      
       let i = 0;
       this.questao.testsCases.forEach((testCase) => {
         i++;
@@ -197,12 +195,18 @@ export class EditorProgramacaoComponent implements AfterViewInit, OnChanges, OnI
       isAtividadeGrupo = true;
     }
 
-    setTimeout(function(){
-      carregarIde(false, function(){
-        _this.isEditorPronto = true;
-      }, _this, _this.carregarEditor, _this.editorCodigo.codigo, isAtividadeGrupo);
-    }, 500)
-    
+    setTimeout(function () {
+      carregarIde(
+        false,
+        function () {
+          _this.isEditorPronto = true;
+        },
+        _this,
+        _this.carregarEditor,
+        _this.editorCodigo.codigo,
+        isAtividadeGrupo
+      );
+    }, 500);
   }
 
   visualizarResposta(questao) {
@@ -212,7 +216,11 @@ export class EditorProgramacaoComponent implements AfterViewInit, OnChanges, OnI
       acceptLabel: 'Sim',
       rejectLabel: 'Não',
       accept: () => {
-        const pageTrack = new PageTrackRecord(null, "visualizacao-resposta-questao", this.login.getUsuarioLogado());
+        const pageTrack = new PageTrackRecord(
+          null,
+          'visualizacao-resposta-questao',
+          this.login.getUsuarioLogado()
+        );
         pageTrack.save().subscribe(() => {});
         const ref = this.dialogService.open(ExibirSolucaoComponent, {
           header: 'Algoritmo com a solução do problema',
@@ -230,25 +238,27 @@ export class EditorProgramacaoComponent implements AfterViewInit, OnChanges, OnI
   }
 
   visualizarRespostaOutrosEstudantes(questao) {
-    if(this.isSubmissaofinalizada){
-      const pageTrack = new PageTrackRecord(null, "visualizacao-resposta-questao", this.login.getUsuarioLogado());
+    if (this.isSubmissaofinalizada) {
+      const pageTrack = new PageTrackRecord(
+        null,
+        'visualizacao-resposta-questao',
+        this.login.getUsuarioLogado()
+      );
       pageTrack.save().subscribe(() => {});
       const ref = this.dialogService.open(ExibirSolucaoComponent, {
         header: 'Escolha uma solução',
         width: '60%',
         data: {
-          questao: questao
-        }});
+          questao: questao,
+        },
+      });
     }
-    
-
-
   }
 
   atualizarEditorComSubmissao() {
     if (this._submissao != null) {
       this.isSubmissaofinalizada = this._submissao.isFinalizada();
-      
+
       if (this.editor != null && this.atividadeGrupo == null) {
         let x = 2;
         this.editorCodigo.codigo = this._submissao['codigo'];
@@ -261,26 +271,25 @@ export class EditorProgramacaoComponent implements AfterViewInit, OnChanges, OnI
   carregarEditor(editorProgramacaoComponentInstance, editor) {
     editorProgramacaoComponentInstance.editor = editor;
     editorProgramacaoComponentInstance.onEditorReady.emit(editor);
-    
 
     if (
       editorProgramacaoComponentInstance.atividadeGrupo != null &&
       editorProgramacaoComponentInstance.grupo.id != null
     ) {
-
-      editorProgramacaoComponentInstance.chat.iniciarConexao(
-        editorProgramacaoComponentInstance.grupo.id
-      );
+      editorProgramacaoComponentInstance.chat
+        .iniciar(editorProgramacaoComponentInstance.grupo.id)
+        .subscribe((resposta) => {
+          if (resposta) {
+            editorProgramacaoComponentInstance.chat.receberMensagens();
+            editorProgramacaoComponentInstance.isConectado = true;
+          }
+        });
 
       iniciarEditorColaborativo(editorProgramacaoComponentInstance.grupo.id);
-
-      
-    }else{
+    } else {
       editorProgramacaoComponentInstance.atualizarEditorComSubmissao();
     }
   }
-
-  
 
   visualizarExecucacao(modoVisualizacao, trace) {
     this.onVisualization.emit({
@@ -317,11 +326,15 @@ export class EditorProgramacaoComponent implements AfterViewInit, OnChanges, OnI
 
   visualizar(testCase) {
     const submissao = this.prepararSubmissao();
-    const pageTrack = new PageTrackRecord(null, "visualizacao-algoritmo", this.login.getUsuarioLogado());
+    const pageTrack = new PageTrackRecord(
+      null,
+      'visualizacao-algoritmo',
+      this.login.getUsuarioLogado()
+    );
     pageTrack.save().subscribe(() => {});
     if (submissao.validar()) {
       this.processandoVisualizacao = true;
-      
+
       const httpOptions = {
         headers: new HttpHeaders({
           'Content-Type': 'application/json',
@@ -357,13 +370,11 @@ export class EditorProgramacaoComponent implements AfterViewInit, OnChanges, OnI
           // this.prepararMensagemExceptionHttp(err);
         }
       );
-    
-    }else{
+    } else {
       this.messageService.add({
         severity: 'error',
         summary: 'Erro',
-        detail:
-          'Não é possível executar o código, pois ele está vazio.',
+        detail: 'Não é possível executar o código, pois ele está vazio.',
       });
     }
   }
@@ -378,7 +389,7 @@ export class EditorProgramacaoComponent implements AfterViewInit, OnChanges, OnI
 
       const httpOptions = {
         headers: new HttpHeaders({
-          'Content-Type': 'application/json'
+          'Content-Type': 'application/json',
         }),
       };
 
@@ -405,7 +416,17 @@ export class EditorProgramacaoComponent implements AfterViewInit, OnChanges, OnI
           next: (resposta) => {
             submissao.processarRespostaServidor(resposta).subscribe((resultado) => {
               this.submissao = resultado;
-              
+
+              if (this.atividadeGrupo != null) {
+                let submissaoGrupo = new SubmissaoGrupo(
+                  null,
+                  this.submissao,
+                  this.grupo,
+                  this.atividadeGrupo,
+                  false
+                );
+                submissaoGrupo.save().subscribe(() => {});
+              }
 
               this.onSubmit.emit(this._submissao);
             });
@@ -416,7 +437,7 @@ export class EditorProgramacaoComponent implements AfterViewInit, OnChanges, OnI
               erro.name === 'TimeoutError' ||
               (erro.error != null && erro.error.mensagem == null)
             ) {
-              this.submissao.save().subscribe(()=>{});
+              this.submissao.save().subscribe(() => {});
               this.onServidorError.emit(erro);
             } else {
               submissao.processarErroServidor(erro.error.mensagem).subscribe((resultado) => {
@@ -437,13 +458,10 @@ export class EditorProgramacaoComponent implements AfterViewInit, OnChanges, OnI
       this.messageService.add({
         severity: 'error',
         summary: 'Erro',
-        detail:
-          'Não é possível executar o código, pois ele está vazio.',
+        detail: 'Não é possível executar o código, pois ele está vazio.',
       });
     }
   }
-
-
 
   /**
    * Constrói uma submissão que será salva no banco de dados.
@@ -487,7 +505,8 @@ export class EditorProgramacaoComponent implements AfterViewInit, OnChanges, OnI
           null,
           this.submissao,
           this.grupo,
-          this.atividadeGrupo
+          this.atividadeGrupo,
+          true
         );
         submissaoGrupo.save().subscribe(() => {
           this.statusBtnEnvioAtividadeGrupo = true;

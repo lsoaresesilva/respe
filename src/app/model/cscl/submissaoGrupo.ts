@@ -10,9 +10,9 @@ export default class SubmissaoGrupo extends Document {
   @date()
   data 
 
-  constructor(id, public submissao:Submissao, public grupo:Grupo, public atividadeGrupo:AtividadeGrupo) {
+  constructor(id, public submissao:Submissao, public grupo:Grupo, public atividadeGrupo:AtividadeGrupo, public isFinal) {
     super(id);
-    
+    this.isFinal = false;
   }
 
   objectToDocument(){

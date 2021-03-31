@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { Socket } from 'ngx-socket-io';
-import { Observable, Subject } from 'rxjs';
+import { BehaviorSubject, Observable, Subject } from 'rxjs';
 import MensagemChat from '../model/chat/mensagemChat';
 import Usuario from '../model/usuario';
 import * as io from 'socket.io-client';
@@ -13,49 +13,51 @@ import { environment } from 'src/environments/environment';
 })
 export class ChatService {
   sala;
-  socket: WebSocket;
   socketChat;
-  connection;
-  doc;
+
+  estudantesOnline;
 
   observerCodigo: Subject<any>;
   observerChat: Subject<any>;
 
   constructor(private login: LoginService) {
-    /* this.observerCodigo = new Subject(); */
     this.observerChat = new Subject();
-    //this.receberMensagem();
+    this.estudantesOnline = new BehaviorSubject([]);
   }
 
-  exibirParticipantesChat(participantes:any[]){
-    if(participantes != null && participantes.length > 0){
-      this.observerChat.next(new MensagemChat(null, new Usuario(null, "", "", 0, 0, "Servidor"), "Membros do grupo:", null))
-      participantes.forEach(participante=>{
-        this.observerChat.next(new MensagemChat(null, new Usuario(null, "", "", 0, 0, "Servidor"), participante.nome, null));
-      })
-      
-    }
-  }
-
-  iniciarConexao(sala) {
-    this.sala = sala;
-    let usuarioLogado = this.login.getUsuarioLogado();
-
-    /**
-     * Socket para a sincronização do chat
-     */
-    this.socketChat = io.connect(environment.URL_CHAT, {
-      query: { sala: sala, usuario: { id: usuarioLogado.pk(), nome: usuarioLogado.nome } },
-    });
-
+  receberMensagens() {
     this.socketChat.on('mensagemRecebida', (message) => {
       this.observerChat.next(JSON.parse(message));
     });
+  }
 
-    this.socketChat.on('connection', (message) => {
-      console.log("Conexaaao")
+
+
+  iniciar(sala) {
+    this.sala = sala;
+    let usuarioLogado = this.login.getUsuarioLogado();
+    return new Observable((observer) => {
+      /**
+       * Socket para a sincronização do chat
+       */
+      this.socketChat = io.connect(environment.URL_CHAT, {
+        query: { sala: sala, estudanteId: usuarioLogado.pk() },
+      });
+
+      this.socketChat.on('conexao', () => {
+        observer.next(true);
+        observer.complete();
+      });
+
+      this.socketChat.on('conexaoAluno', (estudantesConectados) => {
+
+        this.estudantesOnline.next(estudantesConectados);
+      });
+
+      this.socketChat.on('logout', (message) => {
+        // TODO: implementar o logout que remove o estudante da lista de estudantes logados.
+      });
     });
-
 
     /**
      * Socket para a sincronização do editor
@@ -108,8 +110,6 @@ export class ChatService {
     }; */
   }
 
- 
-
   enviarMensagem(mensagem: MensagemChat) {
     if (mensagem != null) {
       return new Observable((observer) => {
@@ -122,7 +122,7 @@ export class ChatService {
 
         this.socketChat.emit('enviarMensagem', data);
         mensagem.save().subscribe(() => {
-          console.log("Salvou")
+          console.log('Salvou');
         });
         observer.next();
         observer.complete();
