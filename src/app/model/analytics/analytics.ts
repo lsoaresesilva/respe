@@ -9,6 +9,7 @@ import { PageTrack } from '../../guards/pageTrack.guard';
 import Turma from '../turma';
 import Usuario from '../usuario';
 import { RespostaQuestaoFechada } from '../respostaQuestaoFechada';
+import AnalyticsProgramacao from './analyticsProgramacao';
 
 export default class Analytics {
   // TODO: Fazer apenas um carregamento de assunto e usar par atudo aqui.
@@ -50,11 +51,11 @@ export default class Analytics {
           const tempoOnline = resultadosConsultasGerais.tempoOnline;
           const pageTracks = resultadosConsultasGerais.PageTrack;
 
-          analytics.totalErrosProgramacao = this.calcularTotalErrosProgramacao(submissoes);
+          analytics.totalErrosProgramacao = AnalyticsProgramacao.calcularTotalErrosProgramacao(submissoes);
           analytics.mediaSubmissoesParaAcerto = this.calcularMediaSubmissoesParaAcerto(submissoes);
-          analytics.totalExecucoes = this.calcularExecucoes(submissoes);
+          analytics.totalExecucoes = AnalyticsProgramacao.calcularExecucoes(submissoes);
           analytics.tempoOnline = tempoOnline;
-          analytics.tentativasQuestoes = this.calculaTentativasQuestoes(submissoes);
+          analytics.tentativasQuestoes = AnalyticsProgramacao.calculaTentativasQuestoes(submissoes);
           analytics.visualizacoesProgresso = this.calculaVisualizacoesProgresso(pageTracks);
           analytics.errosProgramacao = Submissao.getAllErros(submissoes);
 
@@ -231,16 +232,7 @@ export default class Analytics {
     });
   }
 
-  private static calcularTotalErrosProgramacao(submissoes: Submissao[]) {
-    let totalErros = 0;
-    submissoes.forEach((submissao) => {
-      if (submissao.erro != null) {
-        totalErros += 1;
-      }
-    });
-
-    return totalErros;
-  }
+ 
 
   private static calcularMediaSubmissoesParaAcerto(submissoes) {
     let media = 0;
@@ -264,13 +256,9 @@ export default class Analytics {
     return media;
   }
 
-  private static calcularExecucoes(submissoes) {
-    return Array.isArray(submissoes) ? submissoes.length : 0;
-  }
+  
 
-  static calculaTentativasQuestoes(submissoes) {
-    return Submissao.agruparPorQuestao(submissoes).size;
-  }
+ 
 
   static calculaVisualizacoesProgresso(pageTracks) {
     if (Array.isArray(pageTracks)) return pageTracks.length;

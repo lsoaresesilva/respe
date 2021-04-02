@@ -7,6 +7,7 @@ export enum CategoriaErro {
   typeError = '3',
   identationError = '4',
   timedoutError = '5',
+  valueError = '6'
 }
 
 export function getCategoriaPorInstancia(erro: ErroCompilacao) {
@@ -19,6 +20,8 @@ export function getCategoriaPorInstancia(erro: ErroCompilacao) {
       return CategoriaErro.identationError;
     } else if (erro.constructor.name == LabelCategoriasErros.typeError) {
       return CategoriaErro.typeError;
+    }else if (erro.constructor.name == LabelCategoriasErros.valueError) {
+      return CategoriaErro.valueError;
     }
   }
 

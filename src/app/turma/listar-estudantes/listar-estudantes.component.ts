@@ -115,4 +115,13 @@ export class ListarEstudantesComponent implements OnInit {
       ]);
     }
   }
+
+  exportarAnalytics(){
+    if (this.turma != null && this.turma.codigo != null) {
+      this.router.navigate([
+        'main',
+        { outlets: { principal: ['exportar-dados', this.turma.codigo] } },
+      ]);
+    }
+  }
 }

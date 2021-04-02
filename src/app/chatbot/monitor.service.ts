@@ -11,6 +11,7 @@ import { getLabelPorCategoriaNumero } from '../model/errors/enum/labelCategorias
 import Usuario from '../model/usuario';
 import Mensagem from '../model/chatbot/mensagem';
 import { CategoriaErro } from '../model/errors/enum/categoriasErro';
+import RegistroMensagemChatbot from '../model/chatbot/registroMensagemChatbot';
 
 @Injectable({
   providedIn: 'root',
@@ -144,18 +145,24 @@ export class MonitorService {
               getLabelPorCategoriaNumero(submissao.erro.categoria)
             );
             if (mensagemSuporte != null && Array.isArray(mensagemSuporte.mensagens)) {
+              let registroMensagem = new RegistroMensagemChatbot(null, mensagemSuporte, estudante);
+              registroMensagem.save().subscribe(() => {});
               this.chatbot.enviarMensagem(mensagemSuporte.mensagens);
             }
-          }else{
-            if(errorQuotient > 0.7){
-              if(!this.suporteMotivacional.includes(questao.id)){
-
-                this.suporteMotivacional.push(questao.id)
+          } else {
+            if (errorQuotient > 0.7) {
+              if (!this.suporteMotivacional.includes(questao.id)) {
+                this.suporteMotivacional.push(questao.id);
                 const mensagemSuporte = MensagemSuporteMonitor.getMensagemMotivacional();
                 if (mensagemSuporte != null && Array.isArray(mensagemSuporte.mensagens)) {
+                  let registroMensagem = new RegistroMensagemChatbot(
+                    null,
+                    mensagemSuporte,
+                    estudante
+                  );
+                  registroMensagem.save().subscribe(() => {});
                   this.chatbot.enviarMensagem(mensagemSuporte.mensagens);
                 }
-                
               }
             }
           }

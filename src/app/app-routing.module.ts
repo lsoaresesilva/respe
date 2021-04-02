@@ -67,6 +67,7 @@ import { VisualizarAtividadeGrupoProfessorComponent } from './cscl/visualizar-at
 import { VisualizarSolucoesAtividadeGrupoComponent } from './cscl/visualizar-solucoes-atividade-grupo/visualizar-solucoes-atividade-grupo.component';
 import { ExportarDadosComponent } from './admin/exportar-dados/exportar-dados.component';
 import { ListarDiariosComponent } from './turma/listar-diarios/listar-diarios.component';
+import { ExportarDadosAnalyticsComponent } from './analytics-module/exportar-dados-analytics/exportar-dados-analytics.component';
 
 const routes: Routes = [
   {
@@ -122,6 +123,13 @@ const routes: Routes = [
       {
         path: 'analytics-turma/:turmaId',
         component: AnalyticsTurmaComponent,
+        canActivate: [AuthGuard, ProfessorGuard],
+        outlet: 'principal',
+      },
+
+      {
+        path: 'exportar-dados/:turmaId',
+        component: ExportarDadosAnalyticsComponent,
         canActivate: [AuthGuard, ProfessorGuard],
         outlet: 'principal',
       },

@@ -6,6 +6,7 @@ import { sha256 } from 'js-sha256';
 import Experiment from './experimento/experiment';
 import { Groups } from './experimento/groups';
 import Turma from './turma';
+import Submissao from './submissao';
 
 @Collection('usuarios')
 export default class Usuario extends Document {
@@ -55,6 +56,12 @@ export default class Usuario extends Document {
         observer.complete();
       });
     });
+  }
+
+  static getTodasSubmissoes(estudante:Usuario){
+    return Submissao.getAll(
+      new Query('estudanteId', '==', estudante.pk()), "data"
+    );
   }
 
   static fromJson(json) {

@@ -326,6 +326,7 @@ export class EditorProgramacaoComponent implements AfterViewInit, OnChanges, OnI
 
   visualizar(testCase) {
     const submissao = this.prepararSubmissao();
+    
     const pageTrack = new PageTrackRecord(
       null,
       'visualizacao-algoritmo',
@@ -341,6 +342,7 @@ export class EditorProgramacaoComponent implements AfterViewInit, OnChanges, OnI
         }),
       };
       // TODO: definir um timedout
+      this.submissao = submissao;
       const json = this.submissao.construirJsonVisualizacao(this.questao, testCase);
 
       this.http.post(this.URL + 'codigo/', json, httpOptions).subscribe(
@@ -352,6 +354,12 @@ export class EditorProgramacaoComponent implements AfterViewInit, OnChanges, OnI
               summary: 'Não é possível visualizar a execução',
               detail:
                 'O seu algoritmo possui algum erro e por isso não é possível visualizar sua execução.',
+            });
+
+            submissao.processarErroServidor(resposta).subscribe((resultado) => {
+              this.submissao = resultado;
+
+              this.onError.emit(this._submissao);
             });
           } else {
             this.processandoVisualizacao = false;
@@ -408,6 +416,8 @@ export class EditorProgramacaoComponent implements AfterViewInit, OnChanges, OnI
 
       const url = this.URL + 'codigo/';
       this.processandoSubmissao = true;
+
+      this.submissao = submissao;
 
       this.http
         .post<any>(url, json, httpOptions)

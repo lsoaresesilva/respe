@@ -8,6 +8,7 @@ import ResultadoTestCase from './resultadoTestCase';
 import ErroCompilacaoFactory from './errors/analise-compilacao/erroCompilacaoFactory';
 import { ErroCompilacao } from './errors/analise-compilacao/erroCompilacao';
 import { Assunto } from './assunto';
+import { keyframes } from '@angular/animations';
 
 @Collection('submissoes')
 export default class Submissao extends Document {
@@ -133,7 +134,7 @@ export default class Submissao extends Document {
     return submissoesRecentesAgrupadas;
   }
 
-  static agruparPorQuestao(submissoes: Submissao[]): Map<string, []> {
+  static agruparPorQuestao(submissoes: Submissao[]): Map<string, any[]> {
     const submissoesAgrupadas = new Map();
     submissoes.forEach((submissao) => {
       if (submissoesAgrupadas.get(submissao['questaoId']) === undefined) {
@@ -144,6 +145,24 @@ export default class Submissao extends Document {
     });
 
     return submissoesAgrupadas;
+  }
+
+  /**
+ * Retorna apenas uma submissão por questão, sendo escolhida aquela que tiver status de completado, se houver.
+ * @param submissoes 
+ */
+  static getSubmissoesUnicas(submissoes){
+    let submissoesConcluidas = this.filtrarSubmissoesConcluidas(submissoes);
+    let submissoesAgrupadas = this.agruparPorQuestao(submissoesConcluidas);
+    let submissoesUnicas = [];
+    submissoesAgrupadas.forEach((v, k)=>{
+      if(v.length != 0){
+        submissoesUnicas.push(v[0]);
+      }
+      
+    });
+
+    return submissoesUnicas;
   }
 
   static filtrarSubmissoesConcluidas(submissoesQuestao = []) {
@@ -257,7 +276,7 @@ export default class Submissao extends Document {
 
   static getAll(queries = null, orderBy = null) {
     return new Observable<any[]>((observer) => {
-      super.getAll(queries).subscribe(
+      super.getAll(queries, orderBy).subscribe(
         (submissoes) => {
           // let erros: any[] = [];
           submissoes.forEach((submissao) => {
@@ -292,6 +311,8 @@ export default class Submissao extends Document {
 
     return erros;
   }
+
+ 
 
   /*analisarErros() {
         this.erros = [];

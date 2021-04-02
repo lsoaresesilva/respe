@@ -4,6 +4,7 @@ import { Util } from '../../util';
 import * as firebase from 'firebase';
 import FrequenciaErro from './frequenciaErro';
 import { getLabelPorCategoriaNumero } from '../enum/labelCategoriasErro';
+import { trace } from 'console';
 
 export abstract class ErroCompilacao {
   protected constructor(id, public traceback) {
@@ -23,12 +24,24 @@ export abstract class ErroCompilacao {
 
   static getLinha(traceback) {
     if (traceback != null) {
-      const padrao = /line ([0-9]+)/;
-      const consulta = traceback.match(padrao);
-
+      const padrao = /line ([0-9]+)/g;
+      const re = new RegExp(padrao);
+      /* 
+      const consulta = traceback.match(padrao); 
       if (consulta != null) {
         return consulta[1];
       }
+      */
+      let match
+      let consulta = null;
+      while ((match = re.exec(traceback)) !== null) {
+        consulta = match[1];
+      }
+
+      if(consulta != null){
+        return consulta;
+      }
+   
     }
 
     return null;
@@ -65,6 +78,8 @@ export abstract class ErroCompilacao {
           return CategoriaErro.identationError;
         } else if (consulta[1] == 'TimedoutError') {
           return CategoriaErro.timedoutError;
+        }else if (consulta[1] == 'ValueError') {
+          return CategoriaErro.valueError;
         }
       }
     }

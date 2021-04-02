@@ -6,6 +6,7 @@ export enum LabelCategoriasErros {
   typeError = 'TypeError',
   indentationError = 'IndentationError',
   timedoutError = 'TimedoutError',
+  valueError = 'ValueError'
 }
 
 export function getLabelPorCategoriaNumero(categoria) {
@@ -19,5 +20,7 @@ export function getLabelPorCategoriaNumero(categoria) {
     return LabelCategoriasErros.indentationError;
   }else if (categoria == CategoriaErro.timedoutError) {
     return LabelCategoriasErros.timedoutError;
+  }else if (categoria == CategoriaErro.valueError) {
+    return LabelCategoriasErros.valueError;
   }
 }

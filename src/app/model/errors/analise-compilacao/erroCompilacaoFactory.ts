@@ -7,6 +7,7 @@ import { CategoriaErro } from '../enum/categoriasErro';
 import IndentationError from './indentationError';
 import DefaultError from './defaultError';
 import TimedoutError from './timedoutError';
+import ValueError from './valueError';
 
 export default class ErroCompilacaoFactory {
   public static construir(traceback) {
@@ -27,6 +28,9 @@ export default class ErroCompilacaoFactory {
         break;
       case CategoriaErro.timedoutError:
         objeto = new TimedoutError(null, traceback);
+        break;
+      case CategoriaErro.valueError:
+        objeto = new ValueError(null, traceback);
         break;
       default:
         // TODO: erro genérico

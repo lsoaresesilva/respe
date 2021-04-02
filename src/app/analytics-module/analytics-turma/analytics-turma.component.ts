@@ -1,8 +1,10 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
+import { forkJoin } from 'rxjs';
 import Analytics from 'src/app/model/analytics/analytics';
 import Query from 'src/app/model/firestore/query';
 import Turma from 'src/app/model/turma';
+import Usuario from 'src/app/model/usuario';
 
 @Component({
   selector: 'app-analytics-turma',
@@ -21,7 +23,17 @@ export class AnalyticsTurmaComponent implements OnInit {
     this.route.params.subscribe((params) => {
       if (params['turmaId'] != null) {
         Turma.getByQuery(new Query('codigo', '==', params['turmaId'])).subscribe((turma: Turma) => {
-          this.estudantes$ = Analytics.calcularNumeroAtividadesTrabalhadasPorSemana(turma);
+          //this.estudantes$ = Analytics.calcularNumeroAtividadesTrabalhadasPorSemana(turma);
+          Turma.getAllEstudantes(params['turmaId']).subscribe(estudantes=>{
+            let consultaSubmissoes = {};
+            estudantes.forEach(estudante=>{
+              consultaSubmissoes[estudante.pk()] = Usuario.getTodasSubmissoes(estudante);
+            })
+
+            forkJoin(consultaSubmissoes).subscribe(submissoes=>{
+              
+            })
+          })
         });
       }
     });
