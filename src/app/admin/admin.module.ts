@@ -10,12 +10,13 @@ import { ContextMenuModule } from 'primeng/contextmenu';
 import { ButtonModule } from 'primeng/button';
 import { OrderListModule } from 'primeng/orderlist';
 import { ExportarDadosComponent } from './exportar-dados/exportar-dados.component';
-
+import {ChartModule} from 'primeng/chart';
 @NgModule({
   declarations: [ListarAssuntosAdminComponent, VisualizarAssuntoAdminComponent, ExportarDadosComponent],
   imports: [
     CommonModule,
     TableModule,
+    ChartModule,
     ToastModule,
     FormsModule,
     ContextMenuModule,

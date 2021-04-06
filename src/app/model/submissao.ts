@@ -9,6 +9,8 @@ import ErroCompilacaoFactory from './errors/analise-compilacao/erroCompilacaoFac
 import { ErroCompilacao } from './errors/analise-compilacao/erroCompilacao';
 import { Assunto } from './assunto';
 import { keyframes } from '@angular/animations';
+import { Cacheable } from 'ts-cacheable';
+import { Util } from './util';
 
 @Collection('submissoes')
 export default class Submissao extends Document {
@@ -43,7 +45,7 @@ export default class Submissao extends Document {
           }
         });
 
-        submissoes = this.filtrarSubmissoesConcluidas(submissoes);
+        submissoes = this.filtrarSubmissoesConclusao(submissoes);
         submissoes = this.agruparPorEstudante(submissoes);
         observer.next(submissoes);
         observer.complete();
@@ -72,6 +74,22 @@ export default class Submissao extends Document {
         // Verificar das submissoes quantas questões foram trabalhadas
       });
     });
+  }
+
+  static fromJson(submissaoJson:any){
+    let submissao = new Submissao(submissaoJson.id, submissaoJson.codigo, Usuario.fromJson({id:submissaoJson.estudante}), Assunto.fromJson({id:submissaoJson.assuntoId, nome:""}), new QuestaoProgramacao(submissaoJson.questaoId, "", "", 1, 1, [], null, "", null));
+    submissao.resultadosTestsCases = [];
+    submissao["questaoId"] = submissaoJson.questaoId;
+    if(Array.isArray(submissaoJson.resultadosTesteCase)){
+      submissaoJson.resultadosTesteCase.forEach(r => {
+        let resultado = ResultadoTestCase.fromJson(r);
+        submissao.resultadosTestsCases.push(resultado);
+      });
+      
+    }
+    
+    
+    return submissao;
   }
 
   static getQuestoesDeSubmissoes(submissoes) {
@@ -152,7 +170,7 @@ export default class Submissao extends Document {
  * @param submissoes 
  */
   static getSubmissoesUnicas(submissoes){
-    let submissoesConcluidas = this.filtrarSubmissoesConcluidas(submissoes);
+    let submissoesConcluidas = this.filtrarSubmissoesConclusao(submissoes);
     let submissoesAgrupadas = this.agruparPorQuestao(submissoesConcluidas);
     let submissoesUnicas = [];
     submissoesAgrupadas.forEach((v, k)=>{
@@ -165,7 +183,9 @@ export default class Submissao extends Document {
     return submissoesUnicas;
   }
 
-  static filtrarSubmissoesConcluidas(submissoesQuestao = []) {
+ 
+
+  static filtrarSubmissoesConclusao(submissoesQuestao = [], status=false) {
     // Filtrando todas as submissões que o seu resultadosTestsCase não seja undefined.
     const submissaoFiltrada = submissoesQuestao
       .filter((submissao) => {
@@ -177,7 +197,7 @@ export default class Submissao extends Document {
         // Retorna um array vazio caso o resultadosTestsCases tenha todos os elementos com status true. Caso não, o array vai retornar
         // com pelo menos um elemento com status false
         const filterFalseTestsCases = submissao.resultadosTestsCases.filter(
-          (el) => el.status === false
+          (el) => el.status === status
         );
 
         // Se a submissão tiver todos seus status true, então retorne-a
@@ -274,6 +294,7 @@ export default class Submissao extends Document {
     });
   }
 
+  @Cacheable()
   static getAll(queries = null, orderBy = null) {
     return new Observable<any[]>((observer) => {
       super.getAll(queries, orderBy).subscribe(
@@ -331,6 +352,21 @@ export default class Submissao extends Document {
         return false;
     }*/
 
+  static documentToObject(document){
+    let submissao = new Submissao(document.id, document.codigo, Usuario.fromJson({id:document.estudanteId}), Assunto.fromJson({id:document.assuntoId, nome:""}), new QuestaoProgramacao(document.questaoId, "", "", 1, 1, [], null, "", null));
+    submissao.resultadosTestsCases = [];
+    submissao["questaoId"] = document.questaoId;
+    if(Array.isArray(document.resultadosTestsCases)){
+      document.resultadosTestsCases.forEach(r => {
+        let resultado = ResultadoTestCase.fromJson(r);
+        submissao.resultadosTestsCases.push(resultado);
+      });
+      
+    }
+
+    return submissao
+  }
+
   objectToDocument() {
     const document = super.objectToDocument();
     
@@ -363,7 +399,12 @@ export default class Submissao extends Document {
 
   toJson() {
     return {
-      codigo: this.codigo,
+      resultadosTesteCase:this.resultadosTestsCases,
+      assuntoId:this["assuntoId"],
+      data:Util.firestoreDateToDate(this.data),
+      estudante:this["estudanteId"],
+      codigo:this.codigo,
+      questaoId:this["questaoId"],
     };
   }
 
@@ -411,15 +452,7 @@ export default class Submissao extends Document {
   }
 
   processarRespostaServidor(resposta) {
-    return new Observable((observer) => {
-      this.resultadosTestsCases = ResultadoTestCase.construir(resposta.resultados);
-      // this.saida = resposta.saida
-      this.save().subscribe((resultado) => {
-        // salva novamente, pois agora há dados sobre os resultadosTestsCases
-        observer.next(resultado);
-        observer.complete();
-      });
-    });
+    this.resultadosTestsCases = ResultadoTestCase.construir(resposta.resultados);
   }
 
   /**
@@ -427,17 +460,10 @@ export default class Submissao extends Document {
    * @param resposta
    */
   processarErroServidor(resposta) {
-    return new Observable((observer) => {
-      this.invalidarResultadosTestCases();
-      if (ErroCompilacao.isErro(resposta)) {
-        this.erro = ErroCompilacaoFactory.construir(resposta);
-
-        this.save().subscribe((resultado) => {
-          observer.next(resultado);
-          observer.complete();
-        });
-      }
-    });
+    this.invalidarResultadosTestCases();
+    if (ErroCompilacao.isErro(resposta)) {
+      this.erro = ErroCompilacaoFactory.construir(resposta);
+    }
   }
 
   /**

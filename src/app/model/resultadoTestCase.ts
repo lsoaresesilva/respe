@@ -8,6 +8,7 @@ import * as firebase from 'firebase';
 import { Util } from './util';
 
 export default class ResultadoTestCase {
+  
   // TODO: incluir a submissão
 
   constructor(public id, public status, public respostaAlgoritmo, public testCase: TestCase) {
@@ -15,6 +16,10 @@ export default class ResultadoTestCase {
     else {
       this.id = id;
     }
+  }
+
+  static fromJson(resultadoJson: any) {
+    return new ResultadoTestCase(resultadoJson.id, resultadoJson.status, resultadoJson.respostaAlgoritmo, resultadoJson.testCase);
   }
 
   /**

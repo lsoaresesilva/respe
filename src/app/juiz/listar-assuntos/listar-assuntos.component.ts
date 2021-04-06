@@ -3,6 +3,7 @@ import { Assunto } from 'src/app/model/assunto';
 import { MenuItem, MessageService } from 'primeng/api';
 import { Router, ActivatedRoute } from '@angular/router';
 import { LoginService } from '../../login-module/login.service';
+import { Groups } from 'src/app/model/experimento/groups';
 
 @Component({
   selector: 'app-listar-assuntos',
@@ -19,7 +20,18 @@ export class ListarAssuntosComponent implements OnInit {
 
   ngOnInit() {
     Assunto.getAll().subscribe((assuntos) => {
-      this.assuntos = Assunto.ordenar(assuntos);
+      this.assuntos = assuntos;
+      let usuario = this.login.getUsuarioLogado();
+      if(usuario.grupoExperimento != Groups.control){
+        this.assuntos.forEach((assunto) => {
+          Assunto.calcularPercentualConclusao(assunto, this.login.getUsuarioLogado()).subscribe((percentual) => {
+            assunto['percentual'] = percentual;
+          });
+        });
+      }
+      
+
+      Assunto.ordenar(this.assuntos);
     });
   }
 

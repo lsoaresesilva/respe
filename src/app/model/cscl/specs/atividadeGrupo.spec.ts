@@ -39,13 +39,13 @@ describe('Testes de AtividadeGrupo', () => {
     let e6 = new Usuario("910", null, null, null, null, null);
     let e7 = new Usuario("432", null, null, null, null, null);
 
-    let atividade = AtividadeGrupo.criarGrupos([e1, e2, e3, e4, e5], null, new Assunto(null, "condicoes"), new QuestaoColaborativa(null, new QuestaoProgramacao(null, "bla", null, null, null, null, null, null, null)), null);
-    expect(atividade.grupos.length).toBe(2);
+    let atividade = AtividadeGrupo.criarGrupos([e1, e2, e3, e4, e5]);
+    expect(atividade.length).toBe(2);
 
-    atividade = AtividadeGrupo.criarGrupos([e1, e2, e3, e4, e5, e6], null, new Assunto(null, "condicoes"), new QuestaoColaborativa(null, new QuestaoProgramacao(null, "bla", null, null, null, null, null, null, null)), null);
-    expect(atividade.grupos.length).toBe(3);
+    atividade = AtividadeGrupo.criarGrupos([e1, e2, e3, e4, e5, e6]);
+    expect(atividade.length).toBe(3);
 
-    atividade = AtividadeGrupo.criarGrupos([e1, e2, e3, e4, e5, e7], null, new Assunto(null, "condicoes"), new QuestaoColaborativa(null, new QuestaoProgramacao(null, "bla", null, null, null, null, null, null, null)), null);
-    expect(atividade.grupos.length).toBe(3);
+    atividade = AtividadeGrupo.criarGrupos([e1, e2, e3, e4, e5, e7]);
+    expect(atividade.length).toBe(3);
   });
 });

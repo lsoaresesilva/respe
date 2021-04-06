@@ -110,7 +110,7 @@ describe('Testes de questão', () => {
     a.questoesProgramacao = [];
     a.questoesProgramacao.push(q);
 
-    let s = new Submissao(null, 'bla', u, q);
+    let s = new Submissao(null, 'bla', u, a, q);
     s.resultadosTestsCases = [];
     s.resultadosTestsCases.push(new ResultadoTestCase(null, true, 'c', t));
     s.resultadosTestsCases.push(new ResultadoTestCase(null, true, 'a', t1));

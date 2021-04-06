@@ -7,6 +7,7 @@ import { QuestaoProgramacao } from 'src/app/model/questoes/questaoProgramacao';
 import { forkJoin, Observable } from 'rxjs';
 import QuestaoFechada from 'src/app/model/questoes/questaoFechada';
 import QuestaoParsonProblem from 'src/app/model/questoes/parsonProblem';
+import QuestaoProgramacaoCorrecao from 'src/app/model/questoes/questaoProgramacaoCorrecao';
 
 @Component({
   selector: 'app-listar-questoes-sequencia',
@@ -27,58 +28,14 @@ export class ListarQuestoesSequenciaComponent implements OnChanges {
   }
 
   ngOnChanges(): void {
-    let consultas = {};
-    if (
-      this.assunto != null &&
-      Array.isArray(this.assunto.questoesFechadas) &&
-      this.assunto.questoesFechadas.length > 0
-    ) {
-      consultas['questoesFechadas'] = QuestaoFechada.verificarQuestoesRespondidas(
-        this.login.getUsuarioLogado(),
-        this.assunto.questoesFechadas
-      );
+    
+    if(this.assunto != null && this.assunto.pk() != null){
+      this.assunto.getQuestoesComStatusConclusao(this.login.getUsuarioLogado()).subscribe(questoes=>{
+        this.questoes = questoes;
+        this.construirTimelineQuestoes();
+      });
     }
-
-    if (
-      this.assunto != null &&
-      Array.isArray(this.assunto.questoesProgramacao) &&
-      this.assunto.questoesProgramacao.length > 0
-    ) {
-      consultas['questoesProgramacao'] = QuestaoProgramacao.verificarQuestoesRespondidas(
-        this.login.getUsuarioLogado(),
-        this.assunto.questoesProgramacao
-      );
-    }
-
-    if (
-      this.assunto != null &&
-      Array.isArray(this.assunto.questoesParson) &&
-      this.assunto.questoesParson.length > 0
-    ) {
-      consultas['questoesParson'] = QuestaoParsonProblem.verificarQuestoesRespondidas(
-        this.login.getUsuarioLogado(),
-        this.assunto.questoesParson
-      );
-    }
-
-    forkJoin(consultas).subscribe((respostas) => {
-      if (respostas['questoesFechadas'] != null) {
-        this.assunto.questoesFechadas = respostas['questoesFechadas'];
-      }
-
-      if (respostas['questoesProgramacao'] != null) {
-        this.assunto.questoesProgramacao = respostas['questoesProgramacao'];
-      }
-
-      if (respostas['questoesParson'] != null) {
-        this.assunto.questoesParson = respostas['questoesParson'];
-      }
-
-      this.questoes = this.assunto.ordenarQuestoes();
-
-      this.construirTimelineQuestoes();
-
-    });
+    
   }
 
   abrirQuestao(questao) {
@@ -92,7 +49,13 @@ export class ListarQuestoesSequenciaComponent implements OnChanges {
         'main',
         { outlets: { principal: ['visualizar-questao-parson', this.assunto.pk(), questao.id] } },
       ]);
-    } else {
+    }  else if (questao instanceof QuestaoProgramacaoCorrecao) {
+      this.router.navigate([
+        'main',
+        { outlets: { principal: ['responder-questao-correcao', this.assunto.pk(), questao.id] } },
+      ]);
+    } 
+    else {
       if (this.login.getUsuarioLogado().grupoExperimento === Groups.control) {
         this.router.navigate([
           'main',

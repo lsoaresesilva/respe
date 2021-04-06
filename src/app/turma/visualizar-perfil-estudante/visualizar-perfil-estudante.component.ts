@@ -20,7 +20,7 @@ export class VisualizarPerfilEstudanteComponent implements OnInit {
   questoes: QuestaoProgramacao[] = [];
   submissoes: any[];
   respostaUsuario;
-
+  pageTracks;
   planejamentos;
 
   constructor(private route: ActivatedRoute, private login: LoginService) {
@@ -37,7 +37,12 @@ export class VisualizarPerfilEstudanteComponent implements OnInit {
         this.buscarQuestoes(resultado);
       });
 
-      Assunto.getAll(new Query('isAtivo', '==', true)).subscribe((assuntos) => {
+      PageTrackRecord.getAll(new Query('estudanteId', '==', params['id'])).subscribe(
+        (pageTracks) => {
+          this.pageTracks = pageTracks;
+      });
+
+      /* Assunto.getAll(new Query('isAtivo', '==', true)).subscribe((assuntos) => {
         AutoInstrucao.getAll(new Query('estudanteId', '==', params['id'])).subscribe(
           (instrucoes) => {
             assuntos.forEach((assunto) => {
@@ -63,7 +68,7 @@ export class VisualizarPerfilEstudanteComponent implements OnInit {
             });
           }
         );
-      });
+      }); */
 
       this.planejamentos = [];
     });

@@ -7,6 +7,7 @@ import Experiment from './experimento/experiment';
 import { Groups } from './experimento/groups';
 import Turma from './turma';
 import Submissao from './submissao';
+import { Cacheable } from 'ts-cacheable';
 
 @Collection('usuarios')
 export default class Usuario extends Document {
@@ -58,10 +59,15 @@ export default class Usuario extends Document {
     });
   }
 
+  
   static getTodasSubmissoes(estudante:Usuario){
     return Submissao.getAll(
       new Query('estudanteId', '==', estudante.pk()), "data"
     );
+  }
+
+  toJson(){
+    return {id:this.id, email:this.email, senha:this.senha, perfil:this.perfil, grupoExperimento:this.grupoExperimento, nome:this.nome};
   }
 
   static fromJson(json) {

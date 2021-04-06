@@ -3,6 +3,8 @@ import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { forkJoin } from 'rxjs';
 import AnalyticsProgramacao from 'src/app/model/analytics/analyticsProgramacao';
+import Estatisticas from 'src/app/model/analytics/estatisticas';
+import PageTrackRecord from 'src/app/model/analytics/pageTrack';
 import { Assunto } from 'src/app/model/assunto';
 import Query from 'src/app/model/firestore/query';
 import Turma from 'src/app/model/turma';
@@ -28,11 +30,15 @@ export class ExportarDadosAnalyticsComponent implements OnInit {
       if (params['turmaId'] != null) {
         Turma.getAllEstudantes(params['turmaId']).subscribe(estudantes=>{
           let consultaSubmissoes = {};
-          estudantes.forEach(estudante=>{
+          /* estudantes.forEach(estudante=>{
             consultaSubmissoes[estudante.pk()] = Usuario.getTodasSubmissoes(estudante);
+          }) */
+
+          Estatisticas.gerarDadosPageTrack(estudantes).subscribe(dados=>{
+            this.json = JSON.stringify(dados);
           })
 
-          Assunto.getAll().subscribe(assuntos=>{
+          /* Assunto.getAll().subscribe(assuntos=>{
             forkJoin(consultaSubmissoes).subscribe(submissoes=>{
               for(let [estudanteId, submissoesEstudante] of Object.entries(submissoes)){
                 let s = submissoesEstudante as any;
@@ -43,13 +49,10 @@ export class ExportarDadosAnalyticsComponent implements OnInit {
                 let progresso = AnalyticsProgramacao.calcularProgressoProgramacao(assuntos, s);
                 let dado = [estudanteId, totalErrosSintaxe, totalErrosLogicos, totalExecucoes, tempoMedioSubmissoes, progresso];
                 dadoExportado.registros.push(dado);
-                /*let sbms = s as any;
-                 let registro = [estudanteId, ...sbms];
-                dadoExportado.registros.push(registro); */
               }
               this.json = JSON.stringify(dadoExportado);
             })
-          })
+          }) */
 
           
         })

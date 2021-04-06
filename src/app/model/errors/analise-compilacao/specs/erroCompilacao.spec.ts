@@ -38,7 +38,7 @@ describe('Testes para a class ErroCompilacao', () => {
   xit('Deve obter todos os erros cometidos pelo estudante', () => {
     const submissoes = [];
     for (let i = 0; i < 10; i++) {
-      const s = new Submissao(null, '', '', '');
+      const s = new Submissao(null, '', null, null, null);
       let e;
       if (i % 2 == 0) {
         e = new SyntaxError(null, '');

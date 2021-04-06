@@ -35,6 +35,7 @@ import { ConfirmationService } from 'primeng/api';
 import { ChatService } from 'src/app/cscl/chat.service';
 import AtividadeGrupo from 'src/app/model/cscl/atividadeGrupo';
 import Grupo from 'src/app/model/cscl/grupo';
+import CorrecaoAlgoritmo from 'src/app/model/correcao-algoritmo/correcaoAlgoritmo';
 
 @Component({
   selector: 'responder-questao-programacao',
@@ -66,6 +67,8 @@ export class ResponderQuestaoProgramacao implements OnInit, AfterViewInit {
 
   // TODO: mover para um componente próprio
   traceExecucao;
+
+  questaoCorrecao;
 
   constructor(
     private route: ActivatedRoute,
@@ -118,17 +121,13 @@ export class ResponderQuestaoProgramacao implements OnInit, AfterViewInit {
 
     this.route.params.subscribe((params) => {
       
+      // Atividade em grupo
+      
       if (params['atividadeGrupoId'] != null && params['grupoId'] != undefined && params['assuntoId'] != undefined && params['questaoId'] != undefined) {
           AtividadeGrupo.get(params['atividadeGrupoId']).subscribe(atividadeGrupo=>{
             this.atividadeGrupo = atividadeGrupo as AtividadeGrupo;
             this.grupo = this.atividadeGrupo.getGrupo(params['grupoId']);
             if(this.grupo != null){
-
-              
-              
-          
-
-
               Assunto.get(params['assuntoId']).subscribe((assunto) => {
                 this.assunto = assunto  as Assunto;
       
@@ -143,7 +142,7 @@ export class ResponderQuestaoProgramacao implements OnInit, AfterViewInit {
                     if(questao != null){
                       this.questao = questao;
   
-                      if (this.usuario != null) {
+                      /* if (this.usuario != null) {
                         Submissao.getRecentePorQuestao(this.questao, this.usuario).subscribe(
                           (submissao: Submissao) => {
                             if (submissao != null) this.submissao = submissao;
@@ -152,7 +151,7 @@ export class ResponderQuestaoProgramacao implements OnInit, AfterViewInit {
                             this.atualizarCardErros();
                           }
                         );
-                      }
+                      } */
   
                       
                     }else{
@@ -166,7 +165,39 @@ export class ResponderQuestaoProgramacao implements OnInit, AfterViewInit {
             }
             
           })
-      }else{
+      }else if(params['questaoCorrecaoId'] != null){ // Atividade de correção
+        Assunto.get(params['assuntoId']).subscribe((assunto) => {
+          this.assunto = assunto as Assunto;
+
+          if (
+            assunto['questoesCorrecao'] != undefined &&
+            assunto['questoesCorrecao'].length > 0
+          ) {
+            assunto['questoesCorrecao'].forEach((questaoCorrecao) => {
+              if (questaoCorrecao.id == params['questaoCorrecaoId']) {
+                this.questaoCorrecao = questaoCorrecao;
+                this.questao = questaoCorrecao.questao;
+                
+
+                CorrecaoAlgoritmo.getRecentePorQuestao(this.questaoCorrecao, this.usuario).subscribe(
+                  (correcao: CorrecaoAlgoritmo) => {
+                    if (correcao != null){
+                      this.correcao = correcao;
+                      this.submissao = Submissao.fromJson(correcao.submissao);
+                    } else{
+                      this.questaoCorrecao.getSubmissaoComErro(this.usuario).subscribe(submissaoErro=>{
+                        this.submissao = submissaoErro;
+                      })
+                    }
+
+                  }
+                );
+              }
+            });
+          }
+          });
+      }
+      else{
         if (params['assuntoId'] != undefined && params['questaoId'] != undefined) {
           Assunto.get(params['assuntoId']).subscribe((assunto) => {
             this.assunto = assunto as Assunto;

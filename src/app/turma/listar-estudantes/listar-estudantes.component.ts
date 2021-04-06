@@ -9,6 +9,7 @@ import Turma from 'src/app/model/turma';
 import Analytics from 'src/app/model/analytics/analytics';
 import Submissao from 'src/app/model/submissao';
 import { Assunto } from 'src/app/model/assunto';
+import PageTrackRecord from 'src/app/model/analytics/pageTrack';
 
 @Component({
   selector: 'app-listar-estudantes',
@@ -20,6 +21,7 @@ export class ListarEstudantesComponent implements OnInit {
   selectedEstudante: Usuario;
   estudante: Usuario;
   turma;
+  pageTracks;
 
   constructor(
     private route: ActivatedRoute,
@@ -37,17 +39,20 @@ export class ListarEstudantesComponent implements OnInit {
         
         Turma.getAllEstudantes(params['codigoTurma']).subscribe((estudantes) => {
             this.estudantes$ = estudantes;
-            Assunto.getAll().subscribe(assuntos => {
-              this.estudantes$.forEach((estudante) => {
+            /* PageTrackRecord.getAllByEstudantes(estudantes).subscribe(pagetracks=>{
+              this.pageTracks = pagetracks;
+            }) */
+            /*Assunto.getAll().subscribe(assuntos => {
+               this.estudantes$.forEach((estudante) => {
                 Analytics.calcularProgressoGeral(assuntos, estudante).subscribe(
                   (progresso) => {
                     estudante.progressoGeral = progresso
                   }
                 );
-              });
+              }); 
 
             
-          });
+          });*/
           /* Analytics.calcularNumeroAtividadesTrabalhadasPorSemana(turma).subscribe((estudantes) => {
             this.estudantes$ = estudantes;
             this.estudantes$.forEach((estudante) => {

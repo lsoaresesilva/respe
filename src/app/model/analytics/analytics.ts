@@ -243,7 +243,7 @@ export default class Analytics {
     const submissoesAgrupadas = Submissao.agruparPorQuestao(submissoes);
     // Verificar se para uma questão há submissão correta. Se houver, somar o total de submissoes erradas e desconsiderar as corretas.
     submissoesAgrupadas.forEach((submissoesQuestao, questaoId, map) => {
-      const submissoesConcluidas = Submissao.filtrarSubmissoesConcluidas(submissoesQuestao);
+      const submissoesConcluidas = Submissao.filtrarSubmissoesConclusao(submissoesQuestao);
       submissoesIncorretas += submissoesQuestao.length - submissoesConcluidas.length;
       if (submissoesConcluidas.length != 0) {
         ++iteracao;

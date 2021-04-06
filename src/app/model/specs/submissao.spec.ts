@@ -46,17 +46,17 @@ describe('Testes de Submissão', () => {
       [],
       null, null
     );
-    const submissao = new Submissao(null, 'x = 2\ny = c', estudante, questao);
+    const submissao = new Submissao(null, 'x = 2\ny = c', estudante, null, questao);
     submissao.data = firestore.Timestamp.now();
 
-    const submissaoDois = new Submissao(null, 'x = 2\ny = c', estudante, questao);
+    const submissaoDois = new Submissao(null, 'x = 2\ny = c', estudante, null, questao);
 
     const oitoDiasAtras = new Date();
     oitoDiasAtras.setDate(new Date().getDate() - 8);
     submissaoDois.data = firestore.Timestamp.fromDate(oitoDiasAtras);
 
     const questaoDois = new QuestaoProgramacao('abcde', null, null, null, null, null, [], null, null);
-    const submissaoTres = new Submissao(null, 'x = 2\ny = c', estudante, questao);
+    const submissaoTres = new Submissao(null, 'x = 2\ny = c', estudante, null, questao);
 
     const doisDiasAtras = new Date();
     doisDiasAtras.setDate(new Date().getDate() - 2);
@@ -85,11 +85,11 @@ describe('Testes de Submissão', () => {
       [],
       null, null
     );
-    const submissao = new Submissao(null, 'x = 2\ny = c', estudante, questao);
+    const submissao = new Submissao(null, 'x = 2\ny = c', estudante, null, questao);
     submissao['questaoId'] = questao.id;
     submissao.data = firestore.Timestamp.now();
 
-    const submissaoDois = new Submissao(null, 'x = 2\ny = c', estudante, questao);
+    const submissaoDois = new Submissao(null, 'x = 2\ny = c', estudante, null, questao);
     submissaoDois['questaoId'] = questao.id;
 
     const oitoDiasAtras = new Date();
@@ -97,7 +97,7 @@ describe('Testes de Submissão', () => {
     submissaoDois.data = firestore.Timestamp.fromDate(oitoDiasAtras);
 
     const questaoDois = new QuestaoProgramacao('abcde', null, null, null, null, null, [], null, null);
-    const submissaoTres = new Submissao(null, 'x = 2\ny = c', estudante, questaoDois);
+    const submissaoTres = new Submissao(null, 'x = 2\ny = c', estudante, null, questaoDois);
     submissaoDois['questaoId'] = questaoDois.id;
 
     const doisDiasAtras = new Date();
@@ -130,7 +130,7 @@ describe('Testes de Submissão', () => {
       [],
       null, null
     );
-    const submissao = new Submissao(null, 'x = 2\ny = c', estudante, questao);
+    const submissao = new Submissao(null, 'x = 2\ny = c', estudante, null, questao);
 
     submissao.save().subscribe((resultado) => {
       // TODO: Incluir erro
@@ -160,8 +160,8 @@ describe('Testes de Submissão', () => {
       [],
       null, null
     );
-    const s1 = new Submissao(null, 'x = 2\ny = c', estudante, questao);
-    const s2 = new Submissao(null, 'x = 2\ny = c', estudante, questao);
+    const s1 = new Submissao(null, 'x = 2\ny = c', estudante, null, questao);
+    const s2 = new Submissao(null, 'x = 2\ny = c', estudante, null, questao);
 
     s1.save().subscribe((resultado) => {
       s2.save().subscribe((res) => {
@@ -194,17 +194,17 @@ describe('Testes de Submissão', () => {
       [t1, t2],
       null, null
     );
-    const s1 = new Submissao(null, 'x = 2\ny = c', e1, questao);
+    const s1 = new Submissao(null, 'x = 2\ny = c', e1, null,  questao);
     const rt1s1 = new ResultadoTestCase(null, true, null, t1);
     const rt2s1 = new ResultadoTestCase(null, true, null, t2);
     s1.resultadosTestsCases = [rt1s1, rt2s1];
 
-    const s2 = new Submissao(null, 'x = 2\ny = c', e2, questao);
+    const s2 = new Submissao(null, 'x = 2\ny = c', e2, null, questao);
     const rt1s2 = new ResultadoTestCase(null, true, null, t1);
     const rt2s2 = new ResultadoTestCase(null, true, null, t2);
     s2.resultadosTestsCases = [rt1s2, rt2s2];
 
-    const s3 = new Submissao(null, 'x = 2\ny = c', e3, questao);
+    const s3 = new Submissao(null, 'x = 2\ny = c', e3, null, questao);
     const rt1s3 = new ResultadoTestCase(null, true, null, t1);
     const rt2s3 = new ResultadoTestCase(null, false, null, t2);
     s3.resultadosTestsCases = [rt1s3, rt2s3];

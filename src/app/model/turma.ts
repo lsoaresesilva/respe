@@ -5,6 +5,7 @@ import GeradorCodigo from '../util/geradorCodigo';
 import Query from './firestore/query';
 import { PerfilUsuario } from './enums/perfilUsuario';
 import AtividadeGrupo from './cscl/atividadeGrupo';
+import { Cacheable } from 'ts-cacheable';
 
 @Collection('turmas')
 export default class Turma extends Document {
@@ -118,6 +119,7 @@ export default class Turma extends Document {
     return false;
   }
 
+  @Cacheable()
   static getAllEstudantes(codigoTurma: any) {
     return new Observable<Usuario[]>((observer) => {
       if (codigoTurma != null) {

@@ -11,6 +11,8 @@ import QuestaoParsonProblem from './questoes/parsonProblem';
 import Query from './firestore/query';
 import { RespostaQuestaoParson } from './juiz/respostaQuestaoParson';
 import QuestaoColaborativa from './cscl/questaoColaborativa';
+import QuestaoProgramacaoCorrecao from './questoes/questaoProgramacaoCorrecao';
+import CorrecaoAlgoritmo from './correcao-algoritmo/correcaoAlgoritmo';
 
 @Collection('assuntos')
 export class Assunto extends Document {
@@ -21,6 +23,7 @@ export class Assunto extends Document {
     this.objetivosEducacionais = [];
     this.questoesParson = [];
     this.questoesColaborativas = [];
+    this.questoesCorrecao = [];
   }
 
   sequencia;
@@ -29,6 +32,7 @@ export class Assunto extends Document {
   questoesFechadas;
   questoesParson: any;
   questoesColaborativas;
+  questoesCorrecao;
   objetivosEducacionais: [];
   isAtivo;
 
@@ -61,6 +65,12 @@ export class Assunto extends Document {
     return null;
   }
 
+  static fromJson(assuntoJson) {
+    let assunto = new Assunto(assuntoJson.id, assuntoJson.nome);
+    assunto['questoesProgramacao'] = assuntoJson.questoesProgramacao;
+    return assunto;
+  }
+
   static getAll(query = null, orderBy = null): Observable<any[]> {
     if (query != null) {
       if (Array.isArray(query)) {
@@ -82,8 +92,23 @@ export class Assunto extends Document {
     return super.getAll(query);
   }
 
-  static get(id) {
+  static exportarParaJson() {
     return new Observable((observer) => {
+      Assunto.getAllAdmin().subscribe((assuntos) => {
+        let assuntosConvertidos = [];
+        assuntos.forEach((assunto) => {
+          assuntosConvertidos.push(assunto.toJson());
+        });
+
+        let saidaJson = JSON.stringify(assuntosConvertidos);
+        observer.next(saidaJson);
+        observer.complete();
+      });
+    });
+  }
+
+  static get(id):Observable<Assunto> {
+    return new Observable<Assunto>((observer) => {
       super.get(id).subscribe(
         (assunto) => {
           assunto['questoesProgramacao'] = QuestaoProgramacao.construir(
@@ -91,9 +116,16 @@ export class Assunto extends Document {
             assunto
           );
           assunto['questoesFechadas'] = QuestaoFechada.construir(assunto['questoesFechadas']);
-          assunto['questoesColaborativas'] = QuestaoColaborativa.construir(assunto['questoesColaborativas'], assunto);
+          assunto['questoesColaborativas'] = QuestaoColaborativa.construir(
+            assunto['questoesColaborativas'],
+            assunto
+          );
           assunto['questoesParson'] = QuestaoParsonProblem.construir(assunto['questoesParson']);
-          observer.next(assunto);
+          assunto['questoesCorrecao'] = QuestaoProgramacaoCorrecao.construir(
+            assunto['questoesCorrecao'],
+            assunto
+          );
+          observer.next(assunto as Assunto);
           observer.complete();
         },
         (err) => {
@@ -101,6 +133,86 @@ export class Assunto extends Document {
         }
       );
     });
+  }
+
+  
+
+  getQuestoesComStatusConclusao(estudante) {
+    return new Observable((observer) => {
+        let consultas = {};
+        if (
+          Array.isArray(this.questoesFechadas) &&
+          this.questoesFechadas.length > 0
+        ) {
+          consultas['questoesFechadas'] = QuestaoFechada.verificarQuestoesRespondidas(
+            estudante,
+            this.questoesFechadas
+          );
+        }
+
+        if (
+          Array.isArray(this.questoesProgramacao) &&
+          this.questoesProgramacao.length > 0
+        ) {
+          consultas['questoesProgramacao'] = QuestaoProgramacao.verificarQuestoesRespondidas(
+            estudante,
+            this.questoesProgramacao
+          );
+        }
+
+        if (
+          Array.isArray(this.questoesParson) &&
+          this.questoesParson.length > 0
+        ) {
+          consultas['questoesParson'] = QuestaoParsonProblem.verificarQuestoesRespondidas(
+            estudante,
+            this.questoesParson
+          );
+        }
+
+        if (
+          Array.isArray(this.questoesCorrecao) &&
+          this.questoesCorrecao.length > 0
+        ) {
+          consultas['questoesCorrecao'] = QuestaoProgramacaoCorrecao.verificarQuestoesRespondidas(
+            estudante,
+            this.questoesCorrecao
+          );
+        }
+
+        forkJoin(consultas).subscribe((respostas) => {
+          let questoes = [];
+          if (respostas['questoesFechadas'] != null) {
+            questoes = questoes.concat(respostas['questoesFechadas']);
+          }
+
+          if (respostas['questoesProgramacao'] != null) {
+            questoes = questoes.concat(respostas['questoesProgramacao']);
+          }
+
+          if (respostas['questoesCorrecao'] != null) {
+            questoes = questoes.concat(respostas['questoesCorrecao']);
+          }
+
+          if (respostas['questoesParson'] != null) {
+            questoes = questoes.concat(respostas['questoesParson']);
+          }
+
+          questoes.sort((qA, qB)=>{
+            if(qA.sequencia < qB.sequencia){
+              return -1;
+            }else if(qA.sequencia > qB.sequencia){
+              return 1;
+            }else{
+              return 0;
+            }
+          });
+
+          observer.next(questoes);
+          observer.complete();
+
+        });
+      });
   }
 
   static isQuestoesProgramacaoFinalizadas(assunto: Assunto, estudante, margemAceitavel = 0.6) {
@@ -121,24 +233,29 @@ export class Assunto extends Document {
     });
   }
 
-  static calcularPercentualConclusao(assunto: Assunto, usuario): Observable<number> {
+  static calcularPercentualConclusao(assunto: Assunto, estudante): Observable<number> {
     return new Observable((observer) => {
-      forkJoin([
-        Assunto.calcularPercentualConclusaoQuestoesFechadas(assunto, usuario),
-        Assunto.calcularPercentualConclusaoQuestoesParson(assunto, usuario),
-        Assunto.calcularPercentualConclusaoQuestoesProgramacao(assunto, usuario, 0.6),
-        
-      ]).subscribe((resultado) => {
-        let percentualConclusao = 0;
-        resultado.forEach((percentual) => {
-          percentualConclusao += percentual;
-        });
+      const submissoes = this.getTodasSubmissoesProgramacaoPorEstudante(assunto, estudante);
+      if (!Util.isObjectEmpty(submissoes)) {
+        forkJoin(submissoes).subscribe((submissoes) => {
+          forkJoin([
+            Assunto.calcularPercentualConclusaoQuestoesFechadas(assunto, estudante),
+            Assunto.calcularPercentualConclusaoQuestoesParson(assunto, estudante),
+            Assunto.calcularPercentualConclusaoQuestoesProgramacao(assunto, submissoes, 0.6),
+            Assunto.calcularPercentualConclusaoQuestoesCorrecao(assunto, estudante),
+          ]).subscribe((resultado) => {
+            let percentualConclusao = 0;
+            resultado.forEach((percentual) => {
+              percentualConclusao += percentual;
+            });
 
-        percentualConclusao /= 3;
-        percentualConclusao = Math.round(percentualConclusao * 100);
-        observer.next(percentualConclusao);
-        observer.complete();
-      });
+            percentualConclusao /= 3;
+            percentualConclusao = Math.round(percentualConclusao * 100);
+            observer.next(percentualConclusao);
+            observer.complete();
+          });
+        });
+      }
     });
   }
 
@@ -151,9 +268,7 @@ export class Assunto extends Document {
     const submissoes = {};
     assunto.questoesProgramacao.forEach((questao) => {
       if (questao.testsCases != undefined && questao.testsCases.length > 0) {
-        questao.testsCases.forEach((testCase) => {
-          submissoes[questao.id] = Submissao.getRecentePorQuestao(questao, usuario);
-        });
+        submissoes[questao.id] = Submissao.getRecentePorQuestao(questao, usuario);
       }
     });
 
@@ -232,6 +347,35 @@ export class Assunto extends Document {
     });
   }
 
+  static calcularPercentualConclusaoQuestoesCorrecao(
+    assunto: Assunto,
+    estudante: Usuario
+  ): Observable<number> {
+    // Recuperar todas as questões de um assunto
+    return new Observable((observer) => {
+      CorrecaoAlgoritmo.getAll([
+        new Query('estudanteId', '==', estudante.pk()),
+        new Query('assuntoId', '==', assunto.pk()),
+      ]).subscribe((correcoes) => {
+        let totalCorretas = 0;
+        let correcoesAgrupadasQuestoes = CorrecaoAlgoritmo.agruparPorQuestao(correcoes);
+        correcoesAgrupadasQuestoes.forEach((correcoes, questaoId) => {
+          let correcaoRecente = CorrecaoAlgoritmo.filtrarRecente(correcoes);
+          if (correcaoRecente.submissao.isFinalizada()) {
+            totalCorretas += 1;
+          }
+        });
+        if(totalCorretas != 0){
+          observer.next(totalCorretas / assunto.questoesCorrecao.length);
+        }else{
+          observer.next(0);
+        }
+        
+        observer.complete();
+      });
+    });
+  }
+
   /**
    * Calcula o percentual de questões de programação que o estudante resolveu.
    * @param assunto
@@ -240,52 +384,39 @@ export class Assunto extends Document {
    */
   static calcularPercentualConclusaoQuestoesProgramacao(
     assunto: Assunto,
-    usuario: Usuario,
+    submissoes,
     margemAceitavel
   ): Observable<number> {
     // Pegar todas as questões de um assunto
     return new Observable((observer) => {
-      if (assunto != undefined && usuario != undefined) {
-        const submissoes = this.getTodasSubmissoesProgramacaoPorEstudante(assunto, usuario);
-        if (!Util.isObjectEmpty(submissoes)) {
-          forkJoin(submissoes).subscribe((submissoes) => {
-            const s: any = submissoes;
-            if (!Util.isObjectEmpty(s)) {
-              const totalQuestoes = assunto.questoesProgramacao.length;
-              const questoesRespondidas = [];
-              assunto.questoesProgramacao.forEach((questao) => {
-                const questaoRespondida = true;
-                // for (let j = 0; j < questao.testsCases.length; j++) {
-                const resultadoAtualTestCase = null;
-
-                for (const questaoId in s) {
-                  if (questaoId == questao.id) {
-                    const totalTestsCases = questao.testsCases.length;
-                    let totalAcertos = 0;
-                    if (s[questaoId] != null && s[questaoId].resultadosTestsCases.length != 0) {
-                      s[questaoId].resultadosTestsCases.forEach((resultadoTestCase) => {
-                        if (resultadoTestCase.status) {
-                          totalAcertos++;
-                        }
-                      });
-
-                      const percentual = totalAcertos / totalTestsCases;
-                      if (percentual >= margemAceitavel) {
-                        questoesRespondidas.push(questao);
-                      }
+      if (assunto != undefined && submissoes != undefined) {
+        const s: any = submissoes;
+        if (!Util.isObjectEmpty(s)) {
+          const totalQuestoes = assunto.questoesProgramacao.length;
+          const questoesRespondidas = [];
+          assunto.questoesProgramacao.forEach((questao) => {
+            for (const questaoId in s) {
+              if (questaoId == questao.id) {
+                const totalTestsCases = questao.testsCases.length;
+                let totalAcertos = 0;
+                if (s[questaoId] != null && s[questaoId].resultadosTestsCases.length != 0) {
+                  s[questaoId].resultadosTestsCases.forEach((resultadoTestCase) => {
+                    if (resultadoTestCase.status) {
+                      totalAcertos++;
                     }
+                  });
+
+                  const percentual = totalAcertos / totalTestsCases;
+                  if (percentual >= margemAceitavel) {
+                    questoesRespondidas.push(questao);
                   }
                 }
-                // }
-              });
-
-              observer.next(questoesRespondidas.length / totalQuestoes);
-              observer.complete();
-            } else {
-              observer.next(0);
-              observer.complete();
+              }
             }
           });
+
+          observer.next(questoesRespondidas.length / totalQuestoes);
+          observer.complete();
         } else {
           observer.next(0);
           observer.complete();
@@ -340,12 +471,12 @@ export class Assunto extends Document {
     this.questoesParson = questoesParson;
   }
 
-  toJson(){
+  toJson() {
     let document = super.objectToDocument();
-    document["questoesFechadas"] = this.questoesFechadas;
-    document["questoesProgramacao"] = this.questoesProgramacao;
-    document["questoesParson"] = this.questoesParson;
-    document["questoesColaborativas"] = this.questoesColaborativas;
+    document['questoesFechadas'] = this.questoesFechadas;
+    document['questoesProgramacao'] = this.questoesProgramacao;
+    document['questoesParson'] = this.questoesParson;
+    document['questoesColaborativas'] = this.questoesColaborativas;
 
     return JSON.stringify(document);
   }
@@ -384,10 +515,12 @@ export class Assunto extends Document {
   /**
    * Retorna a próxima questão sabendo qual está atualmente.
    */
-  proximaQuestao(questaoAtual){
+  proximaQuestao(questaoAtual) {
     let questoesOrdenadas = this.ordenarQuestoes();
-    let proximaQuestao = questoesOrdenadas.filter((questao)=>questao.sequencia == questaoAtual.sequencia+1);
-    return proximaQuestao.length > 0?proximaQuestao[0]:null;
+    let proximaQuestao = questoesOrdenadas.filter(
+      (questao) => questao.sequencia == questaoAtual.sequencia + 1
+    );
+    return proximaQuestao.length > 0 ? proximaQuestao[0] : null;
   }
 
   objectToDocument() {
@@ -455,7 +588,7 @@ export class Assunto extends Document {
     return questaoLocalizada;
   }
 
-  getQuestaoColaborativaById(questaoId):QuestaoColaborativa | null {
+  getQuestaoColaborativaById(questaoId): QuestaoColaborativa | null {
     let questaoLocalizada = null;
     this.questoesColaborativas.forEach((questao) => {
       if (questao.id == questaoId) {

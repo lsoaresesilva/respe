@@ -41,7 +41,7 @@ export class RevisaoCodigoComponent implements OnChanges {
         let _this = this;
         questoes.forEach(function(value, key){
           // Identificar quando houve a submissão correta
-          let submissoesCorretas = Submissao.filtrarSubmissoesConcluidas(value);
+          let submissoesCorretas = Submissao.filtrarSubmissoesConclusao(value);
           if(submissoesCorretas.length > 0){
             _this.revisoes.push(submissoesCorretas);
           }

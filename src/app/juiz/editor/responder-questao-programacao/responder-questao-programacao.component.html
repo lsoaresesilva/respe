@@ -35,7 +35,8 @@
                     class="p-button-help" *ngIf="atividadeGrupo == null"></button>
                 </div>
                 <div class="p-col-6">
-                  <app-btn-avancar-questao [assunto]="assunto" [questao]="questao" *ngIf="atividadeGrupo == null"></app-btn-avancar-questao>
+                  <app-btn-avancar-questao [assunto]="assunto" [questao]="questao" *ngIf="atividadeGrupo == null">
+                  </app-btn-avancar-questao>
                 </div>
               </div>
             </div>
@@ -56,17 +57,13 @@
           <div class="p-grid">
             <div class="p-col-12">
               <app-editor-programacao id="editorProgramacao" [modoVisualizacao]="modoVisualizacao"
-                [submissao]="submissao" [questao]="questao" [assunto]="assunto" [atividadeGrupo]="atividadeGrupo" [grupo]="grupo"
-                (onError)="onEditorError($event)" (onVisualization)="onVisualization($event)"
+                [submissao]="submissao" [questao]="questao" [assunto]="assunto" [atividadeGrupo]="atividadeGrupo"
+                [questaoCorrecao]="questaoCorrecao"
+                [grupo]="grupo" (onError)="onEditorError($event)" (onVisualization)="onVisualization($event)"
                 (onServidorError)="onServidorError($event)" (onSubmit)="onEditorSubmit($event)"
                 (onEditorReady)="onEditorReady($event)">
               </app-editor-programacao>
             </div>
-            <!-- <ng-template #atividadeColaborativa>
-              <div class="p-col-12" *ngIf="atividadeGrupo != null" style="height: 400px;">
-                <app-editor-colaborativo></app-editor-colaborativo>
-              </div>
-            </ng-template> -->
             <div class="p-col-12">
               <div *ngIf="modoVisualizacao == false; else visualizacao" style="margin-top: 10px">
                 <app-console [submissao]="submissao" [consoleEditor]="consoleEditor"></app-console>

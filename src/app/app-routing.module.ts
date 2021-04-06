@@ -137,6 +137,13 @@ const routes: Routes = [
       /* JUIZ */
 
       {
+        path: 'responder-questao-correcao/:assuntoId/:questaoCorrecaoId',
+        component: ResponderQuestaoProgramacao,
+        canActivate: [AuthGuard, PageTrack],
+        outlet: 'principal',
+      },
+
+      {
         path: 'cadastro-questao/:assuntoId/:questaoId',
         component: CadastrarQuestoesComponent,
         canActivate: [AuthGuard, AdminGuard],

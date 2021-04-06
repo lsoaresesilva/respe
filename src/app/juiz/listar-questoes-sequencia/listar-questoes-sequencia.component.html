@@ -1,13 +1,3 @@
-<!-- <ul>
-  <li
-    *ngFor="let questao of questoes"
-    (click)="abrirQuestao(questao)"
-    [style]="getCorQuestao(questao)"
-  >
-    {{ questao.nomeCurto }}
-  </li>
-</ul>
- -->
  <p-timeline [value]="events | async" align="alternate">
   <ng-template pTemplate="marker" let-questao>
     <p-knob [(ngModel)]="questao.percentualResposta" [size]="25" [readonly]="true"></p-knob>
