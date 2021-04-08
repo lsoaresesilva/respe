@@ -3,16 +3,7 @@
     {{ consoleEditor.erroServidor.mensagem }}
   </div>
   <div *ngIf="consoleEditor.submissao != null">
-    <div *ngIf="consoleEditor.submissao.erro != null; else resultados">
-      <p-panel
-        style="z-index: -1"
-        header="Ocorreu um erro do tipo {{
-          getLabelCategoriaErro(consoleEditor.submissao.erro.categoria)
-        }} - na linha {{ consoleEditor.submissao.erro.linha }}"
-      >
-        <span [innerHtml]="consoleEditor.submissao.erro.getMensagem() | keepHtml"></span>
-      </p-panel>
-    </div>
+    <app-console-erro [submissao]="consoleEditor.submissao" *ngIf="consoleEditor.submissao.erro != null; else resultados"></app-console-erro>
     <ng-template #resultados>
       <div *ngFor="let resultado of submissao.resultadosTestsCases">
         <p-panel

@@ -209,7 +209,24 @@ export default class Submissao extends Document {
     return submissaoFiltrada;
   }
 
+  static _orderByDate(submissoes:Submissao[]){
+    submissoes.sort((s1, s2)=>{
+      if(s1.data != null && s2.data != null){
+        if(s1.data.toDate().getTime() < s2.data.toDate().getTime() ){
+          return -1;
+        }else if(s1.data.toDate().getTime() > s2.data.toDate().getTime() ){
+          return 1;
+        }else{
+          return 0;
+        }
+      }
+      return 0;
+    });
+  }
+
   static filtrarRecente(submissoes = []) {
+    Submissao._orderByDate(submissoes);
+
     let submissaoRecente = null;
     if (submissoes.length != 0) {
       if (submissoes.length == 1) {
@@ -219,6 +236,8 @@ export default class Submissao extends Document {
           if (submissaoRecente == null) {
             submissaoRecente = submissao;
           } else {
+            let dataRecente = submissaoRecente.data.toDate();
+            let dataSubmissao = submissao.data.toDate();
             if (submissaoRecente.data.toDate().getTime() <= submissao.data.toDate().getTime()) {
               submissaoRecente = submissao;
             }
@@ -294,7 +313,7 @@ export default class Submissao extends Document {
     });
   }
 
-  @Cacheable()
+  //@Cacheable()
   static getAll(queries = null, orderBy = null) {
     return new Observable<any[]>((observer) => {
       super.getAll(queries, orderBy).subscribe(
@@ -460,6 +479,7 @@ export default class Submissao extends Document {
    * @param resposta
    */
   processarErroServidor(resposta) {
+    
     this.invalidarResultadosTestCases();
     if (ErroCompilacao.isErro(resposta)) {
       this.erro = ErroCompilacaoFactory.construir(resposta);
@@ -470,6 +490,7 @@ export default class Submissao extends Document {
    * Anula os testscases quando há um erro no algoritmo/servidor.
    */
   invalidarResultadosTestCases() {
+    
     this.questao.testsCases.forEach((testCase) => {
       this.resultadosTestsCases.push(new ResultadoTestCase(null, false, null, testCase));
     });

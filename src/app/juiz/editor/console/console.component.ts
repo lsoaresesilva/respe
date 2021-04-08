@@ -26,10 +26,6 @@ export class ConsoleComponent implements OnChanges {
     let y = x;
   }
 
-  getLabelCategoriaErro(categoria) {
-    return getLabelPorCategoriaNumero(categoria);
-  }
-
   destacarDiferencasSaidas(testCase, saidaReal, pos) {
     let text = '';
     let saidaEsperada = testCase.saida;
@@ -58,9 +54,11 @@ export class ConsoleComponent implements OnChanges {
           text += val;
         }
       });
-      let valorSaidaEsperada = saidaEsperada[pos] != null? saidaEsperada[pos]: ''
+      let valorSaidaEsperada = saidaEsperada[pos] != null ? saidaEsperada[pos] : '';
       text +=
-        "<br><span style='font-weight:bold'>Saída esperada: </span><span>" + valorSaidaEsperada + '</span>';
+        "<br><span style='font-weight:bold'>Saída esperada: </span><span>" +
+        valorSaidaEsperada +
+        '</span>';
     }
 
     return this.sanitizer.bypassSecurityTrustHtml(text);

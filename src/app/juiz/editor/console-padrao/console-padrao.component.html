@@ -1,0 +1,9 @@
+<div *ngIf="submissao != null" style="border: 1px solid black; background-color:black; height:200px; color: aliceblue;">
+
+    <app-console-erro [submissao]="submissao" *ngIf="submissao.erro != null; else resultado"></app-console-erro>
+    <ng-template #resultado>
+        <div style="margin-left: 10px;" *ngIf="submissao != null && submissao.saida != null" [innerText]="submissao.saida">
+            
+        </div>
+    </ng-template>
+</div>

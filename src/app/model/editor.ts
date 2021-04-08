@@ -1,3 +1,4 @@
+import { BehaviorSubject } from 'rxjs';
 import ConfiguracaoEditor from './configuracaoEditor';
 import { QuestaoProgramacao } from './questoes/questaoProgramacao';
 declare var monaco: any;
@@ -6,12 +7,12 @@ declare var editor: any;
 export default class Editor {
   private constructor() {
     //this.editor = editor;
-    this.codigo = '';
+    this.codigo = new BehaviorSubject("");
     this.configuracao = new ConfiguracaoEditor();
   }
 
   static instance;
-  codigo;
+  codigo:BehaviorSubject<string>;
   decorations;
 
   configuracao: ConfiguracaoEditor;

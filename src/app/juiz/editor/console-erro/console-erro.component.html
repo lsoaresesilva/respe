@@ -1,0 +1,10 @@
+<div *ngIf="submissao != null && submissao.erro != null;">
+    <p-panel
+      [style]="{'z-index': -1}"
+      header="Ocorreu um erro do tipo {{
+        getLabelCategoriaErro(submissao.erro.categoria)
+      }} - na linha {{ submissao.erro.linha }}"
+    >
+      <span [innerHtml]="submissao.erro.getMensagem() | keepHtml"></span>
+    </p-panel>
+  </div>

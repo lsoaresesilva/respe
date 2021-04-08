@@ -35,6 +35,7 @@ import { AdminModule } from './admin/admin.module';
 import { ChatbotModule } from './chatbot/chatbot.module';
 
 import { SocketIoModule, SocketIoConfig } from 'ngx-socket-io';
+import { DiarioProgramacaoComponent } from './srl/monitoramento/diario-programacao/diario-programacao.component';
 
 const config: SocketIoConfig = { url: 'http://localhost:3001', options: {} };
 
@@ -72,5 +73,8 @@ const config: SocketIoConfig = { url: 'http://localhost:3001', options: {} };
   providers: [AuthGuard, TurmaGuard, MessageService],
   bootstrap: [AppComponent],
   exports: [EscapeHtmlPipe],
+  entryComponents: [
+    DiarioProgramacaoComponent
+  ]
 })
 export class AppModule {}

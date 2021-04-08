@@ -55,7 +55,7 @@ export default class Grafo {
     return { nos: nos, arestas: arestas };
   }
 
-  criarMatrizTransicao(tracks, estados, totalVisuIndex, totalVisuSelfMonitoramento, tempoVisuSelfPlanejamento, tempoVisuSelfMonitoramento) {
+  criarMatrizTransicao(tracks, estados, tempoVisuMonitoramento, totalVisuSelfMonitoramento, tempoVisuSelfPlanejamento, tempoVisuSelfMonitoramento) {
     for (let i = 0; i < tracks.length; i++) {
       let source = tracks[i].pagina; // De onde ele estava
       let target = tracks[i + 1]; // Para onde ele foi
@@ -107,16 +107,22 @@ export default class Grafo {
 
         }else {
 
-          if(target == "index"){
+          if(source == "index" || source == "meu-desempenho"){
             let trackSource = tracks[i];
             let trackTarget = tracks[i+1];
-            let visu = totalVisuIndex.get(trackTarget.estudanteId);
+            let visu = tempoVisuMonitoramento.get(trackTarget.estudanteId);
             if (visu == null) {
-              totalVisuIndex.set(trackTarget.estudanteId, 0);
+              tempoVisuMonitoramento.set(trackTarget.estudante.pk(), 0);
             }
             
-            let totalNovo = totalVisuIndex.get(trackTarget.estudanteId);
-            totalVisuIndex.set(trackTarget.estudanteId, totalNovo+1);
+            let dateSource = Util.firestoreDateToDate(trackSource.data);
+            let dateTarget = Util.firestoreDateToDate(trackTarget.data);
+            if(dateSource.getDate() == dateTarget.getDate()){
+              let difTime = (dateTarget.getTime() - dateSource.getTime())/1000;
+
+              let totalNovo = tempoVisuMonitoramento.get(trackSource.estudante.pk());
+              tempoVisuMonitoramento.set(trackSource.estudante.pk(), totalNovo + difTime);
+            } 
           }
 
           if(source == "self-instruction" && target == "editor"){
@@ -173,6 +179,7 @@ export default class Grafo {
     let tempoVisuSelfMonitoramento = new Map<string, number>();
     let totalVisuIndex = new Map<string, number>();
     let totalVisuSelfMonitoramento = new Map<string, number>();
+    let tempoVisuDesempenho = new Map<string, number>();
     if (this.pageTracks != null) {
       let dias = new Map<string, any[]>();
       let matriz = []; /* new Map<string, any[]>(); */
@@ -230,7 +237,7 @@ export default class Grafo {
 
       matriz.forEach((mTrack) => {
         totalTracks += mTrack.length;
-        this.criarMatrizTransicao(mTrack, estados, totalVisuIndex, totalVisuSelfMonitoramento, tempoVisuSelfPlanejamento, tempoVisuSelfMonitoramento);
+        this.criarMatrizTransicao(mTrack, estados, tempoVisuDesempenho, totalVisuSelfMonitoramento, tempoVisuSelfPlanejamento, tempoVisuSelfMonitoramento);
       });
 
       /* Código novo */

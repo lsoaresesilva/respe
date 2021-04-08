@@ -36,6 +36,11 @@ import { ChatService } from 'src/app/cscl/chat.service';
 import AtividadeGrupo from 'src/app/model/cscl/atividadeGrupo';
 import Grupo from 'src/app/model/cscl/grupo';
 import CorrecaoAlgoritmo from 'src/app/model/correcao-algoritmo/correcaoAlgoritmo';
+import { DialogService } from 'primeng/dynamicdialog';
+import { DiarioProgramacaoComponent } from 'src/app/srl/monitoramento/diario-programacao/diario-programacao.component';
+import { TipoDiarioProgramacao } from 'src/app/model/srl/enum/tipoDiarioProgramacao';
+import DiarioProgramacao from 'src/app/model/srl/diarioProgramacao';
+import { ModoExecucao } from 'src/app/model/juiz/enum/modoExecucao';
 
 @Component({
   selector: 'responder-questao-programacao',
@@ -52,7 +57,6 @@ export class ResponderQuestaoProgramacao implements OnInit, AfterViewInit {
   pausaIde;
   questao?: QuestaoProgramacao;
   statusExecucao;
-  modoVisualizacao: boolean = false;
   submissao: Submissao;
   dialogPedirAjuda: boolean = false;
   duvida: string = '';
@@ -70,6 +74,10 @@ export class ResponderQuestaoProgramacao implements OnInit, AfterViewInit {
 
   questaoCorrecao;
 
+  modoExecucao // Define se será executado o editor padrão ou o 32bits
+  labelModoEditor;
+  modoVisualizacao;
+
   constructor(
     private route: ActivatedRoute,
     public login: LoginService,
@@ -77,7 +85,8 @@ export class ResponderQuestaoProgramacao implements OnInit, AfterViewInit {
     private apresentacao: ApresentacaoService,
     private gamification: GamificationFacade,
     private monitor: MonitorService,
-    public chat: ChatService
+    public chat: ChatService,
+    public dialogService: DialogService
   ) {
     this.pausaIde = true;
     this.statusExecucao = '';
@@ -87,12 +96,8 @@ export class ResponderQuestaoProgramacao implements OnInit, AfterViewInit {
       observer.complete();
     });
 
-    // Para o editor colaborativo
-    /*zone.runOutsideAngular(() => {
 
-      window.document.addEventListener('change', this.change.bind(this));
-
-    })*/
+    this.inicializarParametrosEditor();
   }
 
   ngAfterViewInit(): void {
@@ -106,6 +111,11 @@ export class ResponderQuestaoProgramacao implements OnInit, AfterViewInit {
     
   }
 
+  mudancaEditor(){
+    this.modoExecucao = this.modoExecucao == ModoExecucao.execucao32bits?ModoExecucao.execucaoPadrao:ModoExecucao.execucao32bits;
+    this.labelModoEditor = this.modoExecucao == ModoExecucao.execucao32bits?"32b":"Padrão";
+  }
+
   visualizarPlanejamento(){
     this.router.navigate([
       'main',
@@ -113,8 +123,24 @@ export class ResponderQuestaoProgramacao implements OnInit, AfterViewInit {
     ]);
   }
 
+  inicializarParametrosEditor(){
+    this.modoExecucao = ModoExecucao.execucao32bits;//ModoExecucao.execucao32bits;
+    this.modoVisualizacao = false;
+    this.labelModoEditor = this.modoExecucao==ModoExecucao.execucao32bits?"32b":"Padrão";
+  }
+
   ngOnInit() {
     this.usuario = this.login.getUsuarioLogado();
+
+    DiarioProgramacao.exibirDiario(this.login.getUsuarioLogado(), TipoDiarioProgramacao.planejamento).subscribe(visibilidade=>{
+      if(visibilidade){
+        this.dialogService.open(DiarioProgramacaoComponent, {
+          data: { tipo: TipoDiarioProgramacao.planejamento },
+        });
+      }
+    });
+    
+
     if (this.usuario == null) {
       throw new Error('Não é possível executar o código, pois você não está logado.'); // TODO: mudar para o message
     }
@@ -292,8 +318,6 @@ export class ResponderQuestaoProgramacao implements OnInit, AfterViewInit {
     if (!status) this.statusExecucao = textoStatus + "<span class='statusErro'>Erro</span>";
     else this.statusExecucao = textoStatus + "<span class='statusSucesso'>Sucesso</span>";
   }
-
-  
 
   voltarParaModoExecucao() {
     this.modoVisualizacao = false;

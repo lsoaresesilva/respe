@@ -75,6 +75,10 @@ import { BtnAvancarQuestaoComponent } from './btn-avancar-questao/btn-avancar-qu
 import { ExibirSolucaoComponent } from '../srl/monitoramento/exibir-solucao/exibir-solucao.component';
 
 import {SplitButtonModule} from 'primeng/splitbutton';
+import { EditorPadraoComponent } from './editor/editor-padrao/editor-padrao.component';
+import { ConsolePadraoComponent } from './editor/console-padrao/console-padrao.component';
+import { EditorTrintadoisbitsComponent } from './editor/editor-trintadoisbits/editor-trintadoisbits.component';
+import { ConsoleErroComponent } from './editor/console-erro/console-erro.component';
 
 @NgModule({
   declarations: [
@@ -103,6 +107,10 @@ import {SplitButtonModule} from 'primeng/splitbutton';
     ApresentacaoEntradasTestcaseComponent,
     ListarQuestoesSequenciaComponent,
     BtnAvancarQuestaoComponent,
+    EditorPadraoComponent,
+    ConsolePadraoComponent,
+    EditorTrintadoisbitsComponent,
+    ConsoleErroComponent,
   ],
 
   imports: [

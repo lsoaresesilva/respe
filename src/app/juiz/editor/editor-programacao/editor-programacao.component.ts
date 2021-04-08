@@ -29,6 +29,9 @@ import { DialogService } from 'primeng/dynamicdialog';
 import { ExibirSolucaoComponent } from 'src/app/srl/monitoramento/exibir-solucao/exibir-solucao.component';
 import PageTrackRecord from 'src/app/model/analytics/pageTrack';
 import CorrecaoAlgoritmo from 'src/app/model/correcao-algoritmo/correcaoAlgoritmo';
+import { DiarioProgramacaoComponent } from 'src/app/srl/monitoramento/diario-programacao/diario-programacao.component';
+import { TipoDiarioProgramacao } from 'src/app/model/srl/enum/tipoDiarioProgramacao';
+import DiarioProgramacao from 'src/app/model/srl/diarioProgramacao';
 
 /**
  * Executa um javascript ide.js para acoplar o editor VStudio.
@@ -60,6 +63,8 @@ export class EditorProgramacaoComponent implements AfterViewInit, OnChanges, OnI
 
   editor; // instância do Mônaco Editor. Carregado por meio do arquivo ide.js
 
+  
+
   @Input()
   console;
   @Input()
@@ -68,6 +73,8 @@ export class EditorProgramacaoComponent implements AfterViewInit, OnChanges, OnI
   assunto;
   @Input()
   liteMode; // define que o editor executará em um modo de aparência menor.
+  @Input()
+  modoExecucao;
   @Input()
   modoVisualizacao;
   @Input()
@@ -103,12 +110,14 @@ export class EditorProgramacaoComponent implements AfterViewInit, OnChanges, OnI
 
   items; // Botões da visualização de algoritmos
 
-  @Output()
-  onError: EventEmitter<any>;
+  
   @Output()
   onSubmit: EventEmitter<any>;
   @Output()
   onServidorError: EventEmitter<any>;
+  @Output()
+  onError: EventEmitter<any>;
+  
   @Output()
   onVisualization: EventEmitter<any>;
   @Output()
@@ -131,9 +140,11 @@ export class EditorProgramacaoComponent implements AfterViewInit, OnChanges, OnI
     private messageService: MessageService,
     public dialogService: DialogService
   ) {
-    this.onError = new EventEmitter();
-    this.onSubmit = new EventEmitter();
+    
+    
     this.onVisualization = new EventEmitter();
+    this.onSubmit = new EventEmitter();
+    this.onError = new EventEmitter();
     this.onServidorError = new EventEmitter();
     this.onEditorReady = new EventEmitter();
     this.processandoSubmissao = false;
@@ -158,20 +169,26 @@ export class EditorProgramacaoComponent implements AfterViewInit, OnChanges, OnI
   }
 
   ngOnChanges(changes: import('@angular/core').SimpleChanges): void {
-    //this.atualizarEditorComSubmissao();
+    
   }
 
   ngAfterViewInit(): void {
     this.editorCodigo = Editor.getInstance();
+    this.editorCodigo.codigo.subscribe((codigo)=>{
+      if(this.editor != null){
+        this.editor.getModel().setValue(codigo);
+      }
+      
+    }) // Houve mudança no código
     if (
       this.questao != null &&
       this.questao.algoritmoInicial !== null &&
       this.questao.algoritmoInicial !== '' &&
       Array.isArray(this.questao.algoritmoInicial)
     ) {
-      this.editorCodigo.codigo = this.questao.algoritmoInicial.join('\n');
+      this.editorCodigo.codigo.next(this.questao.algoritmoInicial.join('\n'));
     } else {
-      this.editorCodigo.codigo = '';
+      this.editorCodigo.codigo.next('');
     }
 
     let _this = this;
@@ -263,9 +280,8 @@ export class EditorProgramacaoComponent implements AfterViewInit, OnChanges, OnI
       this.isSubmissaofinalizada = this._submissao.isFinalizada();
 
       if (this.editor != null && this.atividadeGrupo == null) {
-        let x = 2;
-        this.editorCodigo.codigo = this._submissao['codigo'];
-        this.editor.getModel().setValue(this.editorCodigo.codigo);
+        this.editorCodigo.codigo.next(this._submissao['codigo']);
+        this.editor.getModel().setValue(this.editorCodigo.codigo.value);
         //atualizarDecorations();
       }
     }
@@ -361,7 +377,7 @@ export class EditorProgramacaoComponent implements AfterViewInit, OnChanges, OnI
 
             submissao.processarErroServidor(resposta);
 
-            this.onError.emit(this._submissao);
+            //this.onError.emit(this._submissao);
             
           } else {
             this.processandoVisualizacao = false;
@@ -389,126 +405,13 @@ export class EditorProgramacaoComponent implements AfterViewInit, OnChanges, OnI
     }
   }
 
-  executar() {
-    // this.pausaIde = true; // TODO: esse código está comentado, pois a função de pausar a IDE durante o envio não está funcionando.
-
-    const submissao = this.prepararSubmissao();
-
-    if (submissao.validar()) {
-      // this.submissao.analisarErros(); // TODO: esse código está comentado, pois a função de analisar os erros do estudante está com bugs.
-
-      const httpOptions = {
-        headers: new HttpHeaders({
-          'Content-Type': 'application/json',
-        }),
-      };
-
-      /*
-      Verificação antes da submissão do código para identificar erros.
-      Não está sendo utilizada, pois está com problemas.
-      Potencial para uso. */
-      /*
-      if (this.submissao.hasErrors()) {
-        this.destacarErros(this.submissao);
-        this.onError.emit(this.submissao);
-      } else {*/
-      const tipoExecucao = Editor.getTipoExecucao(this.questao);
-
-      const json = submissao.construirJson(this.questao, tipoExecucao);
-
-      const url = this.URL + 'codigo/';
-      this.processandoSubmissao = true;
-
-      this.submissao = submissao;
-
-      this.http
-        .post<any>(url, json, httpOptions)
-        .pipe(timeout(30000))
-        .subscribe({
-          next: (resposta) => {
-            submissao.processarRespostaServidor(resposta)
-            this.submissao = submissao;
-
-            if (this.atividadeGrupo != null) {
-              let submissaoGrupo = new SubmissaoGrupo(
-                null,
-                this.submissao,
-                this.grupo,
-                this.atividadeGrupo,
-                false
-              );
-              submissaoGrupo.save().subscribe(() => {});
-              
-            }else{
-              if(this.questaoCorrecao == null){
-                this.submissao.save().subscribe((resposta)=>{
-                  this.submissao = resposta;
-                });
-              }else{
-                let correcaoAlgoritmo = new CorrecaoAlgoritmo(null, submissao, this.usuario, this.assunto, this.questaoCorrecao);
-                correcaoAlgoritmo.save().subscribe(()=>{
-
-                });
-              }
-              
-            }
-
-            this.onSubmit.emit(this._submissao);
-          },
-          error: (erro) => {
-            // TODO: Jogar todo o erro para cima (quem chama esse component) e deixar que ele gerencie o Erro
-            if (
-              erro.name === 'TimeoutError' ||
-              (erro.error != null && erro.error.mensagem == null)
-            ) {
-              if(this.questaoCorrecao == null){
-                this.submissao.save().subscribe(() => {});
-              }else{
-                let correcaoAlgoritmo = new CorrecaoAlgoritmo(null, submissao, this.usuario, this.assunto, this.questaoCorrecao);
-                correcaoAlgoritmo.save().subscribe(()=>{
-
-                });
-              }
-              
-              this.onServidorError.emit(erro);
-            } else {
-              submissao.processarErroServidor(erro.error.mensagem);
-              this.submissao = submissao;
-              if(this.questaoCorrecao == null){
-                this.submissao.save().subscribe((resultado) => {
-                
-                });
-              }else{
-                let correcaoAlgoritmo = new CorrecaoAlgoritmo(null, submissao, this.usuario, this.assunto, this.questaoCorrecao);
-                correcaoAlgoritmo.save().subscribe(()=>{
-
-                });
-              }
-              
-              this.onError.emit(this._submissao);
-            }
-
-            this.processandoSubmissao = false;
-          },
-          complete: () => {
-            this.processandoSubmissao = false;
-          },
-        });
-    } else {
-      this.processandoSubmissao = false;
-      this.messageService.add({
-        severity: 'error',
-        summary: 'Erro',
-        detail: 'Não é possível executar o código, pois ele está vazio.',
-      });
-    }
-  }
+  
 
   /**
    * Constrói uma submissão que será salva no banco de dados.
    */
   prepararSubmissao() {
-    this.editorCodigo.codigo = this.editor.getValue();
+    this.editorCodigo.codigo.next(this.editor.getValue());
     const submissao = new Submissao(
       null,
       this.editor.getValue(),
@@ -564,5 +467,77 @@ export class EditorProgramacaoComponent implements AfterViewInit, OnChanges, OnI
         });
       },
     });
+  }
+
+  submissaoRealizada(submissao){
+    this.processandoSubmissao = false;
+    this.submissao = submissao;
+    if(submissao.isFinalizada()){
+      DiarioProgramacao.exibirDiario(this.login.getUsuarioLogado(), TipoDiarioProgramacao.reflexao).subscribe(visibilidade=>{
+        if(visibilidade){
+          this.dialogService.open(DiarioProgramacaoComponent, {
+            data: { tipo: TipoDiarioProgramacao.reflexao },
+            width:'600',
+            height:'480'
+          });
+        }
+      });
+      
+    }
+
+    if (this.atividadeGrupo != null) {
+      let submissaoGrupo = new SubmissaoGrupo(
+        null,
+        submissao,
+        this.grupo,
+        this.atividadeGrupo,
+        false
+      );
+      submissaoGrupo.save().subscribe(() => {});
+      
+    }else{
+      if(this.questaoCorrecao == null){
+        submissao.save().subscribe((resposta)=>{
+          this.submissao = resposta;
+          this.onSubmit.emit(this.submissao);
+        });
+      }else{
+        let correcaoAlgoritmo = new CorrecaoAlgoritmo(null, submissao, this.usuario, this.assunto, this.questaoCorrecao);
+        correcaoAlgoritmo.save().subscribe(()=>{
+          this.submissao = submissao;
+          this.onSubmit.emit(this.submissao);
+        });
+      }
+      
+    }
+    
+  }
+
+  inicioSubmissao(){
+    this.processandoSubmissao = true;
+  }
+
+  erroSubmissao(data){
+    this.processandoSubmissao = false;
+    this.submissao = data.submissao;
+    if(data.erro.error != null && data.erro.error.mensagem != null){
+      this.submissao.processarErroServidor(data.erro.error.mensagem);
+    }else if(data.erro != null){
+      this.submissao.processarErroServidor(data.erro);
+    }
+    
+    
+    if(this.questaoCorrecao == null){
+      this.submissao.save().subscribe((resultado) => {
+        this.onError.emit(this.submissao);
+      });
+    }else{
+      let correcaoAlgoritmo = new CorrecaoAlgoritmo(null, this.submissao, this.usuario, this.assunto, this.questaoCorrecao);
+      correcaoAlgoritmo.save().subscribe(()=>{
+        this.onError.emit(this.submissao);
+      });
+    }
+
+    
   }
 }

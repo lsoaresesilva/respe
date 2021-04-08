@@ -62,6 +62,8 @@ import { ListagemDiarioComponent } from './monitoramento/listagem-diario/listage
 import { DesempenhoMetricasComponent } from './monitoramento/desempenho-metricas/desempenho-metricas.component';
 import { VisualizacaoDiarioComponent } from './monitoramento/visualizacao-diario/visualizacao-diario.component';
 import { ExibirSolucaoAlunosComponent } from './auto-reflexao/exibir-solucao-alunos/exibir-solucao-alunos.component';
+import { DiarioProgramacaoComponent } from './monitoramento/diario-programacao/diario-programacao.component';
+import { DialogService, DynamicDialogModule } from 'primeng/dynamicdialog';
 
 @NgModule({
   declarations: [
@@ -93,8 +95,10 @@ import { ExibirSolucaoAlunosComponent } from './auto-reflexao/exibir-solucao-alu
     DesempenhoMetricasComponent,
     VisualizacaoDiarioComponent,
     ExibirSolucaoAlunosComponent,
+    DiarioProgramacaoComponent,
   ],
   imports: [
+    DynamicDialogModule,
     CodeHighlighterModule,
     MessagesModule,
     MessageModule,
@@ -126,7 +130,7 @@ import { ExibirSolucaoAlunosComponent } from './auto-reflexao/exibir-solucao-alu
     SharedPipesModule,
     SharedModule,
   ],
-  providers: [MessageService, AnalisarObjetivosService, RastrearTempoOnlineService],
+  providers: [MessageService, AnalisarObjetivosService, RastrearTempoOnlineService, DialogService],
   exports: [
     DiarioComponent,
     RiscoEstudanteComponent,

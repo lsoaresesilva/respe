@@ -38,6 +38,7 @@ function executarPython(cb){
 */
 let intro = introJs();
 let editorProgramacao = null;
+let editorProgramacaoPadrao = null;
 let decorations = null;
 // TODO: usar Observable para disparar quando o editor estiver pronto. Assim o model Editor pode ter acesso à instância do mônico quando ela estiver pronta.
 
@@ -117,7 +118,7 @@ function carregarIde(
     if (container != undefined) {
       if (editorProgramacao == null) {
         editorProgramacao = monaco.editor.create(container, {
-          value: prepararCodigo(codigo).join('\n'),
+          value: prepararCodigo(codigo.value).join('\n'),
           language: 'python',
           readOnly: readOnly,
           wordBasedSuggestions:!isAtividadeGrupo
@@ -133,6 +134,70 @@ function carregarIde(
       }
 
       callbackOnEditorLoad(instance, editorProgramacao);
+
+      
+
+      // TODO: modificar para colocar em outra função exclusiva de comentário e só aparecer para comentários
+      /* var div = document.getElementById('iconeNovoComentario');
+      editorElement = document.getElementById('container');
+      div.style.left = (editorElement.offsetLeft+1)+"px";
+
+      dialogEmExibicao = false;
+
+      var posicaoFinal = editorElement.offsetTop;
+      var y = posicaoFinal+"px";
+      div.style.top = y;
+
+      editor.onMouseMove(function (e) {
+          if( e != undefined){
+              // posicao inicial
+              if( callback != null)
+                  callback(e, instance);
+
+              if(!dialogEmExibicao){
+                  var posicaoInicial = editorElement.offsetTop;
+                  var posicaoFinal = 0;
+                  if(e.target.position.lineNumber > 1)
+                      posicaoFinal = posicaoInicial + e.target.position.lineNumber*18-18;
+                  else
+                      posicaoFinal = posicaoInicial + e.target.position.lineNumber;
+                  //y = (e.event.posy-10)+"px";
+                  y = posicaoFinal+"px";
+                  console.log(y);
+                  div.style.top = y;
+              }
+
+
+          }
+
+      }); */
+    }
+  });
+}
+
+function carregarIdePadrao(
+  instance = null,
+  callbackOnEditorLoad = null,
+  codigo
+) {
+  require(['vs/editor/editor.main'], function () {
+    //var appRoot = document.createElement("app-root");
+    //document.getElementById("body").appendChild(appRoot);
+    let container = document.getElementById('containerPadrao');
+    if (container != undefined) {
+      if (editorProgramacaoPadrao == null) {
+        editorProgramacaoPadrao = monaco.editor.create(container, {
+          value: prepararCodigo(codigo).join('\n'),
+          language: 'python'
+        });
+
+        
+        /* editor.onKeyDown(function () {
+          limparCores();
+        }); */
+      }
+
+      callbackOnEditorLoad(instance, editorProgramacaoPadrao);
 
       
 

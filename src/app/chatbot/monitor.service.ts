@@ -12,6 +12,11 @@ import Usuario from '../model/usuario';
 import Mensagem from '../model/chatbot/mensagem';
 import { CategoriaErro } from '../model/errors/enum/categoriasErro';
 import RegistroMensagemChatbot from '../model/chatbot/registroMensagemChatbot';
+import { DialogService } from 'primeng/dynamicdialog';
+import { DiarioProgramacaoComponent } from '../srl/monitoramento/diario-programacao/diario-programacao.component';
+import { TipoDiarioProgramacao } from '../model/srl/enum/tipoDiarioProgramacao';
+import DiarioProgramacao from '../model/srl/diarioProgramacao';
+import { LoginService } from '../login-module/login.service';
 
 @Injectable({
   providedIn: 'root',
@@ -22,7 +27,7 @@ export class MonitorService {
   suporte: Map<CategoriaErro, String[]>;
   suporteMotivacional: String[];
 
-  constructor(private chatbot: ChatbotService) {
+  constructor(private chatbot: ChatbotService, public dialogService: DialogService, private login:LoginService) {
     this.suporte = new Map<CategoriaErro, String[]>();
     this.suporteMotivacional = [];
     this.suporte.set(CategoriaErro.nameError, []);
@@ -148,6 +153,15 @@ export class MonitorService {
               let registroMensagem = new RegistroMensagemChatbot(null, mensagemSuporte, estudante);
               registroMensagem.save().subscribe(() => {});
               this.chatbot.enviarMensagem(mensagemSuporte.mensagens);
+              DiarioProgramacao.exibirDiario(this.login.getUsuarioLogado(), TipoDiarioProgramacao.reflexao).subscribe(visibilidade=>{
+                if(visibilidade){
+                  this.dialogService.open(DiarioProgramacaoComponent, {
+                    data: { tipo: TipoDiarioProgramacao.reflexao },
+                    width:'600',
+                    height:'480'
+                  });
+                }
+              });
             }
           } else {
             if (errorQuotient > 0.7) {

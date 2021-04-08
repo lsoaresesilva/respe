@@ -51,7 +51,7 @@ export class DiarioProgramacaoComponent implements OnInit {
     if(this.tipo == TipoDiarioProgramacao.planejamento){
       return "Descreva as ações que você realizará para resolver esse problema."
     }else if(this.tipo == TipoDiarioProgramacao.monitoramento){
-      return "Para que você está com algumas dificuldades...<br>o que você pensa em fazer para resolver esses problemas?"
+      return "Para que você está com algumas dificuldades...<br>Como você pensa resolver esses problemas?"
     }else if(this.tipo == TipoDiarioProgramacao.reflexao){
       return "Reflita sobre as dificuldades que você teve ao criar esse e outros algoritmos. Como você as superou?<br> Pense também o que você fez que lhe ajudou e pode ser repetido nos próximos estudos."
     }
