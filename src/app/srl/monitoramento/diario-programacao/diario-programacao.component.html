@@ -1,0 +1,17 @@
+
+<div class="p-grid">
+    <div class="p-col-12" [innerHTML]="getTexto() | keepHtml">
+    </div>
+</div>
+
+<div class="p-grid">
+    <div class="p-col-12">
+        <textarea [rows]="5" [cols]="50" pInputTextarea [(ngModel)]="diario.texto"></textarea><br>
+        {{contagemCaracteres(diario.texto)}} caracteres faltando. Fique à vontade para escrever mais :)
+    </div>
+</div>
+
+<div class="p-grid" style="margin-top: 10px;">
+    <div class="p-col-2">
+        <button pButton type="button" (click)="salvar()" label="Salvar"></button>
+    </div>

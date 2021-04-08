@@ -198,7 +198,7 @@ export class DiarioComponent implements OnInit {
         severity: 'error',
         summary: 'É preciso preencher os campos',
         detail:
-          'Antes de avançar é preciso responder as perguntas. Lembre-se que bas perguntas abertas você deve escrever no mínimo 50 caracteres.',
+          'Antes de avançar é preciso responder as perguntas. Lembre-se que nas perguntas abertas você deve escrever no mínimo 50 caracteres.',
       });
     }
   }
