@@ -30,7 +30,7 @@
           <div class="p-grid">
             <div class="p-col-12">
               <div class="p-grid">
-                <div class="p-col-8">
+                <div class="p-col-12">
                   <button type="button" (click)="visualizarPlanejamento()" pButton label="Visualizar planejamento"
                     class="p-button-help" *ngIf="atividadeGrupo == null"></button>
                   <app-btn-avancar-questao style="margin-left:5px" [assunto]="assunto" [questao]="questao"
@@ -39,12 +39,12 @@
                 </div>
                 <div class="p-col-4">
 
-                  <button type="button" pButton (click)="mudancaEditor()" label="{{labelModoEditor}}"></button>
+                  
                 </div>
               </div>
             </div>
             <div class="p-col-12">
-              <dados-questao [questao]="questao" [submissao]="submissao" id="dadosQuestao"></dados-questao>
+              <dados-questao [assunto]="assunto" [questao]="questao" [submissao]="submissao" id="dadosQuestao"></dados-questao>
             </div>
             <div class="p-col-12">
               <ng-container *ngIf="usuario.grupoExperimento != 4">
@@ -57,38 +57,8 @@
         </div>
 
         <div class="p-col-8">
-          <!--  <div class="p-grid" *ngIf="modoExecucao == 1; else execucaoPadrao"> -->
-          <!-- <div class="p-grid" [ngStyle]="{'display': modoExecucao == 1? 'block' : 'none' }"> -->
-          <div class="p-grid">
-            <div class="p-col-12" >
-              <app-editor-programacao id="editorProgramacao" [modoVisualizacao]="modoVisualizacao"
-                [submissao]="submissao" [questao]="questao" [assunto]="assunto" [atividadeGrupo]="atividadeGrupo"
-                [modoExecucao]="modoExecucao"
-                [questaoCorrecao]="questaoCorrecao" [grupo]="grupo" (onError)="onEditorError($event)"
-                (onVisualization)="onVisualization($event)" (onServidorError)="onServidorError($event)"
-                (onSubmit)="onEditorSubmit($event)" (onEditorReady)="onEditorReady($event)">
-              </app-editor-programacao>
-
-            </div>
-            <div class="p-col-12">
-              <div *ngIf="modoVisualizacao == false; else visualizacao" style="margin-top: 10px">
-                <app-console [submissao]="submissao" [consoleEditor]="consoleEditor" *ngIf="modoExecucao == 1;else consolePadrao"></app-console>
-                <ng-template #consolePadrao>
-                  <app-console-padrao [submissao]="submissao"></app-console-padrao>
-                </ng-template>
-              </div>
-              <ng-template #visualizacao>
-                <visualizar-execucao [traceExecucao]="traceExecucao" [editor]="editorCodigo" *ngIf="traceExecucao != null">
-                </visualizar-execucao>
-              </ng-template>
-            </div>
-          </div>
-         <!--  <div class="p-grid" [ngStyle]="{'display': modoExecucao == 1? 'none' : 'block' }">
-
-            <div class="p-col-12">
-              
-            </div>
-          </div> -->
+         
+          <app-ide [isMudancaEditorPermitida]="true" [modoExecucao]="1" [questaoCorrecao]="questaoCorrecao" [grupo]="grupo"  [atividadeGrupo]="atividadeGrupo" [questao]="questao" [assunto]="assunto" (onEditorError)="onEditorError($event)"></app-ide>
 
         </div>
       </div>

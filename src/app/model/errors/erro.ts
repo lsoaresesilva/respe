@@ -1,4 +1,4 @@
-import { TipoErro } from '../tipoErro';
+import { TipoErro } from './analise-pre-compilacao/tipoErro';
 import { Document, Collection, ignore, date } from '../firestore/document';
 import Submissao from '../submissao';
 import { forkJoin, Observable } from 'rxjs';

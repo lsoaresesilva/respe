@@ -3,10 +3,13 @@ import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import { MessageService } from 'primeng/api';
 import { DialogService } from 'primeng/dynamicdialog';
 import { timeout } from 'rxjs/operators';
+import { GamificationFacade } from 'src/app/gamification/gamification.service';
 import { LoginService } from 'src/app/login-module/login.service';
 import CorrecaoAlgoritmo from 'src/app/model/correcao-algoritmo/correcaoAlgoritmo';
 import SubmissaoGrupo from 'src/app/model/cscl/submissaoGrupo';
 import Editor from 'src/app/model/editor';
+import ParseAlgoritmo from 'src/app/model/errors/analise-pre-compilacao/parseAlgoritmo';
+import PontuacaoQuestaoProgramacao from 'src/app/model/gamification/pontuacaoQuestaoProgramacao';
 import DiarioProgramacao from 'src/app/model/srl/diarioProgramacao';
 import { TipoDiarioProgramacao } from 'src/app/model/srl/enum/tipoDiarioProgramacao';
 import Submissao from 'src/app/model/submissao';
@@ -45,13 +48,15 @@ export class EditorTrintadoisbitsComponent implements OnInit {
   editorCodigo;
   submissao;
 
-  constructor(private http: HttpClient, private messageService: MessageService, public login: LoginService, public dialogService: DialogService) { 
+  constructor(private http: HttpClient, private messageService: MessageService, public login: LoginService, public dialogService: DialogService,
+    private gamification: GamificationFacade,) { 
     this.usuario = this.login.getUsuarioLogado();
     this.editorCodigo = Editor.getInstance();
     this.onSubmit = new EventEmitter();
     this.onServidorError = new EventEmitter();
     this.onError = new EventEmitter();
     this.onSubmitInicio = new EventEmitter();
+    
   }
 
   ngOnInit(): void {
@@ -78,7 +83,7 @@ export class EditorTrintadoisbitsComponent implements OnInit {
       Potencial para uso. */
       /*
       if (this.submissao.hasErrors()) {
-        this.destacarErros(this.submissao);
+        
         this.onError.emit(this.submissao);
       } else {*/
       const tipoExecucao = Editor.getTipoExecucao(this.questao);
@@ -94,11 +99,20 @@ export class EditorTrintadoisbitsComponent implements OnInit {
         .subscribe({
           next: (resposta) => {
             this.submissao.processarRespostaServidor(resposta)
+            if (this.submissao.isFinalizada()) {
+              /* Gamification.aumentarPontuacao(this.login.getUsuarioLogado(), this.questao, new PontuacaoQuestaoProgramacao()); */
+              this.gamification.aumentarPontuacao(
+                this.login.getUsuarioLogado(),
+                this.questao,
+                new PontuacaoQuestaoProgramacao()
+              );
+            }
             this.onSubmit.emit(this.submissao);
           },
           error: (erro) => {
-            // TODO: Jogar todo o erro para cima (quem chama esse component) e deixar que ele gerencie o Erro
-            this.onError.emit({erro:erro, submissao:this.submissao});
+            //this.destacarErros(this.submissao); TODO;
+            let possivelErro = new ParseAlgoritmo(this.submissao).analisarErros();
+            this.onError.emit({erro:erro, submissao:this.submissao, possivelErro:possivelErro});
             
           },
           complete: () => {

@@ -1,69 +1,42 @@
 <p-confirmDialog header="Atenção" icon="pi pi-exclamation-triangle"></p-confirmDialog>
 
-<div *ngIf="this.questao != undefined">
 
-  <div class="p-grid">
-    <div class="p-col-2">
-      <app-editor-trintadoisbits [modoVisualizacao]="modoVisualizacao" [questao]="questao" [assunto]="assunto"
-        [monacoEditor]="editor" (onSubmit)="submissaoRealizada($event)" (onError)="erroSubmissao($event)"
-        (onSubmitInicio)="inicioSubmissao()"
-        *ngIf="modoExecucao == 1 && modoVisualizacao == false; else execucaoPadrao">
-      </app-editor-trintadoisbits>
-      <p-progressBar *ngIf="processandoSubmissao == true" mode="indeterminate"
-      [style]="{ height: '6px', width: '120px' }">
-    </p-progressBar>
-      <ng-template #execucaoPadrao>
-        <app-editor-padrao [monacoEditor]="editor" [questao]="questao" [assunto]="assunto" (onSubmitInicio)="inicioSubmissao()" 
-          (onSubmit)="submissaoRealizada($event)" (onError)="erroSubmissao($event)"
-          *ngIf="modoExecucao == 0 && modoVisualizacao == false"></app-editor-padrao>
-      </ng-template>
-    </div>
-    <div class="p-col-2">
-      <button pButton pRipple type="button" icon="{{ submissao.isFinalizada() ? 'pi pi-check' : 'pi pi-times' }}"
-        [ngClass]="{
+<ng-container>
+  <app-editor-trintadoisbits [modoVisualizacao]="modoVisualizacao" [questao]="questao" [assunto]="assunto"
+    [monacoEditor]="editor" (onSubmit)="submissaoRealizada($event)" (onError)="erroSubmissao($event)"
+    (onSubmitInicio)="inicioSubmissao()" *ngIf="modoExecucao == 1 && modoVisualizacao == false; else execucaoPadrao">
+  </app-editor-trintadoisbits>
+  <p-progressBar *ngIf="processandoSubmissao == true" mode="indeterminate" [style]="{ height: '6px', width: '120px' }">
+  </p-progressBar>
+  <ng-template #execucaoPadrao>
+    <app-editor-padrao [monacoEditor]="editor" [questao]="questao" [assunto]="assunto"
+      (onSubmitInicio)="inicioSubmissao()" (onSubmit)="submissaoRealizada($event)" (onError)="erroSubmissao($event)"
+      *ngIf="modoExecucao == 0 && modoVisualizacao == false"></app-editor-padrao>
+  </ng-template>
+</ng-container>
+<button pButton pRipple type="button" icon="{{ submissao.isFinalizada() ? 'pi pi-check' : 'pi pi-times' }}" [ngClass]="{
       'p-button-rounded p-button-success': submissao.isFinalizada(),
       'p-button-rounded p-button-danger': !submissao.isFinalizada()
-    }" pTooltip="{{ submissao.isFinalizada() ? 'Seu algoritmo está correto.' : 'Seu algoritmo apresenta um problema.' }}"
-        id="statusExecucaoAlgoritmo"
-        *ngIf="submissao != undefined && submissao.isFinalizada() != null"></button>
-     
-    </div>
+    }"
+  pTooltip="{{ submissao.isFinalizada() ? 'Seu algoritmo está correto.' : 'Seu algoritmo apresenta um problema.' }}"
+  id="statusExecucaoAlgoritmo" *ngIf="submissao != undefined && submissao.isFinalizada() != null"></button>
 
-    <div class="p-col-4">
-      <button *ngIf="modoVisualizacao == true" type="button" (click)="suspenderVisualizacao()" pButton
-        label="Voltar ao modo execução"></button>
+<button *ngIf="modoVisualizacao == true" type="button" (click)="suspenderVisualizacao()" pButton
+  label="Voltar ao modo execução"></button>
 
-      <p-splitButton
-        *ngIf="this.login.getUsuarioLogado().grupoExperimento != 4  && modoVisualizacao == false && atividadeGrupo == null"
-        label="Vizualizar execução" icon="pi pi-eye" [model]="items" class="p-button-warning"></p-splitButton>
-      <p-progressBar *ngIf="processandoVisualizacao == true" mode="indeterminate"
-        [style]="{ height: '6px', width: '180px' }"></p-progressBar>
-    </div>
-    <div class="p-col-4">
-      <!-- <button
-      type="button"
-      (click)="visualizarRespostaOutrosEstudantes(questao)"
-      pButton
-      icon="pi pi-eye"
-      label="Respostas de outros alunos"
-      *ngIf="isSubmissaofinalizada == true"
-    ></button> -->
-      <button type="button" (click)="visualizarResposta(questao)" pButton icon="pi pi-eye" label="Visualizar resposta"
-        *ngIf="questao.solucao != null"></button>
-      <div>
-
-        <button type="button" (click)="enviarRespostaAtividadeGrupo()" pButton label="Enviar resposta"
-          *ngIf="atividadeGrupo != null" [disabled]="statusBtnEnvioAtividadeGrupo"></button>
-      </div>
-    </div>
+<p-splitButton
+  *ngIf="this.login.getUsuarioLogado().grupoExperimento != 4  && modoVisualizacao == false && atividadeGrupo == null"
+  label="Vizualizar execução" icon="pi pi-eye" [model]="items" class="p-button-warning"></p-splitButton>
+<p-progressBar *ngIf="processandoVisualizacao == true" mode="indeterminate" [style]="{ height: '6px', width: '180px' }">
+</p-progressBar>
 
 
+
+<div class="p-grid">
+  <div class="p-col-12">
+    <div id="container" [ngStyle]="{ height: liteMode === true ? '300px' : '400px' }"
+      style="margin-top: 10px; border: 1px solid grey; position: relative"></div>
+
+    <div *ngIf="isEditorPronto == false">Carregando editor..</div>
   </div>
-  <div class="p-grid">
-    <div class="p-col-12">
-      <div id="container" [ngStyle]="{ height: liteMode === true ? '300px' : '400px' }"
-        style="margin-top: 10px; border: 1px solid grey; position: relative"></div>
-
-      <div *ngIf="isEditorPronto == false">Carregando editor..</div>
-    </div>
-  </div>
+</div>

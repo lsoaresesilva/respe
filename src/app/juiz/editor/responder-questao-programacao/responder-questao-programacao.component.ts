@@ -52,7 +52,6 @@ export class ResponderQuestaoProgramacao implements OnInit, AfterViewInit {
 
   assunto;
   errosEstudante;
-  consoleEditor: ConsoleEditor;
 
   pausaIde;
   questao?: QuestaoProgramacao;
@@ -62,20 +61,17 @@ export class ResponderQuestaoProgramacao implements OnInit, AfterViewInit {
   duvida: string = '';
 
   observableQuestao: Observable<any>;
-  editorCodigo;
+ 
   usuario: Usuario;
 
   /* CSCL */
   atividadeGrupo:AtividadeGrupo;
   grupo:Grupo;
-
-  // TODO: mover para um componente próprio
-  traceExecucao;
+  
 
   questaoCorrecao;
 
-  modoExecucao // Define se será executado o editor padrão ou o 32bits
-  labelModoEditor;
+
   modoVisualizacao;
 
   constructor(
@@ -83,21 +79,18 @@ export class ResponderQuestaoProgramacao implements OnInit, AfterViewInit {
     public login: LoginService,
     private router: Router,
     private apresentacao: ApresentacaoService,
-    private gamification: GamificationFacade,
-    private monitor: MonitorService,
     public chat: ChatService,
     public dialogService: DialogService
   ) {
     this.pausaIde = true;
     this.statusExecucao = '';
-    this.consoleEditor = new ConsoleEditor();
+    
     this.observableQuestao = new Observable((observer) => {
       observer.next();
       observer.complete();
     });
 
 
-    this.inicializarParametrosEditor();
   }
 
   ngAfterViewInit(): void {
@@ -111,10 +104,7 @@ export class ResponderQuestaoProgramacao implements OnInit, AfterViewInit {
     
   }
 
-  mudancaEditor(){
-    this.modoExecucao = this.modoExecucao == ModoExecucao.execucao32bits?ModoExecucao.execucaoPadrao:ModoExecucao.execucao32bits;
-    this.labelModoEditor = this.modoExecucao == ModoExecucao.execucao32bits?"32b":"Padrão";
-  }
+  
 
   visualizarPlanejamento(){
     this.router.navigate([
@@ -123,11 +113,12 @@ export class ResponderQuestaoProgramacao implements OnInit, AfterViewInit {
     ]);
   }
 
-  inicializarParametrosEditor(){
-    this.modoExecucao = ModoExecucao.execucao32bits;//ModoExecucao.execucao32bits;
-    this.modoVisualizacao = false;
-    this.labelModoEditor = this.modoExecucao==ModoExecucao.execucao32bits?"32b":"Padrão";
+  onEditorError(event){
+    this.atualizarCardErros();
+    
   }
+
+  
 
   ngOnInit() {
     this.usuario = this.login.getUsuarioLogado();
@@ -274,44 +265,7 @@ export class ResponderQuestaoProgramacao implements OnInit, AfterViewInit {
     });
   }
 
-  onEditorReady(editor){
-    this.editorCodigo = editor;
-  }
-
-  onEditorError(submissao) {
-    this.submissao = this.prepararSubmissao(submissao);
-    this.consoleEditor.erroServidor = null;
-    this.consoleEditor.submissao = this.submissao;
-    this.atualizarCardErros();
-    if(this.atividadeGrupo == null){
-      this.monitor.monitorarErrosEstudante(this.questao, this.usuario);
-    }
-    
-  }
-
-  onEditorSubmit(submissao) {
-    this.submissao = this.prepararSubmissao(submissao);
-    this.consoleEditor.erroServidor = null;
-    this.consoleEditor.submissao = this.submissao;
-    if (this.submissao.isFinalizada()) {
-      /* Gamification.aumentarPontuacao(this.login.getUsuarioLogado(), this.questao, new PontuacaoQuestaoProgramacao()); */
-      this.gamification.aumentarPontuacao(
-        this.login.getUsuarioLogado(),
-        this.questao,
-        new PontuacaoQuestaoProgramacao()
-      );
-    }
-  }
-
-  onServidorError(erroServidor) {
-    let erro = ErroServidor.construir(erroServidor);
-    this.consoleEditor.erroServidor = erro;
-  }
-
-  onVisualization(visualizacao) {
-    this.modoVisualizacao = visualizacao.modoVisualizacao;
-    this.traceExecucao = visualizacao.trace;
-  }
+  
 
   prepararStatus(status) {
     let textoStatus = "<span class='textoStatus'>Status</span> ";
@@ -319,9 +273,7 @@ export class ResponderQuestaoProgramacao implements OnInit, AfterViewInit {
     else this.statusExecucao = textoStatus + "<span class='statusSucesso'>Sucesso</span>";
   }
 
-  voltarParaModoExecucao() {
-    this.modoVisualizacao = false;
-  }
+ 
 
   pedirAjuda() {
     this.dialogPedirAjuda = true;
@@ -362,31 +314,7 @@ export class ResponderQuestaoProgramacao implements OnInit, AfterViewInit {
 
   }*/
 
-  /**
-   * ngOnChanges é usado pelos child-components para receberem atualização da submissão. No entanto, seu comportamento (disparo de notificações de mudança) não funciona quando apenas um atributo do objeto é alterado.
-   * Este método força uma clonagem do objeto, fazendo com que o ngOnChanges detecte que é um novo objeto e assim realize a atualização.
-   * @param submissao
-   */
-  prepararSubmissao(submissao) {
-    if (submissao != undefined) {
-      let _submissaoClone = new Submissao(
-        submissao.pk(),
-        submissao.codigo,
-        submissao.estudante,
-        submissao.assunto,
-        submissao.questao
-      );
-      _submissaoClone['estudanteId'] = submissao.estudanteId;
-      _submissaoClone['assuntoId'] = submissao.assuntoId;
-      _submissaoClone.data = submissao.data;
-      _submissaoClone.erro = submissao.erro;
-      _submissaoClone.resultadosTestsCases = submissao.resultadosTestsCases;
-      _submissaoClone.saida = submissao.saida;
-      return _submissaoClone;
-    }
-
-    return null;
-  }
+  
 
   /*change(event){
     event.preventDefault();

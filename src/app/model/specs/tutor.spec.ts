@@ -1,5 +1,5 @@
 import { Tutor } from '../tutor';
-import { TipoErro } from '../tipoErro';
+import { TipoErro } from '../errors/analise-pre-compilacao/tipoErro';
 import Submissao from '../submissao';
 import { AngularFirestore, AngularFirestoreModule } from '@angular/fire/firestore';
 import { TestBed, inject } from '@angular/core/testing';

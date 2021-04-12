@@ -7,6 +7,7 @@ import Estatisticas from 'src/app/model/analytics/estatisticas';
 import PageTrackRecord from 'src/app/model/analytics/pageTrack';
 import { Assunto } from 'src/app/model/assunto';
 import Query from 'src/app/model/firestore/query';
+import Submissao from 'src/app/model/submissao';
 import Turma from 'src/app/model/turma';
 import Usuario from 'src/app/model/usuario';
 
@@ -28,17 +29,21 @@ export class ExportarDadosAnalyticsComponent implements OnInit {
     let dadoExportado = {registros:[]}
     this.route.params.subscribe((params) => {
       if (params['turmaId'] != null) {
-        Turma.getAllEstudantes(params['turmaId']).subscribe(estudantes=>{
+
+        /* Submissao.exportToJson().subscribe(resultados=>{
+          this.json = resultados;
+        }) */
+        /* Turma.getAllEstudantes(params['turmaId']).subscribe(estudantes=>{
           let consultaSubmissoes = {};
-          /* estudantes.forEach(estudante=>{
+          estudantes.forEach(estudante=>{
             consultaSubmissoes[estudante.pk()] = Usuario.getTodasSubmissoes(estudante);
-          }) */
+          })
 
           Estatisticas.gerarDadosPageTrack(estudantes).subscribe(dados=>{
             this.json = JSON.stringify(dados);
           })
 
-          /* Assunto.getAll().subscribe(assuntos=>{
+          Assunto.getAll().subscribe(assuntos=>{
             forkJoin(consultaSubmissoes).subscribe(submissoes=>{
               for(let [estudanteId, submissoesEstudante] of Object.entries(submissoes)){
                 let s = submissoesEstudante as any;
@@ -52,10 +57,10 @@ export class ExportarDadosAnalyticsComponent implements OnInit {
               }
               this.json = JSON.stringify(dadoExportado);
             })
-          }) */
+          })
 
           
-        })
+        }) */
       }
     });
   }

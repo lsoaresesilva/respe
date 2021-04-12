@@ -2,7 +2,7 @@ import Submissao from '../submissao';
 import Usuario from '../usuario';
 import { PerfilUsuario } from '../enums/perfilUsuario';
 import Erro from '../errors/erro';
-import { TipoErro } from '../tipoErro';
+import { TipoErro } from '../errors/analise-pre-compilacao/tipoErro';
 import { forkJoin } from 'rxjs';
 import { AngularFirestore, AngularFirestoreModule } from '@angular/fire/firestore';
 import { TestBed, inject } from '@angular/core/testing';

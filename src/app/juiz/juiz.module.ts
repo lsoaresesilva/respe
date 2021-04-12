@@ -79,6 +79,7 @@ import { EditorPadraoComponent } from './editor/editor-padrao/editor-padrao.comp
 import { ConsolePadraoComponent } from './editor/console-padrao/console-padrao.component';
 import { EditorTrintadoisbitsComponent } from './editor/editor-trintadoisbits/editor-trintadoisbits.component';
 import { ConsoleErroComponent } from './editor/console-erro/console-erro.component';
+import { IdeComponent } from './editor/ide/ide.component';
 
 @NgModule({
   declarations: [
@@ -111,6 +112,7 @@ import { ConsoleErroComponent } from './editor/console-erro/console-erro.compone
     ConsolePadraoComponent,
     EditorTrintadoisbitsComponent,
     ConsoleErroComponent,
+    IdeComponent
   ],
 
   imports: [

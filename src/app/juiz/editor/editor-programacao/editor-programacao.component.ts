@@ -523,7 +523,10 @@ export class EditorProgramacaoComponent implements AfterViewInit, OnChanges, OnI
     if(data.erro.error != null && data.erro.error.mensagem != null){
       this.submissao.processarErroServidor(data.erro.error.mensagem);
     }else if(data.erro != null){
-      this.submissao.processarErroServidor(data.erro);
+      if(!(data.erro instanceof HttpErrorResponse)){
+        this.submissao.processarErroServidor(data.erro);
+      }
+      
     }
     
     

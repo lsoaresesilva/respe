@@ -2,11 +2,17 @@ import ErroSintaxe from './erroSintaxe';
 import Erro from '../erro';
 import Submissao from '../../submissao';
 import ErroSintaxeVariavel from './erroSintaxeVariavel';
+import ErroPreCompilacao from './erroPrecompilacao';
 
+/**
+ * Falta fazer: while True:
+ */
 export default class ErroSintaxeFuncao extends ErroSintaxe {
 
-    static erros(submissao: Submissao): Erro[] {
-        let erros: Erro[] = [];
+    static funcoesReservadas = ["print", "int", "float", "input"]
+
+    static erros(submissao: Submissao): ErroPreCompilacao[] {
+        let erros: ErroPreCompilacao[] = [];
         let linhasCodigo = submissao.linhasAlgoritmo();
 
         for (let i = 0; i < linhasCodigo.length; i++) {
@@ -35,8 +41,18 @@ export default class ErroSintaxeFuncao extends ErroSintaxe {
     static ausenciaDeDoisPontos(linha) {
         if (ErroSintaxe.isLinhaProgramacaoValida(linha)) {
             if (ErroSintaxe.isFunction(linha)) {
-                return ErroSintaxe.faltaDoisPontos(linha);
+                return ErroSintaxe.ausenciaDeDoisPontos(linha);
             }
+        }
+
+        return false;
+    }
+
+    static isDeclaracaoFuncao(linha){
+        let resultado = linha.match(/def\s/);
+
+        if (resultado != undefined && resultado.length > 0) {
+            return true;
         }
 
         return false;

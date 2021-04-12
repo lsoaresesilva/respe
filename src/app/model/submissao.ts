@@ -11,12 +11,19 @@ import { Assunto } from './assunto';
 import { keyframes } from '@angular/animations';
 import { Cacheable } from 'ts-cacheable';
 import { Util } from './util';
+import { database } from 'firebase';
 
 @Collection('submissoes')
 export default class Submissao extends Document {
-  constructor(id, public codigo: string, public estudante: Usuario, public assunto:Assunto, public questao: QuestaoProgramacao) {
+  constructor(
+    id,
+    public codigo: string,
+    public estudante: Usuario,
+    public assunto: Assunto,
+    public questao: QuestaoProgramacao
+  ) {
     super(id);
-    
+
     this.erro = null;
     this.resultadosTestsCases = [];
   }
@@ -76,19 +83,23 @@ export default class Submissao extends Document {
     });
   }
 
-  static fromJson(submissaoJson:any){
-    let submissao = new Submissao(submissaoJson.id, submissaoJson.codigo, Usuario.fromJson({id:submissaoJson.estudante}), Assunto.fromJson({id:submissaoJson.assuntoId, nome:""}), new QuestaoProgramacao(submissaoJson.questaoId, "", "", 1, 1, [], null, "", null));
+  static fromJson(submissaoJson: any) {
+    let submissao = new Submissao(
+      submissaoJson.id,
+      submissaoJson.codigo,
+      Usuario.fromJson({ id: submissaoJson.estudante }),
+      Assunto.fromJson({ id: submissaoJson.assuntoId, nome: '' }),
+      new QuestaoProgramacao(submissaoJson.questaoId, '', '', 1, 1, [], null, '', null)
+    );
     submissao.resultadosTestsCases = [];
-    submissao["questaoId"] = submissaoJson.questaoId;
-    if(Array.isArray(submissaoJson.resultadosTesteCase)){
-      submissaoJson.resultadosTesteCase.forEach(r => {
+    submissao['questaoId'] = submissaoJson.questaoId;
+    if (Array.isArray(submissaoJson.resultadosTesteCase)) {
+      submissaoJson.resultadosTesteCase.forEach((r) => {
         let resultado = ResultadoTestCase.fromJson(r);
         submissao.resultadosTestsCases.push(resultado);
       });
-      
     }
-    
-    
+
     return submissao;
   }
 
@@ -166,26 +177,23 @@ export default class Submissao extends Document {
   }
 
   /**
- * Retorna apenas uma submissão por questão, sendo escolhida aquela que tiver status de completado, se houver.
- * @param submissoes 
- */
-  static getSubmissoesUnicas(submissoes){
+   * Retorna apenas uma submissão por questão, sendo escolhida aquela que tiver status de completado, se houver.
+   * @param submissoes
+   */
+  static getSubmissoesUnicas(submissoes) {
     let submissoesConcluidas = this.filtrarSubmissoesConclusao(submissoes);
     let submissoesAgrupadas = this.agruparPorQuestao(submissoesConcluidas);
     let submissoesUnicas = [];
-    submissoesAgrupadas.forEach((v, k)=>{
-      if(v.length != 0){
+    submissoesAgrupadas.forEach((v, k) => {
+      if (v.length != 0) {
         submissoesUnicas.push(v[0]);
       }
-      
     });
 
     return submissoesUnicas;
   }
 
- 
-
-  static filtrarSubmissoesConclusao(submissoesQuestao = [], status=false) {
+  static filtrarSubmissoesConclusao(submissoesQuestao = [], status = false) {
     // Filtrando todas as submissões que o seu resultadosTestsCase não seja undefined.
     const submissaoFiltrada = submissoesQuestao
       .filter((submissao) => {
@@ -209,14 +217,14 @@ export default class Submissao extends Document {
     return submissaoFiltrada;
   }
 
-  static _orderByDate(submissoes:Submissao[]){
-    submissoes.sort((s1, s2)=>{
-      if(s1.data != null && s2.data != null){
-        if(s1.data.toDate().getTime() < s2.data.toDate().getTime() ){
+  static _orderByDate(submissoes: Submissao[]) {
+    submissoes.sort((s1, s2) => {
+      if (s1.data != null && s2.data != null) {
+        if (s1.data.toDate().getTime() < s2.data.toDate().getTime()) {
           return -1;
-        }else if(s1.data.toDate().getTime() > s2.data.toDate().getTime() ){
+        } else if (s1.data.toDate().getTime() > s2.data.toDate().getTime()) {
           return 1;
-        }else{
+        } else {
           return 0;
         }
       }
@@ -352,56 +360,47 @@ export default class Submissao extends Document {
     return erros;
   }
 
- 
+  
 
-  /*analisarErros() {
-        this.erros = [];
-        this.erros = this.erros.concat(ErroSintaxeVariavel.erros(this));
-        this.erros = this.erros.concat(ErroSintaxeCondicional.erros(this));
-        this.erros = this.erros.concat(ErroSintaxeFuncao.erros(this));
-
-    }
-
-    hasErrors() {
-
-        if (this.erros.length > 0) {
-            return true;
-        }
-
-        return false;
-    }*/
-
-  static documentToObject(document){
-    let submissao = new Submissao(document.id, document.codigo, Usuario.fromJson({id:document.estudanteId}), Assunto.fromJson({id:document.assuntoId, nome:""}), new QuestaoProgramacao(document.questaoId, "", "", 1, 1, [], null, "", null));
+  static documentToObject(document) {
+    let submissao = new Submissao(
+      document.id,
+      document.codigo,
+      Usuario.fromJson({ id: document.estudanteId }),
+      Assunto.fromJson({ id: document.assuntoId, nome: '' }),
+      new QuestaoProgramacao(document.questaoId, '', '', 1, 1, [], null, '', null)
+    );
     submissao.resultadosTestsCases = [];
-    submissao["questaoId"] = document.questaoId;
-    if(Array.isArray(document.resultadosTestsCases)){
-      document.resultadosTestsCases.forEach(r => {
+    submissao['questaoId'] = document.questaoId;
+    if (Array.isArray(document.resultadosTestsCases)) {
+      document.resultadosTestsCases.forEach((r) => {
         let resultado = ResultadoTestCase.fromJson(r);
         submissao.resultadosTestsCases.push(resultado);
       });
-      
     }
 
-    return submissao
+    if (document.erro != null) {
+      submissao.erro = {data:document.erro.data, id:document.erro.id, traceback:document.erro.traceback}
+    }
+
+    return submissao;
   }
 
   objectToDocument() {
     const document = super.objectToDocument();
-    
-    if(this.estudante != null && this.estudante.pk() != null){
+
+    if (this.estudante != null && this.estudante.pk() != null) {
       document['estudanteId'] = this.estudante.pk();
     }
 
-    if(this.questao != null && this.questao.id != null){
+    if (this.questao != null && this.questao.id != null) {
       document['questaoId'] = this.questao.id;
     }
 
-    if(this.assunto != null && this.assunto.pk() != null){
+    if (this.assunto != null && this.assunto.pk() != null) {
       document['assuntoId'] = this.assunto.pk();
     }
-    
-    
+
     document['codigo'] = this.codigo;
     if (this.erro != null && this.erro instanceof ErroCompilacao) {
       document['erro'] = this.erro.objectToDocument();
@@ -417,13 +416,15 @@ export default class Submissao extends Document {
   }
 
   toJson() {
+    
     return {
-      resultadosTesteCase:this.resultadosTestsCases,
-      assuntoId:this["assuntoId"],
-      data:Util.firestoreDateToDate(this.data),
-      estudante:this["estudanteId"],
-      codigo:this.codigo,
-      questaoId:this["questaoId"],
+      resultadosTesteCase: this.resultadosTestsCases,
+      assuntoId: this['assuntoId'],
+      erro:this.erro,
+      data: Util.firestoreDateToDate(this.data),
+      estudante: this['estudanteId'],
+      codigo: this.codigo,
+      questaoId: this['questaoId'],
     };
   }
 
@@ -442,7 +443,7 @@ export default class Submissao extends Document {
   construirJsonVisualizacao(questao: QuestaoProgramacao, testCase) {
     const json = {};
     json['submissao'] = this.toJson();
-    json['tipo'] = "visualização";
+    json['tipo'] = 'visualização';
     json['questao'] = questao.toJson(true, testCase.id);
 
     return json;
@@ -479,7 +480,6 @@ export default class Submissao extends Document {
    * @param resposta
    */
   processarErroServidor(resposta) {
-    
     this.invalidarResultadosTestCases();
     if (ErroCompilacao.isErro(resposta)) {
       this.erro = ErroCompilacaoFactory.construir(resposta);
@@ -490,7 +490,6 @@ export default class Submissao extends Document {
    * Anula os testscases quando há um erro no algoritmo/servidor.
    */
   invalidarResultadosTestCases() {
-    
     this.questao.testsCases.forEach((testCase) => {
       this.resultadosTestsCases.push(new ResultadoTestCase(null, false, null, testCase));
     });
