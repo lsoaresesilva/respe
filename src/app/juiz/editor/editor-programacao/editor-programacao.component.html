@@ -1,7 +1,7 @@
 <p-confirmDialog header="Atenção" icon="pi pi-exclamation-triangle"></p-confirmDialog>
 
 <div class="p-grid">
-  <div class="p-col-2">
+  <div class="p-col-3">
     <button type="button" pButton (click)="mudancaEditor()" icon="{{iconModoEditor}}" style="margin-right: 10px"></button>
     <app-editor-trintadoisbits [modoVisualizacao]="modoVisualizacao" [questao]="questao" [assunto]="assunto" [monacoEditor]="editor" (onSubmit)="submissaoRealizada($event)" (onServidorError)="erroServidor($event)" (onError)="erroSubmissao($event)" (onSubmitInicio)="inicioSubmissao()" *ngIf="modoExecucao == 1 && modoVisualizacao == false; else editorPadrao"> </app-editor-trintadoisbits>
     <ng-template #editorPadrao>
@@ -12,7 +12,7 @@
       [style]="{ height: '6px', width: '120px', marginLeft:'50px', marginTop:'2px'}">
     </p-progressBar>
   </div>
-  <div class="p-col-10">
+  <div class="p-col-9">
     <button pButton pRipple type="button" icon="{{ submissao.isFinalizada() ? 'pi pi-check' : 'pi pi-times' }}"
       [ngClass]="{
       'p-button-rounded p-button-success': submissao.isFinalizada(),
