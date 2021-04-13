@@ -18,10 +18,8 @@ import { DiarioProgramacaoComponent } from 'src/app/srl/monitoramento/diario-pro
   templateUrl: './ide.component.html',
   styleUrls: ['./ide.component.css'],
 })
-export class IdeComponent implements AfterViewInit {
+export class IdeComponent {
 
-  @Input()
-  isMudancaEditorPermitida;
   @Input()
   questaoCorrecao;
   @Input()
@@ -36,42 +34,33 @@ export class IdeComponent implements AfterViewInit {
   assunto?;
   @Input()
   modoExecucao;
-
+  modoVisualizacao;
   traceExecucao;
   usuario;
   consoleEditor: ConsoleEditor;
   processandoSubmissao;
   editorCodigo;
-  modoVisualizacao;
-  iconModoEditor;
 
   @Output()
   onEditorError;
 
   constructor(
     private login: LoginService,
-    public dialogService: DialogService,
-    private monitor: MonitorService
+    public dialogService: DialogService
   ) {
     this.usuario = this.login.getUsuarioLogado();
     this.processandoSubmissao = false;
     this.consoleEditor = new ConsoleEditor();
     this.onEditorError = new EventEmitter();
-    this.iconModoEditor = parseInt(this.modoExecucao)==ModoExecucao.execucao32bits?"pi pi-pencil":"pi pi-table";
-    
-  }
-  ngAfterViewInit(): void {
-    this.inicializarParametrosEditor();
-  }
-
-  inicializarParametrosEditor(){
-    
     this.modoVisualizacao = false;
-    
   }
 
   voltarParaModoExecucao() {
     this.modoVisualizacao = false;
+  }
+
+  onEditorMudancaExecucacao(modoExecucao){
+    this.modoExecucao = modoExecucao;
   }
 
 
@@ -101,11 +90,7 @@ export class IdeComponent implements AfterViewInit {
     return null;
   }
 
-  mudancaEditor(){
-    this.modoExecucao = this.modoExecucao == ModoExecucao.execucao32bits?ModoExecucao.execucaoPadrao:ModoExecucao.execucao32bits;
-    this.iconModoEditor = parseInt(this.modoExecucao)==ModoExecucao.execucao32bits?"pi pi-pencil":"pi pi-table";
-  }
-
+  
   onEditorReady(editor) {
     this.editorCodigo = editor;
   }
@@ -115,11 +100,9 @@ export class IdeComponent implements AfterViewInit {
     this.consoleEditor.erroServidor = null;
     this.consoleEditor.submissao = this.submissao;
 
-    if (this.atividadeGrupo == null) {
-      this.monitor.monitorarErrosEstudante(this.questao, this.usuario);
-    }
+    
 
-    this.onEditorError();
+    this.onEditorError.emit(this.submissao);
   }
 
   onEditorSubmit(submissao) {

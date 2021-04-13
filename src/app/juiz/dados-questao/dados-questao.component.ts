@@ -14,8 +14,7 @@ export class DadosQuestaoComponent implements AfterViewInit {
   @Input()
   questao?: QuestaoProgramacao;
 
-  @Input()
-  submissao?: Submissao;
+
 
   constructor(
     private login: LoginService,

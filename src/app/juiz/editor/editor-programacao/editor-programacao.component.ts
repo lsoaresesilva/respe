@@ -7,6 +7,8 @@ import {
   AfterViewChecked,
   AfterViewInit,
   OnChanges,
+  ViewChild,
+  ComponentFactoryResolver,
 } from '@angular/core';
 import { HttpHeaders, HttpClient, HttpErrorResponse } from '@angular/common/http';
 import Submissao from 'src/app/model/submissao';
@@ -32,6 +34,13 @@ import CorrecaoAlgoritmo from 'src/app/model/correcao-algoritmo/correcaoAlgoritm
 import { DiarioProgramacaoComponent } from 'src/app/srl/monitoramento/diario-programacao/diario-programacao.component';
 import { TipoDiarioProgramacao } from 'src/app/model/srl/enum/tipoDiarioProgramacao';
 import DiarioProgramacao from 'src/app/model/srl/diarioProgramacao';
+import { VisualizacaoRespostasQuestoes } from 'src/app/model/visualizacaoRespostasQuestoes';
+import { ModoExecucao } from 'src/app/model/juiz/enum/modoExecucao';
+import { EscapeHtmlPipe } from 'src/app/pipes/keep-html.pipe';
+import { EditorTrintadoisbitsComponent } from '../editor-trintadoisbits/editor-trintadoisbits.component';
+import { EditorPadraoComponent } from '../editor-padrao/editor-padrao.component';
+import ParseAlgoritmo from 'src/app/model/errors/analise-pre-compilacao/parseAlgoritmo';
+import { MonitorService } from 'src/app/chatbot/monitor.service';
 
 /**
  * Executa um javascript ide.js para acoplar o editor VStudio.
@@ -54,6 +63,7 @@ declare function iniciarEditorColaborativo(id): any;
   selector: 'app-editor-programacao',
   templateUrl: './editor-programacao.component.html',
   styleUrls: ['./editor-programacao.component.css'],
+  providers: [EscapeHtmlPipe]
 })
 export class EditorProgramacaoComponent implements AfterViewInit, OnChanges, OnInit {
   URL = environment.URL;
@@ -63,7 +73,6 @@ export class EditorProgramacaoComponent implements AfterViewInit, OnChanges, OnI
 
   editor; // instância do Mônaco Editor. Carregado por meio do arquivo ide.js
 
-  
 
   @Input()
   console;
@@ -75,6 +84,8 @@ export class EditorProgramacaoComponent implements AfterViewInit, OnChanges, OnI
   liteMode; // define que o editor executará em um modo de aparência menor.
   @Input()
   modoExecucao;
+  @Input()
+  isMudancaEditorPermitida;
   @Input()
   modoVisualizacao;
   @Input()
@@ -122,6 +133,8 @@ export class EditorProgramacaoComponent implements AfterViewInit, OnChanges, OnI
   onVisualization: EventEmitter<any>;
   @Output()
   onEditorReady: EventEmitter<any>;
+  @Output()
+  onEditorMudancaExecucao: EventEmitter<any>;
 
   document; // Armazena as edições colaborativas realizadas no editor.
   posicaoCursor;
@@ -129,6 +142,9 @@ export class EditorProgramacaoComponent implements AfterViewInit, OnChanges, OnI
 
   isEditorPronto;
   isSubmissaofinalizada;
+
+
+  iconModoEditor;
 
   constructor(
     private http: HttpClient,
@@ -138,10 +154,12 @@ export class EditorProgramacaoComponent implements AfterViewInit, OnChanges, OnI
     public chat: ChatService,
     private route: ActivatedRoute,
     private messageService: MessageService,
-    public dialogService: DialogService
+    public dialogService: DialogService,
+    private componentFactoryResolver: ComponentFactoryResolver,
+    private monitor: MonitorService
   ) {
     
-    
+    this.onEditorMudancaExecucao = new EventEmitter();
     this.onVisualization = new EventEmitter();
     this.onSubmit = new EventEmitter();
     this.onError = new EventEmitter();
@@ -151,7 +169,8 @@ export class EditorProgramacaoComponent implements AfterViewInit, OnChanges, OnI
     this.processandoVisualizacao = false;
     this.usuario = this.login.getUsuarioLogado();
     editorProgramacao = null;
-
+    this.iconModoEditor = parseInt(this.modoExecucao)==ModoExecucao.execucao32bits?"pi pi-pencil":"pi pi-table";
+   
     /**
      * TODO: verificar se já foi feita a submissão de atividade em grupo, se sim inicia como true.
      */
@@ -162,17 +181,30 @@ export class EditorProgramacaoComponent implements AfterViewInit, OnChanges, OnI
     this.items = [];
     this.isEditorPronto = false;
     this.isSubmissaofinalizada = false;
+    this.modoVisualizacao = false;
   }
 
   ngOnInit(): void {
     this.posicaoCursor = { column: 1, lineNumber: 1 };
-  }
-
-  ngOnChanges(changes: import('@angular/core').SimpleChanges): void {
     
   }
 
+  ngOnChanges(changes: import('@angular/core').SimpleChanges): void {
+    if(this.submissao != null){
+
+    this.atualizarEditorComSubmissao();
+    }
+  }
+
+  mudancaEditor(){
+    this.modoExecucao = this.modoExecucao == ModoExecucao.execucao32bits?ModoExecucao.execucaoPadrao:ModoExecucao.execucao32bits;
+    this.iconModoEditor = parseInt(this.modoExecucao)==ModoExecucao.execucao32bits?"pi pi-pencil":"pi pi-table";
+    this.onEditorMudancaExecucao.emit(this.modoExecucao);
+  }
+
+
   ngAfterViewInit(): void {
+    //this.desenharBotaoModoEdicao();
     this.editorCodigo = Editor.getInstance();
     this.editorCodigo.codigo.subscribe((codigo)=>{
       if(this.editor != null){
@@ -229,35 +261,64 @@ export class EditorProgramacaoComponent implements AfterViewInit, OnChanges, OnI
     }, 500);
   }
 
-  visualizarResposta(questao) {
-    this.confirmationService.confirm({
-      message:
-        'Se você visualizar a resposta dessa questão não ganhará pontos ao respondê-la. Tem certeza que deseja visualizar?',
-      acceptLabel: 'Sim',
-      rejectLabel: 'Não',
-      accept: () => {
-        const pageTrack = new PageTrackRecord(
-          null,
-          'visualizacao-resposta-questao',
-          this.login.getUsuarioLogado()
-        );
-        pageTrack.save().subscribe(() => {});
-        const ref = this.dialogService.open(ExibirSolucaoComponent, {
-          header: 'Algoritmo com a solução do problema',
-          width: '60%',
-          data: {
-            questao: questao,
-          },
-        });
+  
 
-        ref.onClose.subscribe(() => {
-          this.confirmationService.close();
-        });
-      },
-    });
+
+  visualizarResposta(questao) {
+    if(this.submissao.isFinalizada()){
+      const ref = this.dialogService.open(ExibirSolucaoComponent, {
+        header: 'Algoritmo com a solução do problema',
+        width: '60%',
+        data: {
+          questao: questao,
+        },
+      });
+
+      const pageTrack = new PageTrackRecord(
+        null,
+        'visualizacao-resposta-questao',
+        this.login.getUsuarioLogado()
+      );
+      pageTrack.save().subscribe(() => {});
+    }else{
+      this.confirmationService.confirm({
+        message:
+          'Se você visualizar a resposta dessa questão não ganhará pontos ao respondê-la. Tem certeza que deseja visualizar?',
+        acceptLabel: 'Sim',
+        rejectLabel: 'Não',
+        accept: () => {
+          const pageTrack = new PageTrackRecord(
+            null,
+            'visualizacao-resposta-questao',
+            this.login.getUsuarioLogado()
+          );
+          pageTrack.save().subscribe(() => {});
+  
+          
+          VisualizacaoRespostasQuestoes.getByEstudante(questao, this.login.getUsuarioLogado()).subscribe((visualizou) => {
+            if (visualizou == null) {
+              new VisualizacaoRespostasQuestoes(null, this.login.getUsuarioLogado(), questao).save().subscribe();
+            }
+          });
+  
+          const ref = this.dialogService.open(ExibirSolucaoComponent, {
+            header: 'Algoritmo com a solução do problema',
+            width: '60%',
+            data: {
+              questao: questao,
+            },
+          });
+  
+          ref.onClose.subscribe(() => {
+            this.confirmationService.close();
+          });
+        },
+      });
+    }
+    
   }
 
-  visualizarRespostaOutrosEstudantes(questao) {
+  /* visualizarRespostaOutrosEstudantes(questao) {
     if (this.isSubmissaofinalizada) {
       const pageTrack = new PageTrackRecord(
         null,
@@ -273,7 +334,7 @@ export class EditorProgramacaoComponent implements AfterViewInit, OnChanges, OnI
         },
       });
     }
-  }
+  } */
 
   atualizarEditorComSubmissao() {
     if (this._submissao != null) {
@@ -517,6 +578,11 @@ export class EditorProgramacaoComponent implements AfterViewInit, OnChanges, OnI
     this.processandoSubmissao = true;
   }
 
+  erroServidor(data){
+    this.processandoSubmissao = false;
+    this.onServidorError.emit(data);
+  }
+
   erroSubmissao(data){
     this.processandoSubmissao = false;
     this.submissao = data.submissao;
@@ -528,6 +594,16 @@ export class EditorProgramacaoComponent implements AfterViewInit, OnChanges, OnI
       }
       
     }
+
+    if (this.atividadeGrupo == null) {
+      let parseError = new ParseAlgoritmo(this.submissao);
+      let erro = parseError.getHint();
+      
+      
+      this.monitor.monitorarErrosEstudante(this.questao, this.usuario, erro[0]);
+    }
+
+    
     
     
     if(this.questaoCorrecao == null){

@@ -4,7 +4,7 @@ import Submissao from '../../submissao';
 import ErroSintaxeCondicional from './erroSintaxeCondiconal';
 import ErroSintaxeFuncao from './erroSintaxeFuncao';
 import ErroPreCompilacao from './erroPrecompilacao';
-import { TipoErro } from './tipoErro';
+import { TipoErro } from './enum/tipoErro';
 import { ErrosVariaveis } from './enum/errosVariaveis';
 import { TiposErrosVariaveis } from './enum/tiposErrosVariaveis';
 
@@ -23,7 +23,7 @@ export default class ErroSintaxeVariavel extends ErroSintaxe {
       let linhaCodigo = linhasCodigo[i];
 
       if (ErroSintaxeVariavel.isString(linhaCodigo)) {
-        if (ErroSintaxeVariavel.isStringValida(linhaCodigo)) {
+        if (ErroSintaxeVariavel.faltaAspas(linhaCodigo)) {
           erros.push(
             new ErroPreCompilacao(
               numeroLinha,
@@ -381,10 +381,10 @@ export default class ErroSintaxeVariavel extends ErroSintaxe {
     return variaveis;
   }
 
-  static isStringValida(linhaCodigo) {
-    return (linhaCodigo.match(/"\w+"$|'\w+'$|\("\w+"\)|\('\w+'\)/g) || []).length == 0
-      ? false
-      : true;
+  static faltaAspas(linhaCodigo) {
+    return (linhaCodigo.match(/"\w+"|'\w+'|\("\w+"\)|\('\w+'\)/g) || []).length == 0
+      ? true
+      : false;
   }
 
   static identificarVariaveisUtilizadas(submissao: Submissao) {

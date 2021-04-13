@@ -1,4 +1,6 @@
 export enum TipoErro {
+  condicao = "Condição",
+  repeticao = "Repetição",
   espacoNoNomeVariavel = 3,
   variavelNaoDeclarada = 4,
   faltaParentesis = 5,

@@ -49,7 +49,7 @@ export class EditorTrintadoisbitsComponent implements OnInit {
   submissao;
 
   constructor(private http: HttpClient, private messageService: MessageService, public login: LoginService, public dialogService: DialogService,
-    private gamification: GamificationFacade,) { 
+    private gamification: GamificationFacade) { 
     this.usuario = this.login.getUsuarioLogado();
     this.editorCodigo = Editor.getInstance();
     this.onSubmit = new EventEmitter();
@@ -111,8 +111,13 @@ export class EditorTrintadoisbitsComponent implements OnInit {
           },
           error: (erro) => {
             //this.destacarErros(this.submissao); TODO;
-            let possivelErro = new ParseAlgoritmo(this.submissao).analisarErros();
-            this.onError.emit({erro:erro, submissao:this.submissao, possivelErro:possivelErro});
+            
+            if(erro.status == 0){
+              this.onServidorError.emit(erro);
+            }else{
+              this.onError.emit({erro:erro, submissao:this.submissao});
+            }
+            
             
           },
           complete: () => {

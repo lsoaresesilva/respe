@@ -105,21 +105,7 @@ export default class ErroSintaxeFuncao extends ErroSintaxe {
         }
     }
 
-    static faltaParentese(linha) {
-        if (ErroSintaxe.isLinhaProgramacaoValida(linha)) {
-            let quantidadeParentesesAbertura = (linha.match(/\(/g) || []).length;
-            let quantidadeParentesesFechamento = (linha.match(/\)/g) || []).length;
-
-            if (quantidadeParentesesAbertura != quantidadeParentesesFechamento) {
-                return true;
-            }
-            return false;
-        }
-
-        return false;
-
-
-    }
+    
 
     static obterParametros(linha) {
         return linha.match(/\(([^)]*)\)/g);

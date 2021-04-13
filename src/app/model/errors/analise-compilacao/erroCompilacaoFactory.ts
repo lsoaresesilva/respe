@@ -10,7 +10,7 @@ import TimedoutError from './timedoutError';
 import ValueError from './valueError';
 
 export default class ErroCompilacaoFactory {
-  public static construir(traceback) {
+  public static construir(traceback):ErroCompilacao {
     let objeto;
 
     switch (ErroCompilacao.getCategoria(traceback)) {

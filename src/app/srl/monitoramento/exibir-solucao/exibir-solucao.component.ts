@@ -34,13 +34,7 @@ export class ExibirSolucaoComponent {
       const solucao = questao.getExemploCorreto();
       if (Array.isArray(solucao.codigo)) {
         this.saida = solucao.codigo.join('\n');
-        // Verificar se já foi salvo no BD.
-        const estudante = this.login.getUsuarioLogado();
-        VisualizacaoRespostasQuestoes.getByEstudante(questao, estudante).subscribe((visualizou) => {
-          if (visualizou == null) {
-            new VisualizacaoRespostasQuestoes(null, estudante, questao).save().subscribe();
-          }
-        });
+        
       }
     }
   }

@@ -104,7 +104,31 @@ export class ResponderQuestaoProgramacao implements OnInit, AfterViewInit {
     
   }
 
-  
+  /**
+   * ngOnChanges é usado pelos child-components para receberem atualização da submissão. No entanto, seu comportamento (disparo de notificações de mudança) não funciona quando apenas um atributo do objeto é alterado.
+   * Este método força uma clonagem do objeto, fazendo com que o ngOnChanges detecte que é um novo objeto e assim realize a atualização.
+   * @param submissao
+   */
+   prepararSubmissao(submissao) {
+    if (submissao != undefined) {
+      let _submissaoClone = new Submissao(
+        submissao.pk(),
+        submissao.codigo,
+        submissao.estudante,
+        submissao.assunto,
+        submissao.questao
+      );
+      _submissaoClone['estudanteId'] = submissao.estudanteId;
+      _submissaoClone['assuntoId'] = submissao.assuntoId;
+      _submissaoClone.data = submissao.data;
+      _submissaoClone.erro = submissao.erro;
+      _submissaoClone.resultadosTestsCases = submissao.resultadosTestsCases;
+      _submissaoClone.saida = submissao.saida;
+      return _submissaoClone;
+    }
+
+    return null;
+  }
 
   visualizarPlanejamento(){
     this.router.navigate([
@@ -230,8 +254,10 @@ export class ResponderQuestaoProgramacao implements OnInit, AfterViewInit {
                   if (this.usuario != null) {
                     Submissao.getRecentePorQuestao(this.questao, this.usuario).subscribe(
                       (submissao: Submissao) => {
-                        if (submissao != null) this.submissao = submissao;
-                        //this.pausaIde = false;
+                        if (submissao != null){
+                          this.submissao = this.prepararSubmissao(submissao);
+                        }   
+                        
   
                         this.atualizarCardErros();
                       }
@@ -296,12 +322,12 @@ export class ResponderQuestaoProgramacao implements OnInit, AfterViewInit {
     }
   }
 
-  listarSubmissao() {
+  /* listarSubmissao() {
     this.router.navigate([
       'main',
       { outlets: { principal: ['estudantes-questao', this.assunto.id, this.questao.id] } },
     ]);
-  }
+  } */
 
   /*enviarErroEditor() {
     let submissao = this.prepararSubmissao();
@@ -314,23 +340,4 @@ export class ResponderQuestaoProgramacao implements OnInit, AfterViewInit {
 
   }*/
 
-  
-
-  /*change(event){
-    event.preventDefault();
-    console.log("DOM value changed" ,event);
-    console.log("component value", this.elementRef.nativeElement);
-    this.zone.run(() => { console.log('Do change detection here');
-    //this.cdr.detectChanges();
-    if(this.elementRef.nativeElement.querySelectorAll('input')[0].outerHTML === event.target.outerHTML)
-    {
-        console.log('Inside value updation');
-
-        this.customerForm.controls['name'].setValue(event.target.value);
-    }
-});
-    setTimeout(() =>{
-        this.cdr.markForCheck();
-    })
-}*/
 }

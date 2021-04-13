@@ -17,6 +17,7 @@ import { DiarioProgramacaoComponent } from '../srl/monitoramento/diario-programa
 import { TipoDiarioProgramacao } from '../model/srl/enum/tipoDiarioProgramacao';
 import DiarioProgramacao from '../model/srl/diarioProgramacao';
 import { LoginService } from '../login-module/login.service';
+import ErroPreCompilacao from '../model/errors/analise-pre-compilacao/erroPrecompilacao';
 
 @Injectable({
   providedIn: 'root',
@@ -126,8 +127,15 @@ export class MonitorService {
     // Se já tiver sido exibida as duas, não faz nada.
   } */
 
-  monitorarErrosEstudante(questao: QuestaoProgramacao, estudante) {
+
+
+  monitorarErrosEstudante(questao: QuestaoProgramacao, estudante, erro:ErroPreCompilacao) {
     let enviarMensagem = false;
+    let mensagens:Mensagem[] = []
+    if(erro != null){
+      mensagens.push(new Mensagem("Há um erro no seu algoritmo...", null));
+      mensagens.push(new Mensagem("Possivelmente "+erro.mensagem, null));
+    }
     Submissao.getPorQuestao(questao, estudante).subscribe((submissoes) => {
       const errorQuotient = this.calcularErrorQuotient(submissoes);
       // Estabelecemos esse valor de 30% de error quotient arbitrariamente.
@@ -149,10 +157,11 @@ export class MonitorService {
             const mensagemSuporte = MensagemSuporteMonitor.getMensagem(
               getLabelPorCategoriaNumero(submissao.erro.categoria)
             );
-            if (mensagemSuporte != null && Array.isArray(mensagemSuporte.mensagens)) {
+            if (mensagemSuporte != null && mensagemSuporte.texto != null) {
+              mensagens.push(mensagemSuporte);
               let registroMensagem = new RegistroMensagemChatbot(null, mensagemSuporte, estudante);
               registroMensagem.save().subscribe(() => {});
-              this.chatbot.enviarMensagem(mensagemSuporte.mensagens);
+              
               DiarioProgramacao.exibirDiario(this.login.getUsuarioLogado(), TipoDiarioProgramacao.reflexao).subscribe(visibilidade=>{
                 if(visibilidade){
                   this.dialogService.open(DiarioProgramacaoComponent, {
@@ -167,32 +176,33 @@ export class MonitorService {
             if (errorQuotient > 0.7) {
               if (!this.suporteMotivacional.includes(questao.id)) {
                 this.suporteMotivacional.push(questao.id);
-                const mensagemSuporte = MensagemSuporteMonitor.getMensagemMotivacional();
-                if (mensagemSuporte != null && Array.isArray(mensagemSuporte.mensagens)) {
+                const mensagemSuporteMotivacional = MensagemSuporteMonitor.getMensagem("mensagensMotivacionais");
+                if (mensagemSuporteMotivacional != null && mensagemSuporteMotivacional.texto != null) {
                   let registroMensagem = new RegistroMensagemChatbot(
                     null,
-                    mensagemSuporte,
+                    mensagemSuporteMotivacional.texto,
                     estudante
                   );
                   registroMensagem.save().subscribe(() => {});
-                  this.chatbot.enviarMensagem(mensagemSuporte.mensagens);
+                  mensagens.push(mensagemSuporteMotivacional);
                 }
               }
             }
           }
         }
       }
+      this.chatbot.enviarMensagem(mensagens);
     });
   }
 
-  oferecerMaisAjuda() {
+  /* oferecerMaisAjuda() {
     if (this.suporteRecente == CategoriaErro.nameError) {
       const mensagemSuporte = MensagemSuporteMonitor.getMensagem(
         getLabelPorCategoriaNumero('NameErrorParteDois')
       );
-      if (mensagemSuporte != null && Array.isArray(mensagemSuporte.mensagens)) {
+      if (mensagemSuporte.texto != null) {
         this.chatbot.enviarMensagem(mensagemSuporte.mensagens);
       }
     }
-  }
+  } */
 }

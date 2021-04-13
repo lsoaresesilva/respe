@@ -12,6 +12,7 @@ import { keyframes } from '@angular/animations';
 import { Cacheable } from 'ts-cacheable';
 import { Util } from './util';
 import { database } from 'firebase';
+import Questao from './questoes/questao';
 
 @Collection('submissoes')
 export default class Submissao extends Document {
@@ -244,10 +245,11 @@ export default class Submissao extends Document {
           if (submissaoRecente == null) {
             submissaoRecente = submissao;
           } else {
-            let dataRecente = submissaoRecente.data.toDate();
-            let dataSubmissao = submissao.data.toDate();
-            if (submissaoRecente.data.toDate().getTime() <= submissao.data.toDate().getTime()) {
-              submissaoRecente = submissao;
+
+            if (submissaoRecente.data != null && submissao.data != null) {
+              if (submissaoRecente.data.toDate().getTime() <= submissao.data.toDate().getTime()) {
+                submissaoRecente = submissao;
+              }
             }
           }
         });
@@ -287,6 +289,20 @@ export default class Submissao extends Document {
         Submissao.getAll([
           new Query('estudanteId', '==', estudante.pk()),
           new Query('questaoId', '==', questao.id),
+        ]).subscribe((submissoes) => {
+          observer.next(submissoes);
+          observer.complete();
+        });
+      }
+    });
+  }
+
+  static getSubmissaoConcluidaPorQuestao(questao:QuestaoProgramacao){
+    return new Observable((observer) => {
+      if (questao != null){
+        Submissao.getAll([
+          new Query('questaoId', '==', questao.id),
+          new Query("estudantes", "array-contains", {status:true})
         ]).subscribe((submissoes) => {
           observer.next(submissoes);
           observer.complete();

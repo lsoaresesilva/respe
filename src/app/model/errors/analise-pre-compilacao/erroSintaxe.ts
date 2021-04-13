@@ -1,6 +1,7 @@
 import Erro from '../erro';
 import Submissao from '../../submissao';
 import ErroPreCompilacao from './erroPrecompilacao';
+import { TipoErro } from './enum/tipoErro';
 
 export default abstract class ErroSintaxe {
   static erros(submissao: Submissao): ErroPreCompilacao[] {
@@ -16,8 +17,8 @@ export default abstract class ErroSintaxe {
   /**
    * Exemplo:
    * if x == :
-   * @param linha 
-   * @returns 
+   * @param linha
+   * @returns
    */
   static apenasUmaComparacao(linha) {
     if (ErroSintaxe.isLinhaProgramacaoValida(linha)) {
@@ -65,10 +66,7 @@ export default abstract class ErroSintaxe {
 
   static semComparacao(linha) {
     if (ErroSintaxe.isLinhaProgramacaoValida(linha)) {
-      if (
-        !ErroSintaxe.hasOperadorComparacao(linha) &&
-        !ErroSintaxe.hasOperadorIn(linha)
-      ) {
+      if (!ErroSintaxe.hasOperadorComparacao(linha) && !ErroSintaxe.hasOperadorIn(linha)) {
         return true;
       }
     }
@@ -97,13 +95,9 @@ export default abstract class ErroSintaxe {
     return false;
   }
 
-  
-
-
   static hasAndOr(linha) {
     return linha.search(/(\sand\s|\sor\s)/) == -1 ? false : true;
   }
-
 
   static isParComparacao(linha) {
     return linha.search(
@@ -113,37 +107,34 @@ export default abstract class ErroSintaxe {
       : true;
   }
 
-
-
-  static hasComentario(linha){
+  static hasComentario(linha) {
     let resultado = linha.match(/\#/);
     if (resultado != undefined && resultado.length > 0) {
-        return true;
+      return true;
     }
 
     return false;
-}
+  }
 
-
-  static splitComentario(linha){
+  static splitComentario(linha) {
     let resultado = linha.match(/([A-Za-z])\w+.*\#/);
 
     if (resultado != undefined && resultado.length > 0) {
-        let nomeVariavel = resultado[0].replace("#", "");
-        return nomeVariavel;
+      let nomeVariavel = resultado[0].replace('#', '');
+      return nomeVariavel;
     }
 
     return null;
-}
+  }
 
-  static comentarioInicioLinha(linha){
+  static comentarioInicioLinha(linha) {
     let resultado = linha.match(/^\#|^\s+\#/); // Considera no início da linha ou com espaços e depois vir o comentário.
     if (resultado != undefined && resultado.length > 0) {
-        return true;
+      return true;
     }
 
     return false;
-}
+  }
 
   static isFunction(linha) {
     return (linha.match(/def/g) || []).length == 0 ? false : true;
@@ -159,12 +150,10 @@ export default abstract class ErroSintaxe {
 
   static ausenciaDeDoisPontos(linha) {
     if (ErroSintaxe.isLinhaProgramacaoValida(linha)) {
-      
       if (this.isLinhaProgramacaoValida(linha)) {
         linha = linha.trim();
         return (linha.match(/\:$/g) || []).length == 0 ? true : false;
       }
-  
     }
 
     return false;
@@ -172,48 +161,57 @@ export default abstract class ErroSintaxe {
 
   static faltaParentese(linha) {
     if (ErroSintaxe.isLinhaProgramacaoValida(linha)) {
-        let quantidadeParentesesAbertura = (linha.match(/\(/g) || []).length;
-        let quantidadeParentesesFechamento = (linha.match(/\)/g) || []).length;
+      let quantidadeParentesesAbertura = (linha.match(/\(/g) || []).length;
+      let quantidadeParentesesFechamento = (linha.match(/\)/g) || []).length;
 
-        if (quantidadeParentesesAbertura != quantidadeParentesesFechamento) {
-            return true;
-        }
-        return false;
+      if (quantidadeParentesesAbertura != quantidadeParentesesFechamento) {
+        return true;
+      }
+      return false;
     }
 
     return false;
-
-
-}
+  }
 
   static comparacaoApenasUmaIgualdade(linha) {
     if (this.isLinhaProgramacaoValida(linha)) {
       // verificar se é uma condição
-      
-        let regex = /["'a-zA-Z0-9]\s*=\s*["'a-zA-Z0-9]/g;
-        let resultado = regex.exec(linha);
-        if (resultado != null && resultado.length > 0) {
-          return true;
-        }
+
+      let regex = /["'a-zA-Z0-9]\s*=\s*["'a-zA-Z0-9]/g;
+      let resultado = regex.exec(linha);
+      if (resultado != null && resultado.length > 0) {
+        return true;
+      }
     }
 
     return false;
   }
 
-  static exportar(erros:any){
-    if(Array.isArray(erros)){
+  static getMainError(traceback) {
+    if (
+      traceback.search('if') != -1 ||
+      traceback.search('elif') != -1 ||
+      traceback.search('else') != -1
+    ) {
+      return TipoErro.condicao;
+    } else if (
+      (traceback.search('for') != -1 || traceback.search('while') != -1) &&
+      traceback.search('while parsing') == -1
+    ) {
+      return TipoErro.repeticao;
+    }
+  }
 
-
-    let arrayFiltrado = [];
-    erros.forEach(errosAlgoritmo=>{
-      errosAlgoritmo.forEach(erro => {
-        arrayFiltrado.push(erro.tipoErro)
+  static exportar(erros: any) {
+    if (Array.isArray(erros)) {
+      let arrayFiltrado = [];
+      erros.forEach((errosAlgoritmo) => {
+        errosAlgoritmo.forEach((erro) => {
+          arrayFiltrado.push(erro.tipoErro);
+        });
       });
-    });
-
 
       return arrayFiltrado;
     }
   }
-
 }

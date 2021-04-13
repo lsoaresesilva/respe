@@ -154,7 +154,7 @@ describe('Testes de análise de sintaxe para variáveis', () => {
   xit("Deve identificar strings que faltam aspas", ()=>{
     let algoritmo = "nome = 'leonardo"
     let s = new Submissao(null, algoritmo, null, null, null);
-    let stringValida = ErroSintaxeVariavel.isStringValida(s.linhasAlgoritmo()[0]);
+    let stringValida = ErroSintaxeVariavel.faltaAspas(s.linhasAlgoritmo()[0]);
     expect(stringValida).toBeFalsy();
   })
 

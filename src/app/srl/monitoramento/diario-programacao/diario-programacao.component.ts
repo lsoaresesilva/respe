@@ -49,7 +49,7 @@ export class DiarioProgramacaoComponent implements OnInit {
 
   getTexto(){
     if(this.tipo == TipoDiarioProgramacao.planejamento){
-      return "Descreva as ações que você realizará para resolver esse problema."
+      return "Descreva as ações que você realizará para resolver esse problema.<br>Não pense na solução do algorito (que variáveis utilizar, entre outros),<br>mas em o que você faz até começar a escrita do programa."
     }else if(this.tipo == TipoDiarioProgramacao.monitoramento){
       return "Para que você está com algumas dificuldades...<br>Como você pensa resolver esses problemas?"
     }else if(this.tipo == TipoDiarioProgramacao.reflexao){

@@ -23,16 +23,21 @@ export class ChatbotService {
     this.mensagemUpdate = new EventEmitter();
   }
 
-  enviarMensagem(mensagem: Mensagem | any[]) {
+  enviarMensagem(mensagem: Mensagem | Mensagem[]) {
     this.reinicializar();
     this.apresentarSaudacao();
-    if (Array.isArray(mensagem)) {
+    if(Array.isArray(mensagem)){
+      this.mensagens = mensagem;
+    }else{
+      this.mensagens.push(mensagem);
+    }
+    /* if (Array.isArray(mensagem)) {
       mensagem.forEach((msg) => {
         this.mensagens.push(new Mensagem(msg, this.usuario));
       });
     } else {
       this.mensagens.push(mensagem);
-    }
+    } */
     this.mensagemUpdate.emit();
   }
 
@@ -54,7 +59,7 @@ export class ChatbotService {
     if (!this.saudacao) {
       this.saudacao = true;
       this.enviarMensagem(
-        new Mensagem(MensagemSuporteMonitor.getMensagem('saudacao').mensagens[0], this.usuario)
+        MensagemSuporteMonitor.getSaudacao()
       );
     }
   }

@@ -98,6 +98,7 @@ import { DialogService, DynamicDialogModule } from 'primeng/dynamicdialog';
     DiarioProgramacaoComponent,
   ],
   imports: [
+    SharedModule,
     DynamicDialogModule,
     CodeHighlighterModule,
     MessagesModule,

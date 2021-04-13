@@ -1,15 +1,15 @@
 <div class="p-grid">
   <div class="p-col-12">
 
-    <button *ngIf="isMudancaEditorPermitida == true" type="button" pButton
-      (click)="mudancaEditor()" icon="{{iconModoEditor}}"></button>
+    
 
     <app-editor-programacao style="margin-left:10px" *ngIf="this.questao != undefined" id="editorProgramacao"
       [modoVisualizacao]="modoVisualizacao" [submissao]="submissao" [questao]="questao" [assunto]="assunto"
       [atividadeGrupo]="atividadeGrupo" [modoExecucao]="modoExecucao" [questaoCorrecao]="questaoCorrecao"
       [grupo]="grupo" (onError)="erroEditor($event)" (onVisualization)="onVisualization($event)"
       (onServidorError)="onServidorError($event)" (onSubmit)="onEditorSubmit($event)"
-      (onEditorReady)="onEditorReady($event)">
+      (onEditorReady)="onEditorReady($event)"
+      (onEditorMudancaExecucao)="onEditorMudancaExecucacao($event)">
     </app-editor-programacao>
 
   </div>

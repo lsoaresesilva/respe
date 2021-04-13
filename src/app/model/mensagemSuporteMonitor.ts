@@ -1,16 +1,31 @@
 import mensagemJson from '../../assets/mensagensSuporte.json';
+import Mensagem from './chatbot/mensagem';
 
 export default class MensagemSuporteMonitor {
   constructor(public mensagens) {}
 
-  static getMensagem(id) {
-    return mensagemJson.mensagens[id];
+  static getRandomInt(min, max) {
+    min = Math.ceil(min);
+    max = Math.floor(max);
+    return Math.floor(Math.random() * (max - min)) + min;
   }
 
-  static getMensagemMotivacional(){
-    let min = Math.ceil(1);
-    let max = Math.floor(5);
-    let numero = Math.floor(Math.random() * (max - min)) + min;
-    return mensagemJson.mensagens["mensagensMotivacionais"][numero];
+  static getMensagem(id):Mensagem {
+
+    let mensagens = mensagemJson.mensagens[id].mensagens;
+
+    if(mensagens != null){
+      
+  
+      let numeroAleatorio = this.getRandomInt(0,mensagens.length);
+  
+      return new Mensagem(mensagemJson.mensagens[id].mensagens[numeroAleatorio], null);
+    }
+    
   }
+
+  static getSaudacao():Mensagem{
+    return new Mensagem(mensagemJson.mensagens["saudacao"].mensagens[0], null);
+  }
+
 }

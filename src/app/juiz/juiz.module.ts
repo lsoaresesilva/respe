@@ -13,12 +13,11 @@ import { CardModule } from 'primeng/card';
 import {TooltipModule} from 'primeng/tooltip';
 import { CheckboxModule } from 'primeng/checkbox';
 import { ListarQuestoesComponent } from './listar-questoes/listar-questoes.component';
-import { MessageService } from 'primeng/api';
+import { MessageService, SharedModule } from 'primeng/api';
 import { HttpClientModule } from '@angular/common/http';
 import { CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
 import { AnalyticsModule } from '../analytics-module/analytics.module';
 import { ResponderQuestaoProgramacao } from './editor/responder-questao-programacao/responder-questao-programacao.component';
-import { DadosQuestaoComponent } from './dados-questao/dados-questao.component';
 
 import { AutoCompleteModule } from 'primeng/autocomplete';
 import { ToastModule } from 'primeng/toast';
@@ -80,14 +79,16 @@ import { ConsolePadraoComponent } from './editor/console-padrao/console-padrao.c
 import { EditorTrintadoisbitsComponent } from './editor/editor-trintadoisbits/editor-trintadoisbits.component';
 import { ConsoleErroComponent } from './editor/console-erro/console-erro.component';
 import { IdeComponent } from './editor/ide/ide.component';
+import { DadosQuestaoComponent } from './dados-questao/dados-questao.component';
 
 @NgModule({
   declarations: [
+    BreadcrumbAssuntoComponent, 
+    DadosQuestaoComponent,
     VisualizarTestesComponent,
     CadastrarQuestoesComponent,
     CadastrarTesteCaseComponent,
     ListarQuestoesComponent,
-    DadosQuestaoComponent,
     ResponderQuestaoProgramacao,
     ResponderQuestaoProgramacao,
     VisualizarExecucacao,
@@ -104,7 +105,6 @@ import { IdeComponent } from './editor/ide/ide.component';
     EditorProgramacaoComponent,
     ResponderQuestaoProgramacaoLiteComponent,
     ConsoleComponent,
-    BreadcrumbAssuntoComponent,
     ApresentacaoEntradasTestcaseComponent,
     ListarQuestoesSequenciaComponent,
     BtnAvancarQuestaoComponent,
@@ -154,10 +154,10 @@ import { IdeComponent } from './editor/ide/ide.component';
     ScrollPanelModule,
     SharedPipesModule,
     ProgressBarModule,
+    SharedModule
   ],
   exports: [
     VisualizarTestesComponent,
-    DadosQuestaoComponent,
     CadastrarQuestoesComponent,
     ListarQuestoesComponent,
     CadastrarTesteCaseComponent,
@@ -168,8 +168,9 @@ import { IdeComponent } from './editor/ide/ide.component';
     ListarQuestoesFechadasComponent,
     VisualizarQuestaoFechadaComponent,
     ResponderQuestaoProgramacaoLiteComponent,
-    BreadcrumbAssuntoComponent,
-    BtnAvancarQuestaoComponent
+    BtnAvancarQuestaoComponent,
+    BreadcrumbAssuntoComponent, 
+    DadosQuestaoComponent
   ],
   entryComponents: [
     ExibirSolucaoComponent
