@@ -23,7 +23,7 @@
 
 
     <p-splitButton
-      *ngIf="this.login.getUsuarioLogado().grupoExperimento != 4  && modoVisualizacao == false && atividadeGrupo == null"
+      *ngIf="this.login.getUsuarioLogado().grupoExperimento != 4  && modoVisualizacao == false"
       label="Vizualizar execução" style="margin-left:10px" icon="pi pi-eye" [model]="items" class="p-button-warning">
     </p-splitButton>
     <p-progressBar *ngIf="processandoVisualizacao == true" mode="indeterminate"

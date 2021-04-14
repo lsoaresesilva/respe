@@ -560,17 +560,18 @@ export class EditorProgramacaoComponent implements AfterViewInit, OnChanges, OnI
       if(this.questaoCorrecao == null){
         submissao.save().subscribe((resposta)=>{
           this.submissao = resposta;
-          this.onSubmit.emit(this.submissao);
         });
       }else{
         let correcaoAlgoritmo = new CorrecaoAlgoritmo(null, submissao, this.usuario, this.assunto, this.questaoCorrecao);
         correcaoAlgoritmo.save().subscribe(()=>{
           this.submissao = submissao;
-          this.onSubmit.emit(this.submissao);
         });
       }
       
     }
+
+
+    this.onSubmit.emit(this.submissao);
     
   }
 

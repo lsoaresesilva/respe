@@ -19,6 +19,8 @@ export class GravacaoVideoService {
   URL = environment.URL;
   client: IAgoraRTCClient;
   token;
+  accessKey;
+  secretKey;
 
   constructor(private http: HttpClient, private login: LoginService) {
     this.customerKey = '4aec77bf9b8543ea96d3c797f90540ee';
@@ -67,10 +69,10 @@ export class GravacaoVideoService {
         uid: uid,
       };
 
-      return new Observable<string>((observer) => {
+      return new Observable<any>((observer) => {
         this.http.post(url, json, httpOptions).subscribe(
           (resposta) => {
-            observer.next(resposta['token']);
+            observer.next(resposta);
             observer.complete();
           },
           (err) => {
@@ -83,7 +85,19 @@ export class GravacaoVideoService {
 
   async entrarSala(grupo) {
     if (grupo != null) {
-      this.token = await this.obterToken(grupo.id, this.login.getUsuarioLogado()).toPromise();
+      let dadosAcesso = await this.obterToken(grupo.id, this.login.getUsuarioLogado()).toPromise();
+      if(dadosAcesso["token"] != null){
+        this.token = dadosAcesso["token"];
+      }
+
+      if(dadosAcesso["accessKey"] != null){
+        this.accessKey = dadosAcesso["accessKey"];
+      }
+
+      if(dadosAcesso["secretKey"] != null){
+        this.secretKey = dadosAcesso["secretKey"];
+      }
+
       let uid = await this.client.join(this.APPID, grupo.id, this.token);
 
       let localAudioTrack = await AgoraRTC.createMicrophoneAudioTrack();
@@ -177,10 +191,10 @@ export class GravacaoVideoService {
                 avFileType: ['hls'],
               },
               storageConfig: {
-                accessKey: 'AKIAYH5BWMPMPG5VULCS',
+                accessKey: this.accessKey,
                 region: 1,
                 bucket: '32bits',
-                secretKey: 'ex4Il+B6Tyf8Jck3elVG5SHBGoRqACJEZxgayKfZ',
+                secretKey: this.secretKey,
                 vendor: 1,
                 fileNamePrefix: [nomeCanalSemTraco],
               },

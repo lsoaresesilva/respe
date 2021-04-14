@@ -183,6 +183,8 @@ export class ResponderQuestaoProgramacao implements OnInit, AfterViewInit {
                     if(questao != null){
                       this.questao = questao;
   
+                      this.submissao = null;
+                      Editor.getInstance().codigo.next(null);
                       /* if (this.usuario != null) {
                         Submissao.getRecentePorQuestao(this.questao, this.usuario).subscribe(
                           (submissao: Submissao) => {
