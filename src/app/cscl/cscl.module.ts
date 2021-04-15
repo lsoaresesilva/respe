@@ -39,15 +39,15 @@ import { VisualizarAtividadeGrupoProfessorComponent } from './visualizar-ativida
 import { VisualizarSolucoesAtividadeGrupoComponent } from './visualizar-solucoes-atividade-grupo/visualizar-solucoes-atividade-grupo.component';
 
 import { HighlightModule, HIGHLIGHT_OPTIONS } from 'ngx-highlightjs';
-import { EditorColaborativoComponent } from './editor-colaborativo/editor-colaborativo.component';
 import { CodemirrorModule } from '@ctrl/ngx-codemirror';
+import { EditorDocumentacaoProjetoComponent } from './editor-documentacao-projeto/editor-documentacao-projeto.component';
  
 
 @NgModule({
   declarations: [ComentariosCodigoComponent, BoxComentarioComponent, 
     BoxNovoComentarioComponent, VisualizarConteudoComponent, SanitizeHtmlDirective, ConteudoProgramacaoComponent, 
     VisualizarSubmissaoQuestaoComponent, ListarEstudantesSubmissaoComponent, ListarPostagensComponent, CadastrarPostagemComponent, 
-    VisualizarPostagemComponent, CriacaoGrupoComponent, ListarAtividadesGrupoComponent, ListarAtividadesGrupoProfessorComponent, VisualizarAtividadeGrupoProfessorComponent, VisualizarSolucoesAtividadeGrupoComponent, EditorColaborativoComponent],
+    VisualizarPostagemComponent, CriacaoGrupoComponent, ListarAtividadesGrupoComponent, ListarAtividadesGrupoProfessorComponent, VisualizarAtividadeGrupoProfessorComponent, VisualizarSolucoesAtividadeGrupoComponent, EditorDocumentacaoProjetoComponent],
 
   imports: [
     CalendarModule,
@@ -73,7 +73,7 @@ import { CodemirrorModule } from '@ctrl/ngx-codemirror';
 
   ],
 
-  exports: [EditorColaborativoComponent, ListarAtividadesGrupoComponent, ListarPostagensComponent, ComentariosCodigoComponent, VisualizarConteudoComponent, VisualizarSubmissaoQuestaoComponent, ListarEstudantesSubmissaoComponent],
+  exports: [ListarAtividadesGrupoComponent, ListarPostagensComponent, ComentariosCodigoComponent, VisualizarConteudoComponent, VisualizarSubmissaoQuestaoComponent, ListarEstudantesSubmissaoComponent],
   providers: [
     {
       provide: HIGHLIGHT_OPTIONS,
