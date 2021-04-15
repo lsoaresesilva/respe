@@ -1,7 +1,7 @@
 import { ChangeDetectorRef, Component, Input, NgZone, OnChanges, OnInit, SimpleChanges, ViewChild } from '@angular/core';
 import { BehaviorSubject } from 'rxjs';
 import { LoginService } from 'src/app/login-module/login.service';
-import MensagemChat from 'src/app/model/chat/mensagemChat';
+import MensagemChat from 'src/app/model/cscl/chat/mensagemChat';
 import { ChatService } from '../../cscl/chat.service';
 
 @Component({
@@ -24,7 +24,7 @@ export class ChatGrupoComponent implements OnInit, OnChanges {
 
   constructor(private loginService:LoginService, private chatService:ChatService, private changeDetectorRef: ChangeDetectorRef ) {
     this.usuarioLogado = this.loginService.getUsuarioLogado();
-    this.mensagem = new MensagemChat(null, this.usuarioLogado, "", this.atividadeGrupo);
+    this.mensagem = new MensagemChat(null, this.usuarioLogado, "", this.grupo, this.atividadeGrupo);
     this.visibilidade = true;
 
     this.mensagens = [];
@@ -50,6 +50,12 @@ export class ChatGrupoComponent implements OnInit, OnChanges {
   ngOnChanges(changes: SimpleChanges): void {
     if(this.atividadeGrupo != null){
       this.mensagem.atividadeGrupo = this.atividadeGrupo;
+
+      
+    }
+
+    if(this.grupo != null){
+      this.chatService.carregarMensagens(this.grupo);
     }
 
     
@@ -57,6 +63,10 @@ export class ChatGrupoComponent implements OnInit, OnChanges {
 
   ngOnInit(): void {
    
+  }
+
+  getHeader(estudante){
+    return estudante instanceof Object?estudante.nome:estudante;
   }
 
 

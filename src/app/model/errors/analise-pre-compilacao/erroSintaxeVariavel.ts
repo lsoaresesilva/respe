@@ -11,6 +11,7 @@ import { TiposErrosVariaveis } from './enum/tiposErrosVariaveis';
 /**
  * Incluir:
  * 1. Verificação de booleano com true e false com a primeira letra minúscula
+ * 2. Detectar True ou False entre aspas
  * 2. Verificação de variáveis declaradas fora de escopo.
  */
 export default class ErroSintaxeVariavel extends ErroSintaxe {
@@ -67,13 +68,16 @@ export default class ErroSintaxeVariavel extends ErroSintaxe {
 
     let variaveisNaoDeclaradas = ErroSintaxeVariavel.variaveisNaoDeclaradas(submissao);
     if (variaveisNaoDeclaradas.length > 0) {
-      erros.push(
-        new ErroPreCompilacao(
-          0,
-          ErrosVariaveis.variavelNAoDeclarada,
-          TiposErrosVariaveis.variavelNaoDeclarada
-        )
-      );
+      variaveisNaoDeclaradas.forEach(v=>{
+        erros.push(
+          new ErroPreCompilacao(
+            v.linha,
+            ErrosVariaveis.variavelNAoDeclarada,
+            TiposErrosVariaveis.variavelNaoDeclarada
+          )
+        );
+      })
+     
     }
     /* variaveisNaoDeclaradas.forEach(variavel => {
             

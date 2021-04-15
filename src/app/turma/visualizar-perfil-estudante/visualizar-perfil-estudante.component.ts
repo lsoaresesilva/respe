@@ -29,10 +29,10 @@ export class VisualizarPerfilEstudanteComponent implements OnInit {
 
   ngOnInit() {
     this.route.params.subscribe((params) => {
-      Usuario.get(params['id']).subscribe((estudante) => {
+      /*Usuario.get(params['id']).subscribe((estudante) => {
         this.estudante = estudante;
       });
-      Submissao.getAll(new Query('estudanteId', '==', params['id'])).subscribe((resultado) => {
+       Submissao.getAll(new Query('estudanteId', '==', params['id'])).subscribe((resultado) => {
         this.submissoes = resultado;
         this.buscarQuestoes(resultado);
       });
@@ -41,8 +41,8 @@ export class VisualizarPerfilEstudanteComponent implements OnInit {
         (pageTracks) => {
           this.pageTracks = pageTracks;
       });
-
-      /* Assunto.getAll(new Query('isAtivo', '==', true)).subscribe((assuntos) => {
+ */
+      Assunto.getAll(new Query('isAtivo', '==', true)).subscribe((assuntos) => {
         AutoInstrucao.getAll(new Query('estudanteId', '==', params['id'])).subscribe(
           (instrucoes) => {
             assuntos.forEach((assunto) => {
@@ -58,8 +58,18 @@ export class VisualizarPerfilEstudanteComponent implements OnInit {
                       autoInstrucao['condicoes'] = instrucoes[i].condicoes;
                     }
 
+                    if (instrucoes[i].repeticoes != null) {
+                      autoInstrucao['repeticoes'] = instrucoes[i].repeticoes;
+                    }
+
+                    if (instrucoes[i].funcoes != null) {
+                      autoInstrucao['funcoes'] = instrucoes[i].funcoes;
+                    }
+
+                    questao["assunto"] = assunto.nome;
+
                     this.planejamentos.push({
-                      questao: questao.nomeCurto,
+                      questao: questao,
                       autoInstrucao: autoInstrucao,
                     });
                   }
@@ -68,7 +78,7 @@ export class VisualizarPerfilEstudanteComponent implements OnInit {
             });
           }
         );
-      }); */
+      });
 
       this.planejamentos = [];
     });

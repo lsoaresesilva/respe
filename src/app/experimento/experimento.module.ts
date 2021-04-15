@@ -9,9 +9,10 @@ import { FormsModule } from '@angular/forms';
 import {ScrollPanelModule} from 'primeng/scrollpanel';
 import { FieldsetModule } from 'primeng/fieldset';
 import { RadioButtonModule } from 'primeng/radiobutton';
+import { AnaliseSelfInstructionComponent } from './analise-self-instruction/analise-self-instruction.component';
 
 @NgModule({
-  declarations: [PreTesteComponent, QuestaoComponent, QuestionarioAutorregulacaoComponent],
+  declarations: [PreTesteComponent, QuestaoComponent, QuestionarioAutorregulacaoComponent, AnaliseSelfInstructionComponent],
   imports: [
     CommonModule,
     ButtonModule,

@@ -1,12 +1,13 @@
 import { Injectable } from '@angular/core';
 import { Socket } from 'ngx-socket-io';
 import { BehaviorSubject, Observable, Subject } from 'rxjs';
-import MensagemChat from '../model/chat/mensagemChat';
+import MensagemChat from '../model/cscl/chat/mensagemChat';
 import Usuario from '../model/usuario';
 import * as io from 'socket.io-client';
 import { LoginService } from '../login-module/login.service';
 import Sharedb from 'sharedb/lib/client';
 import { environment } from 'src/environments/environment';
+import Grupo from '../model/cscl/grupo';
 
 @Injectable({
   providedIn: 'root',
@@ -29,6 +30,14 @@ export class ChatService {
     this.socketChat.on('mensagemRecebida', (message) => {
       this.observerChat.next(JSON.parse(message));
     });
+  }
+
+  carregarMensagens(grupo:Grupo){
+    MensagemChat.carregarMensagens(grupo).subscribe(mensagens=>{
+      mensagens.forEach(mensagem=>{
+        this.observerChat.next(mensagem);
+      })
+    })
   }
 
 
@@ -58,60 +67,15 @@ export class ChatService {
         // TODO: implementar o logout que remove o estudante da lista de estudantes logados.
       });
     });
-
-    /**
-     * Socket para a sincronização do editor
-     */
-    /* this.socket = new WebSocket(environment.URL_SERVIDOR_DOC);
-    let _this = this;
-    this.socket.onopen = function (event) {
-      // Dados para abertura da conexão
-      let data = JSON.stringify({
-        sala: sala,
-        estudante: usuarioLogado.stringfiy(),
-        tipo: 'ACESSO',
-      });
-      _this.socket.send(data);
-
-      _this.socket.onmessage = function (event) {
-        let dadoRecebido = JSON.parse(event.data);
-
-        if (dadoRecebido.tipo == 'CONEXAO') {
-          if (dadoRecebido.status == 'OK') {
-            _this.connection = new Sharedb.Connection(_this.socket);
-
-            _this.connection.on('receive', function (request) {
-              let data = request.data;
-              if (data.tipo == 'CHAT') {
-                request.data = null;
-                _this.observerChat.next(data);
-              }
-            });
-
-            _this.doc = _this.connection.get('documents', sala);
-
-            _this.doc.subscribe(function (err) {
-              if (err) throw err;
-
-              // Primeiro callback quando o documento é recebido do servidor
-              _this.observerCodigo.next(_this.doc);
-
-              //callback(_this.doc);
-
-              _this.doc.on('op', function (op, source) {
-                // Chamado quando o documento é atualizado
-                _this.observerCodigo.next(_this.doc);
-                //callback(_this.doc)
-              });
-            });
-          }
-        }
-      };
-    }; */
   }
 
   enviarMensagem(mensagem: MensagemChat) {
     if (mensagem != null) {
+
+      mensagem.save().subscribe(() => {
+         
+      });
+
       return new Observable((observer) => {
         let data = JSON.stringify({
           sala: this.sala,
@@ -121,9 +85,7 @@ export class ChatService {
         });
 
         this.socketChat.emit('enviarMensagem', data);
-        mensagem.save().subscribe(() => {
-          console.log('Salvou');
-        });
+        
         observer.next();
         observer.complete();
       });

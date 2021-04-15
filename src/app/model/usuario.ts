@@ -158,6 +158,10 @@ export default class Usuario extends Document {
       
     });
   }
+  
+  static get(id):Observable<Usuario>{
+    return super.get(id);
+  }
 
   /*atualizarTempo(){
         return new Observable(observer=>{

@@ -4,7 +4,7 @@
         <app-cabecacho-chat [grupo]="grupo"></app-cabecacho-chat>
     </p-header>
     <p-scrollPanel [style]="{height: '15vw', overflow:'auto'}" #scroll>
-        <p-card *ngFor="let m of mensagens$ | async" header={{m.estudante}}>
+        <p-card *ngFor="let m of mensagens$ | async" header={{getHeader(m.estudante)}}>
             
             {{m.texto}}
         </p-card>

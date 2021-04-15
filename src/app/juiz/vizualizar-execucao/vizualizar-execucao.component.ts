@@ -16,7 +16,6 @@ export class VisualizarExecucacao implements OnInit {
   @Input()
   editor;
 
-  decorations;
 
   visualizacao;
 
@@ -80,7 +79,7 @@ export class VisualizarExecucacao implements OnInit {
         this.visualizacao = visualizacao;
       }
       
-      this.destacarLinha(this.linhaAtual, 'possivelSolucao')
+      Editor.getInstance().destacarLinha(this.linhaAtual, 'possivelSolucao', this.editor)
       //this.mudancaLinha.emit(this.linhaAtual);
     }else{
       /* this.linha[0] = this.traceExecucao.trace[0]; */
@@ -88,7 +87,7 @@ export class VisualizarExecucacao implements OnInit {
       if(visualizacao.length > 0){
         this.visualizacao = visualizacao;
       }
-      this.destacarLinha(0, 'possivelSolucao')
+      Editor.getInstance().destacarLinha(0, 'possivelSolucao', this.editor)
     }
     
   }
@@ -110,32 +109,7 @@ export class VisualizarExecucacao implements OnInit {
   }
 
 
-  destacarLinha(linha, status) {
-    if (linha != NaN && linha != undefined) {
-      linha = parseInt(linha);
-      if (linha > 0 && linha <= this.editor.getModel().getLineCount()) {
-        const lineLength = this.editor.getModel().getLineLength(linha);
-        let decorations = [
-          {
-            range: new monaco.Range(linha, 1, linha, lineLength),
-            options: {
-              isWholeLine: true,
-              className: status,
-            },
-          },
-        ];
-
-        
-        if( Editor.getInstance().decorations == null){
-          Editor.getInstance().decorations = this.editor.deltaDecorations([], [{ range: new monaco.Range(1,1,1,1), options : { } }]);
-        }
-          
-        Editor.getInstance().decorations = this.editor.deltaDecorations(Editor.getInstance().decorations, decorations);
-        
-        
-      }
-    }
-  }
+  
 
   getTipoVariavelNaoPrimitiva(posicao){
     console.log("ble")

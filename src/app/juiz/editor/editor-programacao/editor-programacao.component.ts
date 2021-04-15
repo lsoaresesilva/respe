@@ -99,7 +99,7 @@ export class EditorProgramacaoComponent implements AfterViewInit, OnChanges, OnI
   grupo;
 
   statusBtnEnvioAtividadeGrupo;
-
+  erroAtivo; // Se existir um erro ativo, é guardado nessa variável
   usuario;
   salvamentoEdicoes;
 
@@ -352,6 +352,16 @@ export class EditorProgramacaoComponent implements AfterViewInit, OnChanges, OnI
     editorProgramacaoComponentInstance.editor = editor;
     editorProgramacaoComponentInstance.onEditorReady.emit(editor);
 
+     editorProgramacaoComponentInstance.editor.onKeyDown(function (e) {
+      let linhaAtual = editor.getPosition().lineNumber;
+      if(editorProgramacaoComponentInstance.erroAtivo != null){
+        if(editorProgramacaoComponentInstance.erroAtivo.linha == linhaAtual){
+          editorProgramacaoComponentInstance.removerDestaquesErro()
+        }
+      }
+
+    }); 
+
     if (
       editorProgramacaoComponentInstance.atividadeGrupo != null &&
       editorProgramacaoComponentInstance.grupo.id != null
@@ -392,10 +402,7 @@ export class EditorProgramacaoComponent implements AfterViewInit, OnChanges, OnI
         })
       } */
 
-      Editor.getInstance().decorations = this.editor.deltaDecorations(
-        Editor.getInstance().decorations,
-        []
-      );
+      Editor.getInstance().removerDecorations(this.editor);
     }
 
     this.onVisualization.emit({
@@ -531,6 +538,7 @@ export class EditorProgramacaoComponent implements AfterViewInit, OnChanges, OnI
   }
 
   submissaoRealizada(submissao){
+    this.erroAtivo = null;
     this.processandoSubmissao = false;
     this.submissao = submissao;
     if(submissao.isFinalizada()){
@@ -599,7 +607,8 @@ export class EditorProgramacaoComponent implements AfterViewInit, OnChanges, OnI
     if (this.atividadeGrupo == null) {
       let parseError = new ParseAlgoritmo(this.submissao);
       let erro = parseError.getHint();
-      
+      this.erroAtivo = erro[0];
+      this.destacarErro();
       
       this.monitor.monitorarErrosEstudante(this.questao, this.usuario, erro[0]);
     }
@@ -619,5 +628,18 @@ export class EditorProgramacaoComponent implements AfterViewInit, OnChanges, OnI
     }
 
     
+  }
+
+  destacarErro(){
+    Editor.getInstance().criarHover(this.erroAtivo, this.editor);
+    setTimeout(() => {
+      Editor.getInstance().destacarLinha(this.erroAtivo.linha, "linhaErro", this.editor)
+    }, 1000);
+    
+  }
+
+  removerDestaquesErro(){
+    Editor.getInstance().removerDecorations(this.editor);
+    Editor.getInstance().removerDisposableHover();
   }
 }

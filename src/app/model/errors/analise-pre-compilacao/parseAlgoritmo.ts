@@ -35,6 +35,7 @@ export default class ParseAlgoritmo {
   }
 
   getHint(){
+    // TODO: Deve considerar o traceback para indicar dos erros qual o mais apropriado para mostrar
     if(this.submissao.erro.traceback != null){
       let categoria = ErroCompilacaoFactory.construir(this.submissao.erro.traceback);
       if(categoria instanceof NameError){

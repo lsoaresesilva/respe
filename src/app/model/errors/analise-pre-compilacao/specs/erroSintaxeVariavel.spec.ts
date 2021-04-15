@@ -191,7 +191,11 @@ describe('Testes de análise de sintaxe para variáveis', () => {
 
 
     let errosSyntax = [];
-    submissoesEstudantes['submissoes'].forEach((s) => {
+
+    let quantidade = submissoesEstudantes['submissoes'].length;
+    console.log(quantidade);
+
+    /* submissoesEstudantes['submissoes'].forEach((s) => {
       if (s['erro'] != null && s['erro']['traceback'] != null) {
         let categoria = ErroCompilacaoFactory.construir(s['erro']['traceback']);
         if (categoria instanceof NameError) {
@@ -204,7 +208,7 @@ describe('Testes de análise de sintaxe para variáveis', () => {
     });
 
     let resultado = ErroSintaxeVariavel.exportar(errosSyntax);
-    console.log(JSON.stringify(resultado));
+    console.log(JSON.stringify(resultado)); */
 
     expect(errosSyntax.length).toBe(118);
   });
