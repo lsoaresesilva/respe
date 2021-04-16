@@ -199,6 +199,8 @@ export default abstract class ErroSintaxe {
       traceback.search('while parsing') == -1
     ) {
       return TipoErro.repeticao;
+    }else{
+      return TipoErro.funcao;
     }
   }
 

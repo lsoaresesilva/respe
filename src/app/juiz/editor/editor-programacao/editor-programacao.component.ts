@@ -625,8 +625,11 @@ export class EditorProgramacaoComponent implements AfterViewInit, OnChanges, OnI
     if (this.atividadeGrupo == null) {
       let parseError = new ParseAlgoritmo(this.submissao);
       let erro = parseError.getHint();
-      this.erroAtivo = erro[0];
-      this.destacarErro();
+      if(erro.length > 0){
+        this.erroAtivo = erro[0];
+        this.destacarErro();
+      }
+      
       
       this.monitor.monitorarErrosEstudante(this.questao, this.usuario, erro[0]);
     }

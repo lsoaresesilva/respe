@@ -99,7 +99,7 @@ export class CriacaoGrupoComponent implements OnInit {
   }
 
   criarSala() {
-    let grupos = AtividadeGrupo.criarGrupos(this.estudantesSelecionados);
+    let grupos = AtividadeGrupo.criarGrupos(this.estudantesSelecionados, 3);
 
     let salvamentosAtividades = [];
 

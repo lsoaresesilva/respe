@@ -40,11 +40,14 @@ export default class ParseAlgoritmo {
       let categoria = ErroCompilacaoFactory.construir(this.submissao.erro.traceback);
       if(categoria instanceof NameError){
         return ErroSintaxeVariavel.erros(this.submissao);
-      }else if(categoria instanceof SyntaxError){
-        if( ErroSintaxe.getMainError(this.submissao.erro.traceback) == TipoErro.condicao){
+      }else if(categoria instanceof SyntaxError){ // TODO: Modificar para coletar todos os erros no código e apontá-los
+        let principalErro = ErroSintaxe.getMainError(this.submissao.erro.traceback);
+        if( principalErro == TipoErro.condicao){
           return ErroSintaxeCondicional.erros(this.submissao);
-        }else{
+        }else if(principalErro == TipoErro.repeticao){
           return ErroSintaxeRepeticao.erros(this.submissao);
+        }else{
+          return ErroSintaxeFuncao.erros(this.submissao);
         }
       }
     }

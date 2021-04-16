@@ -91,7 +91,7 @@ export default abstract class Erro extends Document {
     ranking[top].total = erro.total;
   }
 
-  static getTextoErro(tipo) {
+  /* static getTextoErro(tipo) {
     switch (tipo) {
       case 1:
         return TipoErro.numeroDecimalComVirgulaTexto;
@@ -116,7 +116,7 @@ export default abstract class Erro extends Document {
       default:
         return '';
     }
-  }
+  } */
 
   // TODO: Não está sendo utilizado, pois essa funcionalidade de identificar os problemas foi desativada.
   /*static calcularFrequenciaPorTipoErro(dados): any {

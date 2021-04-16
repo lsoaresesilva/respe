@@ -3,6 +3,8 @@ import Erro from '../erro';
 import Submissao from '../../submissao';
 import ErroSintaxeVariavel from './erroSintaxeVariavel';
 import ErroPreCompilacao from './erroPrecompilacao';
+import { ErrosFuncoes } from './enum/errosFuncoes';
+import { TipoErrosFuncoes } from './enum/tiposErrosFuncoes';
 
 /**
  * Falta fazer: while True:
@@ -20,17 +22,17 @@ export default class ErroSintaxeFuncao extends ErroSintaxe {
             let linhaCodigo = linhasCodigo[i];
 
 
-            /*if (ErroSintaxeFuncao.faltaParentese(linhaCodigo)) {
-                erros.push(new Erro(null, numeroLinha, "Você esqueceu de um parêntesis na declaração/uso de uma função. Erro na linha: " + numeroLinha, TipoErro.faltaParentesis, submissao));
+            if (ErroSintaxeFuncao.faltaParentese(linhaCodigo)) {
+                erros.push(new ErroPreCompilacao(numeroLinha, ErrosFuncoes.faltaParentesis, TipoErrosFuncoes.faltaParentesis));
             }
 
             if (ErroSintaxeFuncao.faltaVirgula(linhaCodigo)) {
-                erros.push(new Erro(null, numeroLinha, "Você esqueceu de uma , (vírgula) para separar os parâmetros de uma função. Erro na linha: " + numeroLinha, TipoErro.faltaVirgulaParametros, submissao));
+                erros.push(new ErroPreCompilacao(numeroLinha, ErrosFuncoes.faltaVirgula, TipoErrosFuncoes.faltaVirgula));
             }
 
-            if (ErroSintaxeFuncao.ausenciaDeDoisPontos(linhaCodigo)) {
-                erros.push(new Erro(null, numeroLinha, "Ao criar uma função é preciso incluir : (dois pontos) ao término da instrução. Por exemplo: def nome-funcao(): . Erro na linha: " + numeroLinha, TipoErro.faltaDoisPontosFuncao, submissao));
-            }*/
+            if (ErroSintaxeFuncao.faltaDoisPontos(linhaCodigo)) {
+                erros.push(new ErroPreCompilacao(numeroLinha, ErrosFuncoes.ausenciaDeDoisPontos, TipoErrosFuncoes.faltaDoisPontosFuncao));
+            }
 
 
         }
@@ -38,7 +40,7 @@ export default class ErroSintaxeFuncao extends ErroSintaxe {
         return erros;
     }
 
-    static ausenciaDeDoisPontos(linha) {
+    static faltaDoisPontos(linha) {
         if (ErroSintaxe.isLinhaProgramacaoValida(linha)) {
             if (ErroSintaxe.isFunction(linha)) {
                 return ErroSintaxe.ausenciaDeDoisPontos(linha);
