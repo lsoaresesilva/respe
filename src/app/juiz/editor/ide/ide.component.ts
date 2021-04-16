@@ -21,6 +21,8 @@ import { DiarioProgramacaoComponent } from 'src/app/srl/monitoramento/diario-pro
 export class IdeComponent {
 
   @Input()
+  questaoColaborativa;
+  @Input()
   questaoCorrecao;
   @Input()
   grupo;
@@ -34,6 +36,11 @@ export class IdeComponent {
   assunto?;
   @Input()
   modoExecucao;
+
+  @Input()
+  isMudancaEditorPermitida;
+
+
   modoVisualizacao;
   traceExecucao;
   usuario;

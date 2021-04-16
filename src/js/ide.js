@@ -1,3 +1,4 @@
+/* eslint-disable no-unused-vars */
 /**
  * O editor de programação exige que o código salvo seja um array, mas no BD é salvo como string. Faz a conversão neste método
  * @param  codigo
@@ -36,72 +37,106 @@ function executarPython(cb){
 
 }
 */
-let intro = introJs();
+const intro = introJs();
 let editorProgramacao = null;
 let editorProgramacaoPadrao = null;
-let decorations = null;
 // TODO: usar Observable para disparar quando o editor estiver pronto. Assim o model Editor pode ter acesso à instância do mônico quando ela estiver pronta.
 
-/* function destacarLinha(linha, status) {
-
-  if (linha != NaN && linha != undefined) {
-    linha = parseInt(linha);
-    if (linha > 0 && linha <= editor.getModel().getLineCount()) {
-      const lineLength = editor.getModel().getLineLength(linha);
-      monaco.editor.setModelMarkers(editor.getModel(), 'lets', { source: 'ESLint', startLineNumber: linha, startColumn: 1, endColumn: lineLength, endLineNumber: linha, severity: 3, message: "blabla" });
-
-    }
-  }
-}
-
-function limparCores() {
-  editor.deltaDecorations([], [
-    { range: new monaco.Range(1, 1, 1, 1), options: {} },
-  ]);
-
-  decorations = null;
-}
-
-function atualizarDecorations() {
-  if (decorations != null) {
-    editor.deltaDecorations([], decorations);
-  }
-} */
-
-function iniciarEditorColaborativo(id){
-
-  var config = {
+function iniciarEditorDocumentacaoProjeto(id) {
+  const config = {
     apiKey: 'AIzaSyDQ6iOddJoIKtSQhXe-JYPNbyZFAFIIiHM',
     authDomain: 'letscode-producao.firebaseapp.com',
     databaseURL: 'https://letscode-producao.firebaseio.com',
     projectId: 'letscode-producao',
     storageBucket: 'letscode-producao.appspot.com',
     messagingSenderId: '634494761220',
-    appId: '1:634494761220:web:08f409b7d6370966cf7851'
+    appId: '1:634494761220:web:08f409b7d6370966cf7851',
   };
 
- 
-  firebase.initializeApp(config);
+  if (firebase.apps.length > 0) {
+    firebase
+      .app()
+      .delete()
+      .then(() => {
+        firebase.initializeApp(config);
 
-  let firepadRef   = firebase.database().ref(id);
+        const firepadRef = firebase.database().ref(`documentacoesProjeto/${id}`);
 
-  /* let container = document.getElementById('firepad');
-  if (container != undefined) {
-    let codeMirror  = CodeMirror(container,{lineNumbers: true,
-      mode: 'python',
-      smartIndent: true});
-    let firepad = Firepad.fromCodeMirror(firepadRef,codeMirror,{richTextShortcuts:false,richTextToolbar:true,defaultText:'Hello, World!'});
-    return codeMirror;
-  } */
+        const codeMirror = CodeMirror(document.getElementById('firepad-container'), {});
 
-  if(editorProgramacao != null){
-    Firepad.fromMonaco(firepadRef, editorProgramacao);
+        const firepad = Firepad.fromCodeMirror(firepadRef, codeMirror, {
+          richTextToolbar: true,
+          defaultText: '',
+        });
+
+        codeMirror.setSize('100%', '100%');
+      });
+  } else {
+    firebase.initializeApp(config);
+
+    const firepadRef = firebase.database().ref(`documentacoesProjeto/${id}`);
+
+    const codeMirror = CodeMirror(document.getElementById('firepad-container'), {});
+
+    const firepad = Firepad.fromCodeMirror(firepadRef, codeMirror, {
+      richTextToolbar: true,
+      defaultText: '',
+    });
+
+    codeMirror.setSize('100%', '100%');
+  }
+
+  /* const firepadRef = firebase.database().ref(`documentacoesProjeto/${id}`);
+
+  const codeMirror = CodeMirror(document.getElementById('firepad-container'), {});
+
+  const firepad = Firepad.fromCodeMirror(firepadRef, codeMirror, {
+    richTextToolbar: true,
+    defaultText: '',
+  });
+
+  codeMirror.setSize('100%', '100%'); */
+
+  return null;
+}
+
+function iniciarEditorColaborativo(id) {
+  const config = {
+    apiKey: 'AIzaSyDQ6iOddJoIKtSQhXe-JYPNbyZFAFIIiHM',
+    authDomain: 'letscode-producao.firebaseapp.com',
+    databaseURL: 'https://letscode-producao.firebaseio.com',
+    projectId: 'letscode-producao',
+    storageBucket: 'letscode-producao.appspot.com',
+    messagingSenderId: '634494761220',
+    appId: '1:634494761220:web:08f409b7d6370966cf7851',
+  };
+
+  /* firebase.initializeApp(config); */
+  if (firebase.apps.length > 0) {
+    firebase
+      .app()
+      .delete()
+      .then(() => {
+        firebase.initializeApp(config);
+
+        const firepadRef = firebase.database().ref(id);
+
+        if (editorProgramacao != null) {
+          Firepad.fromMonaco(firepadRef, editorProgramacao);
+        }
+      });
+  } else {
+    firebase.initializeApp(config);
+
+    const firepadRef = firebase.database().ref(id);
+
+    if (editorProgramacao != null) {
+      Firepad.fromMonaco(firepadRef, editorProgramacao);
+    }
   }
 
   return null;
-}  
-
-  
+}
 
 function carregarIde(
   readOnly,
@@ -112,19 +147,18 @@ function carregarIde(
   isAtividadeGrupo = false
 ) {
   require(['vs/editor/editor.main'], function () {
-    //var appRoot = document.createElement("app-root");
-    //document.getElementById("body").appendChild(appRoot);
-    let container = document.getElementById('container');
+    // var appRoot = document.createElement("app-root");
+    // document.getElementById("body").appendChild(appRoot);
+    const container = document.getElementById('container');
     if (container != undefined) {
       if (editorProgramacao == null) {
         editorProgramacao = monaco.editor.create(container, {
           value: prepararCodigo(codigo.value).join('\n'),
           language: 'python',
-          readOnly: readOnly,
-          wordBasedSuggestions:!isAtividadeGrupo
+          readOnly,
         });
 
-        if(editorProgramacao != null){
+        if (editorProgramacao != null) {
           callback();
         }
 
@@ -134,8 +168,6 @@ function carregarIde(
       }
 
       callbackOnEditorLoad(instance, editorProgramacao);
-
-      
 
       // TODO: modificar para colocar em outra função exclusiva de comentário e só aparecer para comentários
       /* var div = document.getElementById('iconeNovoComentario');
@@ -175,31 +207,24 @@ function carregarIde(
   });
 }
 
-function carregarIdePadrao(
-  instance = null,
-  callbackOnEditorLoad = null,
-  codigo
-) {
+function carregarIdePadrao(instance = null, callbackOnEditorLoad = null, codigo) {
   require(['vs/editor/editor.main'], function () {
-    //var appRoot = document.createElement("app-root");
-    //document.getElementById("body").appendChild(appRoot);
-    let container = document.getElementById('containerPadrao');
+    // var appRoot = document.createElement("app-root");
+    // document.getElementById("body").appendChild(appRoot);
+    const container = document.getElementById('containerPadrao');
     if (container != undefined) {
       if (editorProgramacaoPadrao == null) {
         editorProgramacaoPadrao = monaco.editor.create(container, {
           value: prepararCodigo(codigo).join('\n'),
-          language: 'python'
+          language: 'python',
         });
 
-        
         /* editor.onKeyDown(function () {
           limparCores();
         }); */
       }
 
       callbackOnEditorLoad(instance, editorProgramacaoPadrao);
-
-      
 
       // TODO: modificar para colocar em outra função exclusiva de comentário e só aparecer para comentários
       /* var div = document.getElementById('iconeNovoComentario');

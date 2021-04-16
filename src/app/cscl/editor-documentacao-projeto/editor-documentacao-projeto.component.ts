@@ -28,8 +28,6 @@ export class EditorDocumentacaoProjetoComponent implements AfterViewInit {
         iniciarEditorDocumentacaoProjeto(params["grupoId"]);
       }
     })
-    
-    
   }
 
   abrirEditor(){

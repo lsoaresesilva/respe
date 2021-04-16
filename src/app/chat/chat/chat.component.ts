@@ -72,10 +72,15 @@ export class ChatGrupoComponent implements OnInit, OnChanges {
 
   
   enviar(){
-    this.chatService.enviarMensagem(this.mensagem).subscribe(()=>{
-      this.mensagem.texto = "";
-
-    })
+    if(this.grupo != null && this.atividadeGrupo != null){
+      this.mensagem.atividadeGrupo = this.atividadeGrupo;
+      this.mensagem.grupo = this.grupo;
+      this.chatService.enviarMensagem(this.mensagem).subscribe(()=>{
+        this.mensagem.texto = "";
+  
+      })
+    }
+    
   }
 
 }

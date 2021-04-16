@@ -68,6 +68,7 @@ import { VisualizarSolucoesAtividadeGrupoComponent } from './cscl/visualizar-sol
 import { ExportarDadosComponent } from './admin/exportar-dados/exportar-dados.component';
 import { ListarDiariosComponent } from './turma/listar-diarios/listar-diarios.component';
 import { ExportarDadosAnalyticsComponent } from './analytics-module/exportar-dados-analytics/exportar-dados-analytics.component';
+import { EditorDocumentacaoProjetoComponent } from './cscl/editor-documentacao-projeto/editor-documentacao-projeto.component';
 
 const routes: Routes = [
   {
@@ -182,6 +183,13 @@ const routes: Routes = [
         path: 'criar-grupo',
         component: CriacaoGrupoComponent,
         canActivate: [AuthGuard, ProfessorGuard],
+        outlet: 'principal',
+      },
+
+      {
+        path: 'visualizar-documentacao-projeto/:atividadeGrupoId/:grupoId/:assuntoId/:questaoId',
+        component: EditorDocumentacaoProjetoComponent,
+        canActivate: [AuthGuard],
         outlet: 'principal',
       },
 

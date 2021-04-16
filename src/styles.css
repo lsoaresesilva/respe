@@ -12,6 +12,12 @@
   font-weight: bold;
 }
 
+.linhaErro {
+  background: #f5a9a9 !important;
+  cursor: pointer;
+  font-weight: bold;
+}
+
 .possivelSolucao {
   background: #a9f5a9 !important;
   cursor: pointer;

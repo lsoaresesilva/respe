@@ -101,7 +101,7 @@ export class CadastrarQuestoesComponent implements OnInit {
       }
 
       if (this.isQuestaoColaborativa) {
-        let questaoColaborativa = new QuestaoColaborativa(null, this.questao);
+        let questaoColaborativa = new QuestaoColaborativa(null, this.questao, null);
         if (this.assunto.questoesColaborativas == null) {
           this.assunto.questoesColaborativas = [];
         }

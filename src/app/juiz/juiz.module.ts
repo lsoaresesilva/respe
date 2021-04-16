@@ -80,6 +80,8 @@ import { EditorTrintadoisbitsComponent } from './editor/editor-trintadoisbits/ed
 import { ConsoleErroComponent } from './editor/console-erro/console-erro.component';
 import { IdeComponent } from './editor/ide/ide.component';
 import { DadosQuestaoComponent } from './dados-questao/dados-questao.component';
+import {TerminalModule, TerminalService} from 'primeng/terminal';
+
 
 @NgModule({
   declarations: [
@@ -121,6 +123,7 @@ import { DadosQuestaoComponent } from './dados-questao/dados-questao.component';
     CommonModule,
     SplitButtonModule,
     SkeletonModule,
+    TerminalModule,
     TimelineModule,
     CsclModule,
     TooltipModule,

@@ -67,11 +67,12 @@ export class ResponderQuestaoProgramacao implements OnInit, AfterViewInit {
   /* CSCL */
   atividadeGrupo:AtividadeGrupo;
   grupo:Grupo;
-  
-
+  questaoColaborativa;
+  isMudancaEditorPermitida;
+  apresentarTestesCases;
   questaoCorrecao;
 
-
+  modoExecucao;
   modoVisualizacao;
 
   constructor(
@@ -90,7 +91,9 @@ export class ResponderQuestaoProgramacao implements OnInit, AfterViewInit {
       observer.complete();
     });
 
-
+    this.apresentarTestesCases = true;
+    this.isMudancaEditorPermitida = true;
+    this.modoExecucao = ModoExecucao.execucao32bits;
   }
 
   ngAfterViewInit(): void {
@@ -177,9 +180,15 @@ export class ResponderQuestaoProgramacao implements OnInit, AfterViewInit {
                   assunto['questoesColaborativas'].length > 0
                 ) {
   
-                  let questaoColaborativa = this.assunto.getQuestaoColaborativaById(params['questaoId']);
-                  if(questaoColaborativa != null && questaoColaborativa.questao != null){
-                    let questao = QuestaoProgramacao._construirIndividual(questaoColaborativa.questao, this.assunto) as QuestaoProgramacao;
+                  this.questaoColaborativa = this.assunto.getQuestaoColaborativaById(params['questaoId']);
+                  if(this.questaoColaborativa.isOpenEnded == true){
+                    this.apresentarTestesCases = false;
+                    this.modoExecucao = ModoExecucao.execucaoPadrao;
+                    this.isMudancaEditorPermitida = false;
+                  }
+                  
+                  if(this.questaoColaborativa != null && this.questaoColaborativa.questao != null){
+                    let questao = QuestaoProgramacao._construirIndividual(this.questaoColaborativa.questao, this.assunto) as QuestaoProgramacao;
                     if(questao != null){
                       this.questao = questao;
   

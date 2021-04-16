@@ -38,7 +38,7 @@
             <div class="p-col-12">
               <dados-questao [assunto]="assunto" [questao]="questao" [submissao]="submissao" id="dadosQuestao"></dados-questao>
               <div id="testsCases">
-                <app-visualizar-testes [questao]="questao" [submissao]="submissao"></app-visualizar-testes>
+                <app-visualizar-testes [questao]="questao" [submissao]="submissao" *ngIf="apresentarTestesCases == true"></app-visualizar-testes>
                </div>
                
             </div>
@@ -54,7 +54,7 @@
 
         <div class="p-col-8">
          
-          <app-ide [submissao]="submissao" [isMudancaEditorPermitida]="true" [modoExecucao]="1" [questaoCorrecao]="questaoCorrecao" [grupo]="grupo"  [atividadeGrupo]="atividadeGrupo" [questao]="questao" [assunto]="assunto" (onEditorError)="onEditorError($event)"></app-ide>
+          <app-ide [isMudancaEditorPermitida]="isMudancaEditorPermitida"  [submissao]="submissao" [modoExecucao]="modoExecucao" [questaoCorrecao]="questaoCorrecao" [grupo]="grupo"  [atividadeGrupo]="atividadeGrupo" [questao]="questao" [questaoColaborativa]="questaoColaborativa" [assunto]="assunto" (onEditorError)="onEditorError($event)"></app-ide>
 
         </div>
       </div>

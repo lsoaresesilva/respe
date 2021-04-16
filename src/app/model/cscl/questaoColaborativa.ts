@@ -6,7 +6,7 @@ export default class QuestaoColaborativa{
 
     questao:QuestaoProgramacao
 
-    constructor(public id, questao){
+    constructor(public id, questao, public isOpenEnded){
         if(id == null){
             this.id = Util.uuidv4();
         }
@@ -35,7 +35,8 @@ export default class QuestaoColaborativa{
             objetosQuestoes.push(
               new QuestaoColaborativa(
                 questao.id,
-                questao.questao
+                questao.questao,
+                questao.isOpenEnded
               )
             );
           });

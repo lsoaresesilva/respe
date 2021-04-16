@@ -90,6 +90,8 @@ export class EditorProgramacaoComponent implements AfterViewInit, OnChanges, OnI
   modoVisualizacao;
   @Input()
   questaoCorrecao;
+  @Input()
+  questaoColaborativa;
 
   /*CSCL*/
 
@@ -102,6 +104,8 @@ export class EditorProgramacaoComponent implements AfterViewInit, OnChanges, OnI
   erroAtivo; // Se existir um erro ativo, é guardado nessa variável
   usuario;
   salvamentoEdicoes;
+
+  apresentarVisualizacao;
 
   @Input() set submissao(value) {
     this._submissao = value;
@@ -158,7 +162,7 @@ export class EditorProgramacaoComponent implements AfterViewInit, OnChanges, OnI
     private componentFactoryResolver: ComponentFactoryResolver,
     private monitor: MonitorService
   ) {
-    
+    this.apresentarVisualizacao = true;
     this.onEditorMudancaExecucao = new EventEmitter();
     this.onVisualization = new EventEmitter();
     this.onSubmit = new EventEmitter();
@@ -193,6 +197,10 @@ export class EditorProgramacaoComponent implements AfterViewInit, OnChanges, OnI
     if(this.submissao != null){
 
     this.atualizarEditorComSubmissao();
+    }
+
+    if(this.questaoColaborativa != null && this.questaoColaborativa.isOpenEnded == true){
+      this.apresentarVisualizacao = false;
     }
   }
 
@@ -488,6 +496,16 @@ export class EditorProgramacaoComponent implements AfterViewInit, OnChanges, OnI
       this.questao
     );
     return submissao;
+  }
+
+  visualizarDocumentacaoProjeto(){
+
+    // http://localhost:4200/main/(principal:entrar-grupo/lZNkcSLF78nSlUlfrTdD/e5d78aa2-17f4-4bd9-8494-031a7f54d9ba/PU0EstYupXgDZ2a57X0X/aea71e7d-1211-4869-b211-53008ed61820)
+    // http://localhost:4200/main/(principal:entrar-grupo/lZNkcSLF78nSlUlfrTdD/e5d78aa2-17f4-4bd9-8494-031a7f54d9ba/PU0EstYupXgDZ2a57X0X/aea71e7d-1211-4869-b211-53008ed61820)
+    this.router.navigate([
+      'main',
+      { outlets: { principal: ['visualizar-documentacao-projeto', this.atividadeGrupo.pk(), this.grupo.id, this.assunto.pk(), this.questaoColaborativa.id] } },
+    ]);
   }
 
   enviarRespostaAtividadeGrupo() {
