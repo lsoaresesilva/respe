@@ -36,6 +36,7 @@ import { ChatbotModule } from './chatbot/chatbot.module';
 
 import { SocketIoModule, SocketIoConfig } from 'ngx-socket-io';
 import { DiarioProgramacaoComponent } from './srl/monitoramento/diario-programacao/diario-programacao.component';
+import { SistemaAprendizagemModule } from './sistema-aprendizagem/sistema-aprendizagem.module';
 
 const config: SocketIoConfig = { url: 'http://localhost:3001', options: {} };
 
@@ -43,8 +44,8 @@ const config: SocketIoConfig = { url: 'http://localhost:3001', options: {} };
   schemas: [CUSTOM_ELEMENTS_SCHEMA],
   declarations: [AppComponent, MainComponent],
   imports: [
-    //SocketIoModule.forRoot(config),
     AdminModule,
+    SistemaAprendizagemModule,
     ChatbotModule,
     SrlModule,
     GamificationModule,

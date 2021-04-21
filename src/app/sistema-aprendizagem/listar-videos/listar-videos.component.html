@@ -1,0 +1,15 @@
+<p-table [value]="videos$ | async">
+    <ng-template pTemplate="header">
+      <tr>
+        <th>Nome</th>
+        <th>Descrição</th>
+      </tr>
+    </ng-template>
+    <ng-template pTemplate="body" let-video>
+      <tr>
+        <td style="cursor: pointer;" (click)="abrirVideo(video)">{{ video.nome }}</td>
+        <td>{{ video.descricao }}</td>
+      </tr>
+    </ng-template>
+  </p-table>
+  

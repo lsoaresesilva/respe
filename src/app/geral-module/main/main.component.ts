@@ -111,6 +111,10 @@ export class MainComponent implements OnInit {
     this.apresentarPretestRegulacao();
   }
 
+  abrirMateriaisEstudo(){
+    this.router.navigate(['main', { outlets: { principal: ['listar-videos'] } }]);
+  }
+
   abrirDesempenho() {
     this.router.navigate(['main', { outlets: { principal: ['meu-desempenho'] } }]);
   }

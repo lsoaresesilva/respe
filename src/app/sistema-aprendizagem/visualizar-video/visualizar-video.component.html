@@ -1,0 +1,11 @@
+<div *ngIf="video != null" class="p-grid">
+    <div class="p-col-2"></div>
+    <div class="p-col-8">
+        <h1>{{video.nome}}</h1>
+        <iframe id="videoPlayer" width="860" height="450" [src]="video.link" title="YouTube video player" frameborder="0"
+            allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+            allowfullscreen (click)="gerenciarClique($event)"></iframe>
+    </div>
+
+    <div class="p-col-2"></div>
+</div>

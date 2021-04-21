@@ -465,6 +465,14 @@ export default class Submissao extends Document {
     return json;
   }
 
+  hasErroSintaxe(){
+    if(this.erro != null){
+      return true;
+    }else{
+      return false;
+    }
+  }
+
   isFinalizada() {
     if (this.resultadosTestsCases != null && this.resultadosTestsCases.length > 0) {
       let sucesso = true;

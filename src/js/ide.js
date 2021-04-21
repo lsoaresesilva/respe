@@ -83,6 +83,8 @@ function iniciarEditorDocumentacaoProjeto(id) {
       defaultText: '',
     });
 
+    
+
     codeMirror.setSize('100%', '100%');
   }
 
@@ -131,7 +133,16 @@ function iniciarEditorColaborativo(id) {
     const firepadRef = firebase.database().ref(id);
 
     if (editorProgramacao != null) {
-      Firepad.fromMonaco(firepadRef, editorProgramacao);
+      let f = Firepad.fromMonaco(firepadRef, editorProgramacao);
+      f.on('ready', function() {
+        let x = y;
+        let z = x;
+      });
+
+      f.on('synced', function(ev) {
+        let x = y;
+        let z = x;
+      });
     }
   }
 

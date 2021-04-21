@@ -69,6 +69,8 @@ import { ExportarDadosComponent } from './admin/exportar-dados/exportar-dados.co
 import { ListarDiariosComponent } from './turma/listar-diarios/listar-diarios.component';
 import { ExportarDadosAnalyticsComponent } from './analytics-module/exportar-dados-analytics/exportar-dados-analytics.component';
 import { EditorDocumentacaoProjetoComponent } from './cscl/editor-documentacao-projeto/editor-documentacao-projeto.component';
+import { ListarVideosComponent } from './sistema-aprendizagem/listar-videos/listar-videos.component';
+import { VisualizarVideoComponent } from './sistema-aprendizagem/visualizar-video/visualizar-video.component';
 
 const routes: Routes = [
   {
@@ -176,6 +178,23 @@ const routes: Routes = [
         canActivate: [AuthGuard, AdminGuard],
         outlet: 'principal',
       },
+
+       /* Sistema aprendizagem */
+
+       {
+        path: 'listar-videos',
+        component: ListarVideosComponent,
+        canActivate: [AuthGuard],
+        outlet: 'principal',
+      },
+
+      {
+        path: 'visualizar-video/:videoId',
+        component: VisualizarVideoComponent,
+        canActivate: [AuthGuard],
+        outlet: 'principal',
+      },
+
 
       /* CSCL */
 
