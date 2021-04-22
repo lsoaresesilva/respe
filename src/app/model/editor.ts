@@ -5,10 +5,19 @@ import { QuestaoProgramacao } from './questoes/questaoProgramacao';
 declare var monaco: any;
 
 export default class Editor {
+  
+  instanciaMonaco;
+
   private constructor() {
     //this.editor = editor;
     this.codigo = new BehaviorSubject("");
     this.configuracao = new ConfiguracaoEditor();
+    this.codigo.subscribe((codigo)=>{
+      if(this.instanciaMonaco != null){
+        this.instanciaMonaco.getModel().setValue(codigo);
+      }
+      
+    }) // Houve mudança no código
   }
 
   static instance;
@@ -38,11 +47,11 @@ export default class Editor {
     
   }
 
-  destacarLinha(linha, status, editor) {
+  destacarLinha(linha, status) {
     if (linha != NaN && linha != undefined) {
       linha = parseInt(linha);
-      if (linha > 0 && linha <= editor.getModel().getLineCount()) {
-        const lineLength = editor.getModel().getLineLength(linha);
+      if (linha > 0 && linha <= this.instanciaMonaco.getModel().getLineCount()) {
+        const lineLength = this.instanciaMonaco.getModel().getLineLength(linha);
         let decorations = [
           {
             range: new monaco.Range(linha, 1, linha, lineLength),
@@ -55,20 +64,20 @@ export default class Editor {
 
         
         if( this.decorations == null){
-          this.decorations = editor.deltaDecorations([], [{ range: new monaco.Range(1,1,1,1), options : { } }]);
+          this.decorations = this.instanciaMonaco.deltaDecorations([], [{ range: new monaco.Range(1,1,1,1), options : { } }]);
         }
           
-        this.decorations = editor.deltaDecorations(this.decorations, decorations);
+        this.decorations = this.instanciaMonaco.deltaDecorations(this.decorations, decorations);
         
         
       }
     }
   }
 
-  criarHover(erro:ErroPreCompilacao, editor){
+  criarHover(erro:ErroPreCompilacao){
 
-    if (erro.linha > 0 && erro.linha <= editor.getModel().getLineCount()) {
-      const lineLength = editor.getModel().getLineLength(erro.linha);
+    if (erro.linha > 0 && erro.linha <= this.instanciaMonaco.getModel().getLineCount()) {
+      const lineLength = this.instanciaMonaco.getModel().getLineLength(erro.linha);
       this.hoverDisposable = monaco.languages.registerHoverProvider('python', {
         provideHover: function (model, position) {
           return {
@@ -85,11 +94,14 @@ export default class Editor {
     
   }
 
-  removerDecorations(editor){
-    this.decorations = editor.deltaDecorations(
-      this.decorations,
-      []
-    );
+  removerDecorations(){
+    if(this.instanciaMonaco != null){
+      this.decorations = this.instanciaMonaco.deltaDecorations(
+        this.decorations,
+        []
+      );
+    }
+    
   }
 
   removerDisposableHover(){

@@ -1,6 +1,5 @@
 import ErroSintaxe from './erroSintaxe';
 import Erro from '../erro';
-import Submissao from '../../submissao';
 import ErroSintaxeCondicional from './erroSintaxeCondiconal';
 import ErroSintaxeFuncao from './erroSintaxeFuncao';
 import ErroPreCompilacao from './erroPrecompilacao';
@@ -15,13 +14,12 @@ import { TiposErrosVariaveis } from './enum/tiposErrosVariaveis';
  * 2. Verificação de variáveis declaradas fora de escopo.
  */
 export default class ErroSintaxeVariavel extends ErroSintaxe {
-  static erros(submissao: Submissao): ErroPreCompilacao[] {
+  static erros(algoritmo): ErroPreCompilacao[] {
     let erros: ErroPreCompilacao[] = [];
-    let linhasCodigo = submissao.linhasAlgoritmo();
 
-    for (let i = 0; i < linhasCodigo.length; i++) {
+    for (let i = 0; i < algoritmo.length; i++) {
       let numeroLinha = i + 1;
-      let linhaCodigo = linhasCodigo[i];
+      let linhaCodigo = algoritmo[i];
 
       if (ErroSintaxeVariavel.isString(linhaCodigo)) {
         if (ErroSintaxeVariavel.faltaAspas(linhaCodigo)) {
@@ -66,7 +64,7 @@ export default class ErroSintaxeVariavel extends ErroSintaxe {
       }
     }
 
-    let variaveisNaoDeclaradas = ErroSintaxeVariavel.variaveisNaoDeclaradas(submissao);
+    let variaveisNaoDeclaradas = ErroSintaxeVariavel.variaveisNaoDeclaradas(algoritmo);
     if (variaveisNaoDeclaradas.length > 0) {
       variaveisNaoDeclaradas.forEach(v=>{
         erros.push(
@@ -391,13 +389,12 @@ export default class ErroSintaxeVariavel extends ErroSintaxe {
       : false;
   }
 
-  static identificarVariaveisUtilizadas(submissao: Submissao) {
-    let linhasCodigo = submissao.linhasAlgoritmo();
+  static identificarVariaveisUtilizadas(algoritmo) {
 
     let variaveisUtilizadas = [];
 
-    for (let i = 0; i < linhasCodigo.length; i++) {
-      if (!this.isInput(linhasCodigo[i])) {
+    for (let i = 0; i < algoritmo.length; i++) {
+      if (!this.isInput(algoritmo[i])) {
         /*if (this.isInput(linhasCodigo[i])) {
                     let variavel = this.getVariavel(linhasCodigo[i])
                     if (!this.isVariavelIncluida(variavel, variaveisUtilizadas)) {
@@ -408,42 +405,42 @@ export default class ErroSintaxeVariavel extends ErroSintaxe {
 
         // Se for uma linha que tem comentário, então separa a parte com e sem comentário
         if (
-          ErroSintaxe.hasComentario(linhasCodigo[i]) &&
-          !ErroSintaxe.comentarioInicioLinha(linhasCodigo[i])
+          ErroSintaxe.hasComentario(algoritmo[i]) &&
+          !ErroSintaxe.comentarioInicioLinha(algoritmo[i])
         ) {
-          linhasCodigo[i] = ErroSintaxe.splitComentario(linhasCodigo[i]);
+          algoritmo[i] = ErroSintaxe.splitComentario(algoritmo[i]);
         }
 
-        if (!ErroSintaxe.comentarioInicioLinha(linhasCodigo[i])) {
-          if (ErroSintaxeCondicional.isIfOuElif(linhasCodigo[i])) {
-            let variaveis = this.getVariaveisCondicao(linhasCodigo[i]);
+        if (!ErroSintaxe.comentarioInicioLinha(algoritmo[i])) {
+          if (ErroSintaxeCondicional.isIfOuElif(algoritmo[i])) {
+            let variaveis = this.getVariaveisCondicao(algoritmo[i]);
             variaveis.forEach((variavel) => {
               if (!this.isVariavelIncluida(variavel, variaveisUtilizadas)) {
                 this.incluirVariavel(variavel, i + 1, variaveisUtilizadas);
               }
             });
-          } else if (ErroSintaxe.isChamadaFunction(linhasCodigo[i])) {
+          } else if (ErroSintaxe.isChamadaFunction(algoritmo[i])) {
             // Verifica as variáveis usadas em uma função
-            let variaveis = ErroSintaxeFuncao.getParametros(linhasCodigo[i]);
+            let variaveis = ErroSintaxeFuncao.getParametros(algoritmo[i]);
             variaveis.forEach((variavel) => {
               if (!this.isVariavelIncluida(variavel, variaveisUtilizadas)) {
                 this.incluirVariavel(variavel, i + 1, variaveisUtilizadas);
               }
             });
-            let funcaoUtilizada = ErroSintaxeVariavel.getFuncaoUtilizada(linhasCodigo[i]);
+            let funcaoUtilizada = ErroSintaxeVariavel.getFuncaoUtilizada(algoritmo[i]);
             if (!this.isVariavelIncluida(funcaoUtilizada, variaveisUtilizadas)) {
               this.incluirVariavel(funcaoUtilizada, i + 1, variaveisUtilizadas);
             }
           } else {
             // SE tiver sinais de operação +, -, * e / deve dividir a setença
-            let variaveis = this.getVariaveisOperacaoMatematica(linhasCodigo[i]);
+            let variaveis = this.getVariaveisOperacaoMatematica(algoritmo[i]);
             variaveis.forEach((variavel) => {
               if (!this.isVariavelIncluida(variavel, variaveisUtilizadas)) {
                 this.incluirVariavel(variavel, i + 1, variaveisUtilizadas);
               }
             });
 
-            variaveis = this.getVariaveisAtribuicaoSimples(linhasCodigo[i]);
+            variaveis = this.getVariaveisAtribuicaoSimples(algoritmo[i]);
             variaveis.forEach((variavel) => {
               if (!this.isVariavelIncluida(variavel, variaveisUtilizadas)) {
                 this.incluirVariavel(variavel, i + 1, variaveisUtilizadas);
@@ -499,12 +496,11 @@ export default class ErroSintaxeVariavel extends ErroSintaxe {
     return null;
   }
 
-  private static identificarVariaveisDeclaradas(submissao) {
-    let linhasCodigo = submissao.linhasAlgoritmo();
+  private static identificarVariaveisDeclaradas(algoritmo) {
 
     let variaveisDeclaradas = [];
 
-    for (let i = 0; i < linhasCodigo.length; i++) {
+    for (let i = 0; i < algoritmo.length; i++) {
       // REGEX: ([a-zA-Z])*.*= // TODO: está pegando apenas variáveis que não tem números
       /*let resultado = linhasCodigo[i].match(/([a-zA-Z])*.*=/);
 
@@ -516,7 +512,7 @@ export default class ErroSintaxeVariavel extends ErroSintaxe {
                 }
             }*/
 
-      let variavel = this.getVariavel(linhasCodigo[i]);
+      let variavel = this.getVariavel(algoritmo[i]);
       if (variavel != null) {
         if (!this.isVariavelIncluida(variavel, variaveisDeclaradas)) {
           variaveisDeclaradas.push({ nome: variavel, linha: i + 1 });
@@ -527,11 +523,11 @@ export default class ErroSintaxeVariavel extends ErroSintaxe {
     return variaveisDeclaradas;
   }
 
-  static variaveisNaoDeclaradas(submissao: Submissao) {
+  static variaveisNaoDeclaradas(algoritmo) {
     let variaveisNaoDeclaradas = [];
 
-    let variaveisUtilizadas = this.identificarVariaveisUtilizadas(submissao);
-    let variaveisDeclaradas = this.identificarVariaveisDeclaradas(submissao);
+    let variaveisUtilizadas = this.identificarVariaveisUtilizadas(algoritmo);
+    let variaveisDeclaradas = this.identificarVariaveisDeclaradas(algoritmo);
 
     variaveisUtilizadas.forEach((variavel) => {
       let utilizada = false;

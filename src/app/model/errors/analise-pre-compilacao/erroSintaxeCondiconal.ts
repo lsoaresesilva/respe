@@ -1,7 +1,6 @@
 import ErroSintaxe from './erroSintaxe';
 import Erro from '../erro';
 import { TipoErro } from './enum/tipoErro';
-import Submissao from '../../submissao';
 import ErroSintaxeVariavel from './erroSintaxeVariavel';
 import ErroPreCompilacao from './erroPrecompilacao';
 import { ErrosCondicoes } from './enum/errosCondicoes';
@@ -15,13 +14,12 @@ import * as jsonexport from "jsonexport/dist"
  * 2. elif True: ou if is_negativo: # comparações booleanas
  */
 export default class ErroSintaxeCondicional extends ErroSintaxe {
-  static erros(submissao: Submissao): ErroPreCompilacao[] {
+  static erros(algoritmo): ErroPreCompilacao[] {
     let erros: ErroPreCompilacao[] = [];
-    let linhasCodigo = submissao.linhasAlgoritmo();
 
-    for (let i = 0; i < linhasCodigo.length; i++) {
+    for (let i = 0; i < algoritmo.length; i++) {
       let numeroLinha = i + 1;
-      let linhaCodigo = linhasCodigo[i];
+      let linhaCodigo = algoritmo[i];
 
       // Se tiver mais de um operador matemático, então não deve fazer essa verificação
 

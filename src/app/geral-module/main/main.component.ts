@@ -111,6 +111,10 @@ export class MainComponent implements OnInit {
     this.apresentarPretestRegulacao();
   }
 
+  abrirEditorProgramacao(){
+    this.router.navigate(['main', { outlets: { principal: ['editor-programacao'] } }]);
+  }
+
   abrirDesempenho() {
     this.router.navigate(['main', { outlets: { principal: ['meu-desempenho'] } }]);
   }

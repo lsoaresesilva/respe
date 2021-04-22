@@ -17,14 +17,14 @@ export default class ParseAlgoritmo {
     
   erros;
 
-  constructor(private submissao:Submissao) {}
+  constructor(private algoritmo) {}
 
-  analisarErros() {
+  /* analisarErros() { TODO: Utilizar para fazer análise dos erros durante a digitação
     this.erros = [];
     this.erros = this.erros.concat(ErroSintaxeVariavel.erros(this.submissao));
     this.erros = this.erros.concat(ErroSintaxeCondicional.erros(this.submissao));
     this.erros = this.erros.concat(ErroSintaxeFuncao.erros(this.submissao));
-  }
+  } */
 
   hasErrors() {
     if (this.erros.length > 0) {
@@ -34,20 +34,21 @@ export default class ParseAlgoritmo {
     return false;
   }
 
-  getHint(){
+  // Obtém a indicação do erro mais provável de estar acontecendo a partir do traceback
+  getHint(traceback){
     // TODO: Deve considerar o traceback para indicar dos erros qual o mais apropriado para mostrar
-    if(this.submissao.erro.traceback != null){
-      let categoria = ErroCompilacaoFactory.construir(this.submissao.erro.traceback);
+    if(traceback != null){
+      let categoria = ErroCompilacaoFactory.construir(traceback);
       if(categoria instanceof NameError){
-        return ErroSintaxeVariavel.erros(this.submissao);
+        return ErroSintaxeVariavel.erros(this.algoritmo);
       }else if(categoria instanceof SyntaxError){ // TODO: Modificar para coletar todos os erros no código e apontá-los
-        let principalErro = ErroSintaxe.getMainError(this.submissao.erro.traceback);
+        let principalErro = ErroSintaxe.getMainError(traceback);
         if( principalErro == TipoErro.condicao){
-          return ErroSintaxeCondicional.erros(this.submissao);
+          return ErroSintaxeCondicional.erros(this.algoritmo);
         }else if(principalErro == TipoErro.repeticao){
-          return ErroSintaxeRepeticao.erros(this.submissao);
+          return ErroSintaxeRepeticao.erros(this.algoritmo);
         }else{
-          return ErroSintaxeFuncao.erros(this.submissao);
+          return ErroSintaxeFuncao.erros(this.algoritmo);
         }
       }
     }

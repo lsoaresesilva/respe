@@ -30,8 +30,6 @@ export class EditorTrintadoisbitsComponent implements OnInit {
   @Input()
   assunto;
   @Input()
-  monacoEditor;
-  @Input()
   processandoSubmissao;
 
   @Output()
@@ -138,10 +136,10 @@ export class EditorTrintadoisbitsComponent implements OnInit {
    * Constrói uma submissão que será salva no banco de dados.
    */
    prepararSubmissao() {
-    this.editorCodigo.codigo.next(this.monacoEditor.getValue());
+    this.editorCodigo.codigo.next(this.editorCodigo.instanciaMonaco.getValue());
     const submissao = new Submissao(
       null,
-      this.monacoEditor.getValue(),
+      this.editorCodigo.instanciaMonaco.getValue(),
       this.usuario,
       this.assunto,
       this.questao

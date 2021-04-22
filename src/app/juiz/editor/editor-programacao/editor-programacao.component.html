@@ -4,11 +4,11 @@
     <button type="button" pButton (click)="mudancaEditor()" icon="{{iconModoEditor}}"
       style="margin-right: 10px" *ngIf="isMudancaEditorPermitida == true"></button>
     <app-editor-trintadoisbits [modoVisualizacao]="modoVisualizacao" [questao]="questao" [assunto]="assunto"
-      [monacoEditor]="editor" (onSubmit)="submissaoRealizada($event)" (onServidorError)="erroServidor($event)"
+      (onSubmit)="submissaoRealizada($event)" (onServidorError)="erroServidor($event)"
       (onError)="erroSubmissao($event)" (onSubmitInicio)="inicioSubmissao()"
       *ngIf="modoExecucao == 1 && modoVisualizacao == false; else editorPadrao"> </app-editor-trintadoisbits>
     <ng-template #editorPadrao>
-      <app-editor-padrao [monacoEditor]="editor" [questao]="questao" [assunto]="assunto"
+      <app-editor-padrao [questao]="questao" [assunto]="assunto"
         (onSubmitInicio)="inicioSubmissao()" (onSubmit)="submissaoRealizada($event)" (onError)="erroSubmissao($event)"
         *ngIf="modoExecucao == 0 && modoVisualizacao == false"></app-editor-padrao>
     </ng-template>
@@ -46,11 +46,5 @@
 
 
 </div>
-<div class="p-grid">
-  <div class="p-col-12">
-    <div id="container" [ngStyle]="{ height: liteMode === true ? '300px' : '400px' }"
-      style="margin-top: 10px; border: 1px solid grey; position: relative"></div>
-
-    <div *ngIf="isEditorPronto == false">Carregando editor..</div>
-  </div>
-</div>
+<app-container-editor-programacao [erroAtivo]="erroAtivo" [liteMode]="liteMode" (onContainerReady)="onContainerReady($event)"></app-container-editor-programacao>
+<div *ngIf="isEditorPronto == false">Carregando editor..</div>

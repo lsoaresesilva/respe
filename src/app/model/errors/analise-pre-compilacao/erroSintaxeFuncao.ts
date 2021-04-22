@@ -13,13 +13,12 @@ export default class ErroSintaxeFuncao extends ErroSintaxe {
 
     static funcoesReservadas = ["print", "int", "float", "input"]
 
-    static erros(submissao: Submissao): ErroPreCompilacao[] {
+    static erros(algoritmo): ErroPreCompilacao[] {
         let erros: ErroPreCompilacao[] = [];
-        let linhasCodigo = submissao.linhasAlgoritmo();
 
-        for (let i = 0; i < linhasCodigo.length; i++) {
+        for (let i = 0; i < algoritmo.length; i++) {
             let numeroLinha = i + 1;
-            let linhaCodigo = linhasCodigo[i];
+            let linhaCodigo = algoritmo[i];
 
 
             if (ErroSintaxeFuncao.faltaParentese(linhaCodigo)) {

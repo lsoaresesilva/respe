@@ -8,6 +8,13 @@
 
  export default class ConsoleEditor{
 
-    erroServidor;
-    submissao;
+    erro;
+    submissao?;
+    saida;
+    tracebackOriginal;
+
+    resetarErro(){
+       this.erro = null;
+       this.tracebackOriginal = null;
+    }
  }

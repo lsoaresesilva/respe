@@ -143,8 +143,7 @@ function carregarIde(
   callback = null,
   instance = null,
   callbackOnEditorLoad = null,
-  codigo,
-  isAtividadeGrupo = false
+  codigo
 ) {
   require(['vs/editor/editor.main'], function () {
     // var appRoot = document.createElement("app-root");
