@@ -1,4 +1,4 @@
-import { AfterViewInit, Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
+import { AfterViewInit, ChangeDetectorRef, Component, EventEmitter, Input, OnChanges, OnInit, Output, SimpleChanges } from '@angular/core';
 import { DialogService } from 'primeng/dynamicdialog';
 import { MonitorService } from 'src/app/chatbot/monitor.service';
 import { LoginService } from 'src/app/login-module/login.service';
@@ -18,7 +18,7 @@ import { DiarioProgramacaoComponent } from 'src/app/srl/monitoramento/diario-pro
   templateUrl: './ide.component.html',
   styleUrls: ['./ide.component.css'],
 })
-export class IdeComponent {
+export class IdeComponent implements OnChanges{
 
   @Input()
   questaoColaborativa;
@@ -50,16 +50,22 @@ export class IdeComponent {
 
   @Output()
   onEditorError;
+  @Output()
+  onEditorSubmit;
 
   constructor(
     private login: LoginService,
-    public dialogService: DialogService
+    public dialogService: DialogService,
+    private changeDetector: ChangeDetectorRef
   ) {
     this.usuario = this.login.getUsuarioLogado();
     this.processandoSubmissao = false;
     this.consoleEditor = new ConsoleEditor();
     this.onEditorError = new EventEmitter();
+    this.onEditorSubmit = new EventEmitter();
     this.modoVisualizacao = false;
+  }
+  ngOnChanges(changes: SimpleChanges): void {
   }
 
   voltarParaModoExecucao() {
@@ -70,58 +76,30 @@ export class IdeComponent {
     this.modoExecucao = modoExecucao;
   }
 
-
-  /**
-   * ngOnChanges é usado pelos child-components para receberem atualização da submissão. No entanto, seu comportamento (disparo de notificações de mudança) não funciona quando apenas um atributo do objeto é alterado.
-   * Este método força uma clonagem do objeto, fazendo com que o ngOnChanges detecte que é um novo objeto e assim realize a atualização.
-   * @param submissao
-   */
-  prepararSubmissao(submissao) {
-    if (submissao != undefined) {
-      let _submissaoClone = new Submissao(
-        submissao.pk(),
-        submissao.codigo,
-        submissao.estudante,
-        submissao.assunto,
-        submissao.questao
-      );
-      _submissaoClone['estudanteId'] = submissao.estudanteId;
-      _submissaoClone['assuntoId'] = submissao.assuntoId;
-      _submissaoClone.data = submissao.data;
-      _submissaoClone.erro = submissao.erro;
-      _submissaoClone.resultadosTestsCases = submissao.resultadosTestsCases;
-      _submissaoClone.saida = submissao.saida;
-      return _submissaoClone;
-    }
-
-    return null;
-  }
-
-  
   onEditorReady(editor) {
     this.editorCodigo = editor;
   }
 
   erroEditor(submissao) {
-    this.submissao = this.prepararSubmissao(submissao);
-    this.consoleEditor.erroServidor = null;
+    //this.submissao = Object.assign({}, submissao);//new Submissao(null, null, null, null, null)//this.prepararSubmissao(submissao);
+    //this.changeDetector.detectChanges();
+    this.submissao = submissao;
+    this.consoleEditor.erro = null;
     this.consoleEditor.submissao = this.submissao;
-
-    
-
-    this.onEditorError.emit(this.submissao);
+    this.onEditorError.emit(submissao);
   }
 
-  onEditorSubmit(submissao) {
-    this.submissao = this.prepararSubmissao(submissao);
-    this.consoleEditor.erroServidor = null;
+  submissaoEditor(submissao) {
+    this.submissao = submissao;
+    this.changeDetector.detectChanges();
+    this.consoleEditor.erro = null;
     this.consoleEditor.submissao = this.submissao;
-   
+    this.onEditorSubmit(submissao);
   }
 
   onServidorError(erroServidor) {
     let erro = ErroServidor.construir(erroServidor);
-    this.consoleEditor.erroServidor = erro;
+    this.consoleEditor.erro = erro;
   }
 
   onVisualization(visualizacao) {

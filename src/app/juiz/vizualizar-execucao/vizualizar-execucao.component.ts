@@ -79,7 +79,7 @@ export class VisualizarExecucacao implements OnInit {
         this.visualizacao = visualizacao;
       }
       
-      Editor.getInstance().destacarLinha(this.linhaAtual, 'possivelSolucao', this.editor)
+      Editor.getInstance().destacarLinha(this.linhaAtual, 'possivelSolucao')
       //this.mudancaLinha.emit(this.linhaAtual);
     }else{
       /* this.linha[0] = this.traceExecucao.trace[0]; */
@@ -87,7 +87,7 @@ export class VisualizarExecucacao implements OnInit {
       if(visualizacao.length > 0){
         this.visualizacao = visualizacao;
       }
-      Editor.getInstance().destacarLinha(0, 'possivelSolucao', this.editor)
+      Editor.getInstance().destacarLinha(0, 'possivelSolucao')
     }
     
   }

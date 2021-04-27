@@ -72,20 +72,36 @@ export class Assunto extends Document {
   }
 
   static getAll(query = null, orderBy = null): Observable<any[]> {
-    if (query != null) {
-      if (Array.isArray(query)) {
-        query.push(new Query('isAtivo', '==', true));
+    return new Observable(observer=>{
+      /* if (query != null) {
+        if (Array.isArray(query)) {
+          query.push(new Query('isAtivo', '==', true));
+        } else {
+          let q = [];
+          q.push(query);
+          q.push(new Query('isAtivo', '==', true));
+          query = q;
+        }
       } else {
-        let q = [];
-        q.push(query);
-        q.push(new Query('isAtivo', '==', true));
-        query = q;
-      }
-    } else {
-      query = new Query('isAtivo', '==', true);
-    }
+        query = new Query('isAtivo', '==', true);
+      } */
+  
+      super.getAll(query).subscribe(assuntos=>{
+        assuntos.sort((assuntoA, assuntoB)=>{
+          if(assuntoA.sequencia < assuntoB.sequencia){
+            return -1;
+          }else if(assuntoA.sequencia > assuntoB.sequencia){
+            return 1;
 
-    return super.getAll(query);
+          }
+          return 0;
+        })
+
+        observer.next(assuntos);
+        observer.complete();
+      })
+    })
+    
   }
 
   static getAllAdmin(query = null, orderBy = null): Observable<any[]> {

@@ -1,4 +1,4 @@
-import Submissao from '../../submissao';
+
 import { ErrosRepeticoes } from './enum/errosRepeticoes';
 import { TiposErrosRepeticoes } from './enum/tiposErrosRepeticoes';
 import ErroPreCompilacao from './erroPrecompilacao';
@@ -11,13 +11,12 @@ import ErroSintaxe from './erroSintaxe';
  * 3. while x=0
  */
 export default class ErroSintaxeRepeticao extends ErroSintaxe {
-  static erros(submissao: Submissao): ErroPreCompilacao[] {
+  static erros(algoritmo): ErroPreCompilacao[] {
     let erros: ErroPreCompilacao[] = [];
-    let linhasCodigo = submissao.linhasAlgoritmo();
 
-    for (let i = 0; i < linhasCodigo.length; i++) {
+    for (let i = 0; i < algoritmo.length; i++) {
       let numeroLinha = i + 1;
-      let linhaCodigo = linhasCodigo[i];
+      let linhaCodigo = algoritmo[i];
 
       if (ErroSintaxeRepeticao.sintaxeWhileInvalida(linhaCodigo)) {
         erros.push(

@@ -71,6 +71,7 @@ import { ExportarDadosAnalyticsComponent } from './analytics-module/exportar-dad
 import { EditorDocumentacaoProjetoComponent } from './cscl/editor-documentacao-projeto/editor-documentacao-projeto.component';
 import { ListarVideosComponent } from './sistema-aprendizagem/listar-videos/listar-videos.component';
 import { VisualizarVideoComponent } from './sistema-aprendizagem/visualizar-video/visualizar-video.component';
+import { EditorIndependenteComponent } from './juiz/editor/editor-independente/editor-independente.component';
 
 const routes: Routes = [
   {
@@ -85,12 +86,7 @@ const routes: Routes = [
         outlet: 'principal',
       },
       { path: 'subsecao', component: SubsecaoComponent, outlet: 'principal' },
-      {
-        path: 'visualizar-parson',
-        component: VisualizarParsonComponent,
-        outlet: 'principal',
-        canActivate: [AuthGuard],
-      },
+     
 
       /* ADMIN */
       {
@@ -137,6 +133,14 @@ const routes: Routes = [
         outlet: 'principal',
       },
 
+      {
+        path: 'editor-programacao',
+        component: EditorIndependenteComponent,
+        canActivate: [AuthGuard, PageTrack],
+        outlet: 'principal',
+      },
+
+
       /* JUIZ */
 
       {
@@ -144,6 +148,13 @@ const routes: Routes = [
         component: ResponderQuestaoProgramacao,
         canActivate: [AuthGuard, PageTrack],
         outlet: 'principal',
+      },
+
+      {
+        path: 'visualizar-parson',
+        component: VisualizarParsonComponent,
+        outlet: 'principal',
+        canActivate: [AuthGuard],
       },
 
       {

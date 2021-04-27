@@ -1,5 +1,6 @@
 import { Component, Input, OnChanges, OnInit, SimpleChanges } from '@angular/core';
 import { TerminalService } from 'primeng/terminal';
+import ConsoleEditor from 'src/app/model/consoleEditor';
 
 @Component({
   selector: 'app-console-padrao',
@@ -10,14 +11,22 @@ import { TerminalService } from 'primeng/terminal';
 export class ConsolePadraoComponent implements OnChanges {
 
   @Input()
-  submissao;
+  console:ConsoleEditor;
 
-  constructor(private terminalService: TerminalService) { }
+  saidaOriginal;
+
+  constructor(private terminalService: TerminalService) {
+    this.saidaOriginal = "";
+   }
 
   ngOnChanges(changes: SimpleChanges): void {
   /*   if(this.submissao != null && this.submissao.saida != null){
       this.terminalService.sendResponse(this.submissao.saida);
     } */
+  }
+
+  visualizarSaidaOriginal(){
+    this.saidaOriginal = this.console.tracebackOriginal;
   }
 
   

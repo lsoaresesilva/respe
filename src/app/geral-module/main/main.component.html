@@ -42,6 +42,13 @@
     (click)="abrirAtividadesGrupo()"
     *ngIf="usuario.perfil == 1"
   ></button>
+  <button
+  pButton
+  class="p-button-text"
+  label="Editor programação"
+  (click)="abrirEditorProgramacao()"
+  *ngIf="usuario.perfil == 1"
+></button>
     <!-- Menu administrador -->
     <button
       pButton

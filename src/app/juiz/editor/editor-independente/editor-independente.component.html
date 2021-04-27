@@ -1,1 +1,18 @@
-<p>editor-independente works!</p>
+<div class="p-grid">
+    <div class="p-col-8">
+        
+        <app-editor-padrao (onError)="erroSubmissao($event)" (onSubmit)="onSubmit($event)"></app-editor-padrao>
+    </div>
+    <div class="p-col-4">
+        
+    </div>
+</div>
+<div class="p-grid">
+    <div class="p-col-8">
+
+        <app-container-editor-programacao [liteMode]="false" ></app-container-editor-programacao>
+    </div>
+    <div class="p-col-4">
+        <app-console-padrao [console]="console"></app-console-padrao>
+    </div>
+</div>

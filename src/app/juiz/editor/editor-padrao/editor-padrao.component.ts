@@ -17,10 +17,6 @@ export class EditorPadraoComponent implements OnInit, AfterViewInit {
   questao;
   @Input()
   assunto;
-  @Input()
-  monacoEditor;
-  @Input()
-  processandoSubmissao;
 
   editorCodigo:Editor;
   usuario;
@@ -45,7 +41,10 @@ export class EditorPadraoComponent implements OnInit, AfterViewInit {
   ngOnInit(): void {}
 
   ngAfterViewInit(): void {
-    
+  }
+
+  onEditorInicializado(editor){
+
   }
 
   executar() {
@@ -66,8 +65,12 @@ export class EditorPadraoComponent implements OnInit, AfterViewInit {
       
     }
 
-    this.editorCodigo.codigo.next(this.monacoEditor.getValue());
-    this.submissao = this.prepararSubmissao();
+    this.editorCodigo.codigo.next(this.editorCodigo.instanciaMonaco.getValue());
+
+    if(this.questao != null && this.assunto != null){
+      this.submissao = this.prepararSubmissao();
+    }
+    
     //var mypre = document.getElementById("output");
     //mypre.innerHTML = '';
     Sk.pre = 'output';
@@ -79,11 +82,22 @@ export class EditorPadraoComponent implements OnInit, AfterViewInit {
 
     myPromise.then(
       function (mod) {
-       _this.submissao.saida = output; 
-      _this.onSubmit.emit(_this.submissao);
+        if(_this.questao != null && _this.assunto != null){
+          _this.submissao.saida = output; 
+          _this.onSubmit.emit(_this.submissao);
+        }else{
+          _this.onSubmit.emit(output);
+        }
+      
       },
       function (err) {
-        _this.onError.emit({erro:err.toString(), submissao:_this.submissao});
+        if(_this.questao != null && _this.assunto != null){
+          _this.onError.emit({erro:err.toString(), submissao:_this.submissao});
+        }else{
+          _this.onError.emit(err.toString());
+        }
+
+        
       }
     );
   }
@@ -92,10 +106,10 @@ export class EditorPadraoComponent implements OnInit, AfterViewInit {
    * Constrói uma submissão que será salva no banco de dados.
    */
    prepararSubmissao() {
-    this.editorCodigo.codigo.next(this.monacoEditor.getValue());
+    this.editorCodigo.codigo.next(this.editorCodigo.instanciaMonaco.getValue());
     const submissao = new Submissao(
       null,
-      this.monacoEditor.getValue(),
+      this.editorCodigo.instanciaMonaco.getValue(),
       this.usuario,
       this.assunto,
       this.questao

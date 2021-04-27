@@ -9,7 +9,7 @@
       [isMudancaEditorPermitida]="isMudancaEditorPermitida"
       [questaoColaborativa]="questaoColaborativa"
       [grupo]="grupo" (onError)="erroEditor($event)" (onVisualization)="onVisualization($event)"
-      (onServidorError)="onServidorError($event)" (onSubmit)="onEditorSubmit($event)"
+      (onServidorError)="onServidorError($event)" (onSubmit)="submissaoEditor($event)"
       (onEditorReady)="onEditorReady($event)"
       (onEditorMudancaExecucao)="onEditorMudancaExecucacao($event)">
     </app-editor-programacao>
@@ -20,7 +20,7 @@
       <app-console [submissao]="submissao" [consoleEditor]="consoleEditor" *ngIf="modoExecucao == 1;else consolePadrao">
       </app-console>
       <ng-template #consolePadrao>
-        <app-console-padrao [submissao]="submissao"></app-console-padrao>
+        <app-console-padrao [console]="consoleEditor"></app-console-padrao>
       </ng-template>
     </div>
     <ng-template #visualizacao>

@@ -54,7 +54,7 @@
 
         <div class="p-col-8">
          
-          <app-ide [isMudancaEditorPermitida]="isMudancaEditorPermitida"  [submissao]="submissao" [modoExecucao]="modoExecucao" [questaoCorrecao]="questaoCorrecao" [grupo]="grupo"  [atividadeGrupo]="atividadeGrupo" [questao]="questao" [questaoColaborativa]="questaoColaborativa" [assunto]="assunto" (onEditorError)="onEditorError($event)"></app-ide>
+          <app-ide [isMudancaEditorPermitida]="isMudancaEditorPermitida"  [submissao]="submissao" [modoExecucao]="modoExecucao" [questaoCorrecao]="questaoCorrecao" [grupo]="grupo"  [atividadeGrupo]="atividadeGrupo" [questao]="questao" [questaoColaborativa]="questaoColaborativa" [assunto]="assunto" (onEditorError)="onEditorError($event)" (onEditorSubmit)="onEditorSubmit($event)"></app-ide>
 
         </div>
       </div>

@@ -7,6 +7,8 @@ import {
   ApplicationRef,
   AfterViewInit,
   Renderer2,
+  OnChanges,
+  SimpleChanges,
 } from '@angular/core';
 import Editor from 'src/app/model/editor';
 
@@ -47,7 +49,7 @@ import { ModoExecucao } from 'src/app/model/juiz/enum/modoExecucao';
   templateUrl: './responder-questao-programacao.component.html',
   styleUrls: ['./responder-questao-programacao.component.css'],
 })
-export class ResponderQuestaoProgramacao implements OnInit, AfterViewInit {
+export class ResponderQuestaoProgramacao implements OnInit, AfterViewInit, OnChanges {
   [x: string]: any;
 
   assunto;
@@ -94,6 +96,10 @@ export class ResponderQuestaoProgramacao implements OnInit, AfterViewInit {
     this.apresentarTestesCases = true;
     this.isMudancaEditorPermitida = true;
     this.modoExecucao = ModoExecucao.execucao32bits;
+    Editor.getInstance().codigo.next("");
+  }
+  ngOnChanges(changes: SimpleChanges): void {
+    console.log("algo mudou");
   }
 
   ngAfterViewInit(): void {
@@ -140,9 +146,13 @@ export class ResponderQuestaoProgramacao implements OnInit, AfterViewInit {
     ]);
   }
 
-  onEditorError(event){
+  onEditorError(submissao){
+    this.submissao = submissao;
     this.atualizarCardErros();
-    
+  }
+
+  onEditorSubmit(submissao){
+    this.submissao = submissao;
   }
 
   
