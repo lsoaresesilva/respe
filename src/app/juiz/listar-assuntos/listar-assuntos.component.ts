@@ -4,6 +4,11 @@ import { MenuItem, MessageService } from 'primeng/api';
 import { Router, ActivatedRoute } from '@angular/router';
 import { LoginService } from '../../login-module/login.service';
 import { Groups } from 'src/app/model/experimento/groups';
+import ConfiguracaoEditor from 'src/app/model/configuracoes/configuracaoEditor';
+import Query from 'src/app/model/firestore/query';
+
+import * as firebase from 'firebase';
+import { forkJoin } from 'rxjs';
 
 @Component({
   selector: 'app-listar-assuntos',
@@ -19,20 +24,50 @@ export class ListarAssuntosComponent implements OnInit {
   }
 
   ngOnInit() {
-    Assunto.getAll().subscribe((assuntos) => {
-      this.assuntos = assuntos;
-      let usuario = this.login.getUsuarioLogado();
-      if(usuario.grupoExperimento != Groups.control){
-        this.assuntos.forEach((assunto) => {
-          Assunto.calcularPercentualConclusao(assunto, this.login.getUsuarioLogado()).subscribe((percentual) => {
-            assunto['percentual'] = percentual;
+
+    ConfiguracaoEditor.getByQuery(new Query("codigoTurma", "==", this.usuario.turma.pk())).subscribe(configuracao=>{
+      let query = null;
+      if(configuracao != null){
+        if(configuracao.assuntos != null){
+          query = [];
+          configuracao.assuntos.forEach(assunto => {
+            query.push(Assunto.get(assunto));
           });
+            
+        }
+
+        forkJoin(query).subscribe(assuntos=>{
+          this.assuntos = assuntos;
+
+          if(this.usuario.grupoExperimento != Groups.control){
+            this.assuntos.forEach((assunto) => {
+              Assunto.calcularPercentualConclusao(assunto, this.login.getUsuarioLogado()).subscribe((percentual) => {
+                assunto['percentual'] = percentual;
+              });
+            });
+          }
+        })
+        
+      }else{
+        Assunto.getAll().subscribe((assuntos) => {
+          this.assuntos = assuntos;
+          
+          if(this.usuario.grupoExperimento != Groups.control){
+            this.assuntos.forEach((assunto) => {
+              Assunto.calcularPercentualConclusao(assunto, this.login.getUsuarioLogado()).subscribe((percentual) => {
+                assunto['percentual'] = percentual;
+              });
+            });
+          }
+          
         });
       }
+
       
 
-      Assunto.ordenar(this.assuntos);
-    });
+     
+    })
+    
   }
 
   abrirAssunto(assunto) {

@@ -66,7 +66,6 @@ export class IdeComponent implements OnChanges{
     this.modoVisualizacao = false;
   }
   ngOnChanges(changes: SimpleChanges): void {
-    console.log("ide mudou");
   }
 
   voltarParaModoExecucao() {

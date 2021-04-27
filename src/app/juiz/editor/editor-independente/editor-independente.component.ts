@@ -21,6 +21,7 @@ export class EditorIndependenteComponent implements OnInit {
     this.modoExecucao = ModoExecucao.execucaoPadrao;
     this.mudancaPermitida = false;
     this.console = new ConsoleEditor();
+    Editor.getInstance().codigo.next("");
    }
 
   ngOnInit(): void {

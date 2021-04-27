@@ -33,7 +33,7 @@ export default class DiarioProgramacao extends Document {
                 const semanaAtras = new Date();
                 const diffTime = semanaAtras.getTime() - diarioRecente.data.toDate().getTime();
                 const diffDays = Math.ceil(diffTime / (1000 * 3600 * 24));
-                if (diffDays >= 6) {
+                if (diffDays >= 14) {
                   observer.next(true);
                 } else {
                   observer.next(false);

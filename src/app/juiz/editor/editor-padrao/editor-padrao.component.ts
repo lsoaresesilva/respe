@@ -41,7 +41,10 @@ export class EditorPadraoComponent implements OnInit, AfterViewInit {
   ngOnInit(): void {}
 
   ngAfterViewInit(): void {
-    
+  }
+
+  onEditorInicializado(editor){
+
   }
 
   executar() {

@@ -1,5 +1,4 @@
 import { BehaviorSubject } from 'rxjs';
-import ConfiguracaoEditor from './configuracaoEditor';
 import ErroPreCompilacao from './errors/analise-pre-compilacao/erroPrecompilacao';
 import { QuestaoProgramacao } from './questoes/questaoProgramacao';
 declare var monaco: any;
@@ -11,7 +10,6 @@ export default class Editor {
   private constructor() {
     //this.editor = editor;
     this.codigo = new BehaviorSubject("");
-    this.configuracao = new ConfiguracaoEditor();
     this.codigo.subscribe((codigo)=>{
       if(this.instanciaMonaco != null){
         this.instanciaMonaco.getModel().setValue(codigo);
@@ -24,7 +22,6 @@ export default class Editor {
   codigo:BehaviorSubject<string>;
   decorations;
   hoverDisposable; // Usado para remover um hover
-  configuracao: ConfiguracaoEditor;
 
   static getInstance(): Editor {
     if (this.instance == null) {

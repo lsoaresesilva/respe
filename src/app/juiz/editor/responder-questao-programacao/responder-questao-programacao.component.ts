@@ -96,6 +96,7 @@ export class ResponderQuestaoProgramacao implements OnInit, AfterViewInit, OnCha
     this.apresentarTestesCases = true;
     this.isMudancaEditorPermitida = true;
     this.modoExecucao = ModoExecucao.execucao32bits;
+    Editor.getInstance().codigo.next("");
   }
   ngOnChanges(changes: SimpleChanges): void {
     console.log("algo mudou");

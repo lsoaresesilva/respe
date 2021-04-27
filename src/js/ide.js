@@ -146,63 +146,77 @@ function carregarIde(
   codigo
 ) {
   require(['vs/editor/editor.main'], function () {
-    // var appRoot = document.createElement("app-root");
-    // document.getElementById("body").appendChild(appRoot);
-    const container = document.getElementById('container');
-    if (container != undefined) {
-      if (editorProgramacao == null) {
-        editorProgramacao = monaco.editor.create(container, {
-          value: prepararCodigo(codigo.value).join('\n'),
-          language: 'python',
-          readOnly,
-        });
+    
+    
+    //const container = document.getElementById('container');
 
-        if (editorProgramacao != null) {
-          callback();
-        }
+    let divEditorProgramacao = document.getElementById("divEditorProgramacao");
+    if(divEditorProgramacao != null){
+      let container = document.createElement('div');
+      container.style.height = "400px";
+      container.style.marginTop = "10px";
+      container.style.border = "1px solid grey";
+      container.style.position = "relative";
+      divEditorProgramacao.appendChild(container);
 
-        /* editor.onKeyDown(function () {
-          limparCores();
+      if (container != undefined) {
+        //if (editorProgramacao == null) {
+          editorProgramacao = monaco.editor.create(container, {
+            value: prepararCodigo(codigo.value).join('\n'),
+            language: 'python',
+            readOnly,
+          });
+  
+          if (editorProgramacao != null) {
+            callback();
+          }
+  
+          /* editor.onKeyDown(function () {
+            limparCores();
+          }); */
+        //}
+  
+        callbackOnEditorLoad(instance, editorProgramacao);
+  
+        // TODO: modificar para colocar em outra função exclusiva de comentário e só aparecer para comentários
+        /* var div = document.getElementById('iconeNovoComentario');
+        editorElement = document.getElementById('container');
+        div.style.left = (editorElement.offsetLeft+1)+"px";
+  
+        dialogEmExibicao = false;
+  
+        var posicaoFinal = editorElement.offsetTop;
+        var y = posicaoFinal+"px";
+        div.style.top = y;
+  
+        editor.onMouseMove(function (e) {
+            if( e != undefined){
+                // posicao inicial
+                if( callback != null)
+                    callback(e, instance);
+  
+                if(!dialogEmExibicao){
+                    var posicaoInicial = editorElement.offsetTop;
+                    var posicaoFinal = 0;
+                    if(e.target.position.lineNumber > 1)
+                        posicaoFinal = posicaoInicial + e.target.position.lineNumber*18-18;
+                    else
+                        posicaoFinal = posicaoInicial + e.target.position.lineNumber;
+                    //y = (e.event.posy-10)+"px";
+                    y = posicaoFinal+"px";
+                    console.log(y);
+                    div.style.top = y;
+                }
+  
+  
+            }
+  
         }); */
       }
-
-      callbackOnEditorLoad(instance, editorProgramacao);
-
-      // TODO: modificar para colocar em outra função exclusiva de comentário e só aparecer para comentários
-      /* var div = document.getElementById('iconeNovoComentario');
-      editorElement = document.getElementById('container');
-      div.style.left = (editorElement.offsetLeft+1)+"px";
-
-      dialogEmExibicao = false;
-
-      var posicaoFinal = editorElement.offsetTop;
-      var y = posicaoFinal+"px";
-      div.style.top = y;
-
-      editor.onMouseMove(function (e) {
-          if( e != undefined){
-              // posicao inicial
-              if( callback != null)
-                  callback(e, instance);
-
-              if(!dialogEmExibicao){
-                  var posicaoInicial = editorElement.offsetTop;
-                  var posicaoFinal = 0;
-                  if(e.target.position.lineNumber > 1)
-                      posicaoFinal = posicaoInicial + e.target.position.lineNumber*18-18;
-                  else
-                      posicaoFinal = posicaoInicial + e.target.position.lineNumber;
-                  //y = (e.event.posy-10)+"px";
-                  y = posicaoFinal+"px";
-                  console.log(y);
-                  div.style.top = y;
-              }
-
-
-          }
-
-      }); */
     }
+    
+
+    
   });
 }
 
@@ -217,48 +231,10 @@ function carregarIdePadrao(instance = null, callbackOnEditorLoad = null, codigo)
           value: prepararCodigo(codigo).join('\n'),
           language: 'python',
         });
-
-        /* editor.onKeyDown(function () {
-          limparCores();
-        }); */
       }
 
       callbackOnEditorLoad(instance, editorProgramacaoPadrao);
 
-      // TODO: modificar para colocar em outra função exclusiva de comentário e só aparecer para comentários
-      /* var div = document.getElementById('iconeNovoComentario');
-      editorElement = document.getElementById('container');
-      div.style.left = (editorElement.offsetLeft+1)+"px";
-
-      dialogEmExibicao = false;
-
-      var posicaoFinal = editorElement.offsetTop;
-      var y = posicaoFinal+"px";
-      div.style.top = y;
-
-      editor.onMouseMove(function (e) {
-          if( e != undefined){
-              // posicao inicial
-              if( callback != null)
-                  callback(e, instance);
-
-              if(!dialogEmExibicao){
-                  var posicaoInicial = editorElement.offsetTop;
-                  var posicaoFinal = 0;
-                  if(e.target.position.lineNumber > 1)
-                      posicaoFinal = posicaoInicial + e.target.position.lineNumber*18-18;
-                  else
-                      posicaoFinal = posicaoInicial + e.target.position.lineNumber;
-                  //y = (e.event.posy-10)+"px";
-                  y = posicaoFinal+"px";
-                  console.log(y);
-                  div.style.top = y;
-              }
-
-
-          }
-
-      }); */
     }
   });
 }
