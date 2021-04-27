@@ -8,6 +8,7 @@ import { Groups } from './experimento/groups';
 import Turma from './turma';
 import Submissao from './submissao';
 import { Cacheable } from 'ts-cacheable';
+import AtribuicaoGrupoExperimental from './experimento/atribuicaoGrupoExperimental';
 
 @Collection('usuarios')
 export default class Usuario extends Document {
@@ -131,11 +132,22 @@ export default class Usuario extends Document {
     return new Observable((observer) => {
       this.perfil = perfil;
       if(!isRandom){
-        this.grupoExperimento = group;
-        super.save().subscribe((result)=>{
-          observer.next(result);
-          observer.complete();
+
+        AtribuicaoGrupoExperimental.getByQuery(new Query("codigoTurma", "==", this.turma.codigo)).subscribe(atribuicao=>{
+          if(atribuicao != null){
+            this.grupoExperimento = atribuicao.grupoExperimental;
+          }else{
+            this.grupoExperimento = group;
+            
+          }
+          super.save().subscribe((result)=>{
+            observer.next(result);
+            observer.complete();
+          })
         })
+
+
+        
       }else{
         Usuario.getAll([
           new Query('codigoTurma', '==', this.turma.codigo),
