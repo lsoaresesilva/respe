@@ -11,7 +11,7 @@ import { TipoErrosFuncoes } from './enum/tiposErrosFuncoes';
  */
 export default class ErroSintaxeFuncao extends ErroSintaxe {
 
-    static funcoesReservadas = ["print", "int", "float", "input"]
+    static funcoesReservadas = ["print", "int", "float", "input", "str"]
 
     static erros(algoritmo): ErroPreCompilacao[] {
         let erros: ErroPreCompilacao[] = [];

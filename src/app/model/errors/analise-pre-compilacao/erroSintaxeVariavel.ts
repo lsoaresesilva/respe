@@ -485,7 +485,7 @@ export default class ErroSintaxeVariavel extends ErroSintaxe {
         if (resultado != undefined && resultado.length > 0) {
           let nomeVariavel = resultado[0].replace('(', ''); // Está capturando com (, então deve remover isso.
           if (hasIgualdade != null) {
-            nomeVariavel = nomeVariavel.replace('= ', '');
+            nomeVariavel = nomeVariavel.replace('=', '').trim();
           }
 
           if (!ErroSintaxeFuncao.funcoesReservadas.includes(nomeVariavel)) return nomeVariavel;

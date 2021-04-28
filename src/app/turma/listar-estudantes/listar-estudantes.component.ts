@@ -36,22 +36,19 @@ export class ListarEstudantesComponent implements OnInit {
       if (params['codigoTurma'] != null) {
         this.turma.codigo = params['codigoTurma'];
         /* this.buscarEstudante(params['codigoTurma']); */
-        
-        Turma.getAllEstudantes(params['codigoTurma']).subscribe((estudantes) => {
-            this.estudantes$ = estudantes;
-            /* PageTrackRecord.getAllByEstudantes(estudantes).subscribe(pagetracks=>{
-              this.pageTracks = pagetracks;
-            }) */
-            /*Assunto.getAll().subscribe(assuntos => {
-               this.estudantes$.forEach((estudante) => {
-                Analytics.calcularProgressoGeral(assuntos, estudante).subscribe(
-                  (progresso) => {
-                    estudante.progressoGeral = progresso
-                  }
-                );
-              }); 
 
-            
+        Turma.getAllEstudantes(params['codigoTurma']).subscribe((estudantes) => {
+          this.estudantes$ = estudantes;
+
+          Assunto.getAll().subscribe((assuntos) => {
+            this.estudantes$.forEach((estudante) => {
+              Assunto.consultarRespostasEstudante(estudante).subscribe((respostas) => {
+                let progresso = Assunto.calcularProgressoGeral(assuntos, respostas);
+                estudante.progressoGeral = progresso;
+              });
+            });
+          });
+          /*
           });*/
           /* Analytics.calcularNumeroAtividadesTrabalhadasPorSemana(turma).subscribe((estudantes) => {
             this.estudantes$ = estudantes;
@@ -64,15 +61,6 @@ export class ListarEstudantesComponent implements OnInit {
             });
           }); */
         });
-      } else {
-        /** Significa que é uma listagem geral de estudantes. */
-        /* Usuario.getAll(new Query('perfil', '==', PerfilUsuario.estudante)).subscribe(
-          (estudantes) => {
-            this.estudantes = estudantes;
-          }
-        ); */
-
-        this.estudantes$ = Usuario.getAll(new Query('perfil', '==', PerfilUsuario.estudante));
       }
     });
   }
@@ -121,7 +109,7 @@ export class ListarEstudantesComponent implements OnInit {
     }
   }
 
-  exportarAnalytics(){
+  exportarAnalytics() {
     if (this.turma != null && this.turma.codigo != null) {
       this.router.navigate([
         'main',

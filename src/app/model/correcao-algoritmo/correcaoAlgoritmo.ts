@@ -9,7 +9,7 @@ import Submissao from '../submissao';
 import Usuario from '../usuario';
 
 @Collection('correcoesAlgoritmos')
-export default class CorrecaoAlgoritmo extends Document {
+export default class RespostaQuestaoCorrecaoAlgoritmo extends Document {
   @date()
   data;
 
@@ -18,7 +18,7 @@ export default class CorrecaoAlgoritmo extends Document {
   }
 
 
-  static getAll(query = null, orderBy = null): Observable<CorrecaoAlgoritmo[]> {
+  static getAll(query = null, orderBy = null): Observable<RespostaQuestaoCorrecaoAlgoritmo[]> {
     return new Observable(observer=>{
         super.getAll(query, orderBy).subscribe(correcoes=>{
             correcoes.forEach(correcao=>{
@@ -52,7 +52,7 @@ export default class CorrecaoAlgoritmo extends Document {
     return object;
   }
 
-  static agruparPorQuestao(correcoes: CorrecaoAlgoritmo[]) {
+  static agruparPorQuestao(correcoes: RespostaQuestaoCorrecaoAlgoritmo[]) {
     const correcoesAgrupadas = new Map();
     correcoes.forEach((correcao) => {
       if (correcoesAgrupadas.get(correcao['questaoCorrecaoId']) === undefined) {
@@ -66,7 +66,7 @@ export default class CorrecaoAlgoritmo extends Document {
   }
 
   static getPorQuestao(questao, estudante) {
-    return CorrecaoAlgoritmo.getAll([
+    return RespostaQuestaoCorrecaoAlgoritmo.getAll([
       new Query('estudanteId', '==', estudante.pk()),
       new Query('questaoCorrecaoId', '==', questao.id),
     ]);
@@ -75,7 +75,7 @@ export default class CorrecaoAlgoritmo extends Document {
   /**
    * Recupera a submissão mais recente de um estudante para uma questão.
    */
-  static getRecentePorQuestao(questao: QuestaoProgramacaoCorrecao, estudante: Usuario):Observable<CorrecaoAlgoritmo> {
+  static getRecentePorQuestao(questao: QuestaoProgramacaoCorrecao, estudante: Usuario):Observable<RespostaQuestaoCorrecaoAlgoritmo> {
     return new Observable((observer) => {
       this.getPorQuestao(questao, estudante).subscribe((correcoes) => {
         
@@ -88,7 +88,7 @@ export default class CorrecaoAlgoritmo extends Document {
     });
   }
 
-  static filtrarRecente(correcoes: CorrecaoAlgoritmo[]): CorrecaoAlgoritmo {
+  static filtrarRecente(correcoes: RespostaQuestaoCorrecaoAlgoritmo[]): RespostaQuestaoCorrecaoAlgoritmo {
     let correcaoRecente = null;
     if (correcoes.length != 0) {
       if (correcoes.length == 1) {
@@ -108,4 +108,6 @@ export default class CorrecaoAlgoritmo extends Document {
 
     return correcaoRecente;
   }
+
+  
 }

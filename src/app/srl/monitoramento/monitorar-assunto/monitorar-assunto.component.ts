@@ -17,9 +17,11 @@ export class MonitorarAssuntoComponent implements OnChanges {
   ngOnChanges(): void {
     const usuario = this.loginService.getUsuarioLogado();
     if (usuario != null) {
-      Assunto.calcularPercentualConclusao(this.assunto, usuario).subscribe((percentual) => {
+      Assunto.consultarRespostasEstudante(usuario).subscribe(respostas=>{
+        let percentual = Assunto.calcularProgresso(this.assunto, respostas);
         this.assunto.percentualConclusao = percentual;
-      });
+      })
+      
     }
   }
 }

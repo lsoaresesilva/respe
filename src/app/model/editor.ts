@@ -73,6 +73,10 @@ export default class Editor {
 
   criarHover(erro:ErroPreCompilacao){
 
+    if(this.hoverDisposable != null){
+      this.hoverDisposable.dispose();
+    }
+
     if (erro.linha > 0 && erro.linha <= this.instanciaMonaco.getModel().getLineCount()) {
       const lineLength = this.instanciaMonaco.getModel().getLineLength(erro.linha);
       this.hoverDisposable = monaco.languages.registerHoverProvider('python', {

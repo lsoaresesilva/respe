@@ -30,7 +30,7 @@ import TraceVisualizacao from 'src/app/model/visualizacao/traceVisualizacao';
 import { DialogService } from 'primeng/dynamicdialog';
 import { ExibirSolucaoComponent } from 'src/app/srl/monitoramento/exibir-solucao/exibir-solucao.component';
 import PageTrackRecord from 'src/app/model/analytics/pageTrack';
-import CorrecaoAlgoritmo from 'src/app/model/correcao-algoritmo/correcaoAlgoritmo';
+import RespostaQuestaoCorrecaoAlgoritmo from 'src/app/model/correcao-algoritmo/correcaoAlgoritmo';
 import { DiarioProgramacaoComponent } from 'src/app/srl/monitoramento/diario-programacao/diario-programacao.component';
 import { TipoDiarioProgramacao } from 'src/app/model/srl/enum/tipoDiarioProgramacao';
 import DiarioProgramacao from 'src/app/model/srl/diarioProgramacao';
@@ -603,7 +603,7 @@ export class EditorProgramacaoComponent implements AfterViewInit, OnChanges, OnI
           this.submissao = resposta;
         });
       }else{
-        let correcaoAlgoritmo = new CorrecaoAlgoritmo(null, submissao, this.usuario, this.assunto, this.questaoCorrecao);
+        let correcaoAlgoritmo = new RespostaQuestaoCorrecaoAlgoritmo(null, submissao, this.usuario, this.assunto, this.questaoCorrecao);
         correcaoAlgoritmo.save().subscribe(()=>{
           this.submissao = submissao;
         });
@@ -661,7 +661,7 @@ export class EditorProgramacaoComponent implements AfterViewInit, OnChanges, OnI
         this.onError.emit(this.submissao);
       });
     }else{
-      let correcaoAlgoritmo = new CorrecaoAlgoritmo(null, this.submissao, this.usuario, this.assunto, this.questaoCorrecao);
+      let correcaoAlgoritmo = new RespostaQuestaoCorrecaoAlgoritmo(null, this.submissao, this.usuario, this.assunto, this.questaoCorrecao);
       correcaoAlgoritmo.save().subscribe(()=>{
         
         this.onError.emit(this.submissao);

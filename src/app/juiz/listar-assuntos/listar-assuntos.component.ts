@@ -41,9 +41,11 @@ export class ListarAssuntosComponent implements OnInit {
 
           if(this.usuario.grupoExperimento != Groups.control){
             this.assuntos.forEach((assunto) => {
-              Assunto.calcularPercentualConclusao(assunto, this.login.getUsuarioLogado()).subscribe((percentual) => {
+              Assunto.consultarRespostasEstudante(this.usuario).subscribe(respostas=>{
+                let percentual = Assunto.calcularProgresso(assunto, respostas);
                 assunto['percentual'] = percentual;
-              });
+              })
+              
             });
           }
         })
@@ -54,9 +56,10 @@ export class ListarAssuntosComponent implements OnInit {
           
           if(this.usuario.grupoExperimento != Groups.control){
             this.assuntos.forEach((assunto) => {
-              Assunto.calcularPercentualConclusao(assunto, this.login.getUsuarioLogado()).subscribe((percentual) => {
+              Assunto.consultarRespostasEstudante(this.usuario).subscribe(respostas=>{
+                let percentual = Assunto.calcularProgresso(assunto, respostas);
                 assunto['percentual'] = percentual;
-              });
+              })
             });
           }
           

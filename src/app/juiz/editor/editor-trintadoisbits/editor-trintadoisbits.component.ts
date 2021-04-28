@@ -5,7 +5,7 @@ import { DialogService } from 'primeng/dynamicdialog';
 import { timeout } from 'rxjs/operators';
 import { GamificationFacade } from 'src/app/gamification/gamification.service';
 import { LoginService } from 'src/app/login-module/login.service';
-import CorrecaoAlgoritmo from 'src/app/model/correcao-algoritmo/correcaoAlgoritmo';
+import RespostaQuestaoCorrecaoAlgoritmo from 'src/app/model/correcao-algoritmo/correcaoAlgoritmo';
 import SubmissaoGrupo from 'src/app/model/cscl/submissaoGrupo';
 import Editor from 'src/app/model/editor';
 import ParseAlgoritmo from 'src/app/model/errors/analise-pre-compilacao/parseAlgoritmo';

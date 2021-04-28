@@ -12,7 +12,8 @@ import Query from './firestore/query';
 import { RespostaQuestaoParson } from './juiz/respostaQuestaoParson';
 import QuestaoColaborativa from './cscl/questaoColaborativa';
 import QuestaoProgramacaoCorrecao from './questoes/questaoProgramacaoCorrecao';
-import CorrecaoAlgoritmo from './correcao-algoritmo/correcaoAlgoritmo';
+import RespostaQuestaoCorrecaoAlgoritmo from './correcao-algoritmo/correcaoAlgoritmo';
+import { VisualizacaoRespostasQuestoes } from './visualizacaoRespostasQuestoes';
 
 @Collection('assuntos')
 export class Assunto extends Document {
@@ -72,36 +73,25 @@ export class Assunto extends Document {
   }
 
   static getAll(query = null, orderBy = null): Observable<any[]> {
-    return new Observable(observer=>{
-      /* if (query != null) {
-        if (Array.isArray(query)) {
-          query.push(new Query('isAtivo', '==', true));
-        } else {
-          let q = [];
-          q.push(query);
-          q.push(new Query('isAtivo', '==', true));
-          query = q;
-        }
-      } else {
-        query = new Query('isAtivo', '==', true);
-      } */
-  
-      super.getAll(query).subscribe(assuntos=>{
-        assuntos.sort((assuntoA, assuntoB)=>{
-          if(assuntoA.sequencia < assuntoB.sequencia){
+    return new Observable((observer) => {
+      super.getAll(query).subscribe((assuntos) => {
+        assuntos.sort((assuntoA, assuntoB) => {
+          if (assuntoA.sequencia < assuntoB.sequencia) {
             return -1;
-          }else if(assuntoA.sequencia > assuntoB.sequencia){
+          } else if (assuntoA.sequencia > assuntoB.sequencia) {
             return 1;
-
           }
           return 0;
+        });
+
+        assuntos.forEach(assunto=>{
+          Assunto.construirQuestoes(assunto);
         })
 
         observer.next(assuntos);
         observer.complete();
-      })
-    })
-    
+      });
+    });
   }
 
   static getAllAdmin(query = null, orderBy = null): Observable<any[]> {
@@ -123,7 +113,24 @@ export class Assunto extends Document {
     });
   }
 
-  static get(id):Observable<Assunto> {
+  static construirQuestoes(assunto){
+    assunto['questoesProgramacao'] = QuestaoProgramacao.construir(
+      assunto['questoesProgramacao'],
+      assunto
+    );
+    assunto['questoesFechadas'] = QuestaoFechada.construir(assunto['questoesFechadas']);
+    assunto['questoesColaborativas'] = QuestaoColaborativa.construir(
+      assunto['questoesColaborativas'],
+      assunto
+    );
+    assunto['questoesParson'] = QuestaoParsonProblem.construir(assunto['questoesParson']);
+    assunto['questoesCorrecao'] = QuestaoProgramacaoCorrecao.construir(
+      assunto['questoesCorrecao'],
+      assunto
+    );
+  }
+
+  static get(id): Observable<Assunto> {
     return new Observable<Assunto>((observer) => {
       super.get(id).subscribe(
         (assunto) => {
@@ -151,128 +158,153 @@ export class Assunto extends Document {
     });
   }
 
-  
-
   getQuestoesComStatusConclusao(estudante) {
     return new Observable((observer) => {
-        let consultas = {};
-        if (
-          Array.isArray(this.questoesFechadas) &&
-          this.questoesFechadas.length > 0
-        ) {
-          consultas['questoesFechadas'] = QuestaoFechada.verificarQuestoesRespondidas(
-            estudante,
-            this.questoesFechadas
-          );
+      let consultas = {};
+      if (Array.isArray(this.questoesFechadas) && this.questoesFechadas.length > 0) {
+        consultas['questoesFechadas'] = QuestaoFechada.verificarQuestoesRespondidas(
+          estudante,
+          this.questoesFechadas
+        );
+      }
+
+      if (Array.isArray(this.questoesProgramacao) && this.questoesProgramacao.length > 0) {
+        consultas['questoesProgramacao'] = QuestaoProgramacao.verificarQuestoesRespondidas(
+          estudante,
+          this.questoesProgramacao
+        );
+      }
+
+      if (Array.isArray(this.questoesParson) && this.questoesParson.length > 0) {
+        consultas['questoesParson'] = QuestaoParsonProblem.verificarQuestoesRespondidas(
+          estudante,
+          this.questoesParson
+        );
+      }
+
+      if (Array.isArray(this.questoesCorrecao) && this.questoesCorrecao.length > 0) {
+        consultas['questoesCorrecao'] = QuestaoProgramacaoCorrecao.verificarQuestoesRespondidas(
+          estudante,
+          this.questoesCorrecao
+        );
+      }
+
+      forkJoin(consultas).subscribe((respostas) => {
+        let questoes = [];
+        if (respostas['questoesFechadas'] != null) {
+          questoes = questoes.concat(respostas['questoesFechadas']);
         }
 
-        if (
-          Array.isArray(this.questoesProgramacao) &&
-          this.questoesProgramacao.length > 0
-        ) {
-          consultas['questoesProgramacao'] = QuestaoProgramacao.verificarQuestoesRespondidas(
-            estudante,
-            this.questoesProgramacao
-          );
+        if (respostas['questoesProgramacao'] != null) {
+          questoes = questoes.concat(respostas['questoesProgramacao']);
         }
 
-        if (
-          Array.isArray(this.questoesParson) &&
-          this.questoesParson.length > 0
-        ) {
-          consultas['questoesParson'] = QuestaoParsonProblem.verificarQuestoesRespondidas(
-            estudante,
-            this.questoesParson
-          );
+        if (respostas['questoesCorrecao'] != null) {
+          questoes = questoes.concat(respostas['questoesCorrecao']);
         }
 
-        if (
-          Array.isArray(this.questoesCorrecao) &&
-          this.questoesCorrecao.length > 0
-        ) {
-          consultas['questoesCorrecao'] = QuestaoProgramacaoCorrecao.verificarQuestoesRespondidas(
-            estudante,
-            this.questoesCorrecao
-          );
+        if (respostas['questoesParson'] != null) {
+          questoes = questoes.concat(respostas['questoesParson']);
         }
 
-        forkJoin(consultas).subscribe((respostas) => {
-          let questoes = [];
-          if (respostas['questoesFechadas'] != null) {
-            questoes = questoes.concat(respostas['questoesFechadas']);
+        questoes.sort((qA, qB) => {
+          if (qA.sequencia < qB.sequencia) {
+            return -1;
+          } else if (qA.sequencia > qB.sequencia) {
+            return 1;
+          } else {
+            return 0;
           }
-
-          if (respostas['questoesProgramacao'] != null) {
-            questoes = questoes.concat(respostas['questoesProgramacao']);
-          }
-
-          if (respostas['questoesCorrecao'] != null) {
-            questoes = questoes.concat(respostas['questoesCorrecao']);
-          }
-
-          if (respostas['questoesParson'] != null) {
-            questoes = questoes.concat(respostas['questoesParson']);
-          }
-
-          questoes.sort((qA, qB)=>{
-            if(qA.sequencia < qB.sequencia){
-              return -1;
-            }else if(qA.sequencia > qB.sequencia){
-              return 1;
-            }else{
-              return 0;
-            }
-          });
-
-          observer.next(questoes);
-          observer.complete();
-
         });
+
+        observer.next(questoes);
+        observer.complete();
       });
+    });
   }
 
-  static isQuestoesProgramacaoFinalizadas(assunto: Assunto, estudante, margemAceitavel = 0.6) {
+  static isQuestoesProgramacaoFinalizadas(assunto: Assunto, estudante, visualizacoesRespostasQuestoesProgramacao, margemAceitavel = 0.6) {
     return new Observable((observer) => {
-      this.calcularPercentualConclusaoQuestoesProgramacao(
+      let percentual = this.calcularPercentualConclusaoQuestoesProgramacao(
         assunto,
         estudante,
+        visualizacoesRespostasQuestoesProgramacao,
         margemAceitavel
-      ).subscribe((percentual) => {
-        if (percentual >= margemAceitavel) {
-          observer.next(true);
-          observer.complete();
-        } else {
-          observer.next(false);
-          observer.complete();
-        }
+      );
+      if (percentual >= margemAceitavel) {
+        observer.next(true);
+        observer.complete();
+      } else {
+        observer.next(false);
+        observer.complete();
+      }
+    });
+  }
+
+  static consultarRespostasEstudante(estudante: Usuario) {
+    return new Observable<any>((observer) => {
+      let query: any = {};
+      query.submissoes = Submissao.getAll(new Query('estudanteId', '==', estudante.pk()));
+      query.respostaQuestaoFechada = RespostaQuestaoFechada.getAll(
+        new Query('estudanteId', '==', estudante.pk())
+      );
+      query.resposaQuestaoParson = RespostaQuestaoParson.getAll(
+        new Query('estudanteId', '==', estudante.pk())
+      );
+      query.respostaQuestaoCorrecao = RespostaQuestaoCorrecaoAlgoritmo.getAll(
+        new Query('estudanteId', '==', estudante.pk())
+      );
+
+      query.visualizacoesRespostasProgramacao = VisualizacaoRespostasQuestoes.getAll(new Query("estudanteId", "==", estudante.pk()));
+
+      forkJoin(query).subscribe((respostas) => {
+        observer.next(respostas);
+        observer.complete();
       });
     });
   }
 
-  static calcularPercentualConclusao(assunto: Assunto, estudante): Observable<number> {
-    return new Observable((observer) => {
-      const submissoes = this.getTodasSubmissoesProgramacaoPorEstudante(assunto, estudante);
-      if (!Util.isObjectEmpty(submissoes)) {
-        forkJoin(submissoes).subscribe((submissoes) => {
-          forkJoin([
-            Assunto.calcularPercentualConclusaoQuestoesFechadas(assunto, estudante),
-            Assunto.calcularPercentualConclusaoQuestoesParson(assunto, estudante),
-            Assunto.calcularPercentualConclusaoQuestoesProgramacao(assunto, submissoes, 0.6),
-            Assunto.calcularPercentualConclusaoQuestoesCorrecao(assunto, estudante),
-          ]).subscribe((resultado) => {
-            let percentualConclusao = 0;
-            resultado.forEach((percentual) => {
-              percentualConclusao += percentual;
-            });
+  static calcularProgresso(assunto: Assunto, respostas) {
+    let percentualConclusao = 0;
+    percentualConclusao += this.calcularPercentualConclusaoQuestoesFechadas(
+      assunto,
+      respostas.respostaQuestaoFechada
+    );
+    percentualConclusao += this.calcularPercentualConclusaoQuestoesParson(
+      assunto,
+      respostas.resposaQuestaoParson
+    );
+    percentualConclusao += this.calcularPercentualConclusaoQuestoesCorrecao(
+      assunto,
+      respostas.respostaQuestaoCorrecao
+    );
 
-            percentualConclusao /= 3;
-            percentualConclusao = Math.round(percentualConclusao * 100);
-            observer.next(percentualConclusao);
-            observer.complete();
-          });
-        });
+    percentualConclusao += this.calcularPercentualConclusaoQuestoesProgramacao(
+      assunto,
+      Submissao.agruparPorQuestao(respostas.submissoes),
+      respostas.visualizacoesRespostasProgramacao,
+      0.5
+    );
+
+
+
+    return (percentualConclusao * 100)/4; // Divide por quatro, pois é o total de tipos de questões que existem, consequentemente de percentuais que são calculados para cada um.
+  }
+
+  static calcularProgressoGeral(assuntos: Assunto[], respostas) {
+    let percentualConclusaoGeral = 0;
+    if (!Util.isObjectEmpty(respostas)) {
+      for (let i = 0; i < assuntos.length; i++) {
+        percentualConclusaoGeral += this.calcularProgresso(assuntos[i], respostas);
       }
-    });
+    }
+
+    if(percentualConclusaoGeral > 0){
+      percentualConclusaoGeral = percentualConclusaoGeral / assuntos.length;
+      percentualConclusaoGeral = Math.round((percentualConclusaoGeral + Number.EPSILON) * 100) / 100;
+    }
+
+    return percentualConclusaoGeral;
   }
 
   /**
@@ -291,35 +323,18 @@ export class Assunto extends Document {
     return submissoes;
   }
 
-  static calcularPercentualConclusaoQuestoesFechadas(
-    assunto: Assunto,
-    usuario: Usuario
-  ): Observable<number> {
+  static consultarRespostasQuestoesFechadasPorAssunto(assunto: Assunto, estudante: Usuario) {
     // Recuperar todas as questões de um assunto
     return new Observable((observer) => {
-      let totalRespostas = 0;
       const respostas = [];
       assunto.questoesFechadas.forEach((questao) => {
         // Recuperar todas as respostas às questões fechadas
 
-        respostas.push(RespostaQuestaoFechada.getRespostaQuestaoEstudante(questao, usuario));
+        respostas.push(RespostaQuestaoFechada.getRespostaQuestaoEstudante(questao, estudante));
       });
 
       if (respostas.length > 0 && assunto.questoesFechadas.length == respostas.length) {
-        forkJoin(respostas).subscribe((respostas) => {
-          for (let i = 0; i < assunto.questoesFechadas.length; i++) {
-            if (respostas[i] != null) {
-              // let resultado = QuestaoFechada.isRespostaCorreta(assunto.questoesFechadas[i], respostas[i]);
-              // if (resultado) {
-              totalRespostas++;
-              // }
-            }
-          }
-
-          const percentual = totalRespostas / assunto.questoesFechadas.length;
-          observer.next(percentual);
-          observer.complete();
-        });
+        forkJoin(respostas).subscribe((respostas) => {});
       } else {
         observer.next(0);
         observer.complete();
@@ -327,69 +342,73 @@ export class Assunto extends Document {
     });
   }
 
-  static calcularPercentualConclusaoQuestoesParson(
-    assunto: Assunto,
-    usuario: Usuario
-  ): Observable<number> {
-    // Recuperar todas as questões de um assunto
-    return new Observable((observer) => {
-      let totalRespostas = 0;
-      const respostas = [];
-      assunto.questoesParson.forEach((questao) => {
-        // Recuperar todas as respostas às questões fechadas
-
-        respostas.push(RespostaQuestaoParson.getRespostaQuestaoEstudante(questao, usuario));
-      });
-
-      if (respostas.length > 0 && assunto.questoesParson.length == respostas.length) {
-        forkJoin(respostas).subscribe((respostas) => {
-          for (let i = 0; i < assunto.questoesParson.length; i++) {
-            if (respostas[i] != null) {
-              // let resultado = QuestaoFechada.isRespostaCorreta(assunto.questoesFechadas[i], respostas[i]);
-              // if (resultado) {
-              totalRespostas++;
-              // }
-            }
-          }
-
-          const percentual = totalRespostas / assunto.questoesParson.length;
-          observer.next(percentual);
-          observer.complete();
-        });
-      } else {
-        observer.next(0);
-        observer.complete();
-      }
-    });
-  }
-
-  static calcularPercentualConclusaoQuestoesCorrecao(
-    assunto: Assunto,
-    estudante: Usuario
-  ): Observable<number> {
-    // Recuperar todas as questões de um assunto
-    return new Observable((observer) => {
-      CorrecaoAlgoritmo.getAll([
-        new Query('estudanteId', '==', estudante.pk()),
-        new Query('assuntoId', '==', assunto.pk()),
-      ]).subscribe((correcoes) => {
-        let totalCorretas = 0;
-        let correcoesAgrupadasQuestoes = CorrecaoAlgoritmo.agruparPorQuestao(correcoes);
-        correcoesAgrupadasQuestoes.forEach((correcoes, questaoId) => {
-          let correcaoRecente = CorrecaoAlgoritmo.filtrarRecente(correcoes);
-          if (correcaoRecente.submissao.isFinalizada()) {
-            totalCorretas += 1;
-          }
-        });
-        if(totalCorretas != 0){
-          observer.next(totalCorretas / assunto.questoesCorrecao.length);
-        }else{
-          observer.next(0);
+  static calcularPercentualConclusaoQuestoesFechadas(assunto: Assunto, respostasQuestoesFechadas) {
+    let totalRespostas = 0;
+    for (let i = 0; i < assunto.questoesFechadas.length; i++) {
+      let resultado = false;
+      for (let j = 0; j < respostasQuestoesFechadas.length; j++) {
+        let questaoIdResposta = respostasQuestoesFechadas[j].questaoId;
+        let questaoId = assunto.questoesFechadas[i].id
+        if (questaoIdResposta == questaoId) {
+          resultado = QuestaoFechada.isRespostaCorreta(
+            assunto.questoesFechadas[i],
+            respostasQuestoesFechadas[j]
+          );
         }
-        
-        observer.complete();
-      });
-    });
+      }
+
+      if (resultado) {
+        totalRespostas++;
+      }
+    }
+    const percentual = totalRespostas / assunto.questoesFechadas.length;
+
+    return percentual;
+  }
+
+  static calcularPercentualConclusaoQuestoesParson(assunto: Assunto, respostasQuestoesParson) {
+    let totalRespostas = 0;
+    for (let i = 0; i < assunto.questoesParson.length; i++) {
+      let resultado = false;
+      for (let j = 0; j < respostasQuestoesParson.length; j++) {
+        if (respostasQuestoesParson[j].questaoId == assunto.questoesParson[i].id) {
+          resultado = assunto.questoesParson[i].isRespostaCorreta(respostasQuestoesParson[j]);
+        }
+      }
+
+      if (resultado) {
+        totalRespostas++;
+      }
+    }
+    const percentual = totalRespostas / assunto.questoesParson.length;
+
+    return percentual;
+  }
+
+  static calcularPercentualConclusaoQuestoesCorrecao(assunto: Assunto, respostas) {
+    let totalRespostas = 0;
+    for (let i = 0; i < assunto.questoesCorrecao.length; i++) {
+      let resultado = false;
+      for (let j = 0; j < respostas.length; j++) {
+        if (respostas[j].questaoCorrecaoId == assunto.questoesCorrecao[i].id) {
+          resultado = assunto.questoesCorrecao[i].isRespostaCorreta(respostas[j]);
+
+          if(resultado){
+            break;
+          }
+        }
+      }
+
+      if (resultado) {
+        totalRespostas++;
+      }
+    }
+
+    if (assunto.questoesCorrecao.length > 0) {
+      return totalRespostas / assunto.questoesCorrecao.length;
+    }
+
+    return 0;
   }
 
   /**
@@ -400,45 +419,36 @@ export class Assunto extends Document {
    */
   static calcularPercentualConclusaoQuestoesProgramacao(
     assunto: Assunto,
-    submissoes,
+    submissoes: Map<string, Submissao[]>,
+    visualizacoesQuestoesProgramacao:any[],
     margemAceitavel
-  ): Observable<number> {
-    // Pegar todas as questões de um assunto
-    return new Observable((observer) => {
-      if (assunto != undefined && submissoes != undefined) {
-        const s: any = submissoes;
-        if (!Util.isObjectEmpty(s)) {
-          const totalQuestoes = assunto.questoesProgramacao.length;
-          const questoesRespondidas = [];
-          assunto.questoesProgramacao.forEach((questao) => {
-            for (const questaoId in s) {
-              if (questaoId == questao.id) {
-                const totalTestsCases = questao.testsCases.length;
-                let totalAcertos = 0;
-                if (s[questaoId] != null && s[questaoId].resultadosTestsCases.length != 0) {
-                  s[questaoId].resultadosTestsCases.forEach((resultadoTestCase) => {
-                    if (resultadoTestCase.status) {
-                      totalAcertos++;
-                    }
-                  });
+  ) {
+    if (assunto != undefined && submissoes != undefined && submissoes.size > 0) {
+      const totalQuestoes = assunto.questoesProgramacao.length;
+      let questoesRespondidas = 0;
+      assunto.questoesProgramacao.forEach((questao) => {
+        let subsQuestao = submissoes.get(questao.id);
+        let subRecente = Submissao.filtrarRecente(subsQuestao);
+        let visualizouResposta = visualizacoesQuestoesProgramacao.findIndex((visualizacao)=>{
+          if(visualizacao.questaoId == questao.id){
+            return true;
+          }
 
-                  const percentual = totalAcertos / totalTestsCases;
-                  if (percentual >= margemAceitavel) {
-                    questoesRespondidas.push(questao);
-                  }
-                }
-              }
-            }
-          });
-
-          observer.next(questoesRespondidas.length / totalQuestoes);
-          observer.complete();
-        } else {
-          observer.next(0);
-          observer.complete();
+          return false;
+        })
+        if(visualizouResposta == -1){
+          let resultado = questao.isFinalizada(subRecente, margemAceitavel);
+          if (resultado) {
+            questoesRespondidas += 1;
+          }
         }
-      }
-    });
+        
+      });
+
+      return questoesRespondidas / totalQuestoes;
+    } else {
+      return 0;
+    }
   }
 
   /* Ordena os assuntos a partir da sequência em que devem ser trabalhados. */

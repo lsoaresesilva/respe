@@ -31,7 +31,7 @@ export class Tutor {
     });
   }
 
-  static getDesempenhoEstudante(estudante: Usuario) {
+  /* static getDesempenhoEstudante(estudante: Usuario) {
     return new Observable((observer) => {
       Assunto.getAll().subscribe(
         (assuntos) => {
@@ -59,5 +59,5 @@ export class Tutor {
         }
       );
     });
-  }
+  } */
 }

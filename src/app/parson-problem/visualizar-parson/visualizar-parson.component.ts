@@ -77,7 +77,7 @@ export class VisualizarParsonComponent implements OnInit {
 
   enviar() {
     this.respostaQuestaoFechada.save().subscribe((resposta) => {
-      if (this.questao.isSequenciaCorreta(this.respostaQuestaoFechada)) {
+      if (this.questao.isRespostaCorreta(this.respostaQuestaoFechada)) {
         this.messageService.add({
           severity: 'success',
           summary: 'Parabéns',

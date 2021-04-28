@@ -1,6 +1,6 @@
 import { forkJoin, Observable } from 'rxjs';
 import { Assunto } from '../assunto';
-import CorrecaoAlgoritmo from '../correcao-algoritmo/correcaoAlgoritmo';
+import RespostaQuestaoCorrecaoAlgoritmo from '../correcao-algoritmo/correcaoAlgoritmo';
 import Query from '../firestore/query';
 import Submissao from '../submissao';
 import Usuario from '../usuario';
@@ -79,7 +79,7 @@ export default class QuestaoProgramacaoCorrecao {
 
   static isFinalizada(questao: QuestaoProgramacaoCorrecao, usuario) {
     return new Observable((observer) => {
-      CorrecaoAlgoritmo.getRecentePorQuestao(questao, usuario).subscribe(
+      RespostaQuestaoCorrecaoAlgoritmo.getRecentePorQuestao(questao, usuario).subscribe(
         (correcao) => {
           if (correcao != null) {
             observer.next(correcao.submissao.isFinalizada());
@@ -122,6 +122,14 @@ export default class QuestaoProgramacaoCorrecao {
         observer.complete();
       }
     });
+  }
+
+  isRespostaCorreta(resposta:RespostaQuestaoCorrecaoAlgoritmo){
+    if(resposta != null && resposta.submissao != null){
+      return resposta.submissao.isFinalizada();
+    }
+
+    return false;
   }
 
   /* static filtrarSubmissoesCorrecao(submissoes:Submissao[], estudante:Usuario){

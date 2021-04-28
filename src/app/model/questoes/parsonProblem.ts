@@ -64,7 +64,7 @@ export default class QuestaoParsonProblem extends Questao {
             questoes.forEach((questao) => {
               respostas.forEach((resposta) => {
                 if (resposta.questaoId === questao.id) {
-                  questao.respondida = questao.isSequenciaCorreta(resposta);
+                  questao.respondida = questao.isRespostaCorreta(resposta);
                   questao["percentualResposta"] = 0;
                 }
               });
@@ -102,7 +102,7 @@ export default class QuestaoParsonProblem extends Questao {
     return document;
   }
 
-  isSequenciaCorreta(resposta: RespostaQuestaoParson) {
+  isRespostaCorreta(resposta: RespostaQuestaoParson) {
     const sequenciaAlgoritmo = [];
     if (Array.isArray(resposta.algoritmo)) {
       resposta.algoritmo.forEach((segmento) => {

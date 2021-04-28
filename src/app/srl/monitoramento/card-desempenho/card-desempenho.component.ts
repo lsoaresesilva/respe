@@ -17,10 +17,10 @@ export class CardDesempenhoComponent implements OnInit {
 
   ngOnInit() {
     this.desempenhoPorErrorQuotient = this.desempenhoEstudante(this.errorQuotient);
-    Tutor.getDesempenhoEstudante(this.loginService.getUsuarioLogado()).subscribe(percentual=>{
+    /* Tutor.getDesempenhoEstudante(this.loginService.getUsuarioLogado()).subscribe(percentual=>{
       let p = percentual;
       let x = p;
-    })
+    }) */
   }
 
   desempenhoEstudante(errorQuotient){

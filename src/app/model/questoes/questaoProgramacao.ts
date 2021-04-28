@@ -45,6 +45,30 @@ export class QuestaoProgramacao {
   testsCases: TestCase[];
   algoritmoInicial: any = '';
 
+  isFinalizada(submissao, margemAceitavel){
+    if(submissao == null || submissao.questaoId != this.id){
+      return false;
+    }
+
+
+    const totalTestsCases = this.testsCases.length;
+    let totalAcertos = 0;
+    if (submissao.questaoId != null && submissao.resultadosTestsCases.length != 0) {
+      submissao.resultadosTestsCases.forEach((resultadoTestCase) => {
+        if (resultadoTestCase.status) {
+          totalAcertos++;
+        }
+      });
+
+      const percentual = totalAcertos / totalTestsCases;
+      if (percentual >= margemAceitavel) {
+        return true;
+      }
+    }
+
+    return false;
+  }
+
   static isFinalizada(questao, usuario) {
     return new Observable((observer) => {
       Submissao.getRecentePorQuestao(questao, usuario).subscribe(

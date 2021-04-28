@@ -73,7 +73,7 @@ export class AnalisarObjetivosService {
             const consultasPercentuaisConclusao = [];
             assuntos.forEach((assunto) => {
               consultasPercentuaisConclusao.push(
-                Assunto.calcularPercentualConclusao(assunto, estudante)
+                //Assunto.calcularPercentualConclusao(assunto, estudante)
               );
             });
 

@@ -3,7 +3,7 @@ import { DialogService } from 'primeng/dynamicdialog';
 import { MonitorService } from 'src/app/chatbot/monitor.service';
 import { LoginService } from 'src/app/login-module/login.service';
 import ConsoleEditor from 'src/app/model/consoleEditor';
-import CorrecaoAlgoritmo from 'src/app/model/correcao-algoritmo/correcaoAlgoritmo';
+import RespostaQuestaoCorrecaoAlgoritmo from 'src/app/model/correcao-algoritmo/correcaoAlgoritmo';
 import SubmissaoGrupo from 'src/app/model/cscl/submissaoGrupo';
 import ErroServidor from 'src/app/model/errors/erroServidor';
 import PontuacaoQuestaoProgramacao from 'src/app/model/gamification/pontuacaoQuestaoProgramacao';
@@ -91,10 +91,9 @@ export class IdeComponent implements OnChanges{
 
   submissaoEditor(submissao) {
     this.submissao = submissao;
-    this.changeDetector.detectChanges();
     this.consoleEditor.erro = null;
     this.consoleEditor.submissao = this.submissao;
-    this.onEditorSubmit(submissao);
+    this.onEditorSubmit.emit(submissao);
   }
 
   onServidorError(erroServidor) {

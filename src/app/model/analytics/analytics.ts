@@ -105,9 +105,12 @@ export default class Analytics {
     return new Observable((observer) => {
       if (estudante.pk() != null) {
         const consultasConclusao = [];
-        assuntos.forEach((assunto) => {
-          consultasConclusao.push(Assunto.calcularPercentualConclusao(assunto, estudante));
-        });
+        Assunto.consultarRespostasEstudante(estudante).subscribe(respostas=>{
+          assuntos.forEach((assunto) => {
+            consultasConclusao.push(Assunto.calcularProgresso(assunto, respostas));
+          });
+        })
+        
 
         this.calcularPercentual(consultasConclusao, assuntos.length).subscribe((percentual) => {
           observer.next(percentual);
@@ -126,7 +129,7 @@ export default class Analytics {
         const consultasConclusao = [];
         assuntos.forEach((assunto) => {
           consultasConclusao.push(
-            Assunto.calcularPercentualConclusaoQuestoesProgramacao(assunto, estudante, 1)
+            //Assunto.calcularPercentualConclusaoQuestoesProgramacao(assunto, estudante, 1)
           );
         });
 

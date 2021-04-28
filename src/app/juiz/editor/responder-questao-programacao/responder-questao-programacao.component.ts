@@ -37,7 +37,7 @@ import { ConfirmationService } from 'primeng/api';
 import { ChatService } from 'src/app/cscl/chat.service';
 import AtividadeGrupo from 'src/app/model/cscl/atividadeGrupo';
 import Grupo from 'src/app/model/cscl/grupo';
-import CorrecaoAlgoritmo from 'src/app/model/correcao-algoritmo/correcaoAlgoritmo';
+import RespostaQuestaoCorrecaoAlgoritmo from 'src/app/model/correcao-algoritmo/correcaoAlgoritmo';
 import { DialogService } from 'primeng/dynamicdialog';
 import { DiarioProgramacaoComponent } from 'src/app/srl/monitoramento/diario-programacao/diario-programacao.component';
 import { TipoDiarioProgramacao } from 'src/app/model/srl/enum/tipoDiarioProgramacao';
@@ -241,8 +241,8 @@ export class ResponderQuestaoProgramacao implements OnInit, AfterViewInit, OnCha
                 this.questao = questaoCorrecao.questao;
                 
 
-                CorrecaoAlgoritmo.getRecentePorQuestao(this.questaoCorrecao, this.usuario).subscribe(
-                  (correcao: CorrecaoAlgoritmo) => {
+                RespostaQuestaoCorrecaoAlgoritmo.getRecentePorQuestao(this.questaoCorrecao, this.usuario).subscribe(
+                  (correcao: RespostaQuestaoCorrecaoAlgoritmo) => {
                     if (correcao != null){
                       this.correcao = correcao;
                       this.submissao = Submissao.fromJson(correcao.submissao);
