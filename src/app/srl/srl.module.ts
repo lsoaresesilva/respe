@@ -3,7 +3,6 @@ import { CommonModule } from '@angular/common';
 import { SelfInstructionComponent } from './planejamento/self-instruction/self-instruction.component';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { BrowserModule } from '@angular/platform-browser';
-import { CadastroPlanejamentoComponent } from './planejamento/cadastro-planejamento/cadastro-planejamento.component';
 import { FormsModule } from '@angular/forms';
 import { InputTextareaModule } from 'primeng/inputtextarea';
 import { DropdownModule } from 'primeng/dropdown';
@@ -21,8 +20,6 @@ import { CardModule } from 'primeng/card';
 import { PaginaNaoEncontradaComponent } from '../geral-module/pagina-nao-encontrada/pagina-nao-encontrada.component';
 import { RiscoEstudanteComponent } from './monitoramento/card-risco-estudante/card-risco-estudante.component';
 import { ProgressBarModule } from 'primeng/progressbar';
-import { ListarPlanejamentosComponent } from './planejamento/listar-planejamentos/listar-planejamentos.component';
-import { VisualizarPlanejamentoComponent } from './planejamento/vizualizar-planejamento/visualizar-planejamento.component';
 import { RouterModule } from '@angular/router';
 import { FieldsetModule } from 'primeng/fieldset';
 import { RespostaSimilarQuestaoProgramacaoComponent } from './monitoramento/resposta-similar-questao-programacao/resposta-similar-questao-programacao.component';
@@ -68,12 +65,10 @@ import { DialogService, DynamicDialogModule } from 'primeng/dynamicdialog';
 @NgModule({
   declarations: [
     SelfInstructionComponent,
-    CadastroPlanejamentoComponent,
+    
     AutoReflexaoComponent,
     PaginaNaoEncontradaComponent,
     RiscoEstudanteComponent,
-    ListarPlanejamentosComponent,
-    VisualizarPlanejamentoComponent,
     RespostaSimilarQuestaoProgramacaoComponent,
     ExibirSolucaoComponent,
     MonitorarAssuntoComponent,

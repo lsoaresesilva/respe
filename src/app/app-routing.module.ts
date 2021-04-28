@@ -2,7 +2,6 @@ import { NgModule } from '@angular/core';
 import { Routes, RouterModule } from '@angular/router';
 import { LoginComponent } from './login-module/login/login.component';
 import { MainComponent } from './geral-module/main/main.component';
-import { CadastroPlanejamentoComponent } from './srl/planejamento/cadastro-planejamento/cadastro-planejamento.component';
 import { AutoReflexaoComponent } from './srl/auto-reflexao/auto-reflexao.component';
 import { AuthGuard } from './guards/auth.guard';
 import { PaginaNaoEncontradaComponent } from './geral-module/pagina-nao-encontrada/pagina-nao-encontrada.component';
@@ -15,8 +14,6 @@ import { ListarQuestoesComponent } from './juiz/listar-questoes/listar-questoes.
 import { ListarEstudantesComponent } from './turma/listar-estudantes/listar-estudantes.component';
 import { CadastrarTurmaComponent } from './turma/cadastrar-turma/cadastrar-turma.component';
 import { ListarTurmaComponent } from './turma/listar-turma/listar-turma.component';
-import { ListarPlanejamentosComponent } from './srl/planejamento/listar-planejamentos/listar-planejamentos.component';
-import { VisualizarPlanejamentoComponent } from './srl/planejamento/vizualizar-planejamento/visualizar-planejamento.component';
 import { CadastrarAssuntosComponent } from './juiz/cadastrar-assuntos/cadastrar-assuntos.component';
 import { ListarAssuntosComponent } from './juiz/listar-assuntos/listar-assuntos.component';
 import { VisualizarAssuntoComponent } from './juiz/visualizar-assunto/visualizar-assunto.component';
@@ -108,6 +105,33 @@ const routes: Routes = [
         outlet: 'principal',
       },
 
+      {
+        path: 'cadastro-questao/:assuntoId/:questaoId',
+        component: CadastrarQuestoesComponent,
+        canActivate: [AuthGuard, AdminGuard],
+        outlet: 'principal',
+      },
+      {
+        path: 'cadastro-questao-fechada/:assuntoId',
+        component: CadastrarQuestoesFechadasComponent,
+        canActivate: [AuthGuard, AdminGuard],
+        outlet: 'principal',
+      },
+
+      {
+        path: 'cadastro-questao-parson/:assuntoId',
+        component: CadastrarParsonComponent,
+        canActivate: [AuthGuard, AdminGuard],
+        outlet: 'principal',
+      },
+      
+      {
+        path: 'atualizacao-questao-parson/:assuntoId/:questaoId',
+        component: CadastrarParsonComponent,
+        canActivate: [AuthGuard, AdminGuard],
+        outlet: 'principal',
+      },
+
       /* FIM ADMIN */
 
       /* Turma */
@@ -154,55 +178,32 @@ const routes: Routes = [
         path: 'visualizar-parson',
         component: VisualizarParsonComponent,
         outlet: 'principal',
-        canActivate: [AuthGuard],
+        canActivate: [AuthGuard, PageTrack],
       },
 
-      {
-        path: 'cadastro-questao/:assuntoId/:questaoId',
-        component: CadastrarQuestoesComponent,
-        canActivate: [AuthGuard, AdminGuard],
-        outlet: 'principal',
-      },
-      {
-        path: 'cadastro-questao-fechada/:assuntoId',
-        component: CadastrarQuestoesFechadasComponent,
-        canActivate: [AuthGuard, AdminGuard],
-        outlet: 'principal',
-      },
-
-      {
-        path: 'cadastro-questao-parson/:assuntoId',
-        component: CadastrarParsonComponent,
-        canActivate: [AuthGuard, AdminGuard],
-        outlet: 'principal',
-      },
+      
       {
         path: 'visualizar-questao-parson/:assuntoId/:questaoId',
         component: VisualizarParsonComponent,
-        canActivate: [AuthGuard],
+        canActivate: [AuthGuard, PageTrack],
         outlet: 'principal',
       },
 
-      {
-        path: 'atualizacao-questao-parson/:assuntoId/:questaoId',
-        component: CadastrarParsonComponent,
-        canActivate: [AuthGuard, AdminGuard],
-        outlet: 'principal',
-      },
+      
 
        /* Sistema aprendizagem */
 
        {
         path: 'listar-videos',
         component: ListarVideosComponent,
-        canActivate: [AuthGuard],
+        canActivate: [AuthGuard, PageTrack],
         outlet: 'principal',
       },
 
       {
         path: 'visualizar-video/:videoId',
         component: VisualizarVideoComponent,
-        canActivate: [AuthGuard],
+        canActivate: [AuthGuard, PageTrack],
         outlet: 'principal',
       },
 
@@ -219,7 +220,7 @@ const routes: Routes = [
       {
         path: 'visualizar-documentacao-projeto/:atividadeGrupoId/:grupoId/:assuntoId/:questaoId',
         component: EditorDocumentacaoProjetoComponent,
-        canActivate: [AuthGuard],
+        canActivate: [AuthGuard, PageTrack],
         outlet: 'principal',
       },
 
@@ -233,14 +234,14 @@ const routes: Routes = [
       {
         path: 'listagem-atividades-grupo-professor',
         component: ListarAtividadesGrupoProfessorComponent,
-        canActivate: [AuthGuard, PageTrack, ProfessorGuard],
+        canActivate: [AuthGuard, ProfessorGuard],
         outlet: 'principal',
       },
 
       {
         path: 'visualizacao-atividade-grupo-professor/:id',
         component: VisualizarAtividadeGrupoProfessorComponent,
-        canActivate: [AuthGuard, PageTrack, ProfessorGuard],
+        canActivate: [AuthGuard, ProfessorGuard],
         outlet: 'principal',
       },
 
@@ -296,24 +297,7 @@ const routes: Routes = [
       },
       { path: 'comentario-codigo/:id', component: ComentariosCodigoComponent, outlet: 'principal' },
       { path: 'visualizarConteudo', component: VisualizarConteudoComponent, outlet: 'principal' },
-      {
-        path: 'visualizacao-planejamento/:id',
-        component: VisualizarPlanejamentoComponent,
-        canActivate: [AuthGuard, ExperimentoGuard],
-        outlet: 'principal',
-      },
-      {
-        path: 'cadastro-planejamento',
-        component: CadastroPlanejamentoComponent,
-        canActivate: [AuthGuard, ExperimentoGuard, PageTrack],
-        outlet: 'principal',
-      },
-      {
-        path: 'listagem-planejamento',
-        component: ListarPlanejamentosComponent,
-        canActivate: [AuthGuard, ExperimentoGuard],
-        outlet: 'principal',
-      },
+
       {
         path: 'srl-autoreflexao/:id',
         component: AutoReflexaoComponent,
@@ -328,12 +312,7 @@ const routes: Routes = [
         outlet: 'principal',
       },
 
-      {
-        path: 'atualizacao-planejamento/:id',
-        component: CadastroPlanejamentoComponent,
-        canActivate: [AuthGuard, AdminGuard],
-        outlet: 'principal',
-      },
+      
       {
         path: 'self-instruction/:assuntoId/:questaoId',
         component: SelfInstructionComponent,
@@ -450,12 +429,12 @@ const routes: Routes = [
       },
 
       /** Fim Turma */
-      {
+     /*  { TODO: APAGAR ESSE COMPONENT
         path: 'visualizacao-questao/:assuntoId/:questaoId',
         component: VisualizarQuestaoComponent,
         canActivate: [AuthGuard],
         outlet: 'principal',
-      },
+      }, */
       {
         path: 'visualizacao-questao-fechada/:assuntoId/:questaoId',
         component: VisualizarQuestaoFechadaComponent,
@@ -544,31 +523,31 @@ const routes: Routes = [
       {
         path: 'cadastrar-postagem/:turmaId/:postagemId',
         component: CadastrarPostagemComponent,
-        canActivate: [AuthGuard],
+        canActivate: [AuthGuard, PageTrack],
         outlet: 'principal',
       },
       {
         path: 'cadastrar-postagem/:turmaId',
         component: CadastrarPostagemComponent,
-        canActivate: [AuthGuard],
+        canActivate: [AuthGuard, PageTrack],
         outlet: 'principal',
       },
       {
         path: 'listar-postagens/:turmaId',
         component: ListarPostagensComponent,
-        canActivate: [AuthGuard],
+        canActivate: [AuthGuard, PageTrack],
         outlet: 'principal',
       },
       {
         path: 'visualizar-postagem/:postagemId/:turmaId',
         component: VisualizarPostagemComponent,
-        canActivate: [AuthGuard],
+        canActivate: [AuthGuard, PageTrack],
         outlet: 'principal',
       },
       {
         path: 'visualizacao-estudante/:id',
         component: VisualizarPerfilEstudanteComponent,
-        canActivate: [AuthGuard],
+        canActivate: [AuthGuard, PageTrack],
         outlet: 'principal',
       },
       {
@@ -580,13 +559,13 @@ const routes: Routes = [
       {
         path: 'listar-materiais/:turmaId',
         component: ListarMateriaisComponent,
-        canActivate: [AuthGuard],
+        canActivate: [AuthGuard, PageTrack],
         outlet: 'principal',
       },
       {
         path: 'visualizacao-turma/:turmaId',
         component: VisualizarTurmaComponent,
-        canActivate: [AuthGuard],
+        canActivate: [AuthGuard, PageTrack],
         outlet: 'principal',
       },
       // {path:"home", component: HomeComponent, canActivate: [AuthGuard], canLoad: [AuthGuard], outlet:"principal"},
