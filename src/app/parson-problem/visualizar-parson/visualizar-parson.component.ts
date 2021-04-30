@@ -2,9 +2,11 @@ import { CdkDragDrop, moveItemInArray, transferArrayItem } from '@angular/cdk/dr
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { MessageService } from 'primeng/api';
+import { GamificationFacade } from 'src/app/gamification/gamification.service';
 import { LoginService } from 'src/app/login-module/login.service';
 import { Assunto } from 'src/app/model/assunto';
 import { Dificuldade } from 'src/app/model/enums/dificuldade';
+import PontuacaoQuestaoParson from 'src/app/model/gamification/pontuacaoQuestaoParson';
 import { RespostaQuestaoParson } from 'src/app/model/juiz/respostaQuestaoParson';
 import QuestaoParsonProblem from 'src/app/model/questoes/parsonProblem';
 import SegmentoParson from 'src/app/model/questoes/segmentoParson';
@@ -24,7 +26,8 @@ export class VisualizarParsonComponent implements OnInit {
   constructor(
     private route: ActivatedRoute,
     private login: LoginService,
-    private messageService: MessageService
+    private messageService: MessageService,
+    private gamification: GamificationFacade
   ) {
     this.usuario = this.login.getUsuarioLogado();
             this.respostaQuestaoFechada = new RespostaQuestaoParson(
@@ -78,6 +81,11 @@ export class VisualizarParsonComponent implements OnInit {
   enviar() {
     this.respostaQuestaoFechada.save().subscribe((resposta) => {
       if (this.questao.isRespostaCorreta(this.respostaQuestaoFechada)) {
+        this.gamification.aumentarPontuacao(
+          this.login.getUsuarioLogado(),
+          this.questao,
+          new PontuacaoQuestaoParson()
+        );
         this.messageService.add({
           severity: 'success',
           summary: 'Parabéns',

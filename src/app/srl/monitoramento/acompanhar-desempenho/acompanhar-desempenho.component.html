@@ -1,18 +1,16 @@
-<div *ngIf="possuiSubmissoes == true">
-  <h1>Seu desempenho em programação</h1>
+<div *ngIf="respostas == null || respostas.submissoes == null">
+  <h3>Ainda não há dados para apresentar o seu progresso.</h3>
+</div>
+<h1>Seu desempenho em programação</h1>
 
-  <!--
-        <div class="p-grid">
-            <div class="p-col-6">
-                <app-card-desempenho *ngIf="errorQuotient != null" [errorQuotient]="errorQuotient" >
-                </app-card-desempenho>
-            </div>
-            <div class="p-col-6">
-                <card-risco-estudante *ngIf="errorQuotient != null" [errorQuotient]="errorQuotient">
-                </card-risco-estudante>
-            </div>
-        </div>
-         -->
+<div class="p-d-flex p-flex-column p-flex-md-row">
+  <div class="p-mb-4 p-mr-4">
+    <app-card-desempenho [respostas]="respostas" [assuntos]="assuntos"></app-card-desempenho>
+  </div>
+  <div class="p-mb-8 p-mr-8">
+
+    <app-desempenho-metricas></app-desempenho-metricas>
+  </div>
 </div>
 
 <div class="p-d-flex p-flex-column p-flex-md-row">
@@ -27,5 +25,3 @@
     <app-analise-desempenho-estudante [erros]="erros"></app-analise-desempenho-estudante>
   </div>
 </div>
-
-<app-desempenho-metricas></app-desempenho-metricas>

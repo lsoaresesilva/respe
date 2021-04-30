@@ -5,7 +5,8 @@ import { Tutor } from 'src/app/model/tutor';
 import Query from 'src/app/model/firestore/query';
 import Erro from 'src/app/model/errors/erro';
 import { ErroCompilacao } from 'src/app/model/errors/analise-compilacao/erroCompilacao';
-
+import { Assunto } from 'src/app/model/assunto';
+import { ChangeDetectorRef } from '@angular/core';
 @Component({
   selector: 'app-acompanhar-desempenho',
   templateUrl: './acompanhar-desempenho.component.html',
@@ -16,23 +17,31 @@ export class AcompanharDesempenhoComponent implements OnInit {
   possuiSubmissoes;
   erros;
 
-  constructor(private loginService: LoginService) {
+  respostas;
+  assuntos;
+
+  constructor(private loginService: LoginService, private ref: ChangeDetectorRef) {
     this.possuiSubmissoes = false;
   }
 
   ngOnInit() {
-    Submissao.getAll(new Query("estudanteId", "==", this.loginService.getUsuarioLogado().pk()), "data").subscribe(submissoes => {
-      if(submissoes.length > 0){
-        this.erros = ErroCompilacao.getAllErros(submissoes);
+    Assunto.consultarRespostasEstudante(this.loginService.getUsuarioLogado()).subscribe(respostas=>{
+      this.respostas = respostas;
+      if(respostas.submissoes.length > 0){
+        this.erros = ErroCompilacao.getAllErros(respostas.submissoes);
+        this.ref.markForCheck();
         this.possuiSubmissoes = true;
       }
-        
       
-      //this.errorQuotient = Tutor.calcularErrorQuotient(submissoes);
-      //let ranking = Erro.rankErros(dados);
-      //let dadosHistograma = Erro.calcularHistogramaPorRank(ranking, submissoes);
-      //this.construirGraficoBarras(dadosHistograma, ranking);
     })
+
+    Assunto.getAll().subscribe(assuntos=>{
+      this.assuntos = assuntos;
+    })
+    /* Submissao.getAll(new Query("estudanteId", "==", this.loginService.getUsuarioLogado().pk()), "data").subscribe(submissoes => {
+      
+        
+    }) */
     
   }
 
