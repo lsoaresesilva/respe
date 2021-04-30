@@ -154,6 +154,12 @@ export default class QuestaoParsonProblem extends Questao {
     });
   }
 
+  possuiCodigoNoEnunciado() {
+    if (this.enunciado != null) {
+      return this.enunciado.search("'''python") != -1 ? true : false;
+    }
+  }
+
   prepararParaCarregamento() {
     /*  if (this.algoritmoInicial != null) {
       this.algoritmoInicial = this.algoritmoInicial.join('\n');

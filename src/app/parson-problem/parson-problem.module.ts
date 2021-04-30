@@ -8,7 +8,7 @@ import { ButtonModule } from 'primeng/button';
 import { CadastrarParsonComponent } from './cadastrar-parson/cadastrar-parson.component';
 import { ToastModule } from 'primeng/toast';
 import { FormsModule } from '@angular/forms';
-
+import { FieldsetModule } from 'primeng/fieldset';
 import { DropdownModule } from 'primeng/dropdown';
 import { JuizModule } from '../juiz/juiz.module';
 
@@ -18,6 +18,7 @@ import { JuizModule } from '../juiz/juiz.module';
     JuizModule,
     CommonModule,
     CardModule,
+    FieldsetModule,
     OrderListModule,
     DragDropModule,
     ButtonModule,

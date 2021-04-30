@@ -1,5 +1,6 @@
 import { CdkDragDrop, moveItemInArray, transferArrayItem } from '@angular/cdk/drag-drop';
 import { Component, OnInit } from '@angular/core';
+import { DomSanitizer } from '@angular/platform-browser';
 import { ActivatedRoute } from '@angular/router';
 import { MessageService } from 'primeng/api';
 import { GamificationFacade } from 'src/app/gamification/gamification.service';
@@ -24,18 +25,30 @@ export class VisualizarParsonComponent implements OnInit {
   segmentoSelecionado;
 
   constructor(
+    private sanitizer: DomSanitizer,
     private route: ActivatedRoute,
     private login: LoginService,
     private messageService: MessageService,
     private gamification: GamificationFacade
   ) {
     this.usuario = this.login.getUsuarioLogado();
-            this.respostaQuestaoFechada = new RespostaQuestaoParson(
-              null,
-              this.usuario,
-              [],
-              this.questao
-            );
+    this.respostaQuestaoFechada = new RespostaQuestaoParson(null, this.usuario, [], this.questao);
+  }
+
+  formatarHtml(questao) {
+    return this.sanitizer.bypassSecurityTrustHtml(questao.enunciado);
+  }
+
+  gerarHtmlTextoComCodigo(questao: QuestaoParsonProblem) {
+    if (questao.possuiCodigoNoEnunciado()) {
+      const texto = questao.enunciado
+        .replace(
+          new RegExp("'''python", 'g'),
+          "<pre><code class='language-python' style='display: block; white-space: pre-wrap;' pCode>"
+        )
+        .replace(new RegExp("'''", 'g'), '</code></pre>');
+      return this.sanitizer.bypassSecurityTrustHtml(texto);
+    }
   }
 
   ngOnInit(): void {
