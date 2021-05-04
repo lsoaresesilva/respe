@@ -1,4 +1,3 @@
-
 <div *ngIf="console != null" style="border: 1px solid black; background-color:black; height:200px; color: aliceblue;">
     <!-- <p-terminal welcomeMessage="Código em execução..." prompt=">>"></p-terminal> -->
     <div *ngIf="console.submissao == null;else hasSubmissao">
@@ -19,12 +18,11 @@
             </div>
         </ng-template>
     </ng-template>
-    
-</div>
-<div *ngIf="console != null && console.tracebackOriginal != null"><button pButton label="Visualizar erro original"
-    (click)="visualizarSaidaOriginal()">
 
-</button>
-{{saidaOriginal}}
+</div>
+<div *ngIf="console != null && console.tracebackOriginal != null">
+    <button pButton label="Visualizar erro original" (click)="visualizarSaidaOriginal()"></button>
+    
+    {{saidaOriginal}}
 
 </div>

@@ -86,12 +86,17 @@ export class IdeComponent implements OnChanges{
     this.submissao = submissao;
     this.consoleEditor.erro = null;
     this.consoleEditor.submissao = this.submissao;
+    if(this.submissao.erro.traceback != null){
+      this.consoleEditor.tracebackOriginal = this.submissao.erro.traceback;
+    }
+    
     this.onEditorError.emit(submissao);
   }
 
   submissaoEditor(submissao) {
     this.submissao = submissao;
     this.consoleEditor.erro = null;
+    this.consoleEditor.tracebackOriginal = null;
     this.consoleEditor.submissao = this.submissao;
     this.onEditorSubmit.emit(submissao);
   }

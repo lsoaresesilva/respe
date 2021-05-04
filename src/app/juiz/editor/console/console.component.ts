@@ -20,7 +20,10 @@ export class ConsoleComponent implements OnChanges {
   @Input()
   consoleEditor: ConsoleEditor;
 
+  tracebackOriginal;
+
   constructor(private sanitizer: DomSanitizer) {}
+  
   ngOnChanges(changes: SimpleChanges): void {
     let x = this.submissao;
     let y = x;
@@ -62,5 +65,9 @@ export class ConsoleComponent implements OnChanges {
     }
 
     return this.sanitizer.bypassSecurityTrustHtml(text);
+  }
+
+  visualizarSaidaOriginal(){
+    this.tracebackOriginal = this.consoleEditor.tracebackOriginal;
   }
 }

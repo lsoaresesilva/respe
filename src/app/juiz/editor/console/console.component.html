@@ -15,3 +15,11 @@
     </ng-template>
   </div>
 </div>
+<div *ngIf="consoleEditor != null && consoleEditor.tracebackOriginal != null">
+  <button pButton label="Visualizar erro original" (click)="visualizarSaidaOriginal()"></button>
+  
+  <div>
+    {{tracebackOriginal}}
+  </div>
+
+</div>

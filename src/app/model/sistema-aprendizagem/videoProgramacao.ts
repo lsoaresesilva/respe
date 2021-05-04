@@ -30,14 +30,21 @@ export default class VideoProgramacao extends Document{
                 if(configuracao.assuntos != null){
                     let query = [];
                     configuracao.assuntos.forEach(assunto => {
-                        query.push(VideoProgramacao.getByQuery(new Query("assuntoId", "==", assunto)));
+                        query.push(VideoProgramacao.getAll(new Query("assuntoId", "==", assunto)));
                     });
 
-                    forkJoin(query).subscribe(videos=>{
-                        let videosSelecionados:any = videos.filter((video)=>{
-                            if(video != null)
-                                return true;
-                        });
+                    forkJoin(query).subscribe(videosAssuntos=>{
+                        let videosSelecionados:any = [];
+                        if(Array.isArray(videosAssuntos)){
+                            videosAssuntos.forEach(videosAssunto=>{
+
+                                videosSelecionados = videosSelecionados.concat(videosAssunto.filter((video)=>{
+                                    if(video != null)
+                                        return true;
+                                }));
+                            })
+                        }
+                        
 
                         videosSelecionados.sort((videoA, videoB)=>{
                             if(videoA.sequencia < videoB.sequencia){
