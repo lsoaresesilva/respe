@@ -120,7 +120,6 @@
 <app-questionario-autorregulacao
   [visibilidadeQuestionario]="visibilidadeQuestionario"
   (onQuestionarioRespondido)="onQuestionarioRespondido($event)"
-  *ngIf="usuario.perfil == 3"
 ></app-questionario-autorregulacao>
 <app-tips-regulacao
   *ngIf="usuario.grupoExperimento != 4 && usuario.perfil == 1"

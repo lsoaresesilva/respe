@@ -2,819 +2,1191 @@
   [style]="{width: '1200px'}">
   <div style="margin: 10px 0px 10px 0px">
     Antes de começar, iremos fazer algumas perguntas para conhecê-lo melhor. O objetivo é oferecer uma melhor experiência de aprendizagem ao longo do curso.
-    Não há respostas certas ou erradas, e você deve respondê-las com a maior precisão possível.
+    Não há respostas certas ou erradas, e você deve respondê-las de acordo com suas convicções.
   </div>
-  <p>São 22 afirmações e leva aproximadamente 5 minutos para responder.</p>
+  <p>São 22 afirmações e leva aproximadamente 5 minutos para responder (use a barra de rolagem para visualizar as demais perguntas).</p>
   <div style="margin: 10px 0px 10px 0px">
-    Use a escala de 1 a 7 para responder as perguntas, se você acha que a afirmação é muito verdadeira para você, marque
-    7; se você entender que a afirmação não é verdadeira para você, marque 1. Se a declaração é mais ou menos verdade
-    para você, procure entre 1 e 7 aquele que que melhor descreve você.
+    Use a escala de 1 a 5 para responder as perguntas, se você acha que a afirmação é muito verdadeira para você, marque
+    5; se você entender que a afirmação não é verdadeira para você, marque 1. Se a declaração é mais ou menos verdade
+    para você, procure entre 1 e 5 aquele que que melhor descreve você.
   </div>
 
-
-  <div style="margin: 10px 0px 10px 0px">
-
-    <img src="/assets/respostas_questionario.png" />
-  </div>
   <div style="margin: 0px 0px 10px 0px">
 
   </div>
   <div style="margin: 10px 0px 10px 0px">
     <span style="font-weight: bold">Atenção:</span> antes de utilizar a plataforma é preciso respondê-las.
   </div>
-  <p-scrollPanel [style]="{width: '100%', height: '400px'}">
-    <div>
-      <p>
-        1. Quando eu estudo para uma avaliação, tento reunir as informações da sala de aula e dos livros.
-      </p>
-      <div class="ui-inputgroup">
-        <span class="ui-inputgroup-addon">
-          <p-radioButton name="afirmacaoUm" value="1" label="1"
+  <p-scrollPanel [style]="{width: '100%', height: '400px', backgroundColor: '#dbdbdb'}" styleClass="custombar1" id="scroll">
+    <div class="p-grid">
+      <div class="p-col-12">
+        <h3>1. Quando eu estudo para uma avaliação, tento reunir as informações da sala de aula e dos livros.</h3>
+      </div>
+      <div class="p-col-2">
+        
+      </div>
+      <div class="p-col-1">
+       1 
+      </div>
+      <div class="p-col-1">
+        2 
+       </div>
+       <div class="p-col-1">
+        3
+       </div>
+       <div class="p-col-1">
+        4
+       </div>
+       <div class="p-col-1">
+        5
+       </div>
+       <div class="p-col-5">
+        
+       </div>
+       <div class="p-col-2">
+        Discordo completamente
+      </div>
+      <div class="p-col-1">
+        <p-radioButton name="afirmacaoUm" value="1" label=""
+            [(ngModel)]="respostasQuestionarioAutorregulacao.respostaPergunta1"></p-radioButton> 
+       </div>
+       <div class="p-col-1">
+        <p-radioButton name="afirmacaoUm" value="2" label=""
+        [(ngModel)]="respostasQuestionarioAutorregulacao.respostaPergunta1"></p-radioButton> 
+        </div>
+        <div class="p-col-1">
+          <p-radioButton name="afirmacaoUm" value="3" label=""
+          [(ngModel)]="respostasQuestionarioAutorregulacao.respostaPergunta1"></p-radioButton>
+        </div>
+        <div class="p-col-1">
+          <p-radioButton name="afirmacaoUm" value="4" label=""
             [(ngModel)]="respostasQuestionarioAutorregulacao.respostaPergunta1"></p-radioButton>
-        </span>
-        <span class="ui-inputgroup-addon">
-          <p-radioButton name="afirmacaoUm" value="2" label="2"
-            [(ngModel)]="respostasQuestionarioAutorregulacao.respostaPergunta1"></p-radioButton>
-        </span>
-        <span class="ui-inputgroup-addon">
-          <p-radioButton name="afirmacaoUm" value="3" label="3"
-            [(ngModel)]="respostasQuestionarioAutorregulacao.respostaPergunta1"></p-radioButton>
-        </span>
-        <span class="ui-inputgroup-addon">
-          <p-radioButton name="afirmacaoUm" value="4" label="4"
-            [(ngModel)]="respostasQuestionarioAutorregulacao.respostaPergunta1"></p-radioButton>
-        </span>
-        <span class="ui-inputgroup-addon">
-          <p-radioButton name="afirmacaoUm" value="5" label="5"
-            [(ngModel)]="respostasQuestionarioAutorregulacao.respostaPergunta1"></p-radioButton>
-        </span>
-        <span class="ui-inputgroup-addon">
-          <p-radioButton name="afirmacaoUm" value="6" label="6"
-            [(ngModel)]="respostasQuestionarioAutorregulacao.respostaPergunta1"></p-radioButton>
-        </span>
-        <span class="ui-inputgroup-addon">
-          <p-radioButton name="afirmacaoUm" value="7" label="7"
-            [(ngModel)]="respostasQuestionarioAutorregulacao.respostaPergunta1"></p-radioButton>
-        </span>
-      </div>
+        </div>
+        <div class="p-col-1">
+          <p-radioButton name="afirmacaoUm" value="5" label=""
+          [(ngModel)]="respostasQuestionarioAutorregulacao.respostaPergunta1"></p-radioButton>
+        </div>
+        <div class="p-col-5">
+         Concordo plenamente
+        </div>
     </div>
 
-    <div>
-      <p>
-        2. Quando faço tarefas de casa, eu tento lembrar o que o professor falou em sala de aula para assim responder corretamente as questões.
-      </p>
-      <div class="ui-inputgroup">
-        <span class="ui-inputgroup-addon">
-          <p-radioButton name="afirmacaoDois" value="1" label="1"
+
+    <div class="p-grid">
+      <div class="p-col-12">
+        <h3>2. Quando faço tarefas de casa, eu tento lembrar o que o professor falou em sala de aula para assim responder corretamente as questões.</h3>
+      </div>
+      <div class="p-col-2">
+        
+      </div>
+      <div class="p-col-1">
+       1 
+      </div>
+      <div class="p-col-1">
+        2 
+       </div>
+       <div class="p-col-1">
+        3
+       </div>
+       <div class="p-col-1">
+        4
+       </div>
+       <div class="p-col-1">
+        5
+       </div>
+       <div class="p-col-5">
+        
+       </div>
+       <div class="p-col-2">
+        Discordo completamente
+      </div>
+      <div class="p-col-1">
+        <p-radioButton name="afirmacaoUm" value="1" label=""
+            [(ngModel)]="respostasQuestionarioAutorregulacao.respostaPergunta2"></p-radioButton> 
+       </div>
+       <div class="p-col-1">
+        <p-radioButton name="afirmacaoUm" value="2" label=""
+        [(ngModel)]="respostasQuestionarioAutorregulacao.respostaPergunta2"></p-radioButton> 
+        </div>
+        <div class="p-col-1">
+          <p-radioButton name="afirmacaoUm" value="3" label=""
+          [(ngModel)]="respostasQuestionarioAutorregulacao.respostaPergunta2"></p-radioButton>
+        </div>
+        <div class="p-col-1">
+          <p-radioButton name="afirmacaoUm" value="4" label=""
             [(ngModel)]="respostasQuestionarioAutorregulacao.respostaPergunta2"></p-radioButton>
-        </span>
-        <span class="ui-inputgroup-addon">
-          <p-radioButton name="afirmacaoDois" value="2" label="2"
-            [(ngModel)]="respostasQuestionarioAutorregulacao.respostaPergunta2"></p-radioButton>
-        </span>
-        <span class="ui-inputgroup-addon">
-          <p-radioButton name="afirmacaoDois" value="3" label="3"
-            [(ngModel)]="respostasQuestionarioAutorregulacao.respostaPergunta2"></p-radioButton>
-        </span>
-        <span class="ui-inputgroup-addon">
-          <p-radioButton name="afirmacaoDois" value="4" label="4"
-            [(ngModel)]="respostasQuestionarioAutorregulacao.respostaPergunta2"></p-radioButton>
-        </span>
-        <span class="ui-inputgroup-addon">
-          <p-radioButton name="afirmacaoDois" value="5" label="5"
-            [(ngModel)]="respostasQuestionarioAutorregulacao.respostaPergunta2"></p-radioButton>
-        </span>
-        <span class="ui-inputgroup-addon">
-          <p-radioButton name="afirmacaoDois" value="6" label="6"
-            [(ngModel)]="respostasQuestionarioAutorregulacao.respostaPergunta2"></p-radioButton>
-        </span>
-        <span class="ui-inputgroup-addon">
-          <p-radioButton name="afirmacaoDois" value="7" label="7"
-            [(ngModel)]="respostasQuestionarioAutorregulacao.respostaPergunta2"></p-radioButton>
-        </span>
-      </div>
+        </div>
+        <div class="p-col-1">
+          <p-radioButton name="afirmacaoUm" value="5" label=""
+          [(ngModel)]="respostasQuestionarioAutorregulacao.respostaPergunta2"></p-radioButton>
+        </div>
+        <div class="p-col-5">
+         Concordo plenamente
+        </div>
     </div>
 
-    <div>
-      <p>
-        3. Para mim é difícil compreender quais são as principais ideias em um texto que li.
-      </p>
-      <div class="ui-inputgroup">
-        <span class="ui-inputgroup-addon">
-          <p-radioButton name="afirmacaoTres" value="1" label="1"
+    <div class="p-grid">
+      <div class="p-col-12">
+        <h3>3. Para mim é difícil compreender quais são as principais ideias em um texto que li.</h3>
+      </div>
+      <div class="p-col-2">
+        
+      </div>
+      <div class="p-col-1">
+       1 
+      </div>
+      <div class="p-col-1">
+        2 
+       </div>
+       <div class="p-col-1">
+        3
+       </div>
+       <div class="p-col-1">
+        4
+       </div>
+       <div class="p-col-1">
+        5
+       </div>
+       <div class="p-col-5">
+        
+       </div>
+       <div class="p-col-2">
+        Discordo completamente
+      </div>
+      <div class="p-col-1">
+        <p-radioButton name="afirmacaoUm" value="1" label=""
+            [(ngModel)]="respostasQuestionarioAutorregulacao.respostaPergunta3"></p-radioButton> 
+       </div>
+       <div class="p-col-1">
+        <p-radioButton name="afirmacaoUm" value="2" label=""
+        [(ngModel)]="respostasQuestionarioAutorregulacao.respostaPergunta3"></p-radioButton> 
+        </div>
+        <div class="p-col-1">
+          <p-radioButton name="afirmacaoUm" value="3" label=""
+          [(ngModel)]="respostasQuestionarioAutorregulacao.respostaPergunta3"></p-radioButton>
+        </div>
+        <div class="p-col-1">
+          <p-radioButton name="afirmacaoUm" value="4" label=""
             [(ngModel)]="respostasQuestionarioAutorregulacao.respostaPergunta3"></p-radioButton>
-        </span>
-        <span class="ui-inputgroup-addon">
-          <p-radioButton name="afirmacaoTres" value="2" label="2"
-            [(ngModel)]="respostasQuestionarioAutorregulacao.respostaPergunta3"></p-radioButton>
-        </span>
-        <span class="ui-inputgroup-addon">
-          <p-radioButton name="afirmacaoTres" value="3" label="3"
-            [(ngModel)]="respostasQuestionarioAutorregulacao.respostaPergunta3"></p-radioButton>
-        </span>
-        <span class="ui-inputgroup-addon">
-          <p-radioButton name="afirmacaoTres" value="4" label="4"
-            [(ngModel)]="respostasQuestionarioAutorregulacao.respostaPergunta3"></p-radioButton>
-        </span>
-        <span class="ui-inputgroup-addon">
-          <p-radioButton name="afirmacaoTres" value="5" label="5"
-            [(ngModel)]="respostasQuestionarioAutorregulacao.respostaPergunta3"></p-radioButton>
-        </span>
-        <span class="ui-inputgroup-addon">
-          <p-radioButton name="afirmacaoTres" value="6" label="6"
-            [(ngModel)]="respostasQuestionarioAutorregulacao.respostaPergunta3"></p-radioButton>
-        </span>
-        <span class="ui-inputgroup-addon">
-          <p-radioButton name="afirmacaoTres" value="7" label="7"
-            [(ngModel)]="respostasQuestionarioAutorregulacao.respostaPergunta3"></p-radioButton>
-        </span>
-      </div>
+        </div>
+        <div class="p-col-1">
+          <p-radioButton name="afirmacaoUm" value="5" label=""
+          [(ngModel)]="respostasQuestionarioAutorregulacao.respostaPergunta3"></p-radioButton>
+        </div>
+        <div class="p-col-5">
+         Concordo plenamente
+        </div>
     </div>
 
-    <div>
-      <p>
-        4. Quando estudo, ponho as ideias importantes em minhas próprias palavras.
-      </p>
-      <div class="ui-inputgroup">
-        <span class="ui-inputgroup-addon">
-          <p-radioButton name="afirmacaoQuatro" value="1" label="1"
+    <div class="p-grid">
+      <div class="p-col-12">
+        <h3>4. Quando estudo, ponho as ideias importantes em minhas próprias palavras.</h3>
+      </div>
+      <div class="p-col-2">
+        
+      </div>
+      <div class="p-col-1">
+       1 
+      </div>
+      <div class="p-col-1">
+        2 
+       </div>
+       <div class="p-col-1">
+        3
+       </div>
+       <div class="p-col-1">
+        4
+       </div>
+       <div class="p-col-1">
+        5
+       </div>
+       <div class="p-col-5">
+        
+       </div>
+       <div class="p-col-2">
+        Discordo completamente
+      </div>
+      <div class="p-col-1">
+        <p-radioButton name="afirmacaoUm" value="1" label=""
+            [(ngModel)]="respostasQuestionarioAutorregulacao.respostaPergunta4"></p-radioButton> 
+       </div>
+       <div class="p-col-1">
+        <p-radioButton name="afirmacaoUm" value="2" label=""
+        [(ngModel)]="respostasQuestionarioAutorregulacao.respostaPergunta4"></p-radioButton> 
+        </div>
+        <div class="p-col-1">
+          <p-radioButton name="afirmacaoUm" value="3" label=""
+          [(ngModel)]="respostasQuestionarioAutorregulacao.respostaPergunta4"></p-radioButton>
+        </div>
+        <div class="p-col-1">
+          <p-radioButton name="afirmacaoUm" value="4" label=""
             [(ngModel)]="respostasQuestionarioAutorregulacao.respostaPergunta4"></p-radioButton>
-        </span>
-        <span class="ui-inputgroup-addon">
-          <p-radioButton name="afirmacaoQuatro" value="2" label="2"
-            [(ngModel)]="respostasQuestionarioAutorregulacao.respostaPergunta4"></p-radioButton>
-        </span>
-        <span class="ui-inputgroup-addon">
-          <p-radioButton name="afirmacaoQuatro" value="3" label="3"
-            [(ngModel)]="respostasQuestionarioAutorregulacao.respostaPergunta4"></p-radioButton>
-        </span>
-        <span class="ui-inputgroup-addon">
-          <p-radioButton name="afirmacaoQuatro" value="4" label="4"
-            [(ngModel)]="respostasQuestionarioAutorregulacao.respostaPergunta4"></p-radioButton>
-        </span>
-        <span class="ui-inputgroup-addon">
-          <p-radioButton name="afirmacaoQuatro" value="5" label="5"
-            [(ngModel)]="respostasQuestionarioAutorregulacao.respostaPergunta4"></p-radioButton>
-        </span>
-        <span class="ui-inputgroup-addon">
-          <p-radioButton name="afirmacaoQuatro" value="6" label="6"
-            [(ngModel)]="respostasQuestionarioAutorregulacao.respostaPergunta4"></p-radioButton>
-        </span>
-        <span class="ui-inputgroup-addon">
-          <p-radioButton name="afirmacaoQuatro" value="7" label="7"
-            [(ngModel)]="respostasQuestionarioAutorregulacao.respostaPergunta4"></p-radioButton>
-        </span>
-      </div>
+        </div>
+        <div class="p-col-1">
+          <p-radioButton name="afirmacaoUm" value="5" label=""
+          [(ngModel)]="respostasQuestionarioAutorregulacao.respostaPergunta4"></p-radioButton>
+        </div>
+        <div class="p-col-5">
+         Concordo plenamente
+        </div>
     </div>
 
-    <div>
-      <p>
-        5. Sempre busco entender o que o professor está dizendo, mesmo que isto não faça sentido.
-      </p>
-      <div class="ui-inputgroup">
-        <span class="ui-inputgroup-addon">
-          <p-radioButton name="afirmacaoCinco" value="1" label="1"
+    <div class="p-grid">
+      <div class="p-col-12">
+        <h3>5. Sempre busco entender o que o professor está dizendo, mesmo que isto não faça sentido.</h3>
+      </div>
+      <div class="p-col-2">
+        
+      </div>
+      <div class="p-col-1">
+       1 
+      </div>
+      <div class="p-col-1">
+        2 
+       </div>
+       <div class="p-col-1">
+        3
+       </div>
+       <div class="p-col-1">
+        4
+       </div>
+       <div class="p-col-1">
+        5
+       </div>
+       <div class="p-col-5">
+        
+       </div>
+       <div class="p-col-2">
+        Discordo completamente
+      </div>
+      <div class="p-col-1">
+        <p-radioButton name="afirmacaoUm" value="1" label=""
+            [(ngModel)]="respostasQuestionarioAutorregulacao.respostaPergunta5"></p-radioButton> 
+       </div>
+       <div class="p-col-1">
+        <p-radioButton name="afirmacaoUm" value="2" label=""
+        [(ngModel)]="respostasQuestionarioAutorregulacao.respostaPergunta5"></p-radioButton> 
+        </div>
+        <div class="p-col-1">
+          <p-radioButton name="afirmacaoUm" value="3" label=""
+          [(ngModel)]="respostasQuestionarioAutorregulacao.respostaPergunta5"></p-radioButton>
+        </div>
+        <div class="p-col-1">
+          <p-radioButton name="afirmacaoUm" value="4" label=""
             [(ngModel)]="respostasQuestionarioAutorregulacao.respostaPergunta5"></p-radioButton>
-        </span>
-        <span class="ui-inputgroup-addon">
-          <p-radioButton name="afirmacaoCinco" value="2" label="2"
-            [(ngModel)]="respostasQuestionarioAutorregulacao.respostaPergunta5"></p-radioButton>
-        </span>
-        <span class="ui-inputgroup-addon">
-          <p-radioButton name="afirmacaoCinco" value="3" label="3"
-            [(ngModel)]="respostasQuestionarioAutorregulacao.respostaPergunta5"></p-radioButton>
-        </span>
-        <span class="ui-inputgroup-addon">
-          <p-radioButton name="afirmacaoCinco" value="4" label="4"
-            [(ngModel)]="respostasQuestionarioAutorregulacao.respostaPergunta5"></p-radioButton>
-        </span>
-        <span class="ui-inputgroup-addon">
-          <p-radioButton name="afirmacaoCinco" value="5" label="5"
-            [(ngModel)]="respostasQuestionarioAutorregulacao.respostaPergunta5"></p-radioButton>
-        </span>
-        <span class="ui-inputgroup-addon">
-          <p-radioButton name="afirmacaoCinco" value="6" label="6"
-            [(ngModel)]="respostasQuestionarioAutorregulacao.respostaPergunta5"></p-radioButton>
-        </span>
-        <span class="ui-inputgroup-addon">
-          <p-radioButton name="afirmacaoCinco" value="7" label="7"
-            [(ngModel)]="respostasQuestionarioAutorregulacao.respostaPergunta5"></p-radioButton>
-        </span>
-      </div>
+        </div>
+        <div class="p-col-1">
+          <p-radioButton name="afirmacaoUm" value="5" label=""
+          [(ngModel)]="respostasQuestionarioAutorregulacao.respostaPergunta5"></p-radioButton>
+        </div>
+        <div class="p-col-5">
+         Concordo plenamente
+        </div>
     </div>
 
-    <div>
-      <p>
-        6. Quando estudo para uma avaliação, tento me lembrar do máximo de conceitos que posso.
-      </p>
-      <div class="ui-inputgroup">
-        <span class="ui-inputgroup-addon">
-          <p-radioButton name="afirmacaoSeis" value="1" label="1"
+    <div class="p-grid">
+      <div class="p-col-12">
+        <h3>6. Quando estudo para uma avaliação, tento me lembrar do máximo de conceitos que posso.</h3>
+      </div>
+      <div class="p-col-2">
+        
+      </div>
+      <div class="p-col-1">
+       1 
+      </div>
+      <div class="p-col-1">
+        2 
+       </div>
+       <div class="p-col-1">
+        3
+       </div>
+       <div class="p-col-1">
+        4
+       </div>
+       <div class="p-col-1">
+        5
+       </div>
+       <div class="p-col-5">
+        
+       </div>
+       <div class="p-col-2">
+        Discordo completamente
+      </div>
+      <div class="p-col-1">
+        <p-radioButton name="afirmacaoUm" value="1" label=""
+            [(ngModel)]="respostasQuestionarioAutorregulacao.respostaPergunta6"></p-radioButton> 
+       </div>
+       <div class="p-col-1">
+        <p-radioButton name="afirmacaoUm" value="2" label=""
+        [(ngModel)]="respostasQuestionarioAutorregulacao.respostaPergunta6"></p-radioButton> 
+        </div>
+        <div class="p-col-1">
+          <p-radioButton name="afirmacaoUm" value="3" label=""
+          [(ngModel)]="respostasQuestionarioAutorregulacao.respostaPergunta6"></p-radioButton>
+        </div>
+        <div class="p-col-1">
+          <p-radioButton name="afirmacaoUm" value="4" label=""
             [(ngModel)]="respostasQuestionarioAutorregulacao.respostaPergunta6"></p-radioButton>
-        </span>
-        <span class="ui-inputgroup-addon">
-          <p-radioButton name="afirmacaoSeis" value="2" label="2"
-            [(ngModel)]="respostasQuestionarioAutorregulacao.respostaPergunta6"></p-radioButton>
-        </span>
-        <span class="ui-inputgroup-addon">
-          <p-radioButton name="afirmacaoSeis" value="3" label="3"
-            [(ngModel)]="respostasQuestionarioAutorregulacao.respostaPergunta6"></p-radioButton>
-        </span>
-        <span class="ui-inputgroup-addon">
-          <p-radioButton name="afirmacaoSeis" value="4" label="4"
-            [(ngModel)]="respostasQuestionarioAutorregulacao.respostaPergunta6"></p-radioButton>
-        </span>
-        <span class="ui-inputgroup-addon">
-          <p-radioButton name="afirmacaoSeis" value="5" label="5"
-            [(ngModel)]="respostasQuestionarioAutorregulacao.respostaPergunta6"></p-radioButton>
-        </span>
-        <span class="ui-inputgroup-addon">
-          <p-radioButton name="afirmacaoSeis" value="6" label="6"
-            [(ngModel)]="respostasQuestionarioAutorregulacao.respostaPergunta6"></p-radioButton>
-        </span>
-        <span class="ui-inputgroup-addon">
-          <p-radioButton name="afirmacaoSeis" value="7" label="7"
-            [(ngModel)]="respostasQuestionarioAutorregulacao.respostaPergunta6"></p-radioButton>
-        </span>
-      </div>
+        </div>
+        <div class="p-col-1">
+          <p-radioButton name="afirmacaoUm" value="5" label=""
+          [(ngModel)]="respostasQuestionarioAutorregulacao.respostaPergunta6"></p-radioButton>
+        </div>
+        <div class="p-col-5">
+         Concordo plenamente
+        </div>
     </div>
 
-    <div>
-      <p>
-        7. Quando estou estudando, faço minhas anotações para me lembrar do assunto.
-      </p>
-      <div class="ui-inputgroup">
-        <span class="ui-inputgroup-addon">
-          <p-radioButton name="afirmacaoSete" value="1" label="1"
+
+    <div class="p-grid">
+      <div class="p-col-12">
+        <h3>7. Quando estou estudando, faço minhas anotações para me lembrar do assunto.</h3>
+      </div>
+      <div class="p-col-2">
+        
+      </div>
+      <div class="p-col-1">
+       1 
+      </div>
+      <div class="p-col-1">
+        2 
+       </div>
+       <div class="p-col-1">
+        3
+       </div>
+       <div class="p-col-1">
+        4
+       </div>
+       <div class="p-col-1">
+        5
+       </div>
+       <div class="p-col-5">
+        
+       </div>
+       <div class="p-col-2">
+        Discordo completamente
+      </div>
+      <div class="p-col-1">
+        <p-radioButton name="afirmacaoUm" value="1" label=""
+            [(ngModel)]="respostasQuestionarioAutorregulacao.respostaPergunta7"></p-radioButton> 
+       </div>
+       <div class="p-col-1">
+        <p-radioButton name="afirmacaoUm" value="2" label=""
+        [(ngModel)]="respostasQuestionarioAutorregulacao.respostaPergunta7"></p-radioButton> 
+        </div>
+        <div class="p-col-1">
+          <p-radioButton name="afirmacaoUm" value="3" label=""
+          [(ngModel)]="respostasQuestionarioAutorregulacao.respostaPergunta7"></p-radioButton>
+        </div>
+        <div class="p-col-1">
+          <p-radioButton name="afirmacaoUm" value="4" label=""
             [(ngModel)]="respostasQuestionarioAutorregulacao.respostaPergunta7"></p-radioButton>
-        </span>
-        <span class="ui-inputgroup-addon">
-          <p-radioButton name="afirmacaoSete" value="2" label="2"
-            [(ngModel)]="respostasQuestionarioAutorregulacao.respostaPergunta7"></p-radioButton>
-        </span>
-        <span class="ui-inputgroup-addon">
-          <p-radioButton name="afirmacaoSete" value="3" label="3"
-            [(ngModel)]="respostasQuestionarioAutorregulacao.respostaPergunta7"></p-radioButton>
-        </span>
-        <span class="ui-inputgroup-addon">
-          <p-radioButton name="afirmacaoSete" value="4" label="4"
-            [(ngModel)]="respostasQuestionarioAutorregulacao.respostaPergunta7"></p-radioButton>
-        </span>
-        <span class="ui-inputgroup-addon">
-          <p-radioButton name="afirmacaoSete" value="5" label="5"
-            [(ngModel)]="respostasQuestionarioAutorregulacao.respostaPergunta7"></p-radioButton>
-        </span>
-        <span class="ui-inputgroup-addon">
-          <p-radioButton name="afirmacaoSete" value="6" label="6"
-            [(ngModel)]="respostasQuestionarioAutorregulacao.respostaPergunta7"></p-radioButton>
-        </span>
-        <span class="ui-inputgroup-addon">
-          <p-radioButton name="afirmacaoSete" value="7" label="7"
-            [(ngModel)]="respostasQuestionarioAutorregulacao.respostaPergunta7"></p-radioButton>
-        </span>
-      </div>
+        </div>
+        <div class="p-col-1">
+          <p-radioButton name="afirmacaoUm" value="5" label=""
+          [(ngModel)]="respostasQuestionarioAutorregulacao.respostaPergunta7"></p-radioButton>
+        </div>
+        <div class="p-col-5">
+         Concordo plenamente
+        </div>
     </div>
 
-    <div>
-      <p>
-        8. Quando estudo para uma prova, pratico dizendo repetidamente os conceitos importantes para mim mesmo.
-      </p>
-      <div class="ui-inputgroup">
-        <span class="ui-inputgroup-addon">
-          <p-radioButton name="afirmacaoOito" value="1" label="1"
+    <div class="p-grid">
+      <div class="p-col-12">
+        <h3>8. Quando estudo para uma prova, pratico dizendo repetidamente os conceitos importantes para mim mesmo.</h3>
+      </div>
+      <div class="p-col-2">
+        
+      </div>
+      <div class="p-col-1">
+       1 
+      </div>
+      <div class="p-col-1">
+        2 
+       </div>
+       <div class="p-col-1">
+        3
+       </div>
+       <div class="p-col-1">
+        4
+       </div>
+       <div class="p-col-1">
+        5
+       </div>
+       <div class="p-col-5">
+        
+       </div>
+       <div class="p-col-2">
+        Discordo completamente
+      </div>
+      <div class="p-col-1">
+        <p-radioButton name="afirmacaoUm" value="1" label=""
+            [(ngModel)]="respostasQuestionarioAutorregulacao.respostaPergunta8"></p-radioButton> 
+       </div>
+       <div class="p-col-1">
+        <p-radioButton name="afirmacaoUm" value="2" label=""
+        [(ngModel)]="respostasQuestionarioAutorregulacao.respostaPergunta8"></p-radioButton> 
+        </div>
+        <div class="p-col-1">
+          <p-radioButton name="afirmacaoUm" value="3" label=""
+          [(ngModel)]="respostasQuestionarioAutorregulacao.respostaPergunta8"></p-radioButton>
+        </div>
+        <div class="p-col-1">
+          <p-radioButton name="afirmacaoUm" value="4" label=""
             [(ngModel)]="respostasQuestionarioAutorregulacao.respostaPergunta8"></p-radioButton>
-        </span>
-        <span class="ui-inputgroup-addon">
-          <p-radioButton name="afirmacaoOito" value="2" label="2"
-            [(ngModel)]="respostasQuestionarioAutorregulacao.respostaPergunta8"></p-radioButton>
-        </span>
-        <span class="ui-inputgroup-addon">
-          <p-radioButton name="afirmacaoOito" value="3" label="3"
-            [(ngModel)]="respostasQuestionarioAutorregulacao.respostaPergunta8"></p-radioButton>
-        </span>
-        <span class="ui-inputgroup-addon">
-          <p-radioButton name="afirmacaoOito" value="4" label="4"
-            [(ngModel)]="respostasQuestionarioAutorregulacao.respostaPergunta8"></p-radioButton>
-        </span>
-        <span class="ui-inputgroup-addon">
-          <p-radioButton name="afirmacaoOito" value="5" label="5"
-            [(ngModel)]="respostasQuestionarioAutorregulacao.respostaPergunta8"></p-radioButton>
-        </span>
-        <span class="ui-inputgroup-addon">
-          <p-radioButton name="afirmacaoOito" value="6" label="6"
-            [(ngModel)]="respostasQuestionarioAutorregulacao.respostaPergunta8"></p-radioButton>
-        </span>
-        <span class="ui-inputgroup-addon">
-          <p-radioButton name="afirmacaoOito" value="7" label="7"
-            [(ngModel)]="respostasQuestionarioAutorregulacao.respostaPergunta8"></p-radioButton>
-        </span>
-      </div>
+        </div>
+        <div class="p-col-1">
+          <p-radioButton name="afirmacaoUm" value="5" label=""
+          [(ngModel)]="respostasQuestionarioAutorregulacao.respostaPergunta8"></p-radioButton>
+        </div>
+        <div class="p-col-5">
+         Concordo plenamente
+        </div>
     </div>
 
-    <div>
-      <p>
-        9. Para fazer novas tarefas, uso o que aprendi com antigas tarefas de casa e livros.
-      </p>
-      <div class="ui-inputgroup">
-        <span class="ui-inputgroup-addon">
-          <p-radioButton name="afirmacaoNove" value="1" label="1"
+    <div class="p-grid">
+      <div class="p-col-12">
+        <h3>9. Para fazer novas tarefas, uso o que aprendi com antigas tarefas de casa e livros.</h3>
+      </div>
+      <div class="p-col-2">
+        
+      </div>
+      <div class="p-col-1">
+       1 
+      </div>
+      <div class="p-col-1">
+        2 
+       </div>
+       <div class="p-col-1">
+        3
+       </div>
+       <div class="p-col-1">
+        4
+       </div>
+       <div class="p-col-1">
+        5
+       </div>
+       <div class="p-col-5">
+        
+       </div>
+       <div class="p-col-2">
+        Discordo completamente
+      </div>
+      <div class="p-col-1">
+        <p-radioButton name="afirmacaoUm" value="1" label=""
+            [(ngModel)]="respostasQuestionarioAutorregulacao.respostaPergunta9"></p-radioButton> 
+       </div>
+       <div class="p-col-1">
+        <p-radioButton name="afirmacaoUm" value="2" label=""
+        [(ngModel)]="respostasQuestionarioAutorregulacao.respostaPergunta9"></p-radioButton> 
+        </div>
+        <div class="p-col-1">
+          <p-radioButton name="afirmacaoUm" value="3" label=""
+          [(ngModel)]="respostasQuestionarioAutorregulacao.respostaPergunta9"></p-radioButton>
+        </div>
+        <div class="p-col-1">
+          <p-radioButton name="afirmacaoUm" value="4" label=""
             [(ngModel)]="respostasQuestionarioAutorregulacao.respostaPergunta9"></p-radioButton>
-        </span>
-        <span class="ui-inputgroup-addon">
-          <p-radioButton name="afirmacaoNove" value="2" label="2"
-            [(ngModel)]="respostasQuestionarioAutorregulacao.respostaPergunta9"></p-radioButton>
-        </span>
-        <span class="ui-inputgroup-addon">
-          <p-radioButton name="afirmacaoNove" value="3" label="3"
-            [(ngModel)]="respostasQuestionarioAutorregulacao.respostaPergunta9"></p-radioButton>
-        </span>
-        <span class="ui-inputgroup-addon">
-          <p-radioButton name="afirmacaoNove" value="4" label="4"
-            [(ngModel)]="respostasQuestionarioAutorregulacao.respostaPergunta9"></p-radioButton>
-        </span>
-        <span class="ui-inputgroup-addon">
-          <p-radioButton name="afirmacaoNove" value="5" label="5"
-            [(ngModel)]="respostasQuestionarioAutorregulacao.respostaPergunta9"></p-radioButton>
-        </span>
-        <span class="ui-inputgroup-addon">
-          <p-radioButton name="afirmacaoNove" value="6" label="6"
-            [(ngModel)]="respostasQuestionarioAutorregulacao.respostaPergunta9"></p-radioButton>
-        </span>
-        <span class="ui-inputgroup-addon">
-          <p-radioButton name="afirmacaoNove" value="7" label="7"
-            [(ngModel)]="respostasQuestionarioAutorregulacao.respostaPergunta9"></p-radioButton>
-        </span>
-      </div>
+        </div>
+        <div class="p-col-1">
+          <p-radioButton name="afirmacaoUm" value="5" label=""
+          [(ngModel)]="respostasQuestionarioAutorregulacao.respostaPergunta9"></p-radioButton>
+        </div>
+        <div class="p-col-5">
+         Concordo plenamente
+        </div>
     </div>
 
-    <div>
-      <p>
-        10. Quando estou estudando um assunto, tento fazer com que tudo faça sentido.
-      </p>
-      <div class="ui-inputgroup">
-        <span class="ui-inputgroup-addon">
-          <p-radioButton name="afirmacaoDez" value="1" label="1"
+    <div class="p-grid">
+      <div class="p-col-12">
+        <h3>10. Quando estou estudando um assunto, tento fazer com que tudo faça sentido.</h3>
+      </div>
+      <div class="p-col-2">
+        
+      </div>
+      <div class="p-col-1">
+       1 
+      </div>
+      <div class="p-col-1">
+        2 
+       </div>
+       <div class="p-col-1">
+        3
+       </div>
+       <div class="p-col-1">
+        4
+       </div>
+       <div class="p-col-1">
+        5
+       </div>
+       <div class="p-col-5">
+        
+       </div>
+       <div class="p-col-2">
+        Discordo completamente
+      </div>
+      <div class="p-col-1">
+        <p-radioButton name="afirmacaoUm" value="1" label=""
+            [(ngModel)]="respostasQuestionarioAutorregulacao.respostaPergunta10"></p-radioButton> 
+       </div>
+       <div class="p-col-1">
+        <p-radioButton name="afirmacaoUm" value="2" label=""
+        [(ngModel)]="respostasQuestionarioAutorregulacao.respostaPergunta10"></p-radioButton> 
+        </div>
+        <div class="p-col-1">
+          <p-radioButton name="afirmacaoUm" value="3" label=""
+          [(ngModel)]="respostasQuestionarioAutorregulacao.respostaPergunta10"></p-radioButton>
+        </div>
+        <div class="p-col-1">
+          <p-radioButton name="afirmacaoUm" value="4" label=""
             [(ngModel)]="respostasQuestionarioAutorregulacao.respostaPergunta10"></p-radioButton>
-        </span>
-        <span class="ui-inputgroup-addon">
-          <p-radioButton name="afirmacaoDez" value="2" label="2"
-            [(ngModel)]="respostasQuestionarioAutorregulacao.respostaPergunta10"></p-radioButton>
-        </span>
-        <span class="ui-inputgroup-addon">
-          <p-radioButton name="afirmacaoDez" value="3" label="3"
-            [(ngModel)]="respostasQuestionarioAutorregulacao.respostaPergunta10"></p-radioButton>
-        </span>
-        <span class="ui-inputgroup-addon">
-          <p-radioButton name="afirmacaoDez" value="4" label="4"
-            [(ngModel)]="respostasQuestionarioAutorregulacao.respostaPergunta10"></p-radioButton>
-        </span>
-        <span class="ui-inputgroup-addon">
-          <p-radioButton name="afirmacaoDez" value="5" label="5"
-            [(ngModel)]="respostasQuestionarioAutorregulacao.respostaPergunta10"></p-radioButton>
-        </span>
-        <span class="ui-inputgroup-addon">
-          <p-radioButton name="afirmacaoDez" value="6" label="6"
-            [(ngModel)]="respostasQuestionarioAutorregulacao.respostaPergunta10"></p-radioButton>
-        </span>
-        <span class="ui-inputgroup-addon">
-          <p-radioButton name="afirmacaoDez" value="7" label="7"
-            [(ngModel)]="respostasQuestionarioAutorregulacao.respostaPergunta10"></p-radioButton>
-        </span>
-      </div>
+        </div>
+        <div class="p-col-1">
+          <p-radioButton name="afirmacaoUm" value="5" label=""
+          [(ngModel)]="respostasQuestionarioAutorregulacao.respostaPergunta10"></p-radioButton>
+        </div>
+        <div class="p-col-5">
+         Concordo plenamente
+        </div>
     </div>
 
-    <div>
-      <p>
-        11. Quando leio um material para uma disciplina, repito as palavras várias vezes para mim mesmo, para me ajudar a lembrar.
-      </p>
-      <div class="ui-inputgroup">
-        <span class="ui-inputgroup-addon">
-          <p-radioButton name="afirmacaoOnze" value="1" label="1"
+    <div class="p-grid">
+      <div class="p-col-12">
+        <h3>11. Quando leio um material para uma disciplina, repito as palavras várias vezes para mim mesmo, para me ajudar a lembrar.</h3>
+      </div>
+      <div class="p-col-2">
+        
+      </div>
+      <div class="p-col-1">
+       1 
+      </div>
+      <div class="p-col-1">
+        2 
+       </div>
+       <div class="p-col-1">
+        3
+       </div>
+       <div class="p-col-1">
+        4
+       </div>
+       <div class="p-col-1">
+        5
+       </div>
+       <div class="p-col-5">
+        
+       </div>
+       <div class="p-col-2">
+        Discordo completamente
+      </div>
+      <div class="p-col-1">
+        <p-radioButton name="afirmacaoUm" value="1" label=""
+            [(ngModel)]="respostasQuestionarioAutorregulacao.respostaPergunta11"></p-radioButton> 
+       </div>
+       <div class="p-col-1">
+        <p-radioButton name="afirmacaoUm" value="2" label=""
+        [(ngModel)]="respostasQuestionarioAutorregulacao.respostaPergunta11"></p-radioButton> 
+        </div>
+        <div class="p-col-1">
+          <p-radioButton name="afirmacaoUm" value="3" label=""
+          [(ngModel)]="respostasQuestionarioAutorregulacao.respostaPergunta11"></p-radioButton>
+        </div>
+        <div class="p-col-1">
+          <p-radioButton name="afirmacaoUm" value="4" label=""
             [(ngModel)]="respostasQuestionarioAutorregulacao.respostaPergunta11"></p-radioButton>
-        </span>
-        <span class="ui-inputgroup-addon">
-          <p-radioButton name="afirmacaoOnze" value="2" label="2"
-            [(ngModel)]="respostasQuestionarioAutorregulacao.respostaPergunta11"></p-radioButton>
-        </span>
-        <span class="ui-inputgroup-addon">
-          <p-radioButton name="afirmacaoOnze" value="3" label="3"
-            [(ngModel)]="respostasQuestionarioAutorregulacao.respostaPergunta11"></p-radioButton>
-        </span>
-        <span class="ui-inputgroup-addon">
-          <p-radioButton name="afirmacaoOnze" value="4" label="4"
-            [(ngModel)]="respostasQuestionarioAutorregulacao.respostaPergunta11"></p-radioButton>
-        </span>
-        <span class="ui-inputgroup-addon">
-          <p-radioButton name="afirmacaoOnze" value="5" label="5"
-            [(ngModel)]="respostasQuestionarioAutorregulacao.respostaPergunta11"></p-radioButton>
-        </span>
-        <span class="ui-inputgroup-addon">
-          <p-radioButton name="afirmacaoOnze" value="6" label="6"
-            [(ngModel)]="respostasQuestionarioAutorregulacao.respostaPergunta11"></p-radioButton>
-        </span>
-        <span class="ui-inputgroup-addon">
-          <p-radioButton name="afirmacaoOnze" value="7" label="7"
-            [(ngModel)]="respostasQuestionarioAutorregulacao.respostaPergunta11"></p-radioButton>
-        </span>
-      </div>
+        </div>
+        <div class="p-col-1">
+          <p-radioButton name="afirmacaoUm" value="5" label=""
+          [(ngModel)]="respostasQuestionarioAutorregulacao.respostaPergunta11"></p-radioButton>
+        </div>
+        <div class="p-col-5">
+         Concordo plenamente
+        </div>
     </div>
 
-    <div>
-      <p>
-        12. Faço tópicos dos textos do meu livro para me ajudar a estudar.
-      </p>
-      <div class="ui-inputgroup">
-        <span class="ui-inputgroup-addon">
-          <p-radioButton name="afirmacaoDoze" value="1" label="1"
+    <div class="p-grid">
+      <div class="p-col-12">
+        <h3>12. Faço tópicos dos textos do meu livro para me ajudar a estudar.</h3>
+      </div>
+      <div class="p-col-2">
+        
+      </div>
+      <div class="p-col-1">
+       1 
+      </div>
+      <div class="p-col-1">
+        2 
+       </div>
+       <div class="p-col-1">
+        3
+       </div>
+       <div class="p-col-1">
+        4
+       </div>
+       <div class="p-col-1">
+        5
+       </div>
+       <div class="p-col-5">
+        
+       </div>
+       <div class="p-col-2">
+        Discordo completamente
+      </div>
+      <div class="p-col-1">
+        <p-radioButton name="afirmacaoUm" value="1" label=""
+            [(ngModel)]="respostasQuestionarioAutorregulacao.respostaPergunta12"></p-radioButton> 
+       </div>
+       <div class="p-col-1">
+        <p-radioButton name="afirmacaoUm" value="2" label=""
+        [(ngModel)]="respostasQuestionarioAutorregulacao.respostaPergunta12"></p-radioButton> 
+        </div>
+        <div class="p-col-1">
+          <p-radioButton name="afirmacaoUm" value="3" label=""
+          [(ngModel)]="respostasQuestionarioAutorregulacao.respostaPergunta12"></p-radioButton>
+        </div>
+        <div class="p-col-1">
+          <p-radioButton name="afirmacaoUm" value="4" label=""
             [(ngModel)]="respostasQuestionarioAutorregulacao.respostaPergunta12"></p-radioButton>
-        </span>
-        <span class="ui-inputgroup-addon">
-          <p-radioButton name="afirmacaoDoze" value="2" label="2"
-            [(ngModel)]="respostasQuestionarioAutorregulacao.respostaPergunta12"></p-radioButton>
-        </span>
-        <span class="ui-inputgroup-addon">
-          <p-radioButton name="afirmacaoDoze" value="3" label="3"
-            [(ngModel)]="respostasQuestionarioAutorregulacao.respostaPergunta12"></p-radioButton>
-        </span>
-        <span class="ui-inputgroup-addon">
-          <p-radioButton name="afirmacaoDoze" value="4" label="4"
-            [(ngModel)]="respostasQuestionarioAutorregulacao.respostaPergunta12"></p-radioButton>
-        </span>
-        <span class="ui-inputgroup-addon">
-          <p-radioButton name="afirmacaoDoze" value="5" label="5"
-            [(ngModel)]="respostasQuestionarioAutorregulacao.respostaPergunta12"></p-radioButton>
-        </span>
-        <span class="ui-inputgroup-addon">
-          <p-radioButton name="afirmacaoDoze" value="6" label="6"
-            [(ngModel)]="respostasQuestionarioAutorregulacao.respostaPergunta12"></p-radioButton>
-        </span>
-        <span class="ui-inputgroup-addon">
-          <p-radioButton name="afirmacaoDoze" value="7" label="7"
-            [(ngModel)]="respostasQuestionarioAutorregulacao.respostaPergunta12"></p-radioButton>
-        </span>
-      </div>
+        </div>
+        <div class="p-col-1">
+          <p-radioButton name="afirmacaoUm" value="5" label=""
+          [(ngModel)]="respostasQuestionarioAutorregulacao.respostaPergunta12"></p-radioButton>
+        </div>
+        <div class="p-col-5">
+         Concordo plenamente
+        </div>
     </div>
 
-    <div>
-      <p>
-        13. Quando estou lendo algo tento fazer conexões com outras coisas que já sei.
-      </p>
-      <div class="ui-inputgroup">
-        <span class="ui-inputgroup-addon">
-          <p-radioButton name="afirmacaoTreze" value="1" label="1"
+    <div class="p-grid">
+      <div class="p-col-12">
+        <h3>13. Quando estou lendo algo tento fazer conexões com outras coisas que já sei.</h3>
+      </div>
+      <div class="p-col-2">
+        
+      </div>
+      <div class="p-col-1">
+       1 
+      </div>
+      <div class="p-col-1">
+        2 
+       </div>
+       <div class="p-col-1">
+        3
+       </div>
+       <div class="p-col-1">
+        4
+       </div>
+       <div class="p-col-1">
+        5
+       </div>
+       <div class="p-col-5">
+        
+       </div>
+       <div class="p-col-2">
+        Discordo completamente
+      </div>
+      <div class="p-col-1">
+        <p-radioButton name="afirmacaoUm" value="1" label=""
+            [(ngModel)]="respostasQuestionarioAutorregulacao.respostaPergunta13"></p-radioButton> 
+       </div>
+       <div class="p-col-1">
+        <p-radioButton name="afirmacaoUm" value="2" label=""
+        [(ngModel)]="respostasQuestionarioAutorregulacao.respostaPergunta13"></p-radioButton> 
+        </div>
+        <div class="p-col-1">
+          <p-radioButton name="afirmacaoUm" value="3" label=""
+          [(ngModel)]="respostasQuestionarioAutorregulacao.respostaPergunta13"></p-radioButton>
+        </div>
+        <div class="p-col-1">
+          <p-radioButton name="afirmacaoUm" value="4" label=""
             [(ngModel)]="respostasQuestionarioAutorregulacao.respostaPergunta13"></p-radioButton>
-        </span>
-        <span class="ui-inputgroup-addon">
-          <p-radioButton name="afirmacaoTreze" value="2" label="2"
-            [(ngModel)]="respostasQuestionarioAutorregulacao.respostaPergunta13"></p-radioButton>
-        </span>
-        <span class="ui-inputgroup-addon">
-          <p-radioButton name="afirmacaoTreze" value="3" label="3"
-            [(ngModel)]="respostasQuestionarioAutorregulacao.respostaPergunta13"></p-radioButton>
-        </span>
-        <span class="ui-inputgroup-addon">
-          <p-radioButton name="afirmacaoTreze" value="4" label="4"
-            [(ngModel)]="respostasQuestionarioAutorregulacao.respostaPergunta13"></p-radioButton>
-        </span>
-        <span class="ui-inputgroup-addon">
-          <p-radioButton name="afirmacaoTreze" value="5" label="5"
-            [(ngModel)]="respostasQuestionarioAutorregulacao.respostaPergunta13"></p-radioButton>
-        </span>
-        <span class="ui-inputgroup-addon">
-          <p-radioButton name="afirmacaoTreze" value="6" label="6"
-            [(ngModel)]="respostasQuestionarioAutorregulacao.respostaPergunta13"></p-radioButton>
-        </span>
-        <span class="ui-inputgroup-addon">
-          <p-radioButton name="afirmacaoTreze" value="7" label="7"
-            [(ngModel)]="respostasQuestionarioAutorregulacao.respostaPergunta13"></p-radioButton>
-        </span>
-      </div>
+        </div>
+        <div class="p-col-1">
+          <p-radioButton name="afirmacaoUm" value="5" label=""
+          [(ngModel)]="respostasQuestionarioAutorregulacao.respostaPergunta13"></p-radioButton>
+        </div>
+        <div class="p-col-5">
+         Concordo plenamente
+        </div>
     </div>
 
-    <div>
-      <p>
-        14. Faço perguntas a mim mesmo para ter certeza que eu entendi o material de estudo.
-      </p>
-      <div class="ui-inputgroup">
-        <span class="ui-inputgroup-addon">
-          <p-radioButton name="afirmacaoQuatorze" value="1" label="1"
+    <div class="p-grid">
+      <div class="p-col-12">
+        <h3>14. Faço perguntas a mim mesmo para ter certeza que eu entendi o material de estudo.</h3>
+      </div>
+      <div class="p-col-2">
+        
+      </div>
+      <div class="p-col-1">
+       1 
+      </div>
+      <div class="p-col-1">
+        2 
+       </div>
+       <div class="p-col-1">
+        3
+       </div>
+       <div class="p-col-1">
+        4
+       </div>
+       <div class="p-col-1">
+        5
+       </div>
+       <div class="p-col-5">
+        
+       </div>
+       <div class="p-col-2">
+        Discordo completamente
+      </div>
+      <div class="p-col-1">
+        <p-radioButton name="afirmacaoUm" value="1" label=""
+            [(ngModel)]="respostasQuestionarioAutorregulacao.respostaPergunta14"></p-radioButton> 
+       </div>
+       <div class="p-col-1">
+        <p-radioButton name="afirmacaoUm" value="2" label=""
+        [(ngModel)]="respostasQuestionarioAutorregulacao.respostaPergunta14"></p-radioButton> 
+        </div>
+        <div class="p-col-1">
+          <p-radioButton name="afirmacaoUm" value="3" label=""
+          [(ngModel)]="respostasQuestionarioAutorregulacao.respostaPergunta14"></p-radioButton>
+        </div>
+        <div class="p-col-1">
+          <p-radioButton name="afirmacaoUm" value="4" label=""
             [(ngModel)]="respostasQuestionarioAutorregulacao.respostaPergunta14"></p-radioButton>
-        </span>
-        <span class="ui-inputgroup-addon">
-          <p-radioButton name="afirmacaoQuatorze" value="2" label="2"
-            [(ngModel)]="respostasQuestionarioAutorregulacao.respostaPergunta14"></p-radioButton>
-        </span>
-        <span class="ui-inputgroup-addon">
-          <p-radioButton name="afirmacaoQuatorze" value="3" label="3"
-            [(ngModel)]="respostasQuestionarioAutorregulacao.respostaPergunta14"></p-radioButton>
-        </span>
-        <span class="ui-inputgroup-addon">
-          <p-radioButton name="afirmacaoQuatorze" value="4" label="4"
-            [(ngModel)]="respostasQuestionarioAutorregulacao.respostaPergunta14"></p-radioButton>
-        </span>
-        <span class="ui-inputgroup-addon">
-          <p-radioButton name="afirmacaoQuatorze" value="5" label="5"
-            [(ngModel)]="respostasQuestionarioAutorregulacao.respostaPergunta14"></p-radioButton>
-        </span>
-        <span class="ui-inputgroup-addon">
-          <p-radioButton name="afirmacaoQuatorze" value="6" label="6"
-            [(ngModel)]="respostasQuestionarioAutorregulacao.respostaPergunta14"></p-radioButton>
-        </span>
-        <span class="ui-inputgroup-addon">
-          <p-radioButton name="afirmacaoQuatorze" value="7" label="7"
-            [(ngModel)]="respostasQuestionarioAutorregulacao.respostaPergunta14"></p-radioButton>
-        </span>
-      </div>
+        </div>
+        <div class="p-col-1">
+          <p-radioButton name="afirmacaoUm" value="5" label=""
+          [(ngModel)]="respostasQuestionarioAutorregulacao.respostaPergunta14"></p-radioButton>
+        </div>
+        <div class="p-col-5">
+         Concordo plenamente
+        </div>
     </div>
 
-    <div>
-      <p>
-        15. Quando o assunto na disciplina está difícil, eu desisto ou estudo somente as partes fáceis.
-      </p>
-      <div class="ui-inputgroup">
-        <span class="ui-inputgroup-addon">
-          <p-radioButton name="afirmacaoQuinze" value="1" label="1"
+    <div class="p-grid">
+      <div class="p-col-12">
+        <h3>15. Quando o assunto na disciplina está difícil, eu desisto ou estudo somente as partes fáceis.</h3>
+      </div>
+      <div class="p-col-2">
+        
+      </div>
+      <div class="p-col-1">
+       1 
+      </div>
+      <div class="p-col-1">
+        2 
+       </div>
+       <div class="p-col-1">
+        3
+       </div>
+       <div class="p-col-1">
+        4
+       </div>
+       <div class="p-col-1">
+        5
+       </div>
+       <div class="p-col-5">
+        
+       </div>
+       <div class="p-col-2">
+        Discordo completamente
+      </div>
+      <div class="p-col-1">
+        <p-radioButton name="afirmacaoUm" value="1" label=""
+            [(ngModel)]="respostasQuestionarioAutorregulacao.respostaPergunta15"></p-radioButton> 
+       </div>
+       <div class="p-col-1">
+        <p-radioButton name="afirmacaoUm" value="2" label=""
+        [(ngModel)]="respostasQuestionarioAutorregulacao.respostaPergunta15"></p-radioButton> 
+        </div>
+        <div class="p-col-1">
+          <p-radioButton name="afirmacaoUm" value="3" label=""
+          [(ngModel)]="respostasQuestionarioAutorregulacao.respostaPergunta15"></p-radioButton>
+        </div>
+        <div class="p-col-1">
+          <p-radioButton name="afirmacaoUm" value="4" label=""
             [(ngModel)]="respostasQuestionarioAutorregulacao.respostaPergunta15"></p-radioButton>
-        </span>
-        <span class="ui-inputgroup-addon">
-          <p-radioButton name="afirmacaoQuinze" value="2" label="2"
-            [(ngModel)]="respostasQuestionarioAutorregulacao.respostaPergunta15"></p-radioButton>
-        </span>
-        <span class="ui-inputgroup-addon">
-          <p-radioButton name="afirmacaoQuinze" value="3" label="3"
-            [(ngModel)]="respostasQuestionarioAutorregulacao.respostaPergunta15"></p-radioButton>
-        </span>
-        <span class="ui-inputgroup-addon">
-          <p-radioButton name="afirmacaoQuinze" value="4" label="4"
-            [(ngModel)]="respostasQuestionarioAutorregulacao.respostaPergunta15"></p-radioButton>
-        </span>
-        <span class="ui-inputgroup-addon">
-          <p-radioButton name="afirmacaoQuinze" value="5" label="5"
-            [(ngModel)]="respostasQuestionarioAutorregulacao.respostaPergunta15"></p-radioButton>
-        </span>
-        <span class="ui-inputgroup-addon">
-          <p-radioButton name="afirmacaoQuinze" value="6" label="6"
-            [(ngModel)]="respostasQuestionarioAutorregulacao.respostaPergunta15"></p-radioButton>
-        </span>
-        <span class="ui-inputgroup-addon">
-          <p-radioButton name="afirmacaoQuinze" value="7" label="7"
-            [(ngModel)]="respostasQuestionarioAutorregulacao.respostaPergunta15"></p-radioButton>
-        </span>
-      </div>
+        </div>
+        <div class="p-col-1">
+          <p-radioButton name="afirmacaoUm" value="5" label=""
+          [(ngModel)]="respostasQuestionarioAutorregulacao.respostaPergunta15"></p-radioButton>
+        </div>
+        <div class="p-col-5">
+         Concordo plenamente
+        </div>
     </div>
 
-    <div>
-      <p>
-        16. Faço exercícios práticos e respondo as questões que se encontram no final do capítulo de um livro, mesmo quando não preciso.
-      </p>
-      <div class="ui-inputgroup">
-        <span class="ui-inputgroup-addon">
-          <p-radioButton name="afirmacaoDezesseis" value="1" label="1"
+    <div class="p-grid">
+      <div class="p-col-12">
+        <h3>16. Faço exercícios práticos e respondo as questões que se encontram no final do capítulo de um livro, mesmo quando não preciso.</h3>
+      </div>
+      <div class="p-col-2">
+        
+      </div>
+      <div class="p-col-1">
+       1 
+      </div>
+      <div class="p-col-1">
+        2 
+       </div>
+       <div class="p-col-1">
+        3
+       </div>
+       <div class="p-col-1">
+        4
+       </div>
+       <div class="p-col-1">
+        5
+       </div>
+       <div class="p-col-5">
+        
+       </div>
+       <div class="p-col-2">
+        Discordo completamente
+      </div>
+      <div class="p-col-1">
+        <p-radioButton name="afirmacaoUm" value="1" label=""
+            [(ngModel)]="respostasQuestionarioAutorregulacao.respostaPergunta16"></p-radioButton> 
+       </div>
+       <div class="p-col-1">
+        <p-radioButton name="afirmacaoUm" value="2" label=""
+        [(ngModel)]="respostasQuestionarioAutorregulacao.respostaPergunta16"></p-radioButton> 
+        </div>
+        <div class="p-col-1">
+          <p-radioButton name="afirmacaoUm" value="3" label=""
+          [(ngModel)]="respostasQuestionarioAutorregulacao.respostaPergunta16"></p-radioButton>
+        </div>
+        <div class="p-col-1">
+          <p-radioButton name="afirmacaoUm" value="4" label=""
             [(ngModel)]="respostasQuestionarioAutorregulacao.respostaPergunta16"></p-radioButton>
-        </span>
-        <span class="ui-inputgroup-addon">
-          <p-radioButton name="afirmacaoDezesseis" value="2" label="2"
-            [(ngModel)]="respostasQuestionarioAutorregulacao.respostaPergunta16"></p-radioButton>
-        </span>
-        <span class="ui-inputgroup-addon">
-          <p-radioButton name="afirmacaoDezesseis" value="3" label="3"
-            [(ngModel)]="respostasQuestionarioAutorregulacao.respostaPergunta16"></p-radioButton>
-        </span>
-        <span class="ui-inputgroup-addon">
-          <p-radioButton name="afirmacaoDezesseis" value="4" label="4"
-            [(ngModel)]="respostasQuestionarioAutorregulacao.respostaPergunta16"></p-radioButton>
-        </span>
-        <span class="ui-inputgroup-addon">
-          <p-radioButton name="afirmacaoDezesseis" value="5" label="5"
-            [(ngModel)]="respostasQuestionarioAutorregulacao.respostaPergunta16"></p-radioButton>
-        </span>
-        <span class="ui-inputgroup-addon">
-          <p-radioButton name="afirmacaoDezesseis" value="6" label="6"
-            [(ngModel)]="respostasQuestionarioAutorregulacao.respostaPergunta16"></p-radioButton>
-        </span>
-        <span class="ui-inputgroup-addon">
-          <p-radioButton name="afirmacaoDezesseis" value="7" label="7"
-            [(ngModel)]="respostasQuestionarioAutorregulacao.respostaPergunta16"></p-radioButton>
-        </span>
-      </div>
+        </div>
+        <div class="p-col-1">
+          <p-radioButton name="afirmacaoUm" value="5" label=""
+          [(ngModel)]="respostasQuestionarioAutorregulacao.respostaPergunta16"></p-radioButton>
+        </div>
+        <div class="p-col-5">
+         Concordo plenamente
+        </div>
     </div>
 
-    <div>
-      <p>
-        17. Mesmo quando o material de estudo está chato e desinteressante, eu administro isso para me manter estudando até terminar.
-      </p>
-      <div class="ui-inputgroup">
-        <span class="ui-inputgroup-addon">
-          <p-radioButton name="afirmacaoDezessete" value="1" label="1"
-            [(ngModel)]="respostasQuestionarioAutorregulacao.respostaPergunta17"></p-radioButton>
-        </span>
-        <span class="ui-inputgroup-addon">
-          <p-radioButton name="afirmacaoDezessete" value="2" label="2"
-            [(ngModel)]="respostasQuestionarioAutorregulacao.respostaPergunta17"></p-radioButton>
-        </span>
-        <span class="ui-inputgroup-addon">
-          <p-radioButton name="afirmacaoDezessete" value="3" label="3"
-            [(ngModel)]="respostasQuestionarioAutorregulacao.respostaPergunta17"></p-radioButton>
-        </span>
-        <span class="ui-inputgroup-addon">
-          <p-radioButton name="afirmacaoDezessete" value="4" label="4"
-            [(ngModel)]="respostasQuestionarioAutorregulacao.respostaPergunta17"></p-radioButton>
-        </span>
-        <span class="ui-inputgroup-addon">
-          <p-radioButton name="afirmacaoDezessete" value="5" label="5"
-            [(ngModel)]="respostasQuestionarioAutorregulacao.respostaPergunta17"></p-radioButton>
-        </span>
-        <span class="ui-inputgroup-addon">
-          <p-radioButton name="afirmacaoDezessete" value="6" label="6"
-            [(ngModel)]="respostasQuestionarioAutorregulacao.respostaPergunta17"></p-radioButton>
-        </span>
-        <span class="ui-inputgroup-addon">
-          <p-radioButton name="afirmacaoDezessete" value="7" label="7"
-            [(ngModel)]="respostasQuestionarioAutorregulacao.respostaPergunta17"></p-radioButton>
-        </span>
+    <div class="p-grid">
+      <div class="p-col-12">
+        <h3>17. Mesmo quando o material de estudo está chato e desinteressante, eu administro isso para me manter estudando até terminar.</h3>
       </div>
+      <div class="p-col-2">
+        
+      </div>
+      <div class="p-col-1">
+       1 
+      </div>
+      <div class="p-col-1">
+        2 
+       </div>
+       <div class="p-col-1">
+        3
+       </div>
+       <div class="p-col-1">
+        4
+       </div>
+       <div class="p-col-1">
+        5
+       </div>
+       <div class="p-col-5">
+        
+       </div>
+       <div class="p-col-2">
+        Discordo completamente
+      </div>
+      <div class="p-col-1">
+        <p-radioButton name="afirmacaoUm" value="1" label=""
+            [(ngModel)]="respostasQuestionarioAutorregulacao.respostaPergunta17"></p-radioButton> 
+       </div>
+       <div class="p-col-1">
+        <p-radioButton name="afirmacaoUm" value="2" label=""
+        [(ngModel)]="respostasQuestionarioAutorregulacao.respostaPergunta17"></p-radioButton> 
+        </div>
+        <div class="p-col-1">
+          <p-radioButton name="afirmacaoUm" value="3" label=""
+          [(ngModel)]="respostasQuestionarioAutorregulacao.respostaPergunta17"></p-radioButton>
+        </div>
+        <div class="p-col-1">
+          <p-radioButton name="afirmacaoUm" value="4" label=""
+            [(ngModel)]="respostasQuestionarioAutorregulacao.respostaPergunta17"></p-radioButton>
+        </div>
+        <div class="p-col-1">
+          <p-radioButton name="afirmacaoUm" value="5" label=""
+          [(ngModel)]="respostasQuestionarioAutorregulacao.respostaPergunta17"></p-radioButton>
+        </div>
+        <div class="p-col-5">
+         Concordo plenamente
+        </div>
     </div>
 
-    <div>
-      <p>
-        18. Antes de iniciar um estudo, eu penso nas coisas que precisarei para o meu aprendizado.
-      </p>
-      <div class="ui-inputgroup">
-        <span class="ui-inputgroup-addon">
-          <p-radioButton name="afirmacaoDezoito" value="1" label="1"
-            [(ngModel)]="respostasQuestionarioAutorregulacao.respostaPergunta18"></p-radioButton>
-        </span>
-        <span class="ui-inputgroup-addon">
-          <p-radioButton name="afirmacaoDezoito" value="2" label="2"
-            [(ngModel)]="respostasQuestionarioAutorregulacao.respostaPergunta18"></p-radioButton>
-        </span>
-        <span class="ui-inputgroup-addon">
-          <p-radioButton name="afirmacaoDezoito" value="3" label="3"
-            [(ngModel)]="respostasQuestionarioAutorregulacao.respostaPergunta18"></p-radioButton>
-        </span>
-        <span class="ui-inputgroup-addon">
-          <p-radioButton name="afirmacaoDezoito" value="4" label="4"
-            [(ngModel)]="respostasQuestionarioAutorregulacao.respostaPergunta18"></p-radioButton>
-        </span>
-        <span class="ui-inputgroup-addon">
-          <p-radioButton name="afirmacaoDezoito" value="5" label="5"
-            [(ngModel)]="respostasQuestionarioAutorregulacao.respostaPergunta18"></p-radioButton>
-        </span>
-        <span class="ui-inputgroup-addon">
-          <p-radioButton name="afirmacaoDezoito" value="6" label="6"
-            [(ngModel)]="respostasQuestionarioAutorregulacao.respostaPergunta18"></p-radioButton>
-        </span>
-        <span class="ui-inputgroup-addon">
-          <p-radioButton name="afirmacaoDezoito" value="7" label="7"
-            [(ngModel)]="respostasQuestionarioAutorregulacao.respostaPergunta18"></p-radioButton>
-        </span>
+    <div class="p-grid">
+      <div class="p-col-12">
+        <h3>18. Antes de iniciar um estudo, eu penso nas coisas que precisarei para o meu aprendizado.</h3>
       </div>
+      <div class="p-col-2">
+        
+      </div>
+      <div class="p-col-1">
+       1 
+      </div>
+      <div class="p-col-1">
+        2 
+       </div>
+       <div class="p-col-1">
+        3
+       </div>
+       <div class="p-col-1">
+        4
+       </div>
+       <div class="p-col-1">
+        5
+       </div>
+       <div class="p-col-5">
+        
+       </div>
+       <div class="p-col-2">
+        Discordo completamente
+      </div>
+      <div class="p-col-1">
+        <p-radioButton name="afirmacaoUm" value="1" label=""
+            [(ngModel)]="respostasQuestionarioAutorregulacao.respostaPergunta18"></p-radioButton> 
+       </div>
+       <div class="p-col-1">
+        <p-radioButton name="afirmacaoUm" value="2" label=""
+        [(ngModel)]="respostasQuestionarioAutorregulacao.respostaPergunta18"></p-radioButton> 
+        </div>
+        <div class="p-col-1">
+          <p-radioButton name="afirmacaoUm" value="3" label=""
+          [(ngModel)]="respostasQuestionarioAutorregulacao.respostaPergunta18"></p-radioButton>
+        </div>
+        <div class="p-col-1">
+          <p-radioButton name="afirmacaoUm" value="4" label=""
+            [(ngModel)]="respostasQuestionarioAutorregulacao.respostaPergunta18"></p-radioButton>
+        </div>
+        <div class="p-col-1">
+          <p-radioButton name="afirmacaoUm" value="5" label=""
+          [(ngModel)]="respostasQuestionarioAutorregulacao.respostaPergunta18"></p-radioButton>
+        </div>
+        <div class="p-col-5">
+         Concordo plenamente
+        </div>
     </div>
 
-    <div>
-      <p>
-        19. Frequentemente percebo que tenho estudado para esta matéria, porém sem compreender do que se tratava.
-      </p>
-      <div class="ui-inputgroup">
-        <span class="ui-inputgroup-addon">
-          <p-radioButton name="afirmacaoDezenove" value="1" label="1"
-            [(ngModel)]="respostasQuestionarioAutorregulacao.respostaPergunta19"></p-radioButton>
-        </span>
-        <span class="ui-inputgroup-addon">
-          <p-radioButton name="afirmacaoDezenove" value="2" label="2"
-            [(ngModel)]="respostasQuestionarioAutorregulacao.respostaPergunta19"></p-radioButton>
-        </span>
-        <span class="ui-inputgroup-addon">
-          <p-radioButton name="afirmacaoDezenove" value="3" label="3"
-            [(ngModel)]="respostasQuestionarioAutorregulacao.respostaPergunta19"></p-radioButton>
-        </span>
-        <span class="ui-inputgroup-addon">
-          <p-radioButton name="afirmacaoDezenove" value="4" label="4"
-            [(ngModel)]="respostasQuestionarioAutorregulacao.respostaPergunta19"></p-radioButton>
-        </span>
-        <span class="ui-inputgroup-addon">
-          <p-radioButton name="afirmacaoDezenove" value="5" label="5"
-            [(ngModel)]="respostasQuestionarioAutorregulacao.respostaPergunta19"></p-radioButton>
-        </span>
-        <span class="ui-inputgroup-addon">
-          <p-radioButton name="afirmacaoDezenove" value="6" label="6"
-            [(ngModel)]="respostasQuestionarioAutorregulacao.respostaPergunta19"></p-radioButton>
-        </span>
-        <span class="ui-inputgroup-addon">
-          <p-radioButton name="afirmacaoDezenove" value="7" label="7"
-            [(ngModel)]="respostasQuestionarioAutorregulacao.respostaPergunta19"></p-radioButton>
-        </span>
+    <div class="p-grid">
+      <div class="p-col-12">
+        <h3>19. Frequentemente percebo que tenho estudado para esta matéria, porém sem compreender do que se tratava.</h3>
       </div>
+      <div class="p-col-2">
+        
+      </div>
+      <div class="p-col-1">
+       1 
+      </div>
+      <div class="p-col-1">
+        2 
+       </div>
+       <div class="p-col-1">
+        3
+       </div>
+       <div class="p-col-1">
+        4
+       </div>
+       <div class="p-col-1">
+        5
+       </div>
+       <div class="p-col-5">
+        
+       </div>
+       <div class="p-col-2">
+        Discordo completamente
+      </div>
+      <div class="p-col-1">
+        <p-radioButton name="afirmacaoUm" value="1" label=""
+            [(ngModel)]="respostasQuestionarioAutorregulacao.respostaPergunta19"></p-radioButton> 
+       </div>
+       <div class="p-col-1">
+        <p-radioButton name="afirmacaoUm" value="2" label=""
+        [(ngModel)]="respostasQuestionarioAutorregulacao.respostaPergunta19"></p-radioButton> 
+        </div>
+        <div class="p-col-1">
+          <p-radioButton name="afirmacaoUm" value="3" label=""
+          [(ngModel)]="respostasQuestionarioAutorregulacao.respostaPergunta19"></p-radioButton>
+        </div>
+        <div class="p-col-1">
+          <p-radioButton name="afirmacaoUm" value="4" label=""
+            [(ngModel)]="respostasQuestionarioAutorregulacao.respostaPergunta19"></p-radioButton>
+        </div>
+        <div class="p-col-1">
+          <p-radioButton name="afirmacaoUm" value="5" label=""
+          [(ngModel)]="respostasQuestionarioAutorregulacao.respostaPergunta19"></p-radioButton>
+        </div>
+        <div class="p-col-5">
+         Concordo plenamente
+        </div>
     </div>
 
-    <div>
-      <p>
-        20. Por vezes, quando o professor está falando, fico pensando em outras coisas e realmente não ouço o que está sendo dito.
-      </p>
-      <div class="ui-inputgroup">
-        <span class="ui-inputgroup-addon">
-          <p-radioButton name="afirmacaoVinte" value="1" label="1"
-            [(ngModel)]="respostasQuestionarioAutorregulacao.respostaPergunta20"></p-radioButton>
-        </span>
-        <span class="ui-inputgroup-addon">
-          <p-radioButton name="afirmacaoVinte" value="2" label="2"
-            [(ngModel)]="respostasQuestionarioAutorregulacao.respostaPergunta20"></p-radioButton>
-        </span>
-        <span class="ui-inputgroup-addon">
-          <p-radioButton name="afirmacaoVinte" value="3" label="3"
-            [(ngModel)]="respostasQuestionarioAutorregulacao.respostaPergunta20"></p-radioButton>
-        </span>
-        <span class="ui-inputgroup-addon">
-          <p-radioButton name="afirmacaoVinte" value="4" label="4"
-            [(ngModel)]="respostasQuestionarioAutorregulacao.respostaPergunta20"></p-radioButton>
-        </span>
-        <span class="ui-inputgroup-addon">
-          <p-radioButton name="afirmacaoVinte" value="5" label="5"
-            [(ngModel)]="respostasQuestionarioAutorregulacao.respostaPergunta20"></p-radioButton>
-        </span>
-        <span class="ui-inputgroup-addon">
-          <p-radioButton name="afirmacaoVinte" value="6" label="6"
-            [(ngModel)]="respostasQuestionarioAutorregulacao.respostaPergunta20"></p-radioButton>
-        </span>
-        <span class="ui-inputgroup-addon">
-          <p-radioButton name="afirmacaoVinte" value="7" label="7"
-            [(ngModel)]="respostasQuestionarioAutorregulacao.respostaPergunta20"></p-radioButton>
-        </span>
+    <div class="p-grid">
+      <div class="p-col-12">
+        <h3>20. Por vezes, quando o professor está falando, fico pensando em outras coisas e realmente não ouço o que está sendo dito.</h3>
       </div>
+      <div class="p-col-2">
+        
+      </div>
+      <div class="p-col-1">
+       1 
+      </div>
+      <div class="p-col-1">
+        2 
+       </div>
+       <div class="p-col-1">
+        3
+       </div>
+       <div class="p-col-1">
+        4
+       </div>
+       <div class="p-col-1">
+        5
+       </div>
+       <div class="p-col-5">
+        
+       </div>
+       <div class="p-col-2">
+        Discordo completamente
+      </div>
+      <div class="p-col-1">
+        <p-radioButton name="afirmacaoUm" value="1" label=""
+            [(ngModel)]="respostasQuestionarioAutorregulacao.respostaPergunta20"></p-radioButton> 
+       </div>
+       <div class="p-col-1">
+        <p-radioButton name="afirmacaoUm" value="2" label=""
+        [(ngModel)]="respostasQuestionarioAutorregulacao.respostaPergunta20"></p-radioButton> 
+        </div>
+        <div class="p-col-1">
+          <p-radioButton name="afirmacaoUm" value="3" label=""
+          [(ngModel)]="respostasQuestionarioAutorregulacao.respostaPergunta20"></p-radioButton>
+        </div>
+        <div class="p-col-1">
+          <p-radioButton name="afirmacaoUm" value="4" label=""
+            [(ngModel)]="respostasQuestionarioAutorregulacao.respostaPergunta20"></p-radioButton>
+        </div>
+        <div class="p-col-1">
+          <p-radioButton name="afirmacaoUm" value="5" label=""
+          [(ngModel)]="respostasQuestionarioAutorregulacao.respostaPergunta20"></p-radioButton>
+        </div>
+        <div class="p-col-5">
+         Concordo plenamente
+        </div>
     </div>
 
-    <div>
-      <p>
-        21. Quando estou lendo, paro de vez em quando e reviso o que li.
-      </p>
-      <div class="ui-inputgroup">
-        <span class="ui-inputgroup-addon">
-          <p-radioButton name="afirmacaoVinteUm" value="1" label="1"
-            [(ngModel)]="respostasQuestionarioAutorregulacao.respostaPergunta21"></p-radioButton>
-        </span>
-        <span class="ui-inputgroup-addon">
-          <p-radioButton name="afirmacaoVinteUm" value="2" label="2"
-            [(ngModel)]="respostasQuestionarioAutorregulacao.respostaPergunta21"></p-radioButton>
-        </span>
-        <span class="ui-inputgroup-addon">
-          <p-radioButton name="afirmacaoVinteUm" value="3" label="3"
-            [(ngModel)]="respostasQuestionarioAutorregulacao.respostaPergunta21"></p-radioButton>
-        </span>
-        <span class="ui-inputgroup-addon">
-          <p-radioButton name="afirmacaoVinteUm" value="4" label="4"
-            [(ngModel)]="respostasQuestionarioAutorregulacao.respostaPergunta21"></p-radioButton>
-        </span>
-        <span class="ui-inputgroup-addon">
-          <p-radioButton name="afirmacaoVinteUm" value="5" label="5"
-            [(ngModel)]="respostasQuestionarioAutorregulacao.respostaPergunta21"></p-radioButton>
-        </span>
-        <span class="ui-inputgroup-addon">
-          <p-radioButton name="afirmacaoVinteUm" value="6" label="6"
-            [(ngModel)]="respostasQuestionarioAutorregulacao.respostaPergunta21"></p-radioButton>
-        </span>
-        <span class="ui-inputgroup-addon">
-          <p-radioButton name="afirmacaoVinteUm" value="7" label="7"
-            [(ngModel)]="respostasQuestionarioAutorregulacao.respostaPergunta21"></p-radioButton>
-        </span>
+    <div class="p-grid">
+      <div class="p-col-12">
+        <h3>21. Quando estou lendo, paro de vez em quando e reviso o que li.</h3>
       </div>
+      <div class="p-col-2">
+        
+      </div>
+      <div class="p-col-1">
+       1 
+      </div>
+      <div class="p-col-1">
+        2 
+       </div>
+       <div class="p-col-1">
+        3
+       </div>
+       <div class="p-col-1">
+        4
+       </div>
+       <div class="p-col-1">
+        5
+       </div>
+       <div class="p-col-5">
+        
+       </div>
+       <div class="p-col-2">
+        Discordo completamente
+      </div>
+      <div class="p-col-1">
+        <p-radioButton name="afirmacaoUm" value="1" label=""
+            [(ngModel)]="respostasQuestionarioAutorregulacao.respostaPergunta21"></p-radioButton> 
+       </div>
+       <div class="p-col-1">
+        <p-radioButton name="afirmacaoUm" value="2" label=""
+        [(ngModel)]="respostasQuestionarioAutorregulacao.respostaPergunta21"></p-radioButton> 
+        </div>
+        <div class="p-col-1">
+          <p-radioButton name="afirmacaoUm" value="3" label=""
+          [(ngModel)]="respostasQuestionarioAutorregulacao.respostaPergunta21"></p-radioButton>
+        </div>
+        <div class="p-col-1">
+          <p-radioButton name="afirmacaoUm" value="4" label=""
+            [(ngModel)]="respostasQuestionarioAutorregulacao.respostaPergunta21"></p-radioButton>
+        </div>
+        <div class="p-col-1">
+          <p-radioButton name="afirmacaoUm" value="5" label=""
+          [(ngModel)]="respostasQuestionarioAutorregulacao.respostaPergunta21"></p-radioButton>
+        </div>
+        <div class="p-col-5">
+         Concordo plenamente
+        </div>
     </div>
 
-    <div>
-      <p>
-        22. Eu trabalho duro para alcançar uma boa nota, mesmo que eu não goste da matéria.
-      </p>
-      <div class="ui-inputgroup">
-        <span class="ui-inputgroup-addon">
-          <p-radioButton name="afirmacaoVinteDois" value="1" label="1"
-            [(ngModel)]="respostasQuestionarioAutorregulacao.respostaPergunta22"></p-radioButton>
-        </span>
-        <span class="ui-inputgroup-addon">
-          <p-radioButton name="afirmacaoVinteDois" value="2" label="2"
-            [(ngModel)]="respostasQuestionarioAutorregulacao.respostaPergunta22"></p-radioButton>
-        </span>
-        <span class="ui-inputgroup-addon">
-          <p-radioButton name="afirmacaoVinteDois" value="3" label="3"
-            [(ngModel)]="respostasQuestionarioAutorregulacao.respostaPergunta22"></p-radioButton>
-        </span>
-        <span class="ui-inputgroup-addon">
-          <p-radioButton name="afirmacaoVinteDois" value="4" label="4"
-            [(ngModel)]="respostasQuestionarioAutorregulacao.respostaPergunta22"></p-radioButton>
-        </span>
-        <span class="ui-inputgroup-addon">
-          <p-radioButton name="afirmacaoVinteDois" value="5" label="5"
-            [(ngModel)]="respostasQuestionarioAutorregulacao.respostaPergunta22"></p-radioButton>
-        </span>
-        <span class="ui-inputgroup-addon">
-          <p-radioButton name="afirmacaoVinteDois" value="6" label="6"
-            [(ngModel)]="respostasQuestionarioAutorregulacao.respostaPergunta22"></p-radioButton>
-        </span>
-        <span class="ui-inputgroup-addon">
-          <p-radioButton name="afirmacaoVinteDois" value="7" label="7"
-            [(ngModel)]="respostasQuestionarioAutorregulacao.respostaPergunta22"></p-radioButton>
-        </span>
+    <div class="p-grid">
+      <div class="p-col-12">
+        <h3>22. Eu trabalho duro para alcançar uma boa nota, mesmo que eu não goste da matéria.</h3>
       </div>
+      <div class="p-col-2">
+        
+      </div>
+      <div class="p-col-1">
+       1 
+      </div>
+      <div class="p-col-1">
+        2 
+       </div>
+       <div class="p-col-1">
+        3
+       </div>
+       <div class="p-col-1">
+        4
+       </div>
+       <div class="p-col-1">
+        5
+       </div>
+       <div class="p-col-5">
+        
+       </div>
+       <div class="p-col-2">
+        Discordo completamente
+      </div>
+      <div class="p-col-1">
+        <p-radioButton name="afirmacaoUm" value="1" label=""
+            [(ngModel)]="respostasQuestionarioAutorregulacao.respostaPergunta22"></p-radioButton> 
+       </div>
+       <div class="p-col-1">
+        <p-radioButton name="afirmacaoUm" value="2" label=""
+        [(ngModel)]="respostasQuestionarioAutorregulacao.respostaPergunta22"></p-radioButton> 
+        </div>
+        <div class="p-col-1">
+          <p-radioButton name="afirmacaoUm" value="3" label=""
+          [(ngModel)]="respostasQuestionarioAutorregulacao.respostaPergunta22"></p-radioButton>
+        </div>
+        <div class="p-col-1">
+          <p-radioButton name="afirmacaoUm" value="4" label=""
+            [(ngModel)]="respostasQuestionarioAutorregulacao.respostaPergunta22"></p-radioButton>
+        </div>
+        <div class="p-col-1">
+          <p-radioButton name="afirmacaoUm" value="5" label=""
+          [(ngModel)]="respostasQuestionarioAutorregulacao.respostaPergunta22"></p-radioButton>
+        </div>
+        <div class="p-col-5">
+         Concordo plenamente
+        </div>
     </div>
 
+    
 
   </p-scrollPanel>
 

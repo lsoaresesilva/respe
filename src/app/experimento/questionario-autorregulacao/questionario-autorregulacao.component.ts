@@ -6,7 +6,7 @@ import Query from 'src/app/model/firestore/query';
 @Component({
   selector: 'app-questionario-autorregulacao',
   templateUrl: './questionario-autorregulacao.component.html',
-  styleUrls: ['./questionario-autorregulacao.component.css']
+  styleUrls: ['./questionario-autorregulacao.component.scss']
 })
 export class QuestionarioAutorregulacaoComponent implements OnInit {
 
