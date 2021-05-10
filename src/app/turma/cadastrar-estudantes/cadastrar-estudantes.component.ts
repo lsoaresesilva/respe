@@ -45,6 +45,7 @@ export class CadastrarEstudantesComponent implements OnInit {
       { label: 'Como você se identifica?', value: null },
       { label: 'Feminino', value: Genero.feminino },
       { label: 'Masculino', value: Genero.feminino },
+      { label: 'Prefiro não informar', value: Genero.pns },
     ];
 
     this.faixaEtaria = [

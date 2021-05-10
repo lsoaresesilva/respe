@@ -65,6 +65,8 @@ export class VisualizarParsonComponent implements OnInit {
               (respostaUsuario: RespostaQuestaoParson) => {
                 if (respostaUsuario != null) {
                   this.respostaQuestaoFechada = respostaUsuario;
+                  this.questao.segmentos = [];
+
                 }
               }
             );

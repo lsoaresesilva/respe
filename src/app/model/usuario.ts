@@ -223,12 +223,12 @@ export default class Usuario extends Document {
               this.nome == null ||
               this.nome == '' ||
               this.senha == null ||
-              this.senha == '' /* ||
-              this.perfil == null ||
-              this.perfil <= 0 ||
+              this.senha == '' ||
+              /* this.perfil == null ||
+              this.perfil <= 0 ||*/
               this.conhecimentoPrevioProgramacao == null ||
               this.genero == null ||
-              this.faixaEtaria == null */
+              this.faixaEtaria == null
             ) {
               observer.error(
                 new Error('É preciso informar todos os dados para efetuar o cadastro.')

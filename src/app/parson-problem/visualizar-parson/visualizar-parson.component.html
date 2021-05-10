@@ -4,7 +4,7 @@
   <div class="p-col-12">
     <h1>{{ questao?.nomeCurto }}</h1>
 
-    <p-fieldset legend="Questão: {{ questao?.sequencia }}">
+    <p-fieldset *ngIf="questao != null" legend="Questão: {{ questao?.sequencia }}">
       <div *ngIf="questao?.possuiCodigoNoEnunciado(); else semCodigo" [innerHtml]="gerarHtmlTextoComCodigo(questao)">
       </div>
       <ng-template #semCodigo>
@@ -19,11 +19,10 @@
       <h2>Segmentos</h2>
       <div cdkDropList #listOne="cdkDropList" [cdkDropListData]="questao?.segmentos"
         [cdkDropListConnectedTo]="[listTwo]" class="list-vertical" (cdkDropListDropped)="drop($event)">
-        <div *ngIf="respostaQuestaoFechada?.id == null">
+        
           <div class="example-box" *ngFor="let segmento of questao?.segmentos" cdkDrag>
             {{ segmento.conteudo }}
           </div>
-        </div>
       </div>
     </div>
   </div>
