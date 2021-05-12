@@ -29,7 +29,7 @@
     "@teamwork/websocket-json-stream": "^2.0.0",
     "@types/intro.js": "^2.4.6",
     "agora-rtc-sdk-ng": "^4.3.0",
-    "chart.js": "^2.7.3",
+    "chart.js": "^2.9.4",
     "chromedriver": "^78.0.1",
     "codemirror": "^5.60.0",
     "core-js": "^2.5.4",
