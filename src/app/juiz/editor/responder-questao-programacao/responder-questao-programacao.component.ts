@@ -43,6 +43,7 @@ import { DiarioProgramacaoComponent } from 'src/app/srl/monitoramento/diario-pro
 import { TipoDiarioProgramacao } from 'src/app/model/srl/enum/tipoDiarioProgramacao';
 import DiarioProgramacao from 'src/app/model/srl/diarioProgramacao';
 import { ModoExecucao } from 'src/app/model/juiz/enum/modoExecucao';
+import { Groups } from 'src/app/model/experimento/groups';
 
 @Component({
   selector: 'responder-questao-programacao',
@@ -159,7 +160,7 @@ export class ResponderQuestaoProgramacao implements OnInit, AfterViewInit, OnCha
 
   ngOnInit() {
     this.usuario = this.login.getUsuarioLogado();
-
+    if (this.usuario.grupoExperimento != Groups.control) {
     DiarioProgramacao.exibirDiario(this.login.getUsuarioLogado(), TipoDiarioProgramacao.planejamento).subscribe(visibilidade=>{
       if(visibilidade){
         this.dialogService.open(DiarioProgramacaoComponent, {
@@ -167,6 +168,7 @@ export class ResponderQuestaoProgramacao implements OnInit, AfterViewInit, OnCha
         });
       }
     });
+  }
     
 
     if (this.usuario == null) {

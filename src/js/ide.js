@@ -134,7 +134,7 @@ function iniciarEditorColaborativo(id) {
 
     if (editorProgramacao != null) {
       let f = Firepad.fromMonaco(firepadRef, editorProgramacao);
-      f.on('ready', function() {
+      /* f.on('ready', function() {
         let x = y;
         let z = x;
       });
@@ -142,7 +142,7 @@ function iniciarEditorColaborativo(id) {
       f.on('synced', function(ev) {
         let x = y;
         let z = x;
-      });
+      }); */
     }
   }
 

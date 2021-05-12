@@ -41,6 +41,7 @@ import { EditorTrintadoisbitsComponent } from '../editor-trintadoisbits/editor-t
 import { EditorPadraoComponent } from '../editor-padrao/editor-padrao.component';
 import ParseAlgoritmo from 'src/app/model/errors/analise-pre-compilacao/parseAlgoritmo';
 import { MonitorService } from 'src/app/chatbot/monitor.service';
+import { Groups } from 'src/app/model/experimento/groups';
 
 /**
  * Executa um javascript ide.js para acoplar o editor VStudio.
@@ -49,14 +50,13 @@ import { MonitorService } from 'src/app/chatbot/monitor.service';
 declare var monaco: any;
 declare var editorProgramacao: any;
 
-
 declare function iniciarEditorColaborativo(id): any;
 
 @Component({
   selector: 'app-editor-programacao',
   templateUrl: './editor-programacao.component.html',
   styleUrls: ['./editor-programacao.component.css'],
-  providers: [EscapeHtmlPipe]
+  providers: [EscapeHtmlPipe],
 })
 export class EditorProgramacaoComponent implements AfterViewInit, OnChanges, OnInit {
   URL = environment.URL;
@@ -114,14 +114,13 @@ export class EditorProgramacaoComponent implements AfterViewInit, OnChanges, OnI
 
   items; // Botões da visualização de algoritmos
 
-  
   @Output()
   onSubmit: EventEmitter<any>;
   @Output()
   onServidorError: EventEmitter<any>;
   @Output()
   onError: EventEmitter<any>;
-  
+
   @Output()
   onVisualization: EventEmitter<any>;
   @Output()
@@ -163,8 +162,9 @@ export class EditorProgramacaoComponent implements AfterViewInit, OnChanges, OnI
     this.processandoVisualizacao = false;
     this.usuario = this.login.getUsuarioLogado();
     editorProgramacao = null;
-    this.iconModoEditor = parseInt(this.modoExecucao)==ModoExecucao.execucao32bits?"pi pi-pencil":"pi pi-table";
-   
+    this.iconModoEditor =
+      parseInt(this.modoExecucao) == ModoExecucao.execucao32bits ? 'pi pi-pencil' : 'pi pi-table';
+
     /**
      * TODO: verificar se já foi feita a submissão de atividade em grupo, se sim inicia como true.
      */
@@ -180,7 +180,6 @@ export class EditorProgramacaoComponent implements AfterViewInit, OnChanges, OnI
 
   ngOnInit(): void {
     this.posicaoCursor = { column: 1, lineNumber: 1 };
-    
   }
 
   /**
@@ -188,7 +187,7 @@ export class EditorProgramacaoComponent implements AfterViewInit, OnChanges, OnI
    * Este método força uma clonagem do objeto, fazendo com que o ngOnChanges detecte que é um novo objeto e assim realize a atualização.
    * @param submissao
    */
-   clonarSubmissao(submissao) {
+  clonarSubmissao(submissao) {
     if (submissao != undefined) {
       let _submissaoClone = new Submissao(
         submissao.pk(),
@@ -210,32 +209,33 @@ export class EditorProgramacaoComponent implements AfterViewInit, OnChanges, OnI
   }
 
   ngOnChanges(changes: import('@angular/core').SimpleChanges): void {
-
-   /*  if(changes.submissao != null && changes.submissao.currentValue != null){
+    /*  if(changes.submissao != null && changes.submissao.currentValue != null){
       
     } */
 
-    if(this.submissao != null){
-
+    if (this.submissao != null) {
       this.atualizarEditorComSubmissao();
     }
 
-    if(this.questaoColaborativa != null && this.questaoColaborativa.isOpenEnded == true){
+    if (this.questaoColaborativa != null && this.questaoColaborativa.isOpenEnded == true) {
       this.apresentarVisualizacao = false;
     }
   }
 
-  mudancaEditor(){
-    this.modoExecucao = this.modoExecucao == ModoExecucao.execucao32bits?ModoExecucao.execucaoPadrao:ModoExecucao.execucao32bits;
-    this.iconModoEditor = parseInt(this.modoExecucao)==ModoExecucao.execucao32bits?"pi pi-pencil":"pi pi-table";
+  mudancaEditor() {
+    this.modoExecucao =
+      this.modoExecucao == ModoExecucao.execucao32bits
+        ? ModoExecucao.execucaoPadrao
+        : ModoExecucao.execucao32bits;
+    this.iconModoEditor =
+      parseInt(this.modoExecucao) == ModoExecucao.execucao32bits ? 'pi pi-pencil' : 'pi pi-table';
     this.onEditorMudancaExecucao.emit(this.modoExecucao);
   }
-
 
   ngAfterViewInit(): void {
     //this.desenharBotaoModoEdicao();
     this.editorCodigo = Editor.getInstance();
-    
+
     if (
       this.questao != null &&
       this.questao.algoritmoInicial !== null &&
@@ -270,15 +270,10 @@ export class EditorProgramacaoComponent implements AfterViewInit, OnChanges, OnI
     if (this.atividadeGrupo != null) {
       isAtividadeGrupo = true;
     }
-
-   
   }
 
-  
-
-
   visualizarResposta(questao) {
-    if(this.submissao.isFinalizada()){
+    if (this.submissao.isFinalizada()) {
       const ref = this.dialogService.open(ExibirSolucaoComponent, {
         header: 'Algoritmo com a solução do problema',
         width: '60%',
@@ -293,7 +288,7 @@ export class EditorProgramacaoComponent implements AfterViewInit, OnChanges, OnI
         this.login.getUsuarioLogado()
       );
       pageTrack.save().subscribe(() => {});
-    }else{
+    } else {
       this.confirmationService.confirm({
         message:
           'Se você visualizar a resposta dessa questão não ganhará pontos ao respondê-la. Tem certeza que deseja visualizar?',
@@ -306,14 +301,18 @@ export class EditorProgramacaoComponent implements AfterViewInit, OnChanges, OnI
             this.login.getUsuarioLogado()
           );
           pageTrack.save().subscribe(() => {});
-  
-          
-          VisualizacaoRespostasQuestoes.getByEstudante(questao, this.login.getUsuarioLogado()).subscribe((visualizou) => {
+
+          VisualizacaoRespostasQuestoes.getByEstudante(
+            questao,
+            this.login.getUsuarioLogado()
+          ).subscribe((visualizou) => {
             if (visualizou == null) {
-              new VisualizacaoRespostasQuestoes(null, this.login.getUsuarioLogado(), questao).save().subscribe();
+              new VisualizacaoRespostasQuestoes(null, this.login.getUsuarioLogado(), questao)
+                .save()
+                .subscribe();
             }
           });
-  
+
           const ref = this.dialogService.open(ExibirSolucaoComponent, {
             header: 'Algoritmo com a solução do problema',
             width: '60%',
@@ -321,14 +320,13 @@ export class EditorProgramacaoComponent implements AfterViewInit, OnChanges, OnI
               questao: questao,
             },
           });
-  
+
           ref.onClose.subscribe(() => {
             this.confirmationService.close();
           });
         },
       });
     }
-    
   }
 
   /* visualizarRespostaOutrosEstudantes(questao) {
@@ -359,57 +357,46 @@ export class EditorProgramacaoComponent implements AfterViewInit, OnChanges, OnI
     }
   }
 
-  iniciarChat(){
-    if (
-      this.atividadeGrupo != null &&
-      this.grupo.id != null
-    ) {
-      this.chat
-        .iniciar(this.grupo.id)
-        .subscribe((resposta) => {
-          if (resposta) {
-            this.chat.receberMensagens();
-            this.isConectado = true;
-          }
-        });
-
-      
-    } 
+  iniciarChat() {
+    if (this.atividadeGrupo != null && this.grupo.id != null) {
+      this.chat.iniciar(this.grupo.id).subscribe((resposta) => {
+        if (resposta) {
+          this.chat.receberMensagens();
+          this.isConectado = true;
+        }
+      });
+    }
   }
 
-  carregarEditor(editorProgramacaoComponentInstance, editor) {
+  // TODO: Apagar no futuro
+  /* carregarEditor(editorProgramacaoComponentInstance, editor) {
     editorProgramacaoComponentInstance.editor = editor;
     editorProgramacaoComponentInstance.onEditorReady.emit(editor);
 
-     editorProgramacaoComponentInstance.editor.onKeyDown(function (e) {
+    editorProgramacaoComponentInstance.editor.onKeyDown(function (e) {
       let linhaAtual = editor.getPosition().lineNumber;
-      if(editorProgramacaoComponentInstance.erroAtivo != null){
-        if(editorProgramacaoComponentInstance.erroAtivo.linha == linhaAtual){
-          editorProgramacaoComponentInstance.removerDestaquesErro()
+      if (editorProgramacaoComponentInstance.erroAtivo != null) {
+        if (editorProgramacaoComponentInstance.erroAtivo.linha == linhaAtual) {
+          editorProgramacaoComponentInstance.removerDestaquesErro();
         }
       }
-
-    }); 
+    });
 
     if (
       editorProgramacaoComponentInstance.atividadeGrupo != null &&
       editorProgramacaoComponentInstance.grupo.id != null
     ) {
-      
       iniciarEditorColaborativo(editorProgramacaoComponentInstance.grupo.id);
     } else {
       editorProgramacaoComponentInstance.atualizarEditorComSubmissao();
     }
-  }
+  } */
 
-  onContainerReady(event){
+  onContainerReady(event) {
     this.isEditorPronto = true;
-    
-    if (
-      this.atividadeGrupo != null &&
-      this.grupo.id != null
-    ) {
-      
+
+    if (this.atividadeGrupo != null && this.grupo.id != null) {
+      this.iniciarChat();
       iniciarEditorColaborativo(this.grupo.id);
     } else {
       this.atualizarEditorComSubmissao();
@@ -438,7 +425,7 @@ export class EditorProgramacaoComponent implements AfterViewInit, OnChanges, OnI
 
   visualizar(testCase) {
     const submissao = this.prepararSubmissao();
-    
+
     const pageTrack = new PageTrackRecord(
       null,
       'visualizacao-algoritmo',
@@ -471,7 +458,6 @@ export class EditorProgramacaoComponent implements AfterViewInit, OnChanges, OnI
             submissao.processarErroServidor(resposta);
 
             //this.onError.emit(this._submissao);
-            
           } else {
             this.processandoVisualizacao = false;
             const padrao = /(.*?){.*"code"/gs;
@@ -498,8 +484,6 @@ export class EditorProgramacaoComponent implements AfterViewInit, OnChanges, OnI
     }
   }
 
-  
-
   /**
    * Constrói uma submissão que será salva no banco de dados.
    */
@@ -515,11 +499,20 @@ export class EditorProgramacaoComponent implements AfterViewInit, OnChanges, OnI
     return submissao;
   }
 
-  visualizarDocumentacaoProjeto(){
-
+  visualizarDocumentacaoProjeto() {
     this.router.navigate([
       'main',
-      { outlets: { principal: ['visualizar-documentacao-projeto', this.atividadeGrupo.pk(), this.grupo.id, this.assunto.pk(), this.questaoColaborativa.id] } },
+      {
+        outlets: {
+          principal: [
+            'visualizar-documentacao-projeto',
+            this.atividadeGrupo.pk(),
+            this.grupo.id,
+            this.assunto.pk(),
+            this.questaoColaborativa.id,
+          ],
+        },
+      },
     ]);
   }
 
@@ -570,21 +563,25 @@ export class EditorProgramacaoComponent implements AfterViewInit, OnChanges, OnI
     });
   }
 
-  submissaoRealizada(submissao){
+  submissaoRealizada(submissao) {
     this.erroAtivo = null;
     this.processandoSubmissao = false;
     this.submissao = submissao;
-    if(submissao.isFinalizada()){
-      DiarioProgramacao.exibirDiario(this.login.getUsuarioLogado(), TipoDiarioProgramacao.reflexao).subscribe(visibilidade=>{
-        if(visibilidade){
-          this.dialogService.open(DiarioProgramacaoComponent, {
-            data: { tipo: TipoDiarioProgramacao.reflexao },
-            width:'600',
-            height:'480'
-          });
-        }
-      });
-      
+    if (submissao.isFinalizada()) {
+      if (this.usuario.grupoExperimento != Groups.control) {
+        DiarioProgramacao.exibirDiario(
+          this.login.getUsuarioLogado(),
+          TipoDiarioProgramacao.reflexao
+        ).subscribe((visibilidade) => {
+          if (visibilidade) {
+            this.dialogService.open(DiarioProgramacaoComponent, {
+              data: { tipo: TipoDiarioProgramacao.reflexao },
+              width: '600',
+              height: '480',
+            });
+          }
+        });
+      }
     }
 
     if (this.atividadeGrupo != null) {
@@ -596,82 +593,75 @@ export class EditorProgramacaoComponent implements AfterViewInit, OnChanges, OnI
         false
       );
       submissaoGrupo.save().subscribe(() => {});
-      
-    }else{
-      if(this.questaoCorrecao == null){
-        submissao.save().subscribe((resposta)=>{
+    } else {
+      if (this.questaoCorrecao == null) {
+        submissao.save().subscribe((resposta) => {
           this.submissao = resposta;
         });
-      }else{
-        let correcaoAlgoritmo = new RespostaQuestaoCorrecaoAlgoritmo(null, submissao, this.usuario, this.assunto, this.questaoCorrecao);
-        correcaoAlgoritmo.save().subscribe(()=>{
+      } else {
+        let correcaoAlgoritmo = new RespostaQuestaoCorrecaoAlgoritmo(
+          null,
+          submissao,
+          this.usuario,
+          this.assunto,
+          this.questaoCorrecao
+        );
+        correcaoAlgoritmo.save().subscribe(() => {
           this.submissao = submissao;
         });
       }
-      
     }
 
-
     this.onSubmit.emit(this.submissao);
-    
   }
 
-  inicioSubmissao(){
+  inicioSubmissao() {
     this.processandoSubmissao = true;
   }
 
-  erroServidor(data){
+  erroServidor(data) {
     this.processandoSubmissao = false;
     this.onServidorError.emit(data);
   }
 
-  erroSubmissao(data){
-
+  erroSubmissao(data) {
     this.processandoSubmissao = false;
     this.submissao = data.submissao;
-    if(data.erro.error != null && data.erro.error.mensagem != null){
+    if (data.erro.error != null && data.erro.error.mensagem != null) {
       this.submissao.processarErroServidor(data.erro.error.mensagem);
-    }else if(data.erro != null){
-      if(!(data.erro instanceof HttpErrorResponse)){
+    } else if (data.erro != null) {
+      if (!(data.erro instanceof HttpErrorResponse)) {
         this.submissao.processarErroServidor(data.erro);
       }
-      
     }
 
     if (this.atividadeGrupo == null) {
       let parseError = new ParseAlgoritmo(this.submissao.linhasAlgoritmo());
-      if(this.submissao.erro != null){
+      if (this.submissao.erro != null) {
         let erro = parseError.getHint(this.submissao.erro.traceback);
-        if(erro.length > 0){
+        if (erro.length > 0) {
           this.erroAtivo = erro[0];
         }
-        
-        
+
         this.monitor.monitorarErrosEstudante(this.questao, this.usuario, erro[0]);
       }
-      
     }
 
-    
-    
-    
-    if(this.questaoCorrecao == null){
+    if (this.questaoCorrecao == null) {
       this.submissao.save().subscribe((resultado) => {
-        
         this.onError.emit(this.submissao);
       });
-    }else{
-      let correcaoAlgoritmo = new RespostaQuestaoCorrecaoAlgoritmo(null, this.submissao, this.usuario, this.assunto, this.questaoCorrecao);
-      correcaoAlgoritmo.save().subscribe(()=>{
-        
+    } else {
+      let correcaoAlgoritmo = new RespostaQuestaoCorrecaoAlgoritmo(
+        null,
+        this.submissao,
+        this.usuario,
+        this.assunto,
+        this.questaoCorrecao
+      );
+      correcaoAlgoritmo.save().subscribe(() => {
         this.onError.emit(this.submissao);
       });
     }
-
-    
   }
-
-  
-
-  
 }

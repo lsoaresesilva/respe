@@ -18,6 +18,7 @@ import { TipoDiarioProgramacao } from '../model/srl/enum/tipoDiarioProgramacao';
 import DiarioProgramacao from '../model/srl/diarioProgramacao';
 import { LoginService } from '../login-module/login.service';
 import ErroPreCompilacao from '../model/errors/analise-pre-compilacao/erroPrecompilacao';
+import { Groups } from '../model/experimento/groups';
 
 @Injectable({
   providedIn: 'root',
@@ -129,7 +130,7 @@ export class MonitorService {
 
 
 
-  monitorarErrosEstudante(questao: QuestaoProgramacao, estudante, erro:ErroPreCompilacao) {
+  monitorarErrosEstudante(questao: QuestaoProgramacao, estudante:Usuario, erro:ErroPreCompilacao) {
     let enviarMensagem = false;
     let mensagens:Mensagem[] = []
     if(erro != null){
@@ -161,16 +162,18 @@ export class MonitorService {
               mensagens.push(mensagemSuporte);
               let registroMensagem = new RegistroMensagemChatbot(null, mensagemSuporte, estudante);
               registroMensagem.save().subscribe(() => {});
+              if(estudante.grupoExperimento != Groups.control){
+                DiarioProgramacao.exibirDiario(this.login.getUsuarioLogado(), TipoDiarioProgramacao.reflexao).subscribe(visibilidade=>{
+                  if(visibilidade){
+                    this.dialogService.open(DiarioProgramacaoComponent, {
+                      data: { tipo: TipoDiarioProgramacao.reflexao },
+                      width:'600',
+                      height:'480'
+                    });
+                  }
+                });
+              }
               
-              DiarioProgramacao.exibirDiario(this.login.getUsuarioLogado(), TipoDiarioProgramacao.reflexao).subscribe(visibilidade=>{
-                if(visibilidade){
-                  this.dialogService.open(DiarioProgramacaoComponent, {
-                    data: { tipo: TipoDiarioProgramacao.reflexao },
-                    width:'600',
-                    height:'480'
-                  });
-                }
-              });
             }
           } else {
             if (errorQuotient > 0.7) {

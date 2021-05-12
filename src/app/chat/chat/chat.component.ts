@@ -7,7 +7,7 @@ import { ChatService } from '../../cscl/chat.service';
 @Component({
   selector: 'app-chat',
   templateUrl: './chat.component.html',
-  styleUrls: ['./chat.component.css']
+  styleUrls: ['./chat.component.scss']
 })
 export class ChatGrupoComponent implements OnInit, OnChanges {
 

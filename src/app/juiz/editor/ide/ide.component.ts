@@ -6,12 +6,6 @@ import ConsoleEditor from 'src/app/model/consoleEditor';
 import RespostaQuestaoCorrecaoAlgoritmo from 'src/app/model/correcao-algoritmo/correcaoAlgoritmo';
 import SubmissaoGrupo from 'src/app/model/cscl/submissaoGrupo';
 import ErroServidor from 'src/app/model/errors/erroServidor';
-import PontuacaoQuestaoProgramacao from 'src/app/model/gamification/pontuacaoQuestaoProgramacao';
-import { ModoExecucao } from 'src/app/model/juiz/enum/modoExecucao';
-import DiarioProgramacao from 'src/app/model/srl/diarioProgramacao';
-import { TipoDiarioProgramacao } from 'src/app/model/srl/enum/tipoDiarioProgramacao';
-import Submissao from 'src/app/model/submissao';
-import { DiarioProgramacaoComponent } from 'src/app/srl/monitoramento/diario-programacao/diario-programacao.component';
 
 @Component({
   selector: 'app-ide',
