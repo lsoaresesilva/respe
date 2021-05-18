@@ -33,14 +33,6 @@ Gerar o link -->
 
 <div class="p-grid">
     <div class="p-col-12">
-        <!-- <p-autoComplete [(ngModel)]="estudanteSelecionado" [suggestions]="pesquisaEstudantes"
-            (completeMethod)="pesquisar($event)" [dropdown]="true" (onSelect)="selecionarAluno($event)">
-
-            <ng-template let-aluno pTemplate="item">
-                <span>{{aluno.nome}}</span>
-            </ng-template>
-
-        </p-autoComplete> -->
         <p-multiSelect [options]="pesquisaEstudantes" [(ngModel)]="estudantesSelecionados" optionLabel="nome"></p-multiSelect>
     </div>
 </div>

@@ -14,6 +14,7 @@ export class VisualizarSolucoesAtividadeGrupoComponent implements OnInit {
 
 
   atividadeGrupo;
+  grupo;
   submissoesGrupo;
 
   constructor(private route:ActivatedRoute, private router:Router) { }
@@ -23,6 +24,7 @@ export class VisualizarSolucoesAtividadeGrupoComponent implements OnInit {
       if (params['atividadeGrupoId'] != null && params['grupoId'] != null) {
         AtividadeGrupo.get(params['atividadeGrupoId']).subscribe((atividadeGrupo) => {
           this.atividadeGrupo = atividadeGrupo as AtividadeGrupo;
+          this.grupo = this.atividadeGrupo.getGrupo(params['grupoId']);
           SubmissaoGrupo.getAll(new Query("grupoId", "==", params['grupoId'])).subscribe(submissoes=>{
             this.submissoesGrupo = submissoes;
           })
@@ -40,6 +42,10 @@ export class VisualizarSolucoesAtividadeGrupoComponent implements OnInit {
 
   visualizarSubmissao(submissao){
     this.router.navigate(["main", { outlets: { principal: ['visualizar-submissao-questao', submissao, true] } }]);
+  }
+
+  modificarGrupo(){
+    this.router.navigate(["main", { outlets: { principal: ['modificar-grupo', this.atividadeGrupo.pk(), this.grupo.id] } }]);
   }
 
 }

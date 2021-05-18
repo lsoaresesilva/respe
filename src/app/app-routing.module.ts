@@ -69,6 +69,7 @@ import { EditorDocumentacaoProjetoComponent } from './cscl/editor-documentacao-p
 import { ListarVideosComponent } from './sistema-aprendizagem/listar-videos/listar-videos.component';
 import { VisualizarVideoComponent } from './sistema-aprendizagem/visualizar-video/visualizar-video.component';
 import { EditorIndependenteComponent } from './juiz/editor/editor-independente/editor-independente.component';
+import { ModificarGrupoComponent } from './cscl/modificar-grupo/modificar-grupo.component';
 
 const routes: Routes = [
   {
@@ -213,6 +214,13 @@ const routes: Routes = [
       {
         path: 'criar-grupo',
         component: CriacaoGrupoComponent,
+        canActivate: [AuthGuard, ProfessorGuard],
+        outlet: 'principal',
+      },
+
+      {
+        path: 'modificar-grupo/:atividadeGrupoId/:grupoId',
+        component: ModificarGrupoComponent,
         canActivate: [AuthGuard, ProfessorGuard],
         outlet: 'principal',
       },

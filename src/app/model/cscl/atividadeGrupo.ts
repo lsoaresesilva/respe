@@ -9,6 +9,7 @@ import Turma from '../turma';
 import QuestaoColaborativa from './questaoColaborativa';
 import Grupo from './grupo';
 import { environment } from 'src/environments/environment';
+import Questao from '../questoes/questao';
 
 @Collection('atividadeGrupo')
 export default class AtividadeGrupo extends Document {
@@ -35,8 +36,9 @@ export default class AtividadeGrupo extends Document {
   objectToDocument() {
     let document = super.objectToDocument();
     
-
     document['dataExpiracao'] = firebase.firestore.Timestamp.fromDate(this.dataExpiracao);
+
+    
 
     if (this.turma != null) {
       document['turmaCodigo'] = this.turma.codigo;
@@ -227,6 +229,21 @@ export default class AtividadeGrupo extends Document {
           })
 
           atividadeGrupo["grupos"] = grupos;
+          let turma = new Turma(null, null, null, null);
+          turma.codigo = atividadeGrupo["turmaCodigo"];
+          atividadeGrupo.turma = turma;
+          atividadeGrupo.assunto = new Assunto(atividadeGrupo["assuntoId"], null);
+          atividadeGrupo.questao = new QuestaoColaborativa(atividadeGrupo["questaoColaborativaId"], null, null);
+          atividadeGrupo.dataExpiracao = Util.firestoreDateToDate(atividadeGrupo["dataExpiracao"]);
+
+          let estudantes = [];
+          atividadeGrupo["estudantes"].forEach(estudante=>{
+            let e = new Usuario(estudante, null, null, null, null, null);
+            estudantes.push(e);
+          })
+
+          atividadeGrupo["estudantes"] = estudantes;
+          
         }
 
         observer.next(atividadeGrupo);
