@@ -532,35 +532,38 @@ export class EditorProgramacaoComponent implements AfterViewInit, OnChanges, OnI
         detail:
           'Antes de entregar a atividade é preciso executar o seu código. Após isso tente novamente entregar a atividade',
       });
+    }else{
+      this.confirmationService.confirm({
+        message: 'Somente é possível realizar uma entrega. Tem certeza?',
+        acceptLabel: 'Sim',
+        rejectLabel: 'Não',
+        accept: () => {
+          let submissaoGrupo = new SubmissaoGrupo(
+            null,
+            this.submissao,
+            this.grupo,
+            this.atividadeGrupo,
+            true
+          );
+          submissaoGrupo.save().subscribe((subGrupo) => {
+            this.statusBtnEnvioAtividadeGrupo = true;
+  
+            /**
+             * TODO: desabilitar o botão também para os outros usuários.
+             */
+  
+            this.messageService.add({
+              severity: 'success',
+              summary: 'Sucesso',
+              detail: 'Atividade entregue com sucesso.',
+            });
+          });
+          
+        },
+      });
     }
 
-    this.confirmationService.confirm({
-      message: 'Somente é possível realizar uma entrega. Tem certeza?',
-      acceptLabel: 'Sim',
-      rejectLabel: 'Não',
-      accept: () => {
-        let submissaoGrupo = new SubmissaoGrupo(
-          null,
-          this.submissao,
-          this.grupo,
-          this.atividadeGrupo,
-          true
-        );
-        submissaoGrupo.save().subscribe(() => {
-          this.statusBtnEnvioAtividadeGrupo = true;
-
-          /**
-           * TODO: desabilitar o botão também para os outros usuários.
-           */
-
-          this.messageService.add({
-            severity: 'success',
-            summary: 'Sucesso',
-            detail: 'Atividade entregue com sucesso.',
-          });
-        });
-      },
-    });
+    
   }
 
   submissaoRealizada(submissao) {
@@ -585,14 +588,18 @@ export class EditorProgramacaoComponent implements AfterViewInit, OnChanges, OnI
     }
 
     if (this.atividadeGrupo != null) {
-      let submissaoGrupo = new SubmissaoGrupo(
-        null,
-        submissao,
-        this.grupo,
-        this.atividadeGrupo,
-        false
-      );
-      submissaoGrupo.save().subscribe(() => {});
+      this.submissao = submissao;
+      this.submissao.save().subscribe(()=>{
+        let submissaoGrupo = new SubmissaoGrupo(
+          null,
+          this.submissao,
+          this.grupo,
+          this.atividadeGrupo,
+          false
+        );
+        submissaoGrupo.save().subscribe(() => {});
+      })
+      
     } else {
       if (this.questaoCorrecao == null) {
         submissao.save().subscribe((resposta) => {

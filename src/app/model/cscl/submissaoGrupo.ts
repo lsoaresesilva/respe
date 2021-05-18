@@ -12,7 +12,6 @@ export default class SubmissaoGrupo extends Document {
 
   constructor(id, public submissao:Submissao, public grupo:Grupo, public atividadeGrupo:AtividadeGrupo, public isFinal) {
     super(id);
-    this.isFinal = false;
   }
 
   objectToDocument(){
@@ -29,6 +28,8 @@ export default class SubmissaoGrupo extends Document {
     if(this.atividadeGrupo != null && this.atividadeGrupo.pk() != null){
       document["atividadeGrupoId"] = this.atividadeGrupo.pk();
     }
+
+    document["isFinal"] = this.isFinal;
     
 
     return document;
