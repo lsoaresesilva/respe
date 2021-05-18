@@ -67,4 +67,17 @@ export class ModificarGrupoComponent implements OnInit {
     });
   }
 
+  atualizar(){
+    this.atividadeGrupo.grupos.forEach(grupo => {
+      if(grupo.id == this.grupo.id){
+        grupo.estudantes = this.estudantes;
+      }
+      
+    });
+
+    this.atividadeGrupo.save().subscribe(()=>{
+
+    });
+  }
+
 }

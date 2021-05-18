@@ -32,7 +32,7 @@ export class VisualizarAtividadeGrupoProfessorComponent implements OnInit {
     if (Array.isArray(this.atividadeGrupo.estudantes)) {
       let consultaEstudantes = [];
       this.atividadeGrupo.estudantes.forEach((estudante) => {
-        consultaEstudantes.push(Usuario.get(estudante));
+        consultaEstudantes.push(Usuario.get(estudante.pk()));
       });
 
       forkJoin(consultaEstudantes).subscribe((estudantes) => {
