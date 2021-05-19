@@ -3,6 +3,7 @@ import { MessageService } from 'primeng/api';
 import { forkJoin } from 'rxjs';
 import { Assunto } from 'src/app/model/assunto';
 import AtividadeGrupo from 'src/app/model/cscl/atividadeGrupo';
+import Frequencia from 'src/app/model/cscl/frequencia';
 import QuestaoColaborativa from 'src/app/model/cscl/questaoColaborativa';
 import Query from 'src/app/model/firestore/query';
 import Turma from 'src/app/model/turma';
@@ -150,6 +151,15 @@ export class CriacaoGrupoComponent implements OnInit {
     atividadeGrupo.salvar(this.assuntoSelecionado, this.questaoSelecionada).subscribe(() => {
       
     }); */
+  }
+
+  importarFrequencia(){
+    let data = new Date();
+    Frequencia.getByQuery([new Query("codigoTurma", "==", this.turmaSelecionada.codigo),new Query("data", "==", data.getDate()+"/"+data.getMonth())]).subscribe(frequencia=>{
+      frequencia.getEstudantes().subscribe(estudantes=>{
+        this.estudantesSelecionados = estudantes;
+      })
+    })
   }
 
   selecionarAssunto(event) {

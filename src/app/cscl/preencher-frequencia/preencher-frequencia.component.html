@@ -1,0 +1,36 @@
+
+<p-toast></p-toast>
+<div class="p-grid" *ngIf="frequencia != null">
+    <div class="p-col-4">
+        
+    </div>
+    <div class="p-col-4">
+        <h1>Preencher frequência</h1>
+    </div>
+    <div class="p-col-4">
+        
+    </div>
+    <div class="p-col-2">
+        
+    </div>
+    <div class="p-col-2">
+        Digite o e-mail de cadastro no ambiente
+    </div>
+    <div class="p-col-2">
+        <input [(ngModel)]="email" pInputText>
+    </div>
+    <div class="p-col-6">
+        
+    </div>
+    <div class="p-col-2">
+        
+    </div>
+    <div class="p-col-2">
+        <button pButton type="button" label="Salvar" (click)="preencher()"></button>
+    </div>
+    
+</div>
+<div *ngIf="erro">
+    Os dados da frequência são inválidos. Entre em contato com o seu professor.
+</div>
+

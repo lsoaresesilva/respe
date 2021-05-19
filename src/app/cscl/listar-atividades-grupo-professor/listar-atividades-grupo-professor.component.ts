@@ -24,6 +24,11 @@ export class ListarAtividadesGrupoProfessorComponent implements OnInit {
     this.router.navigate(['main', { outlets: { principal: ['criar-grupo'] } }]);
   }
 
+  criarFrequencia() {
+    this.router.navigate(['main', { outlets: { principal: ['criar-frequencia'] } }]);
+  }
+
+
   pesquisarTurma(event) {
     Turma.pesquisar(new Query('codigo', '==', event.query)).subscribe((turmas) => {
       this.pesquisaTurmas = turmas;

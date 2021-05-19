@@ -32,8 +32,11 @@ Gerar o link -->
 </div>
 
 <div class="p-grid">
-    <div class="p-col-12">
+    <div class="p-col-6">
         <p-multiSelect [options]="pesquisaEstudantes" [(ngModel)]="estudantesSelecionados" optionLabel="nome"></p-multiSelect>
+    </div>
+    <div class="p-col-6">
+        <button pButton type="button" label="Importar frequência" (click)="importarFrequencia()"></button>
     </div>
 </div>
 

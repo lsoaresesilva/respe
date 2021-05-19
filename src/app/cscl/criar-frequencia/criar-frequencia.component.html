@@ -1,0 +1,26 @@
+
+<p-toast></p-toast>
+<h1>Criar frequência</h1>
+
+<div class="p-grid">
+    <div class="p-col-12">
+        Selecionar turma
+    </div>
+</div>
+
+<div class="p-grid">
+    <div class="p-col-12">
+        <p-autoComplete [(ngModel)]="turmaSelecionada" [suggestions]="pesquisaTurmas"
+            (completeMethod)="pesquisarTurma($event)" [dropdown]="true">
+
+            <ng-template let-turma pTemplate="item">
+                <span>{{turma.codigo}}</span>
+            </ng-template>
+
+        </p-autoComplete>
+    </div>
+</div>
+
+<button pButton type="button" label="Salvar" (click)="salvar()"></button>
+
+{{link}}
