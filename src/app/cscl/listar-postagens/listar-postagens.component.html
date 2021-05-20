@@ -1,16 +1,18 @@
-<div class="ui-g">
-    <div class="ui-g-2">
-        <button pButton type="button" (click)="cadastrar()" class="ui-button-success" label="Novo Post"></button>
+<div class="p-grid">
+    <div class="p-col-2">
+        <button pButton type="button" (click)="cadastrar()" class="ui-button-success" label="Nova mensagem"></button>
     </div>
 </div>
 
  
-<div class="ui-g"></div>
-<div class="ui-g-12 data-view">
-    <p-table [value]="postagens" [rows]="20" paginatorPosition="both">
+<div class="p-grid"></div>
+<div class="p-col-12 data-view">
+    <p-table [value]="postagens" [rows]="20" paginatorPosition="both" [autoLayout]="true">
         <ng-template pTemplate="header">
             <tr>
                 <th>Postagens</th>
+                <th>Respostas</th>
+                <th>Última mensagem por</th>
             </tr>
         </ng-template>
         <ng-template let-postagem pTemplate="body" >
@@ -18,6 +20,16 @@
                 <td (click)="abrirPostagem(postagem)" style="cursor:pointer">
                     <span style="font-weight: bold">{{postagem.titulo}}</span><br>
                     <span style="font-size: small">{{postagem.estudante.nome}}</span>
+                </td>
+                <td>{{postagem.respostas.length}}</td>
+                <td>
+                    <div *ngIf="postagem.respostas.length > 0; else semRespostas">
+                        {{postagem.respostas[postagem.respostas.length-1].nome}}
+                        {{converterDate(postagem.respostas[postagem.respostas.length-1].data)}}
+                    </div>
+                    <ng-template #semRespostas>
+                        
+                    </ng-template>
                 </td>
             </tr>
         </ng-template>

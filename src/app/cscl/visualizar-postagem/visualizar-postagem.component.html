@@ -1,19 +1,13 @@
-  
-<div class="p-grid" style="margin-top: 10px;">
-        <div class="p-col-10">
-            <p-card>
-                <p-header>
-                    {{postagem.titulo}}
-                </p-header>
-                {{postagem.texto}}
-            </p-card>
-        </div>
-    </div>
-    
-    <div class="p-grid">
-        <div class="p-col-10">
-            <p-table #dv [value]="respostas" [rows]="20" paginatorPosition="both" filterBy="brand" [sortField]="resposta?.dataCriacao"
-                >
+<p-toast></p-toast>
+<div *ngIf="postagem$ | async as postagem;else carregando">
+    <p-card header={{postagem.titulo}}>
+        {{postagem.texto}}
+    </p-card>
+
+    <div class="p-grid" *ngIf="postagem.respostas.length > 0">
+        <div class="p-col-12">
+            <p-table #dv [value]="postagem.respostas" [rows]="20" paginatorPosition="both" filterBy="brand"
+                [sortField]="resposta?.data">
                 <ng-template pTemplate="header">
                     <tr>
                         <th style="width:85%">Comentário</th>
@@ -23,31 +17,30 @@
                 <ng-template let-resposta pTemplate="body">
                     <tr>
                         <td>
-                            <span style="font-weight: bold">{{resposta.texto}}</span><br>
+                            <span>{{resposta.texto}}</span><br>
                         </td>
                         <td>
                             <span>{{resposta.estudante.nome}}</span>
                         </td>
                     </tr>
                 </ng-template>
-    
+
             </p-table>
         </div>
     </div>
-    
-    <div class="p-grid">
-        <div class="p-col-10">
-            <span class="ui-float-label">
-                <textarea [rows]="10" class="comentario" pInputTextarea
-                    [(ngModel)]="resposta.texto"></textarea>
-                <label for="float-input">Comentário..</label>
-    
-            </span>
-        </div>
-    </div>
-    <div class="p-grid">
-        <div class="p-col-10">
+
+
+    <p-card header="Escrever comentário">
+        <textarea [rows]="5" class="comentario" pInputTextarea [(ngModel)]="resposta.texto"></textarea>
+        <ng-template pTemplate="footer">
             <button pButton type="button" label="Responder" (click)="responder()"
                 class="ui-button-rounded ui-button-success"></button>
-        </div>
-    </div>
+        </ng-template>
+    </p-card>
+
+
+    
+</div>
+<ng-template #carregando>
+    Carregando postagem...
+</ng-template>

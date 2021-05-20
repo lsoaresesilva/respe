@@ -25,7 +25,7 @@ export default class VideoProgramacao extends Document{
 
         return new Observable(observer=>{
 
-        ConfiguracaoEditor.getByQuery(new Query("codigoTurma", "==", usuario.turma.pk())).subscribe(configuracao=>{
+        ConfiguracaoEditor.getByQuery(new Query("codigoTurma", "==", usuario.turma.codigo)).subscribe(configuracao=>{
             if(configuracao != null){
                 if(configuracao.assuntos != null){
                     let query = [];

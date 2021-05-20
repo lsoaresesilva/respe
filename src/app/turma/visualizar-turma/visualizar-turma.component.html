@@ -9,15 +9,13 @@
         class="ui-button-info"
         label="Adicionar material"
       ></button>
-    </div>
-    <div>
-      <button
+      <!--  <button
         pButton
         type="button"
         (click)="listarMateriais(turma)"
         class="ui-button-info"
         label="Listar materiais"
-      ></button>
+      ></button> -->
       <button
         pButton
         type="button"
@@ -28,22 +26,8 @@
     </div>
   </div>
 
-  <!-- <div *ngIf="this.usuario.perfil == 2">
-                    <button pButton type="button" (click)="adicionarMaterial(turma)"  class="ui-button-info"  label="Adicionar material"></button>
-                 </div>
-
-
-        <div class="ui-g-6">
-                <div class="ui-g-6"><button pButton type="button" (click)="visualizarEstudantes(turma)" class="ui-button-info" label="Estudantes"></button>
-                </div>
-            <div>
-                <button pButton type="button" (click)="listarMateriais(turma)"  class="ui-button-info"  label="Listar materiais"></button>
-            </div>
-        </div>
-    </div> -->
-
-  <div class="ui-g">
-    <div class="ui-g-12">
+  <div class="p-grid">
+    <div class="p-col-12">
       <app-listar-postagens [turma]="turma"></app-listar-postagens>
     </div>
   </div>

@@ -1,9 +1,12 @@
 import { Component, OnInit, Input, OnChanges } from '@angular/core';
-import Postagem from 'src/app/model/postagem';
+import Postagem from 'src/app/model/cscl/postagem';
 import Query from 'src/app/model/firestore/query';
 import { LoginService } from 'src/app/login-module/login.service';
 import Usuario from 'src/app/model/usuario';
 import { Router } from '@angular/router';
+import { Util } from 'src/app/model/util';
+
+
 
 @Component({
   selector: 'app-listar-postagens',
@@ -16,14 +19,19 @@ export class ListarPostagensComponent implements OnChanges {
     Postagem.getAll(new Query("turmaId", "==", this.turma.pk())).subscribe(postagens => {
       this.postagens = postagens;
 
-      this.postagens.reverse();
+      this.postagens.sort((pA, pB)=>{
+        let dataA = Util.firestoreDateToDate(pA.data);
+        let dataB = Util.firestoreDateToDate(pB.data);
+        if(dataA < dataB){
+          return 1;
+        }else if(dataA > dataB){
+          return -1;
+        }
 
-      this.postagens.forEach(postagem => {
-        postagem.estudante = new Usuario(null, null, null, null, null, null);
-        Usuario.get(postagem.estudanteId).subscribe(estudante => {
-          postagem.estudante = estudante;
-        });
-      });
+        return 0;
+      })
+
+     
     });
 
   }
@@ -47,6 +55,14 @@ export class ListarPostagensComponent implements OnChanges {
   }
 
   abrirPostagem(postagem) {
-    this.router.navigate(["main", { outlets: { principal: ['visualizar-postagem', postagem.id,this.turma.pk()] } }]);
+    this.router.navigate(["main", { outlets: { principal: ['visualizar-postagem', postagem.id] } }]);
+  }
+
+  converterDate(dataFirestore){
+    if(dataFirestore != null){
+      let data = Util.firestoreDateToDate(dataFirestore);
+      return data.getDate()+"/"+data.getMonth()+"/"+data.getFullYear();
+    }
+    
   }
 }

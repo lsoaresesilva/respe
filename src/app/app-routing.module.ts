@@ -70,6 +70,8 @@ import { ListarVideosComponent } from './sistema-aprendizagem/listar-videos/list
 import { VisualizarVideoComponent } from './sistema-aprendizagem/visualizar-video/visualizar-video.component';
 import { EditorIndependenteComponent } from './juiz/editor/editor-independente/editor-independente.component';
 import { ModificarGrupoComponent } from './cscl/modificar-grupo/modificar-grupo.component';
+import { CriarFrequenciaComponent } from './cscl/criar-frequencia/criar-frequencia.component';
+import { PreencherFrequenciaComponent } from './cscl/preencher-frequencia/preencher-frequencia.component';
 
 const routes: Routes = [
   {
@@ -217,6 +219,15 @@ const routes: Routes = [
         canActivate: [AuthGuard, ProfessorGuard],
         outlet: 'principal',
       },
+
+      {
+        path: 'criar-frequencia',
+        component: CriarFrequenciaComponent,
+        canActivate: [AuthGuard, ProfessorGuard],
+        outlet: 'principal',
+      },
+
+      
 
       {
         path: 'modificar-grupo/:atividadeGrupoId/:grupoId',
@@ -547,7 +558,7 @@ const routes: Routes = [
         outlet: 'principal',
       },
       {
-        path: 'visualizar-postagem/:postagemId/:turmaId',
+        path: 'visualizar-postagem/:postagemId',
         component: VisualizarPostagemComponent,
         canActivate: [AuthGuard, PageTrack],
         outlet: 'principal',
@@ -581,6 +592,11 @@ const routes: Routes = [
   },
 
   { path: '', component: LoginComponent },
+
+  {
+    path: 'preencher-frequencia/:codigoTurma/:frequenciaId',
+    component: PreencherFrequenciaComponent
+  },
 
   { path: 'cadastro-estudante', component: CadastrarEstudantesComponent },
   { path: 'cadastro-estudante/:email/:nome', component: CadastrarEstudantesComponent },

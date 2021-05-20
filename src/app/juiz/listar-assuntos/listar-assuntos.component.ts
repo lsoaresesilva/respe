@@ -25,7 +25,7 @@ export class ListarAssuntosComponent implements OnInit {
 
   ngOnInit() {
 
-    ConfiguracaoEditor.getByQuery(new Query("codigoTurma", "==", this.usuario.turma.pk())).subscribe(configuracao=>{
+    ConfiguracaoEditor.getByQuery(new Query("codigoTurma", "==", this.usuario.turma.codigo)).subscribe(configuracao=>{
       let query = null;
       if(configuracao != null){
         if(configuracao.assuntos != null){

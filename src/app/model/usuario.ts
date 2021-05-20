@@ -42,7 +42,7 @@ export default class Usuario extends Document {
 
   
 
-  static getByQuery(query) {
+  static getByQuery(query):Observable<Usuario> {
     return new Observable((observer) => {
       super.getByQuery(query).subscribe((usuario: Usuario) => {
         observer.next(usuario);
@@ -121,7 +121,10 @@ export default class Usuario extends Document {
     }
 
     if (this['codigoTurma'] != null) {
-      objeto['turma'] = new Turma(this['codigoTurma'], null, null, null).stringfiy();
+      let turma = new Turma(null, null, null, null);
+      turma.codigo = this['codigoTurma'];
+      
+      objeto['turma'] = turma.stringfiy();
     }
 
     return objeto;

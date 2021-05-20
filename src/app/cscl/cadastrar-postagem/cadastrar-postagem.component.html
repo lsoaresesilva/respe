@@ -1,26 +1,23 @@
 <p-toast></p-toast>
-<div class="p-grid">
-  <div class="p-col-12">
-    <div *ngIf="isAlterar">
-      <h1 class="first">Publicar Postagem</h1>
-    </div>
-    <ng-template #other_content>
-      <h1 class="first">Editar Postagem</h1>
-    </ng-template>
-  </div>
-  <div class="p-col-12">
+<div class="p-grid" *ngIf="turma != null">
+
+  <div class="p-col-2"></div>
+  <div class="p-col-1">
 
     <h3 class="first">Título</h3>
-    <input id="nomeCurto" type="text" [(ngModel)]="postagem.titulo" pInputText style="width:500px;" />
-
-
-    <h3 class="first">Texto</h3>
-    <textarea [rows]="6" [cols]="60" pInputTextarea [(ngModel)]="postagem.texto"></textarea>
-    
-   <h3></h3>
-
-    
   </div>
-  <div class="p-col-12"><button pButton type="button" label="Cadastrar" (click)="cadastrar()"></button>
+  <div class="p-col-9">
+    <input id="nomeCurto" type="text" [(ngModel)]="postagem.titulo" pInputText style="width:500px;" />
+  </div>
+  <div class="p-col-2"></div>
+  <div class="p-col-1">
+    <h3 class="first">Texto</h3>
+  </div>
+  <div class="p-col-9"><textarea [rows]="6" [cols]="60" pInputTextarea [(ngModel)]="postagem.texto"></textarea></div>
+
+  <div class="p-col-2"></div>
+  <div class="p-col-1">
+
+    <button pButton type="button" label="Postar" (click)="cadastrar()"></button>
   </div>
 </div>

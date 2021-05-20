@@ -5,29 +5,29 @@
       class="p-button-text"
       label="Atividades"
       (click)="abrirAssuntos()"
-      *ngIf="usuario.grupoExperimento == 4 && usuario.perfil == 1"
-    ></button>
-    <button
-      pButton
-      class="p-button-text"
-      label="Atividades"
-      (click)="abrirPlanejamento()"
-      *ngIf="usuario.grupoExperimento == 1 && usuario.perfil == 1"
+      *ngIf="usuario.perfil == 1"
     ></button>
     <button
       pButton
       class="p-button-text"
       label="Meu progresso"
       (click)="abrirDesempenho()"
-      *ngIf="usuario.grupoExperimento == 1 && usuario.perfil == 1"
+      *ngIf="(usuario.grupoExperimento == 1 || usuario.grupoExperimento == 2) && usuario.perfil == 1"
     ></button>
     <button
       pButton
       class="p-button-text"
       label="Meus diários"
       (click)="abrirDiario()"
-      *ngIf="usuario.grupoExperimento == 1 && usuario.perfil == 1"
+      *ngIf="(usuario.grupoExperimento == 1 || usuario.grupoExperimento == 2) && usuario.perfil == 1"
     ></button>
+    <button
+    pButton
+    class="p-button-text"
+    label="Minha turma"
+    (click)="abrirTurma()"
+    *ngIf="usuario.grupoExperimento == 2 && usuario.perfil == 1"
+  ></button>
     <button
     pButton
     class="p-button-text"

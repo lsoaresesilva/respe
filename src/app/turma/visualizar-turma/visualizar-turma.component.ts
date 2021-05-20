@@ -25,8 +25,8 @@ export class VisualizarTurmaComponent implements OnInit {
       if (params['turmaId'] != null) {
         this.turma$ = Turma.get(params['turmaId']) as Observable<Turma>;
       } else {
-        if (this.usuario.turmaId != null) {
-          this.turma$ = Turma.get(this.usuario.turmaId);
+        if (this.usuario.turma != null && this.usuario.turma.codigo != null) {
+          this.turma$ = Turma.getByQuery(new Query("codigo", "==", this.usuario.turma.codigo));
         }
       }
     });
