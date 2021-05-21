@@ -2,7 +2,9 @@ import { EventEmitter, Injectable } from '@angular/core';
 import Mensagem from '../model/chatbot/mensagem';
 import Observador from '../model/chatbot/observador';
 import Observavel from '../model/chatbot/observavel';
+import Postagem from '../model/cscl/postagem';
 import MensagemSuporteMonitor from '../model/mensagemSuporteMonitor';
+import { QuestaoProgramacao } from '../model/questoes/questaoProgramacao';
 import Usuario from '../model/usuario';
 
 @Injectable({
@@ -14,6 +16,7 @@ export class ChatbotService {
   mensagens: any[];
   usuario;
   saudacao = false;
+  pedidoAjuda = false;
   motivacional = [];
 
   constructor() {
@@ -46,13 +49,13 @@ export class ChatbotService {
     this.analisarMensagem(mensagem);
   }
 
+
   reinicializar() {
     this.mensagens = [];
   }
 
   analisarMensagem(mensagem) {
-    if (mensagem.toLowerCase() === 'sim') {
-    }
+    
   }
 
   private apresentarSaudacao() {

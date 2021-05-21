@@ -1,15 +1,15 @@
 <p-confirmDialog header="Atenção" icon="pi pi-exclamation-triangle"></p-confirmDialog>
 <div class="p-grid">
   <div class="p-col-3">
-    <button type="button" pButton (click)="mudancaEditor()" icon="{{iconModoEditor}}"
-      style="margin-right: 10px" *ngIf="isMudancaEditorPermitida == true"></button>
+    <button type="button" pButton (click)="mudancaEditor()" icon="{{iconModoEditor}}" style="margin-right: 10px"
+      *ngIf="isMudancaEditorPermitida == true"></button>
     <app-editor-trintadoisbits [modoVisualizacao]="modoVisualizacao" [questao]="questao" [assunto]="assunto"
-      (onSubmit)="submissaoRealizada($event)" (onServidorError)="erroServidor($event)"
-      (onError)="erroSubmissao($event)" (onSubmitInicio)="inicioSubmissao()"
-      *ngIf="modoExecucao == 1 && modoVisualizacao == false; else editorPadrao"> </app-editor-trintadoisbits>
+      (onSubmit)="submissaoRealizada($event)" (onServidorError)="erroServidor($event)" (onError)="erroSubmissao($event)"
+      (onSubmitInicio)="inicioSubmissao()" *ngIf="modoExecucao == 1 && modoVisualizacao == false; else editorPadrao">
+    </app-editor-trintadoisbits>
     <ng-template #editorPadrao>
-      <app-editor-padrao [questao]="questao" [assunto]="assunto"
-        (onSubmitInicio)="inicioSubmissao()" (onSubmit)="submissaoRealizada($event)" (onError)="erroSubmissao($event)"
+      <app-editor-padrao [questao]="questao" [assunto]="assunto" (onSubmitInicio)="inicioSubmissao()"
+        (onSubmit)="submissaoRealizada($event)" (onError)="erroSubmissao($event)"
         *ngIf="modoExecucao == 0 && modoVisualizacao == false"></app-editor-padrao>
     </ng-template>
 
@@ -27,7 +27,8 @@
       id="statusExecucaoAlgoritmo" *ngIf="submissao != undefined && submissao.isFinalizada() != null"></button>
 
 
-    <p-splitButton *ngIf="this.login.getUsuarioLogado().grupoExperimento != 4  && modoVisualizacao == false &&  apresentarVisualizacao == true"
+    <p-splitButton
+      *ngIf="this.login.getUsuarioLogado().grupoExperimento != 4  && modoVisualizacao == false &&  apresentarVisualizacao == true"
       label="Vizualizar execução" style="margin-left:10px" icon="pi pi-eye" [model]="items" class="p-button-warning">
     </p-splitButton>
     <p-progressBar *ngIf="processandoVisualizacao == true" mode="indeterminate"
@@ -38,6 +39,8 @@
       label="Voltar ao modo execução"></button>
     <button type="button" (click)="visualizarResposta(questao)" pButton label="Visualizar resposta"
       class="p-button-secondary" style="margin-left:10px" *ngIf="questao.getExemploCorreto() != null"></button>
+    <button type="button" (click)="pedirAjuda()" pButton label="Pedir ajuda" class="p-button-secondary"
+      style="margin-left:10px" *ngIf="atividadeGrupo == null && usuario.grupoExperimento != 4"></button>
     <button type="button" (click)="visualizarDocumentacaoProjeto()" pButton label="Documentação"
       class="p-button-secondary" style="margin-left:10px" *ngIf="atividadeGrupo != null"></button>
     <button type="button" (click)="enviarRespostaAtividadeGrupo()" pButton label="Enviar resposta"
@@ -46,5 +49,26 @@
 
 
 </div>
-<app-container-editor-programacao [erroAtivo]="erroAtivo" [liteMode]="liteMode" (onContainerReady)="onContainerReady($event)"></app-container-editor-programacao>
+<app-container-editor-programacao [erroAtivo]="erroAtivo" [liteMode]="liteMode"
+  (onContainerReady)="onContainerReady($event)"></app-container-editor-programacao>
 <div *ngIf="isEditorPronto == false">Carregando editor..</div>
+
+<p-dialog header="Pedir ajuda" [(visible)]="displayPedidoAjuda">
+  <div class="p-grid">
+    <div class="p-col-6">
+      Detalhe a sua dúvida
+    </div>
+  </div>
+  <div class="p-grid">
+    <div class="p-col-6">
+      <textarea id="float-input" [rows]="5" [cols]="60" pInputTextarea #pedidoAjuda></textarea>
+
+
+    </div>
+  </div>
+  <div class="p-grid">
+    <div class="p-col-6">
+      <button type="button" (click)="enviarPedidoAjuda(pedidoAjuda)" pButton label="Enviar"></button>
+    </div>
+  </div>
+</p-dialog>

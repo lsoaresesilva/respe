@@ -16,7 +16,7 @@ import { Util } from 'src/app/model/util';
 export class ListarPostagensComponent implements OnChanges {
   ngOnChanges(changes: import("@angular/core").SimpleChanges): void {
 
-    Postagem.getAll(new Query("turmaId", "==", this.turma.pk())).subscribe(postagens => {
+    Postagem.getAll(new Query("codigoTurma", "==", this.turma.codigo)).subscribe(postagens => {
       this.postagens = postagens;
 
       this.postagens.sort((pA, pB)=>{

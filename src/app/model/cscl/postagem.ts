@@ -6,6 +6,7 @@ import RespostaPostagem from './respostaPostagem';
 
 
 import * as firebase from 'firebase';
+import { Util } from '../util';
 
 @Collection('postagens')
 export default class Postagem extends Document {
@@ -20,15 +21,20 @@ export default class Postagem extends Document {
   objectToDocument() {
     let document = super.objectToDocument();
 
+    if(this.data == null){
+      this.data = new Date();
+    }
+
     document['data'] = firebase.firestore.Timestamp.fromDate(this.data);
+    
 
 
     if(this.estudante != null && this.estudante.pk() != null){
       document["estudante"] = {id:this.estudante.pk(), nome:this.estudante.nome};
     }
 
-    if(this.turma != null && this.turma.pk() != null){
-      document["turmaId"] = this.turma.pk();
+    if(this.turma != null && this.turma.codigo != null){
+      document["codigoTurma"] = this.turma.codigo;
     }
 
     if(this.respostas != null && this.respostas.length > 0){
@@ -47,6 +53,7 @@ export default class Postagem extends Document {
     return new Observable(observer=>{
       super.get(id).subscribe(postagem=>{
         if(postagem != null){
+          postagem.data = Util.firestoreDateToDate(postagem.data);
           postagem.estudante = new Usuario(postagem.estudante.id, null, null, null, null, postagem.estudante.nome);
           postagem.respostas = RespostaPostagem.construir(postagem.respostas);
           observer.next(postagem);

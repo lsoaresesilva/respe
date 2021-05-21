@@ -158,6 +158,9 @@ export class MonitorService {
             const mensagemSuporte = MensagemSuporteMonitor.getMensagem(
               getLabelPorCategoriaNumero(submissao.erro.categoria)
             );
+
+              
+
             if (mensagemSuporte != null && mensagemSuporte.texto != null) {
               mensagens.push(mensagemSuporte);
               let registroMensagem = new RegistroMensagemChatbot(null, mensagemSuporte, estudante);

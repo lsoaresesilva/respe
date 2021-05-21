@@ -27,5 +27,14 @@ export default class MensagemSuporteMonitor {
   static getSaudacao():Mensagem{
     return new Mensagem(mensagemJson.mensagens["saudacao"].mensagens[0], null);
   }
+  
+  /* static getPedidoAjuda(){
+    let mensagens = [];
+    mensagemJson.mensagens["pedidoAjuda"].mensagens.forEach(mensagem => {
+      mensagens.push(new Mensagem(mensagem, null));
+    });
+
+    return mensagens;
+  } */
 
 }

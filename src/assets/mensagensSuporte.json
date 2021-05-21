@@ -31,6 +31,11 @@
     "saudacao": {
       "mensagens": ["Olá, meu nome é Davi e sou o seu monitor do curso de programação."]
     },
+    "pedidoAjuda": {
+      "mensagens": ["Gostaria de pedir ajuda aos seus colegas?", 
+                    "Eles podem lhe dar conselhos sobre como resolver a questão.",
+                    "Se precisar, escreva a sua dúvida que enviaremos aos seus colegas! Caso contrário, basta ignorar essa mensagem."]
+    },
     "mensagensMotivacionais":[
       {
         "mensagens": [

@@ -42,6 +42,7 @@ import { EditorPadraoComponent } from '../editor-padrao/editor-padrao.component'
 import ParseAlgoritmo from 'src/app/model/errors/analise-pre-compilacao/parseAlgoritmo';
 import { MonitorService } from 'src/app/chatbot/monitor.service';
 import { Groups } from 'src/app/model/experimento/groups';
+import Postagem from 'src/app/model/cscl/postagem';
 
 /**
  * Executa um javascript ide.js para acoplar o editor VStudio.
@@ -95,6 +96,7 @@ export class EditorProgramacaoComponent implements AfterViewInit, OnChanges, OnI
   salvamentoEdicoes;
 
   apresentarVisualizacao;
+  displayPedidoAjuda: boolean;
 
   @Input() set submissao(value) {
     this._submissao = value;
@@ -482,6 +484,36 @@ export class EditorProgramacaoComponent implements AfterViewInit, OnChanges, OnI
         detail: 'Não é possível executar o código, pois ele está vazio.',
       });
     }
+  }
+
+  pedirAjuda(){
+
+    this.displayPedidoAjuda = true;
+    
+
+  
+  }
+
+  enviarPedidoAjuda(pedidoAjuda){
+    if(pedidoAjuda.value !== ""){
+      let postagem = new Postagem(null, "Pedido de ajuda - "+this.questao.nomeCurto, pedidoAjuda.value, this.usuario, this.usuario.turma);
+      postagem.save().subscribe(()=>{
+        this.displayPedidoAjuda = false;
+        pedidoAjuda.value = "";
+        this.messageService.add({
+          severity: 'success',
+          summary: 'Pedido enviado com sucesso',
+          detail: 'Seus amigos foram informados da sua dúvida!',
+        });
+      });
+    }else{
+      this.messageService.add({
+        severity: 'error',
+        summary: 'Escreva a sua dúvida',
+        detail: 'Você precisa detalhar a sua dúvida para que seus amigos possam ajudar.',
+      });
+    }
+    
   }
 
   /**

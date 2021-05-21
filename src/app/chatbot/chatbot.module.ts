@@ -8,10 +8,11 @@ import { Footer } from 'primeng/api';
 import { EscapeHtmlPipe } from '../pipes/keep-html.pipe';
 import { SharedPipesModule } from '../pipes/shared-pipes.module';
 import { DynamicDialogRef } from 'primeng/dynamicdialog';
+import { FormsModule } from '@angular/forms';
 
 @NgModule({
   declarations: [ChatComponent],
-  imports: [CommonModule, DialogModule, InputTextModule, ButtonModule, SharedPipesModule],
+  imports: [CommonModule, DialogModule, FormsModule, InputTextModule, ButtonModule, SharedPipesModule],
   exports: [ChatComponent],
   providers: [DynamicDialogRef],
 })

@@ -528,7 +528,7 @@ const routes: Routes = [
         outlet: 'principal',
       },
       {
-        path: 'visualizacao-turma/:turmaId',
+        path: 'visualizacao-turma/:codigoTurma',
         component: VisualizarTurmaComponent,
         canActivate: [AuthGuard],
         outlet: 'principal',
@@ -540,19 +540,19 @@ const routes: Routes = [
         outlet: 'principal',
       },
       {
-        path: 'cadastrar-postagem/:turmaId/:postagemId',
+        path: 'cadastrar-postagem/:codigoTurma/:postagemId',
         component: CadastrarPostagemComponent,
         canActivate: [AuthGuard, PageTrack],
         outlet: 'principal',
       },
       {
-        path: 'cadastrar-postagem/:turmaId',
+        path: 'cadastrar-postagem/:codigoTurma',
         component: CadastrarPostagemComponent,
         canActivate: [AuthGuard, PageTrack],
         outlet: 'principal',
       },
       {
-        path: 'listar-postagens/:turmaId',
+        path: 'listar-postagens/:codigoTurma',
         component: ListarPostagensComponent,
         canActivate: [AuthGuard, PageTrack],
         outlet: 'principal',
