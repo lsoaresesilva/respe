@@ -496,7 +496,11 @@ export class EditorProgramacaoComponent implements AfterViewInit, OnChanges, OnI
 
   enviarPedidoAjuda(pedidoAjuda){
     if(pedidoAjuda.value !== ""){
-      let postagem = new Postagem(null, "Pedido de ajuda - "+this.questao.nomeCurto, pedidoAjuda.value, this.usuario, this.usuario.turma);
+
+      let mensagem = pedidoAjuda.value;
+      mensagem += "<code>"+this.submissao.codigo+"</code>";
+
+      let postagem = new Postagem(null, "Pedido de ajuda - "+this.questao.nomeCurto, mensagem, this.usuario, this.usuario.turma);
       postagem.save().subscribe(()=>{
         this.displayPedidoAjuda = false;
         pedidoAjuda.value = "";

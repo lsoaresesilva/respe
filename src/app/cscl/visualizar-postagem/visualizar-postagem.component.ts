@@ -8,6 +8,7 @@ import { MessageService } from 'primeng/api';
 import RespostaPostagem from 'src/app/model/cscl/respostaPostagem';
 import { Observable } from 'rxjs';
 import { map, tap } from 'rxjs/operators';
+import { DomSanitizer } from '@angular/platform-browser';
 
 @Component({
   selector: 'app-visualizar-postagem',
@@ -22,11 +23,15 @@ export class VisualizarPostagemComponent implements OnInit {
   respostas;
   resposta;
 
+  postagemSemCodigo;
+  codigo;
+
   constructor(
     private router: Router,
     private route: ActivatedRoute,
     private login: LoginService,
-    private messageService: MessageService
+    private messageService: MessageService,
+    private sanitizer: DomSanitizer
   ) {
     this.route.params.subscribe((params) => {
       if(params["postagemId"] == null){
@@ -78,6 +83,30 @@ export class VisualizarPostagemComponent implements OnInit {
       summary: 'Falha ao publicar resposta',
       detail: 'É preciso informar todos os campos do formulário',
     });
+  }
+
+  /* formatarHtml(texto){
+    return this.sanitizer.bypassSecurityTrustHtml(texto);
+  } */
+
+  obterCodigo(texto){
+    let re = /<code>((.|[\r\n])*)<\/code>/g;
+    let match = texto.match(re);
+    if(match != null && match.length == 1){
+      match[0] = match[0].replace("</code>", "").replace("<code>", "");
+      return match[0];
+    }
+  }
+
+  extrairPostagem(texto){
+    let re = /(.+)<code>/g;
+    let match = texto.match(re);
+    if(match != null && match.length == 1){
+      match[0] = match[0].replace("<code>", "");
+      return match[0];
+    }else{
+      return texto;
+    }
   }
 
   responder() {

@@ -1,7 +1,10 @@
 <p-toast></p-toast>
 <div *ngIf="postagem$ | async as postagem;else carregando">
     <p-card header={{postagem.titulo}}>
-        {{postagem.texto}}
+        <div>
+            {{extrairPostagem(postagem.texto)}}
+            <pre><code [highlight]="obterCodigo(postagem.texto)" class="python"></code></pre>
+        </div>
     </p-card>
 
     <div class="p-grid" *ngIf="postagem.respostas.length > 0">

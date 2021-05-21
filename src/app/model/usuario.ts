@@ -121,10 +121,10 @@ export default class Usuario extends Document {
     }
 
     if (this['codigoTurma'] != null) {
-      let turma = new Turma(null, null, null, null);
-      turma.codigo = this['codigoTurma'];
+      /* let turma = new Turma(null, null, null, null);
+      turma.codigo = this['codigoTurma']; */
       
-      objeto['turma'] = turma.stringfiy();
+      objeto['turma'] = this.turma.stringfiy();
     }
 
     return objeto;

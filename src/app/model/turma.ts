@@ -76,7 +76,7 @@ export default class Turma extends Document {
 
   static fromJson(json) {
     if (json != null && json.codigo != undefined) {
-      const turma = new Turma(null, null, null, null);
+      const turma = new Turma(json.id, null, null, null);
       turma.codigo = json.codigo;
 
       return turma;

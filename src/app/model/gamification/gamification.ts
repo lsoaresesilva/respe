@@ -23,7 +23,7 @@ export default class Gamification extends Document{
     objectToDocument(){
         if ( this.estudante != null || this["estudanteId"] != null){
           const document = super.objectToDocument();
-          document["turmaId"] = this.estudante != null ? this.estudante.turma.pk() : this["turmaId"]; // TODO: deve incluir turma como sendo um main document e os estudantes como subdocuments.
+          document["turmaId"] = this.estudante != null ? this.estudante.turma.codigo : this["turmaId"]; // TODO: deve incluir turma como sendo um main document e os estudantes como subdocuments.
           document["estudanteId"] = this.estudante != null ? this.estudante.pk() : this["estudanteId"];
           document["questoesResolvidas"] = this.questoesResolvidas;
 
@@ -106,7 +106,8 @@ export default class Gamification extends Document{
     static carregarRanking(turma, limite=5):Observable<any>{
       
       return new Observable<any>(observer => {
-        Gamification.getAll(new Query("turmaId", "==", turma.pk())).subscribe((ranking:Gamification[]) => {
+        
+        Gamification.getAll(new Query("turmaId", "==", turma.codigo)).subscribe((ranking:Gamification[]) => {
           ranking.sort(Gamification.ordernar);
           const rank:Gamification[] = ranking.slice(0, 4);
           const consultas = {};

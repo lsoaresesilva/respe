@@ -12,6 +12,7 @@ import RegistroLogin from '../model/registroLogin';
 
 import { RastrearTempoOnlineService } from '../srl/rastrear-tempo-online.service';
 import Gamification from '../model/gamification/gamification';
+import Turma from '../model/turma';
 
 @Injectable({
   providedIn: 'root',
@@ -68,13 +69,17 @@ export class LoginService {
       ]).subscribe(
         (usuarioLogado: Usuario) => {
           if (usuarioLogado != null) {
-            this.criarSessao(usuarioLogado);
-            //this.rastrearTempoOnline.iniciarTimer(usuarioLogado);
-
-            const registroLogin = new RegistroLogin(null, usuarioLogado);
-            registroLogin.save().subscribe(() => {});
-            observer.next(true);
-            observer.complete();
+            Turma.getByQuery(new Query("codigo", "==", usuarioLogado["codigoTurma"])).subscribe(turma=>{
+              usuarioLogado.turma = turma;
+              this.criarSessao(usuarioLogado);
+              //this.rastrearTempoOnline.iniciarTimer(usuarioLogado);
+  
+              const registroLogin = new RegistroLogin(null, usuarioLogado);
+              registroLogin.save().subscribe(() => {});
+              observer.next(true);
+              observer.complete();
+            })
+            
           } else {
             observer.next(false);
             observer.complete();
