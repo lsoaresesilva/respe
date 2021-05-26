@@ -1,0 +1,24 @@
+<div *ngIf="mensagens != null">
+<p-table [value]="mensagens">
+    <ng-template pTemplate="header">
+        <tr>
+            <th>Estudante</th>
+            <th>Mensagem</th>
+            <th>Data</th>
+        </tr>
+    </ng-template>
+    <ng-template let-mensagem pTemplate="body">
+        <tr>
+            <td>
+                {{mensagem.estudanteId}}
+            </td>
+            <td>
+                {{mensagem.texto}}
+            </td>
+            <td>
+                {{mensagem.data}}
+            </td>
+        </tr>
+    </ng-template>
+</p-table>
+</div>

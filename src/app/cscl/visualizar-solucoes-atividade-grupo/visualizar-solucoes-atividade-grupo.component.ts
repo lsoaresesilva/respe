@@ -26,6 +26,24 @@ export class VisualizarSolucoesAtividadeGrupoComponent implements OnInit {
           this.atividadeGrupo = atividadeGrupo as AtividadeGrupo;
           this.grupo = this.atividadeGrupo.getGrupo(params['grupoId']);
           SubmissaoGrupo.getAll(new Query("grupoId", "==", params['grupoId'])).subscribe(submissoes=>{
+
+
+            submissoes.map(submissao=>{
+              if(submissao.data != null){
+                submissao.data = Util.firestoreDateToDate(submissao.data);
+              }
+            })
+
+            submissoes.sort((submissaoA, submissaoB)=>{
+              if(submissaoA.data < submissaoB.data){
+                return 1;
+              }else if(submissaoA.data > submissaoB.data){
+                return -1;
+              }else{
+                return 0;
+              }
+            })
+
             this.submissoesGrupo = submissoes;
           })
         });
@@ -34,14 +52,16 @@ export class VisualizarSolucoesAtividadeGrupoComponent implements OnInit {
   }
 
   converterParaDate(data) {
-    if(data != null){
-      return Util.firestoreDateToDate(data);
-    }
+    
     
   }
 
   visualizarSubmissao(submissao){
     this.router.navigate(["main", { outlets: { principal: ['visualizar-submissao-questao', submissao, true] } }]);
+  }
+
+  visualizarChat(){
+    this.router.navigate(["main", { outlets: { principal: ['visualizar-chat', this.atividadeGrupo.pk(), this.grupo.id] } }]);
   }
 
   modificarGrupo(){

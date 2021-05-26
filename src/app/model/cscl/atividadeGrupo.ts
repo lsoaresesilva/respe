@@ -218,7 +218,7 @@ export default class AtividadeGrupo extends Document {
     return atividades;
   }
 
-  static get(id) {
+  static get(id):Observable<AtividadeGrupo> {
     return new Observable(observer=>{
       return super.get(id).subscribe(atividadeGrupo=>{
         if(atividadeGrupo["grupos"] != null && Array.isArray(atividadeGrupo["grupos"])){

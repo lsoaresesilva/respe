@@ -44,13 +44,14 @@ import { EditorDocumentacaoProjetoComponent } from './editor-documentacao-projet
 import { ModificarGrupoComponent } from './modificar-grupo/modificar-grupo.component';
 import { CriarFrequenciaComponent } from './criar-frequencia/criar-frequencia.component';
 import { PreencherFrequenciaComponent } from './preencher-frequencia/preencher-frequencia.component';
+import { VisualizarChatComponent } from './visualizar-chat/visualizar-chat.component';
  
 
 @NgModule({
   declarations: [ComentariosCodigoComponent, BoxComentarioComponent, 
     BoxNovoComentarioComponent, VisualizarConteudoComponent, SanitizeHtmlDirective, ConteudoProgramacaoComponent, 
     VisualizarSubmissaoQuestaoComponent, ListarEstudantesSubmissaoComponent, ListarPostagensComponent, CadastrarPostagemComponent, 
-    VisualizarPostagemComponent, CriacaoGrupoComponent, ListarAtividadesGrupoComponent, ListarAtividadesGrupoProfessorComponent, VisualizarAtividadeGrupoProfessorComponent, VisualizarSolucoesAtividadeGrupoComponent, EditorDocumentacaoProjetoComponent, ModificarGrupoComponent, CriarFrequenciaComponent, PreencherFrequenciaComponent],
+    VisualizarPostagemComponent, CriacaoGrupoComponent, ListarAtividadesGrupoComponent, ListarAtividadesGrupoProfessorComponent, VisualizarAtividadeGrupoProfessorComponent, VisualizarSolucoesAtividadeGrupoComponent, EditorDocumentacaoProjetoComponent, ModificarGrupoComponent, CriarFrequenciaComponent, PreencherFrequenciaComponent, VisualizarChatComponent],
 
   imports: [
     CalendarModule,

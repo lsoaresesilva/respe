@@ -72,6 +72,7 @@ import { EditorIndependenteComponent } from './juiz/editor/editor-independente/e
 import { ModificarGrupoComponent } from './cscl/modificar-grupo/modificar-grupo.component';
 import { CriarFrequenciaComponent } from './cscl/criar-frequencia/criar-frequencia.component';
 import { PreencherFrequenciaComponent } from './cscl/preencher-frequencia/preencher-frequencia.component';
+import { VisualizarChatComponent } from './cscl/visualizar-chat/visualizar-chat.component';
 
 const routes: Routes = [
   {
@@ -212,6 +213,38 @@ const routes: Routes = [
 
 
       /* CSCL */
+
+      {
+        path: 'cadastrar-postagem/:codigoTurma/:postagemId',
+        component: CadastrarPostagemComponent,
+        canActivate: [AuthGuard, PageTrack],
+        outlet: 'principal',
+      },
+      {
+        path: 'cadastrar-postagem/:codigoTurma',
+        component: CadastrarPostagemComponent,
+        canActivate: [AuthGuard, PageTrack],
+        outlet: 'principal',
+      },
+      {
+        path: 'listar-postagens/:codigoTurma',
+        component: ListarPostagensComponent,
+        canActivate: [AuthGuard, PageTrack],
+        outlet: 'principal',
+      },
+      {
+        path: 'visualizar-postagem/:postagemId',
+        component: VisualizarPostagemComponent,
+        canActivate: [AuthGuard, PageTrack],
+        outlet: 'principal',
+      },
+
+      {
+        path: 'visualizar-chat/:atividadeGrupoId/:grupoId',
+        component: VisualizarChatComponent,
+        canActivate: [AuthGuard, ProfessorGuard],
+        outlet: 'principal',
+      },
 
       {
         path: 'criar-grupo',
@@ -539,30 +572,7 @@ const routes: Routes = [
         canActivate: [AuthGuard],
         outlet: 'principal',
       },
-      {
-        path: 'cadastrar-postagem/:codigoTurma/:postagemId',
-        component: CadastrarPostagemComponent,
-        canActivate: [AuthGuard, PageTrack],
-        outlet: 'principal',
-      },
-      {
-        path: 'cadastrar-postagem/:codigoTurma',
-        component: CadastrarPostagemComponent,
-        canActivate: [AuthGuard, PageTrack],
-        outlet: 'principal',
-      },
-      {
-        path: 'listar-postagens/:codigoTurma',
-        component: ListarPostagensComponent,
-        canActivate: [AuthGuard, PageTrack],
-        outlet: 'principal',
-      },
-      {
-        path: 'visualizar-postagem/:postagemId',
-        component: VisualizarPostagemComponent,
-        canActivate: [AuthGuard, PageTrack],
-        outlet: 'principal',
-      },
+      
       {
         path: 'visualizacao-estudante/:id',
         component: VisualizarPerfilEstudanteComponent,

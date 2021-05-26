@@ -73,7 +73,7 @@ export class ChatService {
     if (mensagem != null) {
 
       mensagem.save().subscribe(() => {
-         
+         let x = 2;
       });
 
       return new Observable((observer) => {

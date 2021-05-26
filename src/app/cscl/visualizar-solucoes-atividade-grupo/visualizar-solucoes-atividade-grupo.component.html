@@ -1,4 +1,5 @@
 <button pButton label="Modificar grupo" (click)="modificarGrupo()"></button>
+<button pButton label="Visualizar chat" (click)="visualizarChat()"></button>
 <p-table [value]="submissoesGrupo">
     <ng-template pTemplate="header">
         <tr>
@@ -8,7 +9,7 @@
     <ng-template let-submissaoGrupo pTemplate="body">
         <tr>
             <td>
-                <span style="cursor: pointer;" (click)="visualizarSubmissao(submissaoGrupo.submissaoId)">{{converterParaDate(submissaoGrupo.data)}}<br></span>
+                <span style="cursor: pointer;" (click)="visualizarSubmissao(submissaoGrupo.submissaoId)">{{submissaoGrupo.data}}<br></span>
             </td>
 
         </tr>
