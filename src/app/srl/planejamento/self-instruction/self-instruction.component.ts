@@ -6,6 +6,7 @@ import { Assunto } from 'src/app/model/assunto';
 import { LoginService } from 'src/app/login-module/login.service';
 import { Assuntos } from 'src/app/model/enums/assuntos';
 import { MessageService } from 'primeng/api';
+import { ApresentacaoService } from 'src/app/geral-module/apresentacao.service';
 
 @Component({
   selector: 'app-self-instruction',
@@ -21,12 +22,14 @@ export class SelfInstructionComponent implements OnInit {
   repeticoes;
   funcoes;
   vetores;
+  display;
 
   constructor(
     private route: ActivatedRoute,
     private router: Router,
     private login: LoginService,
-    private messageService: MessageService
+    private messageService: MessageService,
+    private apresentacaoService:ApresentacaoService
   ) {
     this.questao = new QuestaoProgramacao(null, null, null, null, null, [], [], '', null);
     this.msgs = [];
@@ -34,6 +37,11 @@ export class SelfInstructionComponent implements OnInit {
     this.repeticoes = false;
     this.funcoes = false;
     this.vetores = false;
+    let dialogExibida = sessionStorage.getItem("dialogTipsSelfInstruction");
+    if((dialogExibida == null || dialogExibida != "true")){
+      this.display = true;
+      sessionStorage.setItem('dialogTipsSelfInstruction', "true");
+    }
   }
 
   ngOnInit() {
@@ -41,14 +49,26 @@ export class SelfInstructionComponent implements OnInit {
       null,
       this.login.getUsuarioLogado(),
       this.questao,
-      null,
-      null,
+      "",
+      "",
       null,
       null,
       null,
       null
     );
     this.getQuestao();
+  }
+
+  fecharDialog(){
+    this.apresentacaoService.apresentarSelfInstruction(this.login.getUsuarioLogado());
+  }
+
+  contagemCaracteres(referencia: string) {
+    if(referencia != null){
+      let restante = 20 - referencia.length;
+      return restante <= 0 ? 0 : restante;
+    }
+    
   }
 
   getQuestao() {
@@ -91,7 +111,7 @@ export class SelfInstructionComponent implements OnInit {
 
   salvar() {
     this.autoInstrucao.questao = this.questao;
-    if (this.autoInstrucao.isValido(this.assunto)) {
+    if (this.autoInstrucao.validar(this.assunto)) {
       this.autoInstrucao.save().subscribe(
         (resultado) => {
           this.router.navigate([
@@ -121,18 +141,22 @@ export class SelfInstructionComponent implements OnInit {
       assuntos.forEach((assunto) => {
         switch (assunto.nome) {
           case Assuntos.repeticoes: {
+            this.autoInstrucao.repeticoes = "";
             this.repeticoes = true;
             break;
           }
           case Assuntos.condicoes: {
+            this.autoInstrucao.condicoes = "";
             this.condicoes = true;
             break;
           }
           case Assuntos.funcoes: {
+            this.autoInstrucao.funcoes = "";
             this.funcoes = true;
             break;
           }
           case Assuntos.vetores: {
+            this.autoInstrucao.vetores = "";
             this.vetores = true;
             break;
           }

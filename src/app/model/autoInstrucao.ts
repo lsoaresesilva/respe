@@ -68,7 +68,7 @@ export class AutoInstrucao extends Document {
     return document;
   }
 
-  isValido(assuntoPrincipal) {
+  validar(assuntoPrincipal) {
     if (!this.questao.validar()) {
       return false;
     }
@@ -114,12 +114,14 @@ export class AutoInstrucao extends Document {
     if (
       this.problema == undefined ||
       this.problema == '' ||
+      (this.problema != undefined && this.problema.length < 20) ||
       this.variaveis == undefined ||
       this.variaveis == '' ||
-      (condicoes == true && (this.condicoes == undefined || this.condicoes == '')) ||
-      (funcoes == true && (this.funcoes == undefined || this.funcoes == '')) ||
-      (repeticoes == true && (this.repeticoes == undefined || this.repeticoes == '')) ||
-      (vetores == true && (this.vetores == undefined || this.vetores == ''))
+      (this.variaveis != undefined && this.variaveis.length < 20) ||
+      (condicoes == true && (this.condicoes == undefined || this.condicoes == '' || (this.condicoes != null && this.condicoes.length < 20))) ||
+      (funcoes == true && (this.funcoes == undefined || this.funcoes == '' || (this.funcoes != null && this.funcoes.length < 20))) ||
+      (repeticoes == true && (this.repeticoes == undefined || this.repeticoes == '' || (this.repeticoes != null && this.repeticoes.length < 20))) ||
+      (vetores == true && (this.vetores == undefined || this.vetores == '' || (this.vetores != null &&  this.vetores.length < 20)))
     ) {
       isValido = false;
     }

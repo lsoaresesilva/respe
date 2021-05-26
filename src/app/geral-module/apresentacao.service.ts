@@ -9,6 +9,7 @@ enum TiposApresentacao {
   inicializacao = 'apresentacaoInicializacao',
   editor = 'apresentacaoEditor',
   assunto = 'apresentacaoAssunto',
+  selfInstruction = 'selfInstruction',
 }
 
 @Injectable({
@@ -29,6 +30,32 @@ export class ApresentacaoService {
 
         intro.start();
       }
+    }
+  }
+
+  apresentarSelfInstruction(usuario, ){
+    if (this.apresentou(usuario, TiposApresentacao.selfInstruction) == false && usuario != null) {
+      this.salvarDadosApresentacao(usuario, TiposApresentacao.selfInstruction);
+      const opcoesIntro = {
+        steps: [
+          {
+            element: document.getElementById('enunciado'),
+            intro:
+              '<h3>O problema para resolver</h3><p>Aqui está a descrição sobre o problema que irá resolver. Leia atentamente para saber o que precisará fazer no seu algoritmo.</p>',
+          },
+          {
+            element: document.getElementById('problema'),
+            intro:
+              "<h3>Pense no problema</h3><p>Você deve ler o enunciado acima e refletir nele para identificar o problema que irá realizar, em seguida escrever o que entendeu aqui. Muitos alunos ignoram essa etapa e criam algoritmos que resolvem problemas errados.</p>",
+          },
+          {
+            element: document.getElementById('variavel'),
+            intro:
+              '<h3>Quais variáveis você vai precisar?</h3><p>Pense em quais e quantas variáveis serão necessárias. O que cada uma irá guardar? Escreva nessa seção.</p>',
+          }
+        ],
+      };
+      this.criarOpcoesIntroJS(usuario, opcoesIntro);
     }
   }
 

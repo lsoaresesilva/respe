@@ -1,4 +1,8 @@
 <p-toast></p-toast>
+<p-dialog header="Não cometa esse erro!" [(visible)]="display" [style]="{width: '500px'}" [modal]="true" (onHide)="fecharDialog()">
+  Muitos alunos erram na criação de seus algoritmos, pois não fazem um planejamento.<br><br>
+  Sabemos que você quer ir direto para o código, mas se responder as questões abaixo aumentará suas chances de sucesso!
+</p-dialog>
 <div *ngIf="questao != undefined">
   <div class="p-grid">
     <div class="p-col-2"></div>
@@ -10,7 +14,7 @@
   <div class="p-grid">
     <div class="p-col-2"></div>
     <div class="p-col-8">
-      <app-visualizar-questao [questao]="questao"></app-visualizar-questao>
+      <app-visualizar-questao [questao]="questao" id="dadosQuestao"></app-visualizar-questao>
     </div>
     <div class="p-col-2"></div>
   </div>
@@ -18,67 +22,85 @@
     <div class="p-col-2"></div>
     <div class="p-col-8">
       <div class="p-col-12">
-        <span class="ui-float-label">
-          <h3 class="first">Qual problema você espera resolver com esse algoritmo?</h3>
+        <h3 class="first">Qual problema você espera resolver com esse algoritmo?</h3>
+        <span class="p-float-label">
+          
           <textarea
             [rows]="3"
             [cols]="135"
             pInputTextarea
             [(ngModel)]="autoInstrucao.problema"
+            id="problema"
           ></textarea>
+          <label for="problema">Por exemplo: neste problema precisarei ler dois números do teclado e realizar sua soma quando eles forem ímpares.</label>
+          
         </span>
+        {{contagemCaracteres(autoInstrucao.problema)}} caracteres faltando. Fique à vontade para escrever mais :)
       </div>
 
       <div class="p-col-12">
-        <span class="ui-float-label">
-          <h3 class="first">
-            Quais as variáveis que precisam ser criadas para resolver esse problema?
-          </h3>
+        <h3 class="first">
+          Escreva quais variáveis que precisam ser criadas para resolver esse problema.
+        </h3>
+        <span class="p-float-label">
           <textarea
             [rows]="3"
             [cols]="135"
             pInputTextarea
             [(ngModel)]="autoInstrucao.variaveis"
+            id="variavel"
           ></textarea>
+          <label for="variavel">Por exemplo: criarei uma variável para guardar o resultado de uma soma; criarei variáveis para guardar o(s) número(s) digitado.</label>
         </span>
+        {{contagemCaracteres(autoInstrucao.variaveis)}} caracteres faltando. Fique à vontade para escrever mais :)
       </div>
 
       <div class="p-col-12" *ngIf="condicoes">
-        <span class="ui-float-label">
-          <h3 class="first">Quais as condições que são necessárias para resolver esse problema?</h3>
+        <h3 class="first">Escreva quais as condições necessárias para resolver esse problema</h3>
+        <span class="p-float-label">
           <textarea
             [rows]="3"
             [cols]="135"
             pInputTextarea
             [(ngModel)]="autoInstrucao.condicoes"
+            id="condicoes"
           ></textarea>
+          <label for="condicoes">Por exemplo: verificar se o número é par ou ímpar.</label>
         </span>
+        {{contagemCaracteres(autoInstrucao.condicoes)}} caracteres faltando. Fique à vontade para escrever mais :)
       </div>
 
       <div class="p-col-12" *ngIf="repeticoes">
-        <span class="ui-float-label">
-          <h3 class="first">
-            Quais as repetições que são necessárias para resolver esse problema?
-          </h3>
+        <h3 class="first">
+          Escreva quais repetições são necessárias para resolver esse problema
+        </h3>
+        <span class="p-float-label">
+          
           <textarea
             [rows]="3"
             [cols]="135"
             pInputTextarea
             [(ngModel)]="autoInstrucao.repeticoes"
+            id="repeticoes"
           ></textarea>
+          <label for="repeticoes">Por exemplo: repetir a leitura de um número por cinco vezes.</label>
         </span>
+        {{contagemCaracteres(autoInstrucao.repeticoes)}} caracteres faltando. Fique à vontade para escrever mais :)
       </div>
 
       <div class="p-col-12" *ngIf="funcoes">
-        <span class="ui-float-label">
-          <h3 class="first">Quais as funções que são necessárias para resolver esse problema?</h3>
+        <h3 class="first">Quais as funções que são necessárias para resolver esse problema?</h3>
+        <span class="p-float-label">
           <textarea
             [rows]="3"
             [cols]="135"
             pInputTextarea
             [(ngModel)]="autoInstrucao.funcoes"
+            id="funcoes"
           ></textarea>
+          <label for="funcoes">Por exemplo: uma função para calcular a múltiplicação de dois números.</label>
         </span>
+        {{contagemCaracteres(autoInstrucao.funcoes)}} caracteres faltando. Fique à vontade para escrever mais :)
       </div>
 
       <div class="p-col-12" *ngIf="vetores">
@@ -91,6 +113,7 @@
             [(ngModel)]="autoInstrucao.vetores"
           ></textarea>
         </span>
+        {{contagemCaracteres(autoInstrucao.vetores)}} caracteres faltando. Fique à vontade para escrever mais :)
       </div>
     </div>
 

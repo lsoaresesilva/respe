@@ -52,7 +52,7 @@ describe('Testes de Auto instrução', () => {
     let q: QuestaoProgramacao = new QuestaoProgramacao(null, '', '', '', '', [ac, af], null, null, null);
     ar.questoesProgramacao.push(q);
     let autoinstrucao1: AutoInstrucao = new AutoInstrucao(null, null, q, '', '', '', '', '', '');
-    expect(autoinstrucao1.isValido(ar)).toBeFalse();
+    expect(autoinstrucao1.validar(ar)).toBeFalse();
     let autoinstrucao2: AutoInstrucao = new AutoInstrucao(
       null,
       null,
@@ -64,7 +64,7 @@ describe('Testes de Auto instrução', () => {
       'e',
       'f'
     );
-    expect(autoinstrucao2.isValido(ar)).toBeTrue();
+    expect(autoinstrucao2.validar(ar)).toBeTrue();
 
     let q2: QuestaoProgramacao = new QuestaoProgramacao(null, '', '', '', '', [ac], null, null, null);
     ar.questoesProgramacao.push(q2);
@@ -80,7 +80,7 @@ describe('Testes de Auto instrução', () => {
       '',
       ''
     );
-    expect(autoinstrucao3.isValido(ar)).toBeTrue();
+    expect(autoinstrucao3.validar(ar)).toBeTrue();
 
     let autoinstrucao4: AutoInstrucao = new AutoInstrucao(
       null,
@@ -93,6 +93,6 @@ describe('Testes de Auto instrução', () => {
       '',
       ''
     );
-    expect(autoinstrucao4.isValido(ar)).toBeFalsy();
+    expect(autoinstrucao4.validar(ar)).toBeFalsy();
   });
 });
