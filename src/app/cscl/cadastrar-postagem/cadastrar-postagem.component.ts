@@ -89,7 +89,7 @@ export class CadastrarPostagemComponent implements OnInit {
         (resultado) => {
           this.router.navigate([
             'geral/main',
-            { outlets: { principal: ['visualizacao-turma', this.turma.pk()] } },
+            { outlets: { principal: ['turma', 'visualizacao-turma', this.turma.codigo] } },
           ]);
           this.messageCadastro();
         },

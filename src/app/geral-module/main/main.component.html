@@ -101,19 +101,6 @@
     <button pButton label="Sair" (click)="logout()" icon="pi pi-power-off"></button>
   </div>
 </p-toolbar>
-<!-- <app-chat></app-chat> -->
-<!-- <div style="display: flex;">
-  <div style="width:70%">
-    <p-menubar [model]="itens" >
-    </p-menubar>
-  </div>
-  <div style="margin: 0 auto;width: 10%;">
-    <app-progresso-proximo-nivel ></app-progresso-proximo-nivel>
-  </div>
-  <div>
-    <button  pButton label="Sair" (click)="logout()" icon="pi pi-power-off"></button>
-  </div>
-</div> -->
 
 <app-diario *ngIf="usuario.grupoExperimento != 4 && usuario.perfil == 1"></app-diario>
 

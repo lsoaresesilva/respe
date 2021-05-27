@@ -20,27 +20,48 @@ export const routes: Routes = [
   {
     path: 'main',
     component: MainComponent,
-    /* canActivate: [AuthGuard], */
     children: [
-      /* 
-      {
-        path: 'listagem-assuntos',
-        component: ListarAssuntosComponent,
-        canActivate: [AuthGuard, PageTrack],
-        outlet: 'principal',
-      },*/
+
       {
         path: 'juiz',
         loadChildren: () => import('../juiz/juiz.module').then(m => m.JuizModule),
         /* component: ListarAssuntosComponent, */
-        /* canActivate: [AuthGuard, PageTrack], */
+         canActivate: [AuthGuard],
         outlet: 'principal'
       },
       {
         path: 'aprendizado',
         loadChildren: () => import('../sistema-aprendizagem/sistema-aprendizagem.module').then(m => m.SistemaAprendizagemModule),
         /* component: ListarAssuntosComponent, */
-        /* canActivate: [AuthGuard, PageTrack], */
+        canActivate: [AuthGuard],
+        outlet: 'principal'
+      },
+      {
+        path: 'cscl',
+        loadChildren: () => import('../cscl/cscl.module').then(m => m.CsclModule),
+        /* component: ListarAssuntosComponent, */
+        canActivate: [AuthGuard],
+        outlet: 'principal'
+      },
+      {
+        path: 'gamification',
+        loadChildren: () => import('../gamification/gamification.module').then(m => m.GamificationModule),
+        /* component: ListarAssuntosComponent, */
+        canActivate: [AuthGuard],
+        outlet: 'principal'
+      },
+      {
+        path: 'srl',
+        loadChildren: () => import('../srl/srl.module').then(m => m.SrlModule),
+        /* component: ListarAssuntosComponent, */
+        canActivate: [AuthGuard],
+        outlet: 'principal'
+      },
+      {
+        path: 'turma',
+        loadChildren: () => import('../turma/turma.module').then(m => m.TurmaModule),
+        /* component: ListarAssuntosComponent, */
+        canActivate: [AuthGuard],
         outlet: 'principal'
       },
     ], 

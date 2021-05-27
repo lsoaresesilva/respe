@@ -18,7 +18,7 @@ import { CardModule } from 'primeng/card';
 import { PaginaNaoEncontradaComponent } from '../geral-module/pagina-nao-encontrada/pagina-nao-encontrada.component';
 import { RiscoEstudanteComponent } from './monitoramento/card-risco-estudante/card-risco-estudante.component';
 import { ProgressBarModule } from 'primeng/progressbar';
-import { RouterModule } from '@angular/router';
+import { RouterModule, Routes } from '@angular/router';
 import { FieldsetModule } from 'primeng/fieldset';
 import { RespostaSimilarQuestaoProgramacaoComponent } from './monitoramento/resposta-similar-questao-programacao/resposta-similar-questao-programacao.component';
 import { TreeTableModule } from 'primeng/treetable';
@@ -59,6 +59,32 @@ import { VisualizacaoDiarioComponent } from './monitoramento/visualizacao-diario
 import { ExibirSolucaoAlunosComponent } from './auto-reflexao/exibir-solucao-alunos/exibir-solucao-alunos.component';
 import { DiarioProgramacaoComponent } from './monitoramento/diario-programacao/diario-programacao.component';
 import { DialogService, DynamicDialogModule } from 'primeng/dynamicdialog';
+import { AuthGuard } from '../guards/auth.guard';
+import { ExperimentoGuard } from '../guards/experimento.guard';
+import { PageTrack } from '../guards/pageTrack.guard';
+
+export const routes:Routes = [
+  {
+    path: 'index',
+    component: AcompanharDesempenhoComponent,
+    canActivate: [AuthGuard, ExperimentoGuard, PageTrack],
+  },
+  {
+    path: 'meu-desempenho',
+    component: AcompanharDesempenhoComponent,
+    canActivate: [AuthGuard, ExperimentoGuard, PageTrack],
+  },
+  {
+    path: 'listagem-diarios',
+    component: ListagemDiarioComponent,
+    canActivate: [AuthGuard, ExperimentoGuard, PageTrack],
+  },
+  {
+    path: 'self-instruction/:assuntoId/:questaoId',
+    component: SelfInstructionComponent,
+    canActivate: [AuthGuard, ExperimentoGuard, PageTrack]
+  },
+]
 
 @NgModule({
   declarations: [
@@ -91,6 +117,7 @@ import { DialogService, DynamicDialogModule } from 'primeng/dynamicdialog';
     DiarioProgramacaoComponent,
   ],
   imports: [
+    RouterModule.forChild(routes),
     SharedModule,
     DynamicDialogModule,
     CodeHighlighterModule,

@@ -26,7 +26,7 @@ export class ListarVideosComponent implements OnInit {
   abrirVideo(video:VideoProgramacao){
     this.router.navigate([
       'geral/main',
-      { outlets: { principal: ['aprendizagem', 'visualizar-video', video.pk()] } },
+      { outlets: { principal: ['aprendizado', 'visualizacao-video', video.pk()] } },
     ]);
   }
 

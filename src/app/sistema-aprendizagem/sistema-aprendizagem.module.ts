@@ -17,7 +17,7 @@ export const routes: Routes = [
   },
 
   {
-    path: 'visualizar-video/:videoId',
+    path: 'visualizacao-video/:videoId',
     component: VisualizarVideoComponent,
     canActivate: [AuthGuard, PageTrack]
   },

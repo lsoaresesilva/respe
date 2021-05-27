@@ -1,5 +1,6 @@
 import { NgModule } from '@angular/core';
 import { Routes, RouterModule } from '@angular/router';
+import { CadastrarEstudantesComponent } from './login-module/cadastrar-estudantes/cadastrar-estudantes.component';
 import { LoginComponent } from './login-module/login/login.component';
 /* import { MainComponent } from './geral-module/main/main.component';
 import { AutoReflexaoComponent } from './srl/auto-reflexao/auto-reflexao.component';
@@ -156,13 +157,7 @@ const routes: Routes = [
         outlet: 'principal',
       },
 
-      {
-        path: 'editor-programacao',
-        component: EditorIndependenteComponent,
-        canActivate: [AuthGuard, PageTrack],
-        outlet: 'principal',
-      },
-
+    
 
       // Juiz
 
@@ -192,30 +187,15 @@ const routes: Routes = [
 
       // CSCL
 
-      {
-        path: 'cadastrar-postagem/:codigoTurma/:postagemId',
-        component: CadastrarPostagemComponent,
-        canActivate: [AuthGuard, PageTrack],
-        outlet: 'principal',
-      },
-      {
-        path: 'cadastrar-postagem/:codigoTurma',
-        component: CadastrarPostagemComponent,
-        canActivate: [AuthGuard, PageTrack],
-        outlet: 'principal',
-      },
+      
+     
       {
         path: 'listar-postagens/:codigoTurma',
         component: ListarPostagensComponent,
         canActivate: [AuthGuard, PageTrack],
         outlet: 'principal',
       },
-      {
-        path: 'visualizar-postagem/:postagemId',
-        component: VisualizarPostagemComponent,
-        canActivate: [AuthGuard, PageTrack],
-        outlet: 'principal',
-      },
+      
 
       {
         path: 'visualizar-chat/:atividadeGrupoId/:grupoId',
@@ -224,12 +204,7 @@ const routes: Routes = [
         outlet: 'principal',
       },
 
-      {
-        path: 'criar-grupo',
-        component: CriacaoGrupoComponent,
-        canActivate: [AuthGuard, ProfessorGuard],
-        outlet: 'principal',
-      },
+      
 
       {
         path: 'criar-frequencia',
@@ -254,12 +229,7 @@ const routes: Routes = [
         outlet: 'principal',
       },
 
-      {
-        path: 'listagem-atividades-grupo',
-        component: ListarAtividadesGrupoComponent,
-        canActivate: [AuthGuard, PageTrack],
-        outlet: 'principal',
-      },
+      
 
       {
         path: 'listagem-atividades-grupo-professor',
@@ -282,43 +252,17 @@ const routes: Routes = [
         outlet: 'principal',
       },
 
-      {
-        path: 'entrar-grupo/:atividadeGrupoId/:grupoId/:assuntoId/:questaoId',
-        component: ResponderQuestaoProgramacao,
-        canActivate: [AuthGuard, PageTrack],
-        outlet: 'principal',
-      },
+     
 
     
 
       // SRL
 
-      {
-        path: 'index',
-        component: AcompanharDesempenhoComponent,
-        outlet: 'principal',
-        canActivate: [AuthGuard, ExperimentoGuard, PageTrack],
-      },
+     
 
       
-      {
-        path: 'listagem-diarios',
-        component: ListagemDiarioComponent,
-        outlet: 'principal',
-        canActivate: [AuthGuard, ExperimentoGuard, PageTrack],
-      },
-      {
-        path: 'visualizacao-diario/:id',
-        component: VisualizacaoDiarioComponent,
-        outlet: 'principal',
-        canActivate: [AuthGuard, ExperimentoGuard, PageTrack],
-      },
-      {
-        path: 'meu-desempenho',
-        component: AcompanharDesempenhoComponent,
-        outlet: 'principal',
-        canActivate: [AuthGuard, ExperimentoGuard, PageTrack],
-      },
+ 
+      
       {
         path: 'editor-game',
         component: EditorComponent,
@@ -343,12 +287,7 @@ const routes: Routes = [
       },
 
       
-      {
-        path: 'self-instruction/:assuntoId/:questaoId',
-        component: SelfInstructionComponent,
-        canActivate: [AuthGuard, ExperimentoGuard, PageTrack],
-        outlet: 'principal',
-      },
+      
       {
         path: 'self-instruction-editor/:assuntoId/:questaoId',
         component: SelfInstructionComponent,
@@ -486,12 +425,7 @@ const routes: Routes = [
         outlet: 'principal',
       },
       
-      {
-        path: 'ranking',
-        component: RankingComponent,
-        canActivate: [AuthGuard, PageTrack],
-        outlet: 'principal',
-      },
+     
      
       {
         path: 'estudantes-questao/:assuntoId/:questaoId',
@@ -511,18 +445,8 @@ const routes: Routes = [
         canActivate: [AuthGuard],
         outlet: 'principal',
       },
-      {
-        path: 'visualizacao-turma/:codigoTurma',
-        component: VisualizarTurmaComponent,
-        canActivate: [AuthGuard],
-        outlet: 'principal',
-      },
-      {
-        path: 'minha-turma',
-        component: VisualizarTurmaComponent,
-        canActivate: [AuthGuard],
-        outlet: 'principal',
-      },
+     
+      
       
       {
         path: 'visualizacao-estudante/:id',
@@ -553,14 +477,14 @@ const routes: Routes = [
   }, */
 
   { path: '', component: LoginComponent },
-  { path: 'geral', loadChildren: () => import('./geral-module/geral-module.module').then(m => m.GeralModuleModule) }
-
+  { path: 'geral', loadChildren: () => import('./geral-module/geral-module.module').then(m => m.GeralModuleModule) },
+  { path: 'cadastro-estudante', component: CadastrarEstudantesComponent },
  /*  {
     path: 'preencher-frequencia/:codigoTurma/:frequenciaId',
     component: PreencherFrequenciaComponent
   },
 
-  { path: 'cadastro-estudante', component: CadastrarEstudantesComponent },
+  
   { path: 'cadastro-estudante/:email/:nome', component: CadastrarEstudantesComponent }, */
   /* { path: '**', component: PaginaNaoEncontradaComponent }, */
 ];

@@ -33,6 +33,24 @@ import { ChartModule } from 'primeng/chart';
 import { GrafoEstudantesComponent } from './grafo-estudantes/grafo-estudantes.component';
 import { NgxGraphModule } from '@swimlane/ngx-graph';
 import { ListarDiariosComponent } from './listar-diarios/listar-diarios.component';
+import { RouterModule, Routes } from '@angular/router';
+import { PageTrack } from '../guards/pageTrack.guard';
+import { AuthGuard } from '../guards/auth.guard';
+
+
+export const routes:Routes = [
+
+  {
+    path: 'minha-turma',
+    component: VisualizarTurmaComponent,
+    canActivate: [AuthGuard, PageTrack],
+  },
+  {
+    path: 'visualizacao-turma/:codigoTurma',
+    component: VisualizarTurmaComponent,
+    canActivate: [AuthGuard]
+  },
+]
 
 @NgModule({
   declarations: [
@@ -52,6 +70,7 @@ import { ListarDiariosComponent } from './listar-diarios/listar-diarios.componen
   ],
 
   imports: [
+    RouterModule.forChild(routes),
     TableModule,
     ChartModule,
     AnalyticsModule,
@@ -61,7 +80,7 @@ import { ListarDiariosComponent } from './listar-diarios/listar-diarios.componen
     ButtonModule,
     FormsModule,
     AutoCompleteModule,
-    
+    ToastModule,
     InputTextModule,
     
     SrlModule,

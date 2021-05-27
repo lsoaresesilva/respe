@@ -72,7 +72,7 @@ export default class AtividadeGrupo extends Document {
   gerarLink(estudante:Usuario) {
     
     let grupoEstudante = this.getGrupoByEstudante(estudante);
-    let link =  environment.URL_SERVIDOR+'main/(principal:entrar-grupo/' +
+    let link =  environment.URL_SERVIDOR+'geral/main/(principal:juiz/entrar-grupo/' +
     this.pk() +
     '/' +
     grupoEstudante.id +

@@ -50,7 +50,7 @@ export class BtnAvancarQuestaoComponent implements OnInit {
   
         this.router.navigate([
           'geral/main',
-          { outlets: { principal: ['self-instruction', this.assunto.pk(), questao.id] } },
+          { outlets: { principal: ['srl', 'self-instruction', this.assunto.pk(), questao.id] } },
         ]);
       }
     }

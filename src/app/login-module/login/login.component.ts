@@ -61,9 +61,9 @@ export class LoginComponent implements OnInit {
       const usuario = this.login.getUsuarioLogado();
       if (usuario.perfil == PerfilUsuario.estudante) {
         if (usuario.grupoExperimento == Groups.control) {
-          this.router.navigate(['geral/main', { outlets: { principal: ['juiz','listagem-assuntos'] } }]);
+          this.router.navigate(['geral/main', { outlets: { principal: ['juiz','listar-assuntos'] } }]);
         } else {
-          this.router.navigate(['geral/main', { outlets: { principal: ['index'] } }]);
+          this.router.navigate(['geral/main', { outlets: { principal: ['srl', 'index'] } }]);
         }
       } else if (usuario.perfil == PerfilUsuario.professor) {
         this.router.navigate(['geral/main', { outlets: { principal: ['listagem-turmas'] } }]);

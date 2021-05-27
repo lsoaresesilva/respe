@@ -116,7 +116,7 @@ export class SelfInstructionComponent implements OnInit {
         (resultado) => {
           this.router.navigate([
             'geral/main',
-            { outlets: { principal: ['editor', this.assunto.pk(), this.questao.id] } },
+            { outlets: { principal: ['juiz', 'editor', this.assunto.pk(), this.questao.id] } },
           ]);
         },
         (err) => {

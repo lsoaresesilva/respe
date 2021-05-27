@@ -92,12 +92,12 @@ import { MonitorService } from '../chatbot/monitor.service';
 
 export const routes: Routes = [
   {
-    path: 'listagem-assuntos',
+    path: 'listar-assuntos',
     component: ListarAssuntosComponent,
     canActivate: [AuthGuard, PageTrack]
   },
   {
-    path: 'visualizacao-assunto/:id',
+    path: 'visualizar-assunto/:id',
     component: VisualizarAssuntoComponent,
     canActivate: [AuthGuard, PageTrack]
   },
@@ -119,6 +119,19 @@ export const routes: Routes = [
   },
   {
     path: 'editor/:assuntoId/:questaoId',
+    component: ResponderQuestaoProgramacao,
+    canActivate: [AuthGuard, PageTrack]
+  },
+
+  {
+    path: 'editor-programacao',
+    component: EditorIndependenteComponent,
+    canActivate: [AuthGuard, PageTrack]
+  },
+
+
+  {
+    path: 'entrar-grupo/:atividadeGrupoId/:grupoId/:assuntoId/:questaoId',
     component: ResponderQuestaoProgramacao,
     canActivate: [AuthGuard, PageTrack]
   },
@@ -165,13 +178,14 @@ export const routes: Routes = [
   imports: [
     SrlModule,
     ChatModule,
+    /* CsclModule, */
     RouterModule.forChild(routes),
     CommonModule,
     SplitButtonModule,
     SkeletonModule,
     TerminalModule,
     TimelineModule,
-    CsclModule,
+    
     TooltipModule,
     DynamicDialogModule,
     KnobModule,
