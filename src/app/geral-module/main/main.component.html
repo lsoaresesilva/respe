@@ -1,98 +1,33 @@
 <p-toolbar>
   <div class="p-toolbar-group-left">
-    <button
-      pButton
-      class="p-button-text"
-      label="Atividades"
-      (click)="abrirAssuntos()"
-      *ngIf="usuario.perfil == 1"
-    ></button>
-    <button
-      pButton
-      class="p-button-text"
-      label="Meu progresso"
-      (click)="abrirDesempenho()"
-      *ngIf="(usuario.grupoExperimento == 1 || usuario.grupoExperimento == 2) && usuario.perfil == 1"
-    ></button>
-    <button
-      pButton
-      class="p-button-text"
-      label="Meus diários"
-      (click)="abrirDiario()"
-      *ngIf="(usuario.grupoExperimento == 1 || usuario.grupoExperimento == 2) && usuario.perfil == 1"
-    ></button>
-    <button
-    pButton
-    class="p-button-text"
-    label="Minha turma"
-    (click)="abrirTurma()"
-    *ngIf="usuario.grupoExperimento == 2 && usuario.perfil == 1"
-  ></button>
-    <button
-    pButton
-    class="p-button-text"
-    label="Materiais de estudo"
-    (click)="abrirMateriaisEstudo()"
-    *ngIf="usuario.perfil == 1"
-  ></button>
-    <button
-    pButton
-    class="p-button-text"
-    label="Atividades em grupo"
-    (click)="abrirAtividadesGrupo()"
-    *ngIf="usuario.perfil == 1"
-  ></button>
-  <button
-  pButton
-  class="p-button-text"
-  label="Editor programação"
-  (click)="abrirEditorProgramacao()"
-  *ngIf="usuario.perfil == 1"
-></button>
+    <button pButton class="p-button-text" label="Atividades" (click)="abrirAssuntos()" *ngIf="usuario.perfil == 1"
+      id="btnAtividades"></button>
+    <button pButton id="btnMeuProgresso" class="p-button-text" label="Meu progresso" (click)="abrirDesempenho()"
+      *ngIf="(usuario.grupoExperimento == 1 || usuario.grupoExperimento == 2) && usuario.perfil == 1"></button>
+    <button pButton id="btnDiarios" class="p-button-text" label="Meus diários" (click)="abrirDiario()"
+      *ngIf="(usuario.grupoExperimento == 1 || usuario.grupoExperimento == 2) && usuario.perfil == 1"></button>
+    <button pButton id="btnTurma" class="p-button-text" label="Minha turma" (click)="abrirTurma()"
+      *ngIf="usuario.grupoExperimento == 2 && usuario.perfil == 1"></button>
+    <button pButton id="btnMaterialEstudo" class="p-button-text" label="Materiais de estudo"
+      (click)="abrirMateriaisEstudo()" *ngIf="usuario.perfil == 1"></button>
+    <button pButton class="p-button-text" label="Atividades em grupo" (click)="abrirAtividadesGrupo()"
+      *ngIf="usuario.perfil == 1"></button>
+    <button pButton class="p-button-text" label="Editor programação" (click)="abrirEditorProgramacao()"
+      *ngIf="usuario.perfil == 1"></button>
+    <button pButton id="btnRanking" class="p-button-text" label="Ranking" (click)="abrirRanking()" *ngIf="usuario.perfil == 1"></button>
     <!-- Menu administrador -->
-    <button
-      pButton
-      class="p-button-text"
-      label="Assuntos"
-      (click)="abrirAssuntosAdmin()"
-      *ngIf="usuario.perfil == 3"
-    ></button>
-    <button
-      pButton
-      class="p-button-text"
-      label="Ranking"
-      (click)="abrirRanking()"
-      *ngIf="usuario.perfil == 1"
-    ></button>
-    <button
-      pButton
-      class="p-button-text"
-      label="Exportar dados"
-      (click)="exportarDados()"
-      *ngIf="usuario.perfil == 3"
-    ></button>
+    <button pButton class="p-button-text" label="Assuntos" (click)="abrirAssuntosAdmin()"
+      *ngIf="usuario.perfil == 3"></button>
+
+    <button pButton class="p-button-text" label="Exportar dados" (click)="exportarDados()"
+      *ngIf="usuario.perfil == 3"></button>
     <!-- Menu professor -->
-    <button
-      pButton
-      class="p-button-text"
-      label="Turmas"
-      (click)="abrirListagemTurmas()"
-      *ngIf="usuario.perfil == 2"
-    ></button>
-    <button
-    pButton
-    class="p-button-text"
-    label="Atividades em grupo"
-    (click)="abrirListagemGrupoProfessor()"
-    *ngIf="usuario.perfil == 2"
-  ></button>
-  <button
-    pButton
-    class="p-button-text"
-    label="Listagem diários"
-    (click)="abrirListagemDiario()"
-    *ngIf="usuario.perfil == 2"
-  ></button>
+    <button pButton class="p-button-text" label="Turmas" (click)="abrirListagemTurmas()"
+      *ngIf="usuario.perfil == 2"></button>
+    <button pButton class="p-button-text" label="Atividades em grupo" (click)="abrirListagemGrupoProfessor()"
+      *ngIf="usuario.perfil == 2"></button>
+    <button pButton class="p-button-text" label="Listagem diários" (click)="abrirListagemDiario()"
+      *ngIf="usuario.perfil == 2"></button>
   </div>
   <div style="margin: 0 auto; width: 15%">
     <app-progresso-proximo-nivel *ngIf="usuario.perfil == 1"></app-progresso-proximo-nivel>
@@ -102,15 +37,13 @@
   </div>
 </p-toolbar>
 
-<app-diario *ngIf="usuario.grupoExperimento != 4 && usuario.perfil == 1"></app-diario>
+<app-diario *ngIf="usuario.grupoExperimento != 4 && usuario.perfil == 1 && visibilidadeQuestionario == false">
+</app-diario>
 
-<app-questionario-autorregulacao
-  [visibilidadeQuestionario]="visibilidadeQuestionario"
-  (onQuestionarioRespondido)="onQuestionarioRespondido($event)"
-></app-questionario-autorregulacao>
-<app-tips-regulacao
-  *ngIf="usuario.grupoExperimento != 4 && usuario.perfil == 1"
-></app-tips-regulacao>
+<app-questionario-autorregulacao [visibilidadeQuestionario]="visibilidadeQuestionario"
+  (onQuestionarioRespondido)="onQuestionarioRespondido($event)"></app-questionario-autorregulacao>
+<app-tips-regulacao *ngIf="usuario.grupoExperimento != 4 && usuario.perfil == 1 && visibilidadeQuestionario == false">
+</app-tips-regulacao>
 <app-chatbot></app-chatbot>
 <!-- <app-pre-teste [visibilidade]="visibilidadeDialog"></app-pre-teste>--->
 

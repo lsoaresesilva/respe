@@ -36,6 +36,7 @@ import { ListarDiariosComponent } from './listar-diarios/listar-diarios.componen
 import { RouterModule, Routes } from '@angular/router';
 import { PageTrack } from '../guards/pageTrack.guard';
 import { AuthGuard } from '../guards/auth.guard';
+import { ProfessorGuard } from '../guards/professor.guard';
 
 
 export const routes:Routes = [
@@ -50,6 +51,12 @@ export const routes:Routes = [
     component: VisualizarTurmaComponent,
     canActivate: [AuthGuard]
   },
+  {
+    path: 'listar-turmas',
+    component: ListarTurmaComponent,
+    canActivate: [AuthGuard, ProfessorGuard]
+  }
+
 ]
 
 @NgModule({

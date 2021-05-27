@@ -130,6 +130,7 @@ export default class Usuario extends Document {
     return objeto;
   }
 
+
   salvar(perfil = PerfilUsuario.estudante, group:Groups = null, isRandom = false): Observable<Usuario> {
     
     return new Observable((observer) => {

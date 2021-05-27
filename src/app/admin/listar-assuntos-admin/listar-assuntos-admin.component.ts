@@ -56,7 +56,7 @@ export class ListarAssuntosAdminComponent implements OnInit {
   }
 
   cadastrar() {
-    this.router.navigate(['geral/main', { outlets: { principal: ['cadastro-assunto'] } }]);
+    this.router.navigate(['geral/main', { outlets: { principal: ['admin', 'cadastrar-assunto'] } }]);
   }
 
   deletar(assunto: Assunto) {

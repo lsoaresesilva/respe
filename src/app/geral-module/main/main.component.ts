@@ -29,6 +29,7 @@ export class MainComponent implements OnInit {
     private apresentacao: ApresentacaoService,
     private gamification: GamificationFacade
   ) {
+    this.visibilidadeQuestionario = false;
     this.usuario = this.login.getUsuarioLogado();
 
     let c = new ChatBot();

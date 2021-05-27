@@ -4,14 +4,11 @@ import { ButtonModule } from 'primeng/button';
 import { DropdownModule } from 'primeng/dropdown';
 import { VisualizarTestesComponent } from './visualizar-testes/visualizar-testes.component';
 import { TableModule, ContextMenuRow } from 'primeng/table';
-import { CadastrarQuestoesComponent } from './cadastrar-questoes/cadastrar-questoes.component';
 import { ReactiveFormsModule, FormsModule } from '@angular/forms';
 import { SpinnerModule } from 'primeng/spinner';
-import { CadastrarTesteCaseComponent } from './cadastrar-teste-case/cadastrar-teste-case.component';
 import { InputTextareaModule } from 'primeng/inputtextarea';
 import { CardModule } from 'primeng/card';
 import {TooltipModule} from 'primeng/tooltip';
-import { CheckboxModule } from 'primeng/checkbox';
 import { ListarQuestoesComponent } from './listar-questoes/listar-questoes.component';
 import { MessageService, SharedModule } from 'primeng/api';
 import { HttpClientModule } from '@angular/common/http';
@@ -31,7 +28,6 @@ import {KnobModule} from 'primeng/knob';
 import { VisualizarExecucacao } from './vizualizar-execucao/vizualizar-execucao.component';
 
 import { RadioButtonModule } from 'primeng/radiobutton';
-import { CadastrarAssuntosComponent } from './cadastrar-assuntos/cadastrar-assuntos.component';
 import { ListarAssuntosComponent } from './listar-assuntos/listar-assuntos.component';
 import { VisualizarAssuntoComponent } from './visualizar-assunto/visualizar-assunto.component';
 import { ListarPedidosAjudaComponent } from './listar-pedidos-ajuda/listar-pedidos-ajuda.component';
@@ -39,8 +35,7 @@ import { VisualizarPedidoAjudaComponent } from './visualizar-pedido-ajuda/visual
 import { LoginService } from '../login-module/login.service';
 import { EditorService } from './editor.service';
 
-import { CadastrarAlternativasComponent } from './cadastrar-alternativas/cadastrar-alternativas.component';
-import { CadastrarQuestoesFechadasComponent } from './cadastrar-questoes-fechadas/cadastrar-questoes-fechadas.component';
+import { CadastrarAlternativasComponent } from '../admin/cadastrar-alternativas/cadastrar-alternativas.component';
 import { VisualizarQuestaoFechadaComponent } from './visualizar-questao-fechada/visualizar-questao-fechada.component';
 import { ListarQuestoesFechadasComponent } from './listar-questoes-fechadas/listar-questoes-fechadas.component';
 import { EscolherQuestaoComponent } from './escolher-questao/escolher-questao.component';
@@ -96,6 +91,8 @@ export const routes: Routes = [
     component: ListarAssuntosComponent,
     canActivate: [AuthGuard, PageTrack]
   },
+  
+
   {
     path: 'visualizar-assunto/:id',
     component: VisualizarAssuntoComponent,
@@ -139,24 +136,22 @@ export const routes: Routes = [
 
 @NgModule({
   declarations: [
+    
     VisualizarParsonComponent,
     BreadcrumbAssuntoComponent, 
     DadosQuestaoComponent,
     VisualizarTestesComponent,
-    CadastrarQuestoesComponent,
-    CadastrarTesteCaseComponent,
+    
     ListarQuestoesComponent,
     ResponderQuestaoProgramacao,
     ResponderQuestaoProgramacao,
     VisualizarExecucacao,
     ListarAssuntosComponent,
     VisualizarAssuntoComponent,
-    CadastrarAssuntosComponent,
-    CadastrarQuestoesFechadasComponent,
+    
     
     ListarQuestoesFechadasComponent,
     VisualizarQuestaoFechadaComponent,
-    CadastrarAlternativasComponent,
     ListarPedidosAjudaComponent,
     VisualizarPedidoAjudaComponent,
     EscolherQuestaoComponent,
@@ -192,14 +187,12 @@ export const routes: Routes = [
     TableModule,
     PanelModule,
     ButtonModule,
-    DropdownModule,
     FormsModule,
     ToggleButtonModule,
     ReactiveFormsModule,
     SpinnerModule,
     CodeHighlighterModule,
     InputTextareaModule,
-    CheckboxModule,
     ContextMenuModule,
     HttpClientModule,
     ProgressSpinnerModule,
@@ -221,13 +214,10 @@ export const routes: Routes = [
   ],
   exports: [
     VisualizarTestesComponent,
-    CadastrarQuestoesComponent,
+   
     ListarQuestoesComponent,
-    CadastrarTesteCaseComponent,
-    CadastrarAssuntosComponent,
     ListarAssuntosComponent,
     VisualizarAssuntoComponent,
-    CadastrarQuestoesFechadasComponent,
     ListarQuestoesFechadasComponent,
     VisualizarQuestaoFechadaComponent,
     ResponderQuestaoProgramacaoLiteComponent,

@@ -104,14 +104,34 @@ export class ApresentacaoService {
         opcoesIntro = {
           steps: [
             {
-              element: document.getElementById('planejamentoMenu'),
+              element: document.getElementById('btnAtividades'),
               intro:
-                '<h3>Aqui começam os seus estudos</h3><p>Crie um planejamento para os seus estudos e comece a responder as questões de programação.</p>',
+                '<h3>Aqui começam os seus estudos</h3><p>Escolha um assunto para praticar as questões de programação.</p>',
             },
             {
-              element: document.getElementById('meuDesempenhoMenu'),
+              element: document.getElementById('btnMeuProgresso'),
               intro:
                 '<h3>Como está seu desempenho em programação?</h3><p>Aqui podes ver informações sobre o seu desempenho, principais erros que cometeu, entre outras informações.</p>',
+            },
+            {
+              element: document.getElementById('btnDiarios'),
+              intro:
+                '<h3>Diários de aprendizagem</h3><p>Planejar a sua rotina de estudos é fundamental para o seu sucesso. Aqui você visualizará todos os seus planejamentos.</p>',
+            },
+            {
+              element: document.getElementById('btnTurma'),
+              intro:
+                '<h3>Sua turma</h3><p>Que tal interagir com os seus colegas? Poste dúvidas ou ajude outros alunos.</p>',
+            },
+            {
+              element: document.getElementById('btnMaterialEstudo'),
+              intro:
+                '<h3>Materiais de aula</h3><p>Acesse vídeo aulas com conteúdo sobre Python para melhorar o seu aprendizado.</p>',
+            },
+            {
+              element: document.getElementById('btnRanking'),
+              intro:
+                '<h3>Quem consegue mais pontos?</h3><p>Acesse esta seção para visualizar sua posição no ranking. Serão apresentados os quatro alunos com melhor desempenho.</p>',
             },
           ],
         };

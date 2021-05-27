@@ -13,6 +13,7 @@ import RegistroLogin from '../model/registroLogin';
 import { RastrearTempoOnlineService } from '../srl/rastrear-tempo-online.service';
 import Gamification from '../model/gamification/gamification';
 import Turma from '../model/turma';
+import { PerfilUsuario } from '../model/enums/perfilUsuario';
 
 @Injectable({
   providedIn: 'root',
@@ -37,6 +38,11 @@ export class LoginService {
   }
 
   criarSessao(usuario: Usuario) {
+    let usuarioString = JSON.stringify(usuario.stringfiy());
+    sessionStorage.setItem('usuario', usuarioString);
+  }
+
+  criarSessaoAdmin(usuario: Usuario) {
     let usuarioString = JSON.stringify(usuario.stringfiy());
     sessionStorage.setItem('usuario', usuarioString);
   }
@@ -69,16 +75,25 @@ export class LoginService {
       ]).subscribe(
         (usuarioLogado: Usuario) => {
           if (usuarioLogado != null) {
-            Turma.getByQuery(new Query("codigo", "==", usuarioLogado["codigoTurma"])).subscribe(turma=>{
-              usuarioLogado.turma = turma;
+
+            if(usuarioLogado.perfil != PerfilUsuario.admin){
+              Turma.getByQuery(new Query("codigo", "==", usuarioLogado["codigoTurma"])).subscribe(turma=>{
+                usuarioLogado.turma = turma;
+                this.criarSessao(usuarioLogado);
+                //this.rastrearTempoOnline.iniciarTimer(usuarioLogado);
+    
+                const registroLogin = new RegistroLogin(null, usuarioLogado);
+                registroLogin.save().subscribe(() => {});
+                observer.next(true);
+                observer.complete();
+              })
+            }else{
               this.criarSessao(usuarioLogado);
-              //this.rastrearTempoOnline.iniciarTimer(usuarioLogado);
-  
-              const registroLogin = new RegistroLogin(null, usuarioLogado);
-              registroLogin.save().subscribe(() => {});
               observer.next(true);
               observer.complete();
-            })
+            }
+
+            
             
           } else {
             observer.next(false);

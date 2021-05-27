@@ -30,6 +30,13 @@ export const routes: Routes = [
         outlet: 'principal'
       },
       {
+        path: 'admin',
+        loadChildren: () => import('../admin/admin.module').then(m => m.AdminModule),
+        /* component: ListarAssuntosComponent, */
+         canActivate: [AuthGuard],
+        outlet: 'principal'
+      },
+      {
         path: 'aprendizado',
         loadChildren: () => import('../sistema-aprendizagem/sistema-aprendizagem.module').then(m => m.SistemaAprendizagemModule),
         /* component: ListarAssuntosComponent, */

@@ -86,18 +86,7 @@ const routes: Routes = [
      
 
       // ADMIN
-      {
-        path: 'listar-assuntos-admin',
-        component: ListarAssuntosAdminComponent,
-        outlet: 'principal',
-        canActivate: [AuthGuard],
-      },
-      {
-        path: 'visualizar-assunto-admin/:id',
-        component: VisualizarAssuntoAdminComponent,
-        outlet: 'principal',
-        canActivate: [AuthGuard],
-      },
+      
       {
         path: 'atualizar-questao-fechada/:assuntoId/:questaoId',
         component: CadastrarQuestoesFechadasComponent,
@@ -278,13 +267,7 @@ const routes: Routes = [
         canActivate: [AuthGuard, ExperimentoGuard],
         outlet: 'principal',
       },
-      {
-        path: 'cadastro-questao/:assuntoId',
-        component: CadastrarQuestoesComponent,
-        canActivate: [AuthGuard, AdminGuard],
-        canLoad: [AuthGuard, AdminGuard],
-        outlet: 'principal',
-      },
+     
 
       
       
@@ -297,13 +280,7 @@ const routes: Routes = [
 
     // Turma
 
-      {
-        path: 'cadastro-assunto',
-        component: CadastrarAssuntosComponent,
-        canActivate: [AuthGuard, AdminGuard],
-        canLoad: [AuthGuard, AdminGuard],
-        outlet: 'principal',
-      },
+      
       {
         path: 'atualizacao-questao/:assuntoId/:questaoId',
         component: CadastrarQuestoesComponent,
@@ -378,12 +355,7 @@ const routes: Routes = [
         canActivate: [AuthGuard, AdminGuard],
         outlet: 'principal',
       },
-      {
-        path: 'listagem-turmas',
-        component: ListarTurmaComponent,
-        canActivate: [AuthGuard, ProfessorGuard],
-        outlet: 'principal',
-      },
+      
       {
         path: 'listagem-diarios-professor',
         component: ListarDiariosComponent,

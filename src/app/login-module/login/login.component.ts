@@ -66,9 +66,9 @@ export class LoginComponent implements OnInit {
           this.router.navigate(['geral/main', { outlets: { principal: ['srl', 'index'] } }]);
         }
       } else if (usuario.perfil == PerfilUsuario.professor) {
-        this.router.navigate(['geral/main', { outlets: { principal: ['listagem-turmas'] } }]);
+        this.router.navigate(['geral/main', { outlets: { principal: ['turma', 'listar-turmas'] } }]);
       } else if (usuario.perfil == PerfilUsuario.admin) {
-        this.router.navigate(['geral/main']);
+        this.router.navigate(['geral/main', { outlets: { principal: ['admin', 'listar-assuntos-admin'] } }]);
       }
     } else {
       this.messageService.add({
