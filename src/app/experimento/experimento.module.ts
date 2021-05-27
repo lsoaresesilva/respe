@@ -14,11 +14,12 @@ import { AnaliseSelfInstructionComponent } from './analise-self-instruction/anal
 @NgModule({
   declarations: [PreTesteComponent, QuestaoComponent, QuestionarioAutorregulacaoComponent, AnaliseSelfInstructionComponent],
   imports: [
+    DialogModule,
     CommonModule,
     ButtonModule,
     FieldsetModule,
     RadioButtonModule,
-    DialogModule,
+    
     FormsModule,
     ScrollPanelModule
   ],

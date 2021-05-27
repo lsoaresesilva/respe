@@ -1,7 +1,7 @@
 import { NgModule } from '@angular/core';
 import { Routes, RouterModule } from '@angular/router';
 import { LoginComponent } from './login-module/login/login.component';
-import { MainComponent } from './geral-module/main/main.component';
+/* import { MainComponent } from './geral-module/main/main.component';
 import { AutoReflexaoComponent } from './srl/auto-reflexao/auto-reflexao.component';
 import { AuthGuard } from './guards/auth.guard';
 import { PaginaNaoEncontradaComponent } from './geral-module/pagina-nao-encontrada/pagina-nao-encontrada.component';
@@ -35,7 +35,7 @@ import { ListarPostagensComponent } from './cscl/listar-postagens/listar-postage
 import { VisualizarPostagemComponent } from './cscl/visualizar-postagem/visualizar-postagem.component';
 import { TurmaGuard } from './guards/acessoTurma.guard';
 import { VisualizarPerfilEstudanteComponent } from './turma/visualizar-perfil-estudante/visualizar-perfil-estudante.component';
-import { CadastrarEstudantesComponent } from './turma/cadastrar-estudantes/cadastrar-estudantes.component';
+import { CadastrarEstudantesComponent } from './login-module/cadastrar-estudantes/cadastrar-estudantes.component';
 import { AcompanharDesempenhoComponent } from './srl/monitoramento/acompanhar-desempenho/acompanhar-desempenho.component';
 import { EnvioMaterialComponent } from './turma/envio-material/envio-material.component';
 import { PreTesteComponent } from './experimento/pre-teste/pre-teste.component';
@@ -71,25 +71,20 @@ import { VisualizarVideoComponent } from './sistema-aprendizagem/visualizar-vide
 import { EditorIndependenteComponent } from './juiz/editor/editor-independente/editor-independente.component';
 import { ModificarGrupoComponent } from './cscl/modificar-grupo/modificar-grupo.component';
 import { CriarFrequenciaComponent } from './cscl/criar-frequencia/criar-frequencia.component';
-import { PreencherFrequenciaComponent } from './cscl/preencher-frequencia/preencher-frequencia.component';
-import { VisualizarChatComponent } from './cscl/visualizar-chat/visualizar-chat.component';
+import { PreencherFrequenciaComponent } from './login-module/preencher-frequencia/preencher-frequencia.component';
+import { VisualizarChatComponent } from './cscl/visualizar-chat/visualizar-chat.component'; */
 
 const routes: Routes = [
-  {
+ /*  {
     path: 'main',
     component: MainComponent,
     canActivate: [AuthGuard],
     children: [
-      {
-        path: 'editor/:assuntoId/:questaoId',
-        component: ResponderQuestaoProgramacao,
-        canActivate: [AuthGuard, PageTrack],
-        outlet: 'principal',
-      },
+      
       { path: 'subsecao', component: SubsecaoComponent, outlet: 'principal' },
      
 
-      /* ADMIN */
+      // ADMIN
       {
         path: 'listar-assuntos-admin',
         component: ListarAssuntosAdminComponent,
@@ -136,9 +131,9 @@ const routes: Routes = [
         outlet: 'principal',
       },
 
-      /* FIM ADMIN */
+      // FIM ADMIN
 
-      /* Turma */
+      // Turma
       {
         path: 'estatisticas-experimento/:codigoTurma',
         component: EstatisticasExperimentoComponent,
@@ -146,7 +141,7 @@ const routes: Routes = [
         outlet: 'principal',
       },
 
-      /* ANALYTICS */
+      // Analytics
       {
         path: 'analytics-turma/:turmaId',
         component: AnalyticsTurmaComponent,
@@ -169,7 +164,7 @@ const routes: Routes = [
       },
 
 
-      /* JUIZ */
+      // Juiz
 
       {
         path: 'responder-questao-correcao/:assuntoId/:questaoCorrecaoId',
@@ -186,33 +181,16 @@ const routes: Routes = [
       },
 
       
-      {
-        path: 'visualizar-questao-parson/:assuntoId/:questaoId',
-        component: VisualizarParsonComponent,
-        canActivate: [AuthGuard, PageTrack],
-        outlet: 'principal',
-      },
+      
 
       
 
-       /* Sistema aprendizagem */
+       // Sistema aprendizagem
 
-       {
-        path: 'listar-videos',
-        component: ListarVideosComponent,
-        canActivate: [AuthGuard, PageTrack],
-        outlet: 'principal',
-      },
-
-      {
-        path: 'visualizar-video/:videoId',
-        component: VisualizarVideoComponent,
-        canActivate: [AuthGuard, PageTrack],
-        outlet: 'principal',
-      },
+       
 
 
-      /* CSCL */
+      // CSCL
 
       {
         path: 'cadastrar-postagem/:codigoTurma/:postagemId',
@@ -313,7 +291,7 @@ const routes: Routes = [
 
     
 
-      /** SRL */
+      // SRL
 
       {
         path: 'index',
@@ -322,7 +300,7 @@ const routes: Routes = [
         canActivate: [AuthGuard, ExperimentoGuard, PageTrack],
       },
 
-      /** Monitoramento */
+      
       {
         path: 'listagem-diarios',
         component: ListagemDiarioComponent,
@@ -345,7 +323,7 @@ const routes: Routes = [
         path: 'editor-game',
         component: EditorComponent,
         outlet: 'principal',
-        /* canActivate: [AuthGuard, ExperimentoGuard], */
+        
       },
       { path: 'comentario-codigo/:id', component: ComentariosCodigoComponent, outlet: 'principal' },
       { path: 'visualizarConteudo', component: VisualizarConteudoComponent, outlet: 'principal' },
@@ -378,7 +356,8 @@ const routes: Routes = [
         outlet: 'principal',
       },
 
-    /* Fim SRL */
+    // Turma
+
       {
         path: 'cadastro-assunto',
         component: CadastrarAssuntosComponent,
@@ -410,14 +389,7 @@ const routes: Routes = [
         canActivate: [AuthGuard, AdminGuard],
         outlet: 'principal',
       },
-      {
-        path: 'listagem-assuntos',
-        component: ListarAssuntosComponent,
-        canActivate: [AuthGuard, PageTrack],
-        outlet: 'principal',
-      },
-
-      /** Início Turma */
+     
 
       {
         path: 'atualizacao-estudante/:id',
@@ -480,19 +452,8 @@ const routes: Routes = [
         canActivate: [AuthGuard, ProfessorGuard],
       },
 
-      /** Fim Turma */
-     /*  { TODO: APAGAR ESSE COMPONENT
-        path: 'visualizacao-questao/:assuntoId/:questaoId',
-        component: VisualizarQuestaoComponent,
-        canActivate: [AuthGuard],
-        outlet: 'principal',
-      }, */
-      {
-        path: 'visualizacao-questao-fechada/:assuntoId/:questaoId',
-        component: VisualizarQuestaoFechadaComponent,
-        canActivate: [AuthGuard, PageTrack],
-        outlet: 'principal',
-      },
+
+      
       {
         path: 'atualizacao-questao-fechada/:id',
         component: CadastrarQuestoesFechadasComponent,
@@ -505,12 +466,7 @@ const routes: Routes = [
         canActivate: [AuthGuard, AdminGuard],
         outlet: 'principal',
       },
-      {
-        path: 'visualizacao-questao-fechada/:id',
-        component: VisualizarQuestaoFechadaComponent,
-        canActivate: [AuthGuard],
-        outlet: 'principal',
-      },
+      
       {
         path: 'listagem-questoes-fechadas',
         component: ListarQuestoesFechadasComponent,
@@ -529,12 +485,7 @@ const routes: Routes = [
         canActivate: [AuthGuard],
         outlet: 'principal',
       },
-      {
-        path: 'visualizacao-assunto/:id',
-        component: VisualizarAssuntoComponent,
-        canActivate: [AuthGuard, PageTrack],
-        outlet: 'principal',
-      },
+      
       {
         path: 'ranking',
         component: RankingComponent,
@@ -599,18 +550,19 @@ const routes: Routes = [
       },
       // {path:"home", component: HomeComponent, canActivate: [AuthGuard], canLoad: [AuthGuard], outlet:"principal"},
     ],
-  },
+  }, */
 
   { path: '', component: LoginComponent },
+  { path: 'geral', loadChildren: () => import('./geral-module/geral-module.module').then(m => m.GeralModuleModule) }
 
-  {
+ /*  {
     path: 'preencher-frequencia/:codigoTurma/:frequenciaId',
     component: PreencherFrequenciaComponent
   },
 
   { path: 'cadastro-estudante', component: CadastrarEstudantesComponent },
-  { path: 'cadastro-estudante/:email/:nome', component: CadastrarEstudantesComponent },
-  { path: '**', component: PaginaNaoEncontradaComponent },
+  { path: 'cadastro-estudante/:email/:nome', component: CadastrarEstudantesComponent }, */
+  /* { path: '**', component: PaginaNaoEncontradaComponent }, */
 ];
 
 @NgModule({

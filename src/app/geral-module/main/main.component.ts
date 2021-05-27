@@ -43,25 +43,25 @@ export class MainComponent implements OnInit {
         {
           label: 'Turmas',
           command: () => {
-            this.router.navigate(['main', { outlets: { principal: ['listagem-turmas'] } }]);
+            this.router.navigate(['geral/main', { outlets: { principal: ['listagem-turmas'] } }]);
           },
         },
         {
           label: 'Estudantes',
           command: () => {
-            this.router.navigate(['main', { outlets: { principal: ['listagem-estudantes'] } }]);
+            this.router.navigate(['geral/main', { outlets: { principal: ['listagem-estudantes'] } }]);
           },
         },
         {
           label: 'Professores',
           command: () => {
-            this.router.navigate(['main', { outlets: { principal: ['listagem-estudantes'] } }]);
+            this.router.navigate(['geral/main', { outlets: { principal: ['listagem-estudantes'] } }]);
           },
         },
         {
           label: 'Assuntos',
           command: () => {
-            this.router.navigate(['main', { outlets: { principal: ['listagem-assuntos'] } }]);
+            this.router.navigate(['geral/main', { outlets: { principal: ['listagem-assuntos'] } }]);
           },
         },
 
@@ -77,7 +77,7 @@ export class MainComponent implements OnInit {
         {
           label: 'Turmas',
           command: () => {
-            this.router.navigate(['main', { outlets: { principal: ['listagem-turmas'] } }]);
+            this.router.navigate(['geral/main', { outlets: { principal: ['listagem-turmas'] } }]);
           },
         },
         {
@@ -93,7 +93,7 @@ export class MainComponent implements OnInit {
           {
             label: 'Assuntos',
             command: () => {
-              this.router.navigate(['main', { outlets: { principal: ['listagem-assuntos'] } }]);
+              this.router.navigate(['geral/main', { outlets: { principal: ['listagem-assuntos'] } }]);
             },
             id: 'assuntosMenu',
           },
@@ -103,7 +103,7 @@ export class MainComponent implements OnInit {
   }
 
   exportarDados(){
-    this.router.navigate(['main', { outlets: { principal: ['exportar-dados'] } }]);
+    this.router.navigate(['geral/main', { outlets: { principal: ['exportar-dados'] } }]);
   }
 
   ngOnInit() {
@@ -112,55 +112,58 @@ export class MainComponent implements OnInit {
   }
 
   abrirMateriaisEstudo(){
-    this.router.navigate(['main', { outlets: { principal: ['listar-videos'] } }]);
+    this.router.navigate(['geral/main', { outlets: { principal: ['aprendizado', 'listar-videos'] } }]);
   }
 
   abrirTurma(){
-    this.router.navigate(['main', { outlets: { principal: ['minha-turma'] } }]);
+    this.router.navigate(['geral/main', { outlets: { principal: ['minha-turma'] } }]);
   }
   
   abrirEditorProgramacao(){
-    this.router.navigate(['main', { outlets: { principal: ['editor-programacao'] } }]);
+    this.router.navigate(['geral/main', { outlets: { principal: ['editor-programacao'] } }]);
   }
 
   abrirDesempenho() {
-    this.router.navigate(['main', { outlets: { principal: ['meu-desempenho'] } }]);
+    this.router.navigate(['geral/main', { outlets: { principal: ['meu-desempenho'] } }]);
   }
 
   abrirPlanejamento() {
-    this.router.navigate(['main', { outlets: { principal: ['listagem-assuntos'] } }]);
+    this.router.navigate(['geral/main', { outlets: { principal: ['listagem-assuntos'] } }]);
   }
 
   abrirAtividadesGrupo() {
-    this.router.navigate(['main', { outlets: { principal: ['listagem-atividades-grupo'] } }]);
+    this.router.navigate(['geral/main', { outlets: { principal: ['listagem-atividades-grupo'] } }]);
   }
 
   abrirDiario() {
-    this.router.navigate(['main', { outlets: { principal: ['listagem-diarios'] } }]);
+    this.router.navigate(['geral/main', { outlets: { principal: ['listagem-diarios'] } }]);
+    
   }
 
   abrirAssuntos() {
-    this.router.navigate(['main', { outlets: { principal: ['listagem-assuntos'] } }]);
+    this.router.navigate(['geral/main', { outlets: { principal: ['juiz', 'listagem-assuntos'] } }]);
+    
+    console.log(this.router.getCurrentNavigation());
   }
 
   abrirAssuntosAdmin() {
-    this.router.navigate(['main', { outlets: { principal: ['listar-assuntos-admin'] } }]);
+    this.router.navigate(['geral/main', { outlets: { principal: ['listar-assuntos-admin'] } }]);
   }
 
   abrirRanking() {
-    this.router.navigate(['main', { outlets: { principal: ['ranking'] } }]);
+    this.router.navigate(['geral/main', { outlets: { principal: ['ranking'] } }]);
   }
 
   abrirListagemTurmas() {
-    this.router.navigate(['main', { outlets: { principal: ['listagem-turmas'] } }]);
+    this.router.navigate(['geral/main', { outlets: { principal: ['listagem-turmas'] } }]);
   }
 
   abrirListagemGrupoProfessor(){
-    this.router.navigate(['main', { outlets: { principal: ['listagem-atividades-grupo-professor'] } }]);
+    this.router.navigate(['geral/main', { outlets: { principal: ['listagem-atividades-grupo-professor'] } }]);
   }
 
   abrirListagemDiario(){
-    this.router.navigate(['main', { outlets: { principal: ['listagem-diarios-professor'] } }]);
+    this.router.navigate(['geral/main', { outlets: { principal: ['listagem-diarios-professor'] } }]);
   }
 
   apresentarPretestRegulacao() {

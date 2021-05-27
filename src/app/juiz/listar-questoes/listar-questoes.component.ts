@@ -73,14 +73,14 @@ export class ListarQuestoesComponent implements OnInit, OnChanges, AfterViewInit
   visualizar(questao) {
     if (this.login.getUsuarioLogado().grupoExperimento == Groups.control) {
       this.router.navigate([
-        'main',
+        'geral/main',
         { outlets: { principal: ['editor', this.assunto.pk(), questao.id] } },
       ]);
       return;
     }
 
     this.router.navigate([
-      'main',
+      'geral/main',
       { outlets: { principal: ['self-instruction', this.assunto.pk(), questao.id] } },
     ]);
   }
@@ -88,7 +88,7 @@ export class ListarQuestoesComponent implements OnInit, OnChanges, AfterViewInit
   alterar(questao: QuestaoProgramacao) {
     if (questao != undefined) {
       this.router.navigate([
-        'main',
+        'geral/main',
         { outlets: { principal: ['cadastro-questao', this.assunto.pk(), questao.id] } },
       ]);
     }

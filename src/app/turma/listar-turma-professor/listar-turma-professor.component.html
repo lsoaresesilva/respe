@@ -1,14 +1,12 @@
-<p-toast></p-toast>
-<h1>Turmas</h1>
 
-<p-toast [style]="{marginTop: '80px'}"></p-toast>
+<h1>Turmas</h1>
 
 <p-table [value]="turmas">
     <ng-template pTemplate="header">
        
     </ng-template>
     <ng-template pTemplate="body" let-rowData let-turma>
-        <tr [pContextMenuRow]="rowData">
+        <tr>
             <td>{{turma.nome}}</td>
         </tr>
     </ng-template>

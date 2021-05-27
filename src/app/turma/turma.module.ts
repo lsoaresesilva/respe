@@ -3,7 +3,6 @@ import { CommonModule } from '@angular/common';
 import { VisualizarTurmaComponent } from './visualizar-turma/visualizar-turma.component';
 import { CsclModule } from '../cscl/cscl.module';
 import { ButtonModule } from 'primeng/button';
-import { CadastrarEstudantesComponent } from './cadastrar-estudantes/cadastrar-estudantes.component';
 import { CadastrarTurmaComponent } from './cadastrar-turma/cadastrar-turma.component';
 import { FormsModule } from '@angular/forms';
 import { ToastModule } from 'primeng/toast';
@@ -19,7 +18,6 @@ import { FirebaseConfiguracao } from '../../environments/firebase';
 import { AngularFireModule } from '@angular/fire';
 import { AngularFireStorageModule } from '@angular/fire/storage';
 import { FileUploadModule } from 'primeng/fileupload';
-import { BrowserModule } from '@angular/platform-browser';
 import { FieldsetModule } from 'primeng/fieldset';
 import { EnviarMaterialComponent } from './enviar-material/enviar-material.component';
 import { AutoCompleteModule } from 'primeng/autocomplete';
@@ -42,9 +40,7 @@ import { ListarDiariosComponent } from './listar-diarios/listar-diarios.componen
     ListarProfessoresComponent,
     ListarTurmaComponent,
     ListarTurmaProfessorComponent,
-    ListarTurmaComponent,
     VisualizarTurmaComponent,
-    CadastrarEstudantesComponent,
     CadastrarTurmaComponent,
     ListarEstudantesComponent,
     EnvioMaterialComponent,
@@ -56,6 +52,7 @@ import { ListarDiariosComponent } from './listar-diarios/listar-diarios.componen
   ],
 
   imports: [
+    TableModule,
     ChartModule,
     AnalyticsModule,
     CsclModule,
@@ -64,18 +61,15 @@ import { ListarDiariosComponent } from './listar-diarios/listar-diarios.componen
     ButtonModule,
     FormsModule,
     AutoCompleteModule,
-    ToastModule,
+    
     InputTextModule,
-    TableModule,
+    
     SrlModule,
     ContextMenuModule,
     FileUploadModule,
-    BrowserModule,
     AngularFireModule.initializeApp(FirebaseConfiguracao),
     AngularFireStorageModule,
     FieldsetModule,
-    FileUploadModule,
-    TableModule,
     CardModule,
     DropdownModule,
     DialogModule,

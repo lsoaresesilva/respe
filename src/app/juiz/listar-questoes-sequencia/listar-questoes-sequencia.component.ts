@@ -41,31 +41,31 @@ export class ListarQuestoesSequenciaComponent implements OnChanges {
   abrirQuestao(questao) {
     if (questao instanceof QuestaoFechada) {
       this.router.navigate([
-        'main',
-        { outlets: { principal: ['visualizacao-questao-fechada', this.assunto.pk(), questao.id] } },
+        'geral/main',
+        { outlets: { principal: ['juiz', 'visualizacao-questao-fechada', this.assunto.pk(), questao.id] } },
       ]);
     } else if (questao instanceof QuestaoParsonProblem) {
       this.router.navigate([
-        'main',
+        'geral/main',
         { outlets: { principal: ['visualizar-questao-parson', this.assunto.pk(), questao.id] } },
       ]);
     }  else if (questao instanceof QuestaoProgramacaoCorrecao) {
       this.router.navigate([
-        'main',
+        'geral/main',
         { outlets: { principal: ['responder-questao-correcao', this.assunto.pk(), questao.id] } },
       ]);
     } 
     else {
       if (this.login.getUsuarioLogado().grupoExperimento === Groups.control) {
         this.router.navigate([
-          'main',
+          'geral/main',
           { outlets: { principal: ['editor', this.assunto.pk(), questao.id] } },
         ]);
         return;
       }
 
       this.router.navigate([
-        'main',
+        'geral/main',
         { outlets: { principal: ['self-instruction', this.assunto.pk(), questao.id] } },
       ]);
     }

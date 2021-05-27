@@ -21,11 +21,11 @@ export class ListarAtividadesGrupoProfessorComponent implements OnInit {
   ngOnInit(): void {}
 
   abrirCriacaoGrupo() {
-    this.router.navigate(['main', { outlets: { principal: ['criar-grupo'] } }]);
+    this.router.navigate(['geral/main', { outlets: { principal: ['criar-grupo'] } }]);
   }
 
   criarFrequencia() {
-    this.router.navigate(['main', { outlets: { principal: ['criar-frequencia'] } }]);
+    this.router.navigate(['geral/main', { outlets: { principal: ['criar-frequencia'] } }]);
   }
 
 
@@ -47,8 +47,8 @@ export class ListarAtividadesGrupoProfessorComponent implements OnInit {
 
   abrirAtividade(atividade){
     if(atividade.pk() != null){
-      //this.router.navigate(['main', { outlets: { principal: ['visualizacao-atividade-grupo-professor', atividade.pk()] } }]);
-      this.router.navigate(['main', { outlets: { principal: ['visualizacao-atividade-grupo-professor', atividade.pk()] } }]);
+      //this.router.navigate(['geral/main', { outlets: { principal: ['visualizacao-atividade-grupo-professor', atividade.pk()] } }]);
+      this.router.navigate(['geral/main', { outlets: { principal: ['visualizacao-atividade-grupo-professor', atividade.pk()] } }]);
     }
     
   }

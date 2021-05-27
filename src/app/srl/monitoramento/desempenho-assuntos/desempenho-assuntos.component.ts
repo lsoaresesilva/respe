@@ -31,7 +31,7 @@ export class DesempenhoAssuntosComponent implements AfterViewInit {
 
   abrirAssunto(assunto) {
     this.router.navigate([
-      'main',
+      'geral/main',
       { outlets: { principal: ['visualizacao-assunto', assunto.pk()] } },
     ]);
   }

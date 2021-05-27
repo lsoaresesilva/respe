@@ -49,14 +49,14 @@ export class ListarAssuntosAdminComponent implements OnInit {
   alterar(assunto: Assunto) {
     if (assunto != undefined) {
       this.router.navigate([
-        'main',
+        'geral/main',
         { outlets: { principal: ['atualizacao-assunto', assunto.pk()] } },
       ]);
     }
   }
 
   cadastrar() {
-    this.router.navigate(['main', { outlets: { principal: ['cadastro-assunto'] } }]);
+    this.router.navigate(['geral/main', { outlets: { principal: ['cadastro-assunto'] } }]);
   }
 
   deletar(assunto: Assunto) {
@@ -78,7 +78,7 @@ export class ListarAssuntosAdminComponent implements OnInit {
 
   abrirAssunto(assunto) {
     this.router.navigate([
-      'main',
+      'geral/main',
       { outlets: { principal: ['visualizar-assunto-admin', assunto.pk()] } },
     ]);
   }

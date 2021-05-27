@@ -80,7 +80,7 @@ export class CadastrarParsonComponent implements OnInit {
       this.assunto.save().subscribe(
         (resultado) => {
           this.router.navigate([
-            'main',
+            'geral/main',
             { outlets: { principal: ['visualizar-assunto-admin', this.assunto.pk()] } },
           ]);
         },

@@ -115,7 +115,7 @@ export class SelfInstructionComponent implements OnInit {
       this.autoInstrucao.save().subscribe(
         (resultado) => {
           this.router.navigate([
-            'main',
+            'geral/main',
             { outlets: { principal: ['editor', this.assunto.pk(), this.questao.id] } },
           ]);
         },

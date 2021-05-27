@@ -43,7 +43,6 @@ import { CodemirrorModule } from '@ctrl/ngx-codemirror';
 import { EditorDocumentacaoProjetoComponent } from './editor-documentacao-projeto/editor-documentacao-projeto.component';
 import { ModificarGrupoComponent } from './modificar-grupo/modificar-grupo.component';
 import { CriarFrequenciaComponent } from './criar-frequencia/criar-frequencia.component';
-import { PreencherFrequenciaComponent } from './preencher-frequencia/preencher-frequencia.component';
 import { VisualizarChatComponent } from './visualizar-chat/visualizar-chat.component';
  
 
@@ -51,7 +50,7 @@ import { VisualizarChatComponent } from './visualizar-chat/visualizar-chat.compo
   declarations: [ComentariosCodigoComponent, BoxComentarioComponent, 
     BoxNovoComentarioComponent, VisualizarConteudoComponent, SanitizeHtmlDirective, ConteudoProgramacaoComponent, 
     VisualizarSubmissaoQuestaoComponent, ListarEstudantesSubmissaoComponent, ListarPostagensComponent, CadastrarPostagemComponent, 
-    VisualizarPostagemComponent, CriacaoGrupoComponent, ListarAtividadesGrupoComponent, ListarAtividadesGrupoProfessorComponent, VisualizarAtividadeGrupoProfessorComponent, VisualizarSolucoesAtividadeGrupoComponent, EditorDocumentacaoProjetoComponent, ModificarGrupoComponent, CriarFrequenciaComponent, PreencherFrequenciaComponent, VisualizarChatComponent],
+    VisualizarPostagemComponent, CriacaoGrupoComponent, ListarAtividadesGrupoComponent, ListarAtividadesGrupoProfessorComponent, VisualizarAtividadeGrupoProfessorComponent, VisualizarSolucoesAtividadeGrupoComponent, EditorDocumentacaoProjetoComponent, ModificarGrupoComponent, CriarFrequenciaComponent, VisualizarChatComponent],
 
   imports: [
     CalendarModule,

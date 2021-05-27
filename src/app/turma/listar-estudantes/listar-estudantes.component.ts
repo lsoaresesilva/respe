@@ -86,7 +86,7 @@ export class ListarEstudantesComponent implements OnInit {
 
   abrirPerfilEstudante(estudante) {
     this.router.navigate([
-      'main',
+      'geral/main',
       { outlets: { principal: ['visualizacao-estudante', estudante.pk()] } },
     ]);
   }
@@ -94,7 +94,7 @@ export class ListarEstudantesComponent implements OnInit {
   cadastrarEstudante() {
     if (this.turma != null && this.turma.codigo != null) {
       this.router.navigate([
-        'main',
+        'geral/main',
         { outlets: { principal: ['cadastro-estudante', this.turma.codigo] } },
       ]);
     }
@@ -103,7 +103,7 @@ export class ListarEstudantesComponent implements OnInit {
   visualizarEstatisticas() {
     if (this.turma != null && this.turma.codigo != null) {
       this.router.navigate([
-        'main',
+        'geral/main',
         { outlets: { principal: ['analytics-turma', this.turma.codigo] } },
       ]);
     }
@@ -112,7 +112,7 @@ export class ListarEstudantesComponent implements OnInit {
   exportarAnalytics() {
     if (this.turma != null && this.turma.codigo != null) {
       this.router.navigate([
-        'main',
+        'geral/main',
         { outlets: { principal: ['exportar-dados', this.turma.codigo] } },
       ]);
     }

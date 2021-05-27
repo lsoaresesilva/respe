@@ -537,7 +537,7 @@ export class EditorProgramacaoComponent implements AfterViewInit, OnChanges, OnI
 
   visualizarDocumentacaoProjeto() {
     this.router.navigate([
-      'main',
+      'geral/main',
       {
         outlets: {
           principal: [

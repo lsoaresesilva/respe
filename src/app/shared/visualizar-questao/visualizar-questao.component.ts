@@ -54,7 +54,7 @@ export class VisualizarQuestaoComponent implements OnInit {
 
   abrirEditor(questao) {
     this.router.navigate([
-      'main',
+      'geral/main',
       { outlets: { principal: ['editor', this.assunto.pk(), questao.id] } },
     ]);
   }
@@ -62,21 +62,21 @@ export class VisualizarQuestaoComponent implements OnInit {
   responder(questao) {
     if (this.loginService.getUsuarioLogado().grupoExperimento == Groups.control) {
       this.router.navigate([
-        'main',
+        'geral/main',
         { outlets: { principal: ['editor', this.assunto.pk(), questao.id] } },
       ]);
       return;
     }
 
     this.router.navigate([
-      'main',
+      'geral/main',
       { outlets: { principal: ['self-instruction', this.assunto.pk(), questao.id] } },
     ]);
   }
   alterarQuestao(questao: QuestaoProgramacao) {
     if (questao != undefined) {
       this.router.navigate([
-        'main',
+        'geral/main',
         { outlets: { principal: ['atualizacao-questao', questao.id] } },
       ]);
     }
