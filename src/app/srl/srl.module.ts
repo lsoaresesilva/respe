@@ -20,7 +20,7 @@ import { CardModule } from 'primeng/card';
 import { PaginaNaoEncontradaComponent } from '../geral-module/pagina-nao-encontrada/pagina-nao-encontrada.component';
 import { RiscoEstudanteComponent } from './monitoramento/card-risco-estudante/card-risco-estudante.component';
 import { ProgressBarModule } from 'primeng/progressbar';
-import { RouterModule } from '@angular/router';
+import { RouterModule, Routes } from '@angular/router';
 import { FieldsetModule } from 'primeng/fieldset';
 import { RespostaSimilarQuestaoProgramacaoComponent } from './monitoramento/resposta-similar-questao-programacao/resposta-similar-questao-programacao.component';
 import { TreeTableModule } from 'primeng/treetable';
@@ -61,11 +61,18 @@ import { VisualizacaoDiarioComponent } from './monitoramento/visualizacao-diario
 import { ExibirSolucaoAlunosComponent } from './auto-reflexao/exibir-solucao-alunos/exibir-solucao-alunos.component';
 import { DiarioProgramacaoComponent } from './monitoramento/diario-programacao/diario-programacao.component';
 import { DialogService, DynamicDialogModule } from 'primeng/dynamicdialog';
+import { SelfInstructionColetivoComponent } from './planejamento/self-instruction-coletivo/self-instruction-coletivo.component';
+
+export const routes:Routes = [
+  {
+    path:'self-instruction-coletivo/:atividadeGrupoId/:grupoId',
+    component:SelfInstructionColetivoComponent,
+  }
+]
 
 @NgModule({
   declarations: [
     SelfInstructionComponent,
-    
     AutoReflexaoComponent,
     PaginaNaoEncontradaComponent,
     RiscoEstudanteComponent,
@@ -91,9 +98,11 @@ import { DialogService, DynamicDialogModule } from 'primeng/dynamicdialog';
     VisualizacaoDiarioComponent,
     ExibirSolucaoAlunosComponent,
     DiarioProgramacaoComponent,
+    SelfInstructionColetivoComponent
   ],
   imports: [
     SharedModule,
+    RouterModule.forChild(routes),
     DynamicDialogModule,
     CodeHighlighterModule,
     MessagesModule,

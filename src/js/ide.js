@@ -42,6 +42,53 @@ let editorProgramacao = null;
 let editorProgramacaoPadrao = null;
 // TODO: usar Observable para disparar quando o editor estiver pronto. Assim o model Editor pode ter acesso à instância do mônico quando ela estiver pronta.
 
+function iniciarEditorColaborativo(id) {
+  const config = {
+    apiKey: 'AIzaSyDQ6iOddJoIKtSQhXe-JYPNbyZFAFIIiHM',
+    authDomain: 'letscode-producao.firebaseapp.com',
+    databaseURL: 'https://letscode-producao.firebaseio.com',
+    projectId: 'letscode-producao',
+    storageBucket: 'letscode-producao.appspot.com',
+    messagingSenderId: '634494761220',
+    appId: '1:634494761220:web:08f409b7d6370966cf7851',
+  };
+
+  if (firebase.apps.length > 0) {
+    firebase
+      .app()
+      .delete()
+      .then(() => {
+        firebase.initializeApp(config);
+
+        const firepadRef = firebase.database().ref(`analiseProblema/${id}`);
+
+        const codeMirror = CodeMirror(document.getElementById('problema-container'), {});
+
+        const firepad = Firepad.fromCodeMirror(firepadRef, codeMirror, {
+          richTextToolbar: true,
+          defaultText: '',
+        });
+
+        codeMirror.setSize('100%', '100%');
+      });
+  } else {
+    firebase.initializeApp(config);
+
+    const firepadRef = firebase.database().ref(`analiseProblema/${id}`);
+
+    const codeMirror = CodeMirror(document.getElementById('problema-container'), {});
+
+    const firepad = Firepad.fromCodeMirror(firepadRef, codeMirror, {
+      richTextToolbar: true,
+      defaultText: '',
+    });
+
+    
+
+    codeMirror.setSize('100%', '100%');
+  }
+}
+
 function iniciarEditorDocumentacaoProjeto(id) {
   const config = {
     apiKey: 'AIzaSyDQ6iOddJoIKtSQhXe-JYPNbyZFAFIIiHM',
@@ -88,16 +135,7 @@ function iniciarEditorDocumentacaoProjeto(id) {
     codeMirror.setSize('100%', '100%');
   }
 
-  /* const firepadRef = firebase.database().ref(`documentacoesProjeto/${id}`);
-
-  const codeMirror = CodeMirror(document.getElementById('firepad-container'), {});
-
-  const firepad = Firepad.fromCodeMirror(firepadRef, codeMirror, {
-    richTextToolbar: true,
-    defaultText: '',
-  });
-
-  codeMirror.setSize('100%', '100%'); */
+  
 
   return null;
 }
