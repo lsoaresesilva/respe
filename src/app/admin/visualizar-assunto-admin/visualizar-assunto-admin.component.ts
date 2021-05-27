@@ -70,7 +70,7 @@ export class VisualizarAssuntoAdminComponent implements OnInit {
       }
 
       this.router.navigate([
-        'main',
+        'geral/main',
         {
           outlets: {
             principal: [path, this.assunto$.pk(), this.questaoSelecionada[0].id],
@@ -87,7 +87,7 @@ export class VisualizarAssuntoAdminComponent implements OnInit {
 
   cadastrar() {
     this.router.navigate([
-      'main',
+      'geral/main',
       { outlets: { principal: ['escolher-questao', this.assunto$.pk()] } },
     ]);
   }
@@ -95,7 +95,7 @@ export class VisualizarAssuntoAdminComponent implements OnInit {
   alterar(questao: QuestaoFechada) {
     if (questao != undefined) {
       this.router.navigate([
-        'main',
+        'geral/main',
         { outlets: { principal: ['atualizar-questao-fechada', this.assunto$.pk(), questao.id] } },
       ]);
     }

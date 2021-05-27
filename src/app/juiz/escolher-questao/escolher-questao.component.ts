@@ -24,21 +24,21 @@ export class EscolherQuestaoComponent implements OnInit {
 
   cadastrarQuestao() {
     this.router.navigate([
-      'main',
+      'geral/main',
       { outlets: { principal: ['cadastro-questao', this.assuntoId] } },
     ]);
   }
 
   cadastrarQuestaoFechada() {
     this.router.navigate([
-      'main',
+      'geral/main',
       { outlets: { principal: ['cadastro-questao-fechada', this.assuntoId] } },
     ]);
   }
 
   cadastrarQuestaoParson() {
     this.router.navigate([
-      'main',
+      'geral/main',
       { outlets: { principal: ['cadastro-questao-parson', this.assuntoId] } },
     ]);
   }

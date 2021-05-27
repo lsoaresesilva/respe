@@ -46,7 +46,7 @@ export class ApresentacaoService {
           {
             element: document.getElementById('problema'),
             intro:
-              "<h3>Pense no problema</h3><p>Você deve ler o enunciado acima e refletir nele para identificar o problema que irá realizar, em seguida escrever o que entendeu aqui. Muitos alunos ignoram essa etapa e criam algoritmos que resolvem problemas errados.</p>",
+              "<h3>Pense no problema</h3><p>Você deve ler o enunciado acima e refletir para identificar o problema que irá realizar, em seguida escrever o que entendeu aqui. Muitos alunos ignoram essa etapa e criam algoritmos que resolvem problemas errados.</p>",
           },
           {
             element: document.getElementById('variavel'),

@@ -33,7 +33,7 @@ export class EditorDocumentacaoProjetoComponent implements AfterViewInit {
   abrirEditor(){
     // http://localhost:4200/main/(principal:entrar-grupo/lZNkcSLF78nSlUlfrTdD/e5d78aa2-17f4-4bd9-8494-031a7f54d9ba/PU0EstYupXgDZ2a57X0X/aea71e7d-1211-4869-b211-53008ed61820)
     // http://localhost:4200/main/(principal:entrar-grupo/lZNkcSLF78nSlUlfrTdD/e5d78aa2-17f4-4bd9-8494-031a7f54d9ba/PU0EstYupXgDZ2a57X0X/6012cdd4-3a9a-4865-9d3f-99a29d5bbe0c)
-    this.router.navigate(['main', { outlets: { principal: ['entrar-grupo', this.atividadeGrupoId, this.grupoId, this.assuntoId, this.questaoId] } }]);
+    this.router.navigate(['geral/main', { outlets: { principal: ['entrar-grupo', this.atividadeGrupoId, this.grupoId, this.assuntoId, this.questaoId] } }]);
   }
 
 }

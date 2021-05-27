@@ -51,11 +51,11 @@ export class ListarPostagensComponent implements OnChanges {
 
   cadastrar() {
 
-    this.router.navigate(["main", { outlets: { principal: ['cadastrar-postagem', this.turma.pk()] } }]);
+    this.router.navigate(["geral/main", { outlets: { principal: ['cscl', 'cadastrar-postagem', this.turma.codigo] } }]);
   }
 
   abrirPostagem(postagem) {
-    this.router.navigate(["main", { outlets: { principal: ['visualizar-postagem', postagem.id] } }]);
+    this.router.navigate(["geral/main", { outlets: { principal: ['cscl', 'visualizar-postagem', postagem.id] } }]);
   }
 
   converterDate(dataFirestore){

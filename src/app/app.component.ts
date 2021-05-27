@@ -14,7 +14,7 @@ export class AppComponent implements OnInit{
   ngOnInit(): void {
   }
 
-  title = 'letscode';
+  title = '32bits';
 
   constructor(){
     Experiment.start(configuracao);

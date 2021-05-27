@@ -52,10 +52,7 @@ import { ConfirmDialogModule } from 'primeng/confirmdialog';
 import { ConfirmationService } from 'primeng/api';
 import { ScrollPanelModule } from 'primeng/scrollpanel';
 import { CsclModule } from '../cscl/cscl.module';
-import { ListarTurmaProfessorComponent } from '../turma/listar-turma-professor/listar-turma-professor.component';
-import { ListarProfessoresComponent } from '../turma/listar-professores/listar-professores.component';
 import { PanelModule } from 'primeng/panel';
-import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { CodeHighlighterModule } from 'primeng/codehighlighter';
 import { EditorProgramacaoComponent } from './editor/editor-programacao/editor-programacao.component';
 import { ResponderQuestaoProgramacaoLiteComponent } from './editor/responder-questao-programacao-lite/responder-questao-programacao-lite.component';
@@ -83,10 +80,66 @@ import { DadosQuestaoComponent } from './dados-questao/dados-questao.component';
 import {TerminalModule, TerminalService} from 'primeng/terminal';
 import { EditorIndependenteComponent } from './editor/editor-independente/editor-independente.component';
 import { ContainerEditorProgramacaoComponent } from './editor/container-editor-programacao/container-editor-programacao.component';
+import { RouterModule, Routes } from '@angular/router';
+import { MainComponent } from '../geral-module/main/main.component';
+import { AuthGuard } from '../guards/auth.guard';
+import { PageTrack } from '../guards/pageTrack.guard';
+import { VisualizarParsonComponent } from './visualizar-parson/visualizar-parson.component';
+import { DragDropModule } from '@angular/cdk/drag-drop';
+import { ChatbotModule } from '../chatbot/chatbot.module';
+import { MonitorService } from '../chatbot/monitor.service';
 
+
+export const routes: Routes = [
+  {
+    path: 'listar-assuntos',
+    component: ListarAssuntosComponent,
+    canActivate: [AuthGuard, PageTrack]
+  },
+  {
+    path: 'visualizar-assunto/:id',
+    component: VisualizarAssuntoComponent,
+    canActivate: [AuthGuard, PageTrack]
+  },
+  {
+    path: 'visualizacao-questao-fechada/:id',
+    component: VisualizarQuestaoFechadaComponent,
+    canActivate: [AuthGuard],
+  },
+  {
+    path: 'visualizacao-questao-fechada/:assuntoId/:questaoId',
+    component: VisualizarQuestaoFechadaComponent,
+    canActivate: [AuthGuard, PageTrack]
+  },
+
+  {
+    path: 'visualizacao-questao-parson/:assuntoId/:questaoId',
+    component: VisualizarParsonComponent,
+    canActivate: [AuthGuard, PageTrack]
+  },
+  {
+    path: 'editor/:assuntoId/:questaoId',
+    component: ResponderQuestaoProgramacao,
+    canActivate: [AuthGuard, PageTrack]
+  },
+
+  {
+    path: 'editor-programacao',
+    component: EditorIndependenteComponent,
+    canActivate: [AuthGuard, PageTrack]
+  },
+
+
+  {
+    path: 'entrar-grupo/:atividadeGrupoId/:grupoId/:assuntoId/:questaoId',
+    component: ResponderQuestaoProgramacao,
+    canActivate: [AuthGuard, PageTrack]
+  },
+];
 
 @NgModule({
   declarations: [
+    VisualizarParsonComponent,
     BreadcrumbAssuntoComponent, 
     DadosQuestaoComponent,
     VisualizarTestesComponent,
@@ -100,6 +153,7 @@ import { ContainerEditorProgramacaoComponent } from './editor/container-editor-p
     VisualizarAssuntoComponent,
     CadastrarAssuntosComponent,
     CadastrarQuestoesFechadasComponent,
+    
     ListarQuestoesFechadasComponent,
     VisualizarQuestaoFechadaComponent,
     CadastrarAlternativasComponent,
@@ -124,12 +178,14 @@ import { ContainerEditorProgramacaoComponent } from './editor/container-editor-p
   imports: [
     SrlModule,
     ChatModule,
+    /* CsclModule, */
+    RouterModule.forChild(routes),
     CommonModule,
     SplitButtonModule,
     SkeletonModule,
     TerminalModule,
     TimelineModule,
-    CsclModule,
+    
     TooltipModule,
     DynamicDialogModule,
     KnobModule,
@@ -139,7 +195,6 @@ import { ContainerEditorProgramacaoComponent } from './editor/container-editor-p
     DropdownModule,
     FormsModule,
     ToggleButtonModule,
-    BrowserAnimationsModule,
     ReactiveFormsModule,
     SpinnerModule,
     CodeHighlighterModule,
@@ -155,6 +210,7 @@ import { ContainerEditorProgramacaoComponent } from './editor/container-editor-p
     CardModule,
     RadioButtonModule,
     DialogModule,
+    DragDropModule,
     FieldsetModule,
     InputMaskModule,
     ConfirmDialogModule,
@@ -182,7 +238,7 @@ import { ContainerEditorProgramacaoComponent } from './editor/container-editor-p
   entryComponents: [
     ExibirSolucaoComponent
 ],
-  providers: [MessageService, LoginService, EditorService, ConfirmationService, DialogService],
+  providers: [MessageService, MonitorService, LoginService, EditorService, ConfirmationService, DialogService],
   schemas: [CUSTOM_ELEMENTS_SCHEMA],
 })
 export class JuizModule {}

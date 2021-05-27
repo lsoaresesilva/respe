@@ -57,7 +57,7 @@ export class VisualizarAtividadeGrupoProfessorComponent implements OnInit {
   }
 
   abrirSolucoesAtividadeGrupo(grupo:Grupo){
-    this.router.navigate(['main', { outlets: { principal: ['visualizacao-solucao-atividade-grupo', this.atividadeGrupo.pk(), grupo.id] } }]);
+    this.router.navigate(['geral/main', { outlets: { principal: ['visualizacao-solucao-atividade-grupo', this.atividadeGrupo.pk(), grupo.id] } }]);
   }
 
   gerarLink(grupo:Grupo){

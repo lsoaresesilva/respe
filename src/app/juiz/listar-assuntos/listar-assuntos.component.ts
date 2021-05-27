@@ -75,12 +75,12 @@ export class ListarAssuntosComponent implements OnInit {
 
   abrirAssunto(assunto) {
     this.router.navigate([
-      'main',
-      { outlets: { principal: ['visualizacao-assunto', assunto.pk()] } },
+      'geral/main',
+      { outlets: { principal: ['juiz','visualizar-assunto', assunto.pk()] } },
     ]);
   }
 
   registrar() {
-    this.router.navigate(['main', { outlets: { principal: ['codigo-similar'] } }]);
+    this.router.navigate(['geral/main', { outlets: { principal: ['codigo-similar'] } }]);
   }
 }

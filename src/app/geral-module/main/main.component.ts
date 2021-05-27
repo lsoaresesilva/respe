@@ -17,7 +17,7 @@ import TempoOnline from 'src/app/model/analytics/tempoOnline';
   styleUrls: ['./main.component.css'],
 })
 export class MainComponent implements OnInit {
-  itens: MenuItem[];
+
   usuario: Usuario;
   visibilidadeQuestionario;
 
@@ -37,130 +37,63 @@ export class MainComponent implements OnInit {
     }
   }
 
-  criarMenu() {
-    if (this.usuario.perfil === PerfilUsuario.admin) {
-      this.itens = [
-        {
-          label: 'Turmas',
-          command: () => {
-            this.router.navigate(['main', { outlets: { principal: ['listagem-turmas'] } }]);
-          },
-        },
-        {
-          label: 'Estudantes',
-          command: () => {
-            this.router.navigate(['main', { outlets: { principal: ['listagem-estudantes'] } }]);
-          },
-        },
-        {
-          label: 'Professores',
-          command: () => {
-            this.router.navigate(['main', { outlets: { principal: ['listagem-estudantes'] } }]);
-          },
-        },
-        {
-          label: 'Assuntos',
-          command: () => {
-            this.router.navigate(['main', { outlets: { principal: ['listagem-assuntos'] } }]);
-          },
-        },
-
-        {
-          label: 'Sair',
-          command: () => {
-            this.logout();
-          },
-        },
-      ];
-    } else if (this.usuario.perfil == PerfilUsuario.professor) {
-      this.itens = [
-        {
-          label: 'Turmas',
-          command: () => {
-            this.router.navigate(['main', { outlets: { principal: ['listagem-turmas'] } }]);
-          },
-        },
-        {
-          label: 'Sair',
-          command: () => {
-            this.logout();
-          },
-        },
-      ];
-    } else {
-      if (this.usuario.grupoExperimento == Groups.control) {
-        this.itens = [
-          {
-            label: 'Assuntos',
-            command: () => {
-              this.router.navigate(['main', { outlets: { principal: ['listagem-assuntos'] } }]);
-            },
-            id: 'assuntosMenu',
-          },
-        ];
-      }
-    }
-  }
-
   exportarDados(){
-    this.router.navigate(['main', { outlets: { principal: ['exportar-dados'] } }]);
+    this.router.navigate(['geral/main', { outlets: { principal: ['exportar-dados'] } }]);
   }
 
   ngOnInit() {
-    this.criarMenu();
     this.apresentarPretestRegulacao();
   }
 
   abrirMateriaisEstudo(){
-    this.router.navigate(['main', { outlets: { principal: ['listar-videos'] } }]);
+    this.router.navigate(['geral/main', { outlets: { principal: ['aprendizado', 'listar-videos'] } }]);
   }
 
   abrirTurma(){
-    this.router.navigate(['main', { outlets: { principal: ['minha-turma'] } }]);
+    this.router.navigate(['geral/main', { outlets: { principal: ['turma', 'minha-turma'] } }]);
   }
   
   abrirEditorProgramacao(){
-    this.router.navigate(['main', { outlets: { principal: ['editor-programacao'] } }]);
+    this.router.navigate(['geral/main', { outlets: { principal: ['juiz', 'editor-programacao'] } }]);
   }
 
   abrirDesempenho() {
-    this.router.navigate(['main', { outlets: { principal: ['meu-desempenho'] } }]);
+    this.router.navigate(['geral/main', { outlets: { principal: ['srl', 'meu-desempenho'] } }]);
   }
 
-  abrirPlanejamento() {
-    this.router.navigate(['main', { outlets: { principal: ['listagem-assuntos'] } }]);
-  }
 
   abrirAtividadesGrupo() {
-    this.router.navigate(['main', { outlets: { principal: ['listagem-atividades-grupo'] } }]);
+    this.router.navigate(['geral/main', { outlets: { principal: ['cscl', 'listagem-atividades-grupo'] } }]);
   }
 
   abrirDiario() {
-    this.router.navigate(['main', { outlets: { principal: ['listagem-diarios'] } }]);
+    this.router.navigate(['geral/main', { outlets: { principal: ['srl', 'listagem-diarios'] } }]);
+    
   }
 
   abrirAssuntos() {
-    this.router.navigate(['main', { outlets: { principal: ['listagem-assuntos'] } }]);
+    this.router.navigate(['geral/main', { outlets: { principal: ['juiz', 'listar-assuntos'] } }]);
+    
   }
 
   abrirAssuntosAdmin() {
-    this.router.navigate(['main', { outlets: { principal: ['listar-assuntos-admin'] } }]);
+    this.router.navigate(['geral/main', { outlets: { principal: ['listar-assuntos-admin'] } }]);
   }
 
   abrirRanking() {
-    this.router.navigate(['main', { outlets: { principal: ['ranking'] } }]);
+    this.router.navigate(['geral/main', { outlets: { principal: ['gamification', 'ranking'] } }]);
   }
 
   abrirListagemTurmas() {
-    this.router.navigate(['main', { outlets: { principal: ['listagem-turmas'] } }]);
+    this.router.navigate(['geral/main', { outlets: { principal: ['listagem-turmas'] } }]);
   }
 
   abrirListagemGrupoProfessor(){
-    this.router.navigate(['main', { outlets: { principal: ['listagem-atividades-grupo-professor'] } }]);
+    this.router.navigate(['geral/main', { outlets: { principal: ['listagem-atividades-grupo-professor'] } }]);
   }
 
   abrirListagemDiario(){
-    this.router.navigate(['main', { outlets: { principal: ['listagem-diarios-professor'] } }]);
+    this.router.navigate(['geral/main', { outlets: { principal: ['listagem-diarios-professor'] } }]);
   }
 
   apresentarPretestRegulacao() {

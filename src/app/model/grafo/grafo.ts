@@ -67,7 +67,7 @@ export default class Grafo {
         }
 
         if (
-          proximoProximo == 'visualizacao-assunto' &&
+          proximoProximo == 'visualizar-assunto' &&
           source == 'editor' &&
           target == 'self-instruction'
         ) {

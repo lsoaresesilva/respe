@@ -1,8 +1,6 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { SelfInstructionComponent } from './planejamento/self-instruction/self-instruction.component';
-import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
-import { BrowserModule } from '@angular/platform-browser';
 import { FormsModule } from '@angular/forms';
 import { InputTextareaModule } from 'primeng/inputtextarea';
 import { DropdownModule } from 'primeng/dropdown';
@@ -61,13 +59,35 @@ import { VisualizacaoDiarioComponent } from './monitoramento/visualizacao-diario
 import { ExibirSolucaoAlunosComponent } from './auto-reflexao/exibir-solucao-alunos/exibir-solucao-alunos.component';
 import { DiarioProgramacaoComponent } from './monitoramento/diario-programacao/diario-programacao.component';
 import { DialogService, DynamicDialogModule } from 'primeng/dynamicdialog';
-import { SelfInstructionColetivoComponent } from './planejamento/self-instruction-coletivo/self-instruction-coletivo.component';
+import { AuthGuard } from '../guards/auth.guard';
+import { ExperimentoGuard } from '../guards/experimento.guard';
+import { PageTrack } from '../guards/pageTrack.guard';
 
 export const routes:Routes = [
   {
+    path: 'index',
+    component: AcompanharDesempenhoComponent,
+    canActivate: [AuthGuard, ExperimentoGuard, PageTrack],
+  },
+  {
+    path: 'meu-desempenho',
+    component: AcompanharDesempenhoComponent,
+    canActivate: [AuthGuard, ExperimentoGuard, PageTrack],
+  },
+  {
+    path: 'listagem-diarios',
+    component: ListagemDiarioComponent,
+    canActivate: [AuthGuard, ExperimentoGuard, PageTrack],
+  },
+  {
+    path: 'self-instruction/:assuntoId/:questaoId',
+    component: SelfInstructionComponent,
+    canActivate: [AuthGuard, ExperimentoGuard, PageTrack]
+  },
+  /* {
     path:'self-instruction-coletivo/:atividadeGrupoId/:grupoId',
     component:SelfInstructionColetivoComponent,
-  }
+  } */
 ]
 
 @NgModule({
@@ -97,10 +117,10 @@ export const routes:Routes = [
     DesempenhoMetricasComponent,
     VisualizacaoDiarioComponent,
     ExibirSolucaoAlunosComponent,
-    DiarioProgramacaoComponent,
-    SelfInstructionColetivoComponent
+    DiarioProgramacaoComponent
   ],
   imports: [
+    RouterModule.forChild(routes),
     SharedModule,
     RouterModule.forChild(routes),
     DynamicDialogModule,
@@ -109,8 +129,6 @@ export const routes:Routes = [
     MessageModule,
     CommonModule,
     CheckboxModule,
-    BrowserModule,
-    BrowserAnimationsModule,
     FormsModule,
     ProgressBarModule,
     InputTextareaModule,

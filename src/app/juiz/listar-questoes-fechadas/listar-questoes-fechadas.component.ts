@@ -54,7 +54,7 @@ export class ListarQuestoesFechadasComponent implements OnInit {
 
   visualizar(questao: QuestaoFechada) {
     this.router.navigate([
-      'main',
+      'geral/main',
       { outlets: { principal: ['visualizacao-questao-fechada', this.assunto.pk(), questao.id] } },
     ]);
   }
@@ -62,7 +62,7 @@ export class ListarQuestoesFechadasComponent implements OnInit {
   alterar(questao: QuestaoFechada) {
     if (questao != undefined) {
       this.router.navigate([
-        'main',
+        'geral/main',
         { outlets: { principal: ['cadastro-questao-fechada', this.assunto.pk(), questao.id] } },
       ]);
     }
@@ -120,6 +120,6 @@ export class ListarQuestoesFechadasComponent implements OnInit {
   }
 
   cadastrar() {
-    this.router.navigate(['main', { outlets: { principal: ['cadastro-questao-fechada'] } }]);
+    this.router.navigate(['geral/main', { outlets: { principal: ['cadastro-questao-fechada'] } }]);
   }
 }

@@ -3,7 +3,6 @@ import { CommonModule } from '@angular/common';
 import { VisualizarTurmaComponent } from './visualizar-turma/visualizar-turma.component';
 import { CsclModule } from '../cscl/cscl.module';
 import { ButtonModule } from 'primeng/button';
-import { CadastrarEstudantesComponent } from './cadastrar-estudantes/cadastrar-estudantes.component';
 import { CadastrarTurmaComponent } from './cadastrar-turma/cadastrar-turma.component';
 import { FormsModule } from '@angular/forms';
 import { ToastModule } from 'primeng/toast';
@@ -19,7 +18,6 @@ import { FirebaseConfiguracao } from '../../environments/firebase';
 import { AngularFireModule } from '@angular/fire';
 import { AngularFireStorageModule } from '@angular/fire/storage';
 import { FileUploadModule } from 'primeng/fileupload';
-import { BrowserModule } from '@angular/platform-browser';
 import { FieldsetModule } from 'primeng/fieldset';
 import { EnviarMaterialComponent } from './enviar-material/enviar-material.component';
 import { AutoCompleteModule } from 'primeng/autocomplete';
@@ -35,6 +33,24 @@ import { ChartModule } from 'primeng/chart';
 import { GrafoEstudantesComponent } from './grafo-estudantes/grafo-estudantes.component';
 import { NgxGraphModule } from '@swimlane/ngx-graph';
 import { ListarDiariosComponent } from './listar-diarios/listar-diarios.component';
+import { RouterModule, Routes } from '@angular/router';
+import { PageTrack } from '../guards/pageTrack.guard';
+import { AuthGuard } from '../guards/auth.guard';
+
+
+export const routes:Routes = [
+
+  {
+    path: 'minha-turma',
+    component: VisualizarTurmaComponent,
+    canActivate: [AuthGuard, PageTrack],
+  },
+  {
+    path: 'visualizacao-turma/:codigoTurma',
+    component: VisualizarTurmaComponent,
+    canActivate: [AuthGuard]
+  },
+]
 
 @NgModule({
   declarations: [
@@ -42,9 +58,7 @@ import { ListarDiariosComponent } from './listar-diarios/listar-diarios.componen
     ListarProfessoresComponent,
     ListarTurmaComponent,
     ListarTurmaProfessorComponent,
-    ListarTurmaComponent,
     VisualizarTurmaComponent,
-    CadastrarEstudantesComponent,
     CadastrarTurmaComponent,
     ListarEstudantesComponent,
     EnvioMaterialComponent,
@@ -56,6 +70,8 @@ import { ListarDiariosComponent } from './listar-diarios/listar-diarios.componen
   ],
 
   imports: [
+    RouterModule.forChild(routes),
+    TableModule,
     ChartModule,
     AnalyticsModule,
     CsclModule,
@@ -66,16 +82,13 @@ import { ListarDiariosComponent } from './listar-diarios/listar-diarios.componen
     AutoCompleteModule,
     ToastModule,
     InputTextModule,
-    TableModule,
+    
     SrlModule,
     ContextMenuModule,
     FileUploadModule,
-    BrowserModule,
     AngularFireModule.initializeApp(FirebaseConfiguracao),
     AngularFireStorageModule,
     FieldsetModule,
-    FileUploadModule,
-    TableModule,
     CardModule,
     DropdownModule,
     DialogModule,
