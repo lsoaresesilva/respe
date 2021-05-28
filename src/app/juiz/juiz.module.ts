@@ -4,14 +4,11 @@ import { ButtonModule } from 'primeng/button';
 import { DropdownModule } from 'primeng/dropdown';
 import { VisualizarTestesComponent } from './visualizar-testes/visualizar-testes.component';
 import { TableModule, ContextMenuRow } from 'primeng/table';
-import { CadastrarQuestoesComponent } from './cadastrar-questoes/cadastrar-questoes.component';
 import { ReactiveFormsModule, FormsModule } from '@angular/forms';
 import { SpinnerModule } from 'primeng/spinner';
-import { CadastrarTesteCaseComponent } from './cadastrar-teste-case/cadastrar-teste-case.component';
 import { InputTextareaModule } from 'primeng/inputtextarea';
 import { CardModule } from 'primeng/card';
 import {TooltipModule} from 'primeng/tooltip';
-import { CheckboxModule } from 'primeng/checkbox';
 import { ListarQuestoesComponent } from './listar-questoes/listar-questoes.component';
 import { MessageService, SharedModule } from 'primeng/api';
 import { HttpClientModule } from '@angular/common/http';
@@ -31,7 +28,6 @@ import {KnobModule} from 'primeng/knob';
 import { VisualizarExecucacao } from './vizualizar-execucao/vizualizar-execucao.component';
 
 import { RadioButtonModule } from 'primeng/radiobutton';
-import { CadastrarAssuntosComponent } from './cadastrar-assuntos/cadastrar-assuntos.component';
 import { ListarAssuntosComponent } from './listar-assuntos/listar-assuntos.component';
 import { VisualizarAssuntoComponent } from './visualizar-assunto/visualizar-assunto.component';
 import { ListarPedidosAjudaComponent } from './listar-pedidos-ajuda/listar-pedidos-ajuda.component';
@@ -39,8 +35,7 @@ import { VisualizarPedidoAjudaComponent } from './visualizar-pedido-ajuda/visual
 import { LoginService } from '../login-module/login.service';
 import { EditorService } from './editor.service';
 
-import { CadastrarAlternativasComponent } from './cadastrar-alternativas/cadastrar-alternativas.component';
-import { CadastrarQuestoesFechadasComponent } from './cadastrar-questoes-fechadas/cadastrar-questoes-fechadas.component';
+import { CadastrarAlternativasComponent } from '../admin/cadastrar-alternativas/cadastrar-alternativas.component';
 import { VisualizarQuestaoFechadaComponent } from './visualizar-questao-fechada/visualizar-questao-fechada.component';
 import { ListarQuestoesFechadasComponent } from './listar-questoes-fechadas/listar-questoes-fechadas.component';
 import { EscolherQuestaoComponent } from './escolher-questao/escolher-questao.component';
@@ -52,10 +47,7 @@ import { ConfirmDialogModule } from 'primeng/confirmdialog';
 import { ConfirmationService } from 'primeng/api';
 import { ScrollPanelModule } from 'primeng/scrollpanel';
 import { CsclModule } from '../cscl/cscl.module';
-import { ListarTurmaProfessorComponent } from '../turma/listar-turma-professor/listar-turma-professor.component';
-import { ListarProfessoresComponent } from '../turma/listar-professores/listar-professores.component';
 import { PanelModule } from 'primeng/panel';
-import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { CodeHighlighterModule } from 'primeng/codehighlighter';
 import { EditorProgramacaoComponent } from './editor/editor-programacao/editor-programacao.component';
 import { ResponderQuestaoProgramacaoLiteComponent } from './editor/responder-questao-programacao-lite/responder-questao-programacao-lite.component';
@@ -83,26 +75,86 @@ import { DadosQuestaoComponent } from './dados-questao/dados-questao.component';
 import {TerminalModule, TerminalService} from 'primeng/terminal';
 import { EditorIndependenteComponent } from './editor/editor-independente/editor-independente.component';
 import { ContainerEditorProgramacaoComponent } from './editor/container-editor-programacao/container-editor-programacao.component';
+import { RouterModule, Routes } from '@angular/router';
+import { MainComponent } from '../geral-module/main/main.component';
+import { AuthGuard } from '../guards/auth.guard';
+import { PageTrack } from '../guards/pageTrack.guard';
+import { VisualizarParsonComponent } from './visualizar-parson/visualizar-parson.component';
+import { DragDropModule } from '@angular/cdk/drag-drop';
+import { ChatbotModule } from '../chatbot/chatbot.module';
+import { MonitorService } from '../chatbot/monitor.service';
+import { BlockUIModule } from 'primeng/blockui';
 
+export const routes: Routes = [
+  {
+    path: 'listar-assuntos',
+    component: ListarAssuntosComponent,
+    canActivate: [AuthGuard, PageTrack]
+  },
+  
+
+  {
+    path: 'visualizar-assunto/:id',
+    component: VisualizarAssuntoComponent,
+    canActivate: [AuthGuard, PageTrack]
+  },
+  {
+    path: 'visualizacao-questao-fechada/:id',
+    component: VisualizarQuestaoFechadaComponent,
+    canActivate: [AuthGuard],
+  },
+  {
+    path: 'visualizacao-questao-fechada/:assuntoId/:questaoId',
+    component: VisualizarQuestaoFechadaComponent,
+    canActivate: [AuthGuard, PageTrack]
+  },
+
+  {
+    path: 'visualizar-questao-parson/:assuntoId/:questaoId',
+    component: VisualizarParsonComponent,
+    canActivate: [AuthGuard, PageTrack]
+  },
+  {
+    path: 'editor/:assuntoId/:questaoId',
+    component: ResponderQuestaoProgramacao,
+    canActivate: [AuthGuard, PageTrack]
+  },
+
+  {
+    path: 'editor-programacao',
+    component: EditorIndependenteComponent,
+    canActivate: [AuthGuard, PageTrack]
+  },
+
+
+  {
+    path: 'entrar-grupo/:atividadeGrupoId/:grupoId/:assuntoId/:questaoId',
+    component: ResponderQuestaoProgramacao,
+    canActivate: [AuthGuard, PageTrack]
+  },
+
+
+  
+];
 
 @NgModule({
   declarations: [
+    
+    VisualizarParsonComponent,
     BreadcrumbAssuntoComponent, 
     DadosQuestaoComponent,
     VisualizarTestesComponent,
-    CadastrarQuestoesComponent,
-    CadastrarTesteCaseComponent,
+    
     ListarQuestoesComponent,
     ResponderQuestaoProgramacao,
     ResponderQuestaoProgramacao,
     VisualizarExecucacao,
     ListarAssuntosComponent,
     VisualizarAssuntoComponent,
-    CadastrarAssuntosComponent,
-    CadastrarQuestoesFechadasComponent,
+    
+    
     ListarQuestoesFechadasComponent,
     VisualizarQuestaoFechadaComponent,
-    CadastrarAlternativasComponent,
     ListarPedidosAjudaComponent,
     VisualizarPedidoAjudaComponent,
     EscolherQuestaoComponent,
@@ -124,27 +176,26 @@ import { ContainerEditorProgramacaoComponent } from './editor/container-editor-p
   imports: [
     SrlModule,
     ChatModule,
+    /* CsclModule, */
+    RouterModule.forChild(routes),
     CommonModule,
     SplitButtonModule,
     SkeletonModule,
     TerminalModule,
     TimelineModule,
-    CsclModule,
+    BlockUIModule,
     TooltipModule,
     DynamicDialogModule,
     KnobModule,
     TableModule,
     PanelModule,
     ButtonModule,
-    DropdownModule,
     FormsModule,
     ToggleButtonModule,
-    BrowserAnimationsModule,
     ReactiveFormsModule,
     SpinnerModule,
     CodeHighlighterModule,
     InputTextareaModule,
-    CheckboxModule,
     ContextMenuModule,
     HttpClientModule,
     ProgressSpinnerModule,
@@ -155,6 +206,7 @@ import { ContainerEditorProgramacaoComponent } from './editor/container-editor-p
     CardModule,
     RadioButtonModule,
     DialogModule,
+    DragDropModule,
     FieldsetModule,
     InputMaskModule,
     ConfirmDialogModule,
@@ -165,13 +217,10 @@ import { ContainerEditorProgramacaoComponent } from './editor/container-editor-p
   ],
   exports: [
     VisualizarTestesComponent,
-    CadastrarQuestoesComponent,
+   
     ListarQuestoesComponent,
-    CadastrarTesteCaseComponent,
-    CadastrarAssuntosComponent,
     ListarAssuntosComponent,
     VisualizarAssuntoComponent,
-    CadastrarQuestoesFechadasComponent,
     ListarQuestoesFechadasComponent,
     VisualizarQuestaoFechadaComponent,
     ResponderQuestaoProgramacaoLiteComponent,
@@ -182,7 +231,7 @@ import { ContainerEditorProgramacaoComponent } from './editor/container-editor-p
   entryComponents: [
     ExibirSolucaoComponent
 ],
-  providers: [MessageService, LoginService, EditorService, ConfirmationService, DialogService],
+  providers: [MessageService, MonitorService, LoginService, EditorService, ConfirmationService, DialogService],
   schemas: [CUSTOM_ELEMENTS_SCHEMA],
 })
 export class JuizModule {}

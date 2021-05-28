@@ -34,18 +34,18 @@ export class VisualizarTurmaComponent implements OnInit {
 
   visualizarEstudantes(minhaTurma) {
     this.router.navigate([
-      'main',
+      'geral/main',
       { outlets: { principal: ['listagem-estudantes', minhaTurma.codigo] } },
     ]);
   }
   enviarMaterial(turma) {
-    this.router.navigate(['main', { outlets: { principal: ['enviar-material', turma.pk()] } }]);
+    this.router.navigate(['geral/main', { outlets: { principal: ['enviar-material', turma.pk()] } }]);
   }
 
   adicionarMaterial(turma) {
-    this.router.navigate(['main', { outlets: { principal: ['envio-material', turma.pk()] } }]);
+    this.router.navigate(['geral/main', { outlets: { principal: ['envio-material', turma.pk()] } }]);
   }
   listarMateriais(turma) {
-    this.router.navigate(['main', { outlets: { principal: ['listar-materiais', turma.pk()] } }]);
+    this.router.navigate(['geral/main', { outlets: { principal: ['listar-materiais', turma.pk()] } }]);
   }
 }

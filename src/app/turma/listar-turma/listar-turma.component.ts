@@ -36,7 +36,7 @@ export class ListarTurmaComponent implements OnInit {
   
   }
   // abrirPostagensTurma(turma){
-  //   this.router.navigate(['main', { outlets: { principal: ['listar-postagens', turma.pk()] } }]);
+  //   this.router.navigate(['geral/main', { outlets: { principal: ['listar-postagens', turma.pk()] } }]);
   // }
   visualizar(turma: Turma) {
     this.messageService.add({ severity: 'info', summary: 'Estudante selecionado', detail: turma.nome});

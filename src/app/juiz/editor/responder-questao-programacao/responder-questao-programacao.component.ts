@@ -142,7 +142,7 @@ export class ResponderQuestaoProgramacao implements OnInit, AfterViewInit, OnCha
 
   visualizarPlanejamento(){
     this.router.navigate([
-      'main',
+      'geral/main',
       { outlets: { principal: ['self-instruction-editor', this.assunto.pk(), this.questao.id] } },
     ]);
   }
@@ -347,7 +347,7 @@ export class ResponderQuestaoProgramacao implements OnInit, AfterViewInit, OnCha
 
   /* listarSubmissao() {
     this.router.navigate([
-      'main',
+      'geral/main',
       { outlets: { principal: ['estudantes-questao', this.assunto.id, this.questao.id] } },
     ]);
   } */

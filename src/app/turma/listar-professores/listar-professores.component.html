@@ -1,17 +1,15 @@
-<p-toast></p-toast>
 <h1>Professor</h1>
-<div *ngIf="usuario.perfil == 3">
+<!-- <div *ngIf="usuario.perfil == 3">
    <p-contextMenu #cm [model]="items"></p-contextMenu>
-</div>
+</div> -->
 
-<p-toast [style]="{marginTop: '80px'}"></p-toast>
 
 <p-table [value]="professores" >
     <ng-template pTemplate="header">
     
     </ng-template>
     <ng-template pTemplate="body" let-rowData let-professor>
-        <tr [pContextMenuRow]="rowData">
+        <tr>
             <td>{{professor.nome}}</td>
         </tr>
     </ng-template>

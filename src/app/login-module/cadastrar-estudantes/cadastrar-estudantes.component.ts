@@ -8,6 +8,9 @@ import { ConhecimentoProgramacao } from 'src/app/model/enums/conhecimentoProgram
 import { Genero } from 'src/app/model/enums/genero';
 import { FaixaEtaria } from 'src/app/model/enums/faixaEtaria';
 import { Groups } from 'src/app/model/experimento/groups';
+import ConfiguracaoEditor from 'src/app/model/configuracoes/configuracaoEditor';
+import Query from 'src/app/model/firestore/query';
+import { configuracao } from 'src/app/model/experimento/old_check_to_delete/config';
 
 @Component({
   selector: 'app-cadastrar-estudantes',
@@ -92,18 +95,27 @@ export class CadastrarEstudantesComponent implements OnInit {
     this.usuario.validar().subscribe(
       (resultado) => {
         if (resultado) {
-          this.usuario.salvar(PerfilUsuario.estudante, Groups.experimentalA).subscribe(
-            () => {
-              this.visibilidadeCadastro = true;
-            },
-            (err) => {
-              this.messageService.add({
-                severity: 'error',
-                summary: 'Houve um erro:',
-                detail: err.toString(),
-              });
+          ConfiguracaoEditor.getByQuery(new Query("codigoTurma", "==", this.usuario.turma.codigo)).subscribe(configuracao=>{
+            let grupo = Groups.experimentalA;
+            if(configuracao != null && configuracao.grupoExperimental != null){
+              grupo = configuracao.grupoExperimental;
             }
-          );
+
+            this.usuario.salvar(PerfilUsuario.estudante, grupo).subscribe(
+              () => {
+                this.visibilidadeCadastro = true;
+              },
+              (err) => {
+                this.messageService.add({
+                  severity: 'error',
+                  summary: 'Houve um erro:',
+                  detail: err.toString(),
+                });
+              }
+            );
+          })
+
+          
         }
       },
       (err) => {

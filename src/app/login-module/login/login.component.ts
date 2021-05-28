@@ -14,24 +14,30 @@ import { PerfilUsuario } from 'src/app/model/enums/perfilUsuario';
   styleUrls: ['./login.component.css'],
 })
 export class LoginComponent implements OnInit {
-  usuario: Usuario;
+  usuario:Usuario;
   items: MenuItem[];
+  loading;
+  blocked: boolean;
 
   constructor(
     private router: Router,
     private login: LoginService,
     private messageService: MessageService
   ) {
-    this.usuario = new Usuario(null, null, null, 0, null, null);
+    this.loading = false;
     this.items = [
       {
         label: 'Quero aprender a programar',
         url: 'http://www.32bits.codes:2368/',
       },
     ];
+
+    this.usuario = new Usuario(null, "", "", 0, null, null);
   }
 
-  ngOnInit() {}
+  ngOnInit() {
+    
+  }
 
   acessar() {
     if (!this.usuario.validarLogin()) {
@@ -42,10 +48,19 @@ export class LoginComponent implements OnInit {
         detail: 'Você não preencheu o usuário ou senha.',
       });
     } else {
+      this.loading = true;
       this.login.logar(this.usuario).subscribe((resultado) => {
         // Iniciar timer
 
         this.redirecionar(resultado);
+      },
+      (err) => {
+        this.messageService.add({
+          severity: 'error',
+          summary: 'Houve um erro',
+          detail: 'Não foi possível realizar o login: '+ err.toString(),
+        });
+        this.loading = false;
       });
     }
   }
@@ -55,22 +70,15 @@ export class LoginComponent implements OnInit {
       const usuario = this.login.getUsuarioLogado();
       if (usuario.perfil == PerfilUsuario.estudante) {
         if (usuario.grupoExperimento == Groups.control) {
-          this.router.navigate(['main', { outlets: { principal: ['listagem-assuntos'] } }]);
+          this.router.navigate(['geral/main', { outlets: { principal: ['juiz','listar-assuntos'] } }]);
         } else {
-          this.router.navigate(['main', { outlets: { principal: ['index'] } }]);
+          this.router.navigate(['geral/main', { outlets: { principal: ['srl', 'index'] } }]);
         }
       } else if (usuario.perfil == PerfilUsuario.professor) {
-        this.router.navigate(['main', { outlets: { principal: ['listagem-turmas'] } }]);
+        this.router.navigate(['geral/main', { outlets: { principal: ['turma', 'listar-turmas'] } }]);
       } else if (usuario.perfil == PerfilUsuario.admin) {
-        this.router.navigate(['main']);
+        this.router.navigate(['geral/main', { outlets: { principal: ['admin', 'listar-assuntos-admin'] } }]);
       }
-    } else {
-      this.messageService.add({
-        key: 'loginToast',
-        severity: 'error',
-        summary: 'Houve um erro:',
-        detail: 'Usuário ou senha inválidos.',
-      });
     }
   }
 

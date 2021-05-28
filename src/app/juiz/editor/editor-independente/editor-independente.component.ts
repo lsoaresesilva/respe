@@ -16,11 +16,13 @@ export class EditorIndependenteComponent implements OnInit {
   modoExecucao;
   console:ConsoleEditor
   mudancaPermitida;
+  loading:boolean;
 
   constructor() {
     this.modoExecucao = ModoExecucao.execucaoPadrao;
     this.mudancaPermitida = false;
     this.console = new ConsoleEditor();
+    this.loading = true;
     Editor.getInstance().codigo.next("");
    }
 
@@ -41,6 +43,10 @@ export class EditorIndependenteComponent implements OnInit {
     }
 
     
+  }
+
+  onContainerReady(){
+    this.loading = false;
   }
 
 

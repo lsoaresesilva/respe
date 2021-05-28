@@ -1,22 +1,22 @@
 import { Component, OnInit } from '@angular/core';
-import { SelectItem, MessageService } from 'primeng/api';
 import { Router, ActivatedRoute } from '@angular/router';
+import { MessageService, SelectItem } from 'primeng/api';
 import { Assunto } from 'src/app/model/assunto';
 import { Dificuldade } from 'src/app/model/enums/dificuldade';
-import Alternativa from 'src/app/model/alternativa';
-import QuestaoFechada from 'src/app/model/questoes/questaoFechada';
+import { OrientacaoParson } from 'src/app/model/questoes/enum/orientacaoParson';
+import QuestaoParsonProblem from 'src/app/model/questoes/parsonProblem';
 
 @Component({
-  selector: 'app-cadastrar-questoes-fechadas',
-  templateUrl: './cadastrar-questoes-fechadas.component.html',
-  styleUrls: ['./cadastrar-questoes-fechadas.component.css'],
+  selector: 'app-cadastrar-parson',
+  templateUrl: './cadastrar-parson.component.html',
+  styleUrls: ['./cadastrar-parson.component.css'],
 })
-export class CadastrarQuestoesFechadasComponent implements OnInit {
-  assunto?;
-  questao?;
+export class CadastrarParsonComponent implements OnInit {
+  assunto?: Assunto;
+  questao?: QuestaoParsonProblem;
+  isAlterar;
   dificuldades: SelectItem[];
-  assuntos;
-  isAlterar: Boolean = false;
+  orientacoes: SelectItem[];
 
   constructor(
     private router: Router,
@@ -24,18 +24,17 @@ export class CadastrarQuestoesFechadasComponent implements OnInit {
     private messageService: MessageService
   ) {}
 
-  ngOnInit() {
-    this.questao = new QuestaoFechada(null, '', '', 0, 0, [], '');
-
+  ngOnInit(): void {
+    this.questao = new QuestaoParsonProblem(null, [], '', 0, Dificuldade.facil, [], [], [], []);
+    this.isAlterar = false;
     this.activatedRoute.params.subscribe((params) => {
-      this.questao.assuntoPrincipal = params['assuntoId'];
-      if (params['assuntoId'] != undefined) {
-        Assunto.get(params['assuntoId']).subscribe((assunto) => {
+      if (params['assuntoId'] !== undefined) {
+        Assunto.get(params['assuntoId']).subscribe((assunto: Assunto) => {
           this.assunto = assunto;
 
           if (params['questaoId'] != undefined) {
             this.isAlterar = true;
-            assunto['questoesFechadas'].forEach((questao) => {
+            assunto['questoesParson'].forEach((questao) => {
               if (questao.id == params['questaoId']) {
                 this.questao = questao;
               }
@@ -45,21 +44,27 @@ export class CadastrarQuestoesFechadasComponent implements OnInit {
       }
     });
 
-    Assunto.getAll().subscribe((assuntos) => {
-      this.assuntos = assuntos;
-    });
-
     this.dificuldades = [
       { label: 'Selecione uma dificuldade', value: null },
       { label: 'Difícil', value: Dificuldade.dificil },
       { label: 'intermediário', value: Dificuldade.medio },
       { label: 'Facíl', value: Dificuldade.facil },
     ];
+
+    this.orientacoes = [
+      { label: 'Selecione uma orientacao', value: null },
+      { label: 'Vertical', value: OrientacaoParson.vertical },
+      { label: 'Horizontal', value: OrientacaoParson.horizontal },
+    ];
   }
 
   cadastrar() {
+    // TODO: Migrar isso para dentro do model Questao
     this.questao.sequencia =
       this.questao.sequencia !== 0 ? this.questao.sequencia : this.assunto.getUltimaSequencia();
+
+    // TODO: migrar isso para dentro do save de assunto. Ele quem deve organizar o salvamento de suas questões.
+    this.questao.prepararParaSave();
 
     if (this.questao.validar()) {
       this.messageCadastro();
@@ -69,13 +74,13 @@ export class CadastrarQuestoesFechadasComponent implements OnInit {
       }
 
       if (this.isAlterar == false) {
-        this.assunto.questoesFechadas.push(this.questao);
+        this.assunto.questoesParson.push(this.questao);
       }
 
       this.assunto.save().subscribe(
         (resultado) => {
           this.router.navigate([
-            'main',
+            'geral/main',
             { outlets: { principal: ['visualizar-assunto-admin', this.assunto.pk()] } },
           ]);
         },
@@ -86,10 +91,6 @@ export class CadastrarQuestoesFechadasComponent implements OnInit {
     } else {
       this.messageInformarDados();
     }
-  }
-
-  adicionarAlternativa() {
-    this.questao.alternativas.push(new Alternativa(null, null, false));
   }
 
   messageCadastro() {

@@ -1,6 +1,5 @@
 import { Component, OnInit, Input } from '@angular/core';
 import TestCase from 'src/app/model/testCase';
-import { TestesCasesService } from '../testes-cases.service';
 import { MenuItem, MessageService } from 'primeng/api';
 
 @Component({

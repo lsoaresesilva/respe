@@ -121,7 +121,7 @@ export class CadastrarQuestoesComponent implements OnInit {
         (resultado) => {
           this.messageCadastro();
           this.router.navigate([
-            'main',
+            'geral/main',
             { outlets: { principal: ['visualizar-assunto-admin', this.assunto.pk()] } },
           ]);
         },

@@ -1,4 +1,5 @@
-import { AfterViewInit, Component, EventEmitter, Input, OnChanges, OnInit, Output, SimpleChanges } from '@angular/core';
+import { AfterViewInit, Component, ElementRef, EventEmitter, Input, OnChanges, OnInit, Output, SimpleChanges } from '@angular/core';
+import { BlockableUI } from 'primeng/api';
 import Editor from 'src/app/model/editor';
 
 declare function carregarIde(
@@ -14,7 +15,7 @@ declare function carregarIde(
   templateUrl: './container-editor-programacao.component.html',
   styleUrls: ['./container-editor-programacao.component.css']
 })
-export class ContainerEditorProgramacaoComponent implements OnInit, AfterViewInit, OnChanges {
+export class ContainerEditorProgramacaoComponent implements OnInit, AfterViewInit, OnChanges, BlockableUI {
 
 
   @Input()
@@ -29,9 +30,13 @@ export class ContainerEditorProgramacaoComponent implements OnInit, AfterViewIni
   
   editorCodigo?: Editor;
 
-  constructor() { 
+  constructor(private el: ElementRef) { 
     this.onContainerReady = new EventEmitter();
     this.editorCodigo = Editor.getInstance();
+  }
+
+  getBlockableElement(): HTMLElement {
+    return this.el.nativeElement.children[0];
   }
 
   ngOnChanges(changes: SimpleChanges): void {

@@ -43,17 +43,49 @@ import { CodemirrorModule } from '@ctrl/ngx-codemirror';
 import { EditorDocumentacaoProjetoComponent } from './editor-documentacao-projeto/editor-documentacao-projeto.component';
 import { ModificarGrupoComponent } from './modificar-grupo/modificar-grupo.component';
 import { CriarFrequenciaComponent } from './criar-frequencia/criar-frequencia.component';
-import { PreencherFrequenciaComponent } from './preencher-frequencia/preencher-frequencia.component';
 import { VisualizarChatComponent } from './visualizar-chat/visualizar-chat.component';
+import { RouterModule, Routes } from '@angular/router';
+import { AuthGuard } from '../guards/auth.guard';
+import { PageTrack } from '../guards/pageTrack.guard';
+import { ProfessorGuard } from '../guards/professor.guard';
  
+export const routes:Routes = [
+  {
+    
+      path: 'listagem-atividades-grupo',
+      component: ListarAtividadesGrupoComponent,
+      canActivate: [AuthGuard, PageTrack]
+  },
+  {
+    path: 'criar-grupo',
+    component: CriacaoGrupoComponent,
+    canActivate: [AuthGuard, ProfessorGuard]
+    
+  },
+
+  {
+    path: 'cadastrar-postagem/:codigoTurma',
+    component: CadastrarPostagemComponent,
+    canActivate: [AuthGuard, PageTrack]
+  },
+
+  {
+    path: 'visualizar-postagem/:postagemId',
+    component: VisualizarPostagemComponent,
+    canActivate: [AuthGuard, PageTrack]
+  },
+
+ 
+]
 
 @NgModule({
   declarations: [ComentariosCodigoComponent, BoxComentarioComponent, 
     BoxNovoComentarioComponent, VisualizarConteudoComponent, SanitizeHtmlDirective, ConteudoProgramacaoComponent, 
     VisualizarSubmissaoQuestaoComponent, ListarEstudantesSubmissaoComponent, ListarPostagensComponent, CadastrarPostagemComponent, 
-    VisualizarPostagemComponent, CriacaoGrupoComponent, ListarAtividadesGrupoComponent, ListarAtividadesGrupoProfessorComponent, VisualizarAtividadeGrupoProfessorComponent, VisualizarSolucoesAtividadeGrupoComponent, EditorDocumentacaoProjetoComponent, ModificarGrupoComponent, CriarFrequenciaComponent, PreencherFrequenciaComponent, VisualizarChatComponent],
+    VisualizarPostagemComponent, CriacaoGrupoComponent, ListarAtividadesGrupoComponent, ListarAtividadesGrupoProfessorComponent, VisualizarAtividadeGrupoProfessorComponent, VisualizarSolucoesAtividadeGrupoComponent, EditorDocumentacaoProjetoComponent, ModificarGrupoComponent, CriarFrequenciaComponent, VisualizarChatComponent],
 
   imports: [
+    RouterModule.forChild(routes),
     CalendarModule,
     MultiSelectModule,
     AutoCompleteModule,

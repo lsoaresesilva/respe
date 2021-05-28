@@ -6,7 +6,7 @@ import { Collection, Document } from "../firestore/document";
 export default class ConfiguracaoEditor extends Document{
     
 
-    constructor(public id, public codigoTurma, public assuntosDisponiveis){
+    constructor(public id, public codigoTurma, public assuntosDisponiveis, public grupoExperimental){
        super(id);
     }
 

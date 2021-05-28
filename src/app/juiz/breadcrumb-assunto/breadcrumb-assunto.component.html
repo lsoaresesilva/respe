@@ -1,5 +1,5 @@
 <div *ngIf="assunto != null">
-  <a [routerLink]="['/main', { outlets: { principal: ['visualizacao-assunto', assunto.pk()] } }]">{{
+  <a [routerLink]="['/main', { outlets: { principal: ['visualizar-assunto', assunto.pk()] } }]">{{
     assunto.nome
   }}</a>
   -> {{ questao.nomeCurto }}
