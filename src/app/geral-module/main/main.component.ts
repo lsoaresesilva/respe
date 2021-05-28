@@ -20,6 +20,7 @@ export class MainComponent implements OnInit {
 
   usuario: Usuario;
   visibilidadeQuestionario;
+  loading;
 
   // visibilidadeDialog;
 
@@ -29,6 +30,7 @@ export class MainComponent implements OnInit {
     private apresentacao: ApresentacaoService,
     private gamification: GamificationFacade
   ) {
+    this.loading = false;
     this.visibilidadeQuestionario = false;
     this.usuario = this.login.getUsuarioLogado();
 
@@ -73,6 +75,7 @@ export class MainComponent implements OnInit {
   }
 
   abrirAssuntos() {
+    this.loading = true;
     this.router.navigate(['geral/main', { outlets: { principal: ['juiz', 'listar-assuntos'] } }]);
     
   }

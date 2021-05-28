@@ -15,6 +15,9 @@ import { ListarAssuntosComponent } from '../juiz/listar-assuntos/listar-assuntos
 import { ChatbotModule } from '../chatbot/chatbot.module';
 import {ToolbarModule} from 'primeng/toolbar';
 import { ButtonModule } from 'primeng/button';
+import {ScrollPanelModule} from 'primeng/scrollpanel';
+import {BlockUIModule} from 'primeng/blockui';
+import { ProgressSpinnerModule } from 'primeng/progressspinner';
 
 export const routes: Routes = [
   {
@@ -80,6 +83,9 @@ export const routes: Routes = [
 @NgModule({
   declarations: [HomeComponent, MainComponent],
   imports: [
+    BlockUIModule,
+    ProgressSpinnerModule,
+    ScrollPanelModule,
     CommonModule,
     ToolbarModule,
     MenubarModule,

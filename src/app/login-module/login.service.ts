@@ -96,12 +96,8 @@ export class LoginService {
             
             
           } else {
-            observer.next(false);
-            observer.complete();
+            observer.error(new Error("usuário ou senha inválidos."));
           }
-        },
-        (err) => {
-          alert('Erro ao tentar realizar login: ' + err.toString());
         }
       );
     });

@@ -19,7 +19,10 @@
     </div>
   </div>
 
-  <div class="login-section">
+  <p-blockUI [blocked]="loading" [target]="login">
+    <p-progressSpinner></p-progressSpinner>
+  </p-blockUI>
+  <p-panel #login [style]="{'width':'95%'}">
     <div class="p-grid form">
       <div class="p-col-12 row-title">Entrar</div>
 
@@ -80,5 +83,9 @@
       </div>
       -->
     </div>
-  </div>
+</p-panel>
+  <!-- <div class="login-section">
+    
+    
+  </div> -->
 </div>

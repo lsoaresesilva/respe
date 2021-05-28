@@ -15,10 +15,16 @@ import { CadastrarEstudantesComponent } from './cadastrar-estudantes/cadastrar-e
 import { PreencherFrequenciaComponent } from './preencher-frequencia/preencher-frequencia.component';
 import { DialogModule } from 'primeng/dialog';
 import { DropdownModule } from 'primeng/dropdown';
+import { ProgressSpinnerModule } from 'primeng/progressspinner';
+import {BlockUIModule} from 'primeng/blockui';
+import {PanelModule} from 'primeng/panel';
 
 @NgModule({
   declarations: [LoginComponent, CadastrarEstudantesComponent, PreencherFrequenciaComponent],
   imports: [
+    ProgressSpinnerModule,
+    BlockUIModule,
+    PanelModule,
     CommonModule,
     FormsModule,
     InputTextModule,

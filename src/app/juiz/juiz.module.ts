@@ -83,7 +83,7 @@ import { VisualizarParsonComponent } from './visualizar-parson/visualizar-parson
 import { DragDropModule } from '@angular/cdk/drag-drop';
 import { ChatbotModule } from '../chatbot/chatbot.module';
 import { MonitorService } from '../chatbot/monitor.service';
-
+import { BlockUIModule } from 'primeng/blockui';
 
 export const routes: Routes = [
   {
@@ -110,7 +110,7 @@ export const routes: Routes = [
   },
 
   {
-    path: 'visualizacao-questao-parson/:assuntoId/:questaoId',
+    path: 'visualizar-questao-parson/:assuntoId/:questaoId',
     component: VisualizarParsonComponent,
     canActivate: [AuthGuard, PageTrack]
   },
@@ -132,6 +132,9 @@ export const routes: Routes = [
     component: ResponderQuestaoProgramacao,
     canActivate: [AuthGuard, PageTrack]
   },
+
+
+  
 ];
 
 @NgModule({
@@ -180,7 +183,7 @@ export const routes: Routes = [
     SkeletonModule,
     TerminalModule,
     TimelineModule,
-    
+    BlockUIModule,
     TooltipModule,
     DynamicDialogModule,
     KnobModule,

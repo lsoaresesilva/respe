@@ -157,12 +157,7 @@ const routes: Routes = [
         outlet: 'principal',
       },
 
-      {
-        path: 'visualizar-parson',
-        component: VisualizarParsonComponent,
-        outlet: 'principal',
-        canActivate: [AuthGuard, PageTrack],
-      },
+      
 
       
       
@@ -271,12 +266,7 @@ const routes: Routes = [
 
       
       
-      {
-        path: 'self-instruction-editor/:assuntoId/:questaoId',
-        component: SelfInstructionComponent,
-        canActivate: [AuthGuard, ExperimentoGuard, PageTrack],
-        outlet: 'principal',
-      },
+      
 
     // Turma
 
