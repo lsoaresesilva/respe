@@ -18,6 +18,7 @@ import { ButtonModule } from 'primeng/button';
 import {ScrollPanelModule} from 'primeng/scrollpanel';
 import {BlockUIModule} from 'primeng/blockui';
 import { ProgressSpinnerModule } from 'primeng/progressspinner';
+import { BlockableContainerComponent } from './blockable-container/blockable-container.component';
 
 export const routes: Routes = [
   {
@@ -81,7 +82,7 @@ export const routes: Routes = [
 ];
 
 @NgModule({
-  declarations: [HomeComponent, MainComponent],
+  declarations: [HomeComponent, MainComponent, BlockableContainerComponent],
   imports: [
     BlockUIModule,
     ProgressSpinnerModule,
