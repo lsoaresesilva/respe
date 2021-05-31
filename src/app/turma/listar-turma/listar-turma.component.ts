@@ -52,7 +52,7 @@ export class ListarTurmaComponent implements OnInit {
   visualizarTurma(turma){
     //this.router.navigate(["main", { outlets: { principal: ['visualizacao-turma', turma.pk()] } }]);
     if(turma != undefined && turma.codigo != null)
-      this.router.navigate(["main", { outlets: { principal: ['listagem-estudantes', turma.codigo] } }]);
+      this.router.navigate(["geral/main", { outlets: { principal: ['turma', 'visualizar-turma', turma.codigo] } }]);
   }
 
 

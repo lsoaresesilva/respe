@@ -5,7 +5,7 @@ import { AngularFireModule, FirebaseApp } from '@angular/fire';
 import { FirebaseConfiguracao } from 'src/environments/firebase';
 import { Assunto } from '../assunto';
 import { QuestaoProgramacao } from '../questoes/questaoProgramacao';
-import { AutoInstrucao } from '../autoInstrucao';
+import { AutoInstrucao } from '../srl/autoInstrucao';
 
 describe('Testes de Auto instrução', () => {
   let app: firebase.app.App;

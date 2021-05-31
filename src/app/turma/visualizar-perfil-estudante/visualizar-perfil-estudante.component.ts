@@ -7,7 +7,7 @@ import { Assunto } from 'src/app/model/assunto';
 import Submissao from 'src/app/model/submissao';
 import Query from 'src/app/model/firestore/query';
 import PageTrackRecord from 'src/app/model/analytics/pageTrack';
-import { AutoInstrucao } from 'src/app/model/autoInstrucao';
+import { AutoInstrucao } from 'src/app/model/srl/autoInstrucao';
 
 @Component({
   selector: 'app-visualizar-perfil-estudante',

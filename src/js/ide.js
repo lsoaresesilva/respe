@@ -42,7 +42,7 @@ let editorProgramacao = null;
 let editorProgramacaoPadrao = null;
 // TODO: usar Observable para disparar quando o editor estiver pronto. Assim o model Editor pode ter acesso à instância do mônico quando ela estiver pronta.
 
-function iniciarEditorColaborativo(id) {
+function iniciarSelfInstructionColaborativo(id, callbackAnaliseProblema, callbackAnaliseSolucao) {
   const config = {
     apiKey: 'AIzaSyDQ6iOddJoIKtSQhXe-JYPNbyZFAFIIiHM',
     authDomain: 'letscode-producao.firebaseapp.com',
@@ -53,39 +53,56 @@ function iniciarEditorColaborativo(id) {
     appId: '1:634494761220:web:08f409b7d6370966cf7851',
   };
 
+  function iniciarFirepad(){
+    firebase.initializeApp(config);
+
+    const firepadRefProblema = firebase.database().ref(`analiseProblema/${id}`);
+    const firepadRefSolucao = firebase.database().ref(`analiseSolucao/${id}`);
+
+    const codeMirror = CodeMirror(document.getElementById('problema-container'), {});
+
+    codeMirror.on('keypress', (instance, event) => {
+      callbackAnaliseProblema(instance.getValue());
+    });
+
+    const firepad = Firepad.fromCodeMirror(firepadRefProblema, codeMirror, {
+      richTextToolbar: true,
+      defaultText: 'Descreva o problema que precisarão resolver.',
+    });
+
+    firepad.on('ready', function() {
+      callbackAnaliseProblema(codeMirror.getValue());
+    });
+
+    codeMirror.setSize('100%', '100%');
+
+    const codeMirrorSolucao = CodeMirror(document.getElementById('recursos-container'), {});
+
+    codeMirrorSolucao.on('keypress', (instance, event) => {
+      callbackAnaliseSolucao(instance.getValue());
+    });
+
+    const firepadSolucao = Firepad.fromCodeMirror(firepadRefSolucao, codeMirrorSolucao, {
+      richTextToolbar: true,
+      defaultText: 'Planejem aqui a solução do seu algoritmo.',
+    });
+
+    firepadSolucao.on('ready', function() {
+      callbackAnaliseSolucao(codeMirrorSolucao.getValue());
+    });
+
+    codeMirrorSolucao.setSize('100%', '100%');
+  }
+
   if (firebase.apps.length > 0) {
     firebase
       .app()
       .delete()
       .then(() => {
-        firebase.initializeApp(config);
-
-        const firepadRef = firebase.database().ref(`analiseProblema/${id}`);
-
-        const codeMirror = CodeMirror(document.getElementById('problema-container'), {});
-
-        const firepad = Firepad.fromCodeMirror(firepadRef, codeMirror, {
-          richTextToolbar: true,
-          defaultText: '',
-        });
-
-        codeMirror.setSize('100%', '100%');
+        iniciarFirepad();
       });
   } else {
-    firebase.initializeApp(config);
-
-    const firepadRef = firebase.database().ref(`analiseProblema/${id}`);
-
-    const codeMirror = CodeMirror(document.getElementById('problema-container'), {});
-
-    const firepad = Firepad.fromCodeMirror(firepadRef, codeMirror, {
-      richTextToolbar: true,
-      defaultText: '',
-    });
-
-    
-
-    codeMirror.setSize('100%', '100%');
+    iniciarFirepad();
   }
 }
 
@@ -130,12 +147,8 @@ function iniciarEditorDocumentacaoProjeto(id) {
       defaultText: '',
     });
 
-    
-
     codeMirror.setSize('100%', '100%');
   }
-
-  
 
   return null;
 }
@@ -195,38 +208,36 @@ function carregarIde(
   codigo
 ) {
   require(['vs/editor/editor.main'], function () {
-    
-    
     //const container = document.getElementById('container');
 
-    let divEditorProgramacao = document.getElementById("divEditorProgramacao");
-    if(divEditorProgramacao != null){
+    let divEditorProgramacao = document.getElementById('divEditorProgramacao');
+    if (divEditorProgramacao != null) {
       let container = document.createElement('div');
-      container.style.height = "400px";
-      container.style.marginTop = "10px";
-      container.style.border = "1px solid grey";
-      container.style.position = "relative";
+      container.style.height = '400px';
+      container.style.marginTop = '10px';
+      container.style.border = '1px solid grey';
+      container.style.position = 'relative';
       divEditorProgramacao.appendChild(container);
 
       if (container != undefined) {
         //if (editorProgramacao == null) {
-          editorProgramacao = monaco.editor.create(container, {
-            value: prepararCodigo(codigo.value).join('\n'),
-            language: 'python',
-            readOnly,
-          });
-  
-          if (editorProgramacao != null) {
-            callback();
-          }
-  
-          /* editor.onKeyDown(function () {
+        editorProgramacao = monaco.editor.create(container, {
+          value: prepararCodigo(codigo.value).join('\n'),
+          language: 'python',
+          readOnly,
+        });
+
+        if (editorProgramacao != null) {
+          callback();
+        }
+
+        /* editor.onKeyDown(function () {
             limparCores();
           }); */
         //}
-  
+
         callbackOnEditorLoad(instance, editorProgramacao);
-  
+
         // TODO: modificar para colocar em outra função exclusiva de comentário e só aparecer para comentários
         /* var div = document.getElementById('iconeNovoComentario');
         editorElement = document.getElementById('container');
@@ -263,9 +274,6 @@ function carregarIde(
         }); */
       }
     }
-    
-
-    
   });
 }
 
@@ -283,7 +291,6 @@ function carregarIdePadrao(instance = null, callbackOnEditorLoad = null, codigo)
       }
 
       callbackOnEditorLoad(instance, editorProgramacaoPadrao);
-
     }
   });
 }

@@ -23,16 +23,16 @@ import { VisualizarPostagemComponent } from './visualizar-postagem/visualizar-po
 import { DataViewModule } from 'primeng/dataview';
 
 import { JuizModule } from '../juiz/juiz.module';
-import {CalendarModule} from 'primeng/calendar';
+import { CalendarModule } from 'primeng/calendar';
 import { MessagesModule } from 'primeng/messages';
 import { MessageModule } from 'primeng/message';
 import { CardModule } from 'primeng/card';
 import { ToastModule } from 'primeng/toast';
 import { CriacaoGrupoComponent } from './criacao-grupo/criacao-grupo.component';
-import {DropdownModule} from 'primeng/dropdown';
-import {AutoCompleteModule} from 'primeng/autocomplete';
+import { DropdownModule } from 'primeng/dropdown';
+import { AutoCompleteModule } from 'primeng/autocomplete';
 
-import {MultiSelectModule} from 'primeng/multiselect';
+import { MultiSelectModule } from 'primeng/multiselect';
 import { ListarAtividadesGrupoComponent } from './listar-atividades-grupo/listar-atividades-grupo.component';
 import { ListarAtividadesGrupoProfessorComponent } from './listar-atividades-grupo-professor/listar-atividades-grupo-professor.component';
 import { VisualizarAtividadeGrupoProfessorComponent } from './visualizar-atividade-grupo-professor/visualizar-atividade-grupo-professor.component';
@@ -48,41 +48,60 @@ import { RouterModule, Routes } from '@angular/router';
 import { AuthGuard } from '../guards/auth.guard';
 import { PageTrack } from '../guards/pageTrack.guard';
 import { ProfessorGuard } from '../guards/professor.guard';
- 
-export const routes:Routes = [
+
+export const routes: Routes = [
   {
-    
-      path: 'listagem-atividades-grupo',
-      component: ListarAtividadesGrupoComponent,
-      canActivate: [AuthGuard, PageTrack]
+    path: 'listagem-atividades-grupo',
+    component: ListarAtividadesGrupoComponent,
+    canActivate: [AuthGuard, PageTrack],
   },
   {
     path: 'criar-grupo',
     component: CriacaoGrupoComponent,
-    canActivate: [AuthGuard, ProfessorGuard]
-    
+    canActivate: [AuthGuard, ProfessorGuard],
   },
 
   {
     path: 'cadastrar-postagem/:codigoTurma',
     component: CadastrarPostagemComponent,
-    canActivate: [AuthGuard, PageTrack]
+    canActivate: [AuthGuard, PageTrack],
   },
 
   {
     path: 'visualizar-postagem/:postagemId',
     component: VisualizarPostagemComponent,
-    canActivate: [AuthGuard, PageTrack]
+    canActivate: [AuthGuard, PageTrack],
   },
-
- 
-]
+  {
+    path: 'listagem-atividades-grupo-professor',
+    component: ListarAtividadesGrupoProfessorComponent,
+    canActivate: [AuthGuard, ProfessorGuard]
+  },
+];
 
 @NgModule({
-  declarations: [ComentariosCodigoComponent, BoxComentarioComponent, 
-    BoxNovoComentarioComponent, VisualizarConteudoComponent, SanitizeHtmlDirective, ConteudoProgramacaoComponent, 
-    VisualizarSubmissaoQuestaoComponent, ListarEstudantesSubmissaoComponent, ListarPostagensComponent, CadastrarPostagemComponent, 
-    VisualizarPostagemComponent, CriacaoGrupoComponent, ListarAtividadesGrupoComponent, ListarAtividadesGrupoProfessorComponent, VisualizarAtividadeGrupoProfessorComponent, VisualizarSolucoesAtividadeGrupoComponent, EditorDocumentacaoProjetoComponent, ModificarGrupoComponent, CriarFrequenciaComponent, VisualizarChatComponent],
+  declarations: [
+    ComentariosCodigoComponent,
+    BoxComentarioComponent,
+    BoxNovoComentarioComponent,
+    VisualizarConteudoComponent,
+    SanitizeHtmlDirective,
+    ConteudoProgramacaoComponent,
+    VisualizarSubmissaoQuestaoComponent,
+    ListarEstudantesSubmissaoComponent,
+    ListarPostagensComponent,
+    CadastrarPostagemComponent,
+    VisualizarPostagemComponent,
+    CriacaoGrupoComponent,
+    ListarAtividadesGrupoComponent,
+    ListarAtividadesGrupoProfessorComponent,
+    VisualizarAtividadeGrupoProfessorComponent,
+    VisualizarSolucoesAtividadeGrupoComponent,
+    EditorDocumentacaoProjetoComponent,
+    ModificarGrupoComponent,
+    CriarFrequenciaComponent,
+    VisualizarChatComponent,
+  ],
 
   imports: [
     RouterModule.forChild(routes),
@@ -105,11 +124,17 @@ export const routes:Routes = [
     ToastModule,
     DataViewModule,
     CardModule,
-    HighlightModule
-
+    HighlightModule,
   ],
 
-  exports: [ListarAtividadesGrupoComponent, ListarPostagensComponent, ComentariosCodigoComponent, VisualizarConteudoComponent, VisualizarSubmissaoQuestaoComponent, ListarEstudantesSubmissaoComponent],
+  exports: [
+    ListarAtividadesGrupoComponent,
+    ListarPostagensComponent,
+    ComentariosCodigoComponent,
+    VisualizarConteudoComponent,
+    VisualizarSubmissaoQuestaoComponent,
+    ListarEstudantesSubmissaoComponent,
+  ],
   providers: [
     {
       provide: HIGHLIGHT_OPTIONS,
@@ -117,11 +142,10 @@ export const routes:Routes = [
         coreLibraryLoader: () => import('highlight.js/lib/core'),
         lineNumbersLoader: () => import('highlightjs-line-numbers.js'), // Optional, only if you want the line numbers
         languages: {
-          python: () => import('highlight.js/lib/languages/python')
-        }
-      }
-    }
+          python: () => import('highlight.js/lib/languages/python'),
+        },
+      },
+    },
   ],
-
 })
-export class CsclModule { }
+export class CsclModule {}

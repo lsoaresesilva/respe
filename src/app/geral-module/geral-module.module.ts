@@ -75,6 +75,13 @@ export const routes: Routes = [
         canActivate: [AuthGuard],
         outlet: 'principal'
       },
+      {
+        path: 'experimento',
+        loadChildren: () => import('../experimento/experimento.module').then(m => m.ExperimentoModule),
+        /* component: ListarAssuntosComponent, */
+        canActivate: [AuthGuard],
+        outlet: 'principal'
+      },
     ], 
     
   },

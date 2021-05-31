@@ -10,10 +10,22 @@ import {ScrollPanelModule} from 'primeng/scrollpanel';
 import { FieldsetModule } from 'primeng/fieldset';
 import { RadioButtonModule } from 'primeng/radiobutton';
 import { AnaliseSelfInstructionComponent } from './analise-self-instruction/analise-self-instruction.component';
+import { ExportComponent } from './export/export.component';
+import { RouterModule, Routes } from '@angular/router';
+import { AuthGuard } from '../guards/auth.guard';
+
+export const routes:Routes = [
+  {
+    path:'exportar-dados',
+    component:ExportComponent,
+    canActivate: [AuthGuard]
+  }
+]
 
 @NgModule({
-  declarations: [PreTesteComponent, QuestaoComponent, QuestionarioAutorregulacaoComponent, AnaliseSelfInstructionComponent],
+  declarations: [PreTesteComponent, QuestaoComponent, QuestionarioAutorregulacaoComponent, AnaliseSelfInstructionComponent, ExportComponent],
   imports: [
+    RouterModule.forChild(routes),
     DialogModule,
     CommonModule,
     ButtonModule,

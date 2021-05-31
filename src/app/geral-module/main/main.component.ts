@@ -41,7 +41,7 @@ export class MainComponent implements OnInit {
   }
 
   exportarDados(){
-    this.router.navigate(['geral/main', { outlets: { principal: ['exportar-dados'] } }]);
+    this.router.navigate(['geral/main', { outlets: { principal: ['experimento', 'exportar-dados'] } }]);
   }
 
   ngOnInit() {
@@ -93,7 +93,7 @@ export class MainComponent implements OnInit {
   }
 
   abrirListagemGrupoProfessor(){
-    this.router.navigate(['geral/main', { outlets: { principal: ['listagem-atividades-grupo-professor'] } }]);
+    this.router.navigate(['geral/main', { outlets: { principal: ['cscl','listagem-atividades-grupo-professor'] } }]);
   }
 
   abrirListagemDiario(){

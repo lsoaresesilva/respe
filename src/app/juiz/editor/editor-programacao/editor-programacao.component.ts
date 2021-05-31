@@ -370,30 +370,6 @@ export class EditorProgramacaoComponent implements AfterViewInit, OnChanges, OnI
     }
   }
 
-  // TODO: Apagar no futuro
-  /* carregarEditor(editorProgramacaoComponentInstance, editor) {
-    editorProgramacaoComponentInstance.editor = editor;
-    editorProgramacaoComponentInstance.onEditorReady.emit(editor);
-
-    editorProgramacaoComponentInstance.editor.onKeyDown(function (e) {
-      let linhaAtual = editor.getPosition().lineNumber;
-      if (editorProgramacaoComponentInstance.erroAtivo != null) {
-        if (editorProgramacaoComponentInstance.erroAtivo.linha == linhaAtual) {
-          editorProgramacaoComponentInstance.removerDestaquesErro();
-        }
-      }
-    });
-
-    if (
-      editorProgramacaoComponentInstance.atividadeGrupo != null &&
-      editorProgramacaoComponentInstance.grupo.id != null
-    ) {
-      iniciarEditorColaborativo(editorProgramacaoComponentInstance.grupo.id);
-    } else {
-      editorProgramacaoComponentInstance.atualizarEditorComSubmissao();
-    }
-  } */
-
   onContainerReady(event) {
     this.isEditorPronto = true;
 

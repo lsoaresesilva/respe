@@ -125,7 +125,7 @@ describe('Testes de análise de sintaxe para variáveis', () => {
     expect(ErroSintaxeVariavel.getVariaveisAtribuicaoSimples(linha)).toEqual(['z']);
   });
 
-  it('Deve identificar variáveis utilizadas em um algoritmo', () => {
+  xit('Deve identificar variáveis utilizadas em um algoritmo', () => {
     
     let algoritmo = "nome = 'leonardo'\nprint(c)\nsomar(2,a)";
     let s = new Submissao(null, algoritmo, null, null, null);

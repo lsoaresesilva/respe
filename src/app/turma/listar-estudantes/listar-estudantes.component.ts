@@ -40,14 +40,14 @@ export class ListarEstudantesComponent implements OnInit {
         Turma.getAllEstudantes(params['codigoTurma']).subscribe((estudantes) => {
           this.estudantes$ = estudantes;
 
-          Assunto.getAll().subscribe((assuntos) => {
+          /* Assunto.getAll().subscribe((assuntos) => {
             this.estudantes$.forEach((estudante) => {
               Assunto.consultarRespostasEstudante(estudante).subscribe((respostas) => {
                 let progresso = Assunto.calcularProgressoGeral(assuntos, respostas);
                 estudante.progressoGeral = progresso;
               });
             });
-          });
+          }); */
           /*
           });*/
           /* Analytics.calcularNumeroAtividadesTrabalhadasPorSemana(turma).subscribe((estudantes) => {

@@ -5,7 +5,7 @@ import { AngularFireModule, FirebaseApp } from '@angular/fire';
 import { FirebaseConfiguracao } from 'src/environments/firebase';
 import { Assunto } from '../assunto';
 import { QuestaoProgramacao } from '../questoes/questaoProgramacao';
-import { AutoInstrucao } from '../autoInstrucao';
+import { AutoInstrucao } from '../srl/autoInstrucao';
 import Usuario from '../usuario';
 import { PerfilUsuario } from '../enums/perfilUsuario';
 import Experiment from '../experimento/experiment';

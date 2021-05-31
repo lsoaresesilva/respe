@@ -33,9 +33,12 @@ export class CriacaoGrupoComponent implements OnInit {
   questoes;
   questoesSelecionadas;
 
+  tamanhoGrupo:number;
+
   constructor(private chatService: ChatService, private messageService: MessageService) {
     this.estudantesSelecionados = [];
     this.questoesSelecionadas = [];
+    this.tamanhoGrupo = 2;
 
     Turma.getAll().subscribe((turmas) => {
       this.pesquisaTurmas = turmas;
@@ -100,7 +103,7 @@ export class CriacaoGrupoComponent implements OnInit {
   }
 
   criarSala() {
-    let grupos = AtividadeGrupo.criarGrupos(this.estudantesSelecionados, 3);
+    let grupos = AtividadeGrupo.criarGrupos(this.estudantesSelecionados, this.tamanhoGrupo);
 
     let salvamentosAtividades = [];
 

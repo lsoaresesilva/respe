@@ -10,7 +10,6 @@ import { ListarEstudantesComponent } from './listar-estudantes/listar-estudantes
 import { TableModule } from 'primeng/table';
 import { SrlModule } from '../srl/srl.module';
 import { ListarTurmaComponent } from './listar-turma/listar-turma.component';
-import { ListarTurmaProfessorComponent } from './listar-turma-professor/listar-turma-professor.component';
 import { ListarProfessoresComponent } from './listar-professores/listar-professores.component';
 import { EnvioMaterialComponent } from './envio-material/envio-material.component';
 import { ListarMateriaisComponent } from './listar-materiais/listar-materiais.component';
@@ -55,7 +54,12 @@ export const routes:Routes = [
     path: 'listar-turmas',
     component: ListarTurmaComponent,
     canActivate: [AuthGuard, ProfessorGuard]
-  }
+  },
+  {
+    path: 'visualizar-turma/:codigoTurma',
+    component: ListarEstudantesComponent,
+    canActivate: [AuthGuard, ProfessorGuard]
+  },
 
 ]
 
@@ -64,7 +68,6 @@ export const routes:Routes = [
     EnviarMaterialComponent,
     ListarProfessoresComponent,
     ListarTurmaComponent,
-    ListarTurmaProfessorComponent,
     VisualizarTurmaComponent,
     CadastrarTurmaComponent,
     ListarEstudantesComponent,

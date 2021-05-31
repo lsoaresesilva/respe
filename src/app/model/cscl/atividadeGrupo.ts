@@ -10,6 +10,7 @@ import QuestaoColaborativa from './questaoColaborativa';
 import Grupo from './grupo';
 import { environment } from 'src/environments/environment';
 import Questao from '../questoes/questao';
+import { Groups } from '../experimento/groups';
 
 @Collection('atividadeGrupo')
 export default class AtividadeGrupo extends Document {
@@ -72,15 +73,14 @@ export default class AtividadeGrupo extends Document {
   gerarLink(estudante:Usuario) {
     
     let grupoEstudante = this.getGrupoByEstudante(estudante);
-    let link =  environment.URL_SERVIDOR+'geral/main/(principal:juiz/entrar-grupo/' +
-    this.pk() +
-    '/' +
-    grupoEstudante.id +
-    '/' +
-    this["assuntoId"] +
-    '/' +
-    this["questaoColaborativaId"] +
-    ')'
+    let link = "";
+    if(estudante.grupoExperimento == Groups.experimentalB){
+      link = environment.URL_SERVIDOR+'geral/main/(principal:srl/entrar-grupo/';
+    }else{
+      link = environment.URL_SERVIDOR+'geral/main/(principal:juiz/entrar-grupo/';
+    }
+    
+    link += this.pk() +'/' +grupoEstudante.id +'/' +this["assuntoId"] +'/' +this["questaoColaborativaId"] +')'
     return link
   }
 
@@ -254,7 +254,7 @@ export default class AtividadeGrupo extends Document {
   }
 
 
-  getGrupo(grupoId){
+  getGrupo(grupoId):Grupo{
     return this.grupos.find(function(grupo){
       if(grupo.id == grupoId){
         return true;

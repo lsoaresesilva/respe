@@ -7,13 +7,10 @@ Criar a sala
 Gerar o link -->
 <p-toast></p-toast>
 <div class="p-grid">
-    <div class="p-col-12">
+    <div class="p-col-2">
         Selecionar turma
     </div>
-</div>
-
-<div class="p-grid">
-    <div class="p-col-12">
+    <div class="p-col-10">
         <p-autoComplete [(ngModel)]="turmaSelecionada" [suggestions]="pesquisaTurmas"
             (completeMethod)="pesquisarTurma($event)" [dropdown]="true" (onSelect)="selecionarTurma($event)">
 
@@ -26,28 +23,22 @@ Gerar o link -->
 </div>
 
 <div class="p-grid">
-    <div class="p-col-12">
+    <div class="p-col-2">
         Selecionar estudantes
     </div>
-</div>
-
-<div class="p-grid">
     <div class="p-col-6">
         <p-multiSelect [options]="pesquisaEstudantes" [(ngModel)]="estudantesSelecionados" optionLabel="nome"></p-multiSelect>
     </div>
-    <div class="p-col-6">
+    <div class="p-col-4">
         <button pButton type="button" label="Importar frequência" (click)="importarFrequencia()"></button>
     </div>
 </div>
 
 <div class="p-grid">
-    <div class="p-col-12">
+    <div class="p-col-2">
         Estudantes selecionados
     </div>
-</div>
-
-<div class="p-grid">
-    <div class="p-col-12">
+    <div class="p-col-8">
 
         <div *ngFor="let a of estudantesSelecionados">
             {{a.nome}} <button pButton type="button" icon="pi pi-times" iconPos="left" (click)="excluir(a)"></button>
@@ -55,22 +46,35 @@ Gerar o link -->
     </div>
 </div>
 
+
 <div class="p-grid">
-    <div class="p-col-12">
-        <p-dropdown [options]="assuntos" [(ngModel)]="assuntoSelecionado" optionLabel="nome" placeholder="Selecione um assunto"
-            (onChange)="selecionarAssunto($event)"></p-dropdown>
+    <div class="p-col-2">
+        Alunos por grupo
+    </div>
+    <div class="p-col-8">
+
+        <input pInputText type="number" [(ngModel)]="tamanhoGrupo" />
     </div>
 </div>
 
 <div class="p-grid">
-    <div class="p-col-12">
+    <div class="p-col-2">
+        Selecionar assunto
+    </div>
+    <div class="p-col-8">
+
+        <p-dropdown [options]="assuntos" [(ngModel)]="assuntoSelecionado" optionLabel="nome" placeholder="Selecione um assunto"
+        (onChange)="selecionarAssunto($event)"></p-dropdown>
+    </div>
+</div>
+
+
+<div class="p-grid">
+    <div class="p-col-2">
         Selecionar questão
     </div>
-</div>
-
-<div class="p-grid">
-    <div class="p-col-12">
-        <p-table [value]="questoes">
+    <div class="p-col-2">
+        <p-table [value]="questoes" *ngIf="questoes != null">
             <ng-template pTemplate="header">
                 <tr>
                     <th>Nome</th>
@@ -87,22 +91,26 @@ Gerar o link -->
 </div>
 
 <div class="p-grid" *ngIf="questoesSelecionadas != null">
-    <div *ngFor="let questao of questoesSelecionadas">
-        <div class="p-col-4">
-            Questão selecionada: {{questao.questao.nomeCurto}}
-        </div>
-        <div class="p-col-4">
-            <button pButton label="Excluir" (click)="removerQuestao(questao)"></button>
+    <div class="p-col-2">
+        Questões selecionadas
+    </div>
+    <div class="p-col-8">
+        <div *ngFor="let questao of questoesSelecionadas">
+            <div class="p-col-4">
+                Questão selecionada: {{questao.questao.nomeCurto}}
+            </div>
+            <div class="p-col-4">
+                <button pButton label="Excluir" (click)="removerQuestao(questao)"></button>
+            </div>
         </div>
     </div>
-    
 </div>
 
 <div class="p-grid">
-    <div class="p-col-1">
+    <div class="p-col-2">
         Data limite
     </div>
-    <div class="p-col-11">
+    <div class="p-col-10">
         <p-calendar [(ngModel)]="dataExpiracao" [showTime]="true" hourFormat="24"></p-calendar>
     </div>
 </div>

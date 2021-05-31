@@ -62,6 +62,7 @@ import { DialogService, DynamicDialogModule } from 'primeng/dynamicdialog';
 import { AuthGuard } from '../guards/auth.guard';
 import { ExperimentoGuard } from '../guards/experimento.guard';
 import { PageTrack } from '../guards/pageTrack.guard';
+import { SelfInstructionColetivoComponent } from './planejamento/self-instruction-coletivo/self-instruction-coletivo.component';
 
 export const routes:Routes = [
   {
@@ -84,10 +85,11 @@ export const routes:Routes = [
     component: SelfInstructionComponent,
     canActivate: [AuthGuard, ExperimentoGuard, PageTrack]
   },
-  /* {
-    path:'self-instruction-coletivo/:atividadeGrupoId/:grupoId',
-    component:SelfInstructionColetivoComponent,
-  } */
+  {
+    path: 'entrar-grupo/:atividadeGrupoId/:grupoId/:assuntoId/:questaoId',
+    component: SelfInstructionColetivoComponent,
+    canActivate: [AuthGuard, PageTrack]
+  },
 ]
 
 @NgModule({
@@ -117,17 +119,18 @@ export const routes:Routes = [
     DesempenhoMetricasComponent,
     VisualizacaoDiarioComponent,
     ExibirSolucaoAlunosComponent,
-    DiarioProgramacaoComponent
+    DiarioProgramacaoComponent,
+    SelfInstructionColetivoComponent
   ],
   imports: [
+    CommonModule,
+    AccordionModule,
     RouterModule.forChild(routes),
     SharedModule,
-    RouterModule.forChild(routes),
     DynamicDialogModule,
     CodeHighlighterModule,
     MessagesModule,
     MessageModule,
-    CommonModule,
     CheckboxModule,
     FormsModule,
     ProgressBarModule,
@@ -138,10 +141,6 @@ export const routes:Routes = [
     ToastModule,
     SliderModule,
     TabViewModule,
-    ButtonModule,
-    ToastModule,
-    RouterModule,
-    AccordionModule,
     InputTextModule,
     FieldsetModule,
     TreeTableModule,
@@ -151,7 +150,6 @@ export const routes:Routes = [
     CardModule,
     ContextMenuModule,
     SharedPipesModule,
-    SharedModule,
   ],
   providers: [MessageService, AnalisarObjetivosService, RastrearTempoOnlineService, DialogService],
   exports: [

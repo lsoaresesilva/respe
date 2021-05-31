@@ -215,12 +215,7 @@ const routes: Routes = [
 
       
 
-      {
-        path: 'listagem-atividades-grupo-professor',
-        component: ListarAtividadesGrupoProfessorComponent,
-        canActivate: [AuthGuard, ProfessorGuard],
-        outlet: 'principal',
-      },
+    
 
       {
         path: 'visualizacao-atividade-grupo-professor/:id',
@@ -309,12 +304,7 @@ const routes: Routes = [
         canActivate: [AuthGuard, ProfessorGuard],
         outlet: 'principal',
       },
-      {
-        path: 'listagem-estudantes/:codigoTurma',
-        component: ListarEstudantesComponent,
-        canActivate: [AuthGuard, ProfessorGuard],
-        outlet: 'principal',
-      },
+      
       {
         path: 'cadastro-estudante/:codigoTurma',
         component: CadastrarEstudantesComponent,

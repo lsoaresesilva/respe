@@ -1,15 +1,32 @@
-
-<p-accordion>
-    <p-accordionTab header="Enunciado">
-        
-    </p-accordionTab>
-    <p-accordionTab header="Qual problema será resolvido?">
-        <div id="problema-container"></div>
-    </p-accordionTab>
-    <p-accordionTab header="Quão difícil será criar um algoritmo para esse problema?">
-        Content 3    
-    </p-accordionTab>
-    <p-accordionTab header="Quais recursos serão necessários? (variáveis, condições, repetições, entre outros)">
-        <div id="recursos-container"></div>
-    </p-accordionTab>
-</p-accordion>
+<div class="p-grid">
+    <div class="p-col-1"></div>
+    <div class="p-col-10">
+        <app-visualizar-questao *ngIf="questao != null" [questao]="questao.questao" id="dadosQuestao"></app-visualizar-questao>
+    </div>
+    <div class="p-col-2"></div>
+</div>
+<div class="p-grid">
+    <div class="p-col-1"></div>
+    <div class="p-col-5">
+        <div class="p-col-12">
+            <h3 class="first">1) Qual problema vocês esperam resolver com esse algoritmo?</h3>
+            <span class="p-float-label">
+                {{contagemCaracteres(autoInstrucaoColetiva.analiseProblema)}} caracteres faltando. Fiquem à vontade para
+                escrever mais :)
+                <div id="problema-container" ></div>
+            </span>
+            
+        </div>
+    </div>
+    <div class="p-col-5">
+        <div class="p-col-12" >
+            <h3 class="first">2) Planejem o algoritmo! Quais as variáveis, condições, funções ou repetições serão utilizados?</h3>
+            <span class="p-float-label">
+                {{contagemCaracteres(autoInstrucaoColetiva.analiseSolucao)}} caracteres faltando. Fiquem à vontade para
+                escrever mais :)
+                <div id="recursos-container"></div>
+            </span>
+            
+        </div>
+    </div>
+</div>
