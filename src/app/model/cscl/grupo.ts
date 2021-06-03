@@ -4,7 +4,7 @@ import { Util } from '../util';
 
 export default class Grupo {
 
-  
+  niveisDificuldade;
 
   constructor(public id, public estudantes: Usuario[]) {
     if (this.id == null) {
@@ -19,6 +19,10 @@ export default class Grupo {
       this.estudantes.forEach((estudante) => {
         document['estudantes'].push(estudante.pk());
       });
+    }
+
+    if(this.niveisDificuldade != null){
+
     }
 
     return document;

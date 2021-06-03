@@ -67,7 +67,7 @@ function iniciarSelfInstructionColaborativo(id, callbackAnaliseProblema, callbac
 
     const firepad = Firepad.fromCodeMirror(firepadRefProblema, codeMirror, {
       richTextToolbar: true,
-      defaultText: 'Descreva o problema que precisarão resolver.',
+      defaultText: 'Descreva aqui o problema que precisarão resolver.',
     });
 
     firepad.on('ready', function() {

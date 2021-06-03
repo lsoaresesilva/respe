@@ -1,7 +1,11 @@
 import { AfterViewInit, Component, OnInit } from '@angular/core';
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
+import { SelectItem } from 'primeng/api';
+import { LoginService } from 'src/app/login-module/login.service';
 import { Assunto } from 'src/app/model/assunto';
 import AtividadeGrupo from 'src/app/model/cscl/atividadeGrupo';
+import DificuldadeAtividadeGrupo from 'src/app/model/cscl/dificuldadeAtividadeGrupo';
+import Query from 'src/app/model/firestore/query';
 import AutoInstrucaoColetiva from 'src/app/model/srl/autoInstrucaoColetivo';
 
 declare function iniciarSelfInstructionColaborativo(
@@ -20,12 +24,14 @@ export class SelfInstructionColetivoComponent implements OnInit, AfterViewInit {
   grupo;
   autoInstrucaoColetiva: AutoInstrucaoColetiva;
   questao;
-
+  estudantes: SelectItem[];
   atividadeGrupoId;
   grupoId;
+  relatoDificuldade:DificuldadeAtividadeGrupo;
 
-  constructor(private route: ActivatedRoute) {
+  constructor(private route: ActivatedRoute, private router:Router, private login:LoginService) {
     this.autoInstrucaoColetiva = new AutoInstrucaoColetiva(null, '', '', this.grupo);
+    this.relatoDificuldade = new DificuldadeAtividadeGrupo(null, this.atividadeGrupo, this.grupo, this.login.getUsuarioLogado(), 0, "");
     this.route.params.subscribe((params) => {
       if (
         params['atividadeGrupoId'] != null &&
@@ -37,6 +43,9 @@ export class SelfInstructionColetivoComponent implements OnInit, AfterViewInit {
         this.grupoId = params['grupoId'];
       }
     });
+    this.estudantes = [
+      { label: 'Selecione o líder da equipe', value: null }
+    ]
   }
 
   ngOnInit(): void {}
@@ -48,11 +57,33 @@ export class SelfInstructionColetivoComponent implements OnInit, AfterViewInit {
     }
   }
 
+  salvarDificuldade(){
+    if(this.atividadeGrupo != null && this.grupo != null){
+
+      this.relatoDificuldade.atividadeGrupo = this.atividadeGrupo;
+      this.relatoDificuldade.grupo = this.grupo;
+      this.relatoDificuldade.save().subscribe(()=>{
+        let consultas = [];
+        DificuldadeAtividadeGrupo.getAll([new Query("grupoId", "==", this.grupoId)]).subscribe(dificuldades=>{
+
+        })
+      })
+    }
+  }
+
   ngAfterViewInit() {
     AtividadeGrupo.get(this.atividadeGrupoId).subscribe((atividadeGrupo) => {
       this.atividadeGrupo = atividadeGrupo;
       this.grupo = this.atividadeGrupo.getGrupo(this.grupoId);
-
+      this.grupo.getEstudantes().subscribe(estudantes=>{
+        estudantes.forEach(estudante => {
+          this.estudantes.push(
+            { label: estudante.nome, value: estudante }
+            )
+        });
+      })
+      
+      
       Assunto.get(this.atividadeGrupo.assuntoId).subscribe((assunto) => {
         this.questao = assunto.getQuestaoColaborativaById(
           this.atividadeGrupo.questaoColaborativaId
@@ -68,5 +99,11 @@ export class SelfInstructionColetivoComponent implements OnInit, AfterViewInit {
         );
       });
     });
+  }
+
+  salvar(){
+    this.autoInstrucaoColetiva.save().subscribe(()=>{
+
+    })
   }
 }

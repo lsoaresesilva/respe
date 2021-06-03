@@ -1,5 +1,6 @@
 import Grupo from "../cscl/grupo";
 import { Collection, Document } from "../firestore/document";
+import Usuario from "../usuario";
 
 @Collection("autoInstrucoesColetivas")
 export default class AutoInstrucaoColetiva extends Document{

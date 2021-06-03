@@ -6,6 +6,93 @@
     <div class="p-col-2"></div>
 </div>
 <div class="p-grid">
+    <div class="p-col-10"></div>
+    <div class="p-col-1">
+        <button pButton label="Avançar" (click)="salvar()"></button>
+    </div>
+</div>
+<div class="p-grid">
+    <div class="p-col-1"></div>
+    <div class="p-col-11">
+        <div class="p-col-2">
+        
+        </div>
+        <div class="p-col-1">
+         1 
+        </div>
+        <div class="p-col-1">
+          2 
+         </div>
+         <div class="p-col-1">
+          3
+         </div>
+         <div class="p-col-1">
+          4
+         </div>
+         <div class="p-col-1">
+          5
+         </div>
+         <div class="p-col-5">
+          
+         </div>
+    </div>
+</div>
+
+<div class="p-grid">
+    <div class="p-col-1"></div>
+         <div class="p-col-2">
+          Fácil
+        </div>
+        <div class="p-col-1">
+          <p-radioButton name="afirmacaoUm" value="1" label=""
+              [(ngModel)]="relatoDificuldade.dificuldade" (onClick)="salvarDificuldade()"></p-radioButton> 
+         </div>
+         <div class="p-col-1">
+          <p-radioButton name="afirmacaoUm" value="2" label=""
+          [(ngModel)]="relatoDificuldade.dificuldade"></p-radioButton> 
+          </div>
+          <div class="p-col-1">
+            <p-radioButton name="afirmacaoUm" value="3" label=""
+            [(ngModel)]="relatoDificuldade.dificuldade"></p-radioButton>
+          </div>
+          <div class="p-col-1">
+            <p-radioButton name="afirmacaoUm" value="4" label=""
+              [(ngModel)]="relatoDificuldade.dificuldade"></p-radioButton>
+          </div>
+          <div class="p-col-1">
+            <p-radioButton name="afirmacaoUm" value="5" label=""
+            [(ngModel)]="relatoDificuldade.dificuldade"></p-radioButton>
+          </div>
+          <div class="p-col-5">
+           Difícil
+          </div>
+
+<div class="p-grid">
+          <div class="p-col-1"></div>
+          <div class="p-col-11" *ngIf="relatoDificuldade.dificuldade != 0">
+            <span class="p-float-label">
+          
+                <textarea
+                  [rows]="3"
+                  [cols]="135"
+                  pInputTextarea
+                  [(ngModel)]="relatoDificuldade.justificativa"
+                  id="justificativa"
+                ></textarea>
+                <label for="justificativa">Por exemplo: neste problema precisarei ler dois números do teclado e realizar sua soma quando eles forem ímpares.</label>
+                
+              </span>
+          </div>
+          
+    </div>
+</div>
+<div class="p-grid">
+    <div class="p-col-1"></div>
+    <div class="p-col-10">
+        <p-dropdown [options]="estudantes"></p-dropdown>
+    </div>
+</div>
+<div class="p-grid" style="width:100%">
     <div class="p-col-1"></div>
     <div class="p-col-5">
         <div class="p-col-12">

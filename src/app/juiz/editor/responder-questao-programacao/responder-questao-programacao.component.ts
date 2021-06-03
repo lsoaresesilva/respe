@@ -64,12 +64,12 @@ export class ResponderQuestaoProgramacao implements OnInit, AfterViewInit, OnCha
   duvida: string = '';
 
   observableQuestao: Observable<any>;
- 
+
   usuario: Usuario;
 
   /* CSCL */
-  atividadeGrupo:AtividadeGrupo;
-  grupo:Grupo;
+  atividadeGrupo: AtividadeGrupo;
+  grupo: Grupo;
   questaoColaborativa;
   isMudancaEditorPermitida;
   apresentarTestesCases;
@@ -88,7 +88,7 @@ export class ResponderQuestaoProgramacao implements OnInit, AfterViewInit, OnCha
   ) {
     this.pausaIde = true;
     this.statusExecucao = '';
-    
+
     this.observableQuestao = new Observable((observer) => {
       observer.next();
       observer.complete();
@@ -97,21 +97,17 @@ export class ResponderQuestaoProgramacao implements OnInit, AfterViewInit, OnCha
     this.apresentarTestesCases = true;
     this.isMudancaEditorPermitida = true;
     this.modoExecucao = ModoExecucao.execucao32bits;
-    Editor.getInstance().codigo.next("");
+    Editor.getInstance().codigo.next('');
   }
   ngOnChanges(changes: SimpleChanges): void {
-    console.log("algo mudou");
+    console.log('algo mudou');
   }
 
   ngAfterViewInit(): void {
     let _this = this;
-    setTimeout(function (){
-      _this.route.params.subscribe((params) => {
-        
-      });
+    setTimeout(function () {
+      _this.route.params.subscribe((params) => {});
     }, 3000);
-
-    
   }
 
   /**
@@ -119,7 +115,7 @@ export class ResponderQuestaoProgramacao implements OnInit, AfterViewInit, OnCha
    * Este método força uma clonagem do objeto, fazendo com que o ngOnChanges detecte que é um novo objeto e assim realize a atualização.
    * @param submissao
    */
-   prepararSubmissao(submissao) {
+  prepararSubmissao(submissao) {
     if (submissao != undefined) {
       let _submissaoClone = new Submissao(
         submissao.pk(),
@@ -140,73 +136,81 @@ export class ResponderQuestaoProgramacao implements OnInit, AfterViewInit, OnCha
     return null;
   }
 
-  visualizarPlanejamento(){
+  visualizarPlanejamento() {
     this.router.navigate([
       'geral/main',
       { outlets: { principal: ['self-instruction-editor', this.assunto.pk(), this.questao.id] } },
     ]);
   }
 
-  onEditorError(submissao){
+  onEditorError(submissao) {
     this.submissao = submissao;
     this.atualizarCardErros();
   }
 
-  onEditorSubmit(submissao){
+  onEditorSubmit(submissao) {
     this.submissao = submissao;
   }
-
-  
 
   ngOnInit() {
     this.usuario = this.login.getUsuarioLogado();
     if (this.usuario.grupoExperimento != Groups.control) {
-    DiarioProgramacao.exibirDiario(this.login.getUsuarioLogado(), TipoDiarioProgramacao.planejamento).subscribe(visibilidade=>{
-      if(visibilidade){
-        this.dialogService.open(DiarioProgramacaoComponent, {
-          data: { tipo: TipoDiarioProgramacao.planejamento },
-        });
-      }
-    });
-  }
-    
+      DiarioProgramacao.exibirDiario(
+        this.login.getUsuarioLogado(),
+        TipoDiarioProgramacao.planejamento
+      ).subscribe((visibilidade) => {
+        if (visibilidade) {
+          this.dialogService.open(DiarioProgramacaoComponent, {
+            data: { tipo: TipoDiarioProgramacao.planejamento },
+          });
+        }
+      });
+    }
 
     if (this.usuario == null) {
       throw new Error('Não é possível executar o código, pois você não está logado.'); // TODO: mudar para o message
     }
 
     this.route.params.subscribe((params) => {
-      
       // Atividade em grupo
-      
-      if (params['atividadeGrupoId'] != null && params['grupoId'] != undefined && params['assuntoId'] != undefined && params['questaoId'] != undefined) {
-          AtividadeGrupo.get(params['atividadeGrupoId']).subscribe(atividadeGrupo=>{
-            this.atividadeGrupo = atividadeGrupo as AtividadeGrupo;
-            this.grupo = this.atividadeGrupo.getGrupo(params['grupoId']);
-            if(this.grupo != null){
-              Assunto.get(params['assuntoId']).subscribe((assunto) => {
-                this.assunto = assunto  as Assunto;
-      
-                if (
-                  assunto['questoesColaborativas'] != undefined &&
-                  assunto['questoesColaborativas'].length > 0
-                ) {
-  
-                  this.questaoColaborativa = this.assunto.getQuestaoColaborativaById(params['questaoId']);
-                  if(this.questaoColaborativa.isOpenEnded == true){
-                    this.apresentarTestesCases = false;
-                    this.modoExecucao = ModoExecucao.execucaoPadrao;
-                    this.isMudancaEditorPermitida = false;
-                  }
-                  
-                  if(this.questaoColaborativa != null && this.questaoColaborativa.questao != null){
-                    let questao = QuestaoProgramacao._construirIndividual(this.questaoColaborativa.questao, this.assunto) as QuestaoProgramacao;
-                    if(questao != null){
-                      this.questao = questao;
-  
-                      this.submissao = null;
-                      Editor.getInstance().codigo.next(null);
-                      /* if (this.usuario != null) {
+
+      if (
+        params['atividadeGrupoId'] != null &&
+        params['grupoId'] != undefined &&
+        params['assuntoId'] != undefined &&
+        params['questaoId'] != undefined
+      ) {
+        AtividadeGrupo.get(params['atividadeGrupoId']).subscribe((atividadeGrupo) => {
+          this.atividadeGrupo = atividadeGrupo as AtividadeGrupo;
+          this.grupo = this.atividadeGrupo.getGrupo(params['grupoId']);
+          if (this.grupo != null) {
+            Assunto.get(params['assuntoId']).subscribe((assunto) => {
+              this.assunto = assunto as Assunto;
+
+              if (
+                assunto['questoesColaborativas'] != undefined &&
+                assunto['questoesColaborativas'].length > 0
+              ) {
+                this.questaoColaborativa = this.assunto.getQuestaoColaborativaById(
+                  params['questaoId']
+                );
+                if (this.questaoColaborativa.isOpenEnded == true) {
+                  this.apresentarTestesCases = false;
+                  this.modoExecucao = ModoExecucao.execucaoPadrao;
+                  this.isMudancaEditorPermitida = false;
+                }
+
+                if (this.questaoColaborativa != null && this.questaoColaborativa.questao != null) {
+                  let questao = QuestaoProgramacao._construirIndividual(
+                    this.questaoColaborativa.questao,
+                    this.assunto
+                  ) as QuestaoProgramacao;
+                  if (questao != null) {
+                    this.questao = questao;
+
+                    this.submissao = null;
+                    Editor.getInstance().codigo.next(null);
+                    /* if (this.usuario != null) {
                         Submissao.getRecentePorQuestao(this.questao, this.usuario).subscribe(
                           (submissao: Submissao) => {
                             if (submissao != null) this.submissao = submissao;
@@ -216,56 +220,51 @@ export class ResponderQuestaoProgramacao implements OnInit, AfterViewInit, OnCha
                           }
                         );
                       } */
-  
-                      
-                    }else{
-                      throw new Error('Não é possível iniciar o editor sem uma questão.');
-                    }
+                  } else {
+                    throw new Error('Não é possível iniciar o editor sem uma questão.');
                   }
                 }
-              });
-            }else{
-              // TODO: Mostrar mensagem de erro, pois não é possível iniciar uma atividade em grupo, pois o grupo informado não existe
-            }
-            
-          })
-      }else if(params['questaoCorrecaoId'] != null){ // Atividade de correção
+              }
+            });
+          } else {
+            // TODO: Mostrar mensagem de erro, pois não é possível iniciar uma atividade em grupo, pois o grupo informado não existe
+          }
+        });
+      } else if (params['questaoCorrecaoId'] != null) {
+        // Atividade de correção
         Assunto.get(params['assuntoId']).subscribe((assunto) => {
           this.assunto = assunto as Assunto;
 
-          if (
-            assunto['questoesCorrecao'] != undefined &&
-            assunto['questoesCorrecao'].length > 0
-          ) {
+          if (assunto['questoesCorrecao'] != undefined && assunto['questoesCorrecao'].length > 0) {
             assunto['questoesCorrecao'].forEach((questaoCorrecao) => {
               if (questaoCorrecao.id == params['questaoCorrecaoId']) {
                 this.questaoCorrecao = questaoCorrecao;
                 this.questao = questaoCorrecao.questao;
-                
 
-                RespostaQuestaoCorrecaoAlgoritmo.getRecentePorQuestao(this.questaoCorrecao, this.usuario).subscribe(
-                  (correcao: RespostaQuestaoCorrecaoAlgoritmo) => {
-                    if (correcao != null){
-                      this.correcao = correcao;
-                      this.submissao = Submissao.fromJson(correcao.submissao);
-                    } else{
-                      this.questaoCorrecao.getSubmissaoComErro(this.usuario).subscribe(submissaoErro=>{
+                RespostaQuestaoCorrecaoAlgoritmo.getRecentePorQuestao(
+                  this.questaoCorrecao,
+                  this.usuario
+                ).subscribe((correcao: RespostaQuestaoCorrecaoAlgoritmo) => {
+                  if (correcao != null) {
+                    this.correcao = correcao;
+                    this.submissao = Submissao.fromJson(correcao.submissao);
+                  } else {
+                    this.questaoCorrecao
+                      .getSubmissaoComErro(this.usuario)
+                      .subscribe((submissaoErro) => {
                         this.submissao = submissaoErro;
-                      })
-                    }
-
+                      });
                   }
-                );
+                });
               }
             });
           }
-          });
-      }
-      else{
+        });
+      } else {
         if (params['assuntoId'] != undefined && params['questaoId'] != undefined) {
           Assunto.get(params['assuntoId']).subscribe((assunto) => {
             this.assunto = assunto as Assunto;
-  
+
             if (
               assunto['questoesProgramacao'] != undefined &&
               assunto['questoesProgramacao'].length > 0
@@ -273,26 +272,25 @@ export class ResponderQuestaoProgramacao implements OnInit, AfterViewInit, OnCha
               assunto['questoesProgramacao'].forEach((questao) => {
                 if (questao.id == params['questaoId']) {
                   this.questao = questao;
-  
+
                   if (this.usuario != null) {
                     Submissao.getRecentePorQuestao(this.questao, this.usuario).subscribe(
                       (submissao: Submissao) => {
-                        if (submissao != null){
+                        if (submissao != null) {
                           this.submissao = this.prepararSubmissao(submissao);
-                        }   
-                        
-  
+                        }
+
                         this.atualizarCardErros();
                       }
                     );
                   }
                 }
               });
-  
+
               if (this.questao == undefined) {
                 throw new Error('Não é possível iniciar o editor sem uma questão.');
               } else {
-               // this.editorCodigo = Editor.getInstance();
+                // this.editorCodigo = Editor.getInstance();
               }
             }
           });
@@ -300,8 +298,6 @@ export class ResponderQuestaoProgramacao implements OnInit, AfterViewInit, OnCha
           throw new Error('Não é possível iniciar o editor sem uma questão.');
         }
       }
-
-      
     });
 
     //this.salvarAutomaticamente(); # desabilitado temporariamente por questões de performance.
@@ -314,15 +310,11 @@ export class ResponderQuestaoProgramacao implements OnInit, AfterViewInit, OnCha
     });
   }
 
-  
-
   prepararStatus(status) {
     let textoStatus = "<span class='textoStatus'>Status</span> ";
     if (!status) this.statusExecucao = textoStatus + "<span class='statusErro'>Erro</span>";
     else this.statusExecucao = textoStatus + "<span class='statusSucesso'>Sucesso</span>";
   }
-
- 
 
   pedirAjuda() {
     this.dialogPedirAjuda = true;
@@ -362,5 +354,4 @@ export class ResponderQuestaoProgramacao implements OnInit, AfterViewInit, OnCha
     });
 
   }*/
-
 }

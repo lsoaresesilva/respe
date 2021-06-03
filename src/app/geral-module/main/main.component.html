@@ -47,13 +47,10 @@
 <app-chatbot></app-chatbot>
 <!-- <app-pre-teste [visibilidade]="visibilidadeDialog"></app-pre-teste>--->
 
-<p-blockUI [blocked]="loading" [target]="mainOutlet">
-  <p-progressSpinner></p-progressSpinner>
-</p-blockUI>
 
-<div style="margin: 20px; height:100%" #mainOutlet>
-  <app-blockable-container >
+<div style="margin: 20px; height:100%">
+
     <router-outlet name="principal"></router-outlet>
-  </app-blockable-container>
+
   
 </div>

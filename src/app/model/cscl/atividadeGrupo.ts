@@ -77,7 +77,7 @@ export default class AtividadeGrupo extends Document {
     if(estudante.grupoExperimento == Groups.experimentalB){
       link = environment.URL_SERVIDOR+'geral/main/(principal:srl/entrar-grupo/';
     }else{
-      link = environment.URL_SERVIDOR+'geral/main/(principal:juiz/entrar-grupo/';
+      link = environment.URL_SERVIDOR+'geral/main/(principal:juiz/atividade-grupo/';
     }
     
     link += this.pk() +'/' +grupoEstudante.id +'/' +this["assuntoId"] +'/' +this["questaoColaborativaId"] +')'

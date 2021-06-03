@@ -128,7 +128,7 @@ export const routes: Routes = [
 
 
   {
-    path: 'entrar-grupo/:atividadeGrupoId/:grupoId/:assuntoId/:questaoId',
+    path: 'atividade-grupo/:atividadeGrupoId/:grupoId/:assuntoId/:questaoId',
     component: ResponderQuestaoProgramacao,
     canActivate: [AuthGuard, PageTrack]
   },
