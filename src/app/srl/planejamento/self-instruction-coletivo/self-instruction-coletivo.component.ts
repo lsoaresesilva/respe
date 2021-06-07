@@ -1,12 +1,15 @@
 import { AfterViewInit, Component, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
-import { SelectItem } from 'primeng/api';
+import { MessageService, SelectItem } from 'primeng/api';
+import { BehaviorSubject, Subject } from 'rxjs';
+import { takeUntil } from 'rxjs/operators';
 import { LoginService } from 'src/app/login-module/login.service';
 import { Assunto } from 'src/app/model/assunto';
 import AtividadeGrupo from 'src/app/model/cscl/atividadeGrupo';
 import DificuldadeAtividadeGrupo from 'src/app/model/cscl/dificuldadeAtividadeGrupo';
 import Query from 'src/app/model/firestore/query';
 import AutoInstrucaoColetiva from 'src/app/model/srl/autoInstrucaoColetivo';
+import JustificativasAutoInstrucao from 'src/app/model/srl/justificativaInstrucaoColetiva';
 
 declare function iniciarSelfInstructionColaborativo(
   id,
@@ -20,18 +23,40 @@ declare function iniciarSelfInstructionColaborativo(
   styleUrls: ['./self-instruction-coletivo.component.css'],
 })
 export class SelfInstructionColetivoComponent implements OnInit, AfterViewInit {
+  estudante;
+
   atividadeGrupo;
   grupo;
   autoInstrucaoColetiva: AutoInstrucaoColetiva;
   questao;
-  estudantes: SelectItem[];
+  estudantes;
   atividadeGrupoId;
   grupoId;
-  relatoDificuldade:DificuldadeAtividadeGrupo;
+  relatoDificuldade: JustificativasAutoInstrucao;
+  display;
 
-  constructor(private route: ActivatedRoute, private router:Router, private login:LoginService) {
-    this.autoInstrucaoColetiva = new AutoInstrucaoColetiva(null, '', '', this.grupo);
-    this.relatoDificuldade = new DificuldadeAtividadeGrupo(null, this.atividadeGrupo, this.grupo, this.login.getUsuarioLogado(), 0, "");
+  isAvancarPlanejamentoHabilitado;
+  isSalvarHabilitado;
+  isVisualizarJustificativaGrupoHabilitado;
+
+  pieData;
+  pieOpcoes;
+
+  constructor(
+    private route: ActivatedRoute,
+    private router: Router,
+    private login: LoginService,
+    private messageService: MessageService
+  ) {
+    this.display = false;
+    this.estudante = this.login.getUsuarioLogado();
+
+    this.isAvancarPlanejamentoHabilitado = true;
+    this.isSalvarHabilitado = true;
+    this.isVisualizarJustificativaGrupoHabilitado = false;
+
+    this.relatoDificuldade = new JustificativasAutoInstrucao(this.estudante, 0, '');
+
     this.route.params.subscribe((params) => {
       if (
         params['atividadeGrupoId'] != null &&
@@ -43,9 +68,18 @@ export class SelfInstructionColetivoComponent implements OnInit, AfterViewInit {
         this.grupoId = params['grupoId'];
       }
     });
-    this.estudantes = [
-      { label: 'Selecione o líder da equipe', value: null }
-    ]
+
+    
+    this.pieOpcoes = {
+      title: {
+        display: true,
+        text: 'Como o seu grupo avalia a dificuldade',
+        fontSize: 16,
+      },
+      legend: {
+        position: 'top',
+      },
+    };
   }
 
   ngOnInit(): void {}
@@ -57,17 +91,30 @@ export class SelfInstructionColetivoComponent implements OnInit, AfterViewInit {
     }
   }
 
-  salvarDificuldade(){
-    if(this.atividadeGrupo != null && this.grupo != null){
+  selecionarDificuldade() {
+    this.display = true;
+  }
 
-      this.relatoDificuldade.atividadeGrupo = this.atividadeGrupo;
-      this.relatoDificuldade.grupo = this.grupo;
-      this.relatoDificuldade.save().subscribe(()=>{
-        let consultas = [];
-        DificuldadeAtividadeGrupo.getAll([new Query("grupoId", "==", this.grupoId)]).subscribe(dificuldades=>{
-
-        })
-      })
+  salvarDificuldade() {
+    if (this.atividadeGrupo != null && this.grupo != null) {
+      this.autoInstrucaoColetiva.atualizarJustificativaEstudante(this.estudante, this.relatoDificuldade);
+      this.autoInstrucaoColetiva.save().subscribe(
+        () => {
+          this.display = false;
+          this.messageService.add({
+            severity: 'success',
+            summary: 'Informação enviada com sucesso.',
+            detail: '',
+          });
+        },
+        (err) => {
+          this.messageService.add({
+            severity: 'error',
+            summary: 'Falha ao salvar a informação.',
+            detail: 'Tente novamente em alguns instantes.',
+          });
+        }
+      );
     }
   }
 
@@ -75,15 +122,56 @@ export class SelfInstructionColetivoComponent implements OnInit, AfterViewInit {
     AtividadeGrupo.get(this.atividadeGrupoId).subscribe((atividadeGrupo) => {
       this.atividadeGrupo = atividadeGrupo;
       this.grupo = this.atividadeGrupo.getGrupo(this.grupoId);
-      this.grupo.getEstudantes().subscribe(estudantes=>{
-        estudantes.forEach(estudante => {
-          this.estudantes.push(
-            { label: estudante.nome, value: estudante }
-            )
-        });
-      })
-      
-      
+
+      let callbackAtualizacaoSelfInstruction = new BehaviorSubject<any>(null);
+
+
+      callbackAtualizacaoSelfInstruction.subscribe((atualizacao) => {
+        
+        if (atualizacao != null) {
+
+          this.autoInstrucaoColetiva = atualizacao;
+
+          if( this.autoInstrucaoColetiva.isFinalizada ){
+            this.router.navigate(["geral/main", { outlets: { principal: ['juiz', 'atividade-grupo', this.atividadeGrupoId, this.grupoId, this.atividadeGrupo["assuntoId"], this.atividadeGrupo["questaoColaborativaId"]] } }]);
+          }else{
+            this.pieData = this.autoInstrucaoColetiva.gerarDadosGrafico();
+
+            this.isVisualizarJustificativaGrupoHabilitado =  this.autoInstrucaoColetiva.getJustificativaByEstudante(this.estudante) != null?true:false;
+            this.isAvancarPlanejamentoHabilitado = !this.autoInstrucaoColetiva.podeVisualizarPlanejamento(this.grupo);
+            this.isSalvarHabilitado = !this.autoInstrucaoColetiva.podeVisualizarAvancar(this.autoInstrucaoColetiva.analiseProblema, this.autoInstrucaoColetiva.analiseSolucao);
+          }
+
+          
+        }
+      });
+
+      AutoInstrucaoColetiva.getByQuery(new Query('grupoId', '==', this.grupoId)).subscribe(
+        (autoInstrucaoColetiva) => {
+          this.autoInstrucaoColetiva = autoInstrucaoColetiva;
+
+          this.isVisualizarJustificativaGrupoHabilitado =  this.autoInstrucaoColetiva.getJustificativaByEstudante(this.estudante) != null?true:false;
+
+          this.autoInstrucaoColetiva.justificativas.forEach((justificativa) => {
+            if (justificativa.estudante.pk() == this.login.getUsuarioLogado().pk()) {
+              this.relatoDificuldade.dificuldade = justificativa.dificuldade;
+            }
+          });
+
+          AutoInstrucaoColetiva.onDocumentUpdate(
+            this.autoInstrucaoColetiva.pk(),
+            callbackAtualizacaoSelfInstruction
+          );
+        }
+      );
+
+      this.grupo.getEstudantes().subscribe((estudantes) => {
+        this.estudantes = estudantes;
+        /* estudantes.forEach((estudante) => {
+          this.estudantes.push({ label: estudante.nome, value: estudante });
+        }); */
+      });
+
       Assunto.get(this.atividadeGrupo.assuntoId).subscribe((assunto) => {
         this.questao = assunto.getQuestaoColaborativaById(
           this.atividadeGrupo.questaoColaborativaId
@@ -92,18 +180,31 @@ export class SelfInstructionColetivoComponent implements OnInit, AfterViewInit {
           this.grupo.id,
           (analiseProblema) => {
             this.autoInstrucaoColetiva.analiseProblema = analiseProblema;
+            this.autoInstrucaoColetiva.save().subscribe();
+
+            
           },
           (analiseSolucao) => {
             this.autoInstrucaoColetiva.analiseSolucao = analiseSolucao;
+            this.autoInstrucaoColetiva.save().subscribe();
+            
           }
         );
       });
     });
   }
 
-  salvar(){
-    this.autoInstrucaoColetiva.save().subscribe(()=>{
+  selecionarLider(){
+    if(this.autoInstrucaoColetiva.lider != null){
+      this.autoInstrucaoColetiva.save().subscribe();
+    }
+  }
 
-    })
+
+  salvar() {
+    this.autoInstrucaoColetiva.isFinalizada = true;
+    this.autoInstrucaoColetiva.save().subscribe(() => {
+
+    });
   }
 }

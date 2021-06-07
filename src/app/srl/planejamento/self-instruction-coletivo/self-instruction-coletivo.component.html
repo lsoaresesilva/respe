@@ -1,119 +1,200 @@
-<div class="p-grid">
-    <div class="p-col-1"></div>
-    <div class="p-col-10">
-        <app-visualizar-questao *ngIf="questao != null" [questao]="questao.questao" id="dadosQuestao"></app-visualizar-questao>
-    </div>
-    <div class="p-col-2"></div>
-</div>
-<div class="p-grid">
-    <div class="p-col-10"></div>
-    <div class="p-col-1">
-        <button pButton label="Avançar" (click)="salvar()"></button>
-    </div>
-</div>
-<div class="p-grid">
-    <div class="p-col-1"></div>
-    <div class="p-col-11">
-        <div class="p-col-2">
-        
-        </div>
-        <div class="p-col-1">
-         1 
-        </div>
-        <div class="p-col-1">
-          2 
-         </div>
-         <div class="p-col-1">
-          3
-         </div>
-         <div class="p-col-1">
-          4
-         </div>
-         <div class="p-col-1">
-          5
-         </div>
-         <div class="p-col-5">
-          
-         </div>
-    </div>
+<div *ngIf="autoInstrucaoColetiva != null">
+
+    <p-tabView>
+        <p-tabPanel header="Questão">
+            <div class="p-grid">
+                <div class="p-col-10">
+                    <app-visualizar-questao *ngIf="questao != null" [questao]="questao.questao" id="dadosQuestao">
+                    </app-visualizar-questao>
+                </div>
+                <div class="p-col-2"></div>
+            </div>
+            <div class="p-grid" style="margin-top: 10px;">
+                <div class="p-col-6"><h3>Para você, qual o nível de dificuldade dessa questão?</h3></div>
+            </div>
+            <div class="p-grid">
+                <div class="p-col-11">
+                    <div class="p-grid">
+                        <div class="p-col-2">
+
+                        </div>
+                        <div class="p-col-1">
+                            1
+                        </div>
+                        <div class="p-col-1">
+                            2
+                        </div>
+                        <div class="p-col-1">
+                            3
+                        </div>
+                        <div class="p-col-1">
+                            4
+                        </div>
+                        <div class="p-col-1">
+                            5
+                        </div>
+                        <div class="p-col-5">
+
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="p-grid">
+                <div class="p-col-11">
+                    <div class="p-grid">
+                        <div class="p-col-2">
+                            Fácil
+                        </div>
+                        <div class="p-col-1">
+                            <p-radioButton name="afirmacaoUm" value="1" label=""
+                                [(ngModel)]="relatoDificuldade.dificuldade" (onClick)="selecionarDificuldade()">
+                            </p-radioButton>
+                        </div>
+                        <div class="p-col-1">
+                            <p-radioButton name="afirmacaoUm" value="2" label=""
+                                [(ngModel)]="relatoDificuldade.dificuldade" (onClick)="selecionarDificuldade()">
+                            </p-radioButton>
+                        </div>
+                        <div class="p-col-1">
+                            <p-radioButton name="afirmacaoUm" value="3" label=""
+                                [(ngModel)]="relatoDificuldade.dificuldade" (onClick)="selecionarDificuldade()">
+                            </p-radioButton>
+                        </div>
+                        <div class="p-col-1">
+                            <p-radioButton name="afirmacaoUm" value="4" label=""
+                                [(ngModel)]="relatoDificuldade.dificuldade" (onClick)="selecionarDificuldade()">
+                            </p-radioButton>
+                        </div>
+                        <div class="p-col-1">
+                            <p-radioButton name="afirmacaoUm" value="5" label=""
+                                [(ngModel)]="relatoDificuldade.dificuldade" (onClick)="selecionarDificuldade()">
+                            </p-radioButton>
+                        </div>
+                        <div class="p-col-5">
+                            Difícil
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+
+            <div class="p-grid" *ngIf="isVisualizarJustificativaGrupoHabilitado">
+                <div class="p-col-12">
+                   <h3>Como a sua equipe avalia a dificuldade dessa questão</h3>
+                </div>
+            </div>
+
+            <div class="p-grid" *ngIf="isVisualizarJustificativaGrupoHabilitado">
+                <div class="p-col-4">
+                    <p-chart type="pie" [data]="pieData"></p-chart>
+                </div>
+                <div class="p-col-8">
+                    <p-table [value]="autoInstrucaoColetiva.justificativas">
+                        <ng-template pTemplate="header">
+                            <tr>
+                                <th>Dificuldade</th>
+                                <th>Justificativa</th>
+
+                            </tr>
+                        </ng-template>
+                        <ng-template pTemplate="body" let-justificativa>
+                            <tr>
+                                <td>{{justificativa.dificuldade}}</td>
+                                <td>{{justificativa.texto}}</td>
+                            </tr>
+                        </ng-template>
+                    </p-table>
+                </div>
+            </div>
+
+        </p-tabPanel>
+        <p-tabPanel header="Planejamento do problema e solução" [disabled]="isAvancarPlanejamentoHabilitado">
+            <div class="p-grid">
+                <div class="p-col-10">
+                    <h3>Quem será o líder da equipe?</h3>
+                </div>
+            </div>
+            <div class="p-grid">
+                <div class="p-col-10">
+                    <p-dropdown [options]="estudantes" optionLabel="nome" placeholder="Selecione o líder da equipe" [(ngModel)]="autoInstrucaoColetiva.lider" (onChange)="selecionarLider()"></p-dropdown>
+                </div>
+            </div>
+            <div class="p-grid" [style]="{height:'1200px'}">
+                <div class="p-col-6">
+                    <div class="p-col-12">
+                        <h3 class="first">1) Qual problema vocês esperam resolver com esse algoritmo?</h3>
+                        <span class="p-float-label">
+                            {{contagemCaracteres(autoInstrucaoColetiva.analiseProblema)}} caracteres faltando. Fiquem à
+                            vontade
+                            para
+                            escrever mais :)
+                            <div id="problema-container"></div>
+                        </span>
+
+                    </div>
+                </div>
+                <div class="p-col-6">
+                    <div class="p-col-12">
+                        <h3 class="first">2) Planejem o algoritmo! Quais as variáveis, condições, funções ou repetições
+                            serão
+                            utilizados?</h3>
+                        <span class="p-float-label">
+                            {{contagemCaracteres(autoInstrucaoColetiva.analiseSolucao)}} caracteres faltando. Fiquem à
+                            vontade
+                            para
+                            escrever mais :)
+                            <div id="recursos-container"></div>
+                        </span>
+
+                    </div>
+                </div>
+            </div>
+        </p-tabPanel>
+        <p-tabPanel header="Avançar" [disabled]="isSalvarHabilitado">
+            <div class="p-grid">
+                <div class="p-col-12">
+                    <b>Atenção: apenas o líder da equipe deve clicar no botão abaixo.</b><br><br>
+                    Ao clicar no botão a seguir você será redirecionado ao editor de programação colaborativo para escrever os códigos de programação juntamente com seus colegas de grupo.
+                </div>
+            </div>
+            <div class="p-grid">
+                <div class="p-col-1">
+                    <button pButton label="Avançar" (click)="salvar()" *ngIf="autoInstrucaoColetiva.lider != null" [disabled]="!(autoInstrucaoColetiva.lider.pk() == estudante.pk())"></button>
+                </div>
+            </div>
+        </p-tabPanel>
+    </p-tabView>
+
+
+
+
+
+
+
+
+
 </div>
 
-<div class="p-grid">
-    <div class="p-col-1"></div>
-         <div class="p-col-2">
-          Fácil
-        </div>
-        <div class="p-col-1">
-          <p-radioButton name="afirmacaoUm" value="1" label=""
-              [(ngModel)]="relatoDificuldade.dificuldade" (onClick)="salvarDificuldade()"></p-radioButton> 
-         </div>
-         <div class="p-col-1">
-          <p-radioButton name="afirmacaoUm" value="2" label=""
-          [(ngModel)]="relatoDificuldade.dificuldade"></p-radioButton> 
-          </div>
-          <div class="p-col-1">
-            <p-radioButton name="afirmacaoUm" value="3" label=""
-            [(ngModel)]="relatoDificuldade.dificuldade"></p-radioButton>
-          </div>
-          <div class="p-col-1">
-            <p-radioButton name="afirmacaoUm" value="4" label=""
-              [(ngModel)]="relatoDificuldade.dificuldade"></p-radioButton>
-          </div>
-          <div class="p-col-1">
-            <p-radioButton name="afirmacaoUm" value="5" label=""
-            [(ngModel)]="relatoDificuldade.dificuldade"></p-radioButton>
-          </div>
-          <div class="p-col-5">
-           Difícil
-          </div>
 
-<div class="p-grid">
-          <div class="p-col-1"></div>
-          <div class="p-col-11" *ngIf="relatoDificuldade.dificuldade != 0">
+
+<p-dialog header="Justifique o nível de dificuldade informado" [(visible)]="display" [modal]="true">
+    <div class="p-grid">
+        <div class="p-col-1"></div>
+        <div class="p-col-11" *ngIf="relatoDificuldade.dificuldade != 0">
             <span class="p-float-label">
-          
-                <textarea
-                  [rows]="3"
-                  [cols]="135"
-                  pInputTextarea
-                  [(ngModel)]="relatoDificuldade.justificativa"
-                  id="justificativa"
-                ></textarea>
-                <label for="justificativa">Por exemplo: neste problema precisarei ler dois números do teclado e realizar sua soma quando eles forem ímpares.</label>
-                
-              </span>
-          </div>
-          
-    </div>
-</div>
-<div class="p-grid">
-    <div class="p-col-1"></div>
-    <div class="p-col-10">
-        <p-dropdown [options]="estudantes"></p-dropdown>
-    </div>
-</div>
-<div class="p-grid" style="width:100%">
-    <div class="p-col-1"></div>
-    <div class="p-col-5">
-        <div class="p-col-12">
-            <h3 class="first">1) Qual problema vocês esperam resolver com esse algoritmo?</h3>
-            <span class="p-float-label">
-                {{contagemCaracteres(autoInstrucaoColetiva.analiseProblema)}} caracteres faltando. Fiquem à vontade para
-                escrever mais :)
-                <div id="problema-container" ></div>
+
+                <textarea [rows]="3" [cols]="100" pInputTextarea [(ngModel)]="relatoDificuldade.texto"
+                    id="justificativa"></textarea>
+                <label for="justificativa">Justique brevemente o por atribuiu esse nível de dificuldade para a
+                    questão.</label>
+
             </span>
-            
         </div>
-    </div>
-    <div class="p-col-5">
-        <div class="p-col-12" >
-            <h3 class="first">2) Planejem o algoritmo! Quais as variáveis, condições, funções ou repetições serão utilizados?</h3>
-            <span class="p-float-label">
-                {{contagemCaracteres(autoInstrucaoColetiva.analiseSolucao)}} caracteres faltando. Fiquem à vontade para
-                escrever mais :)
-                <div id="recursos-container"></div>
-            </span>
-            
+        <div class="p-col-1"></div>
+        <div class="p-col-11" *ngIf="relatoDificuldade.dificuldade != 0">
+            <button pButton label="Salvar" (click)="salvarDificuldade()"></button>
         </div>
+
     </div>
-</div>
+</p-dialog>

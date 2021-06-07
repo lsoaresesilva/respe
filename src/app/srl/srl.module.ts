@@ -64,6 +64,7 @@ import { ExperimentoGuard } from '../guards/experimento.guard';
 import { PageTrack } from '../guards/pageTrack.guard';
 import { SelfInstructionColetivoComponent } from './planejamento/self-instruction-coletivo/self-instruction-coletivo.component';
 
+
 export const routes:Routes = [
   {
     path: 'index',

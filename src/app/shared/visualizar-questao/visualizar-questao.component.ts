@@ -90,6 +90,10 @@ export class VisualizarQuestaoComponent implements OnInit {
     }
   }
 
+  formatarHtml(questao){
+    return this.sanitizer.bypassSecurityTrustHtml(questao.enunciado);
+  }
+
   gerarHtmlTextoComCodigo(questao) {
     if (questao.possuiCodigoNoEnunciado()) {
       const texto = questao.enunciado

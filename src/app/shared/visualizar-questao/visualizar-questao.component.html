@@ -7,7 +7,7 @@
     <div *ngIf="questao?.possuiCodigoNoEnunciado(); else semCodigo" [innerHtml]="gerarHtmlTextoComCodigo(questao)">
     </div>
     <ng-template #semCodigo>
-      {{ questao?.enunciado }}
+      <div [innerHtml]="formatarHtml(questao)"></div>
     </ng-template>
   </div>
 </p-fieldset>

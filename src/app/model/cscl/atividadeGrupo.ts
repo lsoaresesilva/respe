@@ -1,4 +1,4 @@
-import { Observable } from 'rxjs';
+import { forkJoin, Observable } from 'rxjs';
 import { Assunto } from '../assunto';
 import { Collection, date, Document, ignore } from '../firestore/document';
 import { QuestaoProgramacao } from '../questoes/questaoProgramacao';
@@ -11,6 +11,7 @@ import Grupo from './grupo';
 import { environment } from 'src/environments/environment';
 import Questao from '../questoes/questao';
 import { Groups } from '../experimento/groups';
+import AutoInstrucaoColetiva from '../srl/autoInstrucaoColetivo';
 
 @Collection('atividadeGrupo')
 export default class AtividadeGrupo extends Document {
@@ -253,6 +254,29 @@ export default class AtividadeGrupo extends Document {
     
   }
 
+  save(): Observable<any> {
+    return new Observable(observer=>{
+      super.save().subscribe((resultado)=>{
+        let consultas = [];
+        this.grupos.forEach(grupo=>{
+          
+          if(Array.isArray(grupo.estudantes) && grupo.estudantes.length > 0){
+            if(grupo.estudantes[0].grupoExperimento == Groups.experimentalB){
+              let selfInstructionColetivo = new AutoInstrucaoColetiva(null, "", "", grupo, [], null, false);
+              consultas.push(selfInstructionColetivo.save());
+            }
+          }
+
+
+        })
+
+        forkJoin(consultas).subscribe(resultados=>{
+          observer.next(resultado);
+          observer.complete();
+        })
+      })
+    });
+  }
 
   getGrupo(grupoId):Grupo{
     return this.grupos.find(function(grupo){

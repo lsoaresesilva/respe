@@ -478,6 +478,9 @@ export class EditorProgramacaoComponent implements AfterViewInit, OnChanges, OnI
 
       let postagem = new Postagem(null, "Pedido de ajuda - "+this.questao.nomeCurto, mensagem, this.usuario, this.usuario.turma);
       postagem.save().subscribe(()=>{
+        let track = new PageTrackRecord(null, "pedido-ajuda", this.usuario).save().subscribe(()=>{
+
+        });
         this.displayPedidoAjuda = false;
         pedidoAjuda.value = "";
         this.messageService.add({
