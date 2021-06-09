@@ -38,7 +38,7 @@ export class SelfInstructionColetivoComponent implements OnInit, AfterViewInit {
   isAvancarPlanejamentoHabilitado;
   isSalvarHabilitado;
   isVisualizarJustificativaGrupoHabilitado;
-
+  isVisualizarDificuldadesEstudantesHabilitado;
   pieData;
   pieOpcoes;
 
@@ -54,8 +54,9 @@ export class SelfInstructionColetivoComponent implements OnInit, AfterViewInit {
     this.isAvancarPlanejamentoHabilitado = true;
     this.isSalvarHabilitado = true;
     this.isVisualizarJustificativaGrupoHabilitado = false;
+    this.isVisualizarDificuldadesEstudantesHabilitado = false;
 
-    this.relatoDificuldade = new JustificativasAutoInstrucao(this.estudante, 0, '');
+    this.relatoDificuldade = new JustificativasAutoInstrucao(this.estudante, 0, '', '');
 
     this.route.params.subscribe((params) => {
       if (
@@ -84,10 +85,17 @@ export class SelfInstructionColetivoComponent implements OnInit, AfterViewInit {
 
   ngOnInit(): void {}
 
-  contagemCaracteres(referencia: string) {
+  contagemCaracteres(referencia: string, caracteres=120) {
     if (referencia != null) {
-      let restante = 200 - referencia.length;
+      let restante = caracteres - referencia.length;
       return restante <= 0 ? 0 : restante;
+    }
+  }
+
+  verificarAtualizacaoAvaliacaoDificuldade(){
+    if(this.relatoDificuldade.avaliacaoDificuldades.length > 90){
+      this.autoInstrucaoColetiva.atualizarJustificativaEstudante(this.estudante, this.relatoDificuldade);
+      this.autoInstrucaoColetiva.save().subscribe(()=>{});
     }
   }
 
@@ -137,12 +145,16 @@ export class SelfInstructionColetivoComponent implements OnInit, AfterViewInit {
           }else{
             this.pieData = this.autoInstrucaoColetiva.gerarDadosGrafico();
 
-            this.isVisualizarJustificativaGrupoHabilitado =  this.autoInstrucaoColetiva.getJustificativaByEstudante(this.estudante) != null?true:false;
+            let justificativa = this.autoInstrucaoColetiva.getJustificativaByEstudante(this.estudante)
+            this.isVisualizarJustificativaGrupoHabilitado =  justificativa != null?true:false;
+            if(justificativa != null){
+              this.isVisualizarDificuldadesEstudantesHabilitado = justificativa.avaliacaoDificuldades != "" ? true:false;
+            }
+            
+            
             this.isAvancarPlanejamentoHabilitado = !this.autoInstrucaoColetiva.podeVisualizarPlanejamento(this.grupo);
             this.isSalvarHabilitado = !this.autoInstrucaoColetiva.podeVisualizarAvancar(this.autoInstrucaoColetiva.analiseProblema, this.autoInstrucaoColetiva.analiseSolucao);
           }
-
-          
         }
       });
 

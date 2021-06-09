@@ -9,8 +9,12 @@
                 </div>
                 <div class="p-col-2"></div>
             </div>
+            
+
+        </p-tabPanel>
+        <p-tabPanel header="Avaliação da atividade">
             <div class="p-grid" style="margin-top: 10px;">
-                <div class="p-col-6"><h3>Para você, qual o nível de dificuldade dessa questão?</h3></div>
+                <div class="p-col-6"><h3>1. Para você, qual o nível de dificuldade para responder essa questão?</h3></div>
             </div>
             <div class="p-grid">
                 <div class="p-col-11">
@@ -47,27 +51,27 @@
                             Fácil
                         </div>
                         <div class="p-col-1">
-                            <p-radioButton name="afirmacaoUm" value="1" label=""
+                            <p-radioButton name="afirmacaoUm" value="Muito difícil" label=""
                                 [(ngModel)]="relatoDificuldade.dificuldade" (onClick)="selecionarDificuldade()">
                             </p-radioButton>
                         </div>
                         <div class="p-col-1">
-                            <p-radioButton name="afirmacaoUm" value="2" label=""
+                            <p-radioButton name="afirmacaoUm" value="Difícil" label=""
                                 [(ngModel)]="relatoDificuldade.dificuldade" (onClick)="selecionarDificuldade()">
                             </p-radioButton>
                         </div>
                         <div class="p-col-1">
-                            <p-radioButton name="afirmacaoUm" value="3" label=""
+                            <p-radioButton name="afirmacaoUm" value="Normal" label=""
                                 [(ngModel)]="relatoDificuldade.dificuldade" (onClick)="selecionarDificuldade()">
                             </p-radioButton>
                         </div>
                         <div class="p-col-1">
-                            <p-radioButton name="afirmacaoUm" value="4" label=""
+                            <p-radioButton name="afirmacaoUm" value="Fácil" label=""
                                 [(ngModel)]="relatoDificuldade.dificuldade" (onClick)="selecionarDificuldade()">
                             </p-radioButton>
                         </div>
                         <div class="p-col-1">
-                            <p-radioButton name="afirmacaoUm" value="5" label=""
+                            <p-radioButton name="afirmacaoUm" value="Muito fácil" label=""
                                 [(ngModel)]="relatoDificuldade.dificuldade" (onClick)="selecionarDificuldade()">
                             </p-radioButton>
                         </div>
@@ -81,7 +85,7 @@
 
             <div class="p-grid" *ngIf="isVisualizarJustificativaGrupoHabilitado">
                 <div class="p-col-12">
-                   <h3>Como a sua equipe avalia a dificuldade dessa questão</h3>
+                   <h3>2. Como a sua equipe avalia a dificuldade dessa questão</h3>
                 </div>
             </div>
 
@@ -93,13 +97,15 @@
                     <p-table [value]="autoInstrucaoColetiva.justificativas">
                         <ng-template pTemplate="header">
                             <tr>
-                                <th>Dificuldade</th>
+                                <th>Estudante</th>
+                                <th>Avaliação</th>
                                 <th>Justificativa</th>
 
                             </tr>
                         </ng-template>
                         <ng-template pTemplate="body" let-justificativa>
                             <tr>
+                                <td>{{justificativa.estudante?.nome}}</td>
                                 <td>{{justificativa.dificuldade}}</td>
                                 <td>{{justificativa.texto}}</td>
                             </tr>
@@ -108,6 +114,43 @@
                 </div>
             </div>
 
+            <div class="p-grid">
+                <div class="p-col-12">
+                    <div class="p-grid">
+                        <div class="p-col-12">
+                            <h3>3. Em sua avaliação, quais dificuldades que você possui mais irão impactar o seu trabalho nesta atividade?</h3>
+                         </div>
+                    </div>
+                    <div class="p-grid">
+                        <div class="p-col-12">
+                            <textarea [rows]="6" [cols]="60" pInputTextarea [(ngModel)]="relatoDificuldade.avaliacaoDificuldades" (ngModelChange)="verificarAtualizacaoAvaliacaoDificuldade()"></textarea>
+                         </div>
+                    </div>
+                    <div class="p-grid">
+                        <div class="p-col-12">
+                            {{contagemCaracteres(relatoDificuldade.avaliacaoDificuldades, 100)}} caracteres faltando.
+                         </div>
+                    </div>
+                </div>
+                <div class="p-col-12" *ngIf="isVisualizarDificuldadesEstudantesHabilitado">
+                    <p-table [value]="autoInstrucaoColetiva.justificativas">
+                        <ng-template pTemplate="header">
+                            <tr>
+                                <th>Estudante</th>
+                                <th>Dificuldades</th>
+
+                            </tr>
+                        </ng-template>
+                        <ng-template pTemplate="body" let-justificativa>
+                            <tr>
+                                <td>{{justificativa.estudante?.nome}}</td>
+                                <td>{{justificativa.avaliacaoDificuldades}}</td>
+                            </tr>
+                        </ng-template>
+                    </p-table>
+                </div>
+                
+            </div>
         </p-tabPanel>
         <p-tabPanel header="Planejamento do problema e solução" [disabled]="isAvancarPlanejamentoHabilitado">
             <div class="p-grid">

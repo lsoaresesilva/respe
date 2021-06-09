@@ -41,17 +41,23 @@ export default class AutoInstrucaoColetiva extends Document{
     }
 
     getJustificativaByEstudante(estudante:Usuario){
-        for(let i = 0; i < this.justificativas.length; i++){
-            if(this.justificativas[i]["estudanteId"] != null){
-                if(this.justificativas[i]["estudanteId"] == estudante.pk()){
-                    return this.justificativas[i];
-                }
-            }else{
-                if(this.justificativas[i].estudante.pk() == estudante.pk()){
-                    return this.justificativas[i];
+        if(Array.isArray(this.justificativas)){
+            for(let i = 0; i < this.justificativas.length; i++){
+                if(this.justificativas[i].estudante != null){
+                    if(this.justificativas[i].estudante.pk != null){
+                        if(this.justificativas[i].estudante.pk() == estudante.pk()){
+                            return this.justificativas[i];
+                        }
+                    }else{
+                        if(this.justificativas[i].estudante["id"] == estudante["id"]){
+                            return this.justificativas[i];
+                        }
+                    }
+                    
                 }
             }
         }
+        
     }
 
     static getByQuery(query, orderBy = null):Observable<any> {
@@ -59,13 +65,19 @@ export default class AutoInstrucaoColetiva extends Document{
             super.getByQuery(query).subscribe(resultado=>{
                 if(resultado != null){
                     
-                    resultado.justificativas = resultado.justificativas.map(justificativa=>{
-                        return JustificativasAutoInstrucao.construir(justificativa);
-                    })
+                    if(resultado.justificativas != null){
+                        resultado.justificativas = resultado.justificativas.map(justificativa=>{
+                            return JustificativasAutoInstrucao.construir(justificativa);
+                        })
+                    }
+                    
+                    if(resultado["liderId"] != null){
+                        Usuario.get(resultado["liderId"]).subscribe(estudanteLider=>{
+                            resultado.lider = estudanteLider;
+                        })
+                    }
 
-                    Usuario.get(resultado["liderId"]).subscribe(estudanteLider=>{
-                        resultado.lider = estudanteLider;
-                    })
+                    
 
                     observer.next(resultado);
                     observer.complete();
@@ -113,7 +125,8 @@ export default class AutoInstrucaoColetiva extends Document{
 
     atualizarJustificativaEstudante(estudante:Usuario, novaJustificativa:JustificativasAutoInstrucao){
         let atualizacao = false;
-        
+
+
         for(let i = 0; i < this.justificativas.length; i++){
             if(this.justificativas[i]["estudanteId"] != null){
                 if(this.justificativas[i]["estudanteId"] == estudante.pk()){
@@ -135,18 +148,36 @@ export default class AutoInstrucaoColetiva extends Document{
     }
 
     podeVisualizarPlanejamento(grupo:Grupo){
+        let isJustificativasRealizadas = false;
+        let isDificuldadesRelatadas = true;
         if(grupo.estudantes.length == 2){
             if(this.justificativas.length == 2){
-                return true;
+                isJustificativasRealizadas = true;
             }
-        }else{
-            if(this.justificativas.length >= Math.floor(0.75*grupo.estudantes.length)){
-                return true;
-            }
-        }
-        
 
-        return false;
+            this.justificativas.forEach(justificativa=>{
+                if(justificativa.avaliacaoDificuldades == "" || justificativa.avaliacaoDificuldades == null){
+                    isDificuldadesRelatadas = false;
+                }
+            })
+
+            return isJustificativasRealizadas && isDificuldadesRelatadas;
+        }else{
+
+            let totalDificuldadesRelatadas = 0;
+
+            if(this.justificativas.length >= Math.floor(0.75*grupo.estudantes.length)){
+                isJustificativasRealizadas = true;
+            }
+
+            this.justificativas.forEach(justificativa=>{
+                if(justificativa.avaliacaoDificuldades != "" || justificativa.avaliacaoDificuldades == null){
+                    totalDificuldadesRelatadas += 1;
+                }
+            })
+
+            return isJustificativasRealizadas && totalDificuldadesRelatadas >= Math.floor(0.75*grupo.estudantes.length);
+        }
     }
 
     podeVisualizarAvancar(analiseProblema, analiseSolucao){
@@ -162,14 +193,19 @@ export default class AutoInstrucaoColetiva extends Document{
 
         innerCallback.subscribe(autoInstrucaoColetiva=>{
             if(autoInstrucaoColetiva != null){
-                autoInstrucaoColetiva.justificativas = autoInstrucaoColetiva.justificativas.map(justificativa=>{
-                    return JustificativasAutoInstrucao.construir(justificativa);
-                })
 
-                Usuario.get(autoInstrucaoColetiva["liderId"]).subscribe(estudanteLider=>{
-                    autoInstrucaoColetiva.lider = estudanteLider;
-                })
-                 
+
+                if(autoInstrucaoColetiva.justificativas != null){
+                    autoInstrucaoColetiva.justificativas = autoInstrucaoColetiva.justificativas.map(justificativa=>{
+                        return JustificativasAutoInstrucao.construir(justificativa);
+                    })
+                }
+                
+                if(autoInstrucaoColetiva["liderId"] != null){
+                    Usuario.get(autoInstrucaoColetiva["liderId"]).subscribe(estudanteLider=>{
+                        autoInstrucaoColetiva.lider = estudanteLider;
+                    })
+                }
 
             }
 
