@@ -11,6 +11,14 @@
         "Está com problemas? Compartilhe com seus amigos, eles podem lhe ajudar!"
       ]
     },
+    "problemSolving":{
+      "mensagens":[
+        "Fiquem atentos ao problema de programação que vocês irão resolver. É preciso entendê-lo e saber o que o seu programa deverá fazer, antes de avançar!",
+        "Você lembra de ter resolvido algum problema parecido com este? É um primeiro passo para saber como solucionar o problema atual.",
+        "Não esqueça de validar se a solução que vocês criaram resolve o problema proposto. Fiquem atento às entradas e saídas esperadas durante o desenvolvimento do código."
+
+      ]
+    },
     "SyntaxError": {
       "mensagens": [
         "Parece que você está cometendo alguns erros por escrever as instruções de programação de forma incorreta.",

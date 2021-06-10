@@ -361,12 +361,15 @@ export class EditorProgramacaoComponent implements AfterViewInit, OnChanges, OnI
 
   iniciarChat() {
     if (this.atividadeGrupo != null && this.grupo.id != null) {
-      this.chat.iniciar(this.grupo.id).subscribe((resposta) => {
-        if (resposta) {
-          this.chat.receberMensagens();
-          this.isConectado = true;
-        }
-      });
+      if(this.usuario.grupoExperimento == Groups.experimentalB){
+        this.chat.iniciar(this.grupo.id).subscribe((resposta) => {
+          if (resposta) {
+            this.chat.receberMensagens();
+            this.isConectado = true;
+          }
+        });
+      }
+      
     }
   }
 
@@ -374,6 +377,12 @@ export class EditorProgramacaoComponent implements AfterViewInit, OnChanges, OnI
     this.isEditorPronto = true;
 
     if (this.atividadeGrupo != null && this.grupo.id != null) {
+
+      // Apresentará uma mensagem ao usuário sobre a resolução de problemas após 15 minutos.
+      setTimeout(()=>{
+        this.monitor.ajudarProblemSolving(this.usuario, 2);
+      }, 900000);
+
       this.iniciarChat();
       iniciarEditorColaborativo(this.grupo.id);
     } else {

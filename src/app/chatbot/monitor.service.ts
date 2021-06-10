@@ -34,7 +34,11 @@ export class MonitorService {
   suporte: Map<CategoriaErro, String[]>;
   suporteMotivacional: String[];
 
-  constructor(private chatbot: ChatbotService, public dialogService: DialogService, private login:LoginService) {
+  constructor(
+    private chatbot: ChatbotService,
+    public dialogService: DialogService,
+    private login: LoginService
+  ) {
     this.suporte = new Map<CategoriaErro, String[]>();
     this.suporteMotivacional = [];
     this.suporte.set(CategoriaErro.nameError, []);
@@ -133,69 +137,80 @@ export class MonitorService {
     // Se já tiver sido exibida as duas, não faz nada.
   } */
 
-  isEstudanteInteragindo(grupo:Grupo, estudante:Usuario){
-    return new Observable(observer=>{
-      if(grupo != null && estudante != null){
-        MensagemChat.getAll([new Query("grupoId", "==", grupo.id), new Query("estudanteId", "==", estudante.pk())], "data").subscribe(mensagens=>{
-          if(Array.isArray(mensagens) && mensagens.length > 0){
+  isEstudanteInteragindo(grupo: Grupo, estudante: Usuario) {
+    return new Observable((observer) => {
+      if (grupo != null && estudante != null) {
+        MensagemChat.getAll(
+          [new Query('grupoId', '==', grupo.id), new Query('estudanteId', '==', estudante.pk())],
+          'data'
+        ).subscribe((mensagens) => {
+          if (Array.isArray(mensagens) && mensagens.length > 0) {
             let tempoAgora = new Date();
-            if(mensagens[mensagens.length-1].data != null){
-              let tempoUltimaMensagem = Util.firestoreDateToDate(mensagens[mensagens.length-1].data);
+            if (mensagens[mensagens.length - 1].data != null) {
+              let tempoUltimaMensagem = Util.firestoreDateToDate(
+                mensagens[mensagens.length - 1].data
+              );
               let diffMs = tempoAgora.getTime() - tempoUltimaMensagem.getTime();
               let diffMins = Math.round(diffMs / 60000);
-              if(diffMins > 5){
+              if (diffMins > 5) {
                 observer.next(false);
                 observer.complete();
-              }else{
+              } else {
                 observer.next(true);
                 observer.complete();
               }
             }
-            
-          }else{ // Aluno ainda não interagiu
-            MensagemChat.getAll(new Query("grupoId", "==", grupo.id), "data").subscribe(mensagens=>{
-              let tempoAgora = new Date();
-              let tempoPrimeiraMensagem = Util.firestoreDateToDate(mensagens[0].data);
-              let diffMs = tempoAgora.getTime() - tempoPrimeiraMensagem.getTime();
-              let diffMins = Math.round(diffMs / 60000);
-              if(diffMins > 5){
-                observer.next(false);
-                observer.complete();
-              }else{
-                observer.next(true);
-                observer.complete();
+          } else {
+            // Aluno ainda não interagiu
+            MensagemChat.getAll(new Query('grupoId', '==', grupo.id), 'data').subscribe(
+              (mensagens) => {
+                let tempoAgora = new Date();
+                let tempoPrimeiraMensagem = Util.firestoreDateToDate(mensagens[0].data);
+                let diffMs = tempoAgora.getTime() - tempoPrimeiraMensagem.getTime();
+                let diffMins = Math.round(diffMs / 60000);
+                if (diffMins > 5) {
+                  observer.next(false);
+                  observer.complete();
+                } else {
+                  observer.next(true);
+                  observer.complete();
+                }
               }
-            })
+            );
           }
-        })
+        });
       }
-    })
+    });
   }
 
-  monitorarInteracaoEstudante(grupo:Grupo, estudante:Usuario){
-    
-    this.isEstudanteInteragindo(grupo, estudante).subscribe(isInteragindo=>{
-      if(!isInteragindo){
-        const mensagemSuporte = MensagemSuporteMonitor.getMensagem(
-          "faltaInteracao"
-        );
+  monitorarInteracaoEstudante(grupo: Grupo, estudante: Usuario) {
+    this.isEstudanteInteragindo(grupo, estudante).subscribe((isInteragindo) => {
+      if (!isInteragindo) {
+        const mensagemSuporte = MensagemSuporteMonitor.getMensagem('faltaInteracao');
         let registroMensagem = new RegistroMensagemChatbot(null, mensagemSuporte, estudante);
         registroMensagem.save().subscribe(() => {});
         this.chatbot.enviarMensagem(mensagemSuporte);
       }
-    })
-    
-
+    });
   }
 
+  ajudarProblemSolving(estudante, fase) {
+    const mensagemSuporte = MensagemSuporteMonitor.getMensagem('problemSolving', fase);
+    let registroMensagem = new RegistroMensagemChatbot(null, mensagemSuporte, estudante);
+    registroMensagem.save().subscribe(() => {});
+    this.chatbot.enviarMensagem(mensagemSuporte);
+  }
 
-
-  monitorarErrosEstudante(questao: QuestaoProgramacao, estudante:Usuario, erro:ErroPreCompilacao) {
+  monitorarErrosEstudante(
+    questao: QuestaoProgramacao,
+    estudante: Usuario,
+    erro: ErroPreCompilacao
+  ) {
     let enviarMensagem = false;
-    let mensagens:Mensagem[] = []
-    if(erro != null){
-      mensagens.push(new Mensagem("Há um erro no seu algoritmo...", null));
-      mensagens.push(new Mensagem("Possivelmente "+erro.mensagem, null));
+    let mensagens: Mensagem[] = [];
+    if (erro != null) {
+      mensagens.push(new Mensagem('Há um erro no seu algoritmo...', null));
+      mensagens.push(new Mensagem('Possivelmente ' + erro.mensagem, null));
     }
     Submissao.getPorQuestao(questao, estudante).subscribe((submissoes) => {
       const errorQuotient = this.calcularErrorQuotient(submissoes);
@@ -219,31 +234,36 @@ export class MonitorService {
               getLabelPorCategoriaNumero(submissao.erro.categoria)
             );
 
-              
-
             if (mensagemSuporte != null && mensagemSuporte.texto != null) {
               mensagens.push(mensagemSuporte);
               let registroMensagem = new RegistroMensagemChatbot(null, mensagemSuporte, estudante);
               registroMensagem.save().subscribe(() => {});
-              if(estudante.grupoExperimento != Groups.control){
-                DiarioProgramacao.exibirDiario(this.login.getUsuarioLogado(), TipoDiarioProgramacao.reflexao).subscribe(visibilidade=>{
-                  if(visibilidade){
+              if (estudante.grupoExperimento != Groups.control) {
+                DiarioProgramacao.exibirDiario(
+                  this.login.getUsuarioLogado(),
+                  TipoDiarioProgramacao.reflexao
+                ).subscribe((visibilidade) => {
+                  if (visibilidade) {
                     this.dialogService.open(DiarioProgramacaoComponent, {
                       data: { tipo: TipoDiarioProgramacao.reflexao },
-                      width:'600',
-                      height:'480'
+                      width: '600',
+                      height: '480',
                     });
                   }
                 });
               }
-              
             }
           } else {
             if (errorQuotient > 0.7) {
               if (!this.suporteMotivacional.includes(questao.id)) {
                 this.suporteMotivacional.push(questao.id);
-                const mensagemSuporteMotivacional = MensagemSuporteMonitor.getMensagem("mensagensMotivacionais");
-                if (mensagemSuporteMotivacional != null && mensagemSuporteMotivacional.texto != null) {
+                const mensagemSuporteMotivacional = MensagemSuporteMonitor.getMensagem(
+                  'mensagensMotivacionais'
+                );
+                if (
+                  mensagemSuporteMotivacional != null &&
+                  mensagemSuporteMotivacional.texto != null
+                ) {
                   let registroMensagem = new RegistroMensagemChatbot(
                     null,
                     mensagemSuporteMotivacional.texto,

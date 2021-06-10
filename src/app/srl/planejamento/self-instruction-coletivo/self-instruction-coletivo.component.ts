@@ -3,11 +3,13 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { MessageService, SelectItem } from 'primeng/api';
 import { BehaviorSubject, Subject } from 'rxjs';
 import { takeUntil } from 'rxjs/operators';
+import { MonitorService } from 'src/app/chatbot/monitor.service';
 import { ChatService } from 'src/app/cscl/chat.service';
 import { LoginService } from 'src/app/login-module/login.service';
 import { Assunto } from 'src/app/model/assunto';
 import AtividadeGrupo from 'src/app/model/cscl/atividadeGrupo';
 import DificuldadeAtividadeGrupo from 'src/app/model/cscl/dificuldadeAtividadeGrupo';
+import { Groups } from 'src/app/model/experimento/groups';
 import Query from 'src/app/model/firestore/query';
 import AutoInstrucaoColetiva from 'src/app/model/srl/autoInstrucaoColetivo';
 import JustificativasAutoInstrucao from 'src/app/model/srl/justificativaInstrucaoColetiva';
@@ -48,7 +50,8 @@ export class SelfInstructionColetivoComponent implements OnInit, AfterViewInit {
     private router: Router,
     private login: LoginService,
     private messageService: MessageService,
-    private chat:ChatService
+    private chat:ChatService,
+    private monitor:MonitorService
   ) {
     this.display = false;
     this.estudante = this.login.getUsuarioLogado();
@@ -83,6 +86,17 @@ export class SelfInstructionColetivoComponent implements OnInit, AfterViewInit {
         position: 'top',
       },
     };
+  }
+
+  mudarAba(event){
+    if(event.index == 1){
+      let isMensagemProblemSolvingExibida = sessionStorage.getItem("problemSolving");
+      if(isMensagemProblemSolvingExibida == null){
+        this.monitor.ajudarProblemSolving(this.estudante, 1);
+        sessionStorage.setItem("problemSolving", "1");
+      }
+      
+    }
   }
 
   ngOnInit(): void {}
@@ -141,6 +155,8 @@ export class SelfInstructionColetivoComponent implements OnInit, AfterViewInit {
           }
         });
       }
+
+      this.monitor.ajudarProblemSolving(this.estudante, 0);
 
       let callbackAtualizacaoSelfInstruction = new BehaviorSubject<any>(null);
 

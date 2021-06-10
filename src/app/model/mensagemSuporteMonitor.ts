@@ -10,16 +10,21 @@ export default class MensagemSuporteMonitor {
     return Math.floor(Math.random() * (max - min)) + min;
   }
 
-  static getMensagem(id):Mensagem {
+  static getMensagem(id, chave = -1):Mensagem {
 
     let mensagens = mensagemJson.mensagens[id].mensagens;
 
     if(mensagens != null){
       
   
-      let numeroAleatorio = this.getRandomInt(0,mensagens.length);
+      if(chave == -1){
+        let numeroAleatorio = this.getRandomInt(0,mensagens.length);
   
-      return new Mensagem(mensagemJson.mensagens[id].mensagens[numeroAleatorio], null);
+        return new Mensagem(mensagemJson.mensagens[id].mensagens[numeroAleatorio], null);
+      }else{
+        return new Mensagem(mensagemJson.mensagens[id].mensagens[chave], null);
+      }
+      
     }
     
   }

@@ -91,15 +91,15 @@ export default class AutoInstrucaoColetiva extends Document{
         let contagem = {nivelUm:0, nivelDois:0, nivelTres:0, nivelQuatro:0, nivelCinco:0};
 
         this.justificativas.forEach(justificativa =>{
-            if(justificativa.dificuldade == 1){
+            if(justificativa.dificuldade == 'Muito fácil'){
                 contagem.nivelUm += 1;
-            }else if(justificativa.dificuldade == 2){
+            }else if(justificativa.dificuldade == 'Fácil'){
                 contagem.nivelDois += 1;
-            }else if(justificativa.dificuldade == 3){
+            }else if(justificativa.dificuldade == 'Normal'){
                 contagem.nivelTres += 1;
-            }else if(justificativa.dificuldade == 4){
+            }else if(justificativa.dificuldade == 'Difícil'){
                 contagem.nivelQuatro += 1;
-            }else if(justificativa.dificuldade == 5){
+            }else if(justificativa.dificuldade == 'Muito difícil'){
                 contagem.nivelCinco += 1;
             }
         });
@@ -181,7 +181,7 @@ export default class AutoInstrucaoColetiva extends Document{
     }
 
     podeVisualizarAvancar(analiseProblema, analiseSolucao){
-        if(analiseProblema.length >= 198 && analiseSolucao.length >= 198 && (this.lider != null || this["liderId"] != null)){
+        if(analiseProblema.length >= 118 && analiseSolucao.length >= 118 && (this.lider != null || this["liderId"] != null)){
             return true;
         }
 

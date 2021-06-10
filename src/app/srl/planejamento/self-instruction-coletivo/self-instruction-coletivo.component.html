@@ -2,7 +2,7 @@
 
 <div *ngIf="autoInstrucaoColetiva != null">
 
-    <p-tabView>
+    <p-tabView (onChange)="mudarAba($event)">
         <p-tabPanel header="Questão">
             <div class="p-grid">
                 <div class="p-col-10">
@@ -14,7 +14,7 @@
             
 
         </p-tabPanel>
-        <p-tabPanel header="Avaliação da atividade">
+        <p-tabPanel header="Avaliação da atividade" >
             <div class="p-grid" style="margin-top: 10px;">
                 <div class="p-col-6"><h3>1. Para você, qual o nível de dificuldade para responder essa questão?</h3></div>
             </div>
