@@ -77,6 +77,11 @@ export const routes: Routes = [
     component: ListarAtividadesGrupoProfessorComponent,
     canActivate: [AuthGuard, ProfessorGuard]
   },
+  {
+    path: 'visualizacao-atividade-grupo-professor/:id',
+    component: VisualizarAtividadeGrupoProfessorComponent,
+    canActivate: [AuthGuard, ProfessorGuard]
+  },
 ];
 
 @NgModule({

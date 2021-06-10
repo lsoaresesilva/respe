@@ -19,6 +19,11 @@ import DiarioProgramacao from '../model/srl/diarioProgramacao';
 import { LoginService } from '../login-module/login.service';
 import ErroPreCompilacao from '../model/errors/analise-pre-compilacao/erroPrecompilacao';
 import { Groups } from '../model/experimento/groups';
+import MensagemChat from '../model/cscl/chat/mensagemChat';
+import Grupo from '../model/cscl/grupo';
+import Query from '../model/firestore/query';
+import { Observable } from 'rxjs';
+import { Util } from '../model/util';
 
 @Injectable({
   providedIn: 'root',
@@ -127,6 +132,61 @@ export class MonitorService {
 
     // Se já tiver sido exibida as duas, não faz nada.
   } */
+
+  isEstudanteInteragindo(grupo:Grupo, estudante:Usuario){
+    return new Observable(observer=>{
+      if(grupo != null && estudante != null){
+        MensagemChat.getAll([new Query("grupoId", "==", grupo.id), new Query("estudanteId", "==", estudante.pk())], "data").subscribe(mensagens=>{
+          if(Array.isArray(mensagens) && mensagens.length > 0){
+            let tempoAgora = new Date();
+            if(mensagens[mensagens.length-1].data != null){
+              let tempoUltimaMensagem = Util.firestoreDateToDate(mensagens[mensagens.length-1].data);
+              let diffMs = tempoAgora.getTime() - tempoUltimaMensagem.getTime();
+              let diffMins = Math.round(diffMs / 60000);
+              if(diffMins > 5){
+                observer.next(false);
+                observer.complete();
+              }else{
+                observer.next(true);
+                observer.complete();
+              }
+            }
+            
+          }else{ // Aluno ainda não interagiu
+            MensagemChat.getAll(new Query("grupoId", "==", grupo.id), "data").subscribe(mensagens=>{
+              let tempoAgora = new Date();
+              let tempoPrimeiraMensagem = Util.firestoreDateToDate(mensagens[0].data);
+              let diffMs = tempoAgora.getTime() - tempoPrimeiraMensagem.getTime();
+              let diffMins = Math.round(diffMs / 60000);
+              if(diffMins > 5){
+                observer.next(false);
+                observer.complete();
+              }else{
+                observer.next(true);
+                observer.complete();
+              }
+            })
+          }
+        })
+      }
+    })
+  }
+
+  monitorarInteracaoEstudante(grupo:Grupo, estudante:Usuario){
+    
+    this.isEstudanteInteragindo(grupo, estudante).subscribe(isInteragindo=>{
+      if(!isInteragindo){
+        const mensagemSuporte = MensagemSuporteMonitor.getMensagem(
+          "faltaInteracao"
+        );
+        let registroMensagem = new RegistroMensagemChatbot(null, mensagemSuporte, estudante);
+        registroMensagem.save().subscribe(() => {});
+        this.chatbot.enviarMensagem(mensagemSuporte);
+      }
+    })
+    
+
+  }
 
 
 

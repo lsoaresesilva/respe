@@ -72,7 +72,8 @@ export class ChatService {
   enviarMensagem(mensagem: MensagemChat) {
     if (mensagem != null) {
 
-      mensagem.save().subscribe(() => {
+      let novaMensagem = new MensagemChat(null, mensagem.estudante, mensagem.texto, mensagem.grupo, mensagem.atividadeGrupo);
+      novaMensagem.save().subscribe(() => {
          let x = 2;
       });
 

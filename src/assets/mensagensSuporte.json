@@ -1,5 +1,16 @@
 {
   "mensagens": {
+    "faltaInteracao":{
+      "mensagens":[
+        "Sua participação no grupo é muito importante para que alcancem um bom resultado. Não esqueça de colaborar com seus colegas!",
+        "É importante conversar com seus colegas sobre o problema de programação que vocês estão resolvendo para garantir que todos entenderam corretamente. Você já fez isso?",
+        "Incentive seus colegas que estão com dificuldades, uma palavra de apoio é fundamental para motivar a equipe.",
+        "Parece que você está interagindo pouco no grupo... vamos lá, ajude seus colegas!",
+        "Saber o que seus colegas estão fazendo é importante para vocês alinharem as atividades da equipe... que tal perguntá-los?",
+        "Será que alguém do grupo está com dificuldades? Você pode perguntar e ajudá-los.",
+        "Está com problemas? Compartilhe com seus amigos, eles podem lhe ajudar!"
+      ]
+    },
     "SyntaxError": {
       "mensagens": [
         "Parece que você está cometendo alguns erros por escrever as instruções de programação de forma incorreta.",

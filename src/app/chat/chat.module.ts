@@ -11,6 +11,9 @@ import {ScrollPanelModule} from 'primeng/scrollpanel';
 import { VoiceChatComponent } from './voice-chat/voice-chat.component';
 import { GravacaoVideoService } from './gravacao-video.service';
 import { CabecachoChatComponent } from './cabecacho-chat/cabecacho-chat.component';
+import { HttpClientModule } from '@angular/common/http';
+import { ChatbotModule } from '../chatbot/chatbot.module';
+import { MonitorService } from '../chatbot/monitor.service';
 
 
 @NgModule({
@@ -22,9 +25,11 @@ import { CabecachoChatComponent } from './cabecacho-chat/cabecacho-chat.componen
     ButtonModule,
     CardModule,
     InputTextModule,
-    ScrollPanelModule
+    ScrollPanelModule,
+    HttpClientModule,
+    ChatbotModule
   ],
   exports:[ChatGrupoComponent],
-  providers:[ChatService, GravacaoVideoService]
+  providers:[ChatService, GravacaoVideoService, MonitorService]
 })
 export class ChatModule { }

@@ -3,6 +3,7 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { MessageService, SelectItem } from 'primeng/api';
 import { BehaviorSubject, Subject } from 'rxjs';
 import { takeUntil } from 'rxjs/operators';
+import { ChatService } from 'src/app/cscl/chat.service';
 import { LoginService } from 'src/app/login-module/login.service';
 import { Assunto } from 'src/app/model/assunto';
 import AtividadeGrupo from 'src/app/model/cscl/atividadeGrupo';
@@ -46,7 +47,8 @@ export class SelfInstructionColetivoComponent implements OnInit, AfterViewInit {
     private route: ActivatedRoute,
     private router: Router,
     private login: LoginService,
-    private messageService: MessageService
+    private messageService: MessageService,
+    private chat:ChatService
   ) {
     this.display = false;
     this.estudante = this.login.getUsuarioLogado();
@@ -130,6 +132,15 @@ export class SelfInstructionColetivoComponent implements OnInit, AfterViewInit {
     AtividadeGrupo.get(this.atividadeGrupoId).subscribe((atividadeGrupo) => {
       this.atividadeGrupo = atividadeGrupo;
       this.grupo = this.atividadeGrupo.getGrupo(this.grupoId);
+
+      if (this.atividadeGrupo != null && this.grupo.id != null) {
+        this.chat.iniciar(this.grupo.id).subscribe((resposta) => {
+          if (resposta) {
+            this.chat.receberMensagens();
+            //this.isConectado = true;
+          }
+        });
+      }
 
       let callbackAtualizacaoSelfInstruction = new BehaviorSubject<any>(null);
 

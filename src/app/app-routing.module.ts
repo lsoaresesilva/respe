@@ -217,12 +217,7 @@ const routes: Routes = [
 
     
 
-      {
-        path: 'visualizacao-atividade-grupo-professor/:id',
-        component: VisualizarAtividadeGrupoProfessorComponent,
-        canActivate: [AuthGuard, ProfessorGuard],
-        outlet: 'principal',
-      },
+      
 
       {
         path: 'visualizacao-solucao-atividade-grupo/:atividadeGrupoId/:grupoId',

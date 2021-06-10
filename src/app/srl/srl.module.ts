@@ -63,6 +63,7 @@ import { AuthGuard } from '../guards/auth.guard';
 import { ExperimentoGuard } from '../guards/experimento.guard';
 import { PageTrack } from '../guards/pageTrack.guard';
 import { SelfInstructionColetivoComponent } from './planejamento/self-instruction-coletivo/self-instruction-coletivo.component';
+import { ChatModule } from '../chat/chat.module';
 
 
 export const routes:Routes = [
@@ -124,6 +125,7 @@ export const routes:Routes = [
     SelfInstructionColetivoComponent
   ],
   imports: [
+    ChatModule,
     CommonModule,
     AccordionModule,
     RouterModule.forChild(routes),

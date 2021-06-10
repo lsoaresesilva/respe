@@ -48,7 +48,7 @@ export class ListarAtividadesGrupoProfessorComponent implements OnInit {
   abrirAtividade(atividade){
     if(atividade.pk() != null){
       //this.router.navigate(['geral/main', { outlets: { principal: ['visualizacao-atividade-grupo-professor', atividade.pk()] } }]);
-      this.router.navigate(['geral/main', { outlets: { principal: ['visualizacao-atividade-grupo-professor', atividade.pk()] } }]);
+      this.router.navigate(['geral/main', { outlets: { principal: ['cscl', 'visualizacao-atividade-grupo-professor', atividade.pk()] } }]);
     }
     
   }

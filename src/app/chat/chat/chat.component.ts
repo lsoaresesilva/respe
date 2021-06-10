@@ -1,7 +1,9 @@
 import { ChangeDetectorRef, Component, Input, NgZone, OnChanges, OnInit, SimpleChanges, ViewChild } from '@angular/core';
 import { BehaviorSubject } from 'rxjs';
+import { MonitorService } from 'src/app/chatbot/monitor.service';
 import { LoginService } from 'src/app/login-module/login.service';
 import MensagemChat from 'src/app/model/cscl/chat/mensagemChat';
+import { Groups } from 'src/app/model/experimento/groups';
 import { ChatService } from '../../cscl/chat.service';
 
 @Component({
@@ -18,11 +20,13 @@ export class ChatGrupoComponent implements OnInit, OnChanges {
   usuarioLogado;
   participantes;
 
+  estudante;
+
   @ViewChild('scroll') scroll;
   @Input("atividadeGrupo") atividadeGrupo;
   @Input("grupo") grupo;
 
-  constructor(private loginService:LoginService, private chatService:ChatService, private changeDetectorRef: ChangeDetectorRef ) {
+  constructor(private loginService:LoginService, private chatService:ChatService, private changeDetectorRef: ChangeDetectorRef, private monitor:MonitorService ) {
     this.usuarioLogado = this.loginService.getUsuarioLogado();
     this.mensagem = new MensagemChat(null, this.usuarioLogado, "", this.grupo, this.atividadeGrupo);
     this.visibilidade = true;
@@ -31,9 +35,7 @@ export class ChatGrupoComponent implements OnInit, OnChanges {
     
     this.mensagens$ = new BehaviorSubject([]);
 
-    /* this.chatService.observerChat.subscribe(mensagem =>{
-      this.mensagens.push(mensagem);
-    }) */
+    this.estudante = this.loginService.getUsuarioLogado();
 
   
     this.chatService.observerChat.subscribe(mensagem=>{
@@ -62,6 +64,14 @@ export class ChatGrupoComponent implements OnInit, OnChanges {
   }
 
   ngOnInit(): void {
+   // Iniciar timer da issue #633
+
+   if(this.estudante.grupoExperimento == Groups.experimentalB){
+    
+    setInterval(()=>{
+     this.monitor.monitorarInteracaoEstudante(this.grupo, this.estudante );
+    }, 300000);
+   }
    
   }
 
