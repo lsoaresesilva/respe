@@ -132,7 +132,11 @@ export const routes: Routes = [
     component: ResponderQuestaoProgramacao,
     canActivate: [AuthGuard, PageTrack]
   },
-
+  {
+    path: 'responder-questao-correcao/:assuntoId/:questaoCorrecaoId',
+    component: ResponderQuestaoProgramacao,
+    canActivate: [AuthGuard, PageTrack]
+  },
 
   
 ];

@@ -150,12 +150,7 @@ const routes: Routes = [
 
       // Juiz
 
-      {
-        path: 'responder-questao-correcao/:assuntoId/:questaoCorrecaoId',
-        component: ResponderQuestaoProgramacao,
-        canActivate: [AuthGuard, PageTrack],
-        outlet: 'principal',
-      },
+     
 
       
 
