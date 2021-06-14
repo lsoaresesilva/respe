@@ -181,7 +181,7 @@ export default class AutoInstrucaoColetiva extends Document{
     }
 
     podeVisualizarAvancar(analiseProblema, analiseSolucao){
-        if(analiseProblema.length >= 118 && analiseSolucao.length >= 118 && (this.lider != null || this["liderId"] != null)){
+        if(analiseProblema.length >= 98 && analiseSolucao.length >= 98 && (this.lider != null || this["liderId"] != null)){
             return true;
         }
 

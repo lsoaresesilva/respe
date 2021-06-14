@@ -13,10 +13,10 @@ import { ChatService } from '../chat.service';
 
 @Component({
   selector: 'app-criacao-grupo',
-  templateUrl: './criacao-grupo.component.html',
-  styleUrls: ['./criacao-grupo.component.css'],
+  templateUrl: './criar-atividade-grupo.component.html',
+  styleUrls: ['./criar-atividade-grupo.component.css'],
 })
-export class CriacaoGrupoComponent implements OnInit {
+export class CriarAtividadeGrupoComponent implements OnInit {
   dataExpiracao;
 
   estudanteSelecionado;
@@ -157,12 +157,21 @@ export class CriacaoGrupoComponent implements OnInit {
   }
 
   importarFrequencia(){
-    let data = new Date();
+    if(this.turmaSelecionada == null){
+      this.messageService.add({
+        severity: 'error',
+        summary: 'Erro',
+        detail: 'É preciso escolher uma turma!',
+      });
+    }else{
+      let data = new Date();
     Frequencia.getByQuery([new Query("codigoTurma", "==", this.turmaSelecionada.codigo),new Query("data", "==", data.getDate()+"/"+data.getMonth())]).subscribe(frequencia=>{
       frequencia.getEstudantes().subscribe(estudantes=>{
         this.estudantesSelecionados = estudantes;
       })
     })
+    }
+    
   }
 
   selecionarAssunto(event) {

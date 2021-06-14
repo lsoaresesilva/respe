@@ -2,6 +2,7 @@ import { NgModule } from '@angular/core';
 import { Routes, RouterModule } from '@angular/router';
 import { CadastrarEstudantesComponent } from './login-module/cadastrar-estudantes/cadastrar-estudantes.component';
 import { LoginComponent } from './login-module/login/login.component';
+import { PreencherFrequenciaComponent } from './login-module/preencher-frequencia/preencher-frequencia.component';
 /* import { MainComponent } from './geral-module/main/main.component';
 import { AutoReflexaoComponent } from './srl/auto-reflexao/auto-reflexao.component';
 import { AuthGuard } from './guards/auth.guard';
@@ -185,21 +186,11 @@ const routes: Routes = [
 
       
 
-      {
-        path: 'criar-frequencia',
-        component: CriarFrequenciaComponent,
-        canActivate: [AuthGuard, ProfessorGuard],
-        outlet: 'principal',
-      },
+      
 
       
 
-      {
-        path: 'modificar-grupo/:atividadeGrupoId/:grupoId',
-        component: ModificarGrupoComponent,
-        canActivate: [AuthGuard, ProfessorGuard],
-        outlet: 'principal',
-      },
+      
 
       {
         path: 'visualizar-documentacao-projeto/:atividadeGrupoId/:grupoId/:assuntoId/:questaoId',
@@ -214,12 +205,7 @@ const routes: Routes = [
 
       
 
-      {
-        path: 'visualizacao-solucao-atividade-grupo/:atividadeGrupoId/:grupoId',
-        component: VisualizarSolucoesAtividadeGrupoComponent,
-        canActivate: [AuthGuard, PageTrack, ProfessorGuard],
-        outlet: 'principal',
-      },
+     
 
      
 
@@ -421,10 +407,11 @@ const routes: Routes = [
   { path: '', component: LoginComponent },
   { path: 'geral', loadChildren: () => import('./geral-module/geral-module.module').then(m => m.GeralModuleModule) },
   { path: 'cadastro-estudante', component: CadastrarEstudantesComponent },
- /*  {
+  {
     path: 'preencher-frequencia/:codigoTurma/:frequenciaId',
     component: PreencherFrequenciaComponent
   },
+ /*  
 
   
   { path: 'cadastro-estudante/:email/:nome', component: CadastrarEstudantesComponent }, */

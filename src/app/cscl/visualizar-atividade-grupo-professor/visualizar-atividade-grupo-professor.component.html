@@ -1,8 +1,10 @@
+<button pButton label="Criar grupo" (click)="criarGrupo()"></button>
 <p-table [value]="atividadeGrupo?.grupos">
     <ng-template pTemplate="header">
         <tr>
             <th>Estudantes</th>
             <th>Ações</th>
+            <th>Excluir</th>
         </tr>
     </ng-template>
     <ng-template let-grupo pTemplate="body">
@@ -12,6 +14,9 @@
             </td>
             <td>
                 <a [href]="gerarLink(grupo)">Entrar na sala</a>
+            </td>
+            <td>
+                <button pButton label="Excluir" (click)="excluir(grupo)"></button>
             </td>
         </tr>
     </ng-template>

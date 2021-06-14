@@ -15,7 +15,31 @@
 
         </p-tabPanel>
         <p-tabPanel header="Avaliação da atividade" >
-            <div class="p-grid" style="margin-top: 10px;">
+            <div clsas="p-grid">
+                <div class="p-col-12">
+                   <h3>Membros da equipe</h3>
+                </div>
+            </div>
+            <div clsas="p-grid">
+                <div class="p-col-12">
+                    <p-table [value]="estudantes">
+                        <ng-template pTemplate="header">
+                            <tr>
+                                <th>Estudante</th>
+                                <th>Status</th>
+
+                            </tr>
+                        </ng-template>
+                        <ng-template pTemplate="body" let-estudante>
+                            <tr>
+                                <td>{{estudante.nome}}</td>
+                                <td>{{isAvaliacaoRealizada(estudante) == false?"Pendente":"Finalizado"}}</td>
+                            </tr>
+                        </ng-template>
+                    </p-table>
+                </div>
+            </div>
+            <div class="p-grid">
                 <div class="p-col-6"><h3>1. Para você, qual o nível de dificuldade para responder essa questão?</h3></div>
             </div>
             <div class="p-grid">
@@ -53,17 +77,7 @@
                             Fácil
                         </div>
                         <div class="p-col-1">
-                            <p-radioButton name="afirmacaoUm" value="Muito difícil" label=""
-                                [(ngModel)]="relatoDificuldade.dificuldade" (onClick)="selecionarDificuldade()">
-                            </p-radioButton>
-                        </div>
-                        <div class="p-col-1">
-                            <p-radioButton name="afirmacaoUm" value="Difícil" label=""
-                                [(ngModel)]="relatoDificuldade.dificuldade" (onClick)="selecionarDificuldade()">
-                            </p-radioButton>
-                        </div>
-                        <div class="p-col-1">
-                            <p-radioButton name="afirmacaoUm" value="Normal" label=""
+                            <p-radioButton name="afirmacaoUm" value="Muito fácil" label=""
                                 [(ngModel)]="relatoDificuldade.dificuldade" (onClick)="selecionarDificuldade()">
                             </p-radioButton>
                         </div>
@@ -73,7 +87,17 @@
                             </p-radioButton>
                         </div>
                         <div class="p-col-1">
-                            <p-radioButton name="afirmacaoUm" value="Muito fácil" label=""
+                            <p-radioButton name="afirmacaoUm" value="Normal" label=""
+                                [(ngModel)]="relatoDificuldade.dificuldade" (onClick)="selecionarDificuldade()">
+                            </p-radioButton>
+                        </div>
+                        <div class="p-col-1">
+                            <p-radioButton name="afirmacaoUm" value="Difícil" label=""
+                                [(ngModel)]="relatoDificuldade.dificuldade" (onClick)="selecionarDificuldade()">
+                            </p-radioButton>
+                        </div>
+                        <div class="p-col-1">
+                            <p-radioButton name="afirmacaoUm" value="Muito difícil" label=""
                                 [(ngModel)]="relatoDificuldade.dificuldade" (onClick)="selecionarDificuldade()">
                             </p-radioButton>
                         </div>
@@ -130,7 +154,7 @@
                     </div>
                     <div class="p-grid">
                         <div class="p-col-12">
-                            {{contagemCaracteres(relatoDificuldade.avaliacaoDificuldades, 100)}} caracteres faltando.
+                            {{contagemCaracteres(relatoDificuldade.avaliacaoDificuldades, 30)}} caracteres faltando.
                          </div>
                     </div>
                 </div>

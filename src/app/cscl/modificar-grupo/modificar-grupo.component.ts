@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
+import { MessageService } from 'primeng/api';
 import AtividadeGrupo from 'src/app/model/cscl/atividadeGrupo';
 import Grupo from 'src/app/model/cscl/grupo';
 import Query from 'src/app/model/firestore/query';
@@ -12,7 +13,7 @@ import Turma from 'src/app/model/turma';
 })
 export class ModificarGrupoComponent implements OnInit {
 
-  atividadeGrupo;
+  atividadeGrupo:AtividadeGrupo;
   grupo:Grupo;
   estudantes;
   turmaSelecionada;
@@ -22,7 +23,7 @@ export class ModificarGrupoComponent implements OnInit {
   estudantesTurma;
 
 
-  constructor(private route:ActivatedRoute) { }
+  constructor(private route:ActivatedRoute,private messageService: MessageService) { }
 
   ngOnInit(): void {
 
@@ -41,17 +42,13 @@ export class ModificarGrupoComponent implements OnInit {
 
   excluir(estudante){
     this.estudantes = this.estudantes.filter(item => item.pk() !== estudante.pk());
-    //let estudantesPk = this.estudantes.map(estudante => estudante.pk());
-    this.atividadeGrupo.grupos.forEach(grupo => {
-      if(grupo.id == this.grupo.id){
-        grupo.estudantes = this.estudantes;
+
+    for(let i = 0; i < this.atividadeGrupo.estudantes.length; i++){
+      if( this.atividadeGrupo.estudantes[i].pk() == estudante.pk()){
+        this.atividadeGrupo.estudantes.splice(i, 1)
       }
-      
-    });
-
-    this.atividadeGrupo.save().subscribe(()=>{
-
-    });
+    }
+    
   }
 
   pesquisarTurma(event) {
@@ -75,8 +72,22 @@ export class ModificarGrupoComponent implements OnInit {
       
     });
 
-    this.atividadeGrupo.save().subscribe(()=>{
+    this.estudantes.forEach(estudante => {
+      let isAdicionado;
+      this.atividadeGrupo.estudantes.forEach(estudanteAdicionado => {
+        if(estudanteAdicionado.pk() == estudante.pk()){
+          isAdicionado = true;
+        }
+      });
 
+      if(!isAdicionado){
+        this.atividadeGrupo.estudantes.push(estudante);
+      }
+    });
+
+
+    this.atividadeGrupo.save().subscribe(()=>{
+      this.messageService.add({severity:'success', summary:'Operação realizada com sucesso', detail:"Grupo atualizado"});
     });
   }
 

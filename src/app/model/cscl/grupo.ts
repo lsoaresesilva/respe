@@ -46,4 +46,13 @@ export default class Grupo {
   static construir(grupo){
     return new Grupo(grupo.id, grupo.estudantes);
   }
+
+  validar(){
+
+    if(Array.isArray(this.estudantes) && this.estudantes.length > 0){
+      return true;
+    }
+
+    return false;
+  }
 }

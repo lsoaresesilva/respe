@@ -1,0 +1,28 @@
+<div class="p-grid">
+    <div class="p-col-12">
+        Selecionar estudantes
+    </div>
+</div>
+
+<div class="p-grid">
+    <div class="p-col-12">
+        <p-multiSelect [options]="pesquisaEstudantes" [(ngModel)]="estudantes" optionLabel="nome"></p-multiSelect>
+    </div>
+</div>
+
+<p-table [value]="estudantes">
+    <ng-template pTemplate="header">
+        <tr>
+            <th>Estudante</th>
+        </tr>
+    </ng-template>
+    <ng-template let-estudante pTemplate="body">
+        <tr>
+            <td>
+                {{estudante.nome}} <button pButton type="button" icon="pi pi-times" iconPos="left" (click)="excluir(estudante)"></button>
+            </td>
+            
+        </tr>
+    </ng-template>
+</p-table>
+<button pButton type="button" label="Salvar" iconPos="left" (click)="salvar()"></button>

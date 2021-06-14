@@ -28,7 +28,7 @@ import { MessagesModule } from 'primeng/messages';
 import { MessageModule } from 'primeng/message';
 import { CardModule } from 'primeng/card';
 import { ToastModule } from 'primeng/toast';
-import { CriacaoGrupoComponent } from './criacao-grupo/criacao-grupo.component';
+import { CriarAtividadeGrupoComponent } from './criar-atividade-grupo/criar-atividade-grupo.component';
 import { DropdownModule } from 'primeng/dropdown';
 import { AutoCompleteModule } from 'primeng/autocomplete';
 
@@ -48,6 +48,7 @@ import { RouterModule, Routes } from '@angular/router';
 import { AuthGuard } from '../guards/auth.guard';
 import { PageTrack } from '../guards/pageTrack.guard';
 import { ProfessorGuard } from '../guards/professor.guard';
+import { CriarGrupoComponent } from './criar-grupo/criar-grupo.component';
 
 export const routes: Routes = [
   {
@@ -56,8 +57,14 @@ export const routes: Routes = [
     canActivate: [AuthGuard, PageTrack],
   },
   {
-    path: 'criar-grupo',
-    component: CriacaoGrupoComponent,
+    path: 'criar-atividade-grupo',
+    component: CriarAtividadeGrupoComponent,
+    canActivate: [AuthGuard, ProfessorGuard],
+  },
+
+  {
+    path: 'criar-grupo/:atividadeGrupoId',
+    component: CriarGrupoComponent,
     canActivate: [AuthGuard, ProfessorGuard],
   },
 
@@ -82,6 +89,21 @@ export const routes: Routes = [
     component: VisualizarAtividadeGrupoProfessorComponent,
     canActivate: [AuthGuard, ProfessorGuard]
   },
+  {
+    path: 'visualizacao-solucao-atividade-grupo/:atividadeGrupoId/:grupoId',
+    component: VisualizarSolucoesAtividadeGrupoComponent,
+    canActivate: [AuthGuard, PageTrack, ProfessorGuard]
+  },
+  {
+    path: 'modificar-grupo/:atividadeGrupoId/:grupoId',
+    component: ModificarGrupoComponent,
+    canActivate: [AuthGuard, ProfessorGuard]
+  },
+  {
+    path: 'criar-frequencia',
+    component: CriarFrequenciaComponent,
+    canActivate: [AuthGuard, ProfessorGuard]
+  },
 ];
 
 @NgModule({
@@ -97,7 +119,7 @@ export const routes: Routes = [
     ListarPostagensComponent,
     CadastrarPostagemComponent,
     VisualizarPostagemComponent,
-    CriacaoGrupoComponent,
+    CriarAtividadeGrupoComponent,
     ListarAtividadesGrupoComponent,
     ListarAtividadesGrupoProfessorComponent,
     VisualizarAtividadeGrupoProfessorComponent,
@@ -106,6 +128,8 @@ export const routes: Routes = [
     ModificarGrupoComponent,
     CriarFrequenciaComponent,
     VisualizarChatComponent,
+    CriarAtividadeGrupoComponent,
+    CriarGrupoComponent
   ],
 
   imports: [

@@ -101,7 +101,7 @@ export class SelfInstructionColetivoComponent implements OnInit, AfterViewInit {
 
   ngOnInit(): void {}
 
-  contagemCaracteres(referencia: string, caracteres=120) {
+  contagemCaracteres(referencia: string, caracteres=100) {
     if (referencia != null) {
       let restante = caracteres - referencia.length;
       return restante <= 0 ? 0 : restante;
@@ -109,7 +109,7 @@ export class SelfInstructionColetivoComponent implements OnInit, AfterViewInit {
   }
 
   verificarAtualizacaoAvaliacaoDificuldade(){
-    if(this.relatoDificuldade.avaliacaoDificuldades.length > 90){
+    if(this.relatoDificuldade.avaliacaoDificuldades.length > 28){
       this.autoInstrucaoColetiva.atualizarJustificativaEstudante(this.estudante, this.relatoDificuldade);
       this.autoInstrucaoColetiva.save().subscribe(()=>{});
     }
@@ -231,6 +231,15 @@ export class SelfInstructionColetivoComponent implements OnInit, AfterViewInit {
         );
       });
     });
+  }
+
+  isAvaliacaoRealizada(estudante){
+    let justificativa = this.autoInstrucaoColetiva.getJustificativaByEstudante(estudante);
+    if(justificativa == null || justificativa.avaliacaoDificuldades == ""){
+      return false;
+    }
+
+    return  true;
   }
 
   selecionarLider(){

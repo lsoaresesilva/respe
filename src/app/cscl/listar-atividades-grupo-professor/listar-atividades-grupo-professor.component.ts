@@ -21,11 +21,11 @@ export class ListarAtividadesGrupoProfessorComponent implements OnInit {
   ngOnInit(): void {}
 
   abrirCriacaoGrupo() {
-    this.router.navigate(['geral/main', { outlets: { principal: ['cscl', 'criar-grupo'] } }]);
+    this.router.navigate(['geral/main', { outlets: { principal: ['cscl', 'criar-atividade-grupo'] } }]);
   }
 
   criarFrequencia() {
-    this.router.navigate(['geral/main', { outlets: { principal: ['criar-frequencia'] } }]);
+    this.router.navigate(['geral/main', { outlets: { principal: ['cscl', 'criar-frequencia'] } }]);
   }
 
 

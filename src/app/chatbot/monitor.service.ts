@@ -165,7 +165,8 @@ export class MonitorService {
             MensagemChat.getAll(new Query('grupoId', '==', grupo.id), 'data').subscribe(
               (mensagens) => {
                 let tempoAgora = new Date();
-                let tempoPrimeiraMensagem = Util.firestoreDateToDate(mensagens[0].data);
+                if(mensagens[0] != null){
+                  let tempoPrimeiraMensagem = Util.firestoreDateToDate(mensagens[0].data);
                 let diffMs = tempoAgora.getTime() - tempoPrimeiraMensagem.getTime();
                 let diffMins = Math.round(diffMs / 60000);
                 if (diffMins > 5) {
@@ -175,6 +176,8 @@ export class MonitorService {
                   observer.next(true);
                   observer.complete();
                 }
+                }
+                
               }
             );
           }

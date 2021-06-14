@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
+import { MessageService } from 'primeng/api';
 import { forkJoin } from 'rxjs';
 import AtividadeGrupo from 'src/app/model/cscl/atividadeGrupo';
 import Grupo from 'src/app/model/cscl/grupo';
@@ -15,7 +16,11 @@ import Usuario from 'src/app/model/usuario';
 export class VisualizarAtividadeGrupoProfessorComponent implements OnInit {
   atividadeGrupo: AtividadeGrupo;
 
-  constructor(private route: ActivatedRoute, private router: Router) {}
+  constructor(
+    private route: ActivatedRoute,
+    private router: Router,
+    private messageService: MessageService
+  ) {}
 
   ngOnInit(): void {
     this.route.params.subscribe((params) => {
@@ -49,21 +54,51 @@ export class VisualizarAtividadeGrupoProfessorComponent implements OnInit {
             }
           });
         });
-
       });
     }
-
-    
   }
 
-  abrirSolucoesAtividadeGrupo(grupo:Grupo){
-    this.router.navigate(['geral/main', { outlets: { principal: ['visualizacao-solucao-atividade-grupo', this.atividadeGrupo.pk(), grupo.id] } }]);
+  abrirSolucoesAtividadeGrupo(grupo: Grupo) {
+    this.router.navigate([
+      'geral/main',
+      {
+        outlets: {
+          principal: [
+            'cscl',
+            'visualizacao-solucao-atividade-grupo',
+            this.atividadeGrupo.pk(),
+            grupo.id,
+          ],
+        },
+      },
+    ]);
   }
 
-  gerarLink(grupo:Grupo){
-    if(grupo.estudantes.length > 0){
-      return this.atividadeGrupo.gerarLink(new Usuario(grupo.estudantes[0], "", "", PerfilUsuario.estudante, Groups.experimentalA, ""));
+  gerarLink(grupo: Grupo) {
+    if (grupo.estudantes.length > 0) {
+      return this.atividadeGrupo.gerarLink(
+        new Usuario(grupo.estudantes[0], '', '', PerfilUsuario.estudante, Groups.experimentalA, '')
+      );
     }
-    
+  }
+
+  excluir(grupo: Grupo) {
+    for (let i = 0; i < this.atividadeGrupo.grupos.length; i++) {
+      if (this.atividadeGrupo.grupos[i].id == grupo.id) {
+        this.atividadeGrupo.grupos.splice(i, 1);
+      }
+    }
+
+    this.atividadeGrupo.save().subscribe(() => {
+      this.messageService.add({
+        severity: 'success',
+        summary: 'Operação realizada com sucesso',
+        detail: 'Grupo atualizado',
+      });
+    });
+  }
+
+  criarGrupo(){
+    this.router.navigate(["geral/main", { outlets: { principal: ['cscl', 'criar-grupo', this.atividadeGrupo.pk()] } }]);
   }
 }
