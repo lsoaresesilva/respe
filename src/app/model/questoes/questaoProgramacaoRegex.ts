@@ -79,8 +79,11 @@ export class QuestaoProgramacaoRegex {
         questoes.forEach((questao) => {
 
             RespostaQuestaoProgramacaoRegex.getRecentePorQuestao(questao, estudante).subscribe(resposta=>{
+              if(resposta != null){
                 questao.respondida = resposta.isRespostaCorreta
                 questao.percentualResposta = questao.respondida == true?100:0;
+              }
+                
             })
         });
 

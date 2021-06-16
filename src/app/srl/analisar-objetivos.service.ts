@@ -25,7 +25,8 @@ export class AnalisarObjetivosService {
           Planejamento.getByQuery(new Query('estudanteId', '==', estudante.pk())),
           Submissao.getExerciciosTrabalhadosUltimaSemana(estudante),
         ]).subscribe((resultados) => {
-          const numeroExerciciosSemana = resultados[0]['objetivoExercicio'];
+          if(resultados[0] != null){
+            const numeroExerciciosSemana = resultados[0]['objetivoExercicio'];
           const numeroExerciciosTrabalhados = Array.isArray(resultados[1])
             ? resultados[1].length
             : 0;
@@ -35,6 +36,8 @@ export class AnalisarObjetivosService {
               : 0;
           observer.next(percentual);
           observer.complete();
+          }
+          
         });
       }
     });

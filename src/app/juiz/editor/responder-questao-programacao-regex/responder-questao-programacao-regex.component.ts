@@ -47,7 +47,11 @@ export class ResponderQuestaoProgramacaoRegexComponent implements OnInit {
       if (this.respostaQuestao != null) {
         this.resultado = this.respostaQuestao.isRespostaCorreta;
         Editor.getInstance().codigo.next(this.respostaQuestao.algoritmo.join('\n'));
+      }else{
+        Editor.getInstance().codigo.next("");
       }
+
+      
     });
   }
 
