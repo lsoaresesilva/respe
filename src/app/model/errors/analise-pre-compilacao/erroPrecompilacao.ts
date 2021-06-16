@@ -7,4 +7,6 @@ export default class ErroPreCompilacao{
     construirMensagem(){
         return "Seu algoritmo possui um erro: "+this.mensagem+", na linha "+this.linha+"."; 
     }
+
+    
 }

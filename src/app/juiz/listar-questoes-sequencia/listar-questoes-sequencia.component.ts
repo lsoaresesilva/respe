@@ -8,6 +8,7 @@ import { forkJoin, Observable } from 'rxjs';
 import QuestaoFechada from 'src/app/model/questoes/questaoFechada';
 import QuestaoParsonProblem from 'src/app/model/questoes/parsonProblem';
 import QuestaoProgramacaoCorrecao from 'src/app/model/questoes/questaoProgramacaoCorrecao';
+import { QuestaoProgramacaoRegex } from 'src/app/model/questoes/questaoProgramacaoRegex';
 
 @Component({
   selector: 'app-listar-questoes-sequencia',
@@ -53,6 +54,11 @@ export class ListarQuestoesSequenciaComponent implements OnChanges {
       this.router.navigate([
         'geral/main',
         { outlets: { principal: ['juiz', 'responder-questao-correcao', this.assunto.pk(), questao.id] } },
+      ]);
+    } else if (questao instanceof QuestaoProgramacaoRegex) {
+      this.router.navigate([
+        'geral/main',
+        { outlets: { principal: ['juiz', 'editor-regex', this.assunto.pk(), questao.id] } },
       ]);
     } 
     else {

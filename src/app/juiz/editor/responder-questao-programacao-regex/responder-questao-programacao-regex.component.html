@@ -1,0 +1,40 @@
+<div *ngIf="questao != null; else loading">
+    <app-breadcrumb-assunto [assunto]="assunto" [questao]="questao">
+    </app-breadcrumb-assunto>
+    <div class="p-grid">
+        <div class="p-col-4">
+            <dados-questao [assunto]="assunto" [questao]="questao" id="dadosQuestao">
+            </dados-questao>
+        </div>
+        <div class="p-col-8">
+            <div class="p-grid">
+                <div class="p-col-12">
+                    <button type="button" (click)="executar()" pButton label="Executar" style="margin-right:10px"></button>
+                    <button pButton pRipple type="button"
+                        icon="{{ resultado ? 'pi pi-check' : 'pi pi-times' }}" [ngClass]="{
+      'p-button-rounded p-button-success': resultado,
+      'p-button-rounded p-button-danger': !resultado
+    }" pTooltip="{{ resultado ? 'Seu algoritmo está correto.' : 'Seu algoritmo apresenta um problema.' }}"
+                        id="statusExecucaoAlgoritmo"
+                        *ngIf="resultado != undefined"></button>
+                </div>
+                <div class="p-col-12">
+                    <app-container-editor-programacao [liteMode]="false" (onContainerReady)="onContainerReady($event)">
+                    </app-container-editor-programacao>
+                    <div *ngIf="isEditorPronto == false">Carregando editor..</div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="p-grid">
+        <div class="p-col-4"></div>
+        <div class="p-col-8">
+            <span *ngIf="erroProgramacao != null">{{erroProgramacao}}</span>
+        </div>
+     
+    </div>
+</div>
+
+
+
+<ng-template #loading>Carregando questão...</ng-template>

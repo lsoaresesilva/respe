@@ -14,6 +14,7 @@ import QuestaoColaborativa from './cscl/questaoColaborativa';
 import QuestaoProgramacaoCorrecao from './questoes/questaoProgramacaoCorrecao';
 import RespostaQuestaoCorrecaoAlgoritmo from './correcao-algoritmo/correcaoAlgoritmo';
 import { VisualizacaoRespostasQuestoes } from './visualizacaoRespostasQuestoes';
+import { QuestaoProgramacaoRegex } from './questoes/questaoProgramacaoRegex';
 
 @Collection('assuntos')
 export class Assunto extends Document {
@@ -25,6 +26,7 @@ export class Assunto extends Document {
     this.questoesParson = [];
     this.questoesColaborativas = [];
     this.questoesCorrecao = [];
+    this.questoesRegex = [];
   }
 
   sequencia;
@@ -34,6 +36,7 @@ export class Assunto extends Document {
   questoesParson: any;
   questoesColaborativas;
   questoesCorrecao;
+  questoesRegex;
   objetivosEducacionais: [];
   isAtivo;
 
@@ -118,15 +121,23 @@ export class Assunto extends Document {
       assunto['questoesProgramacao'],
       assunto
     );
+
     assunto['questoesFechadas'] = QuestaoFechada.construir(assunto['questoesFechadas']);
+    
     assunto['questoesColaborativas'] = QuestaoColaborativa.construir(
       assunto['questoesColaborativas'],
       assunto
     );
+
     assunto['questoesParson'] = QuestaoParsonProblem.construir(assunto['questoesParson']);
+    
     assunto['questoesCorrecao'] = QuestaoProgramacaoCorrecao.construir(
       assunto['questoesCorrecao'],
       assunto
+    );
+
+    assunto['questoesRegex'] = QuestaoProgramacaoRegex.construir(
+      assunto['questoesRegex']
     );
   }
 
@@ -138,16 +149,26 @@ export class Assunto extends Document {
             assunto['questoesProgramacao'],
             assunto
           );
+
           assunto['questoesFechadas'] = QuestaoFechada.construir(assunto['questoesFechadas']);
+
           assunto['questoesColaborativas'] = QuestaoColaborativa.construir(
             assunto['questoesColaborativas'],
             assunto
           );
+
           assunto['questoesParson'] = QuestaoParsonProblem.construir(assunto['questoesParson']);
+
           assunto['questoesCorrecao'] = QuestaoProgramacaoCorrecao.construir(
             assunto['questoesCorrecao'],
             assunto
           );
+
+
+          assunto['questoesRegex'] = QuestaoProgramacaoRegex.construir(
+            assunto['questoesRegex']
+          );
+
           observer.next(assunto as Assunto);
           observer.complete();
         },
@@ -189,6 +210,13 @@ export class Assunto extends Document {
         );
       }
 
+      if (Array.isArray(this.questoesCorrecao) && this.questoesCorrecao.length > 0) {
+        consultas['questoesRegex'] = QuestaoProgramacaoRegex.verificarQuestoesRespondidas(
+          estudante,
+          this.questoesRegex
+        );
+      }
+
       forkJoin(consultas).subscribe((respostas) => {
         let questoes = [];
         if (respostas['questoesFechadas'] != null) {
@@ -205,6 +233,10 @@ export class Assunto extends Document {
 
         if (respostas['questoesParson'] != null) {
           questoes = questoes.concat(respostas['questoesParson']);
+        }
+
+        if (respostas['questoesRegex'] != null) {
+          questoes = questoes.concat(respostas['questoesRegex']);
         }
 
         questoes.sort((qA, qB) => {
@@ -519,8 +551,9 @@ export class Assunto extends Document {
   /* Retorna as questões de um assunto ordenadas por sua sequência. */
   ordenarQuestoes() {
     let questoes = new Array(
-      this.questoesFechadas.length + this.questoesProgramacao.length + this.questoesParson.length
+      this.questoesFechadas.length + this.questoesProgramacao.length + this.questoesParson.length+this.questoesRegex.length
     );
+
     questoes = questoes.fill(0);
 
     this.questoesFechadas.forEach((questao) => {
@@ -532,6 +565,11 @@ export class Assunto extends Document {
     });
 
     this.questoesParson.forEach((questao) => {
+      questoes[questao.sequencia - 1] = questao;
+    });
+
+
+    this.questoesRegex.forEach((questao) => {
       questoes[questao.sequencia - 1] = questao;
     });
 
@@ -596,6 +634,29 @@ export class Assunto extends Document {
       document['questoesColaborativas'] = questoesColaborativas;
     }
 
+    if (Array.isArray(this.questoesRegex) && this.questoesRegex.length > 0) {
+      const questoesRegex = [];
+      this.questoesRegex.forEach((questao) => {
+        if (typeof questao.objectToDocument === 'function') {
+          questoesRegex.push(questao.objectToDocument());
+        }
+      });
+
+      document['questoesRegex'] = questoesRegex;
+    }
+
+    if (Array.isArray(this.questoesCorrecao) && this.questoesCorrecao.length > 0) {
+      const questoesCorrecao = [];
+      this.questoesCorrecao.forEach((questao) => {
+        if (typeof questao.objectToDocument === 'function') {
+          questoesCorrecao.push(questao.objectToDocument());
+        }
+      });
+
+      document['questoesCorrecao'] = questoesCorrecao;
+    }
+
+
     if (this.objetivosEducacionais.length > 0) {
       document['questoeobjetivosEducacionaisFechadas'] = this.objetivosEducacionais;
     }
@@ -639,6 +700,17 @@ export class Assunto extends Document {
   getQuestaoParsonById(questaoId) {
     let questaoLocalizada = null;
     this.questoesParson.forEach((questao) => {
+      if (questao.id == questaoId) {
+        questaoLocalizada = questao;
+      }
+    });
+
+    return questaoLocalizada;
+  }
+
+  getQuestaoRegexById(questaoId) {
+    let questaoLocalizada = null;
+    this.questoesRegex.forEach((questao) => {
       if (questao.id == questaoId) {
         questaoLocalizada = questao;
       }

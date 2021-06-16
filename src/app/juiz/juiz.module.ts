@@ -84,6 +84,7 @@ import { DragDropModule } from '@angular/cdk/drag-drop';
 import { ChatbotModule } from '../chatbot/chatbot.module';
 import { MonitorService } from '../chatbot/monitor.service';
 import { BlockUIModule } from 'primeng/blockui';
+import { ResponderQuestaoProgramacaoRegexComponent } from './editor/responder-questao-programacao-regex/responder-questao-programacao-regex.component';
 
 export const routes: Routes = [
   {
@@ -119,7 +120,11 @@ export const routes: Routes = [
     component: ResponderQuestaoProgramacao,
     canActivate: [AuthGuard, PageTrack]
   },
-
+  {
+    path: 'editor-regex/:assuntoId/:questaoId',
+    component: ResponderQuestaoProgramacaoRegexComponent,
+    canActivate: [AuthGuard, PageTrack]
+  },
   {
     path: 'editor-programacao',
     component: EditorIndependenteComponent,
@@ -174,7 +179,8 @@ export const routes: Routes = [
     ConsoleErroComponent,
     IdeComponent,
     EditorIndependenteComponent,
-    ContainerEditorProgramacaoComponent
+    ContainerEditorProgramacaoComponent,
+    ResponderQuestaoProgramacaoRegexComponent
   ],
 
   imports: [

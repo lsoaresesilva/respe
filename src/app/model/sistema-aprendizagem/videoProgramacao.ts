@@ -1,13 +1,15 @@
 import { forkJoin, Observable } from "rxjs";
 import { Assunto } from "../assunto";
 import ConfiguracaoEditor from "../configuracoes/configuracaoEditor";
+import { Groups } from "../experimento/groups";
 import { Collection, Document } from "../firestore/document";
 import Query from "../firestore/query";
+import Usuario from "../usuario";
 
 @Collection("videosProgramacao")
 export default class VideoProgramacao extends Document{
 
-    constructor(id, public link, public sequencia, public nome, public descricao, public assunto:Assunto){
+    constructor(id, public link, public sequencia, public nome, public descricao, public assunto:Assunto, public isExperimental){
         super(id);
     }
 
@@ -21,7 +23,7 @@ export default class VideoProgramacao extends Document{
         return document;
     }
 
-    static listarTodos(usuario) {
+    static listarTodos(usuario:Usuario) {
 
         return new Observable(observer=>{
 
@@ -39,8 +41,16 @@ export default class VideoProgramacao extends Document{
                             videosAssuntos.forEach(videosAssunto=>{
 
                                 videosSelecionados = videosSelecionados.concat(videosAssunto.filter((video)=>{
-                                    if(video != null)
+                                    if(video != null){
+                                        if(usuario.grupoExperimento == Groups.control){
+                                            if(video.isExperimental != null && video.isExperimental == true){
+                                                return false;
+                                            }
+                                        }
+
                                         return true;
+                                    }
+                                        
                                 }));
                             })
                         }

@@ -36,7 +36,7 @@ export default class QuestaoProgramacaoCorrecao {
   }
 
   objectToDocument() {
-    let objeto = { id: this.id };
+    let objeto = { id: this.id, sequencia:this.sequencia };
 
     if (this.questao != null && this.questao.id != null) {
       objeto['questaoId'] = this.questao.id;

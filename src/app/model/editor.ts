@@ -31,6 +31,14 @@ export default class Editor {
     return this.instance;
   }
 
+  get codigoAtual(){
+    return this.instanciaMonaco.getValue().split('\n');
+  }
+
+  set codigoAtual(codigo){
+    this.codigo.next(codigo.join('\n'))
+  }
+
   static getTipoExecucao(questao: QuestaoProgramacao) {
     if (questao.testsCases.length != 0) {
       return 'testes';
