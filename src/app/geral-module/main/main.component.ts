@@ -89,7 +89,7 @@ export class MainComponent implements OnInit {
   }
 
   abrirListagemTurmas() {
-    this.router.navigate(['geral/main', { outlets: { principal: ['listagem-turmas'] } }]);
+    this.router.navigate(['geral/main', { outlets: { principal: ['turma', 'listar-turmas'] } }]);
   }
 
   abrirListagemGrupoProfessor(){

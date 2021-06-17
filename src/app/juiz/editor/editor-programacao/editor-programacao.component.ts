@@ -361,14 +361,13 @@ export class EditorProgramacaoComponent implements AfterViewInit, OnChanges, OnI
 
   iniciarChat() {
     if (this.atividadeGrupo != null && this.grupo.id != null) {
-      if(this.usuario.grupoExperimento == Groups.experimentalB){
+      
         this.chat.iniciar(this.grupo.id).subscribe((resposta) => {
           if (resposta) {
             this.chat.receberMensagens();
             this.isConectado = true;
           }
         });
-      }
       
     }
   }

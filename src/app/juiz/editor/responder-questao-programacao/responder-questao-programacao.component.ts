@@ -154,18 +154,7 @@ export class ResponderQuestaoProgramacao implements OnInit, AfterViewInit, OnCha
 
   ngOnInit() {
     this.usuario = this.login.getUsuarioLogado();
-    if (this.usuario.grupoExperimento != Groups.control) {
-      DiarioProgramacao.exibirDiario(
-        this.login.getUsuarioLogado(),
-        TipoDiarioProgramacao.planejamento
-      ).subscribe((visibilidade) => {
-        if (visibilidade) {
-          this.dialogService.open(DiarioProgramacaoComponent, {
-            data: { tipo: TipoDiarioProgramacao.planejamento },
-          });
-        }
-      });
-    }
+    
 
     if (this.usuario == null) {
       throw new Error('Não é possível executar o código, pois você não está logado.'); // TODO: mudar para o message
@@ -180,6 +169,9 @@ export class ResponderQuestaoProgramacao implements OnInit, AfterViewInit, OnCha
         params['assuntoId'] != undefined &&
         params['questaoId'] != undefined
       ) {
+
+        
+
         AtividadeGrupo.get(params['atividadeGrupoId']).subscribe((atividadeGrupo) => {
           this.atividadeGrupo = atividadeGrupo as AtividadeGrupo;
           this.grupo = this.atividadeGrupo.getGrupo(params['grupoId']);
@@ -262,6 +254,9 @@ export class ResponderQuestaoProgramacao implements OnInit, AfterViewInit, OnCha
         });
       } else {
         if (params['assuntoId'] != undefined && params['questaoId'] != undefined) {
+
+
+
           Assunto.get(params['assuntoId']).subscribe((assunto) => {
             this.assunto = assunto as Assunto;
 
@@ -272,6 +267,19 @@ export class ResponderQuestaoProgramacao implements OnInit, AfterViewInit, OnCha
               assunto['questoesProgramacao'].forEach((questao) => {
                 if (questao.id == params['questaoId']) {
                   this.questao = questao;
+
+                  if (this.usuario.grupoExperimento != Groups.control) {
+                    DiarioProgramacao.exibirDiario(
+                      this.login.getUsuarioLogado(),
+                      TipoDiarioProgramacao.planejamento
+                    ).subscribe((visibilidade) => {
+                      if (visibilidade) {
+                        this.dialogService.open(DiarioProgramacaoComponent, {
+                          data: { tipo: TipoDiarioProgramacao.planejamento },
+                        });
+                      }
+                    });
+                  }
 
                   if (this.usuario != null) {
                     Submissao.getRecentePorQuestao(this.questao, this.usuario).subscribe(
