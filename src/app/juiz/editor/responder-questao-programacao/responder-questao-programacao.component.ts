@@ -268,7 +268,7 @@ export class ResponderQuestaoProgramacao implements OnInit, AfterViewInit, OnCha
                 if (questao.id == params['questaoId']) {
                   this.questao = questao;
 
-                  if (this.usuario.grupoExperimento != Groups.control) {
+                  /* if (this.usuario.grupoExperimento != Groups.control) {
                     DiarioProgramacao.exibirDiario(
                       this.login.getUsuarioLogado(),
                       TipoDiarioProgramacao.planejamento
@@ -279,7 +279,7 @@ export class ResponderQuestaoProgramacao implements OnInit, AfterViewInit, OnCha
                         });
                       }
                     });
-                  }
+                  } */
 
                   if (this.usuario != null) {
                     Submissao.getRecentePorQuestao(this.questao, this.usuario).subscribe(

@@ -65,6 +65,13 @@ export class ListarEstudantesComponent implements OnInit {
     });
   }
 
+  abrirMslq(){
+    this.router.navigate([
+      'geral/main',
+      { outlets: { principal: ['admin', 'visualizar-mslq', this.turma.codigo] } },
+    ]);
+  }
+
   /* buscarEstudante(codigoTurma) {
     Usuario.getAllEstudantesByTurma(codigoTurma).subscribe((estudantes) => {
       this.estudantes = estudantes;
@@ -87,7 +94,7 @@ export class ListarEstudantesComponent implements OnInit {
   abrirPerfilEstudante(estudante) {
     this.router.navigate([
       'geral/main',
-      { outlets: { principal: ['visualizacao-estudante', estudante.pk()] } },
+      { outlets: { principal: ['turma', 'visualizacao-estudante', estudante.pk()] } },
     ]);
   }
 

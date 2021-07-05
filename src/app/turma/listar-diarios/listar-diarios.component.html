@@ -1,45 +1,47 @@
 <div class="p-grid">
-    <div class="p-col-12">
-        Selecionar turma
-    </div>
+  <div class="p-col-12">
+    Selecionar turma
+  </div>
 </div>
 
 <div class="p-grid">
-    <div class="p-col-12">
-        <p-autoComplete [(ngModel)]="turmaSelecionada" [suggestions]="pesquisaTurmas"
-            (completeMethod)="pesquisarTurma($event)" [dropdown]="true" (onSelect)="selecionarTurma($event)">
+  <div class="p-col-12">
+    <p-autoComplete [(ngModel)]="turmaSelecionada" [suggestions]="pesquisaTurmas"
+      (completeMethod)="pesquisarTurma($event)" [dropdown]="true" (onSelect)="selecionarTurma($event)">
 
-            <ng-template let-turma pTemplate="item">
-                <span>{{turma.codigo}}</span>
-            </ng-template>
+      <ng-template let-turma pTemplate="item">
+        <span>{{turma.codigo}}</span>
+      </ng-template>
 
-        </p-autoComplete>
-    </div>
+    </p-autoComplete>
+  </div>
 </div>
 
 
-<div class="p-grid" *ngIf="turmaSelecionada != null">
-    <div class="p-col-12" *ngFor="let diario of diarios$; let i = index">
-        {{i+1}} {{diario.estudante.nome}}
-      <p-table [value]="diario.diarios" [autoLayout]="true">
-        <ng-template pTemplate="header"> 
-            <tr>
-              <th>Data</th>
-              <th>Planejamento</th>
-              <th>Reflexão</th>
-              <th>Qual o seu nível de motivação</th>
-              <th>Qual o seu nível de confiança</th>
-            </tr>
-        </ng-template>
-        <ng-template pTemplate="body" let-rowData let-d>
-          <tr [pContextMenuRow]="rowData">
-            <td style="width: 10%;">{{ formatarData(d.data) }}</td>
-            <td style="word-break:break-all;">{{ d.planejamento }}</td>
-            <td style="word-break:break-all;">{{ d.reflexao }}</td>
-            <td style="word-break:break-all;">{{ getNivelMotivacao(d.motivacao) }}</td>
-            <td style="word-break:break-all;">{{ getNivelConfianca(d.nivelConfianca) }}</td>
-          </tr>
-        </ng-template>
-      </p-table>
-    </div>
-  </div>
+
+<div *ngFor="let diariosEstudante of diarios$ | keyvalue">
+  {{diariosEstudante.key}}
+  <p-table [value]="diariosEstudante.value" [autoLayout]="true">
+    <ng-template pTemplate="header">
+      <tr>
+        <th>Estudante</th>
+        <th>Data</th>
+        <th>Planejamento</th>
+        <th>Reflexão</th>
+        <th>Qual o seu nível de motivação</th>
+        <th>Qual o seu nível de confiança</th>
+      </tr>
+    </ng-template>
+    <ng-template pTemplate="body" let-rowData let-d>
+      <tr [pContextMenuRow]="rowData">
+  
+        <td style="width: 10%;">{{ d.estudanteId }}</td>
+        <td style="width: 10%;">{{ formatarData(d.data) }}</td>
+        <td style="word-break:break-all;">{{ d.planejamento }}</td>
+        <td style="word-break:break-all;">{{ d.reflexao }}</td>
+        <td style="word-break:break-all;">{{ getNivelMotivacao(d.motivacao) }}</td>
+        <td style="word-break:break-all;">{{ getNivelConfianca(d.nivelConfianca) }}</td>
+      </tr>
+    </ng-template>
+  </p-table>
+</div>

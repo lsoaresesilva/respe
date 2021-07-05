@@ -1,0 +1,60 @@
+<div *ngIf="estudantes != null">
+        <p-table [value]="estudantes">
+            <ng-template pTemplate="header">
+                <tr>
+                  <th>Estudante</th>
+                  <th>Q1</th>
+                  <th>Q2</th>
+                  <th>Q3</th>
+                  <th>Q4</th>
+                  <th>Q5</th>
+                  <th>Q6</th>
+                  <th>Q7</th>
+                  <th>Q8</th>
+                  <th>Q9</th>
+                  <th>Q10</th>
+                  <th>Q11</th>
+                  <th>Q12</th>
+                  <th>Q13</th>
+                  <th>Q14</th>
+                  <th>Q15</th>
+                  <th>Q16</th>
+                  <th>Q17</th>
+                  <th>Q18</th>
+                  <th>Q19</th>
+                  <th>Q20</th>
+                  <th>Q21</th>
+                  <th>Q22</th>
+                </tr>
+              </ng-template>
+              <ng-template pTemplate="body" let-estudante>
+                <tr *ngIf="estudante.mslq != null">
+                  <td>{{estudante.nome}}</td>  
+                  <td>{{estudante.mslq.respostaPergunta1}}</td>
+                  <td>{{estudante.mslq.respostaPergunta2}}</td>
+                  <td>{{estudante.mslq.respostaPergunta3}}</td>
+                  <td>{{estudante.mslq.respostaPergunta4}}</td>
+                  <td>{{estudante.mslq.respostaPergunta5}}</td>
+                  <td>{{estudante.mslq.respostaPergunta6}}</td>
+                  <td>{{estudante.mslq.respostaPergunta7}}</td>
+                  <td>{{estudante.mslq.respostaPergunta8}}</td>
+                  <td>{{estudante.mslq.respostaPergunta9}}</td>
+                  <td>{{estudante.mslq.respostaPergunta10}}</td>
+                  <td>{{estudante.mslq.respostaPergunta11}}</td>
+                  <td>{{estudante.mslq.respostaPergunta12}}</td>
+                  <td>{{estudante.mslq.respostaPergunta13}}</td>
+                  <td>{{estudante.mslq.respostaPergunta14}}</td>
+                  <td>{{estudante.mslq.respostaPergunta15}}</td>
+                  <td>{{estudante.mslq.respostaPergunta16}}</td>
+                  <td>{{estudante.mslq.respostaPergunta17}}</td>
+                  <td>{{estudante.mslq.respostaPergunta18}}</td>
+                  <td>{{estudante.mslq.respostaPergunta19}}</td>
+                  <td>{{estudante.mslq.respostaPergunta20}}</td>
+                  <td>{{estudante.mslq.respostaPergunta21}}</td>
+                  <td>{{estudante.mslq.respostaPergunta22}}</td>
+                </tr>
+              </ng-template>
+        </p-table>
+        
+        
+</div>

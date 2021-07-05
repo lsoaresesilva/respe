@@ -97,7 +97,7 @@ export class MainComponent implements OnInit {
   }
 
   abrirListagemDiario(){
-    this.router.navigate(['geral/main', { outlets: { principal: ['listagem-diarios-professor'] } }]);
+    this.router.navigate(['geral/main', { outlets: { principal: ['turma', 'listagem-diarios-professor'] } }]);
   }
 
   apresentarPretestRegulacao() {

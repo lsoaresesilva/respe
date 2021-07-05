@@ -27,3 +27,7 @@
   :host >>> .containerOutro .p-card{
     background: "#ccccff";;
   }
+
+#scrollDiv {
+  overflow: auto;
+}

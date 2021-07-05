@@ -42,8 +42,13 @@ export class ChatGrupoComponent implements OnInit, OnChanges {
       this.mensagens.push(mensagem);
       this.mensagens$.next(this.mensagens);
       this.changeDetectorRef.detectChanges();
-      let height = this.scroll.el.nativeElement.getBoundingClientRect().height*this.mensagens.length;
-      this.scroll.scrollTop(height);
+      /* let height = this.scroll.el.nativeElement.getBoundingClientRect().height*this.mensagens.length;
+      this.scroll.scrollTop(height); */
+      let objDiv = document.getElementById("scrollChat");
+      if(objDiv != null){
+        objDiv.scrollTop = objDiv.scrollHeight;
+      }
+      
     })
 
     
@@ -57,6 +62,8 @@ export class ChatGrupoComponent implements OnInit, OnChanges {
     }
 
     if(this.grupo != null){
+
+      
       this.chatService.carregarMensagens(this.grupo);
     }
 
@@ -81,7 +88,7 @@ export class ChatGrupoComponent implements OnInit, OnChanges {
 
 
   
-  enviar(){
+  enviar(event){
     if(this.grupo != null && this.atividadeGrupo != null){
       this.mensagem.atividadeGrupo = this.atividadeGrupo;
       this.mensagem.grupo = this.grupo;

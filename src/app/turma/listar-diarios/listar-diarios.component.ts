@@ -23,6 +23,23 @@ export class ListarDiariosComponent implements OnInit {
    }
 
   ngOnInit(): void {
+    
+    Diario.getAll().subscribe(diarios=>{
+      let diariosAgrupados = new Map();
+      diarios.forEach(diario=>{
+        if(diariosAgrupados.get(diario.estudanteId) == null){
+          diariosAgrupados.set(diario.estudanteId, []);
+        }
+
+        diariosAgrupados.get(diario.estudanteId).push(diario);
+      })
+
+      diariosAgrupados.forEach((diarios, estudanteId)=>{
+        diariosAgrupados.set(estudanteId, this.ordenarDiarios(diarios));
+      })
+      
+      this.diarios$ = diariosAgrupados;
+    })
   }
 
   pesquisarTurma(event) {
@@ -32,7 +49,8 @@ export class ListarDiariosComponent implements OnInit {
   }
 
   selecionarTurma(event) {
-    Turma.getAllEstudantes(this.turmaSelecionada.codigo).subscribe((estudantes) => {
+    
+    /* Turma.getAllEstudantes(this.turmaSelecionada.codigo).subscribe((estudantes) => {
       let consultas = [];
       
       estudantes.forEach(estudante=>{
@@ -50,7 +68,7 @@ export class ListarDiariosComponent implements OnInit {
         });
       })
       
-    });
+    }); */
   }
 
   formatarData(data){

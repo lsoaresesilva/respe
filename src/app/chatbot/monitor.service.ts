@@ -244,11 +244,11 @@ export class MonitorService {
               if (estudante.grupoExperimento != Groups.control) {
                 DiarioProgramacao.exibirDiario(
                   this.login.getUsuarioLogado(),
-                  TipoDiarioProgramacao.reflexao
+                  TipoDiarioProgramacao.monitoramento
                 ).subscribe((visibilidade) => {
                   if (visibilidade) {
                     this.dialogService.open(DiarioProgramacaoComponent, {
-                      data: { tipo: TipoDiarioProgramacao.reflexao },
+                      data: { tipo: TipoDiarioProgramacao.monitoramento },
                       width: '600',
                       height: '480',
                     });

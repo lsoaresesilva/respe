@@ -61,6 +61,17 @@ export const routes:Routes = [
     canActivate: [AuthGuard, ProfessorGuard]
   },
 
+  {
+    path: 'listagem-diarios-professor',
+    component: ListarDiariosComponent,
+    canActivate: [AuthGuard, ProfessorGuard],
+  },
+
+  {
+    path: 'visualizacao-estudante/:id',
+    component: VisualizarPerfilEstudanteComponent,
+    canActivate: [AuthGuard]
+  },
 ]
 
 @NgModule({

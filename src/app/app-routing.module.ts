@@ -177,12 +177,7 @@ const routes: Routes = [
       },
       
 
-      {
-        path: 'visualizar-chat/:atividadeGrupoId/:grupoId',
-        component: VisualizarChatComponent,
-        canActivate: [AuthGuard, ProfessorGuard],
-        outlet: 'principal',
-      },
+      
 
       
 
@@ -312,12 +307,6 @@ const routes: Routes = [
         outlet: 'principal',
       },
       
-      {
-        path: 'listagem-diarios-professor',
-        component: ListarDiariosComponent,
-        outlet: 'principal',
-        canActivate: [AuthGuard, ProfessorGuard],
-      },
 
 
       
@@ -346,12 +335,6 @@ const routes: Routes = [
         canActivate: [AuthGuard],
         outlet: 'principal',
       },
-      {
-        path: 'visualizar-submissao-questao/:submissaoId/:isAtividadeGrupo',
-        component: VisualizarSubmissaoQuestaoComponent,
-        canActivate: [AuthGuard],
-        outlet: 'principal',
-      },
       
      
      
@@ -376,12 +359,6 @@ const routes: Routes = [
      
       
       
-      {
-        path: 'visualizacao-estudante/:id',
-        component: VisualizarPerfilEstudanteComponent,
-        canActivate: [AuthGuard, PageTrack],
-        outlet: 'principal',
-      },
       {
         path: 'envio-material/:turmaId',
         component: EnvioMaterialComponent,

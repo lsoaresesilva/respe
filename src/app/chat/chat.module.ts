@@ -14,6 +14,7 @@ import { CabecachoChatComponent } from './cabecacho-chat/cabecacho-chat.componen
 import { HttpClientModule } from '@angular/common/http';
 import { ChatbotModule } from '../chatbot/chatbot.module';
 import { MonitorService } from '../chatbot/monitor.service';
+import { NbChatModule, NbFocusMonitor, NbStatusService } from '@nebular/theme';
 
 
 @NgModule({
@@ -27,9 +28,10 @@ import { MonitorService } from '../chatbot/monitor.service';
     InputTextModule,
     ScrollPanelModule,
     HttpClientModule,
-    ChatbotModule
+    ChatbotModule,
+    NbChatModule
   ],
   exports:[ChatGrupoComponent],
-  providers:[ChatService, GravacaoVideoService, MonitorService]
+  providers:[ChatService, GravacaoVideoService, MonitorService, NbStatusService, NbFocusMonitor]
 })
 export class ChatModule { }

@@ -57,11 +57,11 @@ export class VisualizarSolucoesAtividadeGrupoComponent implements OnInit {
   }
 
   visualizarSubmissao(submissao){
-    this.router.navigate(["geral/main", { outlets: { principal: ['visualizar-submissao-questao', submissao, true] } }]);
+    this.router.navigate(["geral/main", { outlets: { principal: ['cscl', 'visualizar-submissao-questao', submissao, true] } }]);
   }
 
   visualizarChat(){
-    this.router.navigate(["geral/main", { outlets: { principal: ['visualizar-chat', this.atividadeGrupo.pk(), this.grupo.id] } }]);
+    this.router.navigate(["geral/main", { outlets: { principal: ['cscl', 'visualizar-chat', this.atividadeGrupo.pk(), this.grupo.id] } }]);
   }
 
   modificarGrupo(){

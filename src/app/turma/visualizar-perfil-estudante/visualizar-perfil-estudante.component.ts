@@ -23,12 +23,26 @@ export class VisualizarPerfilEstudanteComponent implements OnInit {
   pageTracks;
   planejamentos;
 
+  progressoGeral;
+
   constructor(private route: ActivatedRoute, private login: LoginService) {
     this.estudante = new Usuario(null, null, null, null, null, null);
   }
 
   ngOnInit() {
     this.route.params.subscribe((params) => {
+
+      Assunto.consultarRespostasEstudante(new Usuario(params["id"], null, null, null, null, null)).subscribe(respostas=>{
+        
+        Assunto.getAll().subscribe(assuntos=>{
+          this.progressoGeral = Assunto.calcularProgressoGeral(assuntos, respostas);
+        })
+        
+        
+      })
+
+      
+
       /*Usuario.get(params['id']).subscribe((estudante) => {
         this.estudante = estudante;
       });
@@ -42,7 +56,7 @@ export class VisualizarPerfilEstudanteComponent implements OnInit {
           this.pageTracks = pageTracks;
       });
  */
-      Assunto.getAll(new Query('isAtivo', '==', true)).subscribe((assuntos) => {
+      /* Assunto.getAll(new Query('isAtivo', '==', true)).subscribe((assuntos) => {
         AutoInstrucao.getAll(new Query('estudanteId', '==', params['id'])).subscribe(
           (instrucoes) => {
             assuntos.forEach((assunto) => {
@@ -78,7 +92,7 @@ export class VisualizarPerfilEstudanteComponent implements OnInit {
             });
           }
         );
-      });
+      }); */
 
       this.planejamentos = [];
     });

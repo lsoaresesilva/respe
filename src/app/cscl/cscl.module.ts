@@ -104,6 +104,17 @@ export const routes: Routes = [
     component: CriarFrequenciaComponent,
     canActivate: [AuthGuard, ProfessorGuard]
   },
+  {
+    path: 'visualizar-chat/:atividadeGrupoId/:grupoId',
+    component: VisualizarChatComponent,
+    canActivate: [AuthGuard, ProfessorGuard]
+  },
+
+  {
+    path: 'visualizar-submissao-questao/:submissaoId/:isAtividadeGrupo',
+    component: VisualizarSubmissaoQuestaoComponent,
+    canActivate: [AuthGuard]
+  },
 ];
 
 @NgModule({

@@ -22,6 +22,7 @@ import { CadastrarAlternativasComponent } from './cadastrar-alternativas/cadastr
 import { CheckboxModule } from 'primeng/checkbox';
 import { DropdownModule } from 'primeng/dropdown';
 import { InputTextModule } from 'primeng/inputtext';
+import { VisualizarMslqComponent } from './visualizar-mslq/visualizar-mslq.component';
 
 export const routes:Routes = [
   {
@@ -46,13 +47,17 @@ export const routes:Routes = [
     canActivate: [AuthGuard, AdminGuard],
     canLoad: [AuthGuard, AdminGuard]
   },
+  {
+    path: 'visualizar-mslq/:codigoTurma',
+    component: VisualizarMslqComponent
+  },
 ]
 
 @NgModule({
   declarations: [ExportarDadosComponent, ListarAssuntosAdminComponent,
     VisualizarAssuntoAdminComponent,CadastrarQuestoesComponent,
     CadastrarTesteCaseComponent,CadastrarAssuntosComponent,
-    CadastrarQuestoesFechadasComponent,CadastrarAlternativasComponent],
+    CadastrarQuestoesFechadasComponent,CadastrarAlternativasComponent, VisualizarMslqComponent],
   imports: [
     RouterModule.forChild(routes),
     CommonModule,

@@ -43,6 +43,7 @@ import { ToastModule } from 'primeng/toast';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { DocumentModule } from './model/firestore/document.module';
 import {ProgressSpinnerModule} from 'primeng/progressspinner';
+import { NbThemeModule } from '@nebular/theme';
 
 const config: SocketIoConfig = { url: 'http://localhost:3001', options: {} };
 
@@ -74,7 +75,7 @@ const config: SocketIoConfig = { url: 'http://localhost:3001', options: {} };
     GeralModuleModule,
     AnalyticsModule, */
     
-    
+    NbThemeModule.forRoot(),
     AppRoutingModule,
     
     /* InputTextModule,
