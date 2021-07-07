@@ -9,7 +9,6 @@ import Query from 'src/app/model/firestore/query';
 import Turma from 'src/app/model/turma';
 import Usuario from 'src/app/model/usuario';
 import { Util } from 'src/app/model/util';
-import { ChatService } from '../chat.service';
 
 @Component({
   selector: 'app-criacao-grupo',
@@ -35,7 +34,7 @@ export class CriarAtividadeGrupoComponent implements OnInit {
 
   tamanhoGrupo:number;
 
-  constructor(private chatService: ChatService, private messageService: MessageService) {
+  constructor(private messageService: MessageService) {
     this.estudantesSelecionados = [];
     this.questoesSelecionadas = [];
     this.tamanhoGrupo = 2;

@@ -34,7 +34,6 @@ import Gamification from 'src/app/model/gamification/gamification';
 import { GamificationFacade } from 'src/app/gamification/gamification.service';
 import { MonitorService } from 'src/app/chatbot/monitor.service';
 import { ConfirmationService } from 'primeng/api';
-import { ChatService } from 'src/app/cscl/chat.service';
 import AtividadeGrupo from 'src/app/model/cscl/atividadeGrupo';
 import Grupo from 'src/app/model/cscl/grupo';
 import RespostaQuestaoCorrecaoAlgoritmo from 'src/app/model/correcao-algoritmo/correcaoAlgoritmo';
@@ -83,7 +82,6 @@ export class ResponderQuestaoProgramacao implements OnInit, AfterViewInit, OnCha
     public login: LoginService,
     private router: Router,
     private apresentacao: ApresentacaoService,
-    public chat: ChatService,
     public dialogService: DialogService
   ) {
     this.pausaIde = true;

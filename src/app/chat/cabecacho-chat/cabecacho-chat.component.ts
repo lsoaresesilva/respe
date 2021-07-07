@@ -1,6 +1,6 @@
 import { Component, Input, OnChanges, OnInit } from '@angular/core';
 import { BehaviorSubject } from 'rxjs';
-import { ChatService } from 'src/app/cscl/chat.service';
+import { ChatService } from '../chat.service';
 
 @Component({
   selector: 'app-cabecacho-chat',

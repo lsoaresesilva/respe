@@ -19,10 +19,6 @@ import { catchError, retry, switchMap, timeout } from 'rxjs/operators';
 import { environment } from 'src/environments/environment';
 import { ConfirmationService, MessageService } from 'primeng/api';
 import { ActivatedRoute, Router } from '@angular/router';
-import { ChatService } from 'src/app/cscl/chat.service';
-import { Assunto } from 'src/app/model/assunto';
-import Edicao from 'src/app/model/cscl/edicao';
-import Algoritmo from 'src/app/model/algoritmo';
 import SubmissaoGrupo from 'src/app/model/cscl/submissaoGrupo';
 import AtividadeGrupo from 'src/app/model/cscl/atividadeGrupo';
 import HistoricoEdicoes from 'src/app/model/cscl/historicoEdicoes';
@@ -146,11 +142,8 @@ export class EditorProgramacaoComponent implements AfterViewInit, OnChanges, OnI
     public login: LoginService,
     private confirmationService: ConfirmationService,
     private router: Router,
-    public chat: ChatService,
-    private route: ActivatedRoute,
     private messageService: MessageService,
     public dialogService: DialogService,
-    private componentFactoryResolver: ComponentFactoryResolver,
     private monitor: MonitorService
   ) {
     this.apresentarVisualizacao = true;
@@ -359,18 +352,7 @@ export class EditorProgramacaoComponent implements AfterViewInit, OnChanges, OnI
     }
   }
 
-  iniciarChat() {
-    if (this.atividadeGrupo != null && this.grupo.id != null) {
-      
-        this.chat.iniciar(this.grupo.id).subscribe((resposta) => {
-          if (resposta) {
-            this.chat.receberMensagens();
-            this.isConectado = true;
-          }
-        });
-      
-    }
-  }
+  
 
   onContainerReady(event) {
     this.isEditorPronto = true;
@@ -382,7 +364,7 @@ export class EditorProgramacaoComponent implements AfterViewInit, OnChanges, OnI
         this.monitor.ajudarProblemSolving(this.usuario, 2);
       }, 900000);
 
-      this.iniciarChat();
+      
       iniciarEditorColaborativo(this.grupo.id);
     } else {
       this.atualizarEditorComSubmissao();

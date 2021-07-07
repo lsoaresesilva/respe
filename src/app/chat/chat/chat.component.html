@@ -17,11 +17,19 @@
 </p-dialog>
  -->
 
-<nb-chat title="Nebular Conversational UI">
+<!-- <nb-chat title="Nebular Conversational UI">
     <nb-chat-message *ngFor="let msg of mensagens$ | async" type="text" [message]="msg.texto"
         [sender]="msg.estudante.nome">
     </nb-chat-message>
 
     <nb-chat-form (send)="enviar($event)" [dropFiles]="false">
     </nb-chat-form>
-</nb-chat>
+</nb-chat> -->
+
+<ng-chat *ngIf="grupoInicializado == true && grupo != null"  [adapter]="grupoAdapter" [historyEnabled]="false" [historyPageSize]="4" [hideFriendsList]="false"
+    [userId]="estudante.pk()" [groupAdapter]="grupoAdapter" 
+    #ngChatInstance
+    title='Equipe'
+    messagePlaceholder="Escreva uma mensagem"
+
+    (onParticipantChatOpened)="abrirConversa($event)" (onParticipantClicked)="clicarParticipante($event)"></ng-chat>

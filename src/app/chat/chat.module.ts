@@ -1,7 +1,6 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { ChatGrupoComponent } from './chat/chat.component';
-import { ChatService } from '../cscl/chat.service';
 import { DialogModule } from 'primeng/dialog';
 import { FormsModule } from '@angular/forms';
 import { ButtonModule } from 'primeng/button';
@@ -14,7 +13,8 @@ import { CabecachoChatComponent } from './cabecacho-chat/cabecacho-chat.componen
 import { HttpClientModule } from '@angular/common/http';
 import { ChatbotModule } from '../chatbot/chatbot.module';
 import { MonitorService } from '../chatbot/monitor.service';
-import { NbChatModule, NbFocusMonitor, NbStatusService } from '@nebular/theme';
+import { NgChatModule } from 'ng-chat';
+import { ChatService } from './chat.service';
 
 
 @NgModule({
@@ -29,9 +29,9 @@ import { NbChatModule, NbFocusMonitor, NbStatusService } from '@nebular/theme';
     ScrollPanelModule,
     HttpClientModule,
     ChatbotModule,
-    NbChatModule
+    NgChatModule
   ],
   exports:[ChatGrupoComponent],
-  providers:[ChatService, GravacaoVideoService, MonitorService, NbStatusService, NbFocusMonitor]
+  providers:[ChatService, GravacaoVideoService, MonitorService]
 })
 export class ChatModule { }

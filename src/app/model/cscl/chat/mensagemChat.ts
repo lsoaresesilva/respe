@@ -4,38 +4,45 @@ import Usuario from '../../usuario';
 import { Util } from '../../util';
 import { forkJoin, Observable } from 'rxjs';
 import Query from '../../firestore/query';
-import Grupo from '../grupo';
-import AtividadeGrupo from '../atividadeGrupo';
 
-@Collection("mensagensChat")
-export default class MensagemChat extends Document{
 
-    @date()
-    data;
+import * as firebase from 'firebase';
 
-    constructor(public id, public estudante:Usuario, public texto, public grupo:Grupo, public atividadeGrupo:AtividadeGrupo){
-        super(id);
+export default class MensagemChat{
+
+ 
+    constructor(public id, public estudante:Usuario, public texto, public data){
+       if(id == null){
+           this.id = Util.uuidv4();
+       }
+
     }
 
     objectToDocument(){
-        let document = super.objectToDocument();
+        
+        let document = {texto:this.texto};
+
         if(this.estudante.pk() != null){
-            document["estudanteId"] = this.estudante.pk();
+            document["estudante"] = {id:this.estudante.pk(), nome:this.estudante.nome};
         }
 
-        if(this.grupo.id != null){
-            document["grupoId"] = this.grupo.id;
+        
+
+        if(this.data == null){
+            document["data"] = firebase.firestore.Timestamp.now();
+        }else{
+            document["data"] = this.data;
         }
 
-        if(this.atividadeGrupo.pk() != null){
-            document["atividadeGrupoId"] = this.atividadeGrupo.pk();
-        }
+        
         
 
         return document;
     }
 
-    static carregarMensagens(grupo:grupo){
+    
+
+    /* static carregarMensagens(grupo:grupo){
         return new Observable<MensagemChat[]>(observer=>{
             if(grupo != null){
                 let consultaEstudantes:Observable<Usuario>[] = [];
@@ -86,5 +93,5 @@ export default class MensagemChat extends Document{
         })
         
 
-    }
+    } */
 }

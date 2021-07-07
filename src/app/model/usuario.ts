@@ -9,9 +9,14 @@ import Turma from './turma';
 import Submissao from './submissao';
 import { Cacheable } from 'ts-cacheable';
 import AtribuicaoGrupoExperimental from './experimento/atribuicaoGrupoExperimental';
+import { ChatParticipantStatus, ChatParticipantType, IChatParticipant } from 'ng-chat';
 
 @Collection('usuarios')
-export default class Usuario extends Document {
+export default class Usuario extends Document implements IChatParticipant {
+
+  @date()
+  data;
+
   constructor(
     id,
     public email,
@@ -21,11 +26,23 @@ export default class Usuario extends Document {
     public nome
   ) {
     super(id);
+
     this.minutos = 0;
+    this.status = ChatParticipantStatus.Offline;
+    this.displayName = this.nome;
+    this.participantType = ChatParticipantType.User;
   }
 
-  @date()
-  data;
+  @ignore()
+  participantType: ChatParticipantType;
+  @ignore()
+  status: ChatParticipantStatus;
+  @ignore()
+  avatar: string;
+  @ignore()
+  displayName: string;
+
+  
   minutos;
   genero;
   conhecimentoPrevioProgramacao;
@@ -67,10 +84,7 @@ export default class Usuario extends Document {
     );
   }
 
-  toJson(){
-    return {id:this.id, email:this.email, senha:this.senha, perfil:this.perfil, grupoExperimento:this.grupoExperimento, nome:this.nome};
-  }
-
+  
   static fromJson(json) {
     if (json != null && json.id != undefined) {
       const usuario = new Usuario(
@@ -81,7 +95,9 @@ export default class Usuario extends Document {
         json.grupoExperimento,
         json.nome
       );
+
       usuario.minutos = json.minutos;
+      
 
       if (json.turma != null) {
         usuario.turma = Turma.fromJson(json.turma);
@@ -105,6 +121,11 @@ export default class Usuario extends Document {
 
     return document;
   }
+
+  toJson(){
+    return {id:this.id, email:this.email, senha:this.senha, perfil:this.perfil, grupoExperimento:this.grupoExperimento, nome:this.nome};
+  }
+
 
   stringfiy() {
     const objeto = {
@@ -130,6 +151,11 @@ export default class Usuario extends Document {
     return objeto;
   }
 
+  toChatParticipant(){
+    let participante:IChatParticipant = {id:this.id, participantType:this.participantType, status:ChatParticipantStatus.Online, avatar: null, displayName:this.nome}
+
+    return participante;
+  }
 
   salvar(perfil = PerfilUsuario.estudante, group:Groups = null, isRandom = false): Observable<Usuario> {
     

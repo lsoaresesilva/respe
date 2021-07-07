@@ -8,6 +8,8 @@ import { LoginService } from '../login-module/login.service';
 import Sharedb from 'sharedb/lib/client';
 import { environment } from 'src/environments/environment';
 import Grupo from '../model/cscl/grupo';
+import { ChatAdapter, ChatParticipantStatus, Group, IChatGroupAdapter, IChatParticipant, Message, MessageType, ParticipantResponse } from 'ng-chat';
+import ChatGrupo from '../model/cscl/chat/chatGrupo';
 
 @Injectable({
   providedIn: 'root',
@@ -26,55 +28,51 @@ export class ChatService {
     this.estudantesOnline = new BehaviorSubject([]);
   }
 
+  groupCreated(group: Group): void {
+    console.log("Grupo criado");
+  }
+
+
+
+  /* public onMessageReceived(participant: IChatParticipant, message: Message): void{
+
+
+  }
+
+  public onFriendsListChanged(participantsResponse: ParticipantResponse[]): void{
+
+  } */
+
+  
+
   receberMensagens() {
-    this.socketChat.on('mensagemRecebida', (message) => {
+    /* this.socketChat.on('mensagemRecebida', (message) => {
       this.observerChat.next(JSON.parse(message));
-    });
+    }); */
+    
+    
   }
 
-  carregarMensagens(grupo:Grupo){
-    MensagemChat.carregarMensagens(grupo).subscribe(mensagens=>{
-      mensagens.forEach(mensagem=>{
+  /* carregarMensagens(grupo: Grupo) {
+    MensagemChat.carregarMensagens(grupo).subscribe((mensagens) => {
+      mensagens.forEach((mensagem) => {
         this.observerChat.next(mensagem);
-      })
-    })
-  }
-
-
-
-  iniciar(sala) {
-    this.sala = sala;
-    let usuarioLogado = this.login.getUsuarioLogado();
-    return new Observable((observer) => {
-      /**
-       * Socket para a sincronização do chat
-       */
-      this.socketChat = io.connect(environment.URL_CHAT, {
-        query: { sala: sala, estudanteId: usuarioLogado.pk() },
-      });
-
-      this.socketChat.on('conexao', () => {
-        observer.next(true);
-        observer.complete();
-      });
-
-      this.socketChat.on('conexaoAluno', (estudantesConectados) => {
-
-        this.estudantesOnline.next(estudantesConectados);
-      });
-
-      this.socketChat.on('logout', (message) => {
-        // TODO: implementar o logout que remove o estudante da lista de estudantes logados.
       });
     });
-  }
+  } */
 
+  
   enviarMensagem(mensagem: MensagemChat) {
-    if (mensagem != null) {
-
-      let novaMensagem = new MensagemChat(null, mensagem.estudante, mensagem.texto, mensagem.grupo, mensagem.atividadeGrupo);
+    /* if (mensagem != null) {
+      let novaMensagem = new MensagemChat(
+        null,
+        mensagem.estudante,
+        mensagem.texto,
+        mensagem.grupo,
+        mensagem.atividadeGrupo
+      );
       novaMensagem.save().subscribe(() => {
-         let x = 2;
+        let x = 2;
       });
 
       return new Observable((observer) => {
@@ -86,11 +84,11 @@ export class ChatService {
         });
 
         this.socketChat.emit('enviarMensagem', data);
-        
+
         observer.next();
         observer.complete();
       });
-    }
+    } */
   }
 
   /*enviarKeyEditor(edicao:Edicao){

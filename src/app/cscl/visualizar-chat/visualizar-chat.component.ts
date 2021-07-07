@@ -17,7 +17,7 @@ export class VisualizarChatComponent implements OnInit {
   constructor(private route:ActivatedRoute) { 
     this.route.params.subscribe(params=>{
       if(params["atividadeGrupoId"] != null && params["grupoId"] != null){
-        MensagemChat.getAll(new Query("grupoId", "==", params["grupoId"])).subscribe(mensagens=>{
+       /*  MensagemChat.getAll(new Query("grupoId", "==", params["grupoId"])).subscribe(mensagens=>{
           mensagens.sort((mensagemA, mensagemB)=>{
             if(mensagemA.data.toMillis() < mensagemB.data.toMillis()){
               return -1;
@@ -31,7 +31,7 @@ export class VisualizarChatComponent implements OnInit {
           mensagens.map(mensagem=>mensagem.data = Util.firestoreDateToDate(mensagem.data));
 
           this.mensagens = mensagens;
-        })
+        }) */
       }else{
         
       }
