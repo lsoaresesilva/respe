@@ -77,7 +77,7 @@ export class VisualizarAtividadeGrupoProfessorComponent implements OnInit {
   gerarLink(grupo: Grupo) {
     if (grupo.estudantes.length > 0) {
       return this.atividadeGrupo.gerarLink(
-        new Usuario(grupo.estudantes[0], '', '', PerfilUsuario.estudante, Groups.experimentalA, '')
+        new Usuario(grupo.estudantes[0].pk(), '', '', PerfilUsuario.estudante, Groups.experimentalA, '')
       );
     }
   }

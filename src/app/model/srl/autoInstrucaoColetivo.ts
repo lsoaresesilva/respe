@@ -170,13 +170,13 @@ export default class AutoInstrucaoColetiva extends Document{
                 isJustificativasRealizadas = true;
             }
 
-            this.justificativas.forEach(justificativa=>{
+            /* this.justificativas.forEach(justificativa=>{
                 if(justificativa.avaliacaoDificuldades != "" || justificativa.avaliacaoDificuldades == null){
                     totalDificuldadesRelatadas += 1;
                 }
-            })
+            }) */
 
-            return isJustificativasRealizadas && totalDificuldadesRelatadas >= Math.floor(0.75*grupo.estudantes.length);
+            return isJustificativasRealizadas/*  && totalDificuldadesRelatadas >= Math.floor(0.75*grupo.estudantes.length) */;
         }
     }
 

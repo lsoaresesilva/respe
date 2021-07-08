@@ -29,6 +29,7 @@
 <ng-chat *ngIf="grupoInicializado == true && grupo != null"  [adapter]="grupoAdapter" [historyEnabled]="false" [historyPageSize]="4" [hideFriendsList]="false"
     [userId]="estudante.pk()" [groupAdapter]="grupoAdapter" 
     #ngChatInstance
+    [audioEnabled]="false"
     title='Equipe'
     messagePlaceholder="Escreva uma mensagem"
 

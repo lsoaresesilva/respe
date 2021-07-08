@@ -1,4 +1,4 @@
-import { AfterViewInit, Component, OnInit } from '@angular/core';
+import { AfterViewInit, Component, ElementRef, OnInit, Renderer2, ViewChild } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { MessageService, SelectItem } from 'primeng/api';
 import { BehaviorSubject, Subject } from 'rxjs';
@@ -45,14 +45,32 @@ export class SelfInstructionColetivoComponent implements OnInit, AfterViewInit {
   pieData;
   pieOpcoes;
 
+  posicaoVisualizacao;
+
+  @ViewChild("divPlanejamento")
+  divPlanejamento:ElementRef;
+
+  @ViewChild("divAnalise")
+  divAnalise:ElementRef;
+
+  @ViewChild("divQuestao")
+  divQuestao:ElementRef;
+
+  @ViewChild("divAvancar")
+  divAvancar:ElementRef;
+
   constructor(
     private route: ActivatedRoute,
     private router: Router,
     private login: LoginService,
     private messageService: MessageService,
     private chat:ChatService,
-    private monitor:MonitorService
+    private monitor:MonitorService,
+    private renderer: Renderer2
   ) {
+
+    this.posicaoVisualizacao = 1;
+
     this.display = false;
     this.estudante = this.login.getUsuarioLogado();
 
@@ -98,6 +116,36 @@ export class SelfInstructionColetivoComponent implements OnInit, AfterViewInit {
       
     }
   }
+
+  esconderElementos(){
+    
+    this.divAnalise.nativeElement.style.display = "none";
+    this.divQuestao.nativeElement.style.display = "none";
+    this.divAvancar.nativeElement.style.display = "none";
+    this.divPlanejamento.nativeElement.style.visibility = "hidden";
+  }
+
+  visualizarQuestao(){
+    this.esconderElementos();
+    this.divQuestao.nativeElement.style.display = "block";
+  }
+
+  visualizarAnalise(){
+    this.esconderElementos();
+    this.divAnalise.nativeElement.style.display = "block";
+  }
+
+  visualizarPlanejamento(){
+    this.esconderElementos();
+    this.divPlanejamento.nativeElement.style.visibility = "visible";
+    
+  }
+
+  avancar(){
+    this.esconderElementos();
+    this.divAvancar.nativeElement.style.display = "block";
+  }
+
 
   ngOnInit(): void {}
 
@@ -241,6 +289,33 @@ export class SelfInstructionColetivoComponent implements OnInit, AfterViewInit {
     }
 
     return  true;
+  }
+
+  getDificuldade(estudante){
+    let justificativa = this.autoInstrucaoColetiva.getJustificativaByEstudante(estudante);
+    if(justificativa == null || justificativa.dificuldade == null){
+      return "";
+    }
+
+    return  justificativa.dificuldade;
+  }
+
+  getDificuldades(estudante){
+    let justificativa = this.autoInstrucaoColetiva.getJustificativaByEstudante(estudante);
+    if(justificativa == null || justificativa.avaliacaoDificuldades == ""){
+      return "";
+    }
+
+    return  justificativa.avaliacaoDificuldades;
+  }
+
+  getJustificativa(estudante){
+    let justificativa = this.autoInstrucaoColetiva.getJustificativaByEstudante(estudante);
+    if(justificativa == null || justificativa.texto == ""){
+      return "";
+    }
+
+    return  justificativa.texto;
   }
 
   selecionarLider(){

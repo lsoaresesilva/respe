@@ -32,7 +32,7 @@ export default class Grupo {
     return new Observable<any[]>(observer=>{
       let consultaUsuarios = [];
       this.estudantes.forEach(estudante=>{
-        consultaUsuarios.push(Usuario.get(estudante));
+        consultaUsuarios.push(Usuario.get(estudante.pk()));
       })
 
       forkJoin(consultaUsuarios).subscribe(usuarios=>{
@@ -43,8 +43,14 @@ export default class Grupo {
     
   }
 
-  static construir(grupo){
-    return new Grupo(grupo.id, grupo.estudantes);
+  static construir(grupo:Grupo){
+    let estudantes = [];
+    if(Array.isArray(grupo.estudantes)){
+      grupo.estudantes.forEach(estudante=>{
+        estudantes.push(new Usuario(estudante, null, null, null, null, null));
+      });
+    }
+    return new Grupo(grupo.id, estudantes);
   }
 
   validar(){

@@ -2,22 +2,35 @@
 
 <div *ngIf="autoInstrucaoColetiva != null">
 
-    <p-tabView (onChange)="mudarAba($event)">
-        <p-tabPanel header="Questão">
-            <div class="p-grid">
-                <div class="p-col-10">
-                    <app-visualizar-questao *ngIf="questao != null" [questao]="questao.questao" id="dadosQuestao">
-                    </app-visualizar-questao>
-                </div>
-                <div class="p-col-2"></div>
-            </div>
-            
+    <div class="p-grid">
+       
+        <div class="p-col-2">
+            <button pButton label="Questao" (click)="visualizarQuestao()"></button>
+        </div>
+        <div class="p-col-2">
+            <button pButton label="Análise da atividade" (click)="visualizarAnalise()"></button>
+        </div>
+        <div class="p-col-2">
+            <button pButton label="Planejamento" (click)="visualizarPlanejamento()" [disabled]="isAvancarPlanejamentoHabilitado"></button>
+        </div>
+        <div class="p-col-1">
+            <button pButton label="Avancar" (click)="avancar()" [disabled]="isSalvarHabilitado"></button>
+        </div>
+    </div>
+    <div class="p-grid" #divQuestao>
+        <div class="p-col-12">
+            <app-visualizar-questao *ngIf="questao != null" [questao]="questao.questao" id="dadosQuestao">
+            </app-visualizar-questao>
+        </div>
+    </div>
 
-        </p-tabPanel>
-        <p-tabPanel header="Avaliação da atividade" >
+    <div class="p-grid" #divAnalise style="display: none;">
+
+        
+        <div class="p-col-12">
             <div clsas="p-grid">
                 <div class="p-col-12">
-                   <h3>Membros da equipe</h3>
+                    <h3>Membros da equipe</h3>
                 </div>
             </div>
             <div clsas="p-grid">
@@ -27,20 +40,27 @@
                             <tr>
                                 <th>Estudante</th>
                                 <th>Status</th>
-
+                                <th>Como avalia a dificuldade</th>
+                                <th>Por que avaliou assim</th>
+                                <th>Suas principais dificuldades</th>
                             </tr>
                         </ng-template>
                         <ng-template pTemplate="body" let-estudante>
                             <tr>
                                 <td>{{estudante.nome}}</td>
-                                <td>{{isAvaliacaoRealizada(estudante) == false?"Pendente":"Finalizado"}}</td>
+                                <td>{{isAvaliacaoRealizada(estudante) == false?"Não finalizou":"Finalizado"}}</td>
+                                <td>{{getDificuldade(estudante)}}</td>
+                                <td>{{getJustificativa(estudante)}}</td>
+                                <td>{{getDificuldades(estudante)}}</td>
                             </tr>
                         </ng-template>
                     </p-table>
                 </div>
             </div>
             <div class="p-grid">
-                <div class="p-col-6"><h3>1. Para você, qual o nível de dificuldade para responder essa questão?</h3></div>
+                <div class="p-col-6">
+                    <h3>1. Para você, qual o nível de dificuldade para responder essa questão?</h3>
+                </div>
             </div>
             <div class="p-grid">
                 <div class="p-col-11">
@@ -109,9 +129,9 @@
 
             </div>
 
-            <div class="p-grid" *ngIf="isVisualizarJustificativaGrupoHabilitado">
+            <!-- <div class="p-grid" *ngIf="isVisualizarJustificativaGrupoHabilitado">
                 <div class="p-col-12">
-                   <h3>2. Como a sua equipe avalia a dificuldade dessa questão</h3>
+                    <h3>2. Como a sua equipe avalia a dificuldade dessa questão</h3>
                 </div>
             </div>
 
@@ -138,27 +158,30 @@
                         </ng-template>
                     </p-table>
                 </div>
-            </div>
+            </div> -->
 
             <div class="p-grid">
                 <div class="p-col-12">
                     <div class="p-grid">
                         <div class="p-col-12">
-                            <h3>3. Em sua avaliação, quais dificuldades que você possui mais irão impactar o seu trabalho nesta atividade?</h3>
-                         </div>
+                            <h3>3. Em sua avaliação, quais dificuldades que você possui mais irão impactar o seu
+                                trabalho nesta atividade?</h3>
+                        </div>
                     </div>
                     <div class="p-grid">
                         <div class="p-col-12">
-                            <textarea [rows]="6" [cols]="60" pInputTextarea [(ngModel)]="relatoDificuldade.avaliacaoDificuldades" (ngModelChange)="verificarAtualizacaoAvaliacaoDificuldade()"></textarea>
-                         </div>
+                            <textarea [rows]="6" [cols]="60" pInputTextarea
+                                [(ngModel)]="relatoDificuldade.avaliacaoDificuldades"
+                                (ngModelChange)="verificarAtualizacaoAvaliacaoDificuldade()"></textarea>
+                        </div>
                     </div>
                     <div class="p-grid">
                         <div class="p-col-12">
                             {{contagemCaracteres(relatoDificuldade.avaliacaoDificuldades, 30)}} caracteres faltando.
-                         </div>
+                        </div>
                     </div>
                 </div>
-                <div class="p-col-12" *ngIf="isVisualizarDificuldadesEstudantesHabilitado">
+                <!-- <div class="p-col-12" *ngIf="isVisualizarDificuldadesEstudantesHabilitado">
                     <p-table [value]="autoInstrucaoColetiva.justificativas">
                         <ng-template pTemplate="header">
                             <tr>
@@ -175,10 +198,33 @@
                         </ng-template>
                     </p-table>
                 </div>
-                
+ -->
             </div>
-        </p-tabPanel>
-        <p-tabPanel header="Planejamento do problema e solução" [disabled]="isAvancarPlanejamentoHabilitado">
+        </div>
+    </div>
+
+    <div class="p-grid" #divAvancar style="display: none;">
+       
+        <div class="p-col-12">
+            <div class="p-grid">
+                <div class="p-col-12">
+                    <b>Atenção: apenas o líder da equipe deve clicar no botão abaixo.</b><br><br>
+                    Ao clicar no botão a seguir você será redirecionado ao editor de programação colaborativo para
+                    escrever os códigos de programação juntamente com seus colegas de grupo.
+                </div>
+            </div>
+            <div class="p-grid">
+                <div class="p-col-1">
+                    <button pButton label="Avançar" (click)="salvar()" *ngIf="autoInstrucaoColetiva.lider != null"
+                        [disabled]="!(autoInstrucaoColetiva.lider.pk() == estudante.pk())"></button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="p-grid" #divPlanejamento style="visibility: hidden;">
+       
+        <div class="p-col-12">
             <div class="p-grid">
                 <div class="p-col-10">
                     <h3>Quem será o líder da equipe?</h3>
@@ -186,7 +232,8 @@
             </div>
             <div class="p-grid">
                 <div class="p-col-10">
-                    <p-dropdown [options]="estudantes" optionLabel="nome" placeholder="Selecione o líder da equipe" [(ngModel)]="autoInstrucaoColetiva.lider" (onChange)="selecionarLider()"></p-dropdown>
+                    <p-dropdown [options]="estudantes" optionLabel="nome" placeholder="Selecione o líder da equipe"
+                        [(ngModel)]="autoInstrucaoColetiva.lider" (onChange)="selecionarLider()"></p-dropdown>
                 </div>
             </div>
             <div class="p-grid" [style]="{height:'1200px'}">
@@ -219,21 +266,33 @@
                     </div>
                 </div>
             </div>
+        </div>
+    </div>
+
+   
+
+
+    <!-- <p-tabView (onChange)="mudarAba($event)">
+        <p-tabPanel header="Questão">
+            <div class="p-grid">
+                <div class="p-col-10">
+
+                </div>
+                <div class="p-col-2"></div>
+            </div>
+
+
+        </p-tabPanel>
+        <p-tabPanel header="Avaliação da atividade">
+            
+        </p-tabPanel>
+        <p-tabPanel header="Planejamento do problema e solução" [disabled]="isAvancarPlanejamentoHabilitado">
+            
         </p-tabPanel>
         <p-tabPanel header="Avançar" [disabled]="isSalvarHabilitado">
-            <div class="p-grid">
-                <div class="p-col-12">
-                    <b>Atenção: apenas o líder da equipe deve clicar no botão abaixo.</b><br><br>
-                    Ao clicar no botão a seguir você será redirecionado ao editor de programação colaborativo para escrever os códigos de programação juntamente com seus colegas de grupo.
-                </div>
-            </div>
-            <div class="p-grid">
-                <div class="p-col-1">
-                    <button pButton label="Avançar" (click)="salvar()" *ngIf="autoInstrucaoColetiva.lider != null" [disabled]="!(autoInstrucaoColetiva.lider.pk() == estudante.pk())"></button>
-                </div>
-            </div>
+          
         </p-tabPanel>
-    </p-tabView>
+    </p-tabView> -->
 
 
 

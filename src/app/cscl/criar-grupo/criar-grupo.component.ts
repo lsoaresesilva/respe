@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { MessageService } from 'primeng/api';
 import AtividadeGrupo from 'src/app/model/cscl/atividadeGrupo';
+import ChatGrupo from 'src/app/model/cscl/chat/chatGrupo';
 import Grupo from 'src/app/model/cscl/grupo';
 import { Groups } from 'src/app/model/experimento/groups';
 import AutoInstrucaoColetiva from 'src/app/model/srl/autoInstrucaoColetivo';
@@ -67,18 +68,19 @@ export class CriarGrupoComponent implements OnInit {
       this.atividadeGrupo.grupos.push(grupo);
 
 
-      this.atividadeGrupo.save().subscribe(()=>{
+      this.atividadeGrupo.adicionarGrupo().subscribe(()=>{
 
-        if(Array.isArray(grupo.estudantes) && grupo.estudantes.length > 0){
+        this.messageService.add({severity:'success', summary:'Operação realizada com sucesso', detail:"Grupo cadastrado"});
+
+        /* if(Array.isArray(grupo.estudantes) && grupo.estudantes.length > 0){
           if(grupo.estudantes[0].grupoExperimento == Groups.experimentalB){
+            
             let selfInstructionColetivo = new AutoInstrucaoColetiva(null, "", "", grupo, [], null, false);
             selfInstructionColetivo.save().subscribe(()=>{
-              this.messageService.add({severity:'success', summary:'Operação realizada com sucesso', detail:"Grupo cadastrado"});
+              
             })
           }
-        }
-        
-
+        } */
         
       });
     }

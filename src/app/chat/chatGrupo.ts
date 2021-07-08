@@ -14,6 +14,7 @@ import { delay } from 'rxjs/operators';
 import ChatGrupo from '../model/cscl/chat/chatGrupo';
 import MensagemChat from '../model/cscl/chat/mensagemChat';
 import Grupo from '../model/cscl/grupo';
+import Query from '../model/firestore/query';
 import Usuario from '../model/usuario';
 import { Util } from '../model/util';
 
@@ -109,7 +110,7 @@ export default class ChatGrupoAdapter extends ChatAdapter implements IChatGroupA
   ];
 
   desconectar(estudante){
-    ChatGrupo.get(this.grupoAtividade.id).subscribe((chatGrupo) => {
+    ChatGrupo.getByQuery(new Query("grupoId", "==", this.grupoAtividade.id)).subscribe((chatGrupo) => {
       if (chatGrupo != null) {
           if(chatGrupo.isEstudanteConectado(estudante)){
               chatGrupo.desconectarEstudante(estudante);
@@ -137,25 +138,28 @@ export default class ChatGrupoAdapter extends ChatAdapter implements IChatGroupA
 
           let mensagem = chatGrupo.mensagens[chatGrupo.mensagens.length - 1] as MensagemChat;
 
-          if(mensagem.estudante.nome != _this.estudante.nome){
-            let usuario = new Usuario(
-              mensagem.estudante.id,
-              null,
-              null,
-              null,
-              null,
-              mensagem.estudante.nome
-            );
-  
-            let m = new Message();
-            m.type = MessageType.Text;
-            m.message = mensagem.texto;
-            m.fromId = mensagem.estudante.id;
-            m.toId = _this.grupoAtividade.id;
-            m.dateSent = Util.firestoreDateToDate(mensagem.data)
-  
-            _this.onMessageReceived(_this.grupoChat, m);
+          if(mensagem != null){
+            if(mensagem.estudante.nome != _this.estudante.nome){
+              let usuario = new Usuario(
+                mensagem.estudante.id,
+                null,
+                null,
+                null,
+                null,
+                mensagem.estudante.nome
+              );
+    
+              let m = new Message();
+              m.type = MessageType.Text;
+              m.message = mensagem.texto;
+              m.fromId = mensagem.estudante.id;
+              m.toId = _this.grupoAtividade.id;
+              m.dateSent = Util.firestoreDateToDate(mensagem.data)
+    
+              _this.onMessageReceived(_this.grupoChat, m);
+            }
           }
+          
 
           _this.listFriends().subscribe((response) => {
             _this.onFriendsListChanged(response);
@@ -165,7 +169,7 @@ export default class ChatGrupoAdapter extends ChatAdapter implements IChatGroupA
         }
       });
 
-      ChatGrupo.get(this.grupoAtividade.id).subscribe((chatGrupo) => {
+      ChatGrupo.getByQuery(new Query("grupoId", "==", this.grupoAtividade.id)).subscribe((chatGrupo) => {
         if (chatGrupo != null) {
             if(!chatGrupo.isEstudanteConectado(estudante)){
                 chatGrupo.estudantesConectados.push(estudante);
@@ -179,7 +183,7 @@ export default class ChatGrupoAdapter extends ChatAdapter implements IChatGroupA
             let consultas = [];
             this.grupoAtividade.estudantes.forEach(estudante=>{
 
-              consultas.push(Usuario.get(estudante));
+              consultas.push(Usuario.get(estudante.pk()));
 
               /* let participante = new Usuario(estudante, null, null, null, null, null);
               estudantesGrupo.push(participante); */
@@ -193,7 +197,7 @@ export default class ChatGrupoAdapter extends ChatAdapter implements IChatGroupA
 
               this.grupoChat = new Group(estudantesGrupo);
               this.grupoChat.id = this.grupoAtividade.id;
-              ChatGrupo.onDocumentUpdate(this.grupoAtividade.id, callback);
+              ChatGrupo.onDocumentUpdate(chatGrupo.id, callback);
               observer.next(this.grupoChat);
               observer.complete();
               
@@ -225,7 +229,7 @@ export default class ChatGrupoAdapter extends ChatAdapter implements IChatGroupA
   listFriends(): Observable<ParticipantResponse[]> {
     return new Observable((observer) => {
 
-      ChatGrupo.get(this.grupoAtividade.id).subscribe((chatGrupo) => {
+      ChatGrupo.getByQuery(new Query("grupoId", "==", this.grupoAtividade.id)).subscribe((chatGrupo) => {
         if (chatGrupo != null) {
           chatGrupo.getEstudantesConectados().subscribe((alunosConectados) => {
             if(this.grupoChat != null){
@@ -247,7 +251,7 @@ export default class ChatGrupoAdapter extends ChatAdapter implements IChatGroupA
   }
   getMessageHistory(destinataryId: any): Observable<Message[]> {
     return new Observable((observer) => {
-      ChatGrupo.get(this.grupoAtividade.id).subscribe((chatGrupo) => {
+      ChatGrupo.getByQuery(new Query("grupoId", "==", this.grupoAtividade.id)).subscribe((chatGrupo) => {
         if (chatGrupo != null) {
           chatGrupo.getMensagensChat().subscribe((mensagens) => {
             observer.next(mensagens);
@@ -260,7 +264,7 @@ export default class ChatGrupoAdapter extends ChatAdapter implements IChatGroupA
 
   sendMessage(message: Message): void {
 
-    ChatGrupo.get(this.grupoAtividade.id).subscribe(chatGrupo=>{
+    ChatGrupo.getByQuery(new Query("grupoId", "==", this.grupoAtividade.id)).subscribe(chatGrupo=>{
       let usuario = chatGrupo.getEstudanteConectadoById(message.fromId);
       if(usuario != null){
         let mensagem = new MensagemChat(null, new Usuario(usuario.id/* this.grupoAtividade.id */, null, null, null, null, usuario.nome), message.message, null);

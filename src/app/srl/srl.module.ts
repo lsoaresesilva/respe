@@ -64,7 +64,7 @@ import { ExperimentoGuard } from '../guards/experimento.guard';
 import { PageTrack } from '../guards/pageTrack.guard';
 import { SelfInstructionColetivoComponent } from './planejamento/self-instruction-coletivo/self-instruction-coletivo.component';
 import { ChatModule } from '../chat/chat.module';
-
+import {DividerModule} from 'primeng/divider';
 
 export const routes:Routes = [
   {
@@ -141,6 +141,7 @@ export const routes:Routes = [
     DropdownModule,
     ButtonModule,
     TableModule,
+    DividerModule,
     ToastModule,
     SliderModule,
     TabViewModule,

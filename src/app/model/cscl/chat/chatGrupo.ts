@@ -49,9 +49,9 @@ export default class ChatGrupo extends Document{
         return document;
     }
 
-    static get(id):Observable<ChatGrupo> {
+    static getByQuery(query, orderBy = null):Observable<ChatGrupo> {
         return new Observable(observer=>{
-            super.get(id).subscribe(chatGrupo=>{
+            super.getByQuery(query).subscribe(chatGrupo=>{
                 if(chatGrupo != null){
                     
 
@@ -87,7 +87,7 @@ export default class ChatGrupo extends Document{
                     }
 
                     if(chatGrupo.grupoId != null){
-                        chatGrupo.grupo = new Grupo(chatGrupo.atividadeGrupoId, null);
+                        chatGrupo.grupo = new Grupo(chatGrupo.grupoId, null);
                     }
                 }
                 observer.next(chatGrupo);
