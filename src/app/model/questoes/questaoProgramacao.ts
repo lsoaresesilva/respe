@@ -73,9 +73,12 @@ export class QuestaoProgramacao {
     return new Observable((observer) => {
       Submissao.getRecentePorQuestao(questao, usuario).subscribe(
         (submissao) => {
-          if(submissao["data"] != null){
-            let x = Util.firestoreDateToDate(submissao["data"]);
+          if(submissao != null){
+            if(submissao["data"] != null){
+              let x = Util.firestoreDateToDate(submissao["data"]);
+            }
           }
+          
           if (submissao != null && submissao['resultadosTestsCases'] != null) {
             const totalTestCase = questao.testsCases.length;
             let totalRespondidasSucesso = 0;
