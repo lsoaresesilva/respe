@@ -135,4 +135,9 @@ export default class PageTrackRecord extends Document {
 
     return contagem;
   }
+
+  static mergePageTracks(){
+
+  }
+
 }

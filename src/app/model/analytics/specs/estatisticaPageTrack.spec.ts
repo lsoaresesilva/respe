@@ -13,7 +13,7 @@ import PageTrackRecord from "../pageTrack";
 import Submissao from "../../submissao";
 import { Assunto } from "../../assunto";
 import Usuario from "../../usuario";
-import EstatisticaPageTrack from "../estatisticaPageTrack";
+import EstatisticaPageTrack from "../../modelagem/estatisticaPageTrack";
 import EstatisticasProgramacao from "../estatisticaProgramacao";
 
 describe('Testes para a classe de EstatisticaPageTrack', () => {

@@ -4,7 +4,7 @@ import html2canvas from 'html2canvas';
 import { Subject } from 'rxjs';
 import PageTrackRecord from 'src/app/model/analytics/pageTrack';
 import Query from 'src/app/model/firestore/query';
-import Grafo from 'src/app/model/grafo/grafo';
+import Grafo from 'src/app/model/modelagem/grafo';
 
 @Component({
   selector: 'app-grafo-estudantes',
@@ -34,14 +34,34 @@ export class GrafoEstudantesComponent implements OnChanges {
   }
 
   ngOnChanges(): void {
-    if (this.pageTracks != null) {
+
+    function replacer(key, value) {
+      if(value instanceof Map) {
+
+        let objeto = {}
+
+        value.forEach((value, key)=>{
+          objeto[key] = value;
+        })
+
+        
+        return objeto;
+      } else {
+        return value;
+      }
     }
-    let g = new Grafo(this.pageTracks);
-    let matriz = g.criar()
-    this.grafo = Grafo.construirGrafo(matriz);
-    this.edges = this.grafo.arestas;
-    this.nodes = this.grafo.nos;
-    this.zoomToFit$.next(true);
+
+    
+
+    if (this.pageTracks != null) {
+      let g = new Grafo(this.pageTracks);
+      let matriz = g.criarMatrizSomada(this.pageTracks);
+      console.log(JSON.stringify(matriz, replacer));
+      this.grafo = Grafo.construirGrafo(matriz);
+      this.edges = this.grafo.arestas;
+      this.nodes = this.grafo.nos;
+      this.zoomToFit$.next(true);
+    }
   }
 
   gerarScreenshot() {

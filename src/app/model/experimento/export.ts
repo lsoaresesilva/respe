@@ -5,8 +5,14 @@ import submissoesEstudantes from '../../../../json/submissoes_29_mai.json';
 import ErroCompilacaoFactory from '../errors/analise-compilacao/erroCompilacaoFactory';
 import NameError from '../errors/analise-compilacao/nameError';
 import ErroSintaxeVariavel from '../errors/analise-pre-compilacao/erroSintaxeVariavel';
+import PageTrackRecord from '../analytics/pageTrack';
+import Usuario from '../usuario';
+import Query from '../firestore/query';
 
 export default class Export {
+
+  static excluidos = ['B3Xgj4IGEOQvjLKoTHI9', 'JJ8zNeRZBDr4qTElmYJk', 'xRSUKvyNAYV8Cmvn639q', 'LYx978JlOUowgMgR7gq0', 'BmIqbIXvbFLx0D4rqdvo'];
+
   static submissoes() {
     return new Observable((observer) => {
       Submissao.exportToJson().subscribe((submissoes) => {
@@ -16,11 +22,47 @@ export default class Export {
     });
   }
 
+  static getPageTracks(estudante:Usuario | null=null){
+    return new Observable((observer) => {
+
+      function getTracks(estudantes){
+        PageTrackRecord.getAllByEstudantes(estudantes, false, "object").subscribe(pageTracks=>{
+          observer.next(JSON.stringify(pageTracks));
+          observer.complete();
+        })
+      }
+
+      if(estudante == null){
+        Usuario.getAll().subscribe(estudantes=>{
+          let estudantesFiltrados = estudantes.filter((estudante)=>{
+            if(estudante.grupoExperimento == 4){
+              return false;
+            }
+  
+            if (Export.excluidos.includes(estudante.pk())) {
+              return false;
+            }
+  
+            return true;
+          });
+  
+          getTracks(estudantes);
+          
+        })
+      }else{
+        Usuario.get(estudante.pk()).subscribe(estudante=>{
+          getTracks([estudante]);
+        })
+      }
+      
+    });
+  }
+
   static filtrarEstudantes(submissoesJson) {
     let submissoes = [];
-    let excluidos = ['B3Xgj4IGEOQvjLKoTHI9', 'JJ8zNeRZBDr4qTElmYJk', 'xRSUKvyNAYV8Cmvn639q'];
+    
     submissoesEstudantes['submissoes'].forEach((s) => {
-      if (!excluidos.includes(s['estudante'])) {
+      if (!Export.excluidos.includes(s['estudante'])) {
         submissoes.push(s);
       }
     });

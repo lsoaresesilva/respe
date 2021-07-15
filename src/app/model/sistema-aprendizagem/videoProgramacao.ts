@@ -5,13 +5,18 @@ import { Groups } from "../experimento/groups";
 import { Collection, Document } from "../firestore/document";
 import Query from "../firestore/query";
 import Usuario from "../usuario";
+import { MaterialAprendizagem } from "./materialAprendizagem";
 
 @Collection("videosProgramacao")
-export default class VideoProgramacao extends Document{
+export default class VideoProgramacao extends Document implements MaterialAprendizagem{
 
-    constructor(id, public link, public sequencia, public nome, public descricao, public assunto:Assunto, public isExperimental){
+    assunto: Assunto;
+
+    constructor(id, public nomeCurto, public link, public descricao, public isExperimental, public ordem){
         super(id);
     }
+
+  
 
     objectToDocument(){
         let document = super.objectToDocument();
@@ -22,6 +27,21 @@ export default class VideoProgramacao extends Document{
 
         return document;
     }
+
+    /* static construir(videosProgramacao: any[]) {
+        const videos: VideoProgramacao[] = [];
+
+        if (videosProgramacao != null) {
+            videosProgramacao.forEach((video) => {
+                videos.push(
+                    new VideoProgramacao(video.id, video.nomeCurto, video.link, video.descricao, video.isExperimental, video.sequencia)
+              );
+            })
+        }
+
+        return videos;
+
+    } */
 
     static listarTodos(usuario:Usuario) {
 

@@ -1,0 +1,15 @@
+
+<p-timeline [value]="events | async" align="alternate">
+    <ng-template pTemplate="marker" let-material>
+      <ng-container *ngIf="getMaterial(material) == 'questoes'; else video">
+        <p-knob *ngIf="material.percentualResposta != null" [(ngModel)]="material.percentualResposta" [size]="25" [readonly]="true"></p-knob>
+      </ng-container>
+      <ng-template #video>
+        <span class="pi pi-video" ></span>
+      </ng-template>
+    </ng-template>
+    <ng-template pTemplate="content" let-material>
+      <span (click)="abrirMaterial(material)" [style]="getCorMaterial(material)">{{material.sequencia}}. {{material.nomeCurto}}</span>
+    </ng-template>
+  </p-timeline>
+  

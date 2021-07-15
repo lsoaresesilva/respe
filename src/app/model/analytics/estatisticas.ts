@@ -2,7 +2,7 @@ import { forkJoin, Observable } from "rxjs";
 import { Assunto } from "../assunto";
 import { PerfilUsuario } from "../enums/perfilUsuario";
 import { Groups } from "../experimento/groups";
-import Grafo from "../grafo/grafo";
+import Grafo from "../modelagem/grafo";
 import Submissao from "../submissao";
 import Usuario from "../usuario";
 import AnalyticsProgramacao from "./analyticsProgramacao";

@@ -15,6 +15,8 @@ import QuestaoProgramacaoCorrecao from './questoes/questaoProgramacaoCorrecao';
 import RespostaQuestaoCorrecaoAlgoritmo from './correcao-algoritmo/correcaoAlgoritmo';
 import { VisualizacaoRespostasQuestoes } from './visualizacaoRespostasQuestoes';
 import { QuestaoProgramacaoRegex } from './questoes/questaoProgramacaoRegex';
+import VideoProgramacao from './sistema-aprendizagem/videoProgramacao';
+import { MaterialAprendizagem } from './sistema-aprendizagem/materialAprendizagem';
 
 @Collection('assuntos')
 export class Assunto extends Document {
@@ -27,16 +29,21 @@ export class Assunto extends Document {
     this.questoesColaborativas = [];
     this.questoesCorrecao = [];
     this.questoesRegex = [];
+    this.videos = [];
   }
 
   sequencia;
   importancia;
+  // Materiais de aprendizagem
   questoesProgramacao;
   questoesFechadas;
   questoesParson: any;
   questoesColaborativas;
   questoesCorrecao;
   questoesRegex;
+  videos;
+
+
   objetivosEducacionais: [];
   isAtivo;
 
@@ -169,8 +176,14 @@ export class Assunto extends Document {
             assunto['questoesRegex']
           );
 
-          observer.next(assunto as Assunto);
-          observer.complete();
+          VideoProgramacao.getAll(new Query("assuntoId", "==", assunto.pk())).subscribe(videos=>{
+            assunto['videos'] = videos;
+    
+            observer.next(assunto as Assunto);
+            observer.complete();
+          })
+
+          
         },
         (err) => {
           observer.error(err);
@@ -179,20 +192,39 @@ export class Assunto extends Document {
     });
   }
 
-  getQuestoesComStatusConclusao(estudante) {
+  ordenarMaterialAprendizagem(questoesComStatus){
+    let materiais:MaterialAprendizagem[] = []
+
+    materiais = materiais.concat(questoesComStatus, this.videos);
+    materiais.sort((qA, qB) => {
+      if (qA.ordem < qB.ordem) {
+        return -1;
+      } else if (qA.ordem > qB.ordem) {
+        return 1;
+      } else {
+        return 0;
+      }
+    });
+
+    return materiais;
+  }
+
+  getMateriaisOrdenados(estudante):Observable<MaterialAprendizagem[]> {
     return new Observable((observer) => {
       let consultas = {};
-      if (Array.isArray(this.questoesFechadas) && this.questoesFechadas.length > 0) {
-        consultas['questoesFechadas'] = QuestaoFechada.verificarQuestoesRespondidas(
-          estudante,
-          this.questoesFechadas
-        );
-      }
-
+       
+/*
       if (Array.isArray(this.questoesProgramacao) && this.questoesProgramacao.length > 0) {
         consultas['questoesProgramacao'] = QuestaoProgramacao.verificarQuestoesRespondidas(
           estudante,
           this.questoesProgramacao
+        );
+      }
+
+      if (Array.isArray(this.questoesFechadas) && this.questoesFechadas.length > 0) {
+        consultas['questoesFechadas'] = QuestaoFechada.verificarQuestoesRespondidas(
+          estudante,
+          this.questoesFechadas
         );
       }
 
@@ -208,7 +240,7 @@ export class Assunto extends Document {
           estudante,
           this.questoesCorrecao
         );
-      }
+      } */
 
       if (Array.isArray(this.questoesCorrecao) && this.questoesCorrecao.length > 0) {
         consultas['questoesRegex'] = QuestaoProgramacaoRegex.verificarQuestoesRespondidas(
@@ -239,17 +271,9 @@ export class Assunto extends Document {
           questoes = questoes.concat(respostas['questoesRegex']);
         }
 
-        questoes.sort((qA, qB) => {
-          if (qA.sequencia < qB.sequencia) {
-            return -1;
-          } else if (qA.sequencia > qB.sequencia) {
-            return 1;
-          } else {
-            return 0;
-          }
-        });
+        let materiais = this.ordenarMaterialAprendizagem(questoes);        
 
-        observer.next(questoes);
+        observer.next(materiais);
         observer.complete();
       });
     });
@@ -296,8 +320,10 @@ export class Assunto extends Document {
     });
   }
 
-  static calcularProgresso(assunto: Assunto, respostas) {
+  static calcularProgresso_controle_positivo_temp(assunto: Assunto, respostas) {
     let percentualConclusao = 0;
+
+
     percentualConclusao += this.calcularPercentualConclusaoQuestoesFechadas(
       assunto,
       respostas.respostaQuestaoFechada
@@ -306,6 +332,37 @@ export class Assunto extends Document {
       assunto,
       respostas.resposaQuestaoParson
     );
+
+    /* percentualConclusao += this.calcularPercentualConclusaoQuestoesCorrecao(
+      assunto,
+      respostas.respostaQuestaoCorrecao
+    ); */
+
+    percentualConclusao += this.calcularPercentualConclusaoQuestoesProgramacao(
+      assunto,
+      Submissao.agruparPorQuestao(respostas.submissoes),
+      respostas.visualizacoesRespostasProgramacao,
+      0.5
+    );
+
+
+
+    return (percentualConclusao * 100)/3; // Divide por quatro, pois é o total de tipos de questões que existem, consequentemente de percentuais que são calculados para cada um.
+  }
+
+  static calcularProgresso(assunto: Assunto, respostas) {
+    let percentualConclusao = 0;
+
+
+    percentualConclusao += this.calcularPercentualConclusaoQuestoesFechadas(
+      assunto,
+      respostas.respostaQuestaoFechada
+    );
+    percentualConclusao += this.calcularPercentualConclusaoQuestoesParson(
+      assunto,
+      respostas.resposaQuestaoParson
+    );
+
     percentualConclusao += this.calcularPercentualConclusaoQuestoesCorrecao(
       assunto,
       respostas.respostaQuestaoCorrecao
@@ -321,6 +378,22 @@ export class Assunto extends Document {
 
 
     return (percentualConclusao * 100)/4; // Divide por quatro, pois é o total de tipos de questões que existem, consequentemente de percentuais que são calculados para cada um.
+  }
+
+  static calcularProgressoGeral_controle_positivo_temp(assuntos: Assunto[], respostas) {
+    let percentualConclusaoGeral = 0;
+    if (!Util.isObjectEmpty(respostas)) {
+      for (let i = 0; i < assuntos.length; i++) {
+        percentualConclusaoGeral += this.calcularProgresso_controle_positivo_temp(assuntos[i], respostas);
+      }
+    }
+
+    if(percentualConclusaoGeral > 0){
+      percentualConclusaoGeral = percentualConclusaoGeral / assuntos.length;
+      percentualConclusaoGeral = Math.round((percentualConclusaoGeral + Number.EPSILON) * 100) / 100;
+    }
+
+    return percentualConclusaoGeral;
   }
 
   static calcularProgressoGeral(assuntos: Assunto[], respostas) {
@@ -498,7 +571,9 @@ export class Assunto extends Document {
       if (
         questoes[i] instanceof QuestaoFechada ||
         questoes[i] instanceof QuestaoProgramacao ||
-        questoes[i] instanceof QuestaoParsonProblem
+        questoes[i] instanceof QuestaoParsonProblem ||
+        questoes[i] instanceof QuestaoProgramacaoRegex ||
+        questoes[i] instanceof QuestaoProgramacaoCorrecao
       ) {
         if (questoes[i].sequencia != null) {
           questoes[i].sequencia = i + 1;
@@ -513,6 +588,8 @@ export class Assunto extends Document {
     const questoesFechadas = [];
     const questoesProgramacao = [];
     const questoesParson = [];
+    const questoesRegex = []
+    const questoesProgramacaoCorrecao = []
 
     questoes.forEach((questao) => {
       if (questao instanceof QuestaoFechada) {
@@ -521,12 +598,18 @@ export class Assunto extends Document {
         questoesProgramacao.push(questao);
       } else if (questao instanceof QuestaoParsonProblem) {
         questoesParson.push(questao);
+      }else if (questao instanceof QuestaoProgramacaoRegex) {
+        questoesRegex.push(questao);
+      }else if (questao instanceof QuestaoProgramacaoCorrecao) {
+        questoesProgramacaoCorrecao.push(questao);
       }
     });
 
     this.questoesFechadas = questoesFechadas;
     this.questoesProgramacao = questoesProgramacao;
     this.questoesParson = questoesParson;
+    this.questoesRegex = questoesRegex;
+    this.questoesCorrecao = questoesProgramacaoCorrecao;
   }
 
   toJson() {
@@ -544,6 +627,8 @@ export class Assunto extends Document {
       this.questoesFechadas.length +
       this.questoesProgramacao.length +
       this.questoesParson.length +
+      this.questoesRegex.length +
+      this.questoesCorrecao.length +
       1
     );
   }
@@ -551,7 +636,7 @@ export class Assunto extends Document {
   /* Retorna as questões de um assunto ordenadas por sua sequência. */
   ordenarQuestoes() {
     let questoes = new Array(
-      this.questoesFechadas.length + this.questoesProgramacao.length + this.questoesParson.length+this.questoesRegex.length
+      this.questoesFechadas.length + this.questoesProgramacao.length + this.questoesParson.length+this.questoesRegex.length+this.questoesCorrecao.length
     );
 
     questoes = questoes.fill(0);
@@ -573,7 +658,46 @@ export class Assunto extends Document {
       questoes[questao.sequencia - 1] = questao;
     });
 
+    this.questoesCorrecao.forEach((questao) => {
+      questoes[questao.sequencia - 1] = questao;
+    });
+
     return questoes;
+  }
+
+  ordenarMateriais() {
+    let materiais = new Array(
+      this.questoesFechadas.length + this.questoesProgramacao.length + this.questoesParson.length+this.questoesRegex.length+this.questoesCorrecao.length+this.videos.length
+    );
+
+    materiais = materiais.fill(0);
+
+    this.questoesFechadas.forEach((questao) => {
+      materiais[questao.sequencia - 1] = questao;
+    });
+
+    this.questoesProgramacao.forEach((questao) => {
+      materiais[questao.sequencia - 1] = questao;
+    });
+
+    this.questoesParson.forEach((questao) => {
+      materiais[questao.sequencia - 1] = questao;
+    });
+
+
+    this.questoesRegex.forEach((questao) => {
+      materiais[questao.sequencia - 1] = questao;
+    });
+
+    this.questoesCorrecao.forEach((questao) => {
+      materiais[questao.sequencia - 1] = questao;
+    });
+
+    this.videos.forEach((video) => {
+      materiais[video.sequencia - 1] = video;
+    });
+
+    return materiais;
   }
 
   /**

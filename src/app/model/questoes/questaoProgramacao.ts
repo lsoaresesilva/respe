@@ -110,7 +110,10 @@ export class QuestaoProgramacao {
       if (Array.isArray(questoes) && questoes.length > 0) {
         const consultas = {};
 
+        
+
         questoes.forEach((questao) => {
+          questao.percentualResposta = 0;
           consultas[questao.id] = QuestaoProgramacao.isFinalizada(questao, estudante);
         });
 

@@ -91,9 +91,9 @@ export default class Grafo {
 
           // Computo to dempo
            
-          let t = tempoVisuSelfMonitoramento.get(trackSource.estudante.pk());
+          let t = tempoVisuSelfMonitoramento.get(trackSource.estudanteId);
           if (t == null) {
-            tempoVisuSelfMonitoramento.set(trackSource.estudante.pk(), 0);
+            tempoVisuSelfMonitoramento.set(trackSource.estudanteId, 0);
           }
 
           let dateSource = Util.firestoreDateToDate(trackSource.data);
@@ -101,61 +101,68 @@ export default class Grafo {
           if(dateSource.getDate() == dateTarget.getDate()){
             let difTime = (dateTarget.getTime() - dateSource.getTime())/1000;
 
-            let totalNovo = tempoVisuSelfMonitoramento.get(trackSource.estudante.pk());
-            tempoVisuSelfMonitoramento.set(trackSource.estudante.pk(), totalNovo + difTime);
+            let totalNovo = tempoVisuSelfMonitoramento.get(trackSource.estudanteId);
+            tempoVisuSelfMonitoramento.set(trackSource.estudanteId, totalNovo + difTime);
           } 
 
         }else {
 
-          if(source == "index" || source == "meu-desempenho"){
-            let trackSource = tracks[i];
-            let trackTarget = tracks[i+1];
-            let visu = tempoVisuMonitoramento.get(trackTarget.estudanteId);
-            if (visu == null) {
-              tempoVisuMonitoramento.set(trackTarget.estudante.pk(), 0);
+          let excluidos = ['criar-atividade-grupo', 'editor-regex', 'cadastrar-postagem', 'entrar-grupo', 'editor-programacao', 'visualizar-postagem', 'listagem-atividades-grupo', 'minha-turma', "listar-videos", "visualizacao-video", 'visualizacao-turma', 'listar-turmas', 'listagem-diarios-professor', 'visualizacao-estudante']
+          if(excluidos.includes(target)){
+
+          }else{
+            if(source == "index" || source == "meu-desempenho"){
+              let trackSource = tracks[i];
+              let trackTarget = tracks[i+1];
+              let visu = tempoVisuMonitoramento.get(trackTarget.estudanteId);
+              if (visu == null) {
+                tempoVisuMonitoramento.set(trackTarget.estudanteId, 0);
+              }
+              
+              let dateSource = Util.firestoreDateToDate(trackSource.data);
+              let dateTarget = Util.firestoreDateToDate(trackTarget.data);
+              if(dateSource.getDate() == dateTarget.getDate()){
+                let difTime = (dateTarget.getTime() - dateSource.getTime())/1000;
+  
+                let totalNovo = tempoVisuMonitoramento.get(trackSource.estudanteId);
+                tempoVisuMonitoramento.set(trackSource.estudanteId, totalNovo + difTime);
+              } 
             }
-            
-            let dateSource = Util.firestoreDateToDate(trackSource.data);
-            let dateTarget = Util.firestoreDateToDate(trackTarget.data);
-            if(dateSource.getDate() == dateTarget.getDate()){
-              let difTime = (dateTarget.getTime() - dateSource.getTime())/1000;
-
-              let totalNovo = tempoVisuMonitoramento.get(trackSource.estudante.pk());
-              tempoVisuMonitoramento.set(trackSource.estudante.pk(), totalNovo + difTime);
-            } 
-          }
-
-          if(source == "self-instruction" && target == "editor"){
-            let trackSource = tracks[i];
-            let trackTarget = tracks[i+1];
-            let visu = tempoVisuSelfPlanejamento.get(trackSource.estudante.pk());
-            if (visu == null) {
-              tempoVisuSelfPlanejamento.set(trackSource.estudante.pk(), 0);
+  
+            if(source == "self-instruction" && target == "editor"){
+              let trackSource = tracks[i];
+              let trackTarget = tracks[i+1];
+              let visu = tempoVisuSelfPlanejamento.get(trackSource.estudanteId);
+              if (visu == null) {
+                tempoVisuSelfPlanejamento.set(trackSource.estudanteId, 0);
+              }
+  
+              let dateSource = Util.firestoreDateToDate(trackSource.data);
+              let dateTarget = Util.firestoreDateToDate(trackTarget.data);
+              if(dateSource.getDate() == dateTarget.getDate()){
+                let difTime = (dateTarget.getTime() - dateSource.getTime())/1000;
+  
+                let totalNovo = tempoVisuSelfPlanejamento.get(trackSource.estudanteId);
+                tempoVisuSelfPlanejamento.set(trackSource.estudanteId, totalNovo + difTime);
+              }
+              
             }
-
-            let dateSource = Util.firestoreDateToDate(trackSource.data);
-            let dateTarget = Util.firestoreDateToDate(trackTarget.data);
-            if(dateSource.getDate() == dateTarget.getDate()){
-              let difTime = (dateTarget.getTime() - dateSource.getTime())/1000;
-
-              let totalNovo = tempoVisuSelfPlanejamento.get(trackSource.estudante.pk());
-              tempoVisuSelfPlanejamento.set(trackSource.estudante.pk(), totalNovo + difTime);
+  
+            /* Núcleo do algoritmo está aqui. */
+            let estado = estados.get(source);
+            if (estado == null) {
+              estados.set(source, new Map());
             }
-            
+            let totalNovo = estados.get(source).get(target);
+            if (totalNovo == null) {
+              estados.get(source).set(target, 0);
+            }
+            totalNovo = estados.get(source).get(target);
+            estados.get(source).set(target, totalNovo + 1);
+            /* Fim Código novo */
           }
 
-          /* Núcleo do algoritmo está aqui. */
-          let estado = estados.get(source);
-          if (estado == null) {
-            estados.set(source, new Map());
-          }
-          let totalNovo = estados.get(source).get(target);
-          if (totalNovo == null) {
-            estados.get(source).set(target, 0);
-          }
-          totalNovo = estados.get(source).get(target);
-          estados.get(source).set(target, totalNovo + 1);
-          /* Fim Código novo */
+          
         }
       }
     }
@@ -174,18 +181,13 @@ export default class Grafo {
     return n;
   }
 
-  criar() {
-    let tempoVisuSelfPlanejamento = new Map<string, number>();
-    let tempoVisuSelfMonitoramento = new Map<string, number>();
-    let totalVisuIndex = new Map<string, number>();
-    let totalVisuSelfMonitoramento = new Map<string, number>();
-    let tempoVisuDesempenho = new Map<string, number>();
-    if (this.pageTracks != null) {
+  private prepararDados(pageTracks){
+    if (pageTracks != null) {
       let dias = new Map<string, any[]>();
       let matriz = []; /* new Map<string, any[]>(); */
 
       // Agrupa todos os pagetracks pelo dia em que a ação ocorreu.
-      this.pageTracks.forEach((track) => {
+      pageTracks.forEach((track) => {
         let dataDoTrack = track.data.toDate();
         let mesDia = dataDoTrack.getDate().toString() + '/' + dataDoTrack.getMonth().toString();
         let hasDia = dias.get(mesDia);
@@ -196,6 +198,7 @@ export default class Grafo {
         hasDia = dias.get(mesDia);
         hasDia.push(track);
       });
+
       /**
        * Ordena os dias do mais antigo para o mais recente
        */
@@ -227,6 +230,23 @@ export default class Grafo {
         matriz.push(m);
       });
 
+      return matriz;
+    }
+  }
+
+  criarMatrizSomada(pageTracks){
+    let matrizes = [];
+
+    let tempoVisuSelfPlanejamento = new Map<string, number>();
+    let tempoVisuSelfMonitoramento = new Map<string, number>();
+    let totalVisuIndex = new Map<string, number>();
+    let totalVisuSelfMonitoramento = new Map<string, number>();
+    let tempoVisuDesempenho = new Map<string, number>();
+
+
+    if (pageTracks != null) {
+      
+
       let estados = new Map<string, Map<string, number>>();
 
       /* Cria uma matriz que indica de um determinado local para onde o aluno foi
@@ -234,6 +254,56 @@ export default class Grafo {
        */
 
       let totalTracks = 0;
+
+      if(Array.isArray(pageTracks)){
+        pageTracks.forEach(tracks=>{
+          let matriz = this.prepararDados(tracks);
+
+          matriz.forEach((mTrack) => {
+            totalTracks += mTrack.length;
+            this.criarMatrizTransicao(mTrack, estados, tempoVisuDesempenho, totalVisuSelfMonitoramento, tempoVisuSelfPlanejamento, tempoVisuSelfMonitoramento);
+          });
+
+          matrizes = matrizes.concat(matriz);
+        })
+      }
+
+      
+      /* Código novo */
+
+      let probabilidades = new Map<string, Map<string, number>>();
+      estados.forEach((targets, source) => {
+        probabilidades.set(source, new Map());
+        let totalAcessos = this.calcularTotalAcessos(source, estados);
+        targets.forEach(function (contagem, target) {
+          let probabilidade = Math.round((contagem / totalAcessos) * 100) / 100;
+          probabilidades.get(source).set(target, probabilidade);
+        });
+      });
+
+      return probabilidades;
+    }
+
+  }
+
+  criar() {
+    let tempoVisuSelfPlanejamento = new Map<string, number>();
+    let tempoVisuSelfMonitoramento = new Map<string, number>();
+    let totalVisuIndex = new Map<string, number>();
+    let totalVisuSelfMonitoramento = new Map<string, number>();
+    let tempoVisuDesempenho = new Map<string, number>();
+    if (this.pageTracks != null) {
+      
+
+      let estados = new Map<string, Map<string, number>>();
+
+      /* Cria uma matriz que indica de um determinado local para onde o aluno foi
+           É incluída uma probabilidade dele ter ido de um local para outro dado as vezes em que ele fez isso.
+       */
+
+      let totalTracks = 0;
+
+      let matriz = this.prepararDados(this.pageTracks);
 
       matriz.forEach((mTrack) => {
         totalTracks += mTrack.length;

@@ -6,10 +6,14 @@ import { ignore } from '../firestore/document';
 import Query from '../firestore/query';
 import { RespostaQuestaoFechada } from '../respostaQuestaoFechada';
 import { Util } from '../util';
+import { MaterialAprendizagem } from '../sistema-aprendizagem/materialAprendizagem';
 
-export default class QuestaoFechada {
+export default class QuestaoFechada implements MaterialAprendizagem{
   @ignore()
   respondida;
+
+  assunto;
+  ordem;
 
   constructor(
     public id,

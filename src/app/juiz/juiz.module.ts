@@ -85,6 +85,7 @@ import { ChatbotModule } from '../chatbot/chatbot.module';
 import { MonitorService } from '../chatbot/monitor.service';
 import { BlockUIModule } from 'primeng/blockui';
 import { ResponderQuestaoProgramacaoRegexComponent } from './editor/responder-questao-programacao-regex/responder-questao-programacao-regex.component';
+import { SistemaAprendizagemModule } from '../sistema-aprendizagem/sistema-aprendizagem.module';
 
 export const routes: Routes = [
   {
@@ -161,7 +162,6 @@ export const routes: Routes = [
     ListarAssuntosComponent,
     VisualizarAssuntoComponent,
     
-    
     ListarQuestoesFechadasComponent,
     VisualizarQuestaoFechadaComponent,
     ListarPedidosAjudaComponent,
@@ -186,17 +186,18 @@ export const routes: Routes = [
   imports: [
     SrlModule,
     ChatModule,
-    /* CsclModule, */
+    
+    SistemaAprendizagemModule,
     RouterModule.forChild(routes),
     CommonModule,
     SplitButtonModule,
     SkeletonModule,
     TerminalModule,
-    TimelineModule,
+    
     BlockUIModule,
     TooltipModule,
     DynamicDialogModule,
-    KnobModule,
+    
     TableModule,
     PanelModule,
     ButtonModule,

@@ -6,6 +6,10 @@ import { VisualizarVideoComponent } from './visualizar-video/visualizar-video.co
 import { AuthGuard } from '../guards/auth.guard';
 import { PageTrack } from '../guards/pageTrack.guard';
 import { RouterModule, Routes } from '@angular/router';
+import { ListarMateriaisSequenciaComponent } from './listar-materiais-sequencia/listar-materiais-sequencia.component';
+import { TimelineModule } from 'primeng/timeline';
+import { KnobModule } from 'primeng/knob';
+import { FormsModule } from '@angular/forms';
 
 
 
@@ -24,11 +28,15 @@ export const routes: Routes = [
 ];
 
 @NgModule({
-  declarations: [ListarVideosComponent, VisualizarVideoComponent],
+  declarations: [ListarVideosComponent, VisualizarVideoComponent, ListarMateriaisSequenciaComponent],
   imports: [
     CommonModule,
     TableModule,
-    RouterModule.forChild(routes)
-  ]
+    FormsModule,
+    RouterModule.forChild(routes),
+    TimelineModule,
+    KnobModule
+  ],
+  exports:[ListarMateriaisSequenciaComponent]
 })
 export class SistemaAprendizagemModule { }

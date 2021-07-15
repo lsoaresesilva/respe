@@ -9,7 +9,7 @@ import pageTracks from '../../../../json/pageTracks.json';
 
 import estudantesJson from '../../../../json/estudantes.json';
 import Usuario from 'src/app/model/usuario';
-import EstatisticaPageTrack from 'src/app/model/analytics/estatisticaPageTrack';
+import EstatisticaPageTrack from 'src/app/model/modelagem/estatisticaPageTrack';
 
 estudantesJson
 @Component({

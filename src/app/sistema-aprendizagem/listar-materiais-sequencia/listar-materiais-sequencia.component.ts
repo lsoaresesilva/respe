@@ -1,45 +1,65 @@
-import { Component, Input, OnInit, OnChanges } from '@angular/core';
+import { Input, OnChanges } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
+import { Observable } from 'rxjs';
 import { LoginService } from 'src/app/login-module/login.service';
 import { Assunto } from 'src/app/model/assunto';
 import { Groups } from 'src/app/model/experimento/groups';
-import { QuestaoProgramacao } from 'src/app/model/questoes/questaoProgramacao';
-import { forkJoin, Observable } from 'rxjs';
-import QuestaoFechada from 'src/app/model/questoes/questaoFechada';
 import QuestaoParsonProblem from 'src/app/model/questoes/parsonProblem';
+import QuestaoFechada from 'src/app/model/questoes/questaoFechada';
+import { QuestaoProgramacao } from 'src/app/model/questoes/questaoProgramacao';
 import QuestaoProgramacaoCorrecao from 'src/app/model/questoes/questaoProgramacaoCorrecao';
 import { QuestaoProgramacaoRegex } from 'src/app/model/questoes/questaoProgramacaoRegex';
+import { MaterialAprendizagem } from 'src/app/model/sistema-aprendizagem/materialAprendizagem';
 import VideoProgramacao from 'src/app/model/sistema-aprendizagem/videoProgramacao';
 
 @Component({
-  selector: 'app-listar-questoes-sequencia',
-  templateUrl: './listar-questoes-sequencia.component.html',
-  styleUrls: ['./listar-questoes-sequencia.component.css'],
+  selector: 'app-listar-materiais-sequencia',
+  templateUrl: './listar-materiais-sequencia.component.html',
+  styleUrls: ['./listar-materiais-sequencia.component.css']
 })
-export class ListarQuestoesSequenciaComponent implements OnChanges {
+export class ListarMateriaisSequenciaComponent implements OnChanges {
+
   @Input()
   assunto?: Assunto;
-  valor;
-  questoes;
-
+  materiaisAprendizagem:MaterialAprendizagem[];
   events;
 
-  constructor(private router: Router, private login: LoginService) {
-    this.valor = 2;
-    
+  constructor(private login:LoginService, private router: Router) { }
+
+  ngOnInit(): void {
   }
 
   ngOnChanges(): void {
     
     if(this.assunto != null && this.assunto.pk() != null){
-      this.assunto.getMateriaisOrdenados(this.login.getUsuarioLogado()).subscribe(questoes=>{
-        this.questoes = questoes;
-        this.construirTimelineQuestoes();
+      this.assunto.getMateriaisOrdenados(this.login.getUsuarioLogado()).subscribe(materiais=>{
+        this.materiaisAprendizagem = materiais;
+        this.construirTimeline();
       });
+    }
+    
+  }
+
+  getMaterial(material){
+    if (material instanceof QuestaoFechada || material instanceof QuestaoProgramacao || material instanceof QuestaoParsonProblem || material instanceof QuestaoProgramacaoCorrecao ||  material instanceof QuestaoProgramacaoRegex) {
+      return "questoes"
+    }else if(material instanceof VideoProgramacao){
+      return "video";
     }
   }
 
-  abrirQuestao(questao) {
+  getCorMaterial(material) {
+    if (material.respondida === true) {
+      return 'color: rgb(103, 202, 103); cursor:pointer';
+    } else if (material.respondida === false) {
+      return 'color: rgb(220,20,60); cursor:pointer';
+    }
+
+    return 'color: black; cursor:pointer';
+  }
+
+  abrirMaterial(questao) {
     if (questao instanceof QuestaoFechada) {
       this.router.navigate([
         'geral/main',
@@ -77,27 +97,16 @@ export class ListarQuestoesSequenciaComponent implements OnChanges {
     }
   }
 
-  getCorQuestao(questao) {
-    if (questao.respondida === true) {
-      return 'color: rgb(103, 202, 103); cursor:pointer';
-    } else if (questao.respondida === false) {
-      return 'color: rgb(220,20,60); cursor:pointer';
-    }
-
-    return 'color: black; cursor:pointer';
-  }
-
- 
-
-  construirTimelineQuestoes(){
-    let questoes = []
-    this.questoes.forEach(questao => {
-      questoes.push(questao)
+  construirTimeline(){
+    let materiais = []
+    this.materiaisAprendizagem.forEach(materialAprendizagem => {
+      materiais.push(materialAprendizagem)
     });
 
     this.events = new Observable<any[]>(observer=>{
-      observer.next(questoes);
+      observer.next(materiais);
       observer.complete();
     })
   }
+
 }

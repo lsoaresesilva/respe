@@ -1,11 +1,11 @@
 import { PageTrack } from "src/app/guards/pageTrack.guard";
+import { EventosProgramacao } from "../analytics/enum/eventosProgramacao";
+import PageTrackRecord from "../analytics/pageTrack";
 import { ErroCompilacao } from "../errors/analise-compilacao/erroCompilacao";
 import ErroCompilacaoFactory from "../errors/analise-compilacao/erroCompilacaoFactory";
 import { QuestaoProgramacao } from "../questoes/questaoProgramacao";
 import Submissao from "../submissao";
 import Usuario from "../usuario";
-import { EventosProgramacao } from "./enum/eventosProgramacao";
-import PageTrackRecord from "./pageTrack";
 
 /* 
         1. Agrupar submissões por questão

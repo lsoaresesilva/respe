@@ -1,6 +1,9 @@
 <h3>
   <p>{{ estudante.nome }}</p>
 </h3>
+
+{{estudante.email}}
+
 <p-toast [style]="{ marginTop: '80px' }"></p-toast>
 
 <h4>Desempenho</h4>
@@ -35,6 +38,8 @@ Progresso Geral: {{progressoGeral}}
     </tr>
   </ng-template>
 </p-table>
+
+<app-grafo-estudantes [pageTracks]="pageTracks"></app-grafo-estudantes>
 <!--
-<app-grafo-estudantes [pageTracks]="pageTracks"></app-grafo-estudantes> -->
+ -->
 <!-- <app-revisao-codigo [estudante]="estudante"></app-revisao-codigo> -->
