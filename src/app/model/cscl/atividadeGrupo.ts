@@ -325,10 +325,15 @@ export default class AtividadeGrupo extends Document {
   }
 
   getGrupoByEstudante(estudante:Usuario){
-    return this.grupos.find(function(grupo){
-      if(grupo.estudantes.includes(estudante.pk())){
-        return true;
-      }
-    });
+    let grupoEstudante = null;
+    this.grupos.forEach(grupo=>{
+      grupo.estudantes.forEach(e=>{
+        if(e == estudante.pk()){
+          grupoEstudante =  grupo;
+        }
+      })
+    })
+
+    return grupoEstudante;
   }
 }
