@@ -28,8 +28,8 @@ export class MonitoramentoMotivacionalService {
     });
   }
 
-  monitorarErrorQuotient(){
-    Monitor
+  /* monitorarErrorQuotient(){
+
     if(errorQuotient > 0.8){
       // verificar se já foi exibido na semana
       const exibirDialog = this.exibirDialogErrorQuotient();
@@ -65,14 +65,7 @@ export class MonitoramentoMotivacionalService {
     }
 
     return exibirDialog;
-  }
-
-  /* Cenários:
-
-  1v - 32
-  2v - 40
-  3v - 51
-  4v - 78 */
+  } */
 
   exibirDialogProgressoAssunto(progresso: number) {
     if (progresso < 30 ) {

@@ -159,6 +159,8 @@ export class ResponderQuestaoProgramacao implements OnInit, AfterViewInit {
         this.questao,
         new PontuacaoQuestaoProgramacao()
       );
+
+      this.monitorMotivacao.monitorarProgressoAssunto(this.assunto, this.estudante);
     }
   }
 

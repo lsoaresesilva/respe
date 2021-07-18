@@ -51,7 +51,7 @@ describe('MonitoramentoMotivacionalService', () => {
     expect(service.getMensagemProgressoAssunto(70)).toEqual("Você ultrapassou 70% do progresso no assunto!");
     expect(service.getMensagemProgressoAssunto(100)).toEqual("Você concluiu o assunto!");
   })
-
+/*
   it("Deve retorna true para quando não tiver sido exibida uma msg de error quotient", ()=>{
     spy.and.returnValue(null);
     expect(service.exibirDialogErrorQuotient()).toBeTruthy();
@@ -70,5 +70,5 @@ describe('MonitoramentoMotivacionalService', () => {
   it("Deve retorna uma msg motivadora para error quotient", ()=>{
     spy.and.returnValue(JSON.stringify(new Date("2020-11-17")));
     expect(service.exibirDialogErrorQuotient()).toBeTruthy();
-  })
+  }) */
 });

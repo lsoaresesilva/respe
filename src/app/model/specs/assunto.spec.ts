@@ -9,6 +9,18 @@ import { AngularFireModule, FirebaseApp } from '@angular/fire';
 import { FirebaseConfiguracao } from 'src/environments/firebase';
 
 import { Assunto } from '../assunto';
+import { forkJoin } from 'rxjs';
+import Alternativa from '../alternativa';
+import { Dificuldade } from '../enums/dificuldade';
+import { PerfilUsuario } from '../enums/perfilUsuario';
+import Questao from '../questoes/questao';
+import QuestaoFechada from '../questoes/questaoFechada';
+import { RespostaQuestaoFechada } from '../respostaQuestaoFechada';
+import ResultadoTestCase from '../resultadoTestCase';
+import Submissao from '../submissao';
+import TestCase from '../testCase';
+import Usuario from '../usuario';
+import { QuestaoProgramacao } from '../questoes/questaoProgramacao';
 
 describe('Testes de questão', () => {
   let app: firebase.app.App;
@@ -82,8 +94,13 @@ describe('Testes de questão', () => {
         })
 
     });
-
+*/
     it("Deve calcular o percentual de conclusão de um assunto.", (done)=>{
+        let spy:jasmine.Spy;
+        spy = spyOn(localStorage, 'getItem').and.callFake(function (key) {
+          return null;
+        });
+
         let a = new Assunto(null, "Condições");
         let qf1 = new QuestaoFechada(null, "bla", "", Dificuldade.dificil, 1, [new Alternativa(123, "texto", true)], "");
         let qf2 = new QuestaoFechada(678910, "ble", "", Dificuldade.dificil, 1, null, "");
@@ -93,7 +110,7 @@ describe('Testes de questão', () => {
         let rqf1 = new RespostaQuestaoFechada(null, u, new Alternativa(123, "", true), qf1);
 
 
-        let q = new Questao(null, "nome", "enunciado", Dificuldade.facil, 1, a, [a], []);
+        let q = new QuestaoProgramacao(null, "nome", "enunciado", Dificuldade.facil, 1, a, [a], []);
 
         let t = new TestCase(null, ["a", "b"], "c")
         let t1 = new TestCase(null, ["d", "e"], "a")
@@ -112,7 +129,7 @@ describe('Testes de questão', () => {
         forkJoin([a.save(), u.save()]).subscribe(resultado=>{
             forkJoin([rqf1.save(), s.save()]).subscribe(res=>{
 
-                a.calcularPercentualConclusao(u).subscribe(calculo=>{
+                Assunto.calcularPercentualConclusao(a, u).subscribe(calculo=>{
                     expect(calculo).toBe(0.75);
                     forkJoin([Assunto.delete(a.pk()), Usuario.delete(u.pk()), RespostaQuestaoFechada.delete(rqf1.pk())]).subscribe(res=>{
                         done();
@@ -121,7 +138,7 @@ describe('Testes de questão', () => {
             })
         })
 
-    });*/
+    });
 
   it('Deve ordenar um array de assuntos seguindo a ordem estabelecida na disciplina', () => {
     let a = new Assunto(null, 'assuntoA');
