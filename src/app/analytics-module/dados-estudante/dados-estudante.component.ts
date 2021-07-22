@@ -1,6 +1,4 @@
 import { Component, Input, OnInit, OnChanges } from '@angular/core';
-import { Assunto } from 'src/app/model/assunto';
-import { forkJoin } from 'rxjs';
 import { LoginService } from 'src/app/login-module/login.service';
 import Analytics from 'src/app/model/analytics/analytics';
 

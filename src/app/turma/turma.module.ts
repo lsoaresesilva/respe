@@ -37,6 +37,7 @@ import { PageTrack } from '../guards/pageTrack.guard';
 import { AuthGuard } from '../guards/auth.guard';
 import { ProfessorGuard } from '../guards/professor.guard';
 import { ModelagemComportamentoModule } from '../modelagem-comportamento/modelagem-comportamento.module';
+import { ExperimentoModule } from '../experimento/experimento.module';
 
 
 export const routes:Routes = [
@@ -94,6 +95,7 @@ export const routes:Routes = [
     RouterModule.forChild(routes),
     TableModule,
     ChartModule,
+    ExperimentoModule,
     AnalyticsModule,
     CsclModule,
     CommonModule,

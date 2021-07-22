@@ -1,4 +1,4 @@
-import QuestaoFechada from '../questoes/questaoFechada';
+import QuestaoFechada from '../sistema-aprendizagem/questoes/questaoFechada';
 
 describe('Testes de questão fechada', () => {
   let questao = new QuestaoFechada(

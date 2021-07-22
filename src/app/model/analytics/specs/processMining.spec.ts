@@ -9,7 +9,7 @@ import pageTracksEstudantes from '../../../../../json/pageTracks.json';
 import Submissao from "../../submissao";
 import ProcessMining from "../processMining";
 import Usuario from "../../usuario";
-import { QuestaoProgramacao } from "../../questoes/questaoProgramacao";
+import { QuestaoProgramacao } from "../../sistema-aprendizagem/questoes/questaoProgramacao";
 import PageTrackRecord from "../pageTrack";
 import { Util } from "../../util";
 import ResultadoTestCase from "../../resultadoTestCase";

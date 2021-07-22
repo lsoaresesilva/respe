@@ -3,7 +3,7 @@ import { EventosProgramacao } from "../analytics/enum/eventosProgramacao";
 import PageTrackRecord from "../analytics/pageTrack";
 import { ErroCompilacao } from "../errors/analise-compilacao/erroCompilacao";
 import ErroCompilacaoFactory from "../errors/analise-compilacao/erroCompilacaoFactory";
-import { QuestaoProgramacao } from "../questoes/questaoProgramacao";
+import { QuestaoProgramacao } from "../sistema-aprendizagem/questoes/questaoProgramacao";
 import Submissao from "../submissao";
 import Usuario from "../usuario";
 

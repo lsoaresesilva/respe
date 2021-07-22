@@ -1,7 +1,7 @@
 import { Component, OnInit, Input, OnChanges } from '@angular/core';
 import { Tutor } from 'src/app/model/tutor';
 import { LoginService } from 'src/app/login-module/login.service';
-import { Assunto } from 'src/app/model/assunto';
+import { Assunto } from 'src/app/model/sistema-aprendizagem/assunto';
 
 @Component({
   selector: 'app-card-desempenho',

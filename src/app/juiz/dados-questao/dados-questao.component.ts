@@ -1,5 +1,5 @@
 import { Component, OnInit, Input, AfterViewInit } from '@angular/core';
-import { QuestaoProgramacao } from 'src/app/model/questoes/questaoProgramacao';
+import { QuestaoProgramacao } from 'src/app/model/sistema-aprendizagem/questoes/questaoProgramacao';
 import Submissao from 'src/app/model/submissao';
 import { LoginService } from 'src/app/login-module/login.service';
 import { ApresentacaoService } from 'src/app/geral-module/apresentacao.service';

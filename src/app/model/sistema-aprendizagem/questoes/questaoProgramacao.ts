@@ -1,49 +1,34 @@
 import { Assunto } from '../assunto';
-import { Document, Collection, ignore } from '../firestore/document';
+import { Document, Collection, ignore } from '../../firestore/document';
 import { Observable, forkJoin } from 'rxjs';
-import { Dificuldade } from '../enums/dificuldade';
-import TestCase from '../testCase';
+import { Dificuldade } from '../../enums/dificuldade';
+import TestCase from '../../testCase';
 
-import Submissao from '../submissao';
-import Usuario from '../usuario';
-import { Util } from '../util';
-import { ErroCompilacao } from '../errors/analise-compilacao/erroCompilacao';
-import { ModeloRespostaQuestao } from '../modeloRespostaQuestao';
+import Submissao from '../../submissao';
+import Usuario from '../../usuario';
+import { Util } from '../../util';
+import { ErroCompilacao } from '../../errors/analise-compilacao/erroCompilacao';
+import { ModeloRespostaQuestao } from '../../modeloRespostaQuestao';
+import { MaterialAprendizagem } from '../materialAprendizagem';
 
-export class QuestaoProgramacao {
+export class QuestaoProgramacao implements MaterialAprendizagem{
   constructor(
     public id,
-    nomeCurto,
-    enunciado,
-    dificuldade,
-    sequencia,
-    assuntos,
-    testsCases,
-    algoritmoInicial,
+    public nomeCurto,
+    public enunciado,
+    public dificuldade: Dificuldade,
+    public ordem,
+    public assuntos,
+    public testsCases: TestCase[],
+    public algoritmoInicial,
     public solucao: ModeloRespostaQuestao
   ) {
     if (id == null) {
       this.id = Util.uuidv4();
-    } else {
-      this.id = id;
     }
-    this.nomeCurto = nomeCurto;
-    this.enunciado = enunciado;
-    this.dificuldade = dificuldade;
-    this.sequencia = sequencia;
-    this.assuntos = assuntos;
-    this.testsCases = testsCases;
-    this.algoritmoInicial = algoritmoInicial;
-    
   }
 
-  nomeCurto: string;
-  enunciado: string;
-  dificuldade: Dificuldade;
-  assuntos: any[];
-  sequencia: number;
-  testsCases: TestCase[];
-  algoritmoInicial: any = '';
+  assunto: Assunto;
 
   isFinalizada(submissao, margemAceitavel){
     if(submissao == null || submissao.questaoId != this.id){
@@ -140,7 +125,7 @@ export class QuestaoProgramacao {
     const assuntos = [];
     if (questaoDocument.assuntos != null && questaoDocument.assuntos.length > 0) {
       questaoDocument.assuntos.forEach((assunto) => {
-        assuntos.push(Assunto.construir(assunto) /*new Assunto(assunto, null)*/);
+        assuntos.push(Assunto.criarAssunto(assunto) /*new Assunto(assunto, null)*/);
       });
 
       if (assunto != null) {
@@ -177,7 +162,7 @@ export class QuestaoProgramacao {
             questao.nomeCurto,
             questao.enunciado,
             questao.dificuldade,
-            questao.sequencia,
+            questao.ordem,
             questao.assuntos,
             questao.testsCases,
             questao.algoritmoInicial,
@@ -240,7 +225,7 @@ export class QuestaoProgramacao {
       document['assuntos'] = assuntos;
     }
 
-    document['sequencia'] = this.sequencia;
+    document['ordem'] = this.ordem;
 
     if (this.testsCases != null && this.testsCases.length > 0) {
       const ts = [];
@@ -337,8 +322,8 @@ export class QuestaoProgramacao {
       this.enunciado == null ||
       this.enunciado == '' ||
       this.dificuldade == null ||
-      this.sequencia == null ||
-      this.sequencia < 1 ||
+      this.ordem == null ||
+      this.ordem < 1 ||
       this.testsCases == undefined ||
       this.testsCases.length == 0 ||
       TestCase.validarTestsCases(this.testsCases) == false

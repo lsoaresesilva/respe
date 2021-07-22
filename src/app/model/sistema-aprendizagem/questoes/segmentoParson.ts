@@ -1,4 +1,4 @@
-import { Util } from '../util';
+import { Util } from '../../util';
 
 export default class SegmentoParson {
   constructor(public id, public conteudo, public sequencia) {

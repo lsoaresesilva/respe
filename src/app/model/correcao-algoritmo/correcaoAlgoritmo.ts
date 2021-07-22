@@ -1,10 +1,10 @@
 import { Observable } from 'rxjs';
-import { Assunto } from '../assunto';
+import { Assunto } from '../sistema-aprendizagem/assunto';
 import { PerfilUsuario } from '../enums/perfilUsuario';
 import { Collection, date, Document } from '../firestore/document';
 import Query from '../firestore/query';
-import { QuestaoProgramacao } from '../questoes/questaoProgramacao';
-import QuestaoProgramacaoCorrecao from '../questoes/questaoProgramacaoCorrecao';
+import { QuestaoProgramacao } from '../sistema-aprendizagem/questoes/questaoProgramacao';
+import QuestaoProgramacaoCorrecao from '../sistema-aprendizagem/questoes/questaoProgramacaoCorrecao';
 import Submissao from '../submissao';
 import Usuario from '../usuario';
 

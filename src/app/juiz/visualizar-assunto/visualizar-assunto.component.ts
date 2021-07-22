@@ -1,7 +1,7 @@
 import { Component, OnInit, Input } from '@angular/core';
-import { Assunto } from 'src/app/model/assunto';
 import { ActivatedRoute, Router } from '@angular/router';
 import { MessageService } from 'primeng/api';
+import { Assunto } from 'src/app/model/sistema-aprendizagem/assunto';
 import { LoginService } from '../../login-module/login.service';
 
 @Component({

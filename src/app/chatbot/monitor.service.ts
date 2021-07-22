@@ -1,6 +1,5 @@
 import { Injectable } from '@angular/core';
-import Questao from '../model/questoes/questao';
-import { QuestaoProgramacao } from '../model/questoes/questaoProgramacao';
+import { QuestaoProgramacao } from '../model/sistema-aprendizagem/questoes/questaoProgramacao';
 import { ErroCompilacao } from 'src/app/model/errors/analise-compilacao/erroCompilacao';
 import FrequenciaErro from '../model/errors/analise-compilacao/frequenciaErro';
 import Erro from '../model/errors/erro';

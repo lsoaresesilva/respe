@@ -1,12 +1,12 @@
 import { Component, OnInit, Input } from '@angular/core';
-import { QuestaoProgramacao } from 'src/app/model/questoes/questaoProgramacao';
+import { QuestaoProgramacao } from 'src/app/model/sistema-aprendizagem/questoes/questaoProgramacao';
 import { ActivatedRoute, Router } from '@angular/router';
-import { Assunto } from 'src/app/model/assunto';
 import { LoginService } from 'src/app/login-module/login.service';
 import { Assuntos } from 'src/app/model/enums/assuntos';
 import { MessageService } from 'primeng/api';
 import { ApresentacaoService } from 'src/app/geral-module/apresentacao.service';
 import { AutoInstrucao } from 'src/app/model/srl/autoInstrucao';
+import { Assunto } from 'src/app/model/sistema-aprendizagem/assunto';
 
 @Component({
   selector: 'app-self-instruction',

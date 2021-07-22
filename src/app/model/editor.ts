@@ -1,6 +1,6 @@
 import { BehaviorSubject } from 'rxjs';
 import ErroPreCompilacao from './errors/analise-pre-compilacao/erroPrecompilacao';
-import { QuestaoProgramacao } from './questoes/questaoProgramacao';
+import { QuestaoProgramacao } from './sistema-aprendizagem/questoes/questaoProgramacao';
 declare var monaco: any;
 
 export default class Editor {

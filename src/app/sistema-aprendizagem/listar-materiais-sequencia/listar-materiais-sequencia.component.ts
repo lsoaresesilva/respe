@@ -3,15 +3,15 @@ import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { Observable } from 'rxjs';
 import { LoginService } from 'src/app/login-module/login.service';
-import { Assunto } from 'src/app/model/assunto';
 import { Groups } from 'src/app/model/experimento/groups';
-import QuestaoParsonProblem from 'src/app/model/questoes/parsonProblem';
-import QuestaoFechada from 'src/app/model/questoes/questaoFechada';
-import { QuestaoProgramacao } from 'src/app/model/questoes/questaoProgramacao';
-import QuestaoProgramacaoCorrecao from 'src/app/model/questoes/questaoProgramacaoCorrecao';
-import { QuestaoProgramacaoRegex } from 'src/app/model/questoes/questaoProgramacaoRegex';
+import QuestaoParsonProblem from 'src/app/model/sistema-aprendizagem/questoes/questaoParsonProblem';
+import QuestaoFechada from 'src/app/model/sistema-aprendizagem/questoes/questaoFechada';
+import { QuestaoProgramacao } from 'src/app/model/sistema-aprendizagem/questoes/questaoProgramacao';
+import QuestaoProgramacaoCorrecao from 'src/app/model/sistema-aprendizagem/questoes/questaoProgramacaoCorrecao';
+import { QuestaoProgramacaoRegex } from 'src/app/model/sistema-aprendizagem/questoes/questaoProgramacaoRegex';
 import { MaterialAprendizagem } from 'src/app/model/sistema-aprendizagem/materialAprendizagem';
 import VideoProgramacao from 'src/app/model/sistema-aprendizagem/videoProgramacao';
+import { Assunto } from 'src/app/model/sistema-aprendizagem/assunto';
 
 @Component({
   selector: 'app-listar-materiais-sequencia',
@@ -59,40 +59,45 @@ export class ListarMateriaisSequenciaComponent implements OnChanges {
     return 'color: black; cursor:pointer';
   }
 
-  abrirMaterial(questao) {
-    if (questao instanceof QuestaoFechada) {
+  abrirMaterial(material) {
+    if (material instanceof QuestaoFechada) {
       this.router.navigate([
         'geral/main',
-        { outlets: { principal: ['juiz', 'visualizacao-questao-fechada', this.assunto.pk(), questao.id] } },
+        { outlets: { principal: ['juiz', 'visualizacao-questao-fechada', this.assunto.pk(), material.id] } },
       ]);
-    } else if (questao instanceof QuestaoParsonProblem) {
+    } else if (material instanceof QuestaoParsonProblem) {
       this.router.navigate([
         'geral/main',
-        { outlets: { principal: ['juiz', 'visualizar-questao-parson', this.assunto.pk(), questao.id] } },
+        { outlets: { principal: ['juiz', 'visualizar-questao-parson', this.assunto.pk(), material.id] } },
       ]);
-    }  else if (questao instanceof QuestaoProgramacaoCorrecao) {
+    }  else if (material instanceof QuestaoProgramacaoCorrecao) {
       this.router.navigate([
         'geral/main',
-        { outlets: { principal: ['juiz', 'responder-questao-correcao', this.assunto.pk(), questao.id] } },
+        { outlets: { principal: ['juiz', 'responder-questao-correcao', this.assunto.pk(), material.id] } },
       ]);
-    } else if (questao instanceof QuestaoProgramacaoRegex) {
+    } else if (material instanceof QuestaoProgramacaoRegex) {
       this.router.navigate([
         'geral/main',
-        { outlets: { principal: ['juiz', 'editor-regex', this.assunto.pk(), questao.id] } },
+        { outlets: { principal: ['juiz', 'editor-regex', this.assunto.pk(), material.id] } },
+      ]);
+    } else if (material instanceof VideoProgramacao) {
+      this.router.navigate([
+        'geral/main',
+        { outlets: { principal: ['aprendizado', 'visualizacao-video', material.pk()] } },
       ]);
     } 
     else {
       if (this.login.getUsuarioLogado().grupoExperimento === Groups.control) {
         this.router.navigate([
           'geral/main',
-          { outlets: { principal: ['juiz', 'editor', this.assunto.pk(), questao.id] } },
+          { outlets: { principal: ['juiz', 'editor', this.assunto.pk(), material.id] } },
         ]);
         return;
       }
 
       this.router.navigate([
         'geral/main',
-        { outlets: { principal: ['srl', 'self-instruction', this.assunto.pk(), questao.id] } },
+        { outlets: { principal: ['srl', 'self-instruction', this.assunto.pk(), material.id] } },
       ]);
     }
   }

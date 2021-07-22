@@ -1,11 +1,11 @@
-import { QuestaoProgramacao } from '../questoes/questaoProgramacao';
+import { QuestaoProgramacao } from '../sistema-aprendizagem/questoes/questaoProgramacao';
 import { TestBed, inject } from '@angular/core/testing';
 import { DocumentModule } from '../firestore/document.module';
 import { AngularFirestore, AngularFirestoreModule } from '@angular/fire/firestore';
 import { FirebaseConfiguracao } from 'src/environments/firebase';
 import { AngularFireModule, FirebaseApp } from '@angular/fire';
 import { Dificuldade } from '../enums/dificuldade';
-import { Assunto } from '../assunto';
+import { Assunto } from '../sistema-aprendizagem/assunto';
 import Query from '../firestore/query';
 import TestCase from '../testCase';
 import { forkJoin } from 'rxjs';

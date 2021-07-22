@@ -5,12 +5,12 @@ import { ActivatedRoute } from '@angular/router';
 import { MessageService } from 'primeng/api';
 import { GamificationFacade } from 'src/app/gamification/gamification.service';
 import { LoginService } from 'src/app/login-module/login.service';
-import { Assunto } from 'src/app/model/assunto';
 import { Dificuldade } from 'src/app/model/enums/dificuldade';
 import PontuacaoQuestaoParson from 'src/app/model/gamification/pontuacaoQuestaoParson';
 import { RespostaQuestaoParson } from 'src/app/model/juiz/respostaQuestaoParson';
-import QuestaoParsonProblem from 'src/app/model/questoes/parsonProblem';
-import SegmentoParson from 'src/app/model/questoes/segmentoParson';
+import { Assunto } from 'src/app/model/sistema-aprendizagem/assunto';
+import QuestaoParsonProblem from 'src/app/model/sistema-aprendizagem/questoes/questaoParsonProblem';
+import SegmentoParson from 'src/app/model/sistema-aprendizagem/questoes/segmentoParson';
 
 @Component({
   selector: 'app-visualizar-parson',

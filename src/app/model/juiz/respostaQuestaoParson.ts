@@ -1,8 +1,8 @@
 import { Observable } from 'rxjs';
 import { Collection, date, Document } from '../firestore/document';
 import Query from '../firestore/query';
-import QuestaoParsonProblem from '../questoes/parsonProblem';
-import SegmentoParson from '../questoes/segmentoParson';
+import QuestaoParsonProblem from '../sistema-aprendizagem/questoes/questaoParsonProblem';
+import SegmentoParson from '../sistema-aprendizagem/questoes/segmentoParson';
 import { RespostaQuestaoFechada } from '../respostaQuestaoFechada';
 import Usuario from '../usuario';
 

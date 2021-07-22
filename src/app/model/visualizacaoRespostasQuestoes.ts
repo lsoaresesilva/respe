@@ -1,7 +1,7 @@
 import { Collection, Document, date } from './firestore/document';
 import Usuario from './usuario';
 import { ModeloRespostaQuestao } from './modeloRespostaQuestao';
-import { QuestaoProgramacao } from './questoes/questaoProgramacao';
+import { QuestaoProgramacao } from './sistema-aprendizagem/questoes/questaoProgramacao';
 import Query from './firestore/query';
 
 @Collection('visualizacaoRespostasQuestoes')

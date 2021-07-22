@@ -4,7 +4,7 @@
   <div class="p-col-12">
     <h1>{{ questao?.nomeCurto }}</h1>
 
-    <p-fieldset *ngIf="questao != null" legend="Questão: {{ questao?.sequencia }}">
+    <p-fieldset *ngIf="questao != null" legend="Questão: {{ questao?.ordem }}">
       <div *ngIf="questao?.possuiCodigoNoEnunciado(); else semCodigo" [innerHtml]="gerarHtmlTextoComCodigo(questao)">
       </div>
       <ng-template #semCodigo>

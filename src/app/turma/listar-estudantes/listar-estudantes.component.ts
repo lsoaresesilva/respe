@@ -6,10 +6,6 @@ import Usuario from 'src/app/model/usuario';
 import Query from 'src/app/model/firestore/query';
 import { PerfilUsuario } from 'src/app/model/enums/perfilUsuario';
 import Turma from 'src/app/model/turma';
-import Analytics from 'src/app/model/analytics/analytics';
-import Submissao from 'src/app/model/submissao';
-import { Assunto } from 'src/app/model/assunto';
-import PageTrackRecord from 'src/app/model/analytics/pageTrack';
 
 @Component({
   selector: 'app-listar-estudantes',

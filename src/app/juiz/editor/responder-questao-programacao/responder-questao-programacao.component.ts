@@ -16,7 +16,6 @@ import { HttpHeaders, HttpClient } from '@angular/common/http';
 import { ActivatedRoute, NavigationExtras, Router } from '@angular/router';
 import PedidoAjuda from 'src/app/model/pedidoAjuda';
 import { Util } from 'src/app/model/util';
-import { Assunto } from 'src/app/model/assunto';
 import { LoginService } from '../../../login-module/login.service';
 
 import ErroEditor from 'src/app/model/erroEditor';
@@ -27,7 +26,7 @@ import ConsoleEditor from 'src/app/model/consoleEditor';
 import ErroServidor from 'src/app/model/errors/erroServidor';
 import { ApresentacaoService } from 'src/app/geral-module/apresentacao.service';
 import { Observable } from 'rxjs';
-import { QuestaoProgramacao } from 'src/app/model/questoes/questaoProgramacao';
+import { QuestaoProgramacao } from 'src/app/model/sistema-aprendizagem/questoes/questaoProgramacao';
 import Usuario from 'src/app/model/usuario';
 import PontuacaoQuestaoProgramacao from 'src/app/model/gamification/pontuacaoQuestaoProgramacao';
 import Gamification from 'src/app/model/gamification/gamification';
@@ -43,6 +42,7 @@ import { TipoDiarioProgramacao } from 'src/app/model/srl/enum/tipoDiarioPrograma
 import DiarioProgramacao from 'src/app/model/srl/diarioProgramacao';
 import { ModoExecucao } from 'src/app/model/juiz/enum/modoExecucao';
 import { Groups } from 'src/app/model/experimento/groups';
+import { Assunto } from 'src/app/model/sistema-aprendizagem/assunto';
 
 @Component({
   selector: 'responder-questao-programacao',

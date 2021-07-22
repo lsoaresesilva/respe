@@ -2,8 +2,8 @@ import { Document, ignore, Collection } from '../firestore/document';
 import { Observable, forkJoin } from 'rxjs';
 import { TipoObjeto } from './tipoObjeto';
 import Texto from './texto';
-import { QuestaoProgramacao } from '../questoes/questaoProgramacao';
-import QuestaoFechada from '../questoes/questaoFechada';
+import { QuestaoProgramacao } from '../sistema-aprendizagem/questoes/questaoProgramacao';
+import QuestaoFechada from '../sistema-aprendizagem/questoes/questaoFechada';
 
 @Collection('sequencias')
 export default class Sequencia extends Document {

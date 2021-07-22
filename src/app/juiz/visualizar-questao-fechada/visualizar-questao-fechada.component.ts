@@ -1,6 +1,5 @@
 import { Component, OnInit, Input } from '@angular/core';
 import { Router, ActivatedRoute } from '@angular/router';
-import { Assunto } from 'src/app/model/assunto';
 import { LoginService } from '../../login-module/login.service';
 import { RespostaQuestaoFechada } from 'src/app/model/respostaQuestaoFechada';
 import { MessageService, ConfirmationService } from 'primeng/api';
@@ -11,7 +10,8 @@ import VisualizacaoQuestao from 'src/app/model/analytics/visualizacaoQuestao';
 import PontuacaoQuestaoFechada from 'src/app/model/gamification/pontuacaoQuestaoFechada';
 import Gamification from 'src/app/model/gamification/gamification';
 import { GamificationFacade } from 'src/app/gamification/gamification.service';
-import QuestaoFechada from 'src/app/model/questoes/questaoFechada';
+import QuestaoFechada from 'src/app/model/sistema-aprendizagem/questoes/questaoFechada';
+import { Assunto } from 'src/app/model/sistema-aprendizagem/assunto';
 
 @Component({
   selector: 'app-visualizar-questao-fechada',

@@ -12,6 +12,7 @@ import { AnaliseSelfInstructionComponent } from './analise-self-instruction/anal
 import { ExportComponent } from './export/export.component';
 import { RouterModule, Routes } from '@angular/router';
 import { AuthGuard } from '../guards/auth.guard';
+import { TableModule } from 'primeng/table';
 
 export const routes:Routes = [
   {
@@ -30,10 +31,10 @@ export const routes:Routes = [
     ButtonModule,
     FieldsetModule,
     RadioButtonModule,
-    
+    TableModule,
     FormsModule,
     ScrollPanelModule
   ],
-  exports: [QuestionarioAutorregulacaoComponent]
+  exports: [QuestionarioAutorregulacaoComponent, AnaliseSelfInstructionComponent]
 })
 export class ExperimentoModule { }

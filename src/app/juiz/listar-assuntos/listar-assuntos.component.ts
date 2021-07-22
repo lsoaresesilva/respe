@@ -1,5 +1,4 @@
 import { Component, OnInit } from '@angular/core';
-import { Assunto } from 'src/app/model/assunto';
 import { MenuItem, MessageService } from 'primeng/api';
 import { Router, ActivatedRoute } from '@angular/router';
 import { LoginService } from '../../login-module/login.service';
@@ -9,6 +8,7 @@ import Query from 'src/app/model/firestore/query';
 
 import * as firebase from 'firebase';
 import { forkJoin } from 'rxjs';
+import { Assunto } from 'src/app/model/sistema-aprendizagem/assunto';
 
 @Component({
   selector: 'app-listar-assuntos',

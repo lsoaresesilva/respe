@@ -1,14 +1,14 @@
 import { Component, OnInit, Input } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import Usuario from 'src/app/model/usuario';
-import { QuestaoProgramacao } from 'src/app/model/questoes/questaoProgramacao';
+import { QuestaoProgramacao } from 'src/app/model/sistema-aprendizagem/questoes/questaoProgramacao';
 import { LoginService } from '../../login-module/login.service';
-import { Assunto } from 'src/app/model/assunto';
 import Submissao from 'src/app/model/submissao';
 import Query from 'src/app/model/firestore/query';
 import PageTrackRecord from 'src/app/model/analytics/pageTrack';
 import { AutoInstrucao } from 'src/app/model/srl/autoInstrucao';
 import CadeiaMarkov from 'src/app/model/experimento/cadeia_markov';
+import { Assunto } from 'src/app/model/sistema-aprendizagem/assunto';
 
 @Component({
   selector: 'app-visualizar-perfil-estudante',
@@ -22,7 +22,6 @@ export class VisualizarPerfilEstudanteComponent implements OnInit {
   submissoes: any[];
   respostaUsuario;
   pageTracks;
-  planejamentos;
 
   progressoGeral;
 
@@ -36,7 +35,11 @@ export class VisualizarPerfilEstudanteComponent implements OnInit {
       Usuario.get(params['id']).subscribe((estudante) => {
         this.estudante = estudante;
 
-        Assunto.consultarRespostasEstudante(this.estudante).subscribe(respostas=>{
+        /* PageTrackRecord.getAll(new Query("estudanteId", "==", this.estudante.pk())).subscribe(pageTracks=>{
+          this.pageTracks = pageTracks;
+        }) */
+
+        /* Assunto.consultarRespostasEstudante(this.estudante).subscribe(respostas=>{
         
           Assunto.getAll().subscribe(assuntos=>{
             if(this.estudante.codigoTurma == "2021a" || this.estudante.codigoTurma == "turma1"){
@@ -50,8 +53,10 @@ export class VisualizarPerfilEstudanteComponent implements OnInit {
   
           
           
-        })
+        }); */
       });
+
+     
 
       
 
@@ -69,45 +74,8 @@ export class VisualizarPerfilEstudanteComponent implements OnInit {
 
       
  */
-      /* Assunto.getAll(new Query('isAtivo', '==', true)).subscribe((assuntos) => {
-        AutoInstrucao.getAll(new Query('estudanteId', '==', params['id'])).subscribe(
-          (instrucoes) => {
-            assuntos.forEach((assunto) => {
-              assunto.questoesProgramacao.forEach((questao) => {
-                for (let i = 0; i < instrucoes.length; i++) {
-                  if (instrucoes[i]['questaoId'] == questao.id) {
-                    let autoInstrucao = {
-                      problema: instrucoes[i].problema,
-                      variaveis: instrucoes[i].variaveis,
-                    };
+      /* */
 
-                    if (instrucoes[i].condicoes != null) {
-                      autoInstrucao['condicoes'] = instrucoes[i].condicoes;
-                    }
-
-                    if (instrucoes[i].repeticoes != null) {
-                      autoInstrucao['repeticoes'] = instrucoes[i].repeticoes;
-                    }
-
-                    if (instrucoes[i].funcoes != null) {
-                      autoInstrucao['funcoes'] = instrucoes[i].funcoes;
-                    }
-
-                    questao["assunto"] = assunto.nome;
-
-                    this.planejamentos.push({
-                      questao: questao,
-                      autoInstrucao: autoInstrucao,
-                    });
-                  }
-                }
-              });
-            });
-          }
-        );
-      }); */
-
-      this.planejamentos = [];
     });
   }
 

@@ -1,4 +1,4 @@
-import { Assunto } from '../assunto';
+import { Assunto } from '../sistema-aprendizagem/assunto';
 import Submissao from '../submissao';
 import { Util } from '../util';
 

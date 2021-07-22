@@ -3,7 +3,7 @@ import { ModeloRespostaQuestao } from 'src/app/model/modeloRespostaQuestao';
 import { LoginService } from 'src/app/login-module/login.service';
 import { VisualizacaoRespostasQuestoes } from 'src/app/model/visualizacaoRespostasQuestoes';
 import Query from 'src/app/model/firestore/query';
-import { QuestaoProgramacao } from 'src/app/model/questoes/questaoProgramacao';
+import { QuestaoProgramacao } from 'src/app/model/sistema-aprendizagem/questoes/questaoProgramacao';
 import { ActivatedRoute, Router } from '@angular/router';
 import { MessageService } from 'primeng/api';
 import { DynamicDialogConfig } from 'primeng/dynamicdialog';

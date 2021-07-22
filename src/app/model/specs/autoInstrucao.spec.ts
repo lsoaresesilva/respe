@@ -3,8 +3,8 @@ import { TestBed, inject } from '@angular/core/testing';
 import { DocumentModule } from '../firestore/document.module';
 import { AngularFireModule, FirebaseApp } from '@angular/fire';
 import { FirebaseConfiguracao } from 'src/environments/firebase';
-import { Assunto } from '../assunto';
-import { QuestaoProgramacao } from '../questoes/questaoProgramacao';
+import { Assunto } from '../sistema-aprendizagem/assunto';
+import { QuestaoProgramacao } from '../sistema-aprendizagem/questoes/questaoProgramacao';
 import { AutoInstrucao } from '../srl/autoInstrucao';
 
 describe('Testes de Auto instrução', () => {

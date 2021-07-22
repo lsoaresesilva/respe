@@ -1,5 +1,5 @@
 import Usuario from './usuario';
-import { Assunto } from './assunto';
+import { Assunto } from './sistema-aprendizagem/assunto';
 import { Document, Collection, ignore } from './firestore/document';
 import { Dificuldade } from './enums/dificuldade';
 import { Observable, forkJoin } from 'rxjs';

@@ -55,8 +55,8 @@ export class GrafoEstudantesComponent implements OnChanges {
 
     if (this.pageTracks != null) {
       let g = new Grafo(this.pageTracks);
-      let matriz = g.criarMatrizSomada(this.pageTracks);
-      console.log(JSON.stringify(matriz, replacer));
+      /* let matriz = g.criarMatrizSomada(this.pageTracks); */
+      let matriz = g.criar();
       this.grafo = Grafo.construirGrafo(matriz);
       this.edges = this.grafo.arestas;
       this.nodes = this.grafo.nos;

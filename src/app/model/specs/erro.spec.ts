@@ -9,7 +9,7 @@ import { TestBed, inject } from '@angular/core/testing';
 import { DocumentModule } from '../firestore/document.module';
 import { AngularFireModule, FirebaseApp } from '@angular/fire';
 import { FirebaseConfiguracao } from 'src/environments/firebase';
-import { QuestaoProgramacao } from '../questoes/questaoProgramacao';
+import { QuestaoProgramacao } from '../sistema-aprendizagem/questoes/questaoProgramacao';
 import { Dificuldade } from '../enums/dificuldade';
 
 describe('Testes para a classe de Erro', () => {

@@ -1,5 +1,5 @@
 import { forkJoin, Observable } from 'rxjs';
-import { Assunto } from '../assunto';
+import { Assunto } from '../sistema-aprendizagem/assunto';
 import Query from '../firestore/query';
 import Submissao from '../submissao';
 import VisualizacaoQuestao from './visualizacaoQuestao';

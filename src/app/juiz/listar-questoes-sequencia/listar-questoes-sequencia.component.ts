@@ -1,15 +1,15 @@
 import { Component, Input, OnInit, OnChanges } from '@angular/core';
 import { Router } from '@angular/router';
 import { LoginService } from 'src/app/login-module/login.service';
-import { Assunto } from 'src/app/model/assunto';
 import { Groups } from 'src/app/model/experimento/groups';
-import { QuestaoProgramacao } from 'src/app/model/questoes/questaoProgramacao';
+import { QuestaoProgramacao } from 'src/app/model/sistema-aprendizagem/questoes/questaoProgramacao';
 import { forkJoin, Observable } from 'rxjs';
-import QuestaoFechada from 'src/app/model/questoes/questaoFechada';
-import QuestaoParsonProblem from 'src/app/model/questoes/parsonProblem';
-import QuestaoProgramacaoCorrecao from 'src/app/model/questoes/questaoProgramacaoCorrecao';
-import { QuestaoProgramacaoRegex } from 'src/app/model/questoes/questaoProgramacaoRegex';
+import QuestaoFechada from 'src/app/model/sistema-aprendizagem/questoes/questaoFechada';
+import QuestaoParsonProblem from 'src/app/model/sistema-aprendizagem/questoes/questaoParsonProblem';
+import QuestaoProgramacaoCorrecao from 'src/app/model/sistema-aprendizagem/questoes/questaoProgramacaoCorrecao';
+import { QuestaoProgramacaoRegex } from 'src/app/model/sistema-aprendizagem/questoes/questaoProgramacaoRegex';
 import VideoProgramacao from 'src/app/model/sistema-aprendizagem/videoProgramacao';
+import { Assunto } from 'src/app/model/sistema-aprendizagem/assunto';
 
 @Component({
   selector: 'app-listar-questoes-sequencia',

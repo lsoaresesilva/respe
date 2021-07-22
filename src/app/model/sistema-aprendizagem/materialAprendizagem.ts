@@ -1,4 +1,4 @@
-import { Assunto } from "../assunto";
+import { Assunto } from "./assunto";
 
 export interface MaterialAprendizagem{
     assunto:Assunto;

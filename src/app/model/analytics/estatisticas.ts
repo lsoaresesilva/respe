@@ -1,5 +1,5 @@
 import { forkJoin, Observable } from "rxjs";
-import { Assunto } from "../assunto";
+import { Assunto } from "../sistema-aprendizagem/assunto";
 import { PerfilUsuario } from "../enums/perfilUsuario";
 import { Groups } from "../experimento/groups";
 import Grafo from "../modelagem/grafo";

@@ -6,11 +6,11 @@ import { takeUntil } from 'rxjs/operators';
 import { ChatService } from 'src/app/chat/chat.service';
 import { MonitorService } from 'src/app/chatbot/monitor.service';
 import { LoginService } from 'src/app/login-module/login.service';
-import { Assunto } from 'src/app/model/assunto';
 import AtividadeGrupo from 'src/app/model/cscl/atividadeGrupo';
 import DificuldadeAtividadeGrupo from 'src/app/model/cscl/dificuldadeAtividadeGrupo';
 import { Groups } from 'src/app/model/experimento/groups';
 import Query from 'src/app/model/firestore/query';
+import { Assunto } from 'src/app/model/sistema-aprendizagem/assunto';
 import AutoInstrucaoColetiva from 'src/app/model/srl/autoInstrucaoColetivo';
 import JustificativasAutoInstrucao from 'src/app/model/srl/justificativaInstrucaoColetiva';
 

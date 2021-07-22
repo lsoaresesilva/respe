@@ -1,22 +1,22 @@
-import { Document, Collection, ignore } from './firestore/document';
+import { Document, Collection, ignore } from '../firestore/document';
 import { Observable, forkJoin } from 'rxjs';
 import { QuestaoProgramacao } from './questoes/questaoProgramacao';
-import Usuario from './usuario';
-import Submissao from './submissao';
-import { Util } from './util';
-import { RespostaQuestaoFechada } from './respostaQuestaoFechada';
-import { Assuntos } from './enums/assuntos';
+import Usuario from '../usuario';
+import Submissao from '../submissao';
+import { Util } from '../util';
+import { RespostaQuestaoFechada } from '../respostaQuestaoFechada';
+import { Assuntos } from '../enums/assuntos';
 import QuestaoFechada from './questoes/questaoFechada';
-import QuestaoParsonProblem from './questoes/parsonProblem';
-import Query from './firestore/query';
-import { RespostaQuestaoParson } from './juiz/respostaQuestaoParson';
-import QuestaoColaborativa from './cscl/questaoColaborativa';
+import QuestaoParsonProblem from './questoes/questaoParsonProblem';
+import Query from '../firestore/query';
+import { RespostaQuestaoParson } from '../juiz/respostaQuestaoParson';
+import QuestaoColaborativa from '../cscl/questaoColaborativa';
 import QuestaoProgramacaoCorrecao from './questoes/questaoProgramacaoCorrecao';
-import RespostaQuestaoCorrecaoAlgoritmo from './correcao-algoritmo/correcaoAlgoritmo';
-import { VisualizacaoRespostasQuestoes } from './visualizacaoRespostasQuestoes';
+import RespostaQuestaoCorrecaoAlgoritmo from '../correcao-algoritmo/correcaoAlgoritmo';
+import { VisualizacaoRespostasQuestoes } from '../visualizacaoRespostasQuestoes';
 import { QuestaoProgramacaoRegex } from './questoes/questaoProgramacaoRegex';
-import VideoProgramacao from './sistema-aprendizagem/videoProgramacao';
-import { MaterialAprendizagem } from './sistema-aprendizagem/materialAprendizagem';
+import VideoProgramacao from './videoProgramacao';
+import { MaterialAprendizagem } from './materialAprendizagem';
 
 @Collection('assuntos')
 export class Assunto extends Document {
@@ -56,7 +56,7 @@ export class Assunto extends Document {
    * No entanto, isso é custoso, pois seria preciso carregar do BD cada assunto.
    * Para reduzir esse problema, futuramente, deve-se refatorar cada questão de programação para usar o nome que está no enumerador.
    */
-  static construir(assunto) {
+   static criarAssunto(assunto) {
     if (assunto != null) {
       const a = new Assunto(assunto, null);
       if (assunto == 'PU0EstYupXgDZ2a57X0X') {
@@ -95,7 +95,7 @@ export class Assunto extends Document {
         });
 
         assuntos.forEach(assunto=>{
-          Assunto.construirQuestoes(assunto);
+          Assunto.construir(assunto);
         })
 
         observer.next(assuntos);
@@ -123,7 +123,12 @@ export class Assunto extends Document {
     });
   }
 
-  static construirQuestoes(assunto){
+
+  /**
+   * Constrói as relações internas de um assunto com seus materiais de aprendizagem.
+   * @param assunto 
+   */
+  static construir(assunto){
     assunto['questoesProgramacao'] = QuestaoProgramacao.construir(
       assunto['questoesProgramacao'],
       assunto
@@ -146,42 +151,25 @@ export class Assunto extends Document {
     assunto['questoesRegex'] = QuestaoProgramacaoRegex.construir(
       assunto['questoesRegex']
     );
+
+    assunto['videos'] = VideoProgramacao.construir(
+      assunto['videos']
+    );
+
+    assunto['textos'] = VideoProgramacao.construir(
+      assunto['textos']
+    );
   }
 
   static get(id): Observable<Assunto> {
     return new Observable<Assunto>((observer) => {
       super.get(id).subscribe(
         (assunto) => {
-          assunto['questoesProgramacao'] = QuestaoProgramacao.construir(
-            assunto['questoesProgramacao'],
-            assunto
-          );
 
-          assunto['questoesFechadas'] = QuestaoFechada.construir(assunto['questoesFechadas']);
-
-          assunto['questoesColaborativas'] = QuestaoColaborativa.construir(
-            assunto['questoesColaborativas'],
-            assunto
-          );
-
-          assunto['questoesParson'] = QuestaoParsonProblem.construir(assunto['questoesParson']);
-
-          assunto['questoesCorrecao'] = QuestaoProgramacaoCorrecao.construir(
-            assunto['questoesCorrecao'],
-            assunto
-          );
-
-
-          assunto['questoesRegex'] = QuestaoProgramacaoRegex.construir(
-            assunto['questoesRegex']
-          );
-
-          VideoProgramacao.getAll(new Query("assuntoId", "==", assunto.pk())).subscribe(videos=>{
-            assunto['videos'] = videos;
-    
-            observer.next(assunto as Assunto);
-            observer.complete();
-          })
+          Assunto.construir(assunto);
+          
+          observer.next(assunto as Assunto);
+          observer.complete();
 
           
         },

@@ -8,7 +8,7 @@ import { AngularFireModule, FirebaseApp } from '@angular/fire';
 
 import { FirebaseConfiguracao } from 'src/environments/firebase';
 
-import { Assunto } from '../assunto';
+import { Assunto } from '../sistema-aprendizagem/assunto';
 
 describe('Testes de questão', () => {
   let app: firebase.app.App;

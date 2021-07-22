@@ -1,4 +1,4 @@
-import { QuestaoProgramacao } from './questoes/questaoProgramacao';
+import { QuestaoProgramacao } from './sistema-aprendizagem/questoes/questaoProgramacao';
 import { Document, Collection, date, ignore } from './firestore/document';
 import Erro from './errors/erro';
 import { Observable, forkJoin } from 'rxjs';
@@ -7,12 +7,11 @@ import Usuario from './usuario';
 import ResultadoTestCase from './resultadoTestCase';
 import ErroCompilacaoFactory from './errors/analise-compilacao/erroCompilacaoFactory';
 import { ErroCompilacao } from './errors/analise-compilacao/erroCompilacao';
-import { Assunto } from './assunto';
+import { Assunto } from './sistema-aprendizagem/assunto';
 import { keyframes } from '@angular/animations';
 import { Cacheable } from 'ts-cacheable';
 import { Util } from './util';
 import { database } from 'firebase';
-import Questao from './questoes/questao';
 
 @Collection('submissoes')
 export default class Submissao extends Document {

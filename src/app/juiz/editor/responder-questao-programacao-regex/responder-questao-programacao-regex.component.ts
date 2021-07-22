@@ -1,11 +1,11 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { LoginService } from 'src/app/login-module/login.service';
-import { Assunto } from 'src/app/model/assunto';
 import Editor from 'src/app/model/editor';
 import ErroSintaxeVariavel from 'src/app/model/errors/analise-pre-compilacao/erroSintaxeVariavel';
 import Query from 'src/app/model/firestore/query';
-import { RespostaQuestaoProgramacaoRegex } from 'src/app/model/questoes/respostaQuestaoProgramacaoRegex';
+import { Assunto } from 'src/app/model/sistema-aprendizagem/assunto';
+import { RespostaQuestaoProgramacaoRegex } from 'src/app/model/sistema-aprendizagem/questoes/respostaQuestaoProgramacaoRegex';
 
 @Component({
   selector: 'app-responder-questao-programacao-regex',

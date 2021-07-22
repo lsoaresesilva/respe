@@ -3,8 +3,8 @@ import { Router, ActivatedRoute } from '@angular/router';
 import { MessageService, SelectItem } from 'primeng/api';
 import { Assunto } from 'src/app/model/assunto';
 import { Dificuldade } from 'src/app/model/enums/dificuldade';
-import { OrientacaoParson } from 'src/app/model/questoes/enum/orientacaoParson';
-import QuestaoParsonProblem from 'src/app/model/questoes/parsonProblem';
+import { OrientacaoParson } from 'src/app/model/sistema-aprendizagem/questoes/enum/orientacaoParson';
+import QuestaoParsonProblem from 'src/app/model/sistema-aprendizagem/questoes/questaoParsonProblem';
 
 @Component({
   selector: 'app-cadastrar-parson',
@@ -60,8 +60,8 @@ export class CadastrarParsonComponent implements OnInit {
 
   cadastrar() {
     // TODO: Migrar isso para dentro do model Questao
-    this.questao.sequencia =
-      this.questao.sequencia !== 0 ? this.questao.sequencia : this.assunto.getUltimaSequencia();
+    this.questao.ordem =
+      this.questao.ordem !== 0 ? this.questao.ordem : this.assunto.getUltimaSequencia();
 
     // TODO: migrar isso para dentro do save de assunto. Ele quem deve organizar o salvamento de suas questões.
     this.questao.prepararParaSave();

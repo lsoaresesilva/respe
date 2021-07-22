@@ -1,10 +1,10 @@
 import { Component, OnInit } from '@angular/core';
 import { SelectItem, MessageService } from 'primeng/api';
 import { Router, ActivatedRoute } from '@angular/router';
-import { Assunto } from 'src/app/model/assunto';
 import { Dificuldade } from 'src/app/model/enums/dificuldade';
 import Alternativa from 'src/app/model/alternativa';
-import QuestaoFechada from 'src/app/model/questoes/questaoFechada';
+import QuestaoFechada from 'src/app/model/sistema-aprendizagem/questoes/questaoFechada';
+import { Assunto } from 'src/app/model/sistema-aprendizagem/assunto';
 
 @Component({
   selector: 'app-cadastrar-questoes-fechadas',

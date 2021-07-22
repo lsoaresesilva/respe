@@ -1,6 +1,5 @@
 import { Component, OnInit } from '@angular/core';
 import PageTrackRecord from 'src/app/model/analytics/pageTrack';
-import { Assunto } from 'src/app/model/assunto';
 import Query from 'src/app/model/firestore/query';
 import Submissao from 'src/app/model/submissao';
 import Turma from 'src/app/model/turma';

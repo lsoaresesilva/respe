@@ -1,1 +1,27 @@
-<p>analise-self-instruction works!</p>
+<p-table [value]="planejamentos">
+    <ng-template pTemplate="header">
+      <tr>
+        <th>Assunto</th>
+        <th>Questão</th>
+        <th>Ordem</th>
+        <th>Status</th>
+        <th>Qual o problema?</th>
+        <th>Quais as variáveis?</th>
+        <th>Quais as condições?</th>
+        <th>Quais as repetições?</th>
+        <!-- <th>Saída algoritmo</th> -->
+      </tr>
+    </ng-template>
+    <ng-template pTemplate="body" let-rowData let-planejamento>
+      <tr [pContextMenuRow]="rowData">
+        <td>{{ planejamento.questao.assunto }}</td>
+        <td>{{ planejamento.questao.enunciado }}</td>
+        <td>{{ planejamento.questao.ordem }}</td>
+        <td>{{ planejamento.autoInstrucao.status }}</td>
+        <td>{{ planejamento.autoInstrucao.problema }}</td>
+        <td>{{ planejamento.autoInstrucao.variaveis }}</td>
+        <td>{{ planejamento.autoInstrucao.condicoes }}</td>
+        <td>{{ planejamento.autoInstrucao.repeticoes }}</td>
+      </tr>
+    </ng-template>
+  </p-table>

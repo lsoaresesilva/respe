@@ -1,5 +1,5 @@
 import { forkJoin, Observable } from "rxjs";
-import { Assunto } from "../assunto";
+import { Assunto } from "./assunto";
 import ConfiguracaoEditor from "../configuracoes/configuracaoEditor";
 import { Groups } from "../experimento/groups";
 import { Collection, Document } from "../firestore/document";
@@ -28,7 +28,7 @@ export default class VideoProgramacao extends Document implements MaterialAprend
         return document;
     }
 
-    /* static construir(videosProgramacao: any[]) {
+    static construir(videosProgramacao: any[]) {
         const videos: VideoProgramacao[] = [];
 
         if (videosProgramacao != null) {
@@ -41,7 +41,7 @@ export default class VideoProgramacao extends Document implements MaterialAprend
 
         return videos;
 
-    } */
+    }
 
     static listarTodos(usuario:Usuario) {
 

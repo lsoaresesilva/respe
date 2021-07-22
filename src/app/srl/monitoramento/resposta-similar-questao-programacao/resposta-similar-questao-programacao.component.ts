@@ -1,8 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 import { ModeloRespostaQuestao } from 'src/app/model/modeloRespostaQuestao';
-import { Assunto } from 'src/app/model/assunto';
 import { Router } from '@angular/router';
-import { QuestaoProgramacao } from 'src/app/model/questoes/questaoProgramacao';
+import { QuestaoProgramacao } from 'src/app/model/sistema-aprendizagem/questoes/questaoProgramacao';
+import { Assunto } from 'src/app/model/sistema-aprendizagem/assunto';
 
 @Component({
   selector: 'app-resposta-similar-questao-programacao',

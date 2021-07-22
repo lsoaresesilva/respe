@@ -1,30 +1,37 @@
 import ArrayUtilities from 'src/app/util/arrayUtilities';
-import { Collection, Document, ignore } from '../firestore/document';
+import { Collection, Document, ignore } from '../../firestore/document';
 import { OrientacaoParson } from './enum/orientacaoParson';
-import Questao from './questao';
 import SegmentoParson from './segmentoParson';
-import { RespostaQuestaoParson } from '../juiz/respostaQuestaoParson';
+import { RespostaQuestaoParson } from '../../juiz/respostaQuestaoParson';
 import { Observable } from 'rxjs';
-import Query from '../firestore/query';
+import Query from '../../firestore/query';
+import { MaterialAprendizagem } from '../materialAprendizagem';
+import { Util } from '../../util';
+import { Assunto } from '../assunto';
 
-export default class QuestaoParsonProblem extends Questao {
+export default class QuestaoParsonProblem implements MaterialAprendizagem {
   @ignore()
   respondida;
 
   constructor(
-    id,
-    enunciado,
-    nomeCurto,
-    sequencia,
-    dificuldade,
-    respostaCorreta,
+    public id,
+    public enunciado,
+    public nomeCurto,
+    public ordem,
+    public dificuldade,
+    public respostaCorreta,
     public segmentos: any /* As opções de segmentos disponíveis para utilizar. É um array */,
     public algoritmoInicial: any /* Um algoritmo que pode vir junto com a questão formado por segmentos. */,
     public sequenciaCorreta: any /* Um array de inteiros indicando a sequência correta esparada para o Parson */,
     public orientacao: OrientacaoParson = OrientacaoParson.vertical
   ) {
-    super(id, enunciado, nomeCurto, sequencia, dificuldade, respostaCorreta);
+    if (id == null) {
+      this.id = Util.uuidv4();
+    } else {
+      this.id = id;
+    }
   }
+  assunto: Assunto;
 
   /**
    * Constrói objetos a partir do atributo array de uma document
@@ -40,7 +47,7 @@ export default class QuestaoParsonProblem extends Questao {
             questao.id,
             questao.enunciado,
             questao.nomeCurto,
-            questao.sequencia,
+            questao.ordem,
             questao.dificuldade,
             questao.respostaCorreta,
             questao.segmentos,
@@ -82,7 +89,9 @@ export default class QuestaoParsonProblem extends Questao {
   }
 
   objectToDocument() {
-    const document = super.objectToDocument();
+    const document = {id:this.id, nomeCurto:this.nomeCurto, enunciado:this.enunciado, ordem:this.ordem};
+
+    document['respostaCorreta'] = this.respostaCorreta != null ? this.respostaCorreta : '';
 
     if (Array.isArray(this.segmentos)) {
       document['segmentos'] = this.segmentos.map((segmento) => {
@@ -120,11 +129,18 @@ export default class QuestaoParsonProblem extends Questao {
       Array.isArray(this.segmentos) &&
       this.segmentos.length > 0 &&
       Array.isArray(this.sequenciaCorreta) &&
-      this.sequenciaCorreta.length > 0
+      this.sequenciaCorreta.length > 0 &&
+      this.nomeCurto != null ||
+      this.nomeCurto != '' ||
+      this.enunciado != null ||
+      this.enunciado != '' ||
+      this.dificuldade != null ||
+      this.ordem != null ||
+      this.ordem >= 1
     ) {
-      return true && super.validar();
+      return true;
     }
-    return false && super.validar();
+    return false;
   }
 
   prepararParaSave() {

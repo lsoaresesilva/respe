@@ -4,7 +4,7 @@ import Observador from '../model/chatbot/observador';
 import Observavel from '../model/chatbot/observavel';
 import Postagem from '../model/cscl/postagem';
 import MensagemSuporteMonitor from '../model/mensagemSuporteMonitor';
-import { QuestaoProgramacao } from '../model/questoes/questaoProgramacao';
+import { QuestaoProgramacao } from '../model/sistema-aprendizagem/questoes/questaoProgramacao';
 import Usuario from '../model/usuario';
 
 @Injectable({

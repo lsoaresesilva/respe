@@ -3,9 +3,9 @@ import { MessageService } from 'primeng/api';
 import { Router, ActivatedRoute } from '@angular/router';
 import { LoginService } from 'src/app/login-module/login.service';
 import Submissao from 'src/app/model/submissao';
-import { Assunto } from 'src/app/model/assunto';
 import Usuario from 'src/app/model/usuario';
 import { Util } from 'src/app/model/util';
+import { Assunto } from 'src/app/model/sistema-aprendizagem/assunto';
 
 @Component({
   selector: 'app-visualizar-submissao-questao',

@@ -1,5 +1,5 @@
 import { Collection, Document } from './firestore/document';
-import { QuestaoProgramacao } from './questoes/questaoProgramacao';
+import { QuestaoProgramacao } from './sistema-aprendizagem/questoes/questaoProgramacao';
 import { Util } from './util';
 
 export class ModeloRespostaQuestao {

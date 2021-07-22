@@ -8,7 +8,7 @@ import { AngularFireModule, FirebaseApp } from '@angular/fire';
 
 import { FirebaseConfiguracao } from 'src/environments/firebase';
 import Submissao from '../submissao';
-import { QuestaoProgramacao } from '../questoes/questaoProgramacao';
+import { QuestaoProgramacao } from '../sistema-aprendizagem/questoes/questaoProgramacao';
 import { forkJoin } from 'rxjs';
 import Usuario from '../usuario';
 import TestCase from '../testCase';
