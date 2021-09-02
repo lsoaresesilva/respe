@@ -39,7 +39,7 @@ export class VisualizarPerfilEstudanteComponent implements OnInit {
           this.pageTracks = pageTracks;
         }) */
 
-        /* Assunto.consultarRespostasEstudante(this.estudante).subscribe(respostas=>{
+        Assunto.consultarRespostasEstudante(this.estudante).subscribe(respostas=>{
         
           Assunto.getAll().subscribe(assuntos=>{
             if(this.estudante.codigoTurma == "2021a" || this.estudante.codigoTurma == "turma1"){
@@ -53,7 +53,7 @@ export class VisualizarPerfilEstudanteComponent implements OnInit {
   
           
           
-        }); */
+        });
       });
 
      

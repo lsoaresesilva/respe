@@ -14,7 +14,6 @@ import Submissao from "../../submissao";
 import { Assunto } from "../../sistema-aprendizagem/assunto";
 import Usuario from "../../usuario";
 import EstatisticaPageTrack from "../../modelagem/estatisticaPageTrack";
-import EstatisticasProgramacao from "../estatisticaProgramacao";
 
 describe('Testes para a classe de EstatisticaPageTrack', () => {
 

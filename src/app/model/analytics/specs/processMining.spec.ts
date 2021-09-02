@@ -7,12 +7,12 @@ import { DocumentModule } from "../../firestore/document.module";
 import submissoesEstudantes from '../../../../../json/submissoes_09abr.json';
 import pageTracksEstudantes from '../../../../../json/pageTracks.json';
 import Submissao from "../../submissao";
-import ProcessMining from "../processMining";
 import Usuario from "../../usuario";
 import { QuestaoProgramacao } from "../../sistema-aprendizagem/questoes/questaoProgramacao";
 import PageTrackRecord from "../pageTrack";
 import { Util } from "../../util";
 import ResultadoTestCase from "../../resultadoTestCase";
+import ProcessMining from "../../modelagem/processMining";
 
 describe('Testes para process mining', () => {
     let app: firebase.app.App;
@@ -33,7 +33,14 @@ describe('Testes para process mining', () => {
       })();
     });
 
-    it("Deve gerar os estados para um aluno", ()=>{
+    xit("Deve gerar o JSON para submissoes", (done)=>{
+      Submissao.exportToJson().subscribe(resultados=>{
+        console.log(resultados);
+        done();
+      })
+    })
+
+    xit("Deve gerar os estados para um aluno", ()=>{
 
         function getAlunos(mslq, estudanteId){
           if(mslq == "low"){

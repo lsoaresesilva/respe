@@ -1,8 +1,8 @@
 import { Component, OnInit, Output, EventEmitter } from '@angular/core';
 import { MenuItem } from 'primeng/api';
-import { Assunto } from 'src/app/model/assunto';
 import SubSecao from 'src/app/model/livro/subsecao';
 import Query from 'src/app/model/firestore/query';
+import { Assunto } from 'src/app/model/sistema-aprendizagem/assunto';
 
 @Component({
   selector: 'app-menu-livro',

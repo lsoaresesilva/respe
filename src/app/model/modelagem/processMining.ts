@@ -99,7 +99,7 @@ export default class ProcessMining{
         if(diferencaTempo < 300)
             pageTracksEntreSubmissoes = this.extrairPageTracksIntervaloDate(submissaoAtual, submissaoSeguinte, pageTracks);
         
-        if(submissaoAtual.hasErroSintaxe()){
+        /* if(submissaoAtual.hasErroSintaxe()){
             if(submissaoAnterior == null){
                 eventos.push(this.criarEvento(submissaoAtual.estudante, EventosProgramacao.codigo_erro_sintaxe, submissaoAtual.data, submissaoAtual.questao));
                 this._criarEventosPageTrack(pageTracksEntreSubmissoes, eventos, submissaoAtual.questao);
@@ -166,7 +166,7 @@ export default class ProcessMining{
                 this._criarEventosPageTrack(pageTracksEntreSubmissoes, eventos, submissaoAtual.questao);
             }
             
-        }
+        } */
 
 
         return eventos;

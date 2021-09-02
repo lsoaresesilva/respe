@@ -292,7 +292,7 @@ export class Assunto extends Document {
       query.respostaQuestaoFechada = RespostaQuestaoFechada.getAll(
         new Query('estudanteId', '==', estudante.pk())
       );
-      query.resposaQuestaoParson = RespostaQuestaoParson.getAll(
+      query.respostaQuestaoParson = RespostaQuestaoParson.getAll(
         new Query('estudanteId', '==', estudante.pk())
       );
       query.respostaQuestaoCorrecao = RespostaQuestaoCorrecaoAlgoritmo.getAll(
@@ -318,7 +318,7 @@ export class Assunto extends Document {
     );
     percentualConclusao += this.calcularPercentualConclusaoQuestoesParson(
       assunto,
-      respostas.resposaQuestaoParson
+      respostas.respostaQuestaoParson
     );
 
     /* percentualConclusao += this.calcularPercentualConclusaoQuestoesCorrecao(
@@ -341,8 +341,13 @@ export class Assunto extends Document {
   static calcularProgresso(assunto: Assunto, respostas) {
     let percentualConclusao = 0;
 
+    let peso = assunto.questoesFechadas.length + assunto.questoesParson.length + assunto.questoesProgramacao.length;
 
-    percentualConclusao += this.calcularPercentualConclusaoQuestoesFechadas(
+    let notaQuestoesFechadas = 0;
+    let notaQuestoesParson = 0;
+    let notaQuestoesProgramacao = 0;
+
+    /* percentualConclusao += this.calcularPercentualConclusaoQuestoesFechadas(
       assunto,
       respostas.respostaQuestaoFechada
     );
@@ -351,21 +356,44 @@ export class Assunto extends Document {
       respostas.resposaQuestaoParson
     );
 
-    percentualConclusao += this.calcularPercentualConclusaoQuestoesCorrecao(
+    /* percentualConclusao += this.calcularPercentualConclusaoQuestoesCorrecao(
       assunto,
       respostas.respostaQuestaoCorrecao
+    ); */
+
+    /* percentualConclusao += this.calcularPercentualConclusaoQuestoesProgramacao(
+      assunto,
+      Submissao.agruparPorQuestao(respostas.submissoes),
+      respostas.visualizacoesRespostasProgramacao,
+      0.5
+    ); */ 
+
+    notaQuestoesFechadas = this.calcularPercentualConclusaoQuestoesFechadas(
+      assunto,
+      respostas.respostaQuestaoFechada
+    );
+    notaQuestoesParson += this.calcularPercentualConclusaoQuestoesParson(
+      assunto,
+      respostas.respostaQuestaoParson
     );
 
-    percentualConclusao += this.calcularPercentualConclusaoQuestoesProgramacao(
+    /* percentualConclusao += this.calcularPercentualConclusaoQuestoesCorrecao(
+      assunto,
+      respostas.respostaQuestaoCorrecao
+    ); */
+
+    notaQuestoesProgramacao += this.calcularPercentualConclusaoQuestoesProgramacao(
       assunto,
       Submissao.agruparPorQuestao(respostas.submissoes),
       respostas.visualizacoesRespostasProgramacao,
       0.5
     );
 
+    let notaFinal = notaQuestoesFechadas*assunto.questoesFechadas.length + notaQuestoesParson*assunto.questoesParson.length + notaQuestoesProgramacao*assunto.questoesProgramacao.length;
 
+    return (notaFinal/peso)*100;
 
-    return (percentualConclusao * 100)/4; // Divide por quatro, pois é o total de tipos de questões que existem, consequentemente de percentuais que são calculados para cada um.
+    //return (percentualConclusao * 100)/3; // Divide por quatro, pois é o total de tipos de questões que existem, consequentemente de percentuais que são calculados para cada um.
   }
 
   static calcularProgressoGeral_controle_positivo_temp(assuntos: Assunto[], respostas) {
@@ -466,6 +494,7 @@ export class Assunto extends Document {
       for (let j = 0; j < respostasQuestoesParson.length; j++) {
         if (respostasQuestoesParson[j].questaoId == assunto.questoesParson[i].id) {
           resultado = assunto.questoesParson[i].isRespostaCorreta(respostasQuestoesParson[j]);
+          break
         }
       }
 

@@ -13,6 +13,7 @@ import { ExportComponent } from './export/export.component';
 import { RouterModule, Routes } from '@angular/router';
 import { AuthGuard } from '../guards/auth.guard';
 import { TableModule } from 'primeng/table';
+import { ProfessorModule } from '../professor/professor.module';
 
 export const routes:Routes = [
   {
@@ -27,6 +28,7 @@ export const routes:Routes = [
   imports: [
     RouterModule.forChild(routes),
     DialogModule,
+    ProfessorModule,
     CommonModule,
     ButtonModule,
     FieldsetModule,

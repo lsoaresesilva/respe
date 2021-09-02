@@ -25,12 +25,12 @@
                   <th>Q20</th>
                   <th>Q21</th>
                   <th>Q22</th>
-                  <th>MSLQ</th>
+                  
                 </tr>
               </ng-template>
               <ng-template pTemplate="body" let-estudante>
                 <tr *ngIf="estudante.mslq != null">
-                  <td>{{estudante.nome}}</td>  
+                  <td>{{estudante.id}}</td>  
                   <td>{{estudante.mslq.respostaPergunta1}}</td>
                   <td>{{estudante.mslq.respostaPergunta2}}</td>
                   <td>{{estudante.mslq.respostaPergunta3}}</td>
@@ -53,7 +53,6 @@
                   <td>{{estudante.mslq.respostaPergunta20}}</td>
                   <td>{{estudante.mslq.respostaPergunta21}}</td>
                   <td>{{estudante.mslq.respostaPergunta22}}</td>
-                  <td>{{estudante.mslq.media}}</td>
                 </tr>
               </ng-template>
         </p-table>

@@ -11,8 +11,9 @@ import Query from '../firestore/query';
 
 export default class Export {
 
-  static excluidos = ['B3Xgj4IGEOQvjLKoTHI9', 'JJ8zNeRZBDr4qTElmYJk', 'xRSUKvyNAYV8Cmvn639q', 'LYx978JlOUowgMgR7gq0', 'BmIqbIXvbFLx0D4rqdvo'];
-
+  static excluidos = ['B3Xgj4IGEOQvjLKoTHI9', 'JJ8zNeRZBDr4qTElmYJk', 'xRSUKvyNAYV8Cmvn639q', 'LYx978JlOUowgMgR7gq0', 'BmIqbIXvbFLx0D4rqdvo', "1flzSjZxDqi7QmmoMRqG"];
+  static paginasExcluir = ['criar-atividade-grupo', 'editor-regex', 'cadastrar-postagem', 'entrar-grupo', 'editor-programacao', 'visualizar-postagem', 'listagem-atividades-grupo', 'minha-turma', "listar-videos", "visualizacao-video", 'visualizacao-turma', 'listar-turmas', 'listagem-diarios-professor', 'visualizacao-estudante']
+  
   static submissoes() {
     return new Observable((observer) => {
       Submissao.exportToJson().subscribe((submissoes) => {
@@ -26,14 +27,23 @@ export default class Export {
     return new Observable((observer) => {
 
       function getTracks(estudantes){
-        PageTrackRecord.getAllByEstudantes(estudantes, false, "object").subscribe(pageTracks=>{
+        PageTrackRecord.getAllByEstudantes(estudantes, true, "array").subscribe(pageTracks=>{
+          let arrayJson = [];
+          pageTracks.forEach(pTrack => {
+            if(!Export.paginasExcluir.includes(pTrack.pagina)){
+              arrayJson.push(pTrack.toJson());
+            }
+            
+          });
+
+          console.log(JSON.stringify(arrayJson));
           observer.next(JSON.stringify(pageTracks));
           observer.complete();
         })
       }
 
       if(estudante == null){
-        Usuario.getAll().subscribe(estudantes=>{
+        Usuario.getAll(new Query("codigoTurma", "==", "curso2021j")).subscribe(estudantes=>{
           let estudantesFiltrados = estudantes.filter((estudante)=>{
             if(estudante.grupoExperimento == 4){
               return false;
@@ -46,7 +56,7 @@ export default class Export {
             return true;
           });
   
-          getTracks(estudantes);
+          getTracks(estudantesFiltrados);
           
         })
       }else{

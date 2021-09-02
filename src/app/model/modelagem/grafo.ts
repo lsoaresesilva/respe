@@ -59,111 +59,167 @@ export default class Grafo {
     for (let i = 0; i < tracks.length; i++) {
       let source = tracks[i].pagina; // De onde ele estava
       let target = tracks[i + 1]; // Para onde ele foi
-      if (target != undefined) {
-        target = tracks[i + 1].pagina;
-        let proximoProximo = null;
-        if (tracks[i + 2] != null) {
-          proximoProximo = tracks[i + 2].pagina;
+      if (target != undefined && (target.pagina != "atividade-grupo")) {
+
+        let prosseguir = true;
+
+        if(source == "visualizacao-assunto"){
+          if(target.pagina == "index" || target.pagina == "editor" || target.pagina == "visualizacao-algoritmo" || target.pagina == "visualizacao-resposta-questao"){
+            prosseguir = false;
+          }
+        }else if(source == "ranking" || source =="meu-desempenho" || source == "listagem-diarios" || source == "index"){
+          if(target.pagina == "index" || target.pagina == "visualizacao-questao-fechada" || target.pagina == "visualizacao-assunto" || target.pagina == "editor" || target.pagina == "self-instruction" || target.pagina == "visualizar-assunto" || target.pagina == "visualizacao-algoritmo" || target.pagina =="visualizar-questao-parson" || target.pagina == "visualizacao-resposta-questao"){
+            prosseguir = false;
+          }
+        }else if(source == "listar-assuntos"){
+          if(target.pagina == "visualizacao-algoritmo" || target.pagina == "visualizacao-resposta-questao" || target.pagina == "visualizar-questao-parson" || target.pagina == "index" || target.pagina == "self-instruction" || target.pagina == "self-instruction-editor" || target.pagina == "editor" || target.pagina == "visualizacao-questao-fechada"){
+            prosseguir = false;
+          }
+        }else if(source == "self-instruction"){
+          if(target.pagina == "index" || target.pagina == "visualizacao-questao-fechada" || target.pagina == "visualizacao-algoritmo" || target.pagina == "visualizar-questao-parson" || target.pagina == "visualizacao-resposta-questao" ){
+            prosseguir = false;
+          }
+        }else if(source == "editor"){
+          if(target.pagina == "index" || target.pagina == "visualizacao-assunto" || target.pagina == "visualizar-assunto"){
+            prosseguir = false;
+          }
+        }else if(source == "visualizacao-questao-fechada"){
+          if(target.pagina == "index" || target.pagina == "editor" || target.pagina == "visualizacao-algoritmo" || target.pagina == "visualizacao-resposta-questao"){
+            prosseguir = false;
+          }
+        }else if(source == "visualizacao-algoritmo"){
+          if(target.pagina == "index" || target.pagina == "visualizacao-assunto" || target.pagina == "visualizar-assunto"){
+            prosseguir = false;
+          }
+        }else if(source == "responder-questao-correcao"){
+          prosseguir = false;
+        }else if(source == "visualizacao-resposta-questao"){
+          if(target.pagina == "index" || target.pagina == "visualizacao-assunto" || target.pagina == "visualizar-assunto"){
+            prosseguir = false;
+          }
+        }else if(source == "visualizar-questao-parson"){
+          if( target.pagina == "index" ||target.pagina == "editor" || target.pagina == "visualizacao-resposta-questao" || target.pagina == "visualizacao-algoritmo"){
+            prosseguir = false;
+          }
+        }else if(source == "visualizar-assunto"){
+          if( target.pagina == "index" || target.pagina == "editor" || target.pagina == "responder-questao-correcao" || target.pagina == "visualizacao-algoritmo" || target.pagina == "visualizacao-algoritmo" || target.pagina == "visualizacao-resposta-questao"){
+            prosseguir = false;
+          }
+        }else if(source == "pedido-ajuda"){
+          if( target.pagina == "index"){
+            prosseguir = false;
+          }
         }
 
-        if (
-          proximoProximo == 'visualizar-assunto' &&
-          source == 'editor' &&
-          target == 'self-instruction'
-        ) {
-          console.log('Só retornou ao assunto via self-instruction');
-        }else if(
-          
-          proximoProximo == 'editor' &&
-          source == 'editor' &&
-          target == 'self-instruction'
-        ) {
-          let trackSource = tracks[i];
-          let trackTarget = tracks[i+1];
-
-          let visu = totalVisuSelfMonitoramento.get(trackTarget.estudanteId);
-          if (visu == null) {
-            totalVisuSelfMonitoramento.set(trackTarget.estudanteId, 0);
+        if(prosseguir){
+          target = tracks[i + 1].pagina;
+          let proximoProximo = null;
+          if (tracks[i + 2] != null) {
+            proximoProximo = tracks[i + 2].pagina;
           }
-          
-          let totalNovo = totalVisuSelfMonitoramento.get(trackTarget.estudanteId);
-          totalVisuSelfMonitoramento.set(trackTarget.estudanteId, totalNovo+1);
-
-          // Computo to dempo
-           
-          let t = tempoVisuSelfMonitoramento.get(trackSource.estudanteId);
-          if (t == null) {
-            tempoVisuSelfMonitoramento.set(trackSource.estudanteId, 0);
+  
+          if (
+            proximoProximo == 'visualizar-assunto' &&
+            source == 'editor' &&
+            target == 'self-instruction'
+          ) {
+            console.log('Só retornou ao assunto via self-instruction');
+          }else if(
+            
+            proximoProximo == 'editor' &&
+            source == 'editor' &&
+            target == 'self-instruction'
+          ) {
+            let trackSource = tracks[i];
+            let trackTarget = tracks[i+1];
+  
+            let visu = totalVisuSelfMonitoramento.get(trackTarget.estudanteId);
+            if (visu == null) {
+              totalVisuSelfMonitoramento.set(trackTarget.estudanteId, 0);
+            }
+            
+            let totalNovo = totalVisuSelfMonitoramento.get(trackTarget.estudanteId);
+            totalVisuSelfMonitoramento.set(trackTarget.estudanteId, totalNovo+1);
+  
+            // Computo to dempo
+             
+            let t = tempoVisuSelfMonitoramento.get(trackSource.estudanteId);
+            if (t == null) {
+              tempoVisuSelfMonitoramento.set(trackSource.estudanteId, 0);
+            }
+  
+            let dateSource = trackSource.data//Util.firestoreDateToDate(trackSource.data);
+            let dateTarget = trackTarget.data//Util.firestoreDateToDate(trackTarget.data);
+            if(dateSource.getDate() == dateTarget.getDate()){
+              let difTime = (dateTarget.getTime() - dateSource.getTime())/1000;
+  
+              let totalNovo = tempoVisuSelfMonitoramento.get(trackSource.estudanteId);
+              tempoVisuSelfMonitoramento.set(trackSource.estudanteId, totalNovo + difTime);
+            } 
+  
+          }else {
+  
+            let excluidos = ['criar-atividade-grupo', 'editor-regex', 'cadastrar-postagem', 'entrar-grupo', 'editor-programacao', 'visualizar-postagem', 'listagem-atividades-grupo', 'minha-turma', "listar-videos", "visualizacao-video", 'visualizacao-turma', 'listar-turmas', 'listagem-diarios-professor', 'visualizacao-estudante']
+            if(excluidos.includes(target)){
+  
+            }else{
+              if(source == "index" || source == "meu-desempenho"){
+                let trackSource = tracks[i];
+                let trackTarget = tracks[i+1];
+                let visu = tempoVisuMonitoramento.get(trackTarget.estudanteId);
+                if (visu == null) {
+                  tempoVisuMonitoramento.set(trackTarget.estudanteId, 0);
+                }
+                
+                let dateSource = trackSource.data//Util.firestoreDateToDate(trackSource.data);
+                let dateTarget = trackTarget.data//Util.firestoreDateToDate(trackTarget.data);
+                if(dateSource.getDate() == dateTarget.getDate()){
+                  let difTime = (dateTarget.getTime() - dateSource.getTime())/1000;
+    
+                  let totalNovo = tempoVisuMonitoramento.get(trackSource.estudanteId);
+                  tempoVisuMonitoramento.set(trackSource.estudanteId, totalNovo + difTime);
+                } 
+              }
+    
+              if(source == "self-instruction" && target == "editor"){
+                let trackSource = tracks[i];
+                let trackTarget = tracks[i+1];
+                let visu = tempoVisuSelfPlanejamento.get(trackSource.estudanteId);
+                if (visu == null) {
+                  tempoVisuSelfPlanejamento.set(trackSource.estudanteId, 0);
+                }
+    
+                let dateSource = trackSource.data//Util.firestoreDateToDate(trackSource.data);
+                let dateTarget = trackTarget.data//Util.firestoreDateToDate(trackTarget.data);
+                if(dateSource.getDate() == dateTarget.getDate()){
+                  let difTime = (dateTarget.getTime() - dateSource.getTime())/1000;
+    
+                  let totalNovo = tempoVisuSelfPlanejamento.get(trackSource.estudanteId);
+                  tempoVisuSelfPlanejamento.set(trackSource.estudanteId, totalNovo + difTime);
+                }
+                
+              }
+    
+              /* Núcleo do algoritmo está aqui. */
+              let estado = estados.get(source);
+              if (estado == null) {
+                estados.set(source, new Map());
+              }
+              let totalNovo = estados.get(source).get(target);
+              if (totalNovo == null) {
+                estados.get(source).set(target, 0);
+              }
+              totalNovo = estados.get(source).get(target);
+              estados.get(source).set(target, totalNovo + 1);
+              /* Fim Código novo */
+            }
+  
+            
           }
-
-          let dateSource = Util.firestoreDateToDate(trackSource.data);
-          let dateTarget = Util.firestoreDateToDate(trackTarget.data);
-          if(dateSource.getDate() == dateTarget.getDate()){
-            let difTime = (dateTarget.getTime() - dateSource.getTime())/1000;
-
-            let totalNovo = tempoVisuSelfMonitoramento.get(trackSource.estudanteId);
-            tempoVisuSelfMonitoramento.set(trackSource.estudanteId, totalNovo + difTime);
-          } 
-
-        }else {
-
-          let excluidos = ['criar-atividade-grupo', 'editor-regex', 'cadastrar-postagem', 'entrar-grupo', 'editor-programacao', 'visualizar-postagem', 'listagem-atividades-grupo', 'minha-turma', "listar-videos", "visualizacao-video", 'visualizacao-turma', 'listar-turmas', 'listagem-diarios-professor', 'visualizacao-estudante']
-          if(excluidos.includes(target)){
-
-          }else{
-            if(source == "index" || source == "meu-desempenho"){
-              let trackSource = tracks[i];
-              let trackTarget = tracks[i+1];
-              let visu = tempoVisuMonitoramento.get(trackTarget.estudanteId);
-              if (visu == null) {
-                tempoVisuMonitoramento.set(trackTarget.estudanteId, 0);
-              }
-              
-              let dateSource = Util.firestoreDateToDate(trackSource.data);
-              let dateTarget = Util.firestoreDateToDate(trackTarget.data);
-              if(dateSource.getDate() == dateTarget.getDate()){
-                let difTime = (dateTarget.getTime() - dateSource.getTime())/1000;
-  
-                let totalNovo = tempoVisuMonitoramento.get(trackSource.estudanteId);
-                tempoVisuMonitoramento.set(trackSource.estudanteId, totalNovo + difTime);
-              } 
-            }
-  
-            if(source == "self-instruction" && target == "editor"){
-              let trackSource = tracks[i];
-              let trackTarget = tracks[i+1];
-              let visu = tempoVisuSelfPlanejamento.get(trackSource.estudanteId);
-              if (visu == null) {
-                tempoVisuSelfPlanejamento.set(trackSource.estudanteId, 0);
-              }
-  
-              let dateSource = Util.firestoreDateToDate(trackSource.data);
-              let dateTarget = Util.firestoreDateToDate(trackTarget.data);
-              if(dateSource.getDate() == dateTarget.getDate()){
-                let difTime = (dateTarget.getTime() - dateSource.getTime())/1000;
-  
-                let totalNovo = tempoVisuSelfPlanejamento.get(trackSource.estudanteId);
-                tempoVisuSelfPlanejamento.set(trackSource.estudanteId, totalNovo + difTime);
-              }
-              
-            }
-  
-            /* Núcleo do algoritmo está aqui. */
-            let estado = estados.get(source);
-            if (estado == null) {
-              estados.set(source, new Map());
-            }
-            let totalNovo = estados.get(source).get(target);
-            if (totalNovo == null) {
-              estados.get(source).set(target, 0);
-            }
-            totalNovo = estados.get(source).get(target);
-            estados.get(source).set(target, totalNovo + 1);
-            /* Fim Código novo */
-          }
-
-          
         }
+        
+
+        
       }
     }
   }
@@ -188,7 +244,7 @@ export default class Grafo {
 
       // Agrupa todos os pagetracks pelo dia em que a ação ocorreu.
       pageTracks.forEach((track) => {
-        let dataDoTrack = track.data.toDate();
+        let dataDoTrack = track.data//.toDate();
         let mesDia = dataDoTrack.getDate().toString() + '/' + dataDoTrack.getMonth().toString();
         let hasDia = dias.get(mesDia);
         if (hasDia == null) {
@@ -205,8 +261,8 @@ export default class Grafo {
 
       dias.forEach((dia) => {
         dia.sort(function (a, b) {
-          let dataA = a.data.toDate();
-          let dataB = b.data.toDate();
+          let dataA = a.data//.toDate();
+          let dataB = b.data//.toDate();
           if (dataA < dataB) {
             return -1;
           }
@@ -256,16 +312,19 @@ export default class Grafo {
       let totalTracks = 0;
 
       if(Array.isArray(pageTracks)){
-        pageTracks.forEach(tracks=>{
-          let matriz = this.prepararDados(tracks);
+        let matriz = this.prepararDados(pageTracks);
+        matriz.forEach((mTrack) => {
+          totalTracks += mTrack.length;
+          this.criarMatrizTransicao(mTrack, estados, tempoVisuDesempenho, totalVisuSelfMonitoramento, tempoVisuSelfPlanejamento, tempoVisuSelfMonitoramento);
+        });
+        matrizes = matrizes.concat(matriz);
+        /* pageTracks.forEach(tracks=>{
+          
 
-          matriz.forEach((mTrack) => {
-            totalTracks += mTrack.length;
-            this.criarMatrizTransicao(mTrack, estados, tempoVisuDesempenho, totalVisuSelfMonitoramento, tempoVisuSelfPlanejamento, tempoVisuSelfMonitoramento);
-          });
+          
 
-          matrizes = matrizes.concat(matriz);
-        })
+          
+        }) */
       }
 
       
@@ -276,7 +335,7 @@ export default class Grafo {
         probabilidades.set(source, new Map());
         let totalAcessos = this.calcularTotalAcessos(source, estados);
         targets.forEach(function (contagem, target) {
-          let probabilidade = Math.round((contagem / totalAcessos) * 100) / 100;
+          let probabilidade = ((contagem / totalAcessos) * 100) / 100;
           probabilidades.get(source).set(target, probabilidade);
         });
       });
@@ -317,7 +376,7 @@ export default class Grafo {
         probabilidades.set(source, new Map());
         let totalAcessos = this.calcularTotalAcessos(source, estados);
         targets.forEach(function (contagem, target) {
-          let probabilidade = Math.round((contagem / totalAcessos) * 100) / 100;
+          let probabilidade = ((contagem / totalAcessos) * 100) / 100;
           probabilidades.get(source).set(target, probabilidade);
         });
       });

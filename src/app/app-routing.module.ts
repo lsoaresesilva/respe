@@ -300,12 +300,7 @@ const routes: Routes = [
         canActivate: [AuthGuard, AdminGuard],
         outlet: 'principal',
       },
-      {
-        path: 'exportar-dados',
-        component: ExportarDadosComponent,
-        canActivate: [AuthGuard, AdminGuard],
-        outlet: 'principal',
-      },
+     
       
 
 

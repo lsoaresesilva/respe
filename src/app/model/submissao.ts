@@ -53,7 +53,7 @@ export default class Submissao extends Document {
         });
 
         submissoes = this.filtrarSubmissoesConclusao(submissoes);
-        submissoes = this.agruparPorEstudante(submissoes);
+        submissoes = this.agruparRecentePorEstudante(submissoes);
         observer.next(submissoes);
         observer.complete();
       });
@@ -91,6 +91,7 @@ export default class Submissao extends Document {
       Assunto.fromJson({ id: submissaoJson.assuntoId, nome: '' }),
       new QuestaoProgramacao(submissaoJson.questaoId, '', '', 1, 1, [], null, '', null)
     );
+
     submissao.resultadosTestsCases = [];
     submissao['questaoId'] = submissaoJson.questaoId;
     if (Array.isArray(submissaoJson.resultadosTesteCase)) {
@@ -98,6 +99,14 @@ export default class Submissao extends Document {
         let resultado = ResultadoTestCase.fromJson(r);
         submissao.resultadosTestsCases.push(resultado);
       });
+    };
+
+    if(submissaoJson.data != null){
+      submissao.data = new Date(submissaoJson.data);
+    }
+
+    if (submissaoJson.erro != null) {
+      submissao.erro = {data:submissaoJson.erro.data, id:submissaoJson.erro.id, traceback:submissaoJson.erro.traceback}
     }
 
     return submissao;
@@ -144,7 +153,7 @@ export default class Submissao extends Document {
     return datas;
   };
 
-  private static agruparPorEstudante(submissoes: Submissao[]) {
+  static agruparPorEstudante(submissoes: Submissao[]) {
     const submissoesAgrupadas = {};
     submissoes.forEach((submissao) => {
       if (submissoesAgrupadas[submissao['estudanteId']] == undefined) {
@@ -154,7 +163,13 @@ export default class Submissao extends Document {
       submissoesAgrupadas[submissao['estudanteId']].push(submissao);
     });
 
-    const submissoesRecentesAgrupadas = [];
+    return submissoesAgrupadas;
+  }
+
+  static agruparRecentePorEstudante(submissoes: Submissao[]) {
+    let submissoesAgrupadas = this.agruparPorEstudante(submissoes);
+
+    let submissoesRecentesAgrupadas = [];
 
     Object.keys(submissoesAgrupadas).forEach((estudanteId) => {
       submissoesRecentesAgrupadas.push(this.filtrarRecente(submissoesAgrupadas[estudanteId]));
@@ -193,7 +208,7 @@ export default class Submissao extends Document {
     return submissoesUnicas;
   }
 
-  static filtrarSubmissoesConclusao(submissoesQuestao = [], status = false) {
+  static filtrarSubmissoesConclusao(submissoesQuestao = [], status = false):Submissao[] {
     // Filtrando todas as submissões que o seu resultadosTestsCase não seja undefined.
     const submissaoFiltrada = submissoesQuestao
       .filter((submissao) => {
@@ -220,13 +235,27 @@ export default class Submissao extends Document {
   static _orderByDate(submissoes: Submissao[]) {
     submissoes.sort((s1, s2) => {
       if (s1.data != null && s2.data != null) {
-        if (s1.data.toDate().getTime() < s2.data.toDate().getTime()) {
+
+        let s1Data = null;
+        let s2Data = null;
+
+        if(s1.data.toDate != null && s2.data.toDate != null){
+          s1Data = s1.data.toDate().getTime();
+          s2Data = s2.data.toDate().getTime()
+        }else{
+          s1Data = s1.data.getTime();
+          s2Data = s2.data.getTime();
+        }
+
+        if (s1Data < s2Data) {
           return -1;
-        } else if (s1.data.toDate().getTime() > s2.data.toDate().getTime()) {
+        } else if (s1Data > s2Data) {
           return 1;
         } else {
           return 0;
         }
+
+        
       }
       return 0;
     });
@@ -246,7 +275,19 @@ export default class Submissao extends Document {
           } else {
 
             if (submissaoRecente.data != null && submissao.data != null) {
-              if (submissaoRecente.data.toDate().getTime() <= submissao.data.toDate().getTime()) {
+
+              let submissaoRecenteData = null;
+              let submissaoData = null;
+
+              if(submissaoRecente.data.toDate != null && submissao.data.toDate != null){
+                submissaoRecenteData = submissaoRecente.data.toDate().getTime();
+                submissaoData = submissao.data.toDate().getTime()
+              }else{
+                submissaoRecenteData = submissaoRecente.data.getTime();
+                submissaoData = submissao.data.getTime();
+              }
+
+              if (submissaoRecenteData <= submissaoData) {
                 submissaoRecente = submissao;
               }
             }

@@ -41,7 +41,7 @@ export class MainComponent implements OnInit {
   }
 
   exportarDados(){
-    this.router.navigate(['geral/main', { outlets: { principal: ['experimento', 'exportar-dados'] } }]);
+    this.router.navigate(['geral/main', { outlets: { principal: ['admin', 'exportar-dados'] } }]);
   }
 
   ngOnInit() {

@@ -56,13 +56,13 @@ export class ExportarDadosComponent implements OnInit {
         
     }) */
 
-    /* Submissao.exportToJson().subscribe(resultados=>{
+    Submissao.exportToJson().subscribe(resultados=>{
       this.json = resultados;
-    }) */
+    });
     /* Submissao.getAll(new Query("estudanteId", "==", "d6Qx0ydf7quJmGirnF35")).subscribe(submissoes=>{
       this.json = JSON.stringify(submissoes);
     }) */
-    this.gerarDataset();
+    //this.gerarDataset();
 
     
 

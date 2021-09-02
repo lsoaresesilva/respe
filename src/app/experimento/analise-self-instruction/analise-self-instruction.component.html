@@ -4,6 +4,7 @@
         <th>Assunto</th>
         <th>Questão</th>
         <th>Ordem</th>
+        
         <th>Status</th>
         <th>Qual o problema?</th>
         <th>Quais as variáveis?</th>
@@ -15,9 +16,9 @@
     <ng-template pTemplate="body" let-rowData let-planejamento>
       <tr [pContextMenuRow]="rowData">
         <td>{{ planejamento.questao.assunto }}</td>
-        <td>{{ planejamento.questao.enunciado }}</td>
+        <td >{{ planejamento.questao.enunciado }}</td>
         <td>{{ planejamento.questao.ordem }}</td>
-        <td>{{ planejamento.autoInstrucao.status }}</td>
+        <td (click)="abrirSubmissao(estudante, planejamento.assunto, planejamento.questao)">{{ planejamento.autoInstrucao.status }}</td>
         <td>{{ planejamento.autoInstrucao.problema }}</td>
         <td>{{ planejamento.autoInstrucao.variaveis }}</td>
         <td>{{ planejamento.autoInstrucao.condicoes }}</td>

@@ -1,6 +1,5 @@
 import { Component, OnInit, Input, OnChanges } from '@angular/core';
 import SubSecao from 'src/app/model/livro/subsecao';
-import { Assunto } from 'src/app/model/assunto';
 import { LivroService } from '../livro.service';
 
 @Component({

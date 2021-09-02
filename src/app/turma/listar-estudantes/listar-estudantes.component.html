@@ -20,6 +20,9 @@
   <ng-template pTemplate="header">
     <tr>
       <th>id</th>
+      <th>Gênero</th>
+      <th>Idade</th>
+      <th>Conhecimento programação</th>
       <th>Nome</th>
       <th>Progresso geral</th>
     </tr>
@@ -28,6 +31,15 @@
     <tr [pContextMenuRow]="rowData">
       <td>
         <a>{{ estudante.id }}</a>
+      </td>
+      <td>
+        {{ estudante.genero }}
+      </td>
+      <td>
+        {{ estudante.faixaEtaria }}
+      </td>
+      <td>
+        {{ getConhecimento(estudante.conhecimentoPrevioProgramacao) }}
       </td>
       <td>
         <a (click)="abrirPerfilEstudante(estudante)">{{ estudante.nome }}</a>

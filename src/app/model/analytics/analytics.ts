@@ -51,8 +51,8 @@ export default class Analytics {
           const tempoOnline = resultadosConsultasGerais.tempoOnline;
           const pageTracks = resultadosConsultasGerais.PageTrack;
 
-          analytics.totalErrosProgramacao = AnalyticsProgramacao.calcularTotalErrosProgramacao(submissoes);
-          analytics.mediaSubmissoesParaAcerto = this.calcularMediaSubmissoesParaAcerto(submissoes);
+          analytics.totalErrosProgramacao = AnalyticsProgramacao.calcularMediaErrosSintaxeProgramacao(submissoes);
+          analytics.mediaSubmissoesParaAcerto = AnalyticsProgramacao.calcularMediaSubmissoesParaAcerto(submissoes);
           analytics.totalExecucoes = AnalyticsProgramacao.calcularExecucoes(submissoes);
           analytics.tempoOnline = tempoOnline;
           analytics.tentativasQuestoes = AnalyticsProgramacao.calculaTentativasQuestoes(submissoes);
@@ -237,27 +237,7 @@ export default class Analytics {
 
  
 
-  private static calcularMediaSubmissoesParaAcerto(submissoes) {
-    let media = 0;
-    let submissoesIncorretas = 0;
-    let iteracao = 0;
-
-    // Agrupar por questoes
-    const submissoesAgrupadas = Submissao.agruparPorQuestao(submissoes);
-    // Verificar se para uma questão há submissão correta. Se houver, somar o total de submissoes erradas e desconsiderar as corretas.
-    submissoesAgrupadas.forEach((submissoesQuestao, questaoId, map) => {
-      const submissoesConcluidas = Submissao.filtrarSubmissoesConclusao(submissoesQuestao);
-      submissoesIncorretas += submissoesQuestao.length - submissoesConcluidas.length;
-      if (submissoesConcluidas.length != 0) {
-        ++iteracao;
-      }
-    });
-
-    if (iteracao !== 0) {
-      media = submissoesIncorretas / iteracao;
-    }
-    return media;
-  }
+  
 
   
 

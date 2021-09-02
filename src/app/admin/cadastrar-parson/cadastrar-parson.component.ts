@@ -1,8 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 import { Router, ActivatedRoute } from '@angular/router';
 import { MessageService, SelectItem } from 'primeng/api';
-import { Assunto } from 'src/app/model/assunto';
 import { Dificuldade } from 'src/app/model/enums/dificuldade';
+import { Assunto } from 'src/app/model/sistema-aprendizagem/assunto';
 import { OrientacaoParson } from 'src/app/model/sistema-aprendizagem/questoes/enum/orientacaoParson';
 import QuestaoParsonProblem from 'src/app/model/sistema-aprendizagem/questoes/questaoParsonProblem';
 

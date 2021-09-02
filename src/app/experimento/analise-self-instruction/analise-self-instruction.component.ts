@@ -1,5 +1,5 @@
 import { Component, Input, OnChanges, OnInit } from '@angular/core';
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import Query from 'src/app/model/firestore/query';
 import { Assunto } from 'src/app/model/sistema-aprendizagem/assunto';
 import { QuestaoProgramacao } from 'src/app/model/sistema-aprendizagem/questoes/questaoProgramacao';
@@ -18,7 +18,7 @@ export class AnaliseSelfInstructionComponent implements OnChanges {
   
   planejamentos;
 
-  constructor(private route:ActivatedRoute) { }
+  constructor(private route:ActivatedRoute, private router: Router) { }
 
   ngOnChanges(): void {
     this.planejamentos = [];
@@ -60,6 +60,7 @@ export class AnaliseSelfInstructionComponent implements OnChanges {
                     questao["assunto"] = assunto.nome;
   
                     this.planejamentos.push({
+                      assunto:assunto,
                       questao: questao,
                       autoInstrucao: autoInstrucao,
                     });
@@ -76,6 +77,10 @@ export class AnaliseSelfInstructionComponent implements OnChanges {
       
     })
     
+  }
+
+  abrirSubmissao(estudante, assunto, questao){
+    this.router.navigate(['geral/main', { outlets: { principal: ['professor', 'visualizar-submissao-recente', estudante.pk(), assunto.pk(), questao.id, ] } }]);
   }
 
 }
