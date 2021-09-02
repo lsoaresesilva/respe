@@ -85,6 +85,7 @@ import { ChatbotModule } from '../chatbot/chatbot.module';
 import { MonitorService } from '../chatbot/monitor.service';
 import { BlockUIModule } from 'primeng/blockui';
 import { ResponderQuestaoProgramacaoRegexComponent } from './editor/responder-questao-programacao-regex/responder-questao-programacao-regex.component';
+import { ConsoleTrintadoisbitsControleComponent } from './editor/console-trintadoisbits-controle/console-trintadoisbits-controle.component';
 
 export const routes: Routes = [
   {
@@ -100,12 +101,12 @@ export const routes: Routes = [
     canActivate: [AuthGuard, PageTrack]
   },
   {
-    path: 'visualizacao-questao-fechada/:id',
+    path: 'visualizar-questao-fechada/:id',
     component: VisualizarQuestaoFechadaComponent,
     canActivate: [AuthGuard],
   },
   {
-    path: 'visualizacao-questao-fechada/:assuntoId/:questaoId',
+    path: 'visualizar-questao-fechada/:assuntoId/:questaoId',
     component: VisualizarQuestaoFechadaComponent,
     canActivate: [AuthGuard, PageTrack]
   },
@@ -180,7 +181,8 @@ export const routes: Routes = [
     IdeComponent,
     EditorIndependenteComponent,
     ContainerEditorProgramacaoComponent,
-    ResponderQuestaoProgramacaoRegexComponent
+    ResponderQuestaoProgramacaoRegexComponent,
+    ConsoleTrintadoisbitsControleComponent
   ],
 
   imports: [

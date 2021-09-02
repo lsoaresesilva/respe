@@ -20,18 +20,18 @@ export class ListarQuestoesSequenciaComponent implements OnChanges {
   assunto?: Assunto;
   valor;
   questoes;
-
+  estudante;
   events;
 
   constructor(private router: Router, private login: LoginService) {
     this.valor = 2;
-    
+    this.estudante = this.login.getUsuarioLogado()
   }
 
   ngOnChanges(): void {
     
     if(this.assunto != null && this.assunto.pk() != null){
-      this.assunto.getQuestoesComStatusConclusao(this.login.getUsuarioLogado()).subscribe(questoes=>{
+      this.assunto.getQuestoesComStatusConclusao(this.estudante).subscribe(questoes=>{
         this.questoes = questoes;
         this.construirTimelineQuestoes();
       });
@@ -43,7 +43,7 @@ export class ListarQuestoesSequenciaComponent implements OnChanges {
     if (questao instanceof QuestaoFechada) {
       this.router.navigate([
         'geral/main',
-        { outlets: { principal: ['juiz', 'visualizacao-questao-fechada', this.assunto.pk(), questao.id] } },
+        { outlets: { principal: ['juiz', 'visualizar-questao-fechada', this.assunto.pk(), questao.id] } },
       ]);
     } else if (questao instanceof QuestaoParsonProblem) {
       this.router.navigate([
@@ -78,11 +78,14 @@ export class ListarQuestoesSequenciaComponent implements OnChanges {
   }
 
   getCorQuestao(questao) {
-    if (questao.respondida === true) {
-      return 'color: rgb(103, 202, 103); cursor:pointer';
-    } else if (questao.respondida === false) {
-      return 'color: rgb(220,20,60); cursor:pointer';
+    if(this.estudante.grupoExperimento != Groups.control){
+      if (questao.respondida === true) {
+        return 'color: rgb(103, 202, 103); cursor:pointer';
+      } else if (questao.respondida === false) {
+        return 'color: rgb(220,20,60); cursor:pointer';
+      }
     }
+    
 
     return 'color: black; cursor:pointer';
   }

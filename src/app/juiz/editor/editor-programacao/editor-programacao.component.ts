@@ -39,6 +39,7 @@ import ParseAlgoritmo from 'src/app/model/errors/analise-pre-compilacao/parseAlg
 import { MonitorService } from 'src/app/chatbot/monitor.service';
 import { Groups } from 'src/app/model/experimento/groups';
 import Postagem from 'src/app/model/cscl/postagem';
+import Usuario from 'src/app/model/usuario';
 
 /**
  * Executa um javascript ide.js para acoplar o editor VStudio.
@@ -88,7 +89,7 @@ export class EditorProgramacaoComponent implements AfterViewInit, OnChanges, OnI
   grupo;
 
   statusBtnEnvioAtividadeGrupo;
-  usuario;
+  usuario:Usuario;
   salvamentoEdicoes;
 
   apresentarVisualizacao;
@@ -208,13 +209,29 @@ export class EditorProgramacaoComponent implements AfterViewInit, OnChanges, OnI
       
     } */
 
+    this.editorCodigo = Editor.getInstance();
+    
     if (this.submissao != null) {
       this.atualizarEditorComSubmissao();
+    }else{
+      if (
+        this.questao != null &&
+        this.questao.algoritmoInicial !== null &&
+        this.questao.algoritmoInicial !== '' &&
+        Array.isArray(this.questao.algoritmoInicial)
+      ) {
+        this.editorCodigo.codigo.next(this.questao.algoritmoInicial.join('\n'));
+      } else {
+        this.editorCodigo.codigo.next('');
+      }
     }
 
     if (this.questaoColaborativa != null && this.questaoColaborativa.isOpenEnded == true) {
       this.apresentarVisualizacao = false;
     }
+
+    
+
   }
 
   mudancaEditor() {
@@ -360,9 +377,12 @@ export class EditorProgramacaoComponent implements AfterViewInit, OnChanges, OnI
     if (this.atividadeGrupo != null && this.grupo.id != null) {
 
       // Apresentará uma mensagem ao usuário sobre a resolução de problemas após 15 minutos.
-      setTimeout(()=>{
-        this.monitor.ajudarProblemSolving(this.usuario, 2);
-      }, 900000);
+      if (this.usuario.grupoExperimento == Groups.experimentalB) {
+        setTimeout(()=>{
+          this.monitor.ajudarProblemSolving(this.usuario, 2);
+        }, 900000);
+      }
+      
 
       
       iniciarEditorColaborativo(this.grupo.id);
@@ -576,7 +596,7 @@ export class EditorProgramacaoComponent implements AfterViewInit, OnChanges, OnI
     this.processandoSubmissao = false;
     this.submissao = submissao;
     if (submissao.isFinalizada()) {
-      if (this.usuario.grupoExperimento != Groups.control) {
+      /* if (this.usuario.grupoExperimento != Groups.control) {
         DiarioProgramacao.exibirDiario(
           this.login.getUsuarioLogado(),
           TipoDiarioProgramacao.reflexao
@@ -589,7 +609,7 @@ export class EditorProgramacaoComponent implements AfterViewInit, OnChanges, OnI
             });
           }
         });
-      }
+      } */
     }
 
     if (this.atividadeGrupo != null) {
@@ -647,7 +667,7 @@ export class EditorProgramacaoComponent implements AfterViewInit, OnChanges, OnI
       }
     }
 
-    if (this.atividadeGrupo == null) {
+    if (this.atividadeGrupo == null && this.usuario.grupoExperimento != Groups.control) {
       let parseError = new ParseAlgoritmo(this.submissao.linhasAlgoritmo());
       if (this.submissao.erro != null) {
         let erro = parseError.getHint(this.submissao.erro.traceback);
@@ -655,6 +675,7 @@ export class EditorProgramacaoComponent implements AfterViewInit, OnChanges, OnI
           this.erroAtivo = erro[0];
         }
 
+        // TODO: precisa ser melhorado. A mensagem está repetida com a apresentada pelo console.
         this.monitor.monitorarErrosEstudante(this.questao, this.usuario, erro[0]);
       }
     }

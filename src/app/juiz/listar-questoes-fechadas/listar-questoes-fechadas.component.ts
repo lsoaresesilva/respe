@@ -55,7 +55,7 @@ export class ListarQuestoesFechadasComponent implements OnInit {
   visualizar(questao: QuestaoFechada) {
     this.router.navigate([
       'geral/main',
-      { outlets: { principal: ['visualizacao-questao-fechada', this.assunto.pk(), questao.id] } },
+      { outlets: { principal: ['visualizar-questao-fechada', this.assunto.pk(), questao.id] } },
     ]);
   }
 

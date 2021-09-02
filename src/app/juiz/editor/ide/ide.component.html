@@ -4,22 +4,21 @@
     <app-editor-programacao style="margin-left:10px" *ngIf="this.questao != undefined" id="editorProgramacao"
       [modoVisualizacao]="modoVisualizacao" [submissao]="submissao" [questao]="questao" [assunto]="assunto"
       [atividadeGrupo]="atividadeGrupo" [modoExecucao]="modoExecucao" [questaoCorrecao]="questaoCorrecao"
-      [isMudancaEditorPermitida]="isMudancaEditorPermitida"
-      [questaoColaborativa]="questaoColaborativa"
-      [grupo]="grupo" (onError)="erroEditor($event)" (onVisualization)="onVisualization($event)"
+      [isMudancaEditorPermitida]="isMudancaEditorPermitida" [questaoColaborativa]="questaoColaborativa" [grupo]="grupo"
+      (onError)="erroEditor($event)" (onVisualization)="onVisualization($event)"
       (onServidorError)="onServidorError($event)" (onSubmit)="submissaoEditor($event)"
-      (onEditorReady)="onEditorReady($event)"
-      (onEditorMudancaExecucao)="onEditorMudancaExecucacao($event)">
+      (onEditorReady)="onEditorReady($event)" (onEditorMudancaExecucao)="onEditorMudancaExecucacao($event)">
     </app-editor-programacao>
 
   </div>
   <div class="p-col-12">
     <div *ngIf="modoVisualizacao == false; else visualizacao" style="margin-top: 10px">
-      <app-console [submissao]="submissao" [consoleEditor]="consoleEditor" *ngIf="modoExecucao == 1;else consolePadrao">
-      </app-console>
-      <ng-template #consolePadrao>
-        <app-console-padrao [console]="consoleEditor"></app-console-padrao>
-      </ng-template>
+      <app-console [submissao]="submissao" [consoleEditor]="consoleEditor" *ngIf="modoExecucao == 1"></app-console>
+      <app-console-trintadoisbits-controle [submissao]="submissao" [consoleEditor]="consoleEditor"
+        *ngIf="modoExecucao == 2"></app-console-trintadoisbits-controle>
+
+      <app-console-padrao [console]="consoleEditor" *ngIf="modoExecucao == 0"></app-console-padrao>
+
     </div>
     <ng-template #visualizacao>
       <visualizar-execucao [traceExecucao]="traceExecucao" [editor]="editorCodigo" *ngIf="traceExecucao != null">

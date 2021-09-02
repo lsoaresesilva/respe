@@ -14,7 +14,7 @@
       *ngIf="usuario.perfil == 1"></button>
     <button pButton class="p-button-text" label="Editor programação" (click)="abrirEditorProgramacao()"
       *ngIf="usuario.perfil == 1"></button>
-    <button pButton id="btnRanking" class="p-button-text" label="Ranking" (click)="abrirRanking()" *ngIf="usuario.perfil == 1"></button>
+    <button pButton id="btnRanking" class="p-button-text" label="Ranking" (click)="abrirRanking()" *ngIf="usuario.perfil == 1 && usuario.grupoExperimento != 4"></button>
     <!-- Menu administrador -->
     <button pButton class="p-button-text" label="Assuntos" (click)="abrirAssuntosAdmin()"
       *ngIf="usuario.perfil == 3"></button>
@@ -30,7 +30,7 @@
       *ngIf="usuario.perfil == 2"></button>
   </div>
   <div style="margin: 0 auto; width: 15%">
-    <app-progresso-proximo-nivel *ngIf="usuario.perfil == 1"></app-progresso-proximo-nivel>
+    <app-progresso-proximo-nivel *ngIf="usuario.perfil == 1 && usuario.grupoExperimento != 4"></app-progresso-proximo-nivel>
   </div>
   <div class="p-toolbar-group-right">
     <button pButton label="Sair" (click)="logout()" icon="pi pi-power-off"></button>

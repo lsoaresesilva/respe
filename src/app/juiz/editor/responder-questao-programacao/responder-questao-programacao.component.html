@@ -24,23 +24,25 @@
               <div class="p-grid">
                 <div class="p-col-12">
                   <button type="button" (click)="visualizarPlanejamento()" pButton label="Visualizar planejamento"
-                    class="p-button-help" *ngIf="atividadeGrupo == null"></button>
+                    class="p-button-help" *ngIf="atividadeGrupo == null && usuario.grupoExperimento != 4"></button>
                   <app-btn-avancar-questao style="margin-left:5px" [assunto]="assunto" [questao]="questao"
                     *ngIf="atividadeGrupo == null">
                   </app-btn-avancar-questao>
                 </div>
                 <div class="p-col-4">
 
-                  
+
                 </div>
               </div>
             </div>
             <div class="p-col-12">
-              <dados-questao [assunto]="assunto" [questao]="questao" [submissao]="submissao" id="dadosQuestao"></dados-questao>
+              <dados-questao [assunto]="assunto" [questao]="questao" [submissao]="submissao" id="dadosQuestao">
+              </dados-questao>
               <div id="testsCases">
-                <app-visualizar-testes [questao]="questao" [submissao]="submissao" *ngIf="apresentarTestesCases == true"></app-visualizar-testes>
-               </div>
-               
+                <app-visualizar-testes [questao]="questao" [submissao]="submissao"
+                  *ngIf="apresentarTestesCases == true"></app-visualizar-testes>
+              </div>
+
             </div>
             <div class="p-col-12">
               <ng-container *ngIf="usuario.grupoExperimento != 4">
@@ -53,8 +55,12 @@
         </div>
 
         <div class="p-col-8">
-         
-          <app-ide [isMudancaEditorPermitida]="isMudancaEditorPermitida"  [submissao]="submissao" [modoExecucao]="modoExecucao" [questaoCorrecao]="questaoCorrecao" [grupo]="grupo"  [atividadeGrupo]="atividadeGrupo" [questao]="questao" [questaoColaborativa]="questaoColaborativa" [assunto]="assunto" (onEditorError)="onEditorError($event)" (onEditorSubmit)="onEditorSubmit($event)"></app-ide>
+
+          <app-ide [isMudancaEditorPermitida]="isMudancaEditorPermitida" [submissao]="submissao"
+            [modoExecucao]="modoExecucao" [questaoCorrecao]="questaoCorrecao" [grupo]="grupo"
+            [atividadeGrupo]="atividadeGrupo" [questao]="questao" [questaoColaborativa]="questaoColaborativa"
+            [assunto]="assunto" (onEditorError)="onEditorError($event)" (onEditorSubmit)="onEditorSubmit($event)">
+          </app-ide>
 
         </div>
       </div>

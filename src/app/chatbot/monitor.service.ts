@@ -211,10 +211,12 @@ export class MonitorService {
   ) {
     let enviarMensagem = false;
     let mensagens: Mensagem[] = [];
-    if (erro != null) {
+
+    // TODO: Precisa melhorar, pois está parecido com as mensagens do console.
+    /* if (erro != null) {
       mensagens.push(new Mensagem('Há um erro no seu algoritmo...', null));
       mensagens.push(new Mensagem('Possivelmente ' + erro.mensagem, null));
-    }
+    } */
     Submissao.getPorQuestao(questao, estudante).subscribe((submissoes) => {
       const errorQuotient = this.calcularErrorQuotient(submissoes);
       // Estabelecemos esse valor de 30% de error quotient arbitrariamente.
@@ -242,7 +244,7 @@ export class MonitorService {
               let registroMensagem = new RegistroMensagemChatbot(null, mensagemSuporte, estudante);
               registroMensagem.save().subscribe(() => {});
               if (estudante.grupoExperimento != Groups.control) {
-                DiarioProgramacao.exibirDiario(
+                /* DiarioProgramacao.exibirDiario(
                   this.login.getUsuarioLogado(),
                   TipoDiarioProgramacao.monitoramento
                 ).subscribe((visibilidade) => {
@@ -253,7 +255,7 @@ export class MonitorService {
                       height: '480',
                     });
                   }
-                });
+                }); */
               }
             }
           } else {

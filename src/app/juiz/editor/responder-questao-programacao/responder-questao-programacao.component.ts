@@ -9,6 +9,7 @@ import {
   Renderer2,
   OnChanges,
   SimpleChanges,
+  OnDestroy,
 } from '@angular/core';
 import Editor from 'src/app/model/editor';
 
@@ -49,7 +50,7 @@ import { Groups } from 'src/app/model/experimento/groups';
   templateUrl: './responder-questao-programacao.component.html',
   styleUrls: ['./responder-questao-programacao.component.css'],
 })
-export class ResponderQuestaoProgramacao implements OnInit, AfterViewInit, OnChanges {
+export class ResponderQuestaoProgramacao implements OnInit, AfterViewInit, OnChanges, OnDestroy {
   [x: string]: any;
 
   assunto;
@@ -92,10 +93,26 @@ export class ResponderQuestaoProgramacao implements OnInit, AfterViewInit, OnCha
       observer.complete();
     });
 
+    this.usuario = this.login.getUsuarioLogado();
+
     this.apresentarTestesCases = true;
     this.isMudancaEditorPermitida = true;
-    this.modoExecucao = ModoExecucao.execucao32bits;
+    if(this.usuario.grupoExperimento == Groups.control){
+      this.modoExecucao = ModoExecucao.execucao32bitsPadrao;
+    }else{
+      this.modoExecucao = ModoExecucao.execucao32bits;
+    }
+
+    this.router.events.subscribe(
+      event => {
+        this.submissao = null;
+      });
+    
     Editor.getInstance().codigo.next('');
+  }
+
+  ngOnDestroy(): void {
+    let x = 2;
   }
   ngOnChanges(changes: SimpleChanges): void {
     console.log('algo mudou');
@@ -151,7 +168,7 @@ export class ResponderQuestaoProgramacao implements OnInit, AfterViewInit, OnCha
   }
 
   ngOnInit() {
-    this.usuario = this.login.getUsuarioLogado();
+    
     
 
     if (this.usuario == null) {

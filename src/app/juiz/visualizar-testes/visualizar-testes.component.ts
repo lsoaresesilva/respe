@@ -1,6 +1,8 @@
 import { Component, OnInit, Input, OnChanges } from '@angular/core';
 import ResultadoTestCase from 'src/app/model/resultadoTestCase';
 import { forkJoin, Observable } from 'rxjs';
+import { LoginService } from 'src/app/login-module/login.service';
+import Usuario from 'src/app/model/usuario';
 
 @Component({
   selector: 'app-visualizar-testes',
@@ -14,19 +16,7 @@ export class VisualizarTestesComponent implements OnInit, OnChanges {
 
   @Input() submissao?;
   
-  /*ngOnChanges(changes: import("@angular/core").SimpleChanges): void { // PROBLEMA: mudou a estrutura, não há mais resultado test case. apenas submissao
-    
-    
-     if(this.submissao != undefined && this.submissao.resultadosTestsCases != undefined && this.testsCases != undefined){
-      this.submissao.resultadosTestsCases.forEach(resultadoTestCase=>{
-        this.testsCases.forEach(testCase=>{
-          if(testCase.id == resultadoTestCase.testCase.id){
-            testCase["resultadoTestCase"] = resultadoTestCase;
-          }
-        });
-      })
-    } 
-  }*/
+  estudante:Usuario;
 
   ngOnChanges(changes: import('@angular/core').SimpleChanges): void {
     // PROBLEMA: mudou a estrutura, não há mais resultado test case. apenas submissao
@@ -63,7 +53,8 @@ export class VisualizarTestesComponent implements OnInit, OnChanges {
   
 
 
-  constructor() {
+  constructor(private login:LoginService) {
+    this.estudante = this.login.getUsuarioLogado();
   }
 
   ngOnInit() {

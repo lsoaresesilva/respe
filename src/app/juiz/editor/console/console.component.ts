@@ -13,7 +13,7 @@ import { DomSanitizer } from '@angular/platform-browser';
   styleUrls: ['./console.component.css'],
   providers: [EscapeHtmlPipe],
 })
-export class ConsoleComponent implements OnChanges {
+export class ConsoleComponent  {
   @Input()
   submissao: Submissao;
 
@@ -24,10 +24,7 @@ export class ConsoleComponent implements OnChanges {
 
   constructor(private sanitizer: DomSanitizer) {}
   
-  ngOnChanges(changes: SimpleChanges): void {
-    let x = this.submissao;
-    let y = x;
-  }
+
 
   destacarDiferencasSaidas(testCase, saidaReal, pos) {
     let text = '';

@@ -5,6 +5,7 @@ import { Assunto } from 'src/app/model/assunto';
 import { Groups } from 'src/app/model/experimento/groups';
 import QuestaoParsonProblem from 'src/app/model/questoes/parsonProblem';
 import QuestaoFechada from 'src/app/model/questoes/questaoFechada';
+import { QuestaoProgramacaoRegex } from 'src/app/model/questoes/questaoProgramacaoRegex';
 
 @Component({
   selector: 'app-btn-avancar-questao',
@@ -32,14 +33,20 @@ export class BtnAvancarQuestaoComponent implements OnInit {
       if (questao instanceof QuestaoFechada) {
         this.router.navigate([
           'geral/main',
-          { outlets: { principal: ['juiz', 'visualizacao-questao-fechada', this.assunto.pk(), questao.id] } },
+          { outlets: { principal: ['juiz', 'visualizar-questao-fechada', this.assunto.pk(), questao.id] } },
         ]);
       } else if (questao instanceof QuestaoParsonProblem) {
         this.router.navigate([
           'geral/main',
-          { outlets: { principal: ['juiz', 'visualizacao-questao-parson', this.assunto.pk(), questao.id] } },
+          { outlets: { principal: ['juiz', 'visualizar-questao-parson', this.assunto.pk(), questao.id] } },
         ]);
-      } else {
+      } else if (questao instanceof QuestaoProgramacaoRegex) {
+        this.router.navigate([
+          'geral/main',
+          { outlets: { principal: ['juiz', 'editor-regex', this.assunto.pk(), questao.id] } },
+        ]);
+      }
+      else {
         if (this.login.getUsuarioLogado().grupoExperimento === Groups.control) {
           this.router.navigate([
             'geral/main',
