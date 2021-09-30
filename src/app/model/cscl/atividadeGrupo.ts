@@ -23,6 +23,7 @@ export default class AtividadeGrupo extends Document {
 
   // Guarda todos os estudantes vinculados à atividade em grupo. Isso é necessário para optimizar a pesquisa do Firestore quando queremos achar as atividades em grupo de um estudante.
   estudantes;
+  public grupos: Grupo[];
 
   constructor(
     id,
@@ -31,17 +32,16 @@ export default class AtividadeGrupo extends Document {
     public questao: QuestaoColaborativa,
     public dataExpiracao: Date,
     public turma: Turma,
-    public grupos:Grupo[]
-  ) {
+    public tamanhoGrupo
+  ) /*  */
+  {
     super(id);
   }
 
   objectToDocument() {
     let document = super.objectToDocument();
-    
-    document['dataExpiracao'] = firebase.firestore.Timestamp.fromDate(this.dataExpiracao);
 
-    
+    document['dataExpiracao'] = firebase.firestore.Timestamp.fromDate(this.dataExpiracao);
 
     if (this.turma != null) {
       document['turmaCodigo'] = this.turma.codigo;
@@ -62,28 +62,27 @@ export default class AtividadeGrupo extends Document {
       });
     }
 
-    if (Array.isArray(this.estudantes)) {
+    /* if (Array.isArray(this.estudantes)) {
       document['estudantes'] = [];
       this.estudantes.forEach((estudante) => {
         document['estudantes'].push(estudante.pk());
       });
-    }
+    } */
 
     return document;
   }
 
-  gerarLink(estudante:Usuario) {
-    
+  gerarLink(estudante: Usuario) {
     let grupoEstudante = this.getGrupoByEstudante(estudante);
-    let link = "";
-    if(estudante.grupoExperimento == Groups.experimentalB){
-      link = environment.URL_SERVIDOR+'geral/main/(principal:srl/entrar-grupo/';
-    }else{
-      link = environment.URL_SERVIDOR+'geral/main/(principal:juiz/atividade-grupo/';
+    let link = '';
+    if (estudante.grupoExperimento == Groups.experimentalB) {
+      link = environment.URL_SERVIDOR + 'geral/main/(principal:srl/entrar-grupo/';
+    } else {
+      link = environment.URL_SERVIDOR + 'geral/main/(principal:juiz/atividade-grupo/';
     }
-    
-    link += this.pk() +'/' +grupoEstudante.id +'/' +this["assuntoId"] +'/' +this["questaoColaborativaId"] +')'
-    return link
+
+    link += this.pk() + '/' + this['assuntoId'] + '/' + this['questaoColaborativaId'] + ')';
+    return link;
   }
 
   isAtivo() {
@@ -92,10 +91,7 @@ export default class AtividadeGrupo extends Document {
     return isMenor;
   }
 
-  static criarGrupos(
-    estudantes: Usuario[],
-    estudantesPorGrupo = 2
-  ) {
+  static criarGrupos(estudantes: Usuario[], estudantesPorGrupo = 2) {
     let grupos: Grupo[] = [];
     let totalGrupos = Math.floor(estudantes.length / estudantesPorGrupo);
 
@@ -161,13 +157,13 @@ export default class AtividadeGrupo extends Document {
     return grupos;
   }
 
-  static criarAtividade(dataExpiracao,
+  static criarAtividade(
+    dataExpiracao,
     assunto,
     questaoColaborativa: QuestaoColaborativa,
     turma: Turma,
-    estudantes,
-    grupos){
-
+    tamanhoGrupo
+  ) {
     let atividadeGrupo = new AtividadeGrupo(
       null,
       questaoColaborativa.questao.nomeCurto,
@@ -175,18 +171,18 @@ export default class AtividadeGrupo extends Document {
       questaoColaborativa,
       dataExpiracao,
       turma,
-      grupos
+      tamanhoGrupo
     );
 
-    atividadeGrupo.estudantes = estudantes;
+    /* atividadeGrupo.estudantes = estudantes; */
 
     return atividadeGrupo;
   }
 
-  static validar(dataExpiracao, grupos, questao, assunto) {
+  static validar(dataExpiracao, /* grupos, */ questao, assunto) {
     if (
       dataExpiracao == null ||
-      grupos == null ||
+      /* grupos == null || */
       questao == null ||
       assunto == null
     ) {
@@ -199,60 +195,54 @@ export default class AtividadeGrupo extends Document {
   /**
    * Agrupa as atividades de acordo com as questões.
    * Sabemos que para uma questão várias atividades em grupo serão criadas, portanto, faz sentido agrupar todas em uma única para fins de visualização geral.
-   * 
+   *
    */
-  static agruparAtividades(atividadesGrupo:AtividadeGrupo[]){
-    let atividades:AtividadeGrupo[] = [];
-    if(Array.isArray(atividadesGrupo)){
-      atividadesGrupo.forEach(atvGrupo=>{
-        let isAtividadeInserida = atividades.find(function(atividadesInserida){
-          if(atividadesInserida.questao.id == atvGrupo.questao.id){
+  static agruparAtividades(atividadesGrupo: AtividadeGrupo[]) {
+    let atividades: AtividadeGrupo[] = [];
+    if (Array.isArray(atividadesGrupo)) {
+      atividadesGrupo.forEach((atvGrupo) => {
+        let isAtividadeInserida = atividades.find(function (atividadesInserida) {
+          if (atividadesInserida.questao.id == atvGrupo.questao.id) {
             return true;
           }
-        })
+        });
 
-        if(isAtividadeInserida == null){
+        if (isAtividadeInserida == null) {
           atividades.push(atvGrupo);
         }
-      })
+      });
     }
 
     return atividades;
   }
 
-  static get(id):Observable<AtividadeGrupo> {
-    return new Observable(observer=>{
-      return super.get(id).subscribe(atividadeGrupo=>{
-        if(atividadeGrupo["grupos"] != null && Array.isArray(atividadeGrupo["grupos"])){
+  static get(id): Observable<AtividadeGrupo> {
+    return new Observable((observer) => {
+      return super.get(id).subscribe((atividadeGrupo) => {
+        if (atividadeGrupo['grupos'] != null && Array.isArray(atividadeGrupo['grupos'])) {
           let grupos = [];
-          atividadeGrupo["grupos"].forEach(grupo=>{
+          atividadeGrupo['grupos'].forEach((grupo) => {
             let g = Grupo.construir(grupo);
             grupos.push(g);
-          })
+          });
 
-          atividadeGrupo["grupos"] = grupos;
-          let turma = new Turma(null, null, null, null);
-          turma.codigo = atividadeGrupo["turmaCodigo"];
-          atividadeGrupo.turma = turma;
-          atividadeGrupo.assunto = new Assunto(atividadeGrupo["assuntoId"], null);
-          atividadeGrupo.questao = new QuestaoColaborativa(atividadeGrupo["questaoColaborativaId"], null, null);
-          atividadeGrupo.dataExpiracao = Util.firestoreDateToDate(atividadeGrupo["dataExpiracao"]);
-
-          let estudantes = [];
-          atividadeGrupo["estudantes"].forEach(estudante=>{
-            let e = new Usuario(estudante, null, null, null, null, null);
-            estudantes.push(e);
-          })
-
-          atividadeGrupo["estudantes"] = estudantes;
-          
+          atividadeGrupo['grupos'] = grupos;
         }
+        let turma = new Turma(null, null, null, null);
+        turma.codigo = atividadeGrupo['turmaCodigo'];
+        atividadeGrupo.turma = turma;
+        atividadeGrupo.assunto = new Assunto(atividadeGrupo['assuntoId'], null);
+        atividadeGrupo.questao = new QuestaoColaborativa(
+          atividadeGrupo['questaoColaborativaId'],
+          null,
+          null
+        );
+        atividadeGrupo.dataExpiracao = Util.firestoreDateToDate(atividadeGrupo['dataExpiracao']);
 
         observer.next(atividadeGrupo);
         observer.complete();
-      })
-    })
-    
+      });
+    });
   }
 
   adicionarGrupo(){
@@ -263,15 +253,15 @@ export default class AtividadeGrupo extends Document {
         let consultas = [];
 
         if(Array.isArray(grupo.estudantes) && grupo.estudantes.length > 0){
-    
-    
+
+
           let chatGrupo = new ChatGrupo(null, [], [], grupo, this);
           consultas.push(chatGrupo.save());
 
-          if(grupo.estudantes[0].grupoExperimento == Groups.experimentalB){
+          /* if(grupo.estudantes[0].grupoExperimento == Groups.experimentalB){
             let selfInstructionColetivo = new AutoInstrucaoColetiva(null, "", "", grupo, [], null, false);
             consultas.push(selfInstructionColetivo.save());
-          }
+          } */
         }
 
         forkJoin(consultas).subscribe(resultados=>{
@@ -280,33 +270,33 @@ export default class AtividadeGrupo extends Document {
         })
       });
 
-      
+
     });
   }
 
-  save(): Observable<any> {
+  /* save(): Observable<any> {
     return new Observable(observer=>{
       super.save().subscribe((resultado)=>{
         let consultas = [];
 
-        
+
           this.grupos.forEach(grupo=>{
-          
+
             if(Array.isArray(grupo.estudantes) && grupo.estudantes.length > 0){
-  
-  
+
+
               let chatGrupo = new ChatGrupo(null, [], [], grupo, this);
               consultas.push(chatGrupo.save());
-  
+
               if(grupo.estudantes[0].grupoExperimento == Groups.experimentalB){
                 let selfInstructionColetivo = new AutoInstrucaoColetiva(null, "", "", grupo, [], null, false);
                 consultas.push(selfInstructionColetivo.save());
               }
             }
-  
-  
+
+
           })
-        
+
 
         forkJoin(consultas).subscribe(resultados=>{
           observer.next(resultado);
@@ -314,25 +304,77 @@ export default class AtividadeGrupo extends Document {
         })
       })
     });
-  }
+  } */
 
-  getGrupo(grupoId):Grupo{
-    return this.grupos.find(function(grupo){
-      if(grupo.id == grupoId){
+  getGrupo(grupoId): Grupo {
+    return this.grupos.find(function (grupo) {
+      if (grupo.id == grupoId) {
         return true;
       }
     });
   }
 
-  getGrupoByEstudante(estudante:Usuario){
-    let grupoEstudante = null;
-    this.grupos.forEach(grupo=>{
-      grupo.estudantes.forEach(e=>{
-        if(e == estudante.pk()){
-          grupoEstudante =  grupo;
-        }
-      })
+  getGrupoDisponivel(){
+    return this.grupos.filter((grupo)=>{
+     if(grupo.estudantes.length < this.tamanhoGrupo){
+      return true;
+     }
     })
+  }
+
+  adicionarEstudante(estudante, grupo){
+    for(let i = 0; i < this.grupos.length; i++){
+      if(this.grupos[i].id == grupo.id){
+        this.grupos[i].estudantes.push(estudante);
+        break;
+      }
+    }
+  }
+
+  criarGrupo(estudante) {
+    return new Observable((observer) => {
+      let grupo = new Grupo(null, [estudante]);
+
+      this.grupos.push(grupo);
+
+      this.save().subscribe(() => {
+
+        let selfInstructionColetivo = new AutoInstrucaoColetiva(null, "", "", grupo, [], null, false);
+        selfInstructionColetivo.save().subscribe(()=>{
+
+          let chatGrupo = new ChatGrupo(null, [], [], grupo, this);
+          chatGrupo.save().subscribe(()=>{
+            observer.next(grupo);
+            observer.complete();
+          });
+
+
+        })
+
+
+      });
+    });
+  }
+
+  getGrupoByEstudante(estudante: Usuario) {
+    let grupoEstudante = null;
+    this.grupos.forEach((grupo) => {
+      grupo.estudantes.forEach((e) => {
+
+        let id = null;
+
+        if(e.pk != null){
+          id = e.pk();
+        }else{
+          id = e;
+        }
+
+        if (id == estudante.pk()) {
+          grupoEstudante = grupo;
+        }
+
+      });
+    });
 
     return grupoEstudante;
   }

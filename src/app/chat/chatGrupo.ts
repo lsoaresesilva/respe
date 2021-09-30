@@ -114,9 +114,9 @@ export default class ChatGrupoAdapter extends ChatAdapter implements IChatGroupA
       if (chatGrupo != null) {
           if(chatGrupo.isEstudanteConectado(estudante)){
               chatGrupo.desconectarEstudante(estudante);
-              
+
               chatGrupo.save().subscribe(() => {
-                  
+
             })
           }
         }
@@ -148,24 +148,24 @@ export default class ChatGrupoAdapter extends ChatAdapter implements IChatGroupA
                 null,
                 mensagem.estudante.nome
               );
-    
+
               let m = new Message();
               m.type = MessageType.Text;
               m.message = mensagem.texto;
               m.fromId = mensagem.estudante.id;
               m.toId = _this.grupoAtividade.id;
               m.dateSent = Util.firestoreDateToDate(mensagem.data)
-    
+
               _this.onMessageReceived(_this.grupoChat, m);
             }
           }
-          
+
 
           _this.listFriends().subscribe((response) => {
             _this.onFriendsListChanged(response);
           });
 
-          
+
         }
       });
 
@@ -173,9 +173,9 @@ export default class ChatGrupoAdapter extends ChatAdapter implements IChatGroupA
         if (chatGrupo != null) {
             if(!chatGrupo.isEstudanteConectado(estudante)){
                 chatGrupo.estudantesConectados.push(estudante);
-                
+
                 chatGrupo.save().subscribe(() => {
-                    
+
               })
             }
 
@@ -200,14 +200,14 @@ export default class ChatGrupoAdapter extends ChatAdapter implements IChatGroupA
               ChatGrupo.onDocumentUpdate(chatGrupo.id, callback);
               observer.next(this.grupoChat);
               observer.complete();
-              
+
             })
 
-            
+
         }
       });
 
-      
+
     });
 
     /* */
@@ -216,9 +216,9 @@ export default class ChatGrupoAdapter extends ChatAdapter implements IChatGroupA
   groupCreated(group: Group): void {
     ChatGrupoAdapter.mockedParticipants.push(group);
 
-    ChatGrupoAdapter.mockedParticipants = ChatGrupoAdapter.mockedParticipants.sort(
+    /* ChatGrupoAdapter.mockedParticipants = ChatGrupoAdapter.mockedParticipants.sort(
       (first, second) => (second.displayName > first.displayName ? -1 : 1)
-    );
+    ); */
 
     // Trigger update of friends list
     this.listFriends().subscribe((response) => {
@@ -241,7 +241,7 @@ export default class ChatGrupoAdapter extends ChatAdapter implements IChatGroupA
 
               alunosConectados.push(grupo);
             }
-            
+
             observer.next(alunosConectados);
             observer.complete();
           });
@@ -273,7 +273,7 @@ export default class ChatGrupoAdapter extends ChatAdapter implements IChatGroupA
 
         });
       }
-      
+
     })
 
   }

@@ -53,7 +53,7 @@ export default class ChatGrupo extends Document{
         return new Observable(observer=>{
             super.getByQuery(query).subscribe(chatGrupo=>{
                 if(chatGrupo != null){
-                    
+
 
                     if(Array.isArray(chatGrupo.estudantesConectados)){
                         let estudantesConectados = [];
@@ -73,14 +73,14 @@ export default class ChatGrupo extends Document{
                             if(mensagem != null && mensagem.estudante != null){
                                 mensagens.push(new MensagemChat(mensagem.id, new Usuario(mensagem.estudante.id, null, null, null, null, mensagem.estudante.nome), mensagem.texto, mensagem.data));
                             }
-                            
+
                         });
 
                         chatGrupo.mensagens = mensagens;
                     }
-                    
 
-                    
+
+
 
                     if(chatGrupo.atividadeGrupoId != null){
                         chatGrupo.atividadeGrupo = new AtividadeGrupo(chatGrupo.atividadeGrupoId, null, null, null, null, null, null);
@@ -100,12 +100,12 @@ export default class ChatGrupo extends Document{
             return of(
               this.estudantesConectados.map((user) => {
                 let participantResponse = new ParticipantResponse();
-        
+
                 participantResponse.participant = user.toChatParticipant();
                 participantResponse.metadata = {
                   totalUnreadMessages: 0,
                 };
-        
+
                 return participantResponse;
               })
             );

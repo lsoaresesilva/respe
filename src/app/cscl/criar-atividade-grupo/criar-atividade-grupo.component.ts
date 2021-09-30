@@ -102,14 +102,14 @@ export class CriarAtividadeGrupoComponent implements OnInit {
   }
 
   criarSala() {
-    let grupos = AtividadeGrupo.criarGrupos(this.estudantesSelecionados, this.tamanhoGrupo);
+    //let grupos = AtividadeGrupo.criarGrupos(this.estudantesSelecionados, this.tamanhoGrupo);
 
     let salvamentosAtividades = [];
 
     if (
       AtividadeGrupo.validar(
         this.dataExpiracao,
-        grupos,
+        /* grupos, */
         this.questoesSelecionadas[0],
         this.assuntoSelecionado
       )
@@ -120,10 +120,10 @@ export class CriarAtividadeGrupoComponent implements OnInit {
           this.assuntoSelecionado,
           questao,
           this.turmaSelecionada,
-          this.estudantesSelecionados,
-          grupos
+          this.tamanhoGrupo
         );
 
+        atividade.grupos = [];
         salvamentosAtividades.push(atividade.save());
       });
 
@@ -149,9 +149,9 @@ export class CriarAtividadeGrupoComponent implements OnInit {
       this.dataExpiracao,
       this.estudantesSelecionados
     );
-    // Quando entrar no link ativar o socket no cliente do aluno 
+    // Quando entrar no link ativar o socket no cliente do aluno
     atividadeGrupo.salvar(this.assuntoSelecionado, this.questaoSelecionada).subscribe(() => {
-      
+
     }); */
   }
 
@@ -170,7 +170,7 @@ export class CriarAtividadeGrupoComponent implements OnInit {
       })
     })
     }
-    
+
   }
 
   selecionarAssunto(event) {
