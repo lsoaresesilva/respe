@@ -49,6 +49,7 @@ import { AuthGuard } from '../guards/auth.guard';
 import { PageTrack } from '../guards/pageTrack.guard';
 import { ProfessorGuard } from '../guards/professor.guard';
 import { CriarGrupoComponent } from './criar-grupo/criar-grupo.component';
+import { AtividadeGrupoControleComponent } from './atividade-grupo-controle/atividade-grupo-controle.component';
 
 export const routes: Routes = [
   {
@@ -115,6 +116,11 @@ export const routes: Routes = [
     component: VisualizarSubmissaoQuestaoComponent,
     canActivate: [AuthGuard]
   },
+  {
+    path: 'entrar-grupo/:atividadeGrupoId',
+    component: AtividadeGrupoControleComponent,
+    canActivate: [AuthGuard, PageTrack]
+  },
 ];
 
 @NgModule({
@@ -140,7 +146,8 @@ export const routes: Routes = [
     CriarFrequenciaComponent,
     VisualizarChatComponent,
     CriarAtividadeGrupoComponent,
-    CriarGrupoComponent
+    CriarGrupoComponent,
+    AtividadeGrupoControleComponent
   ],
 
   imports: [

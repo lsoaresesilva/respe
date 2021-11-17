@@ -93,7 +93,7 @@ export const routes: Routes = [
     component: ListarAssuntosComponent,
     canActivate: [AuthGuard, PageTrack]
   },
-  
+
 
   {
     path: 'visualizar-assunto/:id',
@@ -144,25 +144,25 @@ export const routes: Routes = [
     canActivate: [AuthGuard, PageTrack]
   },
 
-  
+
 ];
 
 @NgModule({
   declarations: [
-    
+
     VisualizarParsonComponent,
-    BreadcrumbAssuntoComponent, 
+    BreadcrumbAssuntoComponent,
     DadosQuestaoComponent,
     VisualizarTestesComponent,
-    
+
     ListarQuestoesComponent,
     ResponderQuestaoProgramacao,
     ResponderQuestaoProgramacao,
     VisualizarExecucacao,
     ListarAssuntosComponent,
     VisualizarAssuntoComponent,
-    
-    
+
+
     ListarQuestoesFechadasComponent,
     VisualizarQuestaoFechadaComponent,
     ListarPedidosAjudaComponent,
@@ -229,7 +229,7 @@ export const routes: Routes = [
   ],
   exports: [
     VisualizarTestesComponent,
-   
+
     ListarQuestoesComponent,
     ListarAssuntosComponent,
     VisualizarAssuntoComponent,
@@ -237,7 +237,7 @@ export const routes: Routes = [
     VisualizarQuestaoFechadaComponent,
     ResponderQuestaoProgramacaoLiteComponent,
     BtnAvancarQuestaoComponent,
-    BreadcrumbAssuntoComponent, 
+    BreadcrumbAssuntoComponent,
     DadosQuestaoComponent
   ],
   entryComponents: [

@@ -12,17 +12,24 @@ import { AnaliseSelfInstructionComponent } from './analise-self-instruction/anal
 import { ExportComponent } from './export/export.component';
 import { RouterModule, Routes } from '@angular/router';
 import { AuthGuard } from '../guards/auth.guard';
+import { ListarLearningJournalsProgramacaoComponent } from './listar-learning-journals-programacao/listar-learning-journals-programacao.component';
+import { TableModule } from 'primeng/table';
 
 export const routes:Routes = [
   {
     path:'exportar-dados',
     component:ExportComponent,
     canActivate: [AuthGuard]
+  },
+  {
+    path:'listar-diarios-programacao',
+    component:ListarLearningJournalsProgramacaoComponent,
+    canActivate: [AuthGuard]
   }
 ]
 
 @NgModule({
-  declarations: [QuestaoComponent, QuestionarioAutorregulacaoComponent, AnaliseSelfInstructionComponent, ExportComponent],
+  declarations: [QuestaoComponent, QuestionarioAutorregulacaoComponent, AnaliseSelfInstructionComponent, ExportComponent, ListarLearningJournalsProgramacaoComponent],
   imports: [
     RouterModule.forChild(routes),
     DialogModule,
@@ -30,7 +37,7 @@ export const routes:Routes = [
     ButtonModule,
     FieldsetModule,
     RadioButtonModule,
-    
+    TableModule,
     FormsModule,
     ScrollPanelModule
   ],

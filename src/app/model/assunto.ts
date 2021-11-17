@@ -123,14 +123,14 @@ export class Assunto extends Document {
     );
 
     assunto['questoesFechadas'] = QuestaoFechada.construir(assunto['questoesFechadas']);
-    
+
     assunto['questoesColaborativas'] = QuestaoColaborativa.construir(
       assunto['questoesColaborativas'],
       assunto
     );
 
     assunto['questoesParson'] = QuestaoParsonProblem.construir(assunto['questoesParson']);
-    
+
     assunto['questoesCorrecao'] = QuestaoProgramacaoCorrecao.construir(
       assunto['questoesCorrecao'],
       assunto
@@ -298,19 +298,22 @@ export class Assunto extends Document {
 
   static calcularProgresso(assunto: Assunto, respostas) {
     let percentualConclusao = 0;
+
     percentualConclusao += this.calcularPercentualConclusaoQuestoesFechadas(
       assunto,
       respostas.respostaQuestaoFechada
     );
-    percentualConclusao += this.calcularPercentualConclusaoQuestoesParson(
+
+    /* percentualConclusao += this.calcularPercentualConclusaoQuestoesParson(
       assunto,
       respostas.resposaQuestaoParson
     );
+
     percentualConclusao += this.calcularPercentualConclusaoQuestoesCorrecao(
       assunto,
       respostas.respostaQuestaoCorrecao
     );
-
+ */
     percentualConclusao += this.calcularPercentualConclusaoQuestoesProgramacao(
       assunto,
       Submissao.agruparPorQuestao(respostas.submissoes),
@@ -320,19 +323,22 @@ export class Assunto extends Document {
 
 
 
-    return (percentualConclusao * 100)/4; // Divide por quatro, pois é o total de tipos de questões que existem, consequentemente de percentuais que são calculados para cada um.
+    return (percentualConclusao * 100)/2; // Divide por dois, pois as questões parson e correção estavam com problema.
   }
 
   static calcularProgressoGeral(assuntos: Assunto[], respostas) {
     let percentualConclusaoGeral = 0;
     if (!Util.isObjectEmpty(respostas)) {
       for (let i = 0; i < assuntos.length; i++) {
-        percentualConclusaoGeral += this.calcularProgresso(assuntos[i], respostas);
+        if(assuntos[i].id != "2SbwM35W33QIk5wbcVC7"){
+          percentualConclusaoGeral += this.calcularProgresso(assuntos[i], respostas);
+        }
+
       }
     }
 
     if(percentualConclusaoGeral > 0){
-      percentualConclusaoGeral = percentualConclusaoGeral / assuntos.length;
+      percentualConclusaoGeral = percentualConclusaoGeral / (assuntos.length-1);
       percentualConclusaoGeral = Math.round((percentualConclusaoGeral + Number.EPSILON) * 100) / 100;
     }
 
@@ -459,25 +465,35 @@ export class Assunto extends Document {
       const totalQuestoes = assunto.questoesProgramacao.length;
       let questoesRespondidas = 0;
       assunto.questoesProgramacao.forEach((questao) => {
-        let subsQuestao = submissoes.get(questao.id);
-        let subRecente = Submissao.filtrarRecente(subsQuestao);
-        let visualizouResposta = visualizacoesQuestoesProgramacao.findIndex((visualizacao)=>{
-          if(visualizacao.questaoId == questao.id){
-            return true;
+
+        if(questao.id != "4fe6ba63-0d71-49e5-b3b9-a1756872e2ad"){ // Bloqueia a questão adicionada para prof. do if
+          let subsQuestao = submissoes.get(questao.id);
+          let subRecente = Submissao.filtrarRecente(subsQuestao);
+          let visualizouResposta = visualizacoesQuestoesProgramacao.findIndex((visualizacao)=>{
+            if(visualizacao.questaoId == questao.id){
+              return true;
+            }
+
+            return false;
+          })
+          if(visualizouResposta == -1){
+            let resultado = questao.isFinalizada(subRecente, margemAceitavel);
+            if (resultado) {
+              questoesRespondidas += 1;
+            }
           }
 
-          return false;
-        })
-        if(visualizouResposta == -1){
-          let resultado = questao.isFinalizada(subRecente, margemAceitavel);
-          if (resultado) {
-            questoesRespondidas += 1;
-          }
         }
-        
+
       });
 
-      return questoesRespondidas / totalQuestoes;
+
+      if(assunto.id != "PU0EstYupXgDZ2a57X0X"){
+        return questoesRespondidas / totalQuestoes;
+      }else{
+        return questoesRespondidas / (totalQuestoes-1);
+      }
+
     } else {
       return 0;
     }

@@ -214,7 +214,7 @@ export default class ChatGrupoAdapter extends ChatAdapter implements IChatGroupA
   }
 
   groupCreated(group: Group): void {
-    ChatGrupoAdapter.mockedParticipants.push(group);
+    //ChatGrupoAdapter.mockedParticipants.push(group);
 
     /* ChatGrupoAdapter.mockedParticipants = ChatGrupoAdapter.mockedParticipants.sort(
       (first, second) => (second.displayName > first.displayName ? -1 : 1)

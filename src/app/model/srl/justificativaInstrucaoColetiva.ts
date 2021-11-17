@@ -31,9 +31,51 @@ export default class JustificativasAutoInstrucao{
         return document;
     }
 
-    
+    isFinalizada(){
+      if(this.isAvaliacaoRealizada() && this.dificuldade != null && this.texto != ""){
+        return true;
+      }
+
+      return false;
+    }
+
+    isAvaliacaoRealizada() {
+
+      if (this.avaliacaoDificuldades == '') {
+        return false;
+      }
+
+      return true;
+    }
+
+    getDificuldade() {
+      if (this.dificuldade == null) {
+        return '';
+      }
+
+      return this.dificuldade;
+    }
+
+    getDificuldades() {
+      if (this.avaliacaoDificuldades == '') {
+        return '';
+      }
+
+      return this.avaliacaoDificuldades;
+    }
+
+
+    getJustificativa() {
+      if (this.texto == '') {
+        return '';
+      }
+
+      return this.texto;
+    }
 
 
 
-    
+
+
+
 }

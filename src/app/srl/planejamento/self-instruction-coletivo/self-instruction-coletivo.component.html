@@ -35,7 +35,7 @@
             </div>
             <div clsas="p-grid">
                 <div class="p-col-12">
-                    <p-table [value]="estudantes">
+                    <p-table [value]="getJustificativas()">
                         <ng-template pTemplate="header">
                             <tr>
                                 <th>Estudante</th>
@@ -45,13 +45,13 @@
                                 <th>Suas principais dificuldades</th>
                             </tr>
                         </ng-template>
-                        <ng-template pTemplate="body" let-estudante>
+                        <ng-template pTemplate="body" let-justificativa>
                             <tr>
-                                <td>{{estudante.nome}}</td>
-                                <td>{{isAvaliacaoRealizada(estudante) == false?"Não finalizou":"Finalizado"}}</td>
-                                <td>{{getDificuldade(estudante)}}</td>
-                                <td>{{getJustificativa(estudante)}}</td>
-                                <td>{{getDificuldades(estudante)}}</td>
+                                <td>{{justificativa.estudante.nome}}</td>
+                                <td>{{justificativa.isAvaliacaoRealizada() == false?"Não finalizou":"Finalizado"}}</td>
+                                <td><span *ngIf="isJustificativaFinalizada() != false">{{justificativa.getDificuldade()}}</span></td>
+                                <td><span *ngIf="isJustificativaFinalizada() != false">{{justificativa.getJustificativa()}}</span></td>
+                                <td><span *ngIf="isJustificativaFinalizada() != false">{{justificativa.getDificuldades()}}</span></td>
                             </tr>
                         </ng-template>
                     </p-table>
@@ -158,7 +158,7 @@
                         <div class="p-col-12">
                             <textarea [rows]="6" [cols]="60" pInputTextarea
                                 [(ngModel)]="relatoDificuldade.avaliacaoDificuldades"
-                                (ngModelChange)="verificarAtualizacaoAvaliacaoDificuldade()"></textarea>
+                                ></textarea>
                         </div>
                     </div>
                     <div class="p-grid">

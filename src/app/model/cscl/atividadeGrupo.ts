@@ -13,6 +13,8 @@ import Questao from '../questoes/questao';
 import { Groups } from '../experimento/groups';
 import AutoInstrucaoColetiva from '../srl/autoInstrucaoColetivo';
 import ChatGrupo from './chat/chatGrupo';
+import Query from '../firestore/query';
+import JustificativasAutoInstrucao from '../srl/justificativaInstrucaoColetiva';
 
 @Collection('atividadeGrupo')
 export default class AtividadeGrupo extends Document {
@@ -77,11 +79,12 @@ export default class AtividadeGrupo extends Document {
     let link = '';
     if (estudante.grupoExperimento == Groups.experimentalB) {
       link = environment.URL_SERVIDOR + 'geral/main/(principal:srl/entrar-grupo/';
+      link += this.pk() + '/' + this['assuntoId'] + '/' + this['questaoColaborativaId'] + ')';
     } else {
-      link = environment.URL_SERVIDOR + 'geral/main/(principal:juiz/atividade-grupo/';
+      link = environment.URL_SERVIDOR + 'geral/main/(principal:cscl/entrar-grupo/'+this.pk();
     }
 
-    link += this.pk() + '/' + this['assuntoId'] + '/' + this['questaoColaborativaId'] + ')';
+
     return link;
   }
 
@@ -249,14 +252,19 @@ export default class AtividadeGrupo extends Document {
     return new Observable(observer=>{
 
       super.save().subscribe(resultado=>{
+
+        // Percorrer os grupos e adicionar um por um
+
         let grupo = this.grupos[this.grupos.length-1];
         let consultas = [];
+
+        /* let chatGrupo = new ChatGrupo(null, [], [], grupo, this);
+        consultas.push(chatGrupo.save()); */
 
         if(Array.isArray(grupo.estudantes) && grupo.estudantes.length > 0){
 
 
-          let chatGrupo = new ChatGrupo(null, [], [], grupo, this);
-          consultas.push(chatGrupo.save());
+
 
           /* if(grupo.estudantes[0].grupoExperimento == Groups.experimentalB){
             let selfInstructionColetivo = new AutoInstrucaoColetiva(null, "", "", grupo, [], null, false);
@@ -326,12 +334,23 @@ export default class AtividadeGrupo extends Document {
     for(let i = 0; i < this.grupos.length; i++){
       if(this.grupos[i].id == grupo.id){
         this.grupos[i].estudantes.push(estudante);
-        break;
+        AutoInstrucaoColetiva.getByQuery(new Query("grupoId", "==", grupo.id)).subscribe(autoInstrucao=>{
+          autoInstrucao.atualizarJustificativaEstudante(
+            estudante,
+            new JustificativasAutoInstrucao(estudante, null, "", "")
+          );
+
+          autoInstrucao.save().subscribe(()=>{
+
+          });
+        })
+
+
       }
     }
   }
 
-  criarGrupo(estudante) {
+  criarGrupo(estudante):Observable<Grupo> {
     return new Observable((observer) => {
       let grupo = new Grupo(null, [estudante]);
 
@@ -339,18 +358,31 @@ export default class AtividadeGrupo extends Document {
 
       this.save().subscribe(() => {
 
-        let selfInstructionColetivo = new AutoInstrucaoColetiva(null, "", "", grupo, [], null, false);
-        selfInstructionColetivo.save().subscribe(()=>{
+        if(estudante.grupoExperimento == Groups.experimentalB){
+          let selfInstructionColetivo = new AutoInstrucaoColetiva(null, "", "", grupo, [], null, false);
+          selfInstructionColetivo.atualizarJustificativaEstudante(
+            estudante,
+            new JustificativasAutoInstrucao(estudante, 0, "", "")
+          );
+          selfInstructionColetivo.save().subscribe(()=>{
 
+
+
+            let chatGrupo = new ChatGrupo(null, [], [], grupo, this);
+            chatGrupo.save().subscribe(()=>{
+              observer.next(grupo);
+              observer.complete();
+            });
+
+
+          })
+        }else{
           let chatGrupo = new ChatGrupo(null, [], [], grupo, this);
-          chatGrupo.save().subscribe(()=>{
-            observer.next(grupo);
-            observer.complete();
-          });
-
-
-        })
-
+            chatGrupo.save().subscribe(()=>{
+              observer.next(grupo);
+              observer.complete();
+            });
+        }
 
       });
     });

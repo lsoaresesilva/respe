@@ -149,8 +149,13 @@ export class SelfInstructionColetivoComponent implements OnInit, AfterViewInit {
     }
   }
 
-  verificarAtualizacaoAvaliacaoDificuldade() {
+  isJustificativaFinalizada(){
+    let justificativa = this.autoInstrucaoColetiva.getJustificativaByEstudante(this.estudante);
+    if(justificativa != null){
+      return justificativa.isFinalizada();
+    }
 
+    return false;
   }
 
   salvarDificuldadePessoal(){
@@ -199,10 +204,21 @@ export class SelfInstructionColetivoComponent implements OnInit, AfterViewInit {
       let observavel = new Subject();
 
       observavel.subscribe(()=>{
+
+        this.grupo.getEstudantes().subscribe((estudantes) => {
+          this.estudantes = estudantes;
+
+        });
+
         let callbackAtualizacaoSelfInstruction = new BehaviorSubject<any>(null);
 
         callbackAtualizacaoSelfInstruction.subscribe((atualizacao) => {
           if (atualizacao != null) {
+
+            this.grupo = this.atividadeGrupo.getGrupoByEstudante(this.estudante);
+
+
+
             this.autoInstrucaoColetiva = atualizacao;
 
             if (this.autoInstrucaoColetiva.isFinalizada) {
@@ -269,10 +285,7 @@ export class SelfInstructionColetivoComponent implements OnInit, AfterViewInit {
           }
         );
 
-        this.grupo.getEstudantes().subscribe((estudantes) => {
-          this.estudantes = estudantes;
 
-        });
 
         Assunto.get(this.atividadeGrupo['assuntoId']).subscribe((assunto) => {
           this.questao = assunto.getQuestaoColaborativaById(
@@ -296,6 +309,8 @@ export class SelfInstructionColetivoComponent implements OnInit, AfterViewInit {
 
       let grupo = this.atividadeGrupo.getGrupoByEstudante(this.estudante);
 
+
+
       if (grupo == null) {
         // Deve pegar um grupo já criado e verificar se há espaço nele.
         let grupoDisponivel = this.atividadeGrupo.getGrupoDisponivel();
@@ -303,12 +318,14 @@ export class SelfInstructionColetivoComponent implements OnInit, AfterViewInit {
         if (grupoDisponivel.length == 0) {
           this.atividadeGrupo.criarGrupo(this.estudante).subscribe((grupo) => {
             this.grupo = grupo;
+
             observavel.next();
             observavel.complete();
 
           });
         }else{
           this.grupo = grupoDisponivel[0];
+
 
           this.atividadeGrupo.adicionarEstudante(this.estudante, grupoDisponivel[0]);
 
@@ -341,6 +358,7 @@ export class SelfInstructionColetivoComponent implements OnInit, AfterViewInit {
 
       } else {
         this.grupo = grupo;
+
         observavel.next();
         observavel.complete();
         /* Assunto.get(this.atividadeGrupo['assuntoId']).subscribe((assunto) => {
@@ -376,41 +394,23 @@ export class SelfInstructionColetivoComponent implements OnInit, AfterViewInit {
     });
   }
 
-  isAvaliacaoRealizada(estudante) {
-    let justificativa = this.autoInstrucaoColetiva.getJustificativaByEstudante(estudante);
-    if (justificativa == null || justificativa.avaliacaoDificuldades == '') {
-      return false;
+  getJustificativas(){
+
+    if(this.autoInstrucaoColetiva != null && Array.isArray(this.autoInstrucaoColetiva.justificativas) && this.autoInstrucaoColetiva.justificativas.length > 0){
+      return this.autoInstrucaoColetiva.justificativas;
+    }else{
+      return [];
     }
 
-    return true;
   }
 
-  getDificuldade(estudante) {
-    let justificativa = this.autoInstrucaoColetiva.getJustificativaByEstudante(estudante);
-    if (justificativa == null || justificativa.dificuldade == null) {
-      return '';
-    }
 
-    return justificativa.dificuldade;
-  }
 
-  getDificuldades(estudante) {
-    let justificativa = this.autoInstrucaoColetiva.getJustificativaByEstudante(estudante);
-    if (justificativa == null || justificativa.avaliacaoDificuldades == '') {
-      return '';
-    }
 
-    return justificativa.avaliacaoDificuldades;
-  }
 
-  getJustificativa(estudante) {
-    let justificativa = this.autoInstrucaoColetiva.getJustificativaByEstudante(estudante);
-    if (justificativa == null || justificativa.texto == '') {
-      return '';
-    }
 
-    return justificativa.texto;
-  }
+
+
 
   selecionarLider() {
     if (this.autoInstrucaoColetiva.lider != null) {

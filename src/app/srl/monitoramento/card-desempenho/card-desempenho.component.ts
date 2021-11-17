@@ -17,7 +17,7 @@ export class CardDesempenhoComponent implements OnChanges {
 
   progresso;
 
-  constructor(private loginService:LoginService) { 
+  constructor(private loginService:LoginService) {
     this.progresso = 0;
   }
 
@@ -25,7 +25,7 @@ export class CardDesempenhoComponent implements OnChanges {
     if(this.respostas != null && this.assuntos != null){
       this.progresso = Assunto.calcularProgressoGeral(this.assuntos, this.respostas);
     }
-    
+
   }
 
 }

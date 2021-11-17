@@ -40,29 +40,33 @@ export class ListarEstudantesComponent implements OnInit {
         Turma.getAllEstudantes(params['codigoTurma']).subscribe((estudantes) => {
           this.estudantes$ = estudantes;
 
-          /* Assunto.getAll().subscribe((assuntos) => {
-            this.estudantes$.forEach((estudante) => {
-              Assunto.consultarRespostasEstudante(estudante).subscribe((respostas) => {
-                let progresso = Assunto.calcularProgressoGeral(assuntos, respostas);
-                estudante.progressoGeral = progresso;
-              });
-            });
-          }); */
-          /*
-          });*/
-          /* Analytics.calcularNumeroAtividadesTrabalhadasPorSemana(turma).subscribe((estudantes) => {
-            this.estudantes$ = estudantes;
-            this.estudantes$.forEach((estudante) => {
-              Submissao.getAll(new Query('estudanteId', '==', estudante.id)).subscribe(
-                (submissoes) => {
-                  estudante.totalRespostasProgramacao = submissoes.length;
-                }
-              );
-            });
-          }); */
+          /*  */
         });
       }
     });
+  }
+
+  exibirProgresso(){
+    Assunto.getAll().subscribe((assuntos) => {
+      this.estudantes$.forEach((estudante) => {
+        Assunto.consultarRespostasEstudante(estudante).subscribe((respostas) => {
+          let progresso = Assunto.calcularProgressoGeral(assuntos, respostas);
+          estudante.progressoGeral = progresso;
+        });
+      });
+    });
+
+
+    /* Analytics.calcularNumeroAtividadesTrabalhadasPorSemana(turma).subscribe((estudantes) => {
+      this.estudantes$ = estudantes;
+      this.estudantes$.forEach((estudante) => {
+        Submissao.getAll(new Query('estudanteId', '==', estudante.id)).subscribe(
+          (submissoes) => {
+            estudante.totalRespostasProgramacao = submissoes.length;
+          }
+        );
+      });
+    });*/
   }
 
   abrirMslq(){

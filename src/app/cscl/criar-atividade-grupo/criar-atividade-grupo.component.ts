@@ -123,7 +123,7 @@ export class CriarAtividadeGrupoComponent implements OnInit {
           this.tamanhoGrupo
         );
 
-        atividade.grupos = [];
+        atividade.grupos = []//grupos;
         salvamentosAtividades.push(atividade.save());
       });
 

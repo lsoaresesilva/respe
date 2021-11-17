@@ -4,12 +4,12 @@
 
 export const environment = {
   production: false,
-  URL: 'https://www.32b.com.br:8000/',
-  //URL: 'http://localhost:8000/',
+  //URL: 'https://www.32b.com.br:8000/',
+  URL: 'http://localhost:8000/',
   URL_SERVIDOR:'http://localhost:4200/',
   URL_CHAT:'https://www.32b.com.br:3001', // URL_CHAT:'', http://localhost:3001
   //URL_SERVIDOR_DOC:'ws://127.0.0.1:8080',
-  
+
   /* firebase: {
     apiKey: 'AIzaSyDKVWx2BMepi_gMdtv-jRz1xnBCDn7jK5A',
     authDomain: 'letscode-3fd06.firebaseapp.com',

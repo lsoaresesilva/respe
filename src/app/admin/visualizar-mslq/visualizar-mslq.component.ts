@@ -17,22 +17,22 @@ export class VisualizarMslqComponent implements OnInit {
     route.params.subscribe(params=>{
       Turma.getAllEstudantes(params["codigoTurma"]).subscribe(estudantes=>{
         this.estudantes = estudantes;
-  
+
         this.estudantes.map(estudante=>{
           QuestionarioAutorregulacao.getByQuery(new Query("usuarioId", "==", estudante.pk())).subscribe(mslq=>{
             if(mslq != null){
               mslq.respostaPergunta3 = 6 - mslq.respostaPergunta3;
-              mslq.respostaPergunta5 = 6 - mslq.respostaPergunta5;
               mslq.respostaPergunta15 = 6 - mslq.respostaPergunta15;
-              mslq.respostaPergunta16 = 6 - mslq.respostaPergunta16;
+              mslq.respostaPergunta19 = 6 - mslq.respostaPergunta19;
+              mslq.respostaPergunta20 = 6 - mslq.respostaPergunta20;
               estudante.mslq = mslq;
             }
-            
+
           });
         })
       })
     })
-    
+
   }
 
   ngOnInit(): void {

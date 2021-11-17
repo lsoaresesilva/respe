@@ -34,7 +34,7 @@ export class ChatGrupoComponent implements OnInit, OnChanges, AfterViewInit, OnD
   visibilidade;
   participantes;
 
-  estudante;
+  estudante:Usuario;
 
   grupoAdapter: ChatGrupoAdapter;
   grupoInicializado;
@@ -77,11 +77,17 @@ export class ChatGrupoComponent implements OnInit, OnChanges, AfterViewInit, OnD
 
   ngAfterViewInit(): void {
 
-    if (this.ngChatInstance != null && !this.grupoInicializado && this.grupo != null) {
-
+    if(this.estudante.grupoExperimento == Groups.control){
       this.grupoInicializado = true;
       this.abrirGrupo();
+    }else{
+      if (this.ngChatInstance != null && !this.grupoInicializado && this.grupo != null) {
+
+        this.grupoInicializado = true;
+        this.abrirGrupo();
+      }
     }
+
   }
 
   abrirGrupo() {

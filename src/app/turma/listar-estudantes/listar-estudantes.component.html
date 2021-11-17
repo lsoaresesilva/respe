@@ -10,11 +10,13 @@
     <button pButton label="Estatísticas" (click)="visualizarEstatisticas()"></button>
     <button pButton label="Exportar analytics" (click)="exportarAnalytics()"></button>
     <button pButton label="MSLQ" (click)="abrirMslq()"></button>
+    <button pButton label="Exibir progresso" (click)="exibirProgresso()"></button>
   </div>
 </div>
 <div class="ui-g-2">
-  
+
 </div>
+
 
 <p-table [value]="estudantes$" [(contextMenuSelection)]="selectedEstudante">
   <ng-template pTemplate="header">
@@ -27,7 +29,7 @@
   <ng-template pTemplate="body" let-rowData let-estudante>
     <tr [pContextMenuRow]="rowData">
       <td>
-        <a (click)="abrirPerfilEstudante(estudante)">{{ estudante.id }}</a>
+        <a>{{ estudante.id }}</a>
       </td>
       <td>
         <a (click)="abrirPerfilEstudante(estudante)">{{ estudante.nome }}</a>
