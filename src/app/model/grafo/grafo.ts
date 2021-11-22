@@ -73,7 +73,7 @@ export default class Grafo {
         ) {
           console.log('Só retornou ao assunto via self-instruction');
         }else if(
-          
+
           proximoProximo == 'editor' &&
           source == 'editor' &&
           target == 'self-instruction'
@@ -85,12 +85,12 @@ export default class Grafo {
           if (visu == null) {
             totalVisuSelfMonitoramento.set(trackTarget.estudanteId, 0);
           }
-          
+
           let totalNovo = totalVisuSelfMonitoramento.get(trackTarget.estudanteId);
           totalVisuSelfMonitoramento.set(trackTarget.estudanteId, totalNovo+1);
 
           // Computo to dempo
-           
+
           let t = tempoVisuSelfMonitoramento.get(trackSource.estudante.pk());
           if (t == null) {
             tempoVisuSelfMonitoramento.set(trackSource.estudante.pk(), 0);
@@ -103,7 +103,7 @@ export default class Grafo {
 
             let totalNovo = tempoVisuSelfMonitoramento.get(trackSource.estudante.pk());
             tempoVisuSelfMonitoramento.set(trackSource.estudante.pk(), totalNovo + difTime);
-          } 
+          }
 
         }else {
 
@@ -114,7 +114,7 @@ export default class Grafo {
             if (visu == null) {
               tempoVisuMonitoramento.set(trackTarget.estudante.pk(), 0);
             }
-            
+
             let dateSource = Util.firestoreDateToDate(trackSource.data);
             let dateTarget = Util.firestoreDateToDate(trackTarget.data);
             if(dateSource.getDate() == dateTarget.getDate()){
@@ -122,7 +122,7 @@ export default class Grafo {
 
               let totalNovo = tempoVisuMonitoramento.get(trackSource.estudante.pk());
               tempoVisuMonitoramento.set(trackSource.estudante.pk(), totalNovo + difTime);
-            } 
+            }
           }
 
           if(source == "self-instruction" && target == "editor"){
@@ -141,7 +141,7 @@ export default class Grafo {
               let totalNovo = tempoVisuSelfPlanejamento.get(trackSource.estudante.pk());
               tempoVisuSelfPlanejamento.set(trackSource.estudante.pk(), totalNovo + difTime);
             }
-            
+
           }
 
           /* Núcleo do algoritmo está aqui. */

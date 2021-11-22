@@ -145,7 +145,7 @@ export default class Submissao extends Document {
     return datas;
   };
 
-  private static agruparPorEstudante(submissoes: Submissao[]) {
+  static agruparPorEstudante(submissoes: Submissao[]) {
     const submissoesAgrupadas = {};
     submissoes.forEach((submissao) => {
       if (submissoesAgrupadas[submissao['estudanteId']] == undefined) {
@@ -376,7 +376,7 @@ export default class Submissao extends Document {
     return erros;
   }
 
-  
+
 
   static documentToObject(document) {
     let submissao = new Submissao(
@@ -432,7 +432,7 @@ export default class Submissao extends Document {
   }
 
   toJson() {
-    
+
     return {
       resultadosTesteCase: this.resultadosTestsCases,
       assuntoId: this['assuntoId'],
