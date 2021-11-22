@@ -1,3 +1,4 @@
+import { Assunto } from '../assunto';
 import ErroCompilacaoFactory from '../errors/analise-compilacao/erroCompilacaoFactory';
 import Submissao from '../submissao';
 import { Util } from '../util';

@@ -151,6 +151,10 @@ describe('Testes para process mining', () => {
     })();
   });
 
+  it("Deve gerar dados dos alunos", (done)=>{
+
+  })
+
   xit('Deve carregar os pagetracks', () => {
     Export.getPageTracks().subscribe((pageTracks) => {
       //console.log(pageTracks);
