@@ -280,12 +280,12 @@ export class Assunto extends Document {
       query.respostaQuestaoFechada = RespostaQuestaoFechada.getAll(
         new Query('estudanteId', '==', estudante.pk())
       );
-      query.resposaQuestaoParson = RespostaQuestaoParson.getAll(
+      /* query.resposaQuestaoParson = RespostaQuestaoParson.getAll(
         new Query('estudanteId', '==', estudante.pk())
       );
       query.respostaQuestaoCorrecao = RespostaQuestaoCorrecaoAlgoritmo.getAll(
         new Query('estudanteId', '==', estudante.pk())
-      );
+      ); */
 
       query.visualizacoesRespostasProgramacao = VisualizacaoRespostasQuestoes.getAll(new Query("estudanteId", "==", estudante.pk()));
 

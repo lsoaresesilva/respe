@@ -10,6 +10,7 @@ import Analytics from 'src/app/model/analytics/analytics';
 import Submissao from 'src/app/model/submissao';
 import { Assunto } from 'src/app/model/assunto';
 import PageTrackRecord from 'src/app/model/analytics/pageTrack';
+import { Util } from 'src/app/model/util';
 
 @Component({
   selector: 'app-listar-estudantes',
@@ -50,8 +51,64 @@ export class ListarEstudantesComponent implements OnInit {
     Assunto.getAll().subscribe((assuntos) => {
       this.estudantes$.forEach((estudante) => {
         Assunto.consultarRespostasEstudante(estudante).subscribe((respostas) => {
-          let progresso = Assunto.calcularProgressoGeral(assuntos, respostas);
-          estudante.progressoGeral = progresso;
+          let respostasFiltradas:any = {};
+
+                let dataLimite = null;
+
+                // Data no prazo
+
+                if(estudante.codigoTurma == "curso2021b"){ // controle
+                  dataLimite = new Date(2021, 5, 30, 23, 59, 59);
+                }else if(estudante.codigoTurma == "2021a"){ // controle positivo
+                  dataLimite = new Date(2021, 3, 26, 23, 59, 59);
+                }else if(estudante.codigoTurma == "curso2021j"){ // ssrl
+                  dataLimite = new Date(2021, 5, 30, 23, 59, 59);
+                }else if(estudante.codigoTurma == "turmasetembro"){ // controle 2
+                  dataLimite = new Date(2021, 10, 16, 23, 59, 59);
+                }else if(estudante.codigoTurma == "cursoset"){ // controle 2
+                  dataLimite = new Date(2021, 10, 11, 23, 59, 59);
+                }
+
+
+                respostasFiltradas.respostaQuestaoParson = [];
+                respostasFiltradas.respostaQuestaoCorrecao = [];
+                respostasFiltradas.respostaQuestaoFechada = [];
+                respostasFiltradas.submissoes = [];
+                respostasFiltradas.visualizacoesRespostasProgramacao = respostas.visualizacoesRespostasProgramacao;
+
+                respostas.respostaQuestaoParson.forEach(respostaParson=>{
+                  let dataParson = Util.firestoreDateToDate(respostaParson.data);
+                  if(dataParson <= dataLimite){
+                    respostasFiltradas.respostaQuestaoParson.push(respostaParson)
+                  }
+                })
+
+                respostas.respostaQuestaoCorrecao.forEach(resposta=>{
+                  let data = Util.firestoreDateToDate(resposta.data);
+                  if(data <= dataLimite){
+                    respostasFiltradas.respostaQuestaoCorrecao.push(resposta)
+                  }
+                })
+
+                respostas.respostaQuestaoFechada.forEach(resposta=>{
+                  let data = Util.firestoreDateToDate(resposta.data);
+                  if(data <= dataLimite){
+                    respostasFiltradas.respostaQuestaoFechada.push(resposta)
+                  }
+                });
+
+                respostas.submissoes.forEach(resposta=>{
+                  let data = Util.firestoreDateToDate(resposta.data);
+                  if(data <= dataLimite){
+                    respostasFiltradas.submissoes.push(resposta)
+                  }
+                })
+
+
+                let progresso = Assunto.calcularProgressoGeral(assuntos, respostasFiltradas);
+                estudante.progressoGeral = progresso;
+          /* let progresso = Assunto.calcularProgressoGeral(assuntos, respostas);
+          estudante.progressoGeral = progresso; */
         });
       });
     });
