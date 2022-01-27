@@ -16,7 +16,7 @@ export default class Export {
 
   static submissoes() {
     return new Observable((observer) => {
-      Submissao.exportToJson().subscribe((submissoes) => {
+      Submissao.exportToJsonFiltroData().subscribe((submissoes) => {
         observer.next(submissoes);
         observer.complete();
       });
@@ -29,13 +29,13 @@ export default class Export {
       function getTracks(estudantes){
         PageTrackRecord.getAllByEstudantes(estudantes, true, "array").subscribe(pageTracks=>{
           let arrayJson = [];
-          pageTracks.forEach(pTrack => {
+          /* pageTracks.forEach(pTrack => {
             if(!Export.paginasExcluir.includes(pTrack.pagina)){
               arrayJson.push(pTrack.toJson());
             }
 
           });
-
+ */
           console.log(JSON.stringify(arrayJson));
           observer.next(JSON.stringify(pageTracks));
           observer.complete();

@@ -6,7 +6,7 @@ import { DocumentModule } from '../../firestore/document.module';
 
 import pageTracks_controle_positivo from '../../../../../json/pageTracks_controle_positivo.json';
 import pageTracks_experimental from '../../../../../json/pageTracks_experimental.json';
-import submissoesEstudantes from '../../../../../json/submissoes_28_jul.json';
+import submissoesEstudantes from '../../../../../json/submissoes_27_jan.json';
 import Submissao from '../../submissao';
 import AnalyticsProgramacao from '../../analytics/analyticsProgramacao';
 import AtividadeGrupo from '../../cscl/atividadeGrupo';
@@ -199,7 +199,7 @@ describe('Testes para process mining', () => {
     });
   });
 
-  it('Deve identificar quantas atividades foram entregas no prazo pelos alunos', () => {
+  xit('Deve identificar quantas atividades foram entregas no prazo pelos alunos', () => {
     /* 1. Pegar o grupo ok
           2. Pegar todas as submissoes de cada usuário associada à questãoId da atividade colaborativa. ok
           3. Verificar apenas as do dia limite da atividade Grupo ok
@@ -288,6 +288,25 @@ describe('Testes para process mining', () => {
       });
     });
   });
+
+  it("Deve exportar as submissões", (done)=>{
+    /* Export.submissoes().subscribe(submissoes=>{
+      console.log(submissoes);
+      done();
+    }) */
+
+    let submissoes = [];
+
+    submissoesEstudantes['submissoes'].forEach((s) => {
+      let submissao = Submissao.fromJson(s);
+
+       if(submissao.data.getDate() == 28 && submissao.data.getMonth() == 6)
+
+          submissoes.push(submissao);
+    });
+
+    let x = submissoes;
+  })
 
   xit('Deve gerar métricas para análise dos algoritmos', () => {
     function ignorarEstudantes(estudanteId) {

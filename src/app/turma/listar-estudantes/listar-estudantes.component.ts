@@ -57,16 +57,32 @@ export class ListarEstudantesComponent implements OnInit {
 
                 // Data no prazo
 
-                if(estudante.codigoTurma == "curso2021b"){ // controle
+                /* if(estudante.codigoTurma == "curso2021b"){ // controle
                   dataLimite = new Date(2021, 5, 30, 23, 59, 59);
-                }else if(estudante.codigoTurma == "2021a"){ // controle positivo
+                }else if(estudante.codigoTurma == "2021a"){ // srl (controle positivo)
                   dataLimite = new Date(2021, 3, 26, 23, 59, 59);
                 }else if(estudante.codigoTurma == "curso2021j"){ // ssrl
-                  dataLimite = new Date(2021, 5, 30, 23, 59, 59);
+                  dataLimite = new Date(2021, 6, 30, 23, 59, 59);
                 }else if(estudante.codigoTurma == "turmasetembro"){ // controle 2
                   dataLimite = new Date(2021, 10, 16, 23, 59, 59);
                 }else if(estudante.codigoTurma == "cursoset"){ // controle 2
                   dataLimite = new Date(2021, 10, 11, 23, 59, 59);
+                }else if(estudante.codigoTurma == "turma1"){ // srl (controle positivo)
+                  dataLimite = new Date(2021, 0, 29, 23, 59, 59);
+                } */
+
+                if(estudante.codigoTurma == "curso2021b"){ // controle
+                  dataLimite = new Date(2021, 6, 7, 23, 59, 59);
+                }else if(estudante.codigoTurma == "2021a"){ // srl (controle positivo)
+                  dataLimite = new Date(2021, 4, 3, 23, 59, 59);
+                }else if(estudante.codigoTurma == "curso2021j"){ // ssrl
+                  dataLimite = new Date(2021, 7, 6, 23, 59, 59);
+                }else if(estudante.codigoTurma == "turmasetembro"){ // controle 2
+                  dataLimite = new Date(2021, 10, 23, 23, 59, 59);
+                }else if(estudante.codigoTurma == "cursoset"){ // controle 2
+                  dataLimite = new Date(2021, 10, 18, 23, 59, 59);
+                }else if(estudante.codigoTurma == "turma1"){ // srl (controle positivo)
+                  dataLimite = new Date(2021, 1, 5, 23, 59, 59);
                 }
 
 
@@ -76,7 +92,7 @@ export class ListarEstudantesComponent implements OnInit {
                 respostasFiltradas.submissoes = [];
                 respostasFiltradas.visualizacoesRespostasProgramacao = respostas.visualizacoesRespostasProgramacao;
 
-                respostas.respostaQuestaoParson.forEach(respostaParson=>{
+                /* respostas.respostaQuestaoParson.forEach(respostaParson=>{
                   let dataParson = Util.firestoreDateToDate(respostaParson.data);
                   if(dataParson <= dataLimite){
                     respostasFiltradas.respostaQuestaoParson.push(respostaParson)
@@ -88,7 +104,7 @@ export class ListarEstudantesComponent implements OnInit {
                   if(data <= dataLimite){
                     respostasFiltradas.respostaQuestaoCorrecao.push(resposta)
                   }
-                })
+                }) */
 
                 respostas.respostaQuestaoFechada.forEach(resposta=>{
                   let data = Util.firestoreDateToDate(resposta.data);

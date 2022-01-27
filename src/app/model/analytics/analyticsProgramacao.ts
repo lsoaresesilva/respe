@@ -94,7 +94,7 @@ export default class AnalyticsProgramacao {
 
   static identificarSequenciaEstados(submissoes){
 
-    function extrairComments(codigo:string){
+    /* function extrairComments(codigo:string){
       let comentarios = [];
       let codigoArray = codigo.split("\n")
 
@@ -286,7 +286,7 @@ export default class AnalyticsProgramacao {
 
 
 
-    return todosEstados;
+    return todosEstados; */
   }
 
   static calcularProbabilidadesMatriz(matriz){

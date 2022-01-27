@@ -101,6 +101,8 @@ export default class Submissao extends Document {
       });
     }
 
+    submissao.data = new Date(submissao.data);
+
     return submissao;
   }
 
@@ -220,7 +222,7 @@ export default class Submissao extends Document {
 
   static _orderByDate(submissoes: Submissao[]) {
     submissoes.sort((s1, s2) => {
-      if (s1.data != null && s2.data != null) {
+      if (s1.data != null && s2.data != null && s1.data != "" && s2.data != "") {
         if (s1.data.toDate().getTime() < s2.data.toDate().getTime()) {
           return -1;
         } else if (s1.data.toDate().getTime() > s2.data.toDate().getTime()) {
@@ -246,7 +248,7 @@ export default class Submissao extends Document {
             submissaoRecente = submissao;
           } else {
 
-            if (submissaoRecente.data != null && submissao.data != null) {
+            if (submissaoRecente.data != null && submissao.data != null && submissaoRecente.data != "" && submissao.data != "") {
               if (submissaoRecente.data.toDate().getTime() <= submissao.data.toDate().getTime()) {
                 submissaoRecente = submissao;
               }

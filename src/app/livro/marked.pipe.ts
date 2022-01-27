@@ -6,9 +6,9 @@ import * as marked from "marked";
 })
 export class MarkedPipe implements PipeTransform {
   transform(value: any): any {
-    if (value && value.length > 0) {
+    /* if (value && value.length > 0) {
       return marked(value);
     }
-    return value;
+    return value; */
   }
 }
