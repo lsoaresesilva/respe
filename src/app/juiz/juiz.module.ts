@@ -188,6 +188,7 @@ export const routes: Routes = [
   imports: [
     SrlModule,
     ChatModule,
+    ChatbotModule,
     /* CsclModule, */
     RouterModule.forChild(routes),
     CommonModule,

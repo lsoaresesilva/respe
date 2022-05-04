@@ -1,0 +1,64 @@
+<div class="wrapper {{theme}}">
+  <!--MESSAGE WINDOW-->
+  <div class="chat-box" *ngIf="visible" [@fadeInOut]="visible">
+      <!-----------HEADER--------->
+      <div class="chat-box-header">
+          <div class="">
+              <!--<div class="operator-status">
+                  {{operator.status}}
+                  <span class="operator-status-online">●</span>
+                  <button class="chat-button-header" (click)="toggleChat()">✕</button>
+              </div>-->
+              <chat-avatar [image]="operator.avatar"></chat-avatar>
+              <h3 class="operator-name">
+                  {{operator.name}}
+              </h3>
+          </div>
+      </div>
+      <!----------------------------->
+      <!------------BODY------------->
+      <div class="chat-box-main">
+          <div class="chat-message-bottom"></div>
+          <ng-container *ngFor="let message of messages" #bottom>
+              <div class="chat-message" [class.chat-message-received]='message.direction === "received"' [@fadeIn]
+                  [class.chat-message-sent]="message.direction === 'sent'">
+                  <!--Typing dots-->
+                  <div *ngIf="message.type === 'typing'" class="chat-message-typing"><chat-typing></chat-typing></div>
+                  <!--Avatar Icon-->
+                  <chat-avatar [image]="message.from.avatar" class="chat-message-from-avatar"></chat-avatar>
+                  <!--Text Message-->
+                  <div *ngIf="message.type === 'text'" class="chat-message-text">{{message.text}}</div>
+                  <!--Image Message-->
+                  <div *ngIf="message.type === 'image'" class="chat-message-text"><img [attr.src]="message.text" class="chat-message-image"/></div>
+                  <!--Code Message-->
+                  <div *ngIf="message.type === 'code'" class="chat-message-code">{{message.text}}</div>
+                  <!--Code Message-->
+                  <div *ngIf="message.type === 'print'" class="chat-message-print">{{message.text}}</div>
+                  <!--Buttons Message-->
+                  <ng-container *ngIf='message.type === "buttons"'>
+                      <div *ngFor="let btn of message.text">
+                          <chat-buttons [btnLabel]="btn.title" [btnPayload]="btn.payload" (send)="sendMessage($event)" class="chat-message-buttons"></chat-buttons>
+                      </div>
+                  </ng-container>
+                  <!--Show Date and Time-->
+                  <div class="chat-message-date">
+                      {{message.date | date: 'short'}}
+                  </div>
+              </div>
+          </ng-container>
+      </div>
+      <!----------------------------->
+      <!--FOOTER (INPUT AND BUTTON)-->
+      <div class="chat-box-footer">
+          <chat-input (send)="sendMessage($event)" (dismiss)="toggleChat()" ></chat-input>
+      </div>
+      <!----------------------------->
+  </div>
+  <!--CHATBOT BUTTON/AVATAR-->
+  <button class="chat-button" (click)="toggleChat()">
+      <span *ngIf="visible">✕</span>
+      <img *ngIf="!visible" [attr.src]="botAvatar" class="chat-button-img"/>
+      <!--POP ERROR IMAGE-->
+      <!--<chat-error-image></chat-error-image>-->
+  </button>
+</div>

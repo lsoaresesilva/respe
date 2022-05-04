@@ -1,4 +1,6 @@
 <p-toast></p-toast>
+<chat-widget></chat-widget>
+
 <div *ngIf="questao != null; else loading">
   <app-chat *ngIf="this.atividadeGrupo != null" [atividadeGrupo]="atividadeGrupo" [grupo]="grupo"></app-chat>
 
@@ -7,14 +9,14 @@
     </app-breadcrumb-assunto>
 
 
-    <!-- 
+    <!--
     <div class="p-mb-12">
-      
-     
+
+
       <button type="button" (click)="enviarErroEditor()" pButton label="Há um problema no Editor?"
         lass="ui-button-danger"></button>
     </div>
-    
+
   </div>-->
     <div class="p-col-12">
       <div class="p-grid">

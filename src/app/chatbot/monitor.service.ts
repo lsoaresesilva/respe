@@ -5,7 +5,7 @@ import { ErroCompilacao } from 'src/app/model/errors/analise-compilacao/erroComp
 import FrequenciaErro from '../model/errors/analise-compilacao/frequenciaErro';
 import Erro from '../model/errors/erro';
 import Submissao from '../model/submissao';
-import { ChatbotService } from './chatbot.service';
+import { ChatbotServiceProprio } from './chatbot-proprio.service';
 import MensagemSuporteMonitor from '../model/mensagemSuporteMonitor';
 import { getLabelPorCategoriaNumero } from '../model/errors/enum/labelCategoriasErro';
 import Usuario from '../model/usuario';
@@ -35,7 +35,7 @@ export class MonitorService {
   suporteMotivacional: String[];
 
   constructor(
-    private chatbot: ChatbotService,
+    private chatbot: ChatbotServiceProprio,
     public dialogService: DialogService,
     private login: LoginService
   ) {
@@ -177,7 +177,7 @@ export class MonitorService {
                   observer.complete();
                 }
                 }
-                
+
               }
             );
           }
