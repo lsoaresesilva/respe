@@ -8,6 +8,7 @@ import { map, mergeMap } from 'rxjs/operators';
 })
 
 export class ChatbotService {
+  public url: string = "http://35.208.64.26:5005";
   public latestMessageArr:Observable<any[]>;
   public messageUpdate = new EventEmitter();
   public senderID = Math.random()
@@ -39,13 +40,13 @@ export class ChatbotService {
     // mensagem para o error '/EXTERNAL_ERROR_MESSAGE{"error_type":"Função", "error_message":"Faltou parêntesis"}'
       // x -> Função | Condicional | Variável | Repetição (model/errors/analise-pre-compilação/enum/tipoErro.ts)
       // y -> Mensagem simplificada (model/errors/analise-pre-compilação/enum/tipoErros(...).ts)
-  public sendMessage(url, user, message){//: Observable<any[]> {
+  public sendMessage(user, message){//: Observable<any[]> {
     if (typeof message !== 'string') {
       let error_type = message.contexto;
       let error_message = message.mensagem;
       message = `/EXTERNAL_ERROR_MESSAGE{"error_type":"${error_type}", "error_message":"${error_message}"}`
     }
-    const rasaMessageUrl = url + "/webhooks/rest/webhook";
+    const rasaMessageUrl = this.url + "/webhooks/rest/webhook";
     this.latestMessageArr = this.http
       .post<any[]>(rasaMessageUrl, {
         message,

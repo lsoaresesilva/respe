@@ -206,11 +206,11 @@ export class EditorProgramacaoComponent implements AfterViewInit, OnChanges, OnI
 
   ngOnChanges(changes: import('@angular/core').SimpleChanges): void {
     /*  if(changes.submissao != null && changes.submissao.currentValue != null){
-      
+
     } */
 
     this.editorCodigo = Editor.getInstance();
-    
+
     if (this.submissao != null) {
       this.atualizarEditorComSubmissao();
     }else{
@@ -230,7 +230,7 @@ export class EditorProgramacaoComponent implements AfterViewInit, OnChanges, OnI
       this.apresentarVisualizacao = false;
     }
 
-    
+
 
   }
 
@@ -369,7 +369,7 @@ export class EditorProgramacaoComponent implements AfterViewInit, OnChanges, OnI
     }
   }
 
-  
+
 
   onContainerReady(event) {
     this.isEditorPronto = true;
@@ -382,9 +382,9 @@ export class EditorProgramacaoComponent implements AfterViewInit, OnChanges, OnI
           this.monitor.ajudarProblemSolving(this.usuario, 2);
         }, 900000);
       }
-      
 
-      
+
+
       iniciarEditorColaborativo(this.grupo.id);
     } else {
       this.atualizarEditorComSubmissao();
@@ -475,9 +475,9 @@ export class EditorProgramacaoComponent implements AfterViewInit, OnChanges, OnI
   pedirAjuda(){
 
     this.displayPedidoAjuda = true;
-    
 
-  
+
+
   }
 
   enviarPedidoAjuda(pedidoAjuda){
@@ -506,7 +506,7 @@ export class EditorProgramacaoComponent implements AfterViewInit, OnChanges, OnI
         detail: 'Você precisa detalhar a sua dúvida para que seus amigos possam ajudar.',
       });
     }
-    
+
   }
 
   /**
@@ -572,23 +572,23 @@ export class EditorProgramacaoComponent implements AfterViewInit, OnChanges, OnI
           );
           submissaoGrupo.save().subscribe((subGrupo) => {
             this.statusBtnEnvioAtividadeGrupo = true;
-  
+
             /**
              * TODO: desabilitar o botão também para os outros usuários.
              */
-  
+
             this.messageService.add({
               severity: 'success',
               summary: 'Sucesso',
               detail: 'Atividade entregue com sucesso.',
             });
           });
-          
+
         },
       });
     }
 
-    
+
   }
 
   submissaoRealizada(submissao) {
@@ -624,7 +624,7 @@ export class EditorProgramacaoComponent implements AfterViewInit, OnChanges, OnI
         );
         submissaoGrupo.save().subscribe(() => {});
       })
-      
+
     } else {
       if (this.questaoCorrecao == null) {
         submissao.save().subscribe((resposta) => {
@@ -667,7 +667,7 @@ export class EditorProgramacaoComponent implements AfterViewInit, OnChanges, OnI
       }
     }
 
-    if (this.atividadeGrupo == null && this.usuario.grupoExperimento != Groups.control) {
+    if (this.atividadeGrupo == null) {
       let parseError = new ParseAlgoritmo(this.submissao.linhasAlgoritmo());
       if (this.submissao.erro != null) {
         let erro = parseError.getHint(this.submissao.erro.traceback);

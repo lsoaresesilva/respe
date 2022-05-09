@@ -14,7 +14,7 @@ import ErroSintaxeVariavel from './erroSintaxeVariavel';
  * Analisa o algoritmo do estudante a procura de erros.
  */
 export default class ParseAlgoritmo {
-    
+
   erros;
 
   constructor(private algoritmo) {}
@@ -49,6 +49,31 @@ export default class ParseAlgoritmo {
           return ErroSintaxeRepeticao.erros(this.algoritmo);
         }else{
           return ErroSintaxeFuncao.erros(this.algoritmo);
+        }
+      }
+    }
+
+    return null;
+  }
+
+  /**
+   * Usado para identificar o tipo de erro e a mensagem
+   * @param traceback
+   * @returns
+   */
+  getMainError(traceback){
+    if(traceback != null){
+      let categoria = ErroCompilacaoFactory.construir(traceback);
+      if(categoria instanceof NameError){
+        return {contexto:TipoErro.variavel, mensagem:ErroSintaxeVariavel.erros(this.algoritmo)[0].tipoErro }
+      }else if(categoria instanceof SyntaxError){ // TODO: Modificar para coletar todos os erros no código e apontá-los
+        let principalErro = ErroSintaxe.getMainError(traceback);
+        if( principalErro == TipoErro.condicao){
+          return {contexto:TipoErro.condicao, mensagem:ErroSintaxeCondicional.erros(this.algoritmo)[0].tipoErro }
+        }else if(principalErro == TipoErro.repeticao){
+          return {contexto:TipoErro.repeticao, mensagem:ErroSintaxeRepeticao.erros(this.algoritmo)[0].tipoErro }
+        }else{
+          return {contexto:TipoErro.funcao, mensagem:ErroSintaxeFuncao.erros(this.algoritmo)[0].tipoErro }
         }
       }
     }

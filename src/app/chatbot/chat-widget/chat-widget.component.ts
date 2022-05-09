@@ -150,7 +150,7 @@ export class ChatWidgetComponent implements OnInit {
     if (this.visible === true) {
       this.messages = [];
       this.chatbotService
-        .sendMessage(this.url, this.userName, "/restart")
+        .sendMessage(this.userName, "/restart")
       this.isFirstMessage = true;
     }
     this.visible = !this.visible
@@ -177,7 +177,7 @@ export class ChatWidgetComponent implements OnInit {
     this.addMessage(this.operator, message, "typing", 'received');
     this.chatbotService
       // Manda mensagem ao RASA --> chatbot.service.ts
-      .sendMessage(this.url, this.chatbotService.senderID, message)
+      .sendMessage(this.chatbotService.senderID, message)
   }
 
   public organizeMessages(messages) {

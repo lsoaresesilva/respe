@@ -24,6 +24,8 @@ import Grupo from '../model/cscl/grupo';
 import Query from '../model/firestore/query';
 import { Observable } from 'rxjs';
 import { Util } from '../model/util';
+import { ChatbotService } from './chatbot.service';
+import ParseAlgoritmo from '../model/errors/analise-pre-compilacao/parseAlgoritmo';
 
 @Injectable({
   providedIn: 'root',
@@ -37,7 +39,8 @@ export class MonitorService {
   constructor(
     private chatbot: ChatbotServiceProprio,
     public dialogService: DialogService,
-    private login: LoginService
+    private login: LoginService,
+    private chatbotMonitor:ChatbotService
   ) {
     this.suporte = new Map<CategoriaErro, String[]>();
     this.suporteMotivacional = [];
@@ -229,7 +232,11 @@ export class MonitorService {
         const principalErro = FrequenciaErro.identificarPrincipalErro(frequencia); */
         const submissao = Submissao.filtrarRecente(submissoes);
         if (submissao.erro != null) {
-          const suporteParaCategoria = this.suporte.get(submissao.erro.categoria);
+          let algorimoParser = new ParseAlgoritmo(submissao.codigo);
+          let mensagemRASA = algorimoParser.getMainError(submissao.erro.traceback);
+          this.chatbotMonitor.sendMessage(estudante.pk(), mensagemRASA);
+
+          /* const suporteParaCategoria = this.suporte.get(submissao.erro.categoria);
 
           if (!suporteParaCategoria.includes(questao.id)) {
             this.suporteRecente = submissao.erro.categoria;
@@ -243,22 +250,10 @@ export class MonitorService {
               mensagens.push(mensagemSuporte);
               let registroMensagem = new RegistroMensagemChatbot(null, mensagemSuporte, estudante);
               registroMensagem.save().subscribe(() => {});
-              if (estudante.grupoExperimento != Groups.control) {
-                /* DiarioProgramacao.exibirDiario(
-                  this.login.getUsuarioLogado(),
-                  TipoDiarioProgramacao.monitoramento
-                ).subscribe((visibilidade) => {
-                  if (visibilidade) {
-                    this.dialogService.open(DiarioProgramacaoComponent, {
-                      data: { tipo: TipoDiarioProgramacao.monitoramento },
-                      width: '600',
-                      height: '480',
-                    });
-                  }
-                }); */
-              }
-            }
-          } else {
+
+            } */
+          //}
+          /* else {
             if (errorQuotient > 0.7) {
               if (!this.suporteMotivacional.includes(questao.id)) {
                 this.suporteMotivacional.push(questao.id);
@@ -279,10 +274,10 @@ export class MonitorService {
                 }
               }
             }
-          }
+          } */
         }
       }
-      this.chatbot.enviarMensagem(mensagens);
+      //this.chatbot.enviarMensagem(mensagens);
     });
   }
 
