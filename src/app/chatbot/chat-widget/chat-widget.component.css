@@ -4,21 +4,12 @@
   font-family: "Open Sans", "Helvetica Neue", sans-serif;
 }
 
-.new-messages {
-  font-size: 15px;
-  background-color: #e64934;
-  color: white;
-  padding: 0;
-  margin: 0 90px 0 40px;
-}
-
 .wrapper {
   position: absolute;
   top: 0;
   bottom: 0;
   height: 100vh;
   width: 100vw;
-  z-index: 1;
 }
 
 .chat-button {
@@ -73,6 +64,7 @@
   margin: 0;
   display: flex;
   flex-direction: column;
+
   box-shadow: 0 5px 40px rgba(0, 0, 0, 0.16);
   background: #1976d2;
 }
@@ -91,7 +83,7 @@
   width: 100%;
   background: #f5f5f5;
   display: flex;
-  flex-direction: column;
+  flex-direction: column-reverse;
   overflow: auto;
 }
 
@@ -109,15 +101,12 @@
   float: right;
   padding: 4px;
 }
-
 .operator-status span {
   margin-left: 4px;
 }
-
 .operator-status-online {
   color: lawngreen;
 }
-
 .operator-status-offline {
   color: red;
 }
@@ -170,13 +159,6 @@
   align-items: center;
 }
 
-.chat-message-buttons-order {
-  margin-left: 80px;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-}
-
 /**
 Received message style
  */
@@ -201,8 +183,8 @@ Received message style
 
 .chat-message-received .chat-message-code {
   background: #f9a080;
-  font-family: monospace;
-  font-size: 12px;
+  font-family: monospace, monospace;
+  font-size: 10px;
   border-radius: 12px;
   border-bottom-left-radius: 0;
   margin-left: 60px;
@@ -216,8 +198,8 @@ Received message style
 
 .chat-message-received .chat-message-print {
   background: #f4cbbb;
-  font-family: monospace;
-  font-size: 12px;
+  font-family: monospace, monospace;
+  font-size: 10px;
   border-radius: 12px;
   border-bottom-left-radius: 0;
   margin-left: 60px;
@@ -225,8 +207,7 @@ Received message style
   overflow-x: scroll;
 }
 
-.chat-message-code,
-.chat-message-print {
+.chat-message-code, .chat-message-print {
   padding: 10px;
 }
 
@@ -313,7 +294,6 @@ Sent message style
 .blue .chat-button {
   background: #1976d2;
 }
-
 .blue .chat-box {
   background: #1976d2;
 }
@@ -321,7 +301,6 @@ Sent message style
 .grey .chat-button {
   background: #454549;
 }
-
 .grey .chat-box {
   background: #454549;
 }
@@ -329,7 +308,6 @@ Sent message style
 .red .chat-button {
   background: #DD0031;
 }
-
 .red .chat-box {
   background: #DD0031;
 }
@@ -341,22 +319,19 @@ Sent message style
     right: 0;
     width: 300px;
   }
-
   .chat-button {
     display: block;
   }
-
   .chat-button-header {
     display: none;
   }
-
   .chat-box {
     top: auto;
     left: auto;
     bottom: 100px;
     right: 40px;
     height: 60vh;
-    width: 350px;
+    width: 300px;
     border-radius: 10px;
   }
 }

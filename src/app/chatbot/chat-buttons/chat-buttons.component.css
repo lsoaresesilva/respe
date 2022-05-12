@@ -10,14 +10,6 @@ button {
     margin: 3px auto !important;
 }
 
-.enabled:hover {
+button:hover {
     background-color: #b8d3ee;
-}
-
-.disabled {
-    background-color: #48b546;
-}
-
-.disabled:hover {
-    background-color: #79e177;
 }
