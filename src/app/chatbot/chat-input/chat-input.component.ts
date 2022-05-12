@@ -38,12 +38,8 @@ export class ChatInputComponent implements OnInit {
 
   onSubmit() {
     const message = this.getMessage()
-    if (message.trim() === '') {
-      return
-    }
     this.send.emit({ message })
     this.clearMessage()
     this.focusMessage()
   }
-
 }

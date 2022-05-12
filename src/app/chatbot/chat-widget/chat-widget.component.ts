@@ -1,10 +1,9 @@
 // Adapted from:
 // https://github.com/Poio-NLP/poio-chatbot-ui
 // https://github.com/contribution-jhipster-uga/angular-chat-widget-rasa
-import { Component, ElementRef, EventEmitter, HostListener, Input, OnInit, ViewChild, ViewChildren, QueryList } from '@angular/core'
+import { Component, HostListener, Input, OnInit, ElementRef, ViewChild } from '@angular/core'
 import { fadeIn, fadeInOut } from '../animations'
 import { ChatbotService } from '../chatbot.service';
-import { environment } from 'src/environments/environment';
 
 @Component({
   selector: 'chat-widget',
@@ -13,204 +12,356 @@ import { environment } from 'src/environments/environment';
   animations: [fadeInOut, fadeIn],
 })
 export class ChatWidgetComponent implements OnInit {
-  @ViewChild('bottom') bottom: ElementRef;
-  // Para mudar o tema
+  @ViewChild('bottom') private myScrollPosition: ElementRef;
+  // ############################### VARIÁVEIS ###############################
+  // Tema do chatbot
   @Input() public theme: 'blue' | 'grey' | 'red' = 'blue';
   // Titulo que aparece na janela do chat
   @Input() public botName: string = 'Monitor';
-  // Imagens que aparecem na conversa
+  // Icons dos users que aparecem na conversa
   @Input() public botAvatar: string = "/assets/botAvatar.png";
   @Input() public userAvatar: string = "/assets/userAvatar.jpg";
-  // URL para se conectar ao chatbot
-  @Input() public url: string = "http://35.208.64.26:5005";
   // Primeira mensagem
   @Input() public startingMessage = 'Olá 👋, eu sou um monitor que está aqui para o ajudar. A qualquer momento poderá fazer perguntas como "O que é uma variável?", ou "Qual é um exemplo de uma condição?", que eu farei o meu melhor para responder! Estarei também aqui para quando tiver problemas na resolução dos seus exercicios!'
-  // Controla se a janela aparece aberta ou fechada
+  // Controla se a janela começa aberta ou fechada
   @Input() public opened: boolean = false;
+  public url: string = "http://35.208.64.26:5005";
+  
+  // Abrir/fechar a janela do chat <--
+  public _visible = false;
+  public get visible() { return this._visible; }
+  @Input() public set visible(visible) { this._visible = visible; }
 
-  // Array com as mensagens que aparacem na janela do chat
+  // ------------ Variáveis para as mensagens da conversa -------------
+  // Contém as mensagens que aparecem na janela do chatbot 
   public messages = [];
-  // Array com TODAS as mensagens (inclui a primeira mensagem,
+  // Array com TODAS as mensagens (inclui a primeira mensagem, 
   // por exemplo, qual foi o erro, que não se mostra ao estudante)
   public wholeConversation = [];
+  public wholeConversationSent = [];
+  public isFirstMessage = false; // !!!!!! Verificar utilidadde !!!!!!
+  // Controla de quem é a mensagem
+  public monitor;
+  public estudante;
+  // Verifica se é a mensagem inicial
+  public isFirstMsg = true;
+  // -------------------------------------------------------------------
 
-  public isFirstMessage = false;
+  // Usada para verificar se o aluno já pode pedir ajuda
+  public canAskExHelp = false;
 
-  public _visible = false;
-  public operator;
-  public client;
+  // ---- Váriáveis usadas para o exercício de ordenar os conceitos ----
+  public isConceptOrderDisabled = true;
+  public isConceptSecond = false;
+  public conceptsChosen = [];
+  public deactivateBtnsIds = [];
+  public isInitHelpMsg = true;
+  // -------------------------------------------------------------------
 
-  // ID do user para passar ao RASA, faço-o mais à frente de maneira aleatória
-  // Depois faço store na session storage (o que pode não ser o melhor, mas é para poder )
-  public userName: string;
+  public currScrollPosition = 0;
+  public newMsgWarningVisible = false;
+  // #########################################################################
+
 
   constructor(private chatbotService: ChatbotService) {
-    // Abrir o chat ao receber erro, se este tiver fechado
+    // ################ CHATBOT SERVICE - NOVAS MENSAGENS ################
+    // ------------------> Nova mensagem do RASA <-------------------
+    // Para quando é mandada uma mensagem ao RASA de outro componente (mensagem de erro, ...)
     this.chatbotService.messageUpdate.subscribe(() => {
-      if (this.visible === false) {
-        this.messages = [];
-      }
+      // Novas mensagens
       this.chatbotService.latestMessageArr.subscribe(
         responseMessages => {
-          // Parar a animação do chatbot estar a escrever
+          // Se não for a primeira mensagem no array da conversa...
           if (this.messages[0] !== undefined) {
-            if (this.messages[0].type === "typing") {
-              this.messages.shift();
-            }
+            // Parar animação de estar a escrever (...)
+            if (this.messages[0].text === "Estou a pesquisar a resposta por favor aguarde") { this.messages.shift(); }
           }
-          // Se o RASA não retornar nada mandar erro
+          // Retornar erro se a mensagem do RASA vier vazia
           if (responseMessages.length === 0) {
-            if (this.isFirstMessage !== true) {
-              this.addMessage(this.operator, "Desculpe estou com algumas dificuldades, por favor tente mais tarde 🤕", "erro", 'received');
-            }
-            else {
-              // Mostrar mensagem inicial
-              this.addMessage(this.operator, this.startingMessage, "text", 'received');
-              this.isFirstMessage = false;
+            if (!this.isFirstMsg) {
+              this.addMessage(this.monitor, "Desculpe estou com algumas dificuldades, por favor tente mais tarde 🤕", "erro", 'received');
             }
           }
+          // Mostrar mensagem retornada pelo RASA
           else {
-            // Mostrar mensagem retornada pelo RASA
-            this.organizeMessages(responseMessages)
+            this.organizeMessages(responseMessages);
+            this.isFirstMsg = false;
+            this.newMsgWarningVisible = true;
+            this.checkViewedMens();
           }
         });
+      // -------------------------------------------------------------------------------
+      // Abrir janela do chat se ela estiver fechada (ao receber mensagem inicial (erro/ajuda))
       if (this.visible === false) {
         this.visible = true;
       }
     });
+    // --> Novo conceito para adicionar à tela do algorimo (exercício de ordenar) <--
+    this.chatbotService.conceptUpdate.subscribe(() => {
+      this.conceptsChosen = this.chatbotService.conceptsClicked;
+    });
+    // --------> Já pode pedir ajuda no exercício <----------
+    this.chatbotService.helpActivate.subscribe(() => {
+      this.canAskExHelp = this.chatbotService.canAskHelp;
+    });
   }
 
-  public get visible() {
-    return this._visible;
-  }
-
-  // Abre/fecha a janela do chat
-  @Input() public set visible(visible) {
-    this._visible = visible;
-  }
-
-  // Função para: adicionar mensagens
-  // O type, é simplesmente para controlar o css dos diferentes tipos (texto, codigo, botões, ...)
-  public addMessage(from, text, type, direction: 'received' | 'sent') {
-    if (this.isFirstMessage === false) {
-      // Adiciona as mensagens no começo do array (messages)
-      this.messages.unshift({from, text, type, direction, date: new Date().getTime()})
+  public checkViewedMens() {
+    if (this.myScrollPosition.nativeElement.scrollHeight - this.myScrollPosition.nativeElement.scrollTop < 580 === true) {
+      this.newMsgWarningVisible = false;
     }
-    // Adiciona as mensagens no final do array (wholeConversation)
-    // Este seria então o array, a que certo ponto se faria save na base de dados
-    this.wholeConversation.push({from, text, type, date: new Date().getTime()})
   }
-
-  /*public scrollToBottom() {
-    if (this.bottom.nativeElement.scrollTop < -100) {
-      this.isNearBottom = true;
-      this.currentWindowPosition = 0;
-    }
-  }*/
-
-  /*public focusMessage() {
-    this.focus.next(true)
-  }*/
 
   ngOnInit() {
-    this.client = {
+    this.estudante = {
       name: this.chatbotService.senderID,
       avatar: this.userAvatar,
     };
-    this.operator = {
+    this.monitor = {
       name: this.botName,
       avatar: this.botAvatar,
     };
-    if (this.opened) {
-      setTimeout(() => this.visible = true, 1000)
-    }
-    // Fazer a conecção com o RASA
+    // CONECTAR AO RASA
     this.chatbotService
-      .initRasaChat(this.url, this.userName)
+      .initRasaChat()
       .subscribe(
         data => console.log('Rasa conversa inicializada'),
-        error => {
-          console.error('Erro ao conectar com RASA')
-        }
+        error => console.error('Erro ao conectar com RASA'),
       );
   }
 
+  // ADD MESSAGE 
+  // ###################### FUNÇÃO PARA ADICIONAR NOVAS MENSAGENS #######################
+  // O type, é simplesmente para controlar o css dos diferentes tipos (texto, codigo, botões, ...)
+  public addMessage(from, text, type, direction: 'received' | 'sent') {
+    // Array das mensagens que aparecem na janela do chatbot 
+    this.messages.unshift({ from, text, type, direction, date: new Date().getTime() })
+    // Array com TODAS as mensagens 
+    this.wholeConversation.push({ from, text, type, date: new Date().getTime() });
+  }
+
+  // Guardar conversa na base de dados (apenas se esta for diferente à previamente guardada)
+  public storeConversation() {
+    setTimeout(() => {
+      if (this.wholeConversationSent !== this.wholeConversation) {
+        this.wholeConversationSent = this.wholeConversation;
+        // Fazer store
+      }
+      this.storeConversation();
+    }, 300000)
+  }
+
+  // TOGGLE CHAT
+  // ##################### FUNÇÃO QUE ABRE E FECHA A JANELA DO CHAT #####################
+  // Abre e fecha janela do chatbot (quando se toca no seu icon)
   public toggleChat() {
     if (this.messages.length === 0) {
-      if (sessionStorage.getItem("chatbot-presentation-message") !== null) {
-        this.addMessage(this.operator, "Olá 👋 em que posso ajudar?", 'text', 'received');
-        this.isFirstMessage = false;
+      // Começa função de store das mensagens 
+      this.storeConversation();
+      // Mostrar mensagem inicial mais informativa
+      if (sessionStorage.getItem("chatbot-presentation-message") === null) {
+        sessionStorage.setItem("chatbot-presentation-message", "exists");
+        this.addMessage(this.monitor, this.startingMessage, 'text', 'received');
+      }
+      // Mostrar mensagem inicial mais simples
+      else {
+        this.addMessage(this.monitor, "Olá 👋 em que posso ajudar?", 'text', 'received');
+      }
+      this.isFirstMsg = false;
+    }
+    if (this.visible === false) {
+      this.visible = true;
+      // Ao abrir mantém a posição deixada pelo aluno
+      setTimeout(() => {
+        this.myScrollPosition.nativeElement.scrollTop = this.currScrollPosition;
+      }, 1)
+    }
+    else {
+      this.currScrollPosition = this.myScrollPosition.nativeElement.scrollTop;
+      this.visible = false;
+    }
+  }
+
+  // SEND MESSAGE
+  // ############### FUNÇÃO QUE MANDA AS MENSAGENS DO ALUNO AO RASA ##################
+  // Função que: Faz a conecção com o chatbot.service para mandar as mensagens ao RASA
+  // Adicina as mensagens que o RASA retorna ao messages array 
+  public sendMessage({ message }) {
+    // ---------------------------------------------------------------------
+    // 1º (SIM) Verificar se o aluno se encontra no exercício de ordenar conceitos
+    // ---------------------------------------------------------------------
+    if (this.isConceptOrderDisabled === false) {
+      let reallyDisable = true;
+      // 1.1º (NÃO) Verificar se o aluno escrevreveu algo no input
+      if (message === "") {
+        // 1.1.1º (NÃO) Verificar se o aluno selecionou algum conceito
+        if (this.conceptsChosen.length === 0) {
+          // Não enviar nada ao RASA
+          return
+        }
+        // 1.1.2º (SIM) Verificar se o aluno selecionou algum conceito
+        else {
+          // Verificar se existem butões (se sim, remover para o estudante nao poder clicar)
+          for (let i = 0; i < this.messages.length; i++) {
+            if (this.messages[i].type === "buttons_order") {
+              this.messages.splice(i, 1);
+            }
+          }
+          // Adiciona mensagem pré-definidas ao array da conversa, como resposta do estudante
+          this.addMessage(this.estudante, "Ordem definida", "text", 'sent');
+          // Adicionar ... (bot está a escrever) animação
+          this.addMessage(this.monitor, "Estou a pesquisar a resposta por favor aguarde", "text", 'received');
+          // Enviar conceitos escolhidos ao RASA 
+          this.chatbotService.sendMessage(this.chatbotService.senderID, this.sendOrderConcepts());
+        }
+        // Apagar conceitos que tinham sido escolhidos pelo estudante
+        this.conceptsChosen = [];
+      }
+      // 1.2º (SIM) Verificar se o aluno escreveu algo no input
+      else {
+        // 1.2.1º (SIM) Verificar se o aluno escreveu que queria parar
+        if (message.toLowerCase() === "parar" || message.toLowerCase() === "para") {
+          // Verificar se existem butões (se sim, remover para o estudante nao poder clicar)
+          for (let i = 0; i < this.messages.length; i++) {
+            if (this.messages[i].type === "buttons_order" || this.messages[i].type === "buttons_order_second") {
+              this.messages.splice(i, 1);
+            }
+          }
+          // Adiciona a mensagem do estudante ao array da conversa 
+          this.addMessage(this.estudante, message, "text", 'sent');
+          // Adiciona uma animação como se o bot estivesse a escrever
+          this.addMessage(this.monitor, "Estou a pesquisar a resposta por favor aguarde", "text", 'received');
+          // Manda mensagem ao RASA 
+          this.chatbotService.sendMessage(this.chatbotService.senderID, message);
+        }
+        // 1.2.1º (NÃO) Verificar se o aluno escreveu que queria parar
+        else {
+          // Enviar mensagem de aviso ao estudante
+          this.addMessage(this.monitor, "Se quiser parar diga, PARAR", "text", 'received');
+          this.isConceptOrderDisabled = false;
+          reallyDisable = false;
+        }
+      }
+      // 1.3º Se realmente for para para exercício:
+      if (reallyDisable === true) {
+        // Fechar tela de ordenação do algoritmo
+        this.isConceptOrderDisabled = true
+        // Apagar conceitos escolhidos
+        this.conceptsChosen = [];
+      }
+    }
+    // ---------------------------------------------------------------------
+    // 2º (NÃO) Verificar se o aluno se encontra no exercício de ordenar conceitos
+    // ---------------------------------------------------------------------
+    // MENSAGEM NORMAL
+    else {
+      if (message[0] == '"') { message = message.substring(1, message.length - 1); }
+      // Não retorna nada se o input estiver vazio
+      if (message.trim() === '') { return }
+      // Verificar se existem butões (se sim, remover para o estudante nao poder clicar)
+      for (let i = 0; i < this.messages.length; i++) {
+        if (this.messages[i].type === "buttons") { this.messages.splice(i, 1); }
+      }
+      // Adiciona a mensagem do estudante ao array da conversa
+      let lastMsg = this.wholeConversation[this.wholeConversation.length - 1];
+
+      if (lastMsg !== undefined) {
+        if (!(lastMsg.text === "Sim" && lastMsg.from == this.monitor) && !(lastMsg.text === "Não" && lastMsg.from == this.monitor)) {
+          this.addMessage(this.estudante, message, "text", 'sent');
+        }
       }
       else {
-        sessionStorage.setItem("chatbot-presentation-message", "exists");
-        this.addMessage(this.operator, this.startingMessage, 'text', 'received');
-        this.isFirstMessage = false;
+        this.addMessage(this.estudante, message, "text", 'sent');
       }
+      // Adiciona uma animação como se o bot estivesse a escrever
+      this.addMessage(this.monitor, "Estou a pesquisar a resposta por favor aguarde", "text", 'received');
+      // Mandar mensagem ao RASA
+      this.chatbotService.sendMessage(this.chatbotService.senderID, message)
     }
-    if (this.visible === true) {
-      this.messages = [];
-      this.chatbotService
-        .sendMessage(this.userName, "/restart")
-      this.isFirstMessage = true;
-    }
-    this.visible = !this.visible
+    // -----------------------------------------------------------------------------
   }
 
-  // Função que: Faz a conecção com o chatbot.service para mandar as mensagens ao RASA
-  // Adicinar as mensagens que o RASA retorna ao messages array (através da função addMessage)
-  public sendMessage({message}) {
-    if (message[0] == '"'){
-      message = message.substring(1, message.length - 1);
-    }
-    // Não retorna nada se o input estiver vazio
-    if (message.trim() === '') {
-      return
-    }
-    // If button was written instead of clicking the button
-    if (this.messages[0] !== undefined && this.messages[0].type === "buttons") {
-      this.messages.shift();
-    }
-    // Adiciona a mensagem do estudante ao array da conversa
-    this.addMessage(this.client, message, "text", 'sent');
-
-    // Adiciona uma animação como se o bot estivesse a escrever
-    this.addMessage(this.operator, message, "typing", 'received');
-    this.chatbotService
-      // Manda mensagem ao RASA --> chatbot.service.ts
-      .sendMessage(this.chatbotService.senderID, message)
-  }
-
+  // ORGANIZE MESSAGES
+  // ############# FUNÇÃO QUE ORGANIZA AS MENSAGENS RETORNADAS PELO RASA ################
+  // Função que organiza as mensagens consoante o seu tipo (botões, código, normal, ...)
   public organizeMessages(messages) {
     let i = 0
     while (messages[i]) {
       let code_str = ""
-      // Se a mensagem contiver botões, verificar se també contém texto
+      // -------------------------> BOTÕES - NORMAIS <-------------------------
       if (messages[i].type === "buttons") {
+        // Verificar se também contém texto
         if (messages[i].message !== undefined) {
-          this.addMessage(this.operator, messages[i].message, "text", 'received');
+          this.addMessage(this.monitor, messages[i].message, "text", 'received');
         }
-        this.addMessage(this.operator, messages[i].buttons, messages[i].type, 'received');
+        this.addMessage(this.monitor, messages[i].buttons, messages[i].type, 'received');
       }
+      // ---------------> BOTÕES - ORDENAR CONCEITOS > PISTAS <----------------
+      else if (messages[i].type === "buttons_order_second") {
+        console.log(messages[i].message);
+      }
+      // --------> BOTÕES - ORDENAR CONCEITOS > PARA ESCOLHA DO ALUNO <--------
+      else if (messages[i].type === "buttons_order") {
+        // Verificar se botão pertence a uma das pistas dadas
+        for (let x = 0; x < messages[i].message.length; x++) {
+          let disable = false;
+          for (let y = 0; y < this.deactivateBtnsIds.length; y++) {
+            if (this.deactivateBtnsIds[y] == messages[i].message[x][0]) {
+              disable = true; // Se sim, desativar botão
+            }
+          }
+          messages[i].message[x].push(disable);
+        }
+        // Adcionar botões aos arrays 
+        this.addMessage(this.monitor, messages[i].message, messages[i].type, 'received');
+        // Mostrar tela do algoritmo
+        this.isConceptOrderDisabled = false;
+      }
+      // ------------------------------> CÓDIGO <------------------------------
       // Ver se mensagem é código (código vem com tabs pelo meio o que separa em
       // várias mensagens, então temos de fazer concat dessas strings)
       else if (messages[i].type === "code") {
         while (messages[i].message.includes("</code>") === false) {
           code_str = code_str + messages[i].message + "\n\n";
           i++;
-          console.log(code_str)
         }
         code_str = code_str + messages[i].message.replace("</code>", "").substring(-1);
-        if (code_str[0] === "\n"){
-          code_str = code_str.substring(1);
-        }
-        this.addMessage(this.operator, code_str, "code", 'received');
+        if (code_str[0] === "\n") { code_str = code_str.substring(1); }
+        this.addMessage(this.monitor, code_str, "code", 'received');
       }
+      // -----------------------------> SIMPLES <------------------------------
       else {
-        this.addMessage(this.operator, messages[i].message, messages[i].type, 'received');
+        if (messages[i].message === "VERIFICAR PODE PEDIR AJUDA") {
+          this.wholeConversation.push({ from: this.monitor, text: messages[i].message, type: messages[i].type, date: new Date().getTime() });
+          let newMsg = "";
+          if (this.canAskExHelp === true) {
+            newMsg = "Sim";
+          }
+          else {
+            newMsg = "Não";
+          }
+          this.wholeConversation.push({ from: this.monitor, text: newMsg, type: messages[i].type, date: new Date().getTime() });
+          this.sendMessage({ message: newMsg });
+        }
+        else {
+          this.addMessage(this.monitor, messages[i].message, messages[i].type, 'received');
+        }
       }
       i++;
     }
   }
+
+  // SEND ORDER CONCEPTS
+  // ####################### VOLTA A ORGANIZAR AS ESCOLHAS DO ALUNO ########################
+  // Função que retorna as opções escolhidas pelo aluno ao seu texto inicial para depois enviar ao RASA
+  public sendOrderConcepts() {
+    let answer = "";
+    this.conceptsChosen.forEach(concept => {
+      answer = answer + concept + "<sep>"
+    });
+    return answer;
+  }
+  // ##########################################################################
 
   @HostListener('document:keypress', ['$event'])
   handleKeyboardEvent(event: KeyboardEvent) {

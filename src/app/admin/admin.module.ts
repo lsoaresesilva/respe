@@ -7,7 +7,7 @@ import { FormsModule } from '@angular/forms';
 import { ContextMenuModule } from 'primeng/contextmenu';
 import { ButtonModule } from 'primeng/button';
 import { OrderListModule } from 'primeng/orderlist';
-import { ExportarDadosComponent } from './exportar-dados/exportar-dados.component';
+//import { ExportarDadosComponent } from './exportar-dados/exportar-dados.component';
 import {ChartModule} from 'primeng/chart';
 import { ListarAssuntosAdminComponent } from './listar-assuntos-admin/listar-assuntos-admin.component';
 import { VisualizarAssuntoAdminComponent } from './visualizar-assunto-admin/visualizar-assunto-admin.component';
@@ -54,7 +54,7 @@ export const routes:Routes = [
 ]
 
 @NgModule({
-  declarations: [ExportarDadosComponent, ListarAssuntosAdminComponent,
+  declarations: [ListarAssuntosAdminComponent,
     VisualizarAssuntoAdminComponent,CadastrarQuestoesComponent,
     CadastrarTesteCaseComponent,CadastrarAssuntosComponent,
     CadastrarQuestoesFechadasComponent,CadastrarAlternativasComponent, VisualizarMslqComponent],
