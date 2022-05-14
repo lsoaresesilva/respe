@@ -234,7 +234,7 @@ export class MonitorService {
         if (submissao.erro != null) {
           let algorimoParser = new ParseAlgoritmo(submissao.linhasAlgoritmo());
           let mensagemRASA = algorimoParser.getMainError(submissao.erro.traceback);
-          this.chatbotMonitor.sendMessage(estudante.pk(), mensagemRASA);
+          this.chatbotMonitor.sendMessage(mensagemRASA);
 
           /* const suporteParaCategoria = this.suporte.get(submissao.erro.categoria);
 

@@ -60,7 +60,7 @@ export class ChatWidgetComponent implements OnInit {
   public deactivateBtnsIds = [];
   public isInitHelpMsg = true;
   // -------------------------------------------------------------------
-
+  public client;
   public currScrollPosition = 0;
   public newMsgWarningVisible = false;
   // #########################################################################
@@ -68,7 +68,7 @@ export class ChatWidgetComponent implements OnInit {
 
   constructor(private chatbotService: ChatbotService, private login:LoginService) {
 
-    this.userName = this.login.getUsuarioLogado().pk();
+
     // ################ CHATBOT SERVICE - NOVAS MENSAGENS ################
     // ------------------> Nova mensagem do RASA <-------------------
     // Para quando é mandada uma mensagem ao RASA de outro componente (mensagem de erro, ...)
@@ -118,7 +118,10 @@ export class ChatWidgetComponent implements OnInit {
   }
 
   ngOnInit() {
-
+    this.estudante = {
+      name: this.login.getUsuarioLogado().pk(),
+      avatar: this.userAvatar,
+    };
     this.monitor = {
       name: this.botName,
       avatar: this.botAvatar,
