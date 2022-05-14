@@ -232,7 +232,7 @@ export class MonitorService {
         const principalErro = FrequenciaErro.identificarPrincipalErro(frequencia); */
         const submissao = Submissao.filtrarRecente(submissoes);
         if (submissao.erro != null) {
-          let algorimoParser = new ParseAlgoritmo(submissao.codigo);
+          let algorimoParser = new ParseAlgoritmo(submissao.linhasAlgoritmo());
           let mensagemRASA = algorimoParser.getMainError(submissao.erro.traceback);
           this.chatbotMonitor.sendMessage(estudante.pk(), mensagemRASA);
 

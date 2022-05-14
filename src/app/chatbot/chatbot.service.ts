@@ -8,7 +8,7 @@ import { map, mergeMap } from 'rxjs/operators';
 })
 
 export class ChatbotService {
-  public url: string = "http://35.208.64.26:5005";
+  public url: string = "https://www.izzypeazy.com:5005";
   public latestMessageArr:Observable<any[]>;
   public messageUpdate = new EventEmitter();
   public senderID = Math.random()

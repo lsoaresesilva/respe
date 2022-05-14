@@ -4,8 +4,8 @@
 
 export const environment = {
   production: false,
-  URL: 'https://35.208.64.26:8000/',
-  //URL: 'http://localhost:8000/',
+  //URL: 'https://www.izzypeazy.com:8000/',
+  URL: 'http://localhost:8000/',
   URL_SERVIDOR:'http://localhost:4200/',
   URL_CHAT:'https://www.32b.com.br:3001', // URL_CHAT:'', http://localhost:3001
   //URL_SERVIDOR_DOC:'ws://127.0.0.1:8080',

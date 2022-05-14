@@ -4,7 +4,7 @@
 import { Component, ElementRef, EventEmitter, HostListener, Input, OnInit, ViewChild, ViewChildren, QueryList } from '@angular/core'
 import { fadeIn, fadeInOut } from '../animations'
 import { ChatbotService } from '../chatbot.service';
-import { environment } from 'src/environments/environment';
+import { LoginService } from '../../login-module/login.service';
 
 @Component({
   selector: 'chat-widget',
@@ -22,7 +22,6 @@ export class ChatWidgetComponent implements OnInit {
   @Input() public botAvatar: string = "/assets/botAvatar.png";
   @Input() public userAvatar: string = "/assets/userAvatar.jpg";
   // URL para se conectar ao chatbot
-  @Input() public url: string = "http://35.208.64.26:5005";
   // Primeira mensagem
   @Input() public startingMessage = 'Olá 👋, eu sou um monitor que está aqui para o ajudar. A qualquer momento poderá fazer perguntas como "O que é uma variável?", ou "Qual é um exemplo de uma condição?", que eu farei o meu melhor para responder! Estarei também aqui para quando tiver problemas na resolução dos seus exercicios!'
   // Controla se a janela aparece aberta ou fechada
@@ -44,7 +43,10 @@ export class ChatWidgetComponent implements OnInit {
   // Depois faço store na session storage (o que pode não ser o melhor, mas é para poder )
   public userName: string;
 
-  constructor(private chatbotService: ChatbotService) {
+  constructor(private chatbotService: ChatbotService, private login:LoginService) {
+
+    this.userName = this.login.getUsuarioLogado().pk();
+
     // Abrir o chat ao receber erro, se este tiver fechado
     this.chatbotService.messageUpdate.subscribe(() => {
       if (this.visible === false) {
@@ -126,7 +128,7 @@ export class ChatWidgetComponent implements OnInit {
     }
     // Fazer a conecção com o RASA
     this.chatbotService
-      .initRasaChat(this.url, this.userName)
+      .initRasaChat(this.chatbotService.url, this.userName)
       .subscribe(
         data => console.log('Rasa conversa inicializada'),
         error => {
