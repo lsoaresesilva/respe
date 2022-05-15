@@ -3,12 +3,9 @@ import { Component, OnInit } from '@angular/core';
 import { MenuItem, MessageService } from 'primeng/api';
 import { Router, ActivatedRoute } from '@angular/router';
 import Usuario from 'src/app/model/usuario';
-import Query from 'src/app/model/firestore/query';
-import { PerfilUsuario } from 'src/app/model/enums/perfilUsuario';
 import Turma from 'src/app/model/turma';
-import { ConhecimentoProgramacao } from 'src/app/model/enums/conhecimentoProgramacao';
-import { Assunto } from 'src/app/model/sistema-aprendizagem/assunto';
 import { Util } from 'src/app/model/util';
+import { ConhecimentoProgramacao } from 'src/app/model/enums/conhecimentoProgramacao';
 
 @Component({
   selector: 'app-listar-estudantes',
@@ -39,78 +36,7 @@ export class ListarEstudantesComponent implements OnInit {
         Turma.getAllEstudantes(params['codigoTurma']).subscribe((estudantes) => {
           this.estudantes$ = estudantes;
 
-          // CÁLCULO DO PROGRESSO
-
-           Assunto.getAll().subscribe((assuntos) => {
-            this.estudantes$.forEach((estudante) => {
-              Assunto.consultarRespostasEstudante(estudante).subscribe((respostas) => {
-                let respostasFiltradas:any = {};
-
-                let dataLimite = null;
-
-                if(estudante.codigoTurma == "curso2021b"){ // controle positivo
-                  dataLimite = new Date(2021, 5, 30, 23, 59, 59);
-                }else if(estudante.codigoTurma == "2021a"){ // controle positivo
-                  dataLimite = new Date(2021, 4, 26, 23, 59, 59);
-                }else if(estudante.codigoTurma == "curso2021j"){ // controle positivo
-                  dataLimite = new Date(2021, 6, 30, 23, 59, 59);
-                }
-                
-
-                respostasFiltradas.respostaQuestaoParson = [];
-                respostasFiltradas.respostaQuestaoCorrecao = [];
-                respostasFiltradas.respostaQuestaoFechada = [];
-                respostasFiltradas.submissoes = [];
-                respostasFiltradas.visualizacoesRespostasProgramacao = respostas.visualizacoesRespostasProgramacao;
-
-                respostas.respostaQuestaoParson.forEach(respostaParson=>{
-                  let dataParson = Util.firestoreDateToDate(respostaParson.data);
-                  if(dataParson <= dataLimite){
-                    respostasFiltradas.respostaQuestaoParson.push(respostaParson)
-                  }
-                })
-
-                respostas.respostaQuestaoCorrecao.forEach(resposta=>{
-                  let data = Util.firestoreDateToDate(resposta.data);
-                  if(data <= dataLimite){
-                    respostasFiltradas.respostaQuestaoCorrecao.push(resposta)
-                  }
-                })
-
-                respostas.respostaQuestaoFechada.forEach(resposta=>{
-                  let data = Util.firestoreDateToDate(resposta.data);
-                  if(data <= dataLimite){
-                    respostasFiltradas.respostaQuestaoFechada.push(resposta)
-                  }
-                });
-
-                respostas.submissoes.forEach(resposta=>{
-                  let data = Util.firestoreDateToDate(resposta.data);
-                  if(data <= dataLimite){
-                    respostasFiltradas.submissoes.push(resposta)
-                  }
-                })
-
-                
-                let progresso = Assunto.calcularProgressoGeral(assuntos, respostasFiltradas);
-                estudante.progressoGeral = progresso;
-              });
-            });
-          }); 
-
-
-          /*
-          });*/
-          /* Analytics.calcularNumeroAtividadesTrabalhadasPorSemana(turma).subscribe((estudantes) => {
-            this.estudantes$ = estudantes;
-            this.estudantes$.forEach((estudante) => {
-              Submissao.getAll(new Query('estudanteId', '==', estudante.id)).subscribe(
-                (submissoes) => {
-                  estudante.totalRespostasProgramacao = submissoes.length;
-                }
-              );
-            });
-          }); */
+          /*  */
         });
       }
     });

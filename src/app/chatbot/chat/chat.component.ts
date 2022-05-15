@@ -6,6 +6,7 @@ import { ChatbotService } from '../chatbot.service';
 import { DynamicDialogRef } from 'primeng/dynamicdialog';
 import { LoginService } from 'src/app/login-module/login.service';
 import DuvidaEstudante from 'src/app/model/chatbot/duvidaEstudante';
+import { ChatbotServiceProprio } from '../chatbot-proprio.service';
 
 @Component({
   selector: 'app-chatbot',
@@ -19,7 +20,7 @@ export class ChatComponent implements OnInit {
   @ViewChild('divChat')
   divChat: ElementRef;
 
-  constructor(public chatbot: ChatbotService, private ref: DynamicDialogRef, private login:LoginService) {
+  constructor(public chatbot: ChatbotServiceProprio, private ref: DynamicDialogRef, private login:LoginService) {
     this.visibilidade = false;
     this.chatbot.mensagemUpdate.subscribe(() => {
       if (this.chatbot.mensagens.length > 0) {
@@ -47,6 +48,6 @@ export class ChatComponent implements OnInit {
 
       });
     }
-    
+
   }
 }

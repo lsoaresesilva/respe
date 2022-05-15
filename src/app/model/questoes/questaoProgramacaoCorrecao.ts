@@ -1,14 +1,14 @@
+
 import { forkJoin, Observable } from 'rxjs';
-import { Assunto } from '../assunto';
-import RespostaQuestaoCorrecaoAlgoritmo from '../../correcao-algoritmo/correcaoAlgoritmo';
-import Query from '../../firestore/query';
-import { MaterialAprendizagem } from '../materialAprendizagem';
-import Submissao from '../../submissao';
-import Usuario from '../../usuario';
-import { Util } from '../../util';
+import RespostaQuestaoCorrecaoAlgoritmo from '../correcao-algoritmo/correcaoAlgoritmo';
+import Query from '../firestore/query';
+import Submissao from '../submissao';
+import Usuario from '../usuario';
+import { Util } from '../util';
+import { Assunto } from './assunto';
 import { QuestaoProgramacao } from './questaoProgramacao';
 
-export default class QuestaoProgramacaoCorrecao implements MaterialAprendizagem{
+export default class QuestaoProgramacaoCorrecao{
 
 
   constructor(public id, public ordem, public questao: QuestaoProgramacao) {
@@ -147,7 +147,7 @@ export default class QuestaoProgramacaoCorrecao implements MaterialAprendizagem{
             observer.complete();
         })
       })
-    
+
 
   } */
 }

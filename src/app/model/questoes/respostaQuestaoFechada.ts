@@ -1,9 +1,9 @@
-import { Collection, Document, date } from './firestore/document';
-import Usuario from './usuario';
-import Query from './firestore/query';
-import Alternativa from './alternativa';
+import { Collection, Document, date } from '../firestore/document';
+import Usuario from '../usuario';
+import Query from '../firestore/query';
+import Alternativa from '../alternativa';
 import { Observable } from 'rxjs';
-import QuestaoFechada from './sistema-aprendizagem/questoes/questaoFechada';
+import QuestaoFechada from './questaoFechada';
 
 @Collection('respostaQuestaoFechada')
 export class RespostaQuestaoFechada extends Document {

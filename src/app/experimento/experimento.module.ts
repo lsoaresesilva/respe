@@ -14,17 +14,23 @@ import { RouterModule, Routes } from '@angular/router';
 import { AuthGuard } from '../guards/auth.guard';
 import { TableModule } from 'primeng/table';
 import { ProfessorModule } from '../professor/professor.module';
+import { ListarLearningJournalsProgramacaoComponent } from './listar-learning-journals-programacao/listar-learning-journals-programacao.component';
 
 export const routes:Routes = [
   {
     path:'exportar-dados',
     component:ExportComponent,
     canActivate: [AuthGuard]
+  },
+  {
+    path:'listar-diarios-programacao',
+    component:ListarLearningJournalsProgramacaoComponent,
+    canActivate: [AuthGuard]
   }
 ]
 
 @NgModule({
-  declarations: [QuestaoComponent, QuestionarioAutorregulacaoComponent, AnaliseSelfInstructionComponent, ExportComponent],
+  declarations: [QuestaoComponent, QuestionarioAutorregulacaoComponent, AnaliseSelfInstructionComponent, ExportComponent, ListarLearningJournalsProgramacaoComponent],
   imports: [
     RouterModule.forChild(routes),
     DialogModule,

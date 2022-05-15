@@ -34,7 +34,7 @@ export class ChatGrupoComponent implements OnInit, OnChanges, AfterViewInit, OnD
   visibilidade;
   participantes;
 
-  estudante;
+  estudante:Usuario;
 
   grupoAdapter: ChatGrupoAdapter;
   grupoInicializado;
@@ -59,15 +59,15 @@ export class ChatGrupoComponent implements OnInit, OnChanges, AfterViewInit, OnD
     /* this.visibilidade = true;
 
     this.mensagens = [];
-    
+
     this.mensagens$ = new BehaviorSubject([]); */
 
     /* this.chatService.observerChat.subscribe(mensagem=>{
       this.mensagens.push(mensagem);
       this.mensagens$.next(this.mensagens);
       this.changeDetectorRef.detectChanges();
-      
-      
+
+
     }) */
   }
 
@@ -76,26 +76,33 @@ export class ChatGrupoComponent implements OnInit, OnChanges, AfterViewInit, OnD
   }
 
   ngAfterViewInit(): void {
-    if (!this.grupoInicializado && this.grupo != null) {
-      
+
+    if(this.estudante.grupoExperimento == Groups.control){
       this.grupoInicializado = true;
       this.abrirGrupo();
+    }else{
+      if (this.ngChatInstance != null && !this.grupoInicializado && this.grupo != null) {
+
+        this.grupoInicializado = true;
+        this.abrirGrupo();
+      }
     }
+
   }
 
   abrirGrupo() {
-    
+
     this.grupoAdapter.iniciar(this.estudante).subscribe(grupo=>{
       this.ngChatInstance.triggerOpenChatWindow(grupo);
     });
-    
+
   }
 
   abrirConversa(usuario) {
     if(usuario.id != this.grupo.id){
       this.ngChatInstance.triggerCloseChatWindow(usuario.id);
     }
-    
+
   }
 
   clicarParticipante(x) {
@@ -104,8 +111,12 @@ export class ChatGrupoComponent implements OnInit, OnChanges, AfterViewInit, OnD
 
   ngOnChanges(changes: SimpleChanges): void {
     if (this.atividadeGrupo != null && this.grupo != null) {
+
+      this.grupoAdapter = new ChatGrupoAdapter(this.grupo);
+
+
       /* this.iniciarChat(); */
-      /* 
+      /*
       let u = new Usuario(null, "", null, null, null, "Davizinho");
       u.status = ChatParticipantStatus.Online;
       let u2 = new Usuario(null, "", null, null, null, "Leo");
@@ -115,10 +126,7 @@ export class ChatGrupoComponent implements OnInit, OnChanges, AfterViewInit, OnD
       let grupo = new Group([u, u2]);
       grupo.id = this.grupo.id; */
 
-      if (this.ngChatInstance != null && !this.grupoInicializado && this.grupo != null) {
-        this.grupoInicializado = true;
-        this.abrirGrupo();
-      }
+
 
     }
 
@@ -126,9 +134,7 @@ export class ChatGrupoComponent implements OnInit, OnChanges, AfterViewInit, OnD
       /*  this.mensagem.atividadeGrupo = this.atividadeGrupo; */
     }
 
-    if (this.grupo != null) {
-      this.grupoAdapter = new ChatGrupoAdapter(this.grupo)
-    }
+
   }
 
   ngOnInit(): void {
@@ -145,7 +151,7 @@ export class ChatGrupoComponent implements OnInit, OnChanges, AfterViewInit, OnD
     return estudante instanceof Object ? estudante.nome : estudante;
   }
 
- 
+
 
   /* enviar(event){
     if(this.grupo != null && this.atividadeGrupo != null){
@@ -153,9 +159,9 @@ export class ChatGrupoComponent implements OnInit, OnChanges, AfterViewInit, OnD
       this.mensagem.grupo = this.grupo;
       this.chatService.enviarMensagem(this.mensagem).subscribe(()=>{
         this.mensagem.texto = "";
-  
+
       })
     }
-    
+
   } */
 }

@@ -13,10 +13,9 @@ export default class Export {
 
   static excluidos = ['B3Xgj4IGEOQvjLKoTHI9', 'JJ8zNeRZBDr4qTElmYJk', 'xRSUKvyNAYV8Cmvn639q', 'LYx978JlOUowgMgR7gq0', 'BmIqbIXvbFLx0D4rqdvo', "1flzSjZxDqi7QmmoMRqG"];
   static paginasExcluir = ['criar-atividade-grupo', 'editor-regex', 'cadastrar-postagem', 'entrar-grupo', 'editor-programacao', 'visualizar-postagem', 'listagem-atividades-grupo', 'minha-turma', "listar-videos", "visualizacao-video", 'visualizacao-turma', 'listar-turmas', 'listagem-diarios-professor', 'visualizacao-estudante']
-  
   static submissoes() {
     return new Observable((observer) => {
-      Submissao.exportToJson().subscribe((submissoes) => {
+      Submissao.exportToJsonFiltroData().subscribe((submissoes) => {
         observer.next(submissoes);
         observer.complete();
       });
@@ -29,13 +28,13 @@ export default class Export {
       function getTracks(estudantes){
         PageTrackRecord.getAllByEstudantes(estudantes, true, "array").subscribe(pageTracks=>{
           let arrayJson = [];
-          pageTracks.forEach(pTrack => {
+          /* pageTracks.forEach(pTrack => {
             if(!Export.paginasExcluir.includes(pTrack.pagina)){
               arrayJson.push(pTrack.toJson());
             }
-            
-          });
 
+          });
+ */
           console.log(JSON.stringify(arrayJson));
           observer.next(JSON.stringify(pageTracks));
           observer.complete();
@@ -48,29 +47,27 @@ export default class Export {
             if(estudante.grupoExperimento == 4){
               return false;
             }
-  
+
             if (Export.excluidos.includes(estudante.pk())) {
               return false;
             }
-  
+
             return true;
           });
-  
+
           getTracks(estudantesFiltrados);
-          
+
         })
       }else{
         Usuario.get(estudante.pk()).subscribe(estudante=>{
           getTracks([estudante]);
         })
       }
-      
     });
   }
 
   static filtrarEstudantes(submissoesJson) {
     let submissoes = [];
-    
     submissoesEstudantes['submissoes'].forEach((s) => {
       if (!Export.excluidos.includes(s['estudante'])) {
         submissoes.push(s);
@@ -100,7 +97,7 @@ export default class Export {
           let submissao: Submissao = new Submissao(null, s['codigo'], null, null, null);
           let erros = ErroSintaxeVariavel.erros(submissao.linhasAlgoritmo());
           if (erros.length != 0) {
-            
+
             errosSyntax.push(erros);
           }
         }

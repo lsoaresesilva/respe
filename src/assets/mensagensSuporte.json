@@ -23,35 +23,35 @@
       "mensagens": [
         "Parece que você está cometendo alguns erros por escrever as instruções de programação de forma incorreta.",
         "Leia a mensagem que aparece no seu console, ela irá ajudá-lo a corrigir o problema",
-        "Se ainda assim você estiver com dúvidas, dá uma lida nesse material: <a href='http://35.208.64.26:2368/resolvendo-o-syntaxerror-no-python/' target='_blank'>Resolvendo o SyntaxError</a>"
+        "Se ainda assim você estiver com dúvidas, dá uma lida nesse material: <a href='http://www.izzypeazy.com:2368/resolvendo-o-syntaxerror-no-python/' target='_blank'>Resolvendo o SyntaxError</a>"
       ]
     },
     "NameError": {
       "mensagens": [
         "Observei que você está cometendo alguns erros por causa da forma como está usando as variáveis",
         "Já leu as mensagens no console?",
-        "Esse material também pode te ajudar: <a href='http://35.208.64.26:2368/resolvendo-os-erros/' target='_blank'>Resolvendo o NameError</a>"
+        "Esse material também pode te ajudar: <a href='http://www.izzypeazy.com:2368/resolvendo-os-erros/' target='_blank'>Resolvendo o NameError</a>"
       ]
     },
     "TypeError": {
       "mensagens": [
         "Ops... parece que você está com dificuldades em usar variáveis de tipos diferentes",
         "O seu console é seu amigo, dá uma lida nele para entender as causas do erro",
-        "Também te recomendo um texto: <a href='http://35.208.64.26:2368/resolvendo-o-typeerror-no-python/' target='_blank'>Resolvendo o TypeError</a>"
+        "Também te recomendo um texto: <a href='http://www.izzypeazy.com:2368/resolvendo-o-typeerror-no-python/' target='_blank'>Resolvendo o TypeError</a>"
       ]
     },
     "NameErrorParteDois": {
       "mensagens": [
         "Sugiro que leia alguns materiais sobre esse erro para ajudá-lo a resolver o problema:",
         "",
-        "http://www.35.208.64.26:2368/resolvendo-os-erros/"
+        "http://www.izzypeazy.com:2368/resolvendo-os-erros/"
       ]
     },
     "saudacao": {
       "mensagens": ["Olá, meu nome é Davi e sou o seu monitor do curso de programação."]
     },
     "pedidoAjuda": {
-      "mensagens": ["Gostaria de pedir ajuda aos seus colegas?", 
+      "mensagens": ["Gostaria de pedir ajuda aos seus colegas?",
                     "Eles podem lhe dar conselhos sobre como resolver a questão.",
                     "Se precisar, escreva a sua dúvida que enviaremos aos seus colegas! Caso contrário, basta ignorar essa mensagem."]
     },
@@ -63,7 +63,7 @@
           "Você está aprendendo algo novo e que sabemos, é difícil",
           "Não desista! Logo logo você encontrará a solução!",
           "Tenta fazer uma pesquisa no Google sobre esse erro..."
-          
+
         ]
       },
       {

@@ -33,7 +33,7 @@ export default class AutoInstrucaoColetiva extends Document{
                         document["justificativas"].push(justificativa);
                     }
                 }
-                
+
             })
         }
 
@@ -53,31 +53,31 @@ export default class AutoInstrucaoColetiva extends Document{
                             return this.justificativas[i];
                         }
                     }
-                    
+
                 }
             }
         }
-        
+
     }
 
     static getByQuery(query, orderBy = null):Observable<any> {
         return new Observable(observer=>{
             super.getByQuery(query).subscribe(resultado=>{
                 if(resultado != null){
-                    
+
                     if(resultado.justificativas != null){
                         resultado.justificativas = resultado.justificativas.map(justificativa=>{
                             return JustificativasAutoInstrucao.construir(justificativa);
                         })
                     }
-                    
+
                     if(resultado["liderId"] != null){
                         Usuario.get(resultado["liderId"]).subscribe(estudanteLider=>{
                             resultado.lider = estudanteLider;
                         })
                     }
 
-                    
+
 
                     observer.next(resultado);
                     observer.complete();
@@ -140,7 +140,7 @@ export default class AutoInstrucaoColetiva extends Document{
                 }
             }
         }
-      
+
 
         if(!atualizacao){
             this.justificativas.push(novaJustificativa);
@@ -148,9 +148,19 @@ export default class AutoInstrucaoColetiva extends Document{
     }
 
     podeVisualizarPlanejamento(grupo:Grupo){
-        let isJustificativasRealizadas = false;
-        let isDificuldadesRelatadas = true;
-        if(grupo.estudantes.length == 2){
+
+
+        if(grupo.estudantes.length == 1){
+          return false;
+        }else{
+          let justificativaUm = this.justificativas[0];
+          let justificativaDois = this.justificativas[1];
+          return justificativaUm.isFinalizada() && justificativaDois.isFinalizada();
+        }
+
+
+
+        /*if(grupo.estudantes.length == 2){
             if(this.justificativas.length == 2){
                 isJustificativasRealizadas = true;
             }
@@ -162,7 +172,7 @@ export default class AutoInstrucaoColetiva extends Document{
             })
 
             return isJustificativasRealizadas && isDificuldadesRelatadas;
-        }else{
+        } else{
 
             let totalDificuldadesRelatadas = 0;
 
@@ -170,14 +180,9 @@ export default class AutoInstrucaoColetiva extends Document{
                 isJustificativasRealizadas = true;
             }
 
-            /* this.justificativas.forEach(justificativa=>{
-                if(justificativa.avaliacaoDificuldades != "" || justificativa.avaliacaoDificuldades == null){
-                    totalDificuldadesRelatadas += 1;
-                }
-            }) */
 
-            return isJustificativasRealizadas/*  && totalDificuldadesRelatadas >= Math.floor(0.75*grupo.estudantes.length) */;
-        }
+            return isJustificativasRealizadas;
+        } */
     }
 
     podeVisualizarAvancar(analiseProblema, analiseSolucao){
@@ -200,7 +205,7 @@ export default class AutoInstrucaoColetiva extends Document{
                         return JustificativasAutoInstrucao.construir(justificativa);
                     })
                 }
-                
+
                 if(autoInstrucaoColetiva["liderId"] != null){
                     Usuario.get(autoInstrucaoColetiva["liderId"]).subscribe(estudanteLider=>{
                         autoInstrucaoColetiva.lider = estudanteLider;
@@ -212,7 +217,7 @@ export default class AutoInstrucaoColetiva extends Document{
             callback.next(autoInstrucaoColetiva);
         });
 
-        super.onDocumentUpdate(id, innerCallback); 
+        super.onDocumentUpdate(id, innerCallback);
     }
 
 }

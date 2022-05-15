@@ -1,7 +1,7 @@
 import { Component, OnInit, Input, OnChanges } from '@angular/core';
-import { Tutor } from 'src/app/model/tutor';
-import { LoginService } from 'src/app/login-module/login.service';
-import { Assunto } from 'src/app/model/sistema-aprendizagem/assunto';
+import { Tutor } from '../../../model/tutor';
+import { LoginService } from '../../../login-module/login.service';
+import { Assunto } from '../../../model/questoes/assunto';
 
 @Component({
   selector: 'app-card-desempenho',
@@ -17,7 +17,7 @@ export class CardDesempenhoComponent implements OnChanges {
 
   progresso;
 
-  constructor(private loginService:LoginService) { 
+  constructor(private loginService:LoginService) {
     this.progresso = 0;
   }
 
@@ -25,7 +25,7 @@ export class CardDesempenhoComponent implements OnChanges {
     if(this.respostas != null && this.assuntos != null){
       this.progresso = Assunto.calcularProgressoGeral(this.assuntos, this.respostas);
     }
-    
+
   }
 
 }

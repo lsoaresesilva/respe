@@ -9,6 +9,7 @@ import {
   Renderer2,
   OnChanges,
   SimpleChanges,
+  OnDestroy,
 } from '@angular/core';
 import Editor from 'src/app/model/editor';
 
@@ -26,7 +27,6 @@ import ConsoleEditor from 'src/app/model/consoleEditor';
 import ErroServidor from 'src/app/model/errors/erroServidor';
 import { ApresentacaoService } from 'src/app/geral-module/apresentacao.service';
 import { Observable } from 'rxjs';
-import { QuestaoProgramacao } from 'src/app/model/sistema-aprendizagem/questoes/questaoProgramacao';
 import Usuario from 'src/app/model/usuario';
 import PontuacaoQuestaoProgramacao from 'src/app/model/gamification/pontuacaoQuestaoProgramacao';
 import Gamification from 'src/app/model/gamification/gamification';
@@ -42,14 +42,15 @@ import { TipoDiarioProgramacao } from 'src/app/model/srl/enum/tipoDiarioPrograma
 import DiarioProgramacao from 'src/app/model/srl/diarioProgramacao';
 import { ModoExecucao } from 'src/app/model/juiz/enum/modoExecucao';
 import { Groups } from 'src/app/model/experimento/groups';
-import { Assunto } from 'src/app/model/sistema-aprendizagem/assunto';
+import { QuestaoProgramacao } from 'src/app/model/questoes/questaoProgramacao';
+import { Assunto } from 'src/app/model/questoes/assunto';
 
 @Component({
   selector: 'responder-questao-programacao',
   templateUrl: './responder-questao-programacao.component.html',
   styleUrls: ['./responder-questao-programacao.component.css'],
 })
-export class ResponderQuestaoProgramacao implements OnInit, AfterViewInit, OnChanges {
+export class ResponderQuestaoProgramacao implements OnInit, AfterViewInit, OnChanges, OnDestroy {
   [x: string]: any;
 
   assunto;
@@ -92,10 +93,26 @@ export class ResponderQuestaoProgramacao implements OnInit, AfterViewInit, OnCha
       observer.complete();
     });
 
+    this.usuario = this.login.getUsuarioLogado();
+
     this.apresentarTestesCases = true;
     this.isMudancaEditorPermitida = true;
-    this.modoExecucao = ModoExecucao.execucao32bits;
+    if(this.usuario.grupoExperimento == Groups.control){
+      this.modoExecucao = ModoExecucao.execucao32bitsPadrao;
+    }else{
+      this.modoExecucao = ModoExecucao.execucao32bits;
+    }
+
+    this.router.events.subscribe(
+      event => {
+        this.submissao = null;
+      });
+
     Editor.getInstance().codigo.next('');
+  }
+
+  ngOnDestroy(): void {
+    let x = 2;
   }
   ngOnChanges(changes: SimpleChanges): void {
     console.log('algo mudou');
@@ -151,8 +168,8 @@ export class ResponderQuestaoProgramacao implements OnInit, AfterViewInit, OnCha
   }
 
   ngOnInit() {
-    this.usuario = this.login.getUsuarioLogado();
-    
+
+
 
     if (this.usuario == null) {
       throw new Error('Não é possível executar o código, pois você não está logado.'); // TODO: mudar para o message
@@ -168,7 +185,7 @@ export class ResponderQuestaoProgramacao implements OnInit, AfterViewInit, OnCha
         params['questaoId'] != undefined
       ) {
 
-        
+
 
         AtividadeGrupo.get(params['atividadeGrupoId']).subscribe((atividadeGrupo) => {
           this.atividadeGrupo = atividadeGrupo as AtividadeGrupo;
@@ -205,7 +222,7 @@ export class ResponderQuestaoProgramacao implements OnInit, AfterViewInit, OnCha
                           (submissao: Submissao) => {
                             if (submissao != null) this.submissao = submissao;
                             //this.pausaIde = false;
-      
+
                             this.atualizarCardErros();
                           }
                         );

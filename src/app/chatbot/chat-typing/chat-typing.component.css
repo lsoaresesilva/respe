@@ -1,0 +1,44 @@
+.typing {
+  align-items: center;
+  display: flex;
+  height: 17px;
+  padding-left: 10px;
+  padding-top: 4.5px;
+}
+.typing .dot {
+  animation: mercuryTypingAnimation 1.8s infinite ease-in-out;
+  background-color: #737876; 
+  border-radius: 50%;
+  height: 7px;
+  margin-right: 4px;
+  vertical-align: middle;
+  width: 7px;
+  display: inline-block;
+}
+.typing .dot:nth-child(1) {
+  animation-delay: 200ms;
+}
+.typing .dot:nth-child(2) {
+  animation-delay: 300ms;
+}
+.typing .dot:nth-child(3) {
+  animation-delay: 400ms;
+}
+.typing .dot:last-child {
+  margin-right: 0;
+}
+
+@keyframes mercuryTypingAnimation {
+  0% {
+    /*transform: translateY(0px);*/
+    background-color:#656867; 
+  }
+  28% {
+    /*transform: translateY(-7px);*/
+    background-color:#959897; 
+  }
+  44% {
+    /*transform: translateY(0px);*/
+    background-color: #cfd3d2; 
+  }
+}

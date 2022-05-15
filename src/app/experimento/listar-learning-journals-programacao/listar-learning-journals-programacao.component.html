@@ -1,0 +1,20 @@
+<button pButton label="Planejamento" (click)="visualizarPlanejamento()"></button>
+<button pButton label="Monitoramento" (click)="visualizarMonitoramento()"></button>
+<button pButton label="Reflexão" (click)="visualizarReflexao()"></button>
+
+<p-table [value]="diarios" responsiveLayout="scroll">
+  <ng-template pTemplate="header">
+    <tr>
+        <th>Estudante</th>
+        <th>Texto</th>
+        <th>Tipo</th>
+    </tr>
+</ng-template>
+<ng-template pTemplate="body" let-diario>
+  <tr>
+      <td>{{diario.id}}</td>
+      <td>{{diario.texto}}</td>
+      <td>{{diario.tipo}}</td>
+  </tr>
+</ng-template>
+</p-table>

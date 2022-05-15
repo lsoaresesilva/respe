@@ -1,5 +1,8 @@
 <p-toast></p-toast>
 <app-breadcrumb-assunto [assunto]="assunto" [questao]="questao"></app-breadcrumb-assunto>
+<div class="p-col-2 p-jc-end">
+  <app-btn-avancar-questao [assunto]="assunto" [questao]="questao"></app-btn-avancar-questao>
+</div>
 <div class="p-grid">
   <div class="p-col-12">
     <h1>{{ questao?.nomeCurto }}</h1>
@@ -46,7 +49,5 @@
     <button pButton label="Enviar resposta" type="button" class="p-button-primary" (click)="enviar()"
       [disabled]="respostaQuestaoFechada.pk() != undefined"></button>
   </div>
-  <div class="p-col-2 p-jc-end">
-    <app-btn-avancar-questao [assunto]="assunto" [questao]="questao"></app-btn-avancar-questao>
-  </div>
+  
 </div>

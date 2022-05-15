@@ -1,0 +1,21 @@
+<div class="saida" style="min-height: 80%" id="consoleProgramacao">
+    <div *ngIf="submissao != null && submissao.erro != null; else exibirConsole">
+      {{ submissao.erro.traceback }}
+    </div>
+    <ng-template #exibirConsole>
+      <div *ngIf="consoleEditor.submissao != null">
+      
+        <div *ngFor="let resultado of submissao.resultadosTestsCases">
+          <p-panel
+            header="Entrada: {{ submissao.questao.getTestCaseById(resultado.testCase.id).entradas }}"
+          >
+           
+            <div *ngFor="let saida of resultado.respostaAlgoritmo; let i = index" >
+              {{ saida }}
+            </div>
+          </p-panel>
+        </div>
+      </div>
+    </ng-template>
+  
+  </div>

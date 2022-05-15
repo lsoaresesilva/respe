@@ -1,4 +1,5 @@
 import { AfterViewInit, ChangeDetectorRef, Component, EventEmitter, Input, OnChanges, OnInit, Output, SimpleChanges } from '@angular/core';
+import { Group } from 'ng-chat';
 import { DialogService } from 'primeng/dynamicdialog';
 import { MonitorService } from 'src/app/chatbot/monitor.service';
 import { LoginService } from 'src/app/login-module/login.service';
@@ -6,6 +7,8 @@ import ConsoleEditor from 'src/app/model/consoleEditor';
 import RespostaQuestaoCorrecaoAlgoritmo from 'src/app/model/correcao-algoritmo/correcaoAlgoritmo';
 import SubmissaoGrupo from 'src/app/model/cscl/submissaoGrupo';
 import ErroServidor from 'src/app/model/errors/erroServidor';
+import { Groups } from 'src/app/model/experimento/groups';
+import { ModoExecucao } from 'src/app/model/juiz/enum/modoExecucao';
 
 @Component({
   selector: 'app-ide',
@@ -58,6 +61,7 @@ export class IdeComponent implements OnChanges{
     this.onEditorError = new EventEmitter();
     this.onEditorSubmit = new EventEmitter();
     this.modoVisualizacao = false;
+    
   }
   ngOnChanges(changes: SimpleChanges): void {
   }

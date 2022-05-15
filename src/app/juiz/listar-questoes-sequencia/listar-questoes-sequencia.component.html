@@ -1,6 +1,6 @@
  <p-timeline [value]="events | async" align="alternate">
   <ng-template pTemplate="marker" let-questao>
-    <p-knob [(ngModel)]="questao.percentualResposta" [size]="25" [readonly]="true"></p-knob>
+    <p-knob [(ngModel)]="questao.percentualResposta" [size]="25" [readonly]="true" *ngIf="estudante.grupoExperimento != 4"></p-knob>
 </ng-template>
   <ng-template pTemplate="content" let-questao>
     <span (click)="abrirQuestao(questao)" [style]="getCorQuestao(questao)">{{questao.sequencia}}. {{questao.nomeCurto}}</span>

@@ -1,15 +1,12 @@
-import { Assunto } from '../assunto';
-import { Document, Collection, ignore } from '../../firestore/document';
-import { Observable, forkJoin } from 'rxjs';
-import { Dificuldade } from '../../enums/dificuldade';
-import TestCase from '../../testCase';
+import { Observable, forkJoin } from "rxjs";
+import { ModeloRespostaQuestao } from "../modeloRespostaQuestao";
+import { MaterialAprendizagem } from "../sistema-aprendizagem/materialAprendizagem";
+import Submissao from "../submissao";
+import TestCase from "../testCase";
+import { Util } from "../util";
+import { Assunto } from "./assunto";
+import { Dificuldade } from './enum/dificuldade';
 
-import Submissao from '../../submissao';
-import Usuario from '../../usuario';
-import { Util } from '../../util';
-import { ErroCompilacao } from '../../errors/analise-compilacao/erroCompilacao';
-import { ModeloRespostaQuestao } from '../../modeloRespostaQuestao';
-import { MaterialAprendizagem } from '../materialAprendizagem';
 
 export class QuestaoProgramacao implements MaterialAprendizagem{
   constructor(
@@ -63,7 +60,7 @@ export class QuestaoProgramacao implements MaterialAprendizagem{
               let x = Util.firestoreDateToDate(submissao["data"]);
             }
           }
-          
+
           if (submissao != null && submissao['resultadosTestsCases'] != null) {
             const totalTestCase = questao.testsCases.length;
             let totalRespondidasSucesso = 0;
@@ -95,7 +92,7 @@ export class QuestaoProgramacao implements MaterialAprendizagem{
       if (Array.isArray(questoes) && questoes.length > 0) {
         const consultas = {};
 
-        
+
 
         questoes.forEach((questao) => {
           questao.percentualResposta = 0;
@@ -137,9 +134,9 @@ export class QuestaoProgramacao implements MaterialAprendizagem{
 
     let testsCases = TestCase.construir(questaoDocument.testsCases);
     let solucao = ModeloRespostaQuestao.construir(questaoDocument.solucao);
-    
+
     let questao = new QuestaoProgramacao(questaoDocument.id, questaoDocument.nomeCurto, questaoDocument.enunciado, questaoDocument.dificuldade, questaoDocument.sequencia, assuntos, testsCases, questaoDocument.algoritmoInicial, solucao )
-    
+
 
     return questao
   }
@@ -153,7 +150,7 @@ export class QuestaoProgramacao implements MaterialAprendizagem{
 
     if (questoes != null) {
       questoes.forEach((questao, index) => {
-        
+
         questao = this._construirIndividual(questao, assunto);
 
         objetosQuestoes.push(
@@ -263,7 +260,7 @@ export class QuestaoProgramacao implements MaterialAprendizagem{
           if(testCase.id == id){
             ts.push(testCase.objectToDocument());
           }
-          
+
         });
       }
     }else{
@@ -273,7 +270,7 @@ export class QuestaoProgramacao implements MaterialAprendizagem{
         });
       }
     }
-    
+
 
     return {
       testsCases: ts,

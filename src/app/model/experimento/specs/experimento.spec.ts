@@ -6,15 +6,15 @@ import { DocumentModule } from '../../firestore/document.module';
 
 import pageTracks_controle_positivo from '../../../../../json/pageTracks_controle_positivo.json';
 import pageTracks_experimental from '../../../../../json/pageTracks_experimental.json';
-import submissoesEstudantes from '../../../../../json/submissoes_28_jul.json';
+import submissoesEstudantes from '../../../../../json/submissoes_27_jan.json';
 import Submissao from '../../submissao';
 import AnalyticsProgramacao from '../../analytics/analyticsProgramacao';
 import AtividadeGrupo from '../../cscl/atividadeGrupo';
-import { Assunto } from '../../sistema-aprendizagem/assunto';
 import { Util } from '../../util';
 import Export from '../export';
 import PageTrackRecord from '../../analytics/pageTrack';
 import Grafo from '../../modelagem/grafo';
+import { Assunto } from '../../questoes/assunto';
 
 describe('Testes para process mining', () => {
   let estudantesGrupo3 = [
@@ -22,7 +22,9 @@ describe('Testes para process mining', () => {
     '0dV0X0EF0Rexfrj5nI8U',
     '24tTt0DoTXLyysO9sxDN',
     '3QY8EyDqvM19kb7okR9c',
-    '9GrPLbDbfBtAda8xSofl,Eb7rKqrrnaqwel4JoeGE,FL7dGBw3G4Nb4E3Rzc9e',
+    '9GrPLbDbfBtAda8xSofl',
+    'Eb7rKqrrnaqwel4JoeGE',
+    'FL7dGBw3G4Nb4E3Rzc9e',
     'HkwZM3zhnEatlTSAZfv4',
     'HpoIV24aeukWLKeeJxI8',
     'IQ5914tOM48ihWDnL65t',
@@ -149,6 +151,10 @@ describe('Testes para process mining', () => {
     })();
   });
 
+  it("Deve gerar dados dos alunos", (done)=>{
+
+  })
+
   xit('Deve carregar os pagetracks', () => {
     Export.getPageTracks().subscribe((pageTracks) => {
       //console.log(pageTracks);
@@ -193,7 +199,7 @@ describe('Testes para process mining', () => {
     });
   });
 
-  it('Deve identificar quantas atividades foram entregas no prazo pelos alunos', () => {
+  xit('Deve identificar quantas atividades foram entregas no prazo pelos alunos', () => {
     /* 1. Pegar o grupo ok
           2. Pegar todas as submissoes de cada usuário associada à questãoId da atividade colaborativa. ok
           3. Verificar apenas as do dia limite da atividade Grupo ok
@@ -282,6 +288,25 @@ describe('Testes para process mining', () => {
       });
     });
   });
+
+  it("Deve exportar as submissões", (done)=>{
+    /* Export.submissoes().subscribe(submissoes=>{
+      console.log(submissoes);
+      done();
+    }) */
+
+    let submissoes = [];
+
+    submissoesEstudantes['submissoes'].forEach((s) => {
+      let submissao = Submissao.fromJson(s);
+
+       if(submissao.data.getDate() == 28 && submissao.data.getMonth() == 6)
+
+          submissoes.push(submissao);
+    });
+
+    let x = submissoes;
+  })
 
   xit('Deve gerar métricas para análise dos algoritmos', () => {
     function ignorarEstudantes(estudanteId) {

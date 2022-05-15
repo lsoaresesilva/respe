@@ -1,5 +1,5 @@
 import { forkJoin, Observable } from "rxjs";
-import { Assunto } from "./assunto";
+import { Assunto } from "../questoes/assunto";
 import ConfiguracaoEditor from "../configuracoes/configuracaoEditor";
 import { Groups } from "../experimento/groups";
 import { Collection, Document } from "../firestore/document";
@@ -16,7 +16,7 @@ export default class VideoProgramacao extends Document implements MaterialAprend
         super(id);
     }
 
-  
+
 
     objectToDocument(){
         let document = super.objectToDocument();
@@ -70,11 +70,11 @@ export default class VideoProgramacao extends Document implements MaterialAprend
 
                                         return true;
                                     }
-                                        
+
                                 }));
                             })
                         }
-                        
+
 
                         videosSelecionados.sort((videoA, videoB)=>{
                             if(videoA.sequencia < videoB.sequencia){
@@ -94,7 +94,7 @@ export default class VideoProgramacao extends Document implements MaterialAprend
                 observer.next(VideoProgramacao.getAll());
                 observer.complete();
             }
-            
+
             });
         });
     }
@@ -113,14 +113,14 @@ export default class VideoProgramacao extends Document implements MaterialAprend
                         }
                     })
                 }
-  
+
                 observer.next(videos);
                 observer.complete();
             })
         })
-          
+
       }
 
-    
+
 
 }

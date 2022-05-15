@@ -1,16 +1,16 @@
-<!-- 
+<!--
 <p-dialog [(visible)]="visibilidade" [modal]="false" position="bottom-right" [style]="{ width: '20vw', height:'25vw'}" [closable]="false" [draggable]="false">
     <p-header >
         <app-cabecacho-chat [grupo]="grupo"></app-cabecacho-chat>
     </p-header>
     <div id="scrollChat" style="max-height:15vw">
         <p-card *ngFor="let m of mensagens$ | async" header={{getHeader(m.estudante)}}>
-            
+
             {{m.texto}}
         </p-card>
     </div>
     <p-footer [style]="{ height: '10px'}">
-        
+
         <input pInputText id="textoChat" [(ngModel)]="mensagem.texto" (keydown.enter)="enviar()" style="width:80%">
             <button (click)="enviar()" icon="pi pi-arrow-circle-right" style="width:10%" pButton></button>
     </p-footer>
@@ -26,8 +26,8 @@
     </nb-chat-form>
 </nb-chat> -->
 
-<ng-chat *ngIf="grupoInicializado == true && grupo != null"  [adapter]="grupoAdapter" [historyEnabled]="false" [historyPageSize]="4" [hideFriendsList]="false"
-    [userId]="estudante.pk()" [groupAdapter]="grupoAdapter" 
+<ng-chat [adapter]="grupoAdapter" [historyEnabled]="false" [historyPageSize]="4" [hideFriendsList]="false"
+    [userId]="estudante.pk()" [groupAdapter]="grupoAdapter"
     #ngChatInstance
     [audioEnabled]="false"
     title='Equipe'

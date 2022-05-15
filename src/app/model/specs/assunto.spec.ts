@@ -8,7 +8,12 @@ import { AngularFireModule, FirebaseApp } from '@angular/fire';
 
 import { FirebaseConfiguracao } from 'src/environments/firebase';
 
-import { Assunto } from '../sistema-aprendizagem/assunto';
+import { Assunto } from '../questoes/assunto';
+import { RespostaQuestaoFechada } from '../questoes/respostaQuestaoFechada';
+import { Util } from '../util';
+import Submissao from '../submissao';
+import ResultadoTestCase from '../resultadoTestCase';
+import { Observable } from 'rxjs';
 
 describe('Testes de questão', () => {
   let app: firebase.app.App;
@@ -137,6 +142,82 @@ describe('Testes de questão', () => {
     expect(arrayAssuntos[0].nome).toEqual('assuntoA');
     expect(arrayAssuntos[1].nome).toEqual('assuntoB');
     expect(arrayAssuntos[2].nome).toEqual('assuntoC');
+  });
+
+  // TODO: Testar progresso com visualização
+
+  function gerarRespostas(assuntos, percentual = 100){
+
+      let respostas = {submissoes:{}, respostaQuestaoFechada:[], visualizacoesRespostasProgramacao:[]};
+
+      let respostasQuestaoFechada:RespostaQuestaoFechada[] = [];
+      let submissoes = [];
+
+      for(let i = 0; i < assuntos.length; i++){
+
+
+
+
+        for(let j = 0; j < assuntos[i].questoesFechadas.length; j++){
+
+          let resposta = new RespostaQuestaoFechada(Util.uuidv4(), null, assuntos[i].questoesFechadas[j].getAlternativaCerta(), assuntos[i].questoesFechadas[j]);
+          resposta["questaoId"] = assuntos[i].questoesFechadas[j].id;
+
+          respostasQuestaoFechada.push(resposta);
+        }
+
+        for(let z = 0; z < assuntos[i].questoesProgramacao.length; z++){
+
+
+
+          let submissao = new Submissao(Util.uuidv4(), "", null, assuntos[i], assuntos[i].questoesProgramacao[z]);
+          submissao.resultadosTestsCases = [];
+          for(let x = 0; x < assuntos[i].questoesProgramacao[z].testsCases.length; x++){
+              let resultado = new ResultadoTestCase(Util.uuidv4(), true, "", assuntos[i].questoesProgramacao[z].testsCases[x]);
+              submissao.resultadosTestsCases.push(resultado);
+          }
+
+          submissao["questaoId"] = assuntos[i].questoesProgramacao[z].id;
+
+          submissoes.push(submissao);
+
+          //respostasQuestaoProgramacao.push(submissao);
+        }
+      }
+
+      respostas.submissoes = submissoes;
+      respostas.respostaQuestaoFechada = respostasQuestaoFechada;
+
+
+      return respostas;
+
+  }
+
+  it('Deve calcular o progresso como 100% para um assunto', (done) => {
+    Assunto.getAll().subscribe(assuntos=>{
+      let respostas=  gerarRespostas(assuntos);
+      let progresso = Assunto.calcularProgressoGeral(assuntos, respostas);
+
+      expect(progresso).toEqual(100);
+      done();
+
+
+    })
+
+
+    /* let a = new Assunto(null, 'assuntoA');
+    a.sequencia = 1;
+    let b = new Assunto(null, 'assuntoB');
+    b.sequencia = 2;
+    let c = new Assunto(null, 'assuntoC');
+    c.sequencia = 3;
+
+    let arrayAssuntos = [c, b, a];
+
+    arrayAssuntos = Assunto.ordenar(arrayAssuntos);
+    expect(arrayAssuntos[0].nome).toEqual('assuntoA');
+    expect(arrayAssuntos[1].nome).toEqual('assuntoB');
+    expect(arrayAssuntos[2].nome).toEqual('assuntoC'); */
   });
 
   /*

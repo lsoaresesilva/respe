@@ -2,7 +2,10 @@
     <app-breadcrumb-assunto [assunto]="assunto" [questao]="questao">
     </app-breadcrumb-assunto>
     <div class="p-grid">
+        
         <div class="p-col-4">
+            <app-btn-avancar-questao style="margin-left:5px" [assunto]="assunto" [questao]="questao">
+            </app-btn-avancar-questao>
             <dados-questao [assunto]="assunto" [questao]="questao" id="dadosQuestao">
             </dados-questao>
         </div>

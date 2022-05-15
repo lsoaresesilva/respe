@@ -55,7 +55,7 @@ export class MainComponent implements OnInit {
   abrirTurma(){
     this.router.navigate(['geral/main', { outlets: { principal: ['turma', 'minha-turma'] } }]);
   }
-  
+
   abrirEditorProgramacao(){
     this.router.navigate(['geral/main', { outlets: { principal: ['juiz', 'editor-programacao'] } }]);
   }
@@ -71,13 +71,17 @@ export class MainComponent implements OnInit {
 
   abrirDiario() {
     this.router.navigate(['geral/main', { outlets: { principal: ['srl', 'listagem-diarios'] } }]);
-    
+
+  }
+
+  abrirListagemDiarioProgramacao(){
+    this.router.navigate(['geral/main', { outlets: { principal: ['experimento', 'listar-diarios-programacao'] } }]);
   }
 
   abrirAssuntos() {
     this.loading = true;
     this.router.navigate(['geral/main', { outlets: { principal: ['juiz', 'listar-assuntos'] } }]);
-    
+
   }
 
   abrirAssuntosAdmin() {

@@ -4,7 +4,7 @@ import { ErroCompilacao } from 'src/app/model/errors/analise-compilacao/erroComp
 import FrequenciaErro from '../model/errors/analise-compilacao/frequenciaErro';
 import Erro from '../model/errors/erro';
 import Submissao from '../model/submissao';
-import { ChatbotService } from './chatbot.service';
+import { ChatbotServiceProprio } from './chatbot-proprio.service';
 import MensagemSuporteMonitor from '../model/mensagemSuporteMonitor';
 import { getLabelPorCategoriaNumero } from '../model/errors/enum/labelCategoriasErro';
 import Usuario from '../model/usuario';
@@ -23,6 +23,8 @@ import Grupo from '../model/cscl/grupo';
 import Query from '../model/firestore/query';
 import { Observable } from 'rxjs';
 import { Util } from '../model/util';
+import { ChatbotService } from './chatbot.service';
+import ParseAlgoritmo from '../model/errors/analise-pre-compilacao/parseAlgoritmo';
 
 @Injectable({
   providedIn: 'root',
@@ -34,9 +36,10 @@ export class MonitorService {
   suporteMotivacional: String[];
 
   constructor(
-    private chatbot: ChatbotService,
+    private chatbot: ChatbotServiceProprio,
     public dialogService: DialogService,
-    private login: LoginService
+    private login: LoginService,
+    private chatbotMonitor:ChatbotService
   ) {
     this.suporte = new Map<CategoriaErro, String[]>();
     this.suporteMotivacional = [];
@@ -176,7 +179,7 @@ export class MonitorService {
                   observer.complete();
                 }
                 }
-                
+
               }
             );
           }
@@ -210,10 +213,12 @@ export class MonitorService {
   ) {
     let enviarMensagem = false;
     let mensagens: Mensagem[] = [];
-    if (erro != null) {
+
+    // TODO: Precisa melhorar, pois está parecido com as mensagens do console.
+    /* if (erro != null) {
       mensagens.push(new Mensagem('Há um erro no seu algoritmo...', null));
       mensagens.push(new Mensagem('Possivelmente ' + erro.mensagem, null));
-    }
+    } */
     Submissao.getPorQuestao(questao, estudante).subscribe((submissoes) => {
       const errorQuotient = this.calcularErrorQuotient(submissoes);
       // Estabelecemos esse valor de 30% de error quotient arbitrariamente.
@@ -226,7 +231,11 @@ export class MonitorService {
         const principalErro = FrequenciaErro.identificarPrincipalErro(frequencia); */
         const submissao = Submissao.filtrarRecente(submissoes);
         if (submissao.erro != null) {
-          const suporteParaCategoria = this.suporte.get(submissao.erro.categoria);
+          let algorimoParser = new ParseAlgoritmo(submissao.linhasAlgoritmo());
+          let mensagemRASA = algorimoParser.getMainError(submissao.erro.traceback);
+          this.chatbotMonitor.sendMessage(mensagemRASA);
+
+          /* const suporteParaCategoria = this.suporte.get(submissao.erro.categoria);
 
           if (!suporteParaCategoria.includes(questao.id)) {
             this.suporteRecente = submissao.erro.categoria;
@@ -240,22 +249,10 @@ export class MonitorService {
               mensagens.push(mensagemSuporte);
               let registroMensagem = new RegistroMensagemChatbot(null, mensagemSuporte, estudante);
               registroMensagem.save().subscribe(() => {});
-              if (estudante.grupoExperimento != Groups.control) {
-                DiarioProgramacao.exibirDiario(
-                  this.login.getUsuarioLogado(),
-                  TipoDiarioProgramacao.monitoramento
-                ).subscribe((visibilidade) => {
-                  if (visibilidade) {
-                    this.dialogService.open(DiarioProgramacaoComponent, {
-                      data: { tipo: TipoDiarioProgramacao.monitoramento },
-                      width: '600',
-                      height: '480',
-                    });
-                  }
-                });
-              }
-            }
-          } else {
+
+            } */
+          //}
+          /* else {
             if (errorQuotient > 0.7) {
               if (!this.suporteMotivacional.includes(questao.id)) {
                 this.suporteMotivacional.push(questao.id);
@@ -276,10 +273,10 @@ export class MonitorService {
                 }
               }
             }
-          }
+          } */
         }
       }
-      this.chatbot.enviarMensagem(mensagens);
+      //this.chatbot.enviarMensagem(mensagens);
     });
   }
 

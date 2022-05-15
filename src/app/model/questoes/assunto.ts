@@ -1,22 +1,23 @@
-import { Document, Collection, ignore } from '../firestore/document';
-import { Observable, forkJoin } from 'rxjs';
-import { QuestaoProgramacao } from './questoes/questaoProgramacao';
-import Usuario from '../usuario';
-import Submissao from '../submissao';
-import { Util } from '../util';
-import { RespostaQuestaoFechada } from '../respostaQuestaoFechada';
-import { Assuntos } from '../enums/assuntos';
-import QuestaoFechada from './questoes/questaoFechada';
-import QuestaoParsonProblem from './questoes/questaoParsonProblem';
+
+import { Observable, forkJoin } from "rxjs";
+import QuestaoColaborativa from "../cscl/questaoColaborativa";
+import { Assuntos } from "../enums/assuntos";
+import { Collection, ignore } from "../firestore/document";
+import { MaterialAprendizagem } from "../sistema-aprendizagem/materialAprendizagem";
+import Submissao from "../submissao";
+import Usuario from "../usuario";
+import { Util } from "../util";
+import { QuestaoProgramacao } from "./questaoProgramacao";
+import QuestaoFechada  from './questaoFechada';
+import { Document } from "../firestore/document";
 import Query from '../firestore/query';
-import { RespostaQuestaoParson } from '../juiz/respostaQuestaoParson';
-import QuestaoColaborativa from '../cscl/questaoColaborativa';
-import QuestaoProgramacaoCorrecao from './questoes/questaoProgramacaoCorrecao';
-import RespostaQuestaoCorrecaoAlgoritmo from '../correcao-algoritmo/correcaoAlgoritmo';
-import { VisualizacaoRespostasQuestoes } from '../visualizacaoRespostasQuestoes';
-import { QuestaoProgramacaoRegex } from './questoes/questaoProgramacaoRegex';
-import VideoProgramacao from './videoProgramacao';
-import { MaterialAprendizagem } from './materialAprendizagem';
+import { RespostaQuestaoFechada } from "./respostaQuestaoFechada";
+import QuestaoParsonProblem from './questaoParsonProblem';
+import QuestaoProgramacaoCorrecao from './questaoProgramacaoCorrecao';
+import { QuestaoProgramacaoRegex } from './questaoProgramacaoRegex';
+import VideoProgramacao from '../sistema-aprendizagem/videoProgramacao';
+import { VisualizacaoRespostasQuestoes } from './visualizacaoRespostasQuestoes';
+
 
 @Collection('assuntos')
 export class Assunto extends Document {
@@ -126,7 +127,7 @@ export class Assunto extends Document {
 
   /**
    * Constrói as relações internas de um assunto com seus materiais de aprendizagem.
-   * @param assunto 
+   * @param assunto
    */
   static construir(assunto){
     assunto['questoesProgramacao'] = QuestaoProgramacao.construir(
@@ -135,14 +136,14 @@ export class Assunto extends Document {
     );
 
     assunto['questoesFechadas'] = QuestaoFechada.construir(assunto['questoesFechadas']);
-    
+
     assunto['questoesColaborativas'] = QuestaoColaborativa.construir(
       assunto['questoesColaborativas'],
       assunto
     );
 
     assunto['questoesParson'] = QuestaoParsonProblem.construir(assunto['questoesParson']);
-    
+
     assunto['questoesCorrecao'] = QuestaoProgramacaoCorrecao.construir(
       assunto['questoesCorrecao'],
       assunto
@@ -167,11 +168,11 @@ export class Assunto extends Document {
         (assunto) => {
 
           Assunto.construir(assunto);
-          
+
           observer.next(assunto as Assunto);
           observer.complete();
 
-          
+
         },
         (err) => {
           observer.error(err);
@@ -200,7 +201,7 @@ export class Assunto extends Document {
   getMateriaisOrdenados(estudante):Observable<MaterialAprendizagem[]> {
     return new Observable((observer) => {
       let consultas = {};
-       
+
 /*
       if (Array.isArray(this.questoesProgramacao) && this.questoesProgramacao.length > 0) {
         consultas['questoesProgramacao'] = QuestaoProgramacao.verificarQuestoesRespondidas(
@@ -259,7 +260,7 @@ export class Assunto extends Document {
           questoes = questoes.concat(respostas['questoesRegex']);
         }
 
-        let materiais = this.ordenarMaterialAprendizagem(questoes);        
+        let materiais = this.ordenarMaterialAprendizagem(questoes);
 
         observer.next(materiais);
         observer.complete();
@@ -292,12 +293,12 @@ export class Assunto extends Document {
       query.respostaQuestaoFechada = RespostaQuestaoFechada.getAll(
         new Query('estudanteId', '==', estudante.pk())
       );
-      query.respostaQuestaoParson = RespostaQuestaoParson.getAll(
+      /* query.resposaQuestaoParson = RespostaQuestaoParson.getAll(
         new Query('estudanteId', '==', estudante.pk())
       );
       query.respostaQuestaoCorrecao = RespostaQuestaoCorrecaoAlgoritmo.getAll(
         new Query('estudanteId', '==', estudante.pk())
-      );
+      ); */
 
       query.visualizacoesRespostasProgramacao = VisualizacaoRespostasQuestoes.getAll(new Query("estudanteId", "==", estudante.pk()));
 
@@ -311,21 +312,21 @@ export class Assunto extends Document {
   static calcularProgresso_controle_positivo_temp(assunto: Assunto, respostas) {
     let percentualConclusao = 0;
 
-
     percentualConclusao += this.calcularPercentualConclusaoQuestoesFechadas(
       assunto,
       respostas.respostaQuestaoFechada
     );
-    percentualConclusao += this.calcularPercentualConclusaoQuestoesParson(
+
+    /* percentualConclusao += this.calcularPercentualConclusaoQuestoesParson(
       assunto,
       respostas.respostaQuestaoParson
     );
 
-    /* percentualConclusao += this.calcularPercentualConclusaoQuestoesCorrecao(
+    percentualConclusao += this.calcularPercentualConclusaoQuestoesCorrecao(
       assunto,
       respostas.respostaQuestaoCorrecao
-    ); */
-
+    );
+ */
     percentualConclusao += this.calcularPercentualConclusaoQuestoesProgramacao(
       assunto,
       Submissao.agruparPorQuestao(respostas.submissoes),
@@ -335,93 +336,51 @@ export class Assunto extends Document {
 
 
 
-    return (percentualConclusao * 100)/3; // Divide por quatro, pois é o total de tipos de questões que existem, consequentemente de percentuais que são calculados para cada um.
+    return (percentualConclusao * 100)/2; // Divide por dois, pois as questões parson e correção estavam com problema.
   }
 
   static calcularProgresso(assunto: Assunto, respostas) {
     let percentualConclusao = 0;
 
-    let peso = assunto.questoesFechadas.length + assunto.questoesParson.length + assunto.questoesProgramacao.length;
-
-    let notaQuestoesFechadas = 0;
-    let notaQuestoesParson = 0;
-    let notaQuestoesProgramacao = 0;
-
-    /* percentualConclusao += this.calcularPercentualConclusaoQuestoesFechadas(
+    percentualConclusao += this.calcularPercentualConclusaoQuestoesFechadas(
       assunto,
       respostas.respostaQuestaoFechada
     );
-    percentualConclusao += this.calcularPercentualConclusaoQuestoesParson(
+
+    /* percentualConclusao += this.calcularPercentualConclusaoQuestoesParson(
       assunto,
       respostas.resposaQuestaoParson
     );
-
-    /* percentualConclusao += this.calcularPercentualConclusaoQuestoesCorrecao(
+    percentualConclusao += this.calcularPercentualConclusaoQuestoesCorrecao(
       assunto,
       respostas.respostaQuestaoCorrecao
-    ); */
-
-    /* percentualConclusao += this.calcularPercentualConclusaoQuestoesProgramacao(
-      assunto,
-      Submissao.agruparPorQuestao(respostas.submissoes),
-      respostas.visualizacoesRespostasProgramacao,
-      0.5
-    ); */ 
-
-    notaQuestoesFechadas = this.calcularPercentualConclusaoQuestoesFechadas(
-      assunto,
-      respostas.respostaQuestaoFechada
     );
-    notaQuestoesParson += this.calcularPercentualConclusaoQuestoesParson(
-      assunto,
-      respostas.respostaQuestaoParson
-    );
-
-    /* percentualConclusao += this.calcularPercentualConclusaoQuestoesCorrecao(
-      assunto,
-      respostas.respostaQuestaoCorrecao
-    ); */
-
-    notaQuestoesProgramacao += this.calcularPercentualConclusaoQuestoesProgramacao(
+ */
+    percentualConclusao += this.calcularPercentualConclusaoQuestoesProgramacao(
       assunto,
       Submissao.agruparPorQuestao(respostas.submissoes),
       respostas.visualizacoesRespostasProgramacao,
       0.5
     );
 
-    let notaFinal = notaQuestoesFechadas*assunto.questoesFechadas.length + notaQuestoesParson*assunto.questoesParson.length + notaQuestoesProgramacao*assunto.questoesProgramacao.length;
 
-    return (notaFinal/peso)*100;
 
-    //return (percentualConclusao * 100)/3; // Divide por quatro, pois é o total de tipos de questões que existem, consequentemente de percentuais que são calculados para cada um.
-  }
-
-  static calcularProgressoGeral_controle_positivo_temp(assuntos: Assunto[], respostas) {
-    let percentualConclusaoGeral = 0;
-    if (!Util.isObjectEmpty(respostas)) {
-      for (let i = 0; i < assuntos.length; i++) {
-        percentualConclusaoGeral += this.calcularProgresso_controle_positivo_temp(assuntos[i], respostas);
-      }
-    }
-
-    if(percentualConclusaoGeral > 0){
-      percentualConclusaoGeral = percentualConclusaoGeral / assuntos.length;
-      percentualConclusaoGeral = Math.round((percentualConclusaoGeral + Number.EPSILON) * 100) / 100;
-    }
-
-    return percentualConclusaoGeral;
+    return (percentualConclusao * 100)/2; // Divide por dois, pois as questões parson e correção estavam com problema.
   }
 
   static calcularProgressoGeral(assuntos: Assunto[], respostas) {
     let percentualConclusaoGeral = 0;
     if (!Util.isObjectEmpty(respostas)) {
       for (let i = 0; i < assuntos.length; i++) {
-        percentualConclusaoGeral += this.calcularProgresso(assuntos[i], respostas);
+        if(assuntos[i].id != "2SbwM35W33QIk5wbcVC7"){
+          percentualConclusaoGeral += this.calcularProgresso(assuntos[i], respostas);
+        }
+
       }
     }
 
     if(percentualConclusaoGeral > 0){
-      percentualConclusaoGeral = percentualConclusaoGeral / assuntos.length;
+      percentualConclusaoGeral = percentualConclusaoGeral / (assuntos.length-1);
       percentualConclusaoGeral = Math.round((percentualConclusaoGeral + Number.EPSILON) * 100) / 100;
     }
 
@@ -549,25 +508,35 @@ export class Assunto extends Document {
       const totalQuestoes = assunto.questoesProgramacao.length;
       let questoesRespondidas = 0;
       assunto.questoesProgramacao.forEach((questao) => {
-        let subsQuestao = submissoes.get(questao.id);
-        let subRecente = Submissao.filtrarRecente(subsQuestao);
-        let visualizouResposta = visualizacoesQuestoesProgramacao.findIndex((visualizacao)=>{
-          if(visualizacao.questaoId == questao.id){
-            return true;
+
+        if(questao.id != "4fe6ba63-0d71-49e5-b3b9-a1756872e2ad"){ // Bloqueia a questão adicionada para prof. do if
+          let subsQuestao = submissoes.get(questao.id);
+          let subRecente = Submissao.filtrarRecente(subsQuestao);
+          let visualizouResposta = visualizacoesQuestoesProgramacao.findIndex((visualizacao)=>{
+            if(visualizacao.questaoId == questao.id){
+              return true;
+            }
+
+            return false;
+          })
+          if(visualizouResposta == -1){
+            let resultado = questao.isFinalizada(subRecente, margemAceitavel);
+            if (resultado) {
+              questoesRespondidas += 1;
+            }
           }
 
-          return false;
-        })
-        if(visualizouResposta == -1){
-          let resultado = questao.isFinalizada(subRecente, margemAceitavel);
-          if (resultado) {
-            questoesRespondidas += 1;
-          }
         }
-        
+
       });
 
-      return questoesRespondidas / totalQuestoes;
+
+      if(assunto.id != "PU0EstYupXgDZ2a57X0X"){
+        return questoesRespondidas / totalQuestoes;
+      }else{
+        return questoesRespondidas / (totalQuestoes-1);
+      }
+
     } else {
       return 0;
     }

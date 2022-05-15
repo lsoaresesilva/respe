@@ -1,12 +1,12 @@
 import { Observable } from 'rxjs';
-import Alternativa from '../../alternativa';
-import { Assunto } from '../assunto';
-import { Dificuldade } from '../../enums/dificuldade';
-import { ignore } from '../../firestore/document';
-import Query from '../../firestore/query';
-import { RespostaQuestaoFechada } from '../../respostaQuestaoFechada';
-import { Util } from '../../util';
-import { MaterialAprendizagem } from '../materialAprendizagem';
+import Alternativa from '../alternativa';
+import { Assunto } from './assunto';
+import { ignore } from '../firestore/document';
+import Query from '../firestore/query';
+import { RespostaQuestaoFechada } from './respostaQuestaoFechada';
+import { Util } from '../util';
+import { MaterialAprendizagem } from '../sistema-aprendizagem/materialAprendizagem';
+import { Dificuldade } from './enum/dificuldade';
 
 export default class QuestaoFechada implements MaterialAprendizagem{
   @ignore()

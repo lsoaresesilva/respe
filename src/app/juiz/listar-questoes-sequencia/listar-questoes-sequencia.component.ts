@@ -1,15 +1,14 @@
 import { Component, Input, OnInit, OnChanges } from '@angular/core';
 import { Router } from '@angular/router';
-import { LoginService } from 'src/app/login-module/login.service';
-import { Groups } from 'src/app/model/experimento/groups';
-import { QuestaoProgramacao } from 'src/app/model/sistema-aprendizagem/questoes/questaoProgramacao';
-import { forkJoin, Observable } from 'rxjs';
-import QuestaoFechada from 'src/app/model/sistema-aprendizagem/questoes/questaoFechada';
-import QuestaoParsonProblem from 'src/app/model/sistema-aprendizagem/questoes/questaoParsonProblem';
-import QuestaoProgramacaoCorrecao from 'src/app/model/sistema-aprendizagem/questoes/questaoProgramacaoCorrecao';
-import { QuestaoProgramacaoRegex } from 'src/app/model/sistema-aprendizagem/questoes/questaoProgramacaoRegex';
-import VideoProgramacao from 'src/app/model/sistema-aprendizagem/videoProgramacao';
-import { Assunto } from 'src/app/model/sistema-aprendizagem/assunto';
+import { Observable } from 'rxjs';
+import { Assunto } from '../../model/questoes/assunto';
+import QuestaoFechada from '../../model/questoes/questaoFechada';
+import QuestaoParsonProblem from '../../model/questoes/questaoParsonProblem';
+import QuestaoProgramacaoCorrecao from '../../model/questoes/questaoProgramacaoCorrecao';
+import {QuestaoProgramacaoRegex} from '../../model/questoes/questaoProgramacaoRegex';
+import {LoginService} from '../../login-module/login.service';
+import {Groups} from '../../model/experimento/groups';
+
 
 @Component({
   selector: 'app-listar-questoes-sequencia',
@@ -21,16 +20,16 @@ export class ListarQuestoesSequenciaComponent implements OnChanges {
   assunto?: Assunto;
   valor;
   questoes;
-
+  estudante;
   events;
 
   constructor(private router: Router, private login: LoginService) {
     this.valor = 2;
-    
+    this.estudante = this.login.getUsuarioLogado()
   }
 
   ngOnChanges(): void {
-    
+
     if(this.assunto != null && this.assunto.pk() != null){
       this.assunto.getMateriaisOrdenados(this.login.getUsuarioLogado()).subscribe(questoes=>{
         this.questoes = questoes;
@@ -43,7 +42,7 @@ export class ListarQuestoesSequenciaComponent implements OnChanges {
     if (questao instanceof QuestaoFechada) {
       this.router.navigate([
         'geral/main',
-        { outlets: { principal: ['juiz', 'visualizacao-questao-fechada', this.assunto.pk(), questao.id] } },
+        { outlets: { principal: ['juiz', 'visualizar-questao-fechada', this.assunto.pk(), questao.id] } },
       ]);
     } else if (questao instanceof QuestaoParsonProblem) {
       this.router.navigate([
@@ -60,7 +59,7 @@ export class ListarQuestoesSequenciaComponent implements OnChanges {
         'geral/main',
         { outlets: { principal: ['juiz', 'editor-regex', this.assunto.pk(), questao.id] } },
       ]);
-    } 
+    }
     else {
       if (this.login.getUsuarioLogado().grupoExperimento === Groups.control) {
         this.router.navigate([
@@ -78,16 +77,19 @@ export class ListarQuestoesSequenciaComponent implements OnChanges {
   }
 
   getCorQuestao(questao) {
-    if (questao.respondida === true) {
-      return 'color: rgb(103, 202, 103); cursor:pointer';
-    } else if (questao.respondida === false) {
-      return 'color: rgb(220,20,60); cursor:pointer';
+    if(this.estudante.grupoExperimento != Groups.control){
+      if (questao.respondida === true) {
+        return 'color: rgb(103, 202, 103); cursor:pointer';
+      } else if (questao.respondida === false) {
+        return 'color: rgb(220,20,60); cursor:pointer';
+      }
     }
+
 
     return 'color: black; cursor:pointer';
   }
 
- 
+
 
   construirTimelineQuestoes(){
     let questoes = []

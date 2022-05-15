@@ -3,6 +3,7 @@ import { LoginService } from 'src/app/login-module/login.service';
 import AtividadeGrupo from 'src/app/model/cscl/atividadeGrupo';
 import Query from 'src/app/model/firestore/query';
 import Turma from 'src/app/model/turma';
+import Usuario from 'src/app/model/usuario';
 import { Util } from 'src/app/model/util';
 
 @Component({
@@ -13,8 +14,8 @@ import { Util } from 'src/app/model/util';
 export class ListarAtividadesGrupoComponent implements OnInit {
 
   atividades;
-  usuario;
-  
+  usuario:Usuario;
+
 
   constructor(private login:LoginService) {
     this.atividades = []
@@ -23,7 +24,7 @@ export class ListarAtividadesGrupoComponent implements OnInit {
 
   ngOnInit(): void {
 
-    AtividadeGrupo.getAll(new Query("estudantes", "array-contains", this.usuario.pk())).subscribe(as => {
+    AtividadeGrupo.getAll(new Query("turmaCodigo", "==", this.usuario.turma.codigo)).subscribe(as => {
       this.atividades = as;
       this.gerarLink();
     });
@@ -45,7 +46,7 @@ export class ListarAtividadesGrupoComponent implements OnInit {
     }
   }
 
-  
+
 
 
 }

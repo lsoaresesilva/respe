@@ -2,7 +2,9 @@
 
 <div *ngIf="questao != undefined">
   <app-breadcrumb-assunto [assunto]="assunto" [questao]="questao"></app-breadcrumb-assunto>
-
+  <div class="p-col-2 p-jc-end">
+    <app-btn-avancar-questao [assunto]="assunto" [questao]="questao"></app-btn-avancar-questao>
+  </div>
   <h1>{{ questao?.nomeCurto }}</h1>
 
   <p-fieldset legend="Questão: {{ questao?.sequencia }}">
@@ -63,7 +65,5 @@
         [disabled]="respostaQuestaoFechada.pk() != undefined"
       ></button>
   </div>
-  <div class="p-col-2 p-jc-end">
-    <app-btn-avancar-questao [assunto]="assunto" [questao]="questao"></app-btn-avancar-questao>
-  </div>
+ 
 </div>

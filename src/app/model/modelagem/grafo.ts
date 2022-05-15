@@ -117,7 +117,6 @@ export default class Grafo {
           if (tracks[i + 2] != null) {
             proximoProximo = tracks[i + 2].pagina;
           }
-  
           if (
             proximoProximo == 'visualizar-assunto' &&
             source == 'editor' &&
@@ -125,43 +124,40 @@ export default class Grafo {
           ) {
             console.log('Só retornou ao assunto via self-instruction');
           }else if(
-            
             proximoProximo == 'editor' &&
             source == 'editor' &&
             target == 'self-instruction'
           ) {
             let trackSource = tracks[i];
             let trackTarget = tracks[i+1];
-  
             let visu = totalVisuSelfMonitoramento.get(trackTarget.estudanteId);
             if (visu == null) {
               totalVisuSelfMonitoramento.set(trackTarget.estudanteId, 0);
             }
-            
+
             let totalNovo = totalVisuSelfMonitoramento.get(trackTarget.estudanteId);
             totalVisuSelfMonitoramento.set(trackTarget.estudanteId, totalNovo+1);
-  
+
             // Computo to dempo
-             
+
             let t = tempoVisuSelfMonitoramento.get(trackSource.estudanteId);
             if (t == null) {
               tempoVisuSelfMonitoramento.set(trackSource.estudanteId, 0);
             }
-  
             let dateSource = trackSource.data//Util.firestoreDateToDate(trackSource.data);
             let dateTarget = trackTarget.data//Util.firestoreDateToDate(trackTarget.data);
             if(dateSource.getDate() == dateTarget.getDate()){
               let difTime = (dateTarget.getTime() - dateSource.getTime())/1000;
-  
+
               let totalNovo = tempoVisuSelfMonitoramento.get(trackSource.estudanteId);
               tempoVisuSelfMonitoramento.set(trackSource.estudanteId, totalNovo + difTime);
-            } 
-  
+            }
+
           }else {
-  
+
             let excluidos = ['criar-atividade-grupo', 'editor-regex', 'cadastrar-postagem', 'entrar-grupo', 'editor-programacao', 'visualizar-postagem', 'listagem-atividades-grupo', 'minha-turma', "listar-videos", "visualizacao-video", 'visualizacao-turma', 'listar-turmas', 'listagem-diarios-professor', 'visualizacao-estudante']
             if(excluidos.includes(target)){
-  
+
             }else{
               if(source == "index" || source == "meu-desempenho"){
                 let trackSource = tracks[i];
@@ -170,17 +166,16 @@ export default class Grafo {
                 if (visu == null) {
                   tempoVisuMonitoramento.set(trackTarget.estudanteId, 0);
                 }
-                
                 let dateSource = trackSource.data//Util.firestoreDateToDate(trackSource.data);
                 let dateTarget = trackTarget.data//Util.firestoreDateToDate(trackTarget.data);
                 if(dateSource.getDate() == dateTarget.getDate()){
                   let difTime = (dateTarget.getTime() - dateSource.getTime())/1000;
-    
+
                   let totalNovo = tempoVisuMonitoramento.get(trackSource.estudanteId);
                   tempoVisuMonitoramento.set(trackSource.estudanteId, totalNovo + difTime);
-                } 
+                }
               }
-    
+
               if(source == "self-instruction" && target == "editor"){
                 let trackSource = tracks[i];
                 let trackTarget = tracks[i+1];
@@ -188,18 +183,17 @@ export default class Grafo {
                 if (visu == null) {
                   tempoVisuSelfPlanejamento.set(trackSource.estudanteId, 0);
                 }
-    
                 let dateSource = trackSource.data//Util.firestoreDateToDate(trackSource.data);
                 let dateTarget = trackTarget.data//Util.firestoreDateToDate(trackTarget.data);
                 if(dateSource.getDate() == dateTarget.getDate()){
                   let difTime = (dateTarget.getTime() - dateSource.getTime())/1000;
-    
+
                   let totalNovo = tempoVisuSelfPlanejamento.get(trackSource.estudanteId);
                   tempoVisuSelfPlanejamento.set(trackSource.estudanteId, totalNovo + difTime);
                 }
-                
+
               }
-    
+
               /* Núcleo do algoritmo está aqui. */
               let estado = estados.get(source);
               if (estado == null) {
@@ -213,13 +207,13 @@ export default class Grafo {
               estados.get(source).set(target, totalNovo + 1);
               /* Fim Código novo */
             }
-  
-            
+
+
           }
         }
-        
 
-        
+
+
       }
     }
   }
@@ -301,7 +295,6 @@ export default class Grafo {
 
 
     if (pageTracks != null) {
-      
 
       let estados = new Map<string, Map<string, number>>();
 
@@ -319,15 +312,15 @@ export default class Grafo {
         });
         matrizes = matrizes.concat(matriz);
         /* pageTracks.forEach(tracks=>{
-          
 
-          
 
-          
+
+
+
         }) */
       }
 
-      
+
       /* Código novo */
 
       let probabilidades = new Map<string, Map<string, number>>();
@@ -352,7 +345,6 @@ export default class Grafo {
     let totalVisuSelfMonitoramento = new Map<string, number>();
     let tempoVisuDesempenho = new Map<string, number>();
     if (this.pageTracks != null) {
-      
 
       let estados = new Map<string, Map<string, number>>();
 

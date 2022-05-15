@@ -9,7 +9,7 @@ import Sharedb from 'sharedb/lib/client';
 import { environment } from 'src/environments/environment';
 import Grupo from '../model/cscl/grupo';
 import { ChatAdapter, ChatParticipantStatus, Group, IChatGroupAdapter, IChatParticipant, Message, MessageType, ParticipantResponse } from 'ng-chat';
-import ChatGrupo from '../model/cscl/chat/chatGrupo';
+
 
 @Injectable({
   providedIn: 'root',
@@ -43,14 +43,14 @@ export class ChatService {
 
   } */
 
-  
+
 
   receberMensagens() {
     /* this.socketChat.on('mensagemRecebida', (message) => {
       this.observerChat.next(JSON.parse(message));
     }); */
-    
-    
+
+
   }
 
   /* carregarMensagens(grupo: Grupo) {
@@ -61,7 +61,7 @@ export class ChatService {
     });
   } */
 
-  
+
   enviarMensagem(mensagem: MensagemChat) {
     /* if (mensagem != null) {
       let novaMensagem = new MensagemChat(
@@ -98,8 +98,8 @@ export class ChatService {
   receberCodigoEditor(callback){
     this.socket.on('editorCodigo', (data) => {
       callback(data);
-      
+
     });
-    
+
   } */
 }

@@ -1,13 +1,14 @@
-import ArrayUtilities from 'src/app/util/arrayUtilities';
-import { Collection, Document, ignore } from '../../firestore/document';
-import { OrientacaoParson } from './enum/orientacaoParson';
-import SegmentoParson from './segmentoParson';
-import { RespostaQuestaoParson } from '../../juiz/respostaQuestaoParson';
+
 import { Observable } from 'rxjs';
-import Query from '../../firestore/query';
-import { MaterialAprendizagem } from '../materialAprendizagem';
-import { Util } from '../../util';
-import { Assunto } from '../assunto';
+import { ignore } from '../firestore/document';
+import Query from '../firestore/query';
+import { RespostaQuestaoParson } from '../juiz/respostaQuestaoParson';
+import { MaterialAprendizagem } from '../sistema-aprendizagem/materialAprendizagem';
+import { Util } from '../util';
+import { Assunto } from './assunto';
+import { OrientacaoParson } from './enum/orientacaoParson';
+import ArrayUtilities from '../../util/arrayUtilities';
+import SegmentoParson from './segmentoParson';
 
 export default class QuestaoParsonProblem implements MaterialAprendizagem {
   @ignore()

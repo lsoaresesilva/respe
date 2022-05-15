@@ -1,4 +1,4 @@
-import { QuestaoProgramacao } from './sistema-aprendizagem/questoes/questaoProgramacao';
+
 import { Document, Collection, date, ignore } from './firestore/document';
 import Erro from './errors/erro';
 import { Observable, forkJoin } from 'rxjs';
@@ -7,11 +7,12 @@ import Usuario from './usuario';
 import ResultadoTestCase from './resultadoTestCase';
 import ErroCompilacaoFactory from './errors/analise-compilacao/erroCompilacaoFactory';
 import { ErroCompilacao } from './errors/analise-compilacao/erroCompilacao';
-import { Assunto } from './sistema-aprendizagem/assunto';
+import { Assunto } from './questoes/assunto';
 import { keyframes } from '@angular/animations';
 import { Cacheable } from 'ts-cacheable';
 import { Util } from './util';
 import { database } from 'firebase';
+import { QuestaoProgramacao } from './questoes/questaoProgramacao';
 
 @Collection('submissoes')
 export default class Submissao extends Document {
@@ -108,6 +109,8 @@ export default class Submissao extends Document {
     if (submissaoJson.erro != null) {
       submissao.erro = {data:submissaoJson.erro.data, id:submissaoJson.erro.id, traceback:submissaoJson.erro.traceback}
     }
+
+    submissao.data = new Date(submissao.data);
 
     return submissao;
   }
@@ -234,28 +237,14 @@ export default class Submissao extends Document {
 
   static _orderByDate(submissoes: Submissao[]) {
     submissoes.sort((s1, s2) => {
-      if (s1.data != null && s2.data != null) {
-
-        let s1Data = null;
-        let s2Data = null;
-
-        if(s1.data.toDate != null && s2.data.toDate != null){
-          s1Data = s1.data.toDate().getTime();
-          s2Data = s2.data.toDate().getTime()
-        }else{
-          s1Data = s1.data.getTime();
-          s2Data = s2.data.getTime();
-        }
-
-        if (s1Data < s2Data) {
+      if (s1.data != null && s2.data != null && s1.data != "" && s2.data != "") {
+        if (s1.data.toDate().getTime() < s2.data.toDate().getTime()) {
           return -1;
-        } else if (s1Data > s2Data) {
+        } else if (s1.data.toDate().getTime() > s2.data.toDate().getTime()) {
           return 1;
         } else {
           return 0;
         }
-
-        
       }
       return 0;
     });
@@ -274,20 +263,8 @@ export default class Submissao extends Document {
             submissaoRecente = submissao;
           } else {
 
-            if (submissaoRecente.data != null && submissao.data != null) {
-
-              let submissaoRecenteData = null;
-              let submissaoData = null;
-
-              if(submissaoRecente.data.toDate != null && submissao.data.toDate != null){
-                submissaoRecenteData = submissaoRecente.data.toDate().getTime();
-                submissaoData = submissao.data.toDate().getTime()
-              }else{
-                submissaoRecenteData = submissaoRecente.data.getTime();
-                submissaoData = submissao.data.getTime();
-              }
-
-              if (submissaoRecenteData <= submissaoData) {
+            if (submissaoRecente.data != null && submissao.data != null && submissaoRecente.data != "" && submissao.data != "") {
+              if (submissaoRecente.data.toDate().getTime() <= submissao.data.toDate().getTime()) {
                 submissaoRecente = submissao;
               }
             }
@@ -416,7 +393,7 @@ export default class Submissao extends Document {
     return erros;
   }
 
-  
+
 
   static documentToObject(document) {
     let submissao = new Submissao(
@@ -472,7 +449,7 @@ export default class Submissao extends Document {
   }
 
   toJson() {
-    
+
     return {
       resultadosTesteCase: this.resultadosTestsCases,
       assuntoId: this['assuntoId'],

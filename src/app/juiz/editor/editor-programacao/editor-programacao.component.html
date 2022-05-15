@@ -5,12 +5,13 @@
       *ngIf="isMudancaEditorPermitida == true"></button>
     <app-editor-trintadoisbits [modoVisualizacao]="modoVisualizacao" [questao]="questao" [assunto]="assunto"
       (onSubmit)="submissaoRealizada($event)" (onServidorError)="erroServidor($event)" (onError)="erroSubmissao($event)"
-      (onSubmitInicio)="inicioSubmissao()" *ngIf="modoExecucao == 1 && modoVisualizacao == false; else editorPadrao">
+      (onSubmitInicio)="inicioSubmissao()" *ngIf="(modoExecucao == 1 || modoExecucao == 2) && modoVisualizacao == false">
     </app-editor-trintadoisbits>
-    <ng-template #editorPadrao>
-      <app-editor-padrao [questao]="questao" [assunto]="assunto" (onSubmitInicio)="inicioSubmissao()"
+    <app-editor-padrao [questao]="questao" [assunto]="assunto" (onSubmitInicio)="inicioSubmissao()"
         (onSubmit)="submissaoRealizada($event)" (onError)="erroSubmissao($event)"
         *ngIf="modoExecucao == 0 && modoVisualizacao == false"></app-editor-padrao>
+    <ng-template #editorPadrao>
+
     </ng-template>
 
     <p-progressBar *ngIf="processandoSubmissao == true" mode="indeterminate"
@@ -38,11 +39,11 @@
     <button *ngIf="modoVisualizacao == true" type="button" (click)="suspenderVisualizacao()" pButton
       label="Voltar ao modo execução"></button>
     <button type="button" (click)="visualizarResposta(questao)" pButton label="Visualizar resposta"
-      class="p-button-secondary" style="margin-left:10px" *ngIf="questao.getExemploCorreto() != null"></button>
+      class="p-button-secondary" style="margin-left:10px" *ngIf="questao.getExemploCorreto() != null && usuario.grupoExperimento != 4"></button>
     <button type="button" (click)="pedirAjuda()" pButton label="Pedir ajuda" class="p-button-secondary"
       style="margin-left:10px" *ngIf="atividadeGrupo == null && usuario.grupoExperimento != 4"></button>
-    <button type="button" (click)="visualizarDocumentacaoProjeto()" pButton label="Documentação"
-      class="p-button-secondary" style="margin-left:10px" *ngIf="atividadeGrupo != null"></button>
+    <!-- <button type="button" (click)="visualizarDocumentacaoProjeto()" pButton label="Documentação"
+      class="p-button-secondary" style="margin-left:10px" *ngIf="atividadeGrupo != null"></button> -->
     <button type="button" (click)="enviarRespostaAtividadeGrupo()" pButton label="Enviar resposta"
       class="p-button-secondary" style="margin-left:10px" *ngIf="atividadeGrupo != null"></button>
   </div>

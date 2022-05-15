@@ -86,6 +86,7 @@ import { MonitorService } from '../chatbot/monitor.service';
 import { BlockUIModule } from 'primeng/blockui';
 import { ResponderQuestaoProgramacaoRegexComponent } from './editor/responder-questao-programacao-regex/responder-questao-programacao-regex.component';
 import { SistemaAprendizagemModule } from '../sistema-aprendizagem/sistema-aprendizagem.module';
+import { ConsoleTrintadoisbitsControleComponent } from './editor/console-trintadoisbits-controle/console-trintadoisbits-controle.component';
 
 export const routes: Routes = [
   {
@@ -93,7 +94,7 @@ export const routes: Routes = [
     component: ListarAssuntosComponent,
     canActivate: [AuthGuard, PageTrack]
   },
-  
+
 
   {
     path: 'visualizar-assunto/:id',
@@ -101,12 +102,12 @@ export const routes: Routes = [
     canActivate: [AuthGuard, PageTrack]
   },
   {
-    path: 'visualizacao-questao-fechada/:id',
+    path: 'visualizar-questao-fechada/:id',
     component: VisualizarQuestaoFechadaComponent,
     canActivate: [AuthGuard],
   },
   {
-    path: 'visualizacao-questao-fechada/:assuntoId/:questaoId',
+    path: 'visualizar-questao-fechada/:assuntoId/:questaoId',
     component: VisualizarQuestaoFechadaComponent,
     canActivate: [AuthGuard, PageTrack]
   },
@@ -144,24 +145,25 @@ export const routes: Routes = [
     canActivate: [AuthGuard, PageTrack]
   },
 
-  
+
 ];
 
 @NgModule({
   declarations: [
-    
+
     VisualizarParsonComponent,
-    BreadcrumbAssuntoComponent, 
+    BreadcrumbAssuntoComponent,
     DadosQuestaoComponent,
     VisualizarTestesComponent,
-    
+
     ListarQuestoesComponent,
     ResponderQuestaoProgramacao,
     ResponderQuestaoProgramacao,
     VisualizarExecucacao,
     ListarAssuntosComponent,
     VisualizarAssuntoComponent,
-    
+
+
     ListarQuestoesFechadasComponent,
     VisualizarQuestaoFechadaComponent,
     ListarPedidosAjudaComponent,
@@ -180,24 +182,27 @@ export const routes: Routes = [
     IdeComponent,
     EditorIndependenteComponent,
     ContainerEditorProgramacaoComponent,
-    ResponderQuestaoProgramacaoRegexComponent
+    ResponderQuestaoProgramacaoRegexComponent,
+    ConsoleTrintadoisbitsControleComponent
   ],
 
   imports: [
     SrlModule,
     ChatModule,
-    
+
     SistemaAprendizagemModule,
+    ChatbotModule,
+    /* CsclModule, */
     RouterModule.forChild(routes),
     CommonModule,
     SplitButtonModule,
     SkeletonModule,
     TerminalModule,
-    
+
     BlockUIModule,
     TooltipModule,
     DynamicDialogModule,
-    
+
     TableModule,
     PanelModule,
     ButtonModule,
@@ -228,7 +233,7 @@ export const routes: Routes = [
   ],
   exports: [
     VisualizarTestesComponent,
-   
+
     ListarQuestoesComponent,
     ListarAssuntosComponent,
     VisualizarAssuntoComponent,
@@ -236,7 +241,7 @@ export const routes: Routes = [
     VisualizarQuestaoFechadaComponent,
     ResponderQuestaoProgramacaoLiteComponent,
     BtnAvancarQuestaoComponent,
-    BreadcrumbAssuntoComponent, 
+    BreadcrumbAssuntoComponent,
     DadosQuestaoComponent
   ],
   entryComponents: [

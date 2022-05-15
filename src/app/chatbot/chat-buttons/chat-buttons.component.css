@@ -1,0 +1,23 @@
+button {
+    display: inline-block;
+    width: auto;
+    background-color: #1976d2;
+    border-radius: 12px;
+    border: none;
+    color: white;
+    padding: 10px;
+    font-size: 12px;
+    margin: 3px auto !important;
+}
+
+.enabled:hover {
+    background-color: #b8d3ee;
+}
+
+.disabled {
+    background-color: #48b546;
+}
+
+.disabled:hover {
+    background-color: #79e177;
+}

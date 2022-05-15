@@ -1,5 +1,5 @@
+import { Assunto } from '../questoes/assunto';
 import ErroCompilacaoFactory from '../errors/analise-compilacao/erroCompilacaoFactory';
-import { Assunto } from '../sistema-aprendizagem/assunto';
 import Submissao from '../submissao';
 import { Util } from '../util';
 import { EventosProgramacao } from './enum/eventosProgramacao';
@@ -94,7 +94,7 @@ export default class AnalyticsProgramacao {
 
   static identificarSequenciaEstados(submissoes){
 
-    function extrairComments(codigo:string){
+    /* function extrairComments(codigo:string){
       let comentarios = [];
       let codigoArray = codigo.split("\n")
 
@@ -128,11 +128,11 @@ export default class AnalyticsProgramacao {
     }
 
     const submissoesAgrupadas = Submissao.agruparPorQuestao(submissoes);
-    
+
     let todosEstados = [] // Todos os estados, um para cada questão
 
     submissoesAgrupadas.forEach((submissoesQuestao, questaoId, map) => {
-      
+
       let estados = []
       let erroSintaxeAnterior = null;
       let foiRefatorado = false;
@@ -142,16 +142,15 @@ export default class AnalyticsProgramacao {
 
       Submissao._orderByDate(submissoesQuestao);
 
-      
 
 
-      
+
+
       for(let i = 0; i < submissoesQuestao.length; i++){
         if(estados.length == 0){ // primeira submissão;
           estados.push(EventosProgramacao.primeira_submissao);
         }
 
-        
 
 
         if(submissoesQuestao[i].hasErroSintaxe()){
@@ -178,7 +177,6 @@ export default class AnalyticsProgramacao {
           if(!submissoesQuestao[i].isFinalizada()){
 
             if(erroSintaxeAnterior != null){
-              
               let x = 2;
             }
 
@@ -191,18 +189,18 @@ export default class AnalyticsProgramacao {
 
             // Verificar se foi refatorado
             if(submissoesQuestao.length > i+1){
-              
+
               if( !foiRefatorado ){
 
-                
+
 
                 if(isDiff(submissoesQuestao[i].codigo, submissoesQuestao[i+1].codigo)){
                   foiRefatorado = true;
-                  
+
                   estados.push(EventosProgramacao.refatoramento);
                 }
 
-                
+
               }
             }
           }
@@ -226,28 +224,25 @@ export default class AnalyticsProgramacao {
           '94511a38-5f2c-4fc3-90f5-f0255628c310',
           '3191595a-7493-4980-999e-c874b0b8d468',
         ];
-  
         if (!questoesIgnoradas.includes(questaoId)) {
           if (submissoesQuestao[i].codigo.search(/#.[A-Za-z0-9]/g) != -1) {
             if(comentarioAnterior == null){
               comentarioAnterior = extrairComments(submissoesQuestao[i].codigo);
 
               if(isTestesCorretos){
-                
+
                   let x = submissoesQuestao[i];
               }
-      
+
 
               estados.push(EventosProgramacao.comentario);
             }else{
               let comentariosAtuais = extrairComments(submissoesQuestao[i].codigo);
               let comentariosIguais = true;
-  
               for(let i = 0; i < comentariosAtuais.length; i++){
                 if(!comentarioAnterior.includes(comentariosAtuais[i])){
 
                   if(isTestesCorretos){
-                
                     let x = submissoesQuestao[i];
                 }
 
@@ -258,18 +253,18 @@ export default class AnalyticsProgramacao {
                 }
               }
             }
-  
-            
-  
+
+
+
             let x = 0;
-            
+
           }
-  
-  
+
+
           }
         }
 
-        
+
 
       if(submissoesQuestao[submissoesQuestao.length-1].isFinalizada()){
         estados.push(EventosProgramacao.finalizado);
@@ -278,15 +273,15 @@ export default class AnalyticsProgramacao {
       }
 
       //todosEstados = todosEstados.concat(estados);
-      
+
       todosEstados.push(estados);
-      
-      
+
+
     });
 
-    
 
-    return todosEstados;
+
+    return todosEstados; */
   }
 
   static calcularProbabilidadesMatriz(matriz){
@@ -330,7 +325,6 @@ export default class AnalyticsProgramacao {
     }
 
     return matriz;
-    
   }
 
   static calcularMediaSubmissoesCorrigirErro(submissoes) {
@@ -347,7 +341,6 @@ export default class AnalyticsProgramacao {
       let isErro = false;
       let houveErro = false;
 
-     
 
       submissoesQuestao.forEach((submissao) => {
         if (isErro) {
@@ -557,7 +550,6 @@ export default class AnalyticsProgramacao {
     let totalConclusoes = 0;
 
     agrupadasPorQuestao.forEach((submissoesQuestao, questaoId) => {
-      
       let submissoesconcluidas = Submissao.filtrarSubmissoesConclusao(submissoesQuestao);
       if (submissoesconcluidas.length > 0) {
         totalConclusoes += 1;
@@ -567,13 +559,11 @@ export default class AnalyticsProgramacao {
         let numberOfDays = Math.floor((data.getTime() - oneJan.getTime()) / (24 * 60 * 60 * 1000));
         let semana = Math.ceil(( data.getDay() + 1 + numberOfDays) / 7);
 
-        
 
         if( semanas.includes(semana) == false ){
           semanas.push(semana);
         }
       }
-      
     });
 
     return semanas.length > 0 ? totalConclusoes/semanas.length:0;
