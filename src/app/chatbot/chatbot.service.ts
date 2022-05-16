@@ -9,7 +9,7 @@ import { map, mergeMap } from 'rxjs/operators';
 
 export class ChatbotService {
   public url: string = "https://www.izzypeazy.com:5005";
-  public latestMessageArr:Observable<any[]>;
+  public latestMessageArr: Observable<any[]>;
   constructor(private http: HttpClient) { }
   // ------------------ VARIÁVEIS ------------------
   // Mandar as mensagens para o widget
@@ -93,6 +93,7 @@ export class ChatbotService {
     // ################## REFORMULAR MENSAGEM ##################
     if (typeof message !== 'string') {
       if (message.contexto !== undefined) {
+        // Formação da mensagem a enviar ao rasa
         message = `/EXTERNAL_ERROR_MESSAGE{"error_type":"${message.contexto}", "error_message":"${message.mensagem}"}`
         // Não perguntar por ajuda se esta já tiver sido dada
         console.log(this.errorsHelped)
@@ -105,15 +106,24 @@ export class ChatbotService {
       else {
         // O RASA é um pouco estranho com as mensagens que aceita, por isso tenho de as modificar
         // --- Formar a string com o/os input/s e o/os output/s do caso de teste ---
-        let test_case = message.teste;
+        let test_case_inputs = message.teste.entradas;
+        let test_case_outputs = message.teste.saida;
         let test_case_string = "";
-        test_case[0].forEach(element => test_case_string = test_case_string + "<input>" + element);
+        test_case_inputs.forEach(element => test_case_string = test_case_string + "<input>" + element);
         test_case_string = test_case_string + "<sep>";
-        test_case[1].forEach(element => test_case_string = test_case_string + "<output>" + element);
+        if (Array.isArray(test_case_outputs) === true) {
+          test_case_outputs.forEach(element => test_case_string = test_case_string + "<output>" + element);
+        }
+        else {
+          test_case_string = test_case_string + "<output>" + test_case_outputs;
+        }
         // -------------------------------------------------------------------------
-        // Aqui estou a remover novas linhas e tabs
-        // Se resultar em erro, poderá ser porque a string que contém o código está envolvida com ('), em vez de ("), acho que quando tentei ele não gostou
-        let resposta_código = message.resposta.replaceAll("\n", "<new_line>").replaceAll("\t", "<tab>");
+        // Criação de uma string com todos os elementos do array da resposta
+        let resposta_código = ""
+        message.resposta.forEach(linha_código => {
+          resposta_código = resposta_código + linha_código + "<new_line><br>";
+        });
+        // Formação da mensagem a enviar ao rasa
         message = `/EXTERNAL_CODE_MESSAGE{"code_test_case":"${test_case_string}", "code_message_answer":"${resposta_código}"}`
         // Se for um novo exercício dar restart do timer e limpar o array com os erros já ajudados
         if (message !== this.currHelpInfo) {
@@ -127,6 +137,7 @@ export class ChatbotService {
           this.enableStudentAskExHelp(message);
           return
         }
+        // Se o aluno estiver a receber ajuda num erro esperar mais 1 minuto 
         else if (this.currErrorInfo !== "") {
           this.enableStudentAskExHelpAfterErrorHelp(message);
           return

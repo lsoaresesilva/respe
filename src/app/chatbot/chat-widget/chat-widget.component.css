@@ -4,6 +4,48 @@
   font-family: "Open Sans", "Helvetica Neue", sans-serif;
 }
 
+.clean {
+  background-color: #5b21e5;
+  color: white;
+  margin: 0;
+  float: right;
+  padding: 5px;
+  border: none;
+  text-align: center;
+  text-decoration: none;
+  border-radius: 20%;
+}
+
+.clean:hover {
+  background-color: #7159ce;
+}
+
+.info {
+}
+
+.info-btn {
+  background-color: #1976d2;;
+  color: white;
+  padding: 0 5px 0 5px;
+  margin: 0;
+  width: 30%;
+  height: 3%;
+  border-radius: 50%;
+  border: 2px solid white;
+  font-size: 20px;
+  font-weight: bold;
+}
+
+.extra-info {
+  display: none;
+  font-size: 15px;
+  font-weight: normal;
+}
+
+.info:hover .extra-info{
+  display: block;
+}
+
 .new-messages {
   font-size: 15px;
   background-color: #e64934;
