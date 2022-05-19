@@ -6,6 +6,20 @@
             <chat-avatar [image]="monitor.avatar"></chat-avatar>
             <h3 class="operator-name">
                 {{monitor.name}}
+                <button class="clean" (click)="cleanWindow()">Limpar</button>
+                <span class="info">
+                    <span class="info-btn">i</span>
+                    <span class="extra-info">
+                        <br>O Monitor está aqui para o ajudar:<br><br>Se tiver dúvidas num conceito basta perguntar algo dentro
+                        das linhas de:<br><br>
+                        O que é uma variável?<br>
+                        Como se inicializa uma instrução while?<br><br>
+                        Tabém estarei aqui para o ajudar como erros que vá cometendo de maneira continua.<br><br>
+                        E se ficar preso num exercício lhe irei oferecer ajuda, que poderá sempre recusar e voltar a pedir:<br><br>
+                        Me ajuda no exercíco?<br><br>
+                        E eu assim o tentarei fazer!
+                    </span>
+                </span>
                 <p *ngIf="newMsgWarningVisible" class="new-messages">NOVAS MENSAGENS</p>
             </h3>
         </div>

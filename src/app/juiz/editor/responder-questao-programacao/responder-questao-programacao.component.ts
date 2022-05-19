@@ -42,8 +42,10 @@ import { TipoDiarioProgramacao } from 'src/app/model/srl/enum/tipoDiarioPrograma
 import DiarioProgramacao from 'src/app/model/srl/diarioProgramacao';
 import { ModoExecucao } from 'src/app/model/juiz/enum/modoExecucao';
 import { Groups } from 'src/app/model/experimento/groups';
+import { ChatbotService } from 'src/app/chatbot/chatbot.service';
 import { QuestaoProgramacao } from 'src/app/model/questoes/questaoProgramacao';
 import { Assunto } from 'src/app/model/questoes/assunto';
+
 
 @Component({
   selector: 'responder-questao-programacao',
@@ -83,8 +85,9 @@ export class ResponderQuestaoProgramacao implements OnInit, AfterViewInit, OnCha
     public login: LoginService,
     private router: Router,
     private apresentacao: ApresentacaoService,
-    public dialogService: DialogService
-  ) {
+    public dialogService: DialogService,
+    private chatbotService: ChatbotService,
+    ) {
     this.pausaIde = true;
     this.statusExecucao = '';
 
@@ -271,7 +274,6 @@ export class ResponderQuestaoProgramacao implements OnInit, AfterViewInit, OnCha
         if (params['assuntoId'] != undefined && params['questaoId'] != undefined) {
 
 
-
           Assunto.get(params['assuntoId']).subscribe((assunto) => {
             this.assunto = assunto as Assunto;
 
@@ -297,6 +299,12 @@ export class ResponderQuestaoProgramacao implements OnInit, AfterViewInit, OnCha
                   } */
 
                   if (this.usuario != null) {
+                    // --------- Casos de Teste e Resposta para mandar ao RASA ------
+                    let casosTeste = this.questao.testsCases[3];
+                    let resposta = this.questao.solucao.codigo;
+                    this.chatbotService.sendMessage({ teste: casosTeste, resposta: resposta});
+                    // --------------------------------------------------------------
+
                     Submissao.getRecentePorQuestao(this.questao, this.usuario).subscribe(
                       (submissao: Submissao) => {
                         if (submissao != null) {

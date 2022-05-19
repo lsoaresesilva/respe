@@ -5,6 +5,8 @@ import { Component, HostListener, Input, OnInit, ElementRef, ViewChild } from '@
 import { fadeIn, fadeInOut } from '../animations'
 import { ChatbotService } from '../chatbot.service';
 import { LoginService } from '../../login-module/login.service';
+import RegistroMensagensRasa from 'src/app/model/chatbot/registroMensagensRasa';
+import { Util } from '../../model/util';
 
 @Component({
   selector: 'chat-widget',
@@ -48,6 +50,8 @@ export class ChatWidgetComponent implements OnInit {
   public estudante;
   // Verifica se é a mensagem inicial
   public isFirstMsg = true;
+  public firstStore = true;
+  public registroMensagem;
   // -------------------------------------------------------------------
 
   // Usada para verificar se o aluno já pode pedir ajuda
@@ -66,7 +70,7 @@ export class ChatWidgetComponent implements OnInit {
   // #########################################################################
 
 
-  constructor(private chatbotService: ChatbotService, private login:LoginService) {
+  constructor(private chatbotService: ChatbotService, private login: LoginService) {
 
 
     // ################ CHATBOT SERVICE - NOVAS MENSAGENS ################
@@ -118,6 +122,7 @@ export class ChatWidgetComponent implements OnInit {
   }
 
   ngOnInit() {
+    this.userName = this.login.getUsuarioLogado().pk();
     this.estudante = {
       name: this.login.getUsuarioLogado().pk(),
       avatar: this.userAvatar,
@@ -142,18 +147,28 @@ export class ChatWidgetComponent implements OnInit {
     // Array das mensagens que aparecem na janela do chatbot
     this.messages.unshift({ from, text, type, direction, date: new Date().getTime() })
     // Array com TODAS as mensagens
+    from = from.name;
+    // Fazer novo map array, pois este estava a dar erro porque era 
+    if (type === "buttons_order") {
+      let newText = []
+      text.forEach(element => {
+        newText.push({ "text": element[1] })
+      });
+      text = newText;
+    }
     this.wholeConversation.push({ from, text, type, date: new Date().getTime() });
-  }
 
-  // Guardar conversa na base de dados (apenas se esta for diferente à previamente guardada)
-  public storeConversation() {
-    setTimeout(() => {
-      if (this.wholeConversationSent !== this.wholeConversation) {
-        this.wholeConversationSent = this.wholeConversation;
-        // Fazer store
+    // Guardar conversa na base de dados após receber resposta do Chatbot
+    if (from === "Monitor") {
+      if (this.registroMensagem === undefined) {
+        this.registroMensagem = new RegistroMensagensRasa(null, this.userName, this.wholeConversation);
       }
-      this.storeConversation();
-    }, 300000)
+      else {
+        this.registroMensagem.conversa = this.wholeConversation;
+      }
+      this.registroMensagem.save().subscribe(() => { });
+      //console.log("Mensagem guardada");
+    }
   }
 
   // TOGGLE CHAT
@@ -162,7 +177,6 @@ export class ChatWidgetComponent implements OnInit {
   public toggleChat() {
     if (this.messages.length === 0) {
       // Começa função de store das mensagens
-      this.storeConversation();
       // Mostrar mensagem inicial mais informativa
       if (sessionStorage.getItem("chatbot-presentation-message") === null) {
         sessionStorage.setItem("chatbot-presentation-message", "exists");
@@ -367,6 +381,10 @@ export class ChatWidgetComponent implements OnInit {
     return answer;
   }
   // ##########################################################################
+
+  public cleanWindow() {
+    this.messages = [];
+  }
 
   @HostListener('document:keypress', ['$event'])
   handleKeyboardEvent(event: KeyboardEvent) {

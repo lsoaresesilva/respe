@@ -27,6 +27,11 @@ export class VisualizarTestesComponent implements OnInit, OnChanges {
       this.questao != undefined &&
       this.questao.testsCases != undefined
     ) {
+      // Remover o quarto caso de teste 
+      if (this.questao.testsCases.length === 4) {
+        this.questao.testsCases.pop();
+      }
+      
       this.submissao.resultadosTestsCases.forEach((resultadoTestCase) => {
         this.questao.testsCases.forEach((testCase) => {
           if (testCase.id == resultadoTestCase.testCase.id) {
