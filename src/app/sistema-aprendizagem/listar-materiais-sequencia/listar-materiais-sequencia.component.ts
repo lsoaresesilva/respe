@@ -4,14 +4,16 @@ import { Router } from '@angular/router';
 import { Observable } from 'rxjs';
 import { LoginService } from 'src/app/login-module/login.service';
 import { Groups } from 'src/app/model/experimento/groups';
-import QuestaoParsonProblem from 'src/app/model/sistema-aprendizagem/questoes/questaoParsonProblem';
-import QuestaoFechada from 'src/app/model/sistema-aprendizagem/questoes/questaoFechada';
-import { QuestaoProgramacao } from 'src/app/model/sistema-aprendizagem/questoes/questaoProgramacao';
-import QuestaoProgramacaoCorrecao from 'src/app/model/sistema-aprendizagem/questoes/questaoProgramacaoCorrecao';
-import { QuestaoProgramacaoRegex } from 'src/app/model/sistema-aprendizagem/questoes/questaoProgramacaoRegex';
+import { Assunto } from 'src/app/model/questoes/assunto';
+import QuestaoFechada from 'src/app/model/questoes/questaoFechada';
+import QuestaoParsonProblem from 'src/app/model/questoes/questaoParsonProblem';
+import { QuestaoProgramacao } from 'src/app/model/questoes/questaoProgramacao';
+import QuestaoProgramacaoCorrecao from 'src/app/model/questoes/questaoProgramacaoCorrecao';
+import { QuestaoProgramacaoRegex } from 'src/app/model/questoes/questaoProgramacaoRegex';
 import { MaterialAprendizagem } from 'src/app/model/sistema-aprendizagem/materialAprendizagem';
 import VideoProgramacao from 'src/app/model/sistema-aprendizagem/videoProgramacao';
-import { Assunto } from 'src/app/model/sistema-aprendizagem/assunto';
+import Texto from 'src/app/model/sistema-aprendizagem/texto';
+
 
 @Component({
   selector: 'app-listar-materiais-sequencia',
@@ -28,17 +30,18 @@ export class ListarMateriaisSequenciaComponent implements OnChanges {
   constructor(private login:LoginService, private router: Router) { }
 
   ngOnInit(): void {
+
   }
 
   ngOnChanges(): void {
-    
     if(this.assunto != null && this.assunto.pk() != null){
       this.assunto.getMateriaisOrdenados(this.login.getUsuarioLogado()).subscribe(materiais=>{
         this.materiaisAprendizagem = materiais;
         this.construirTimeline();
       });
     }
-    
+
+
   }
 
   getMaterial(material){
@@ -46,6 +49,8 @@ export class ListarMateriaisSequenciaComponent implements OnChanges {
       return "questoes"
     }else if(material instanceof VideoProgramacao){
       return "video";
+    }else if(material instanceof Texto){
+      return "texto";
     }
   }
 
@@ -63,7 +68,7 @@ export class ListarMateriaisSequenciaComponent implements OnChanges {
     if (material instanceof QuestaoFechada) {
       this.router.navigate([
         'geral/main',
-        { outlets: { principal: ['juiz', 'visualizacao-questao-fechada', this.assunto.pk(), material.id] } },
+        { outlets: { principal: ['juiz', 'visualizar-questao-fechada', this.assunto.pk(), material.id] } },
       ]);
     } else if (material instanceof QuestaoParsonProblem) {
       this.router.navigate([
@@ -85,7 +90,12 @@ export class ListarMateriaisSequenciaComponent implements OnChanges {
         'geral/main',
         { outlets: { principal: ['aprendizado', 'visualizacao-video', material.pk()] } },
       ]);
-    } 
+    }else if (material instanceof Texto) {
+      this.router.navigate([
+        'geral/main',
+        { outlets: { principal: ['aprendizado', 'visualizacao-texto', this.assunto.pk(), material.pk()] } },
+      ]);
+    }
     else {
       if (this.login.getUsuarioLogado().grupoExperimento === Groups.control) {
         this.router.navigate([
