@@ -1,6 +1,7 @@
+
 import { Observable } from "rxjs";
+import Query from '../firestore/query';
 import { Collection, date, Document } from "../firestore/document";
-import Query from "../firestore/query";
 import Usuario from "../usuario";
 import { QuestaoProgramacaoRegex } from "./questaoProgramacaoRegex";
 

@@ -14,7 +14,7 @@ import { Util } from '../../util';
 import Export from '../export';
 import PageTrackRecord from '../../analytics/pageTrack';
 import Grafo from '../../modelagem/grafo';
-import { Assunto } from '../../assunto';
+import { Assunto } from '../../questoes/assunto';
 
 describe('Testes para process mining', () => {
   let estudantesGrupo3 = [

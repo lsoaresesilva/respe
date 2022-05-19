@@ -3,8 +3,8 @@ import Submissao from 'src/app/model/submissao';
 import { Router, ActivatedRoute } from '@angular/router';
 import Query from 'src/app/model/firestore/query';
 import Usuario from 'src/app/model/usuario';
-import { Assunto } from 'src/app/model/assunto';
 import { LoginService } from 'src/app/login-module/login.service';
+import { Assunto } from 'src/app/model/questoes/assunto';
 
 
 @Component({

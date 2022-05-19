@@ -1,11 +1,11 @@
 import { PageTrack } from "src/app/guards/pageTrack.guard";
+import { EventosProgramacao } from "../analytics/enum/eventosProgramacao";
+import PageTrackRecord from "../analytics/pageTrack";
 import { ErroCompilacao } from "../errors/analise-compilacao/erroCompilacao";
 import ErroCompilacaoFactory from "../errors/analise-compilacao/erroCompilacaoFactory";
-import { QuestaoProgramacao } from "../questoes/questaoProgramacao";
+import { QuestaoProgramacao } from "../sistema-aprendizagem/questoes/questaoProgramacao";
 import Submissao from "../submissao";
 import Usuario from "../usuario";
-import { EventosProgramacao } from "./enum/eventosProgramacao";
-import PageTrackRecord from "./pageTrack";
 
 /* 
         1. Agrupar submissões por questão
@@ -99,7 +99,7 @@ export default class ProcessMining{
         if(diferencaTempo < 300)
             pageTracksEntreSubmissoes = this.extrairPageTracksIntervaloDate(submissaoAtual, submissaoSeguinte, pageTracks);
         
-        if(submissaoAtual.hasErroSintaxe()){
+        /* if(submissaoAtual.hasErroSintaxe()){
             if(submissaoAnterior == null){
                 eventos.push(this.criarEvento(submissaoAtual.estudante, EventosProgramacao.codigo_erro_sintaxe, submissaoAtual.data, submissaoAtual.questao));
                 this._criarEventosPageTrack(pageTracksEntreSubmissoes, eventos, submissaoAtual.questao);
@@ -166,7 +166,7 @@ export default class ProcessMining{
                 this._criarEventosPageTrack(pageTracksEntreSubmissoes, eventos, submissaoAtual.questao);
             }
             
-        }
+        } */
 
 
         return eventos;

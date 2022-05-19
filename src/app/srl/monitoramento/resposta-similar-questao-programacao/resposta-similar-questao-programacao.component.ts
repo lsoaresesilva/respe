@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
-import { ModeloRespostaQuestao } from 'src/app/model/modeloRespostaQuestao';
-import { Assunto } from 'src/app/model/assunto';
 import { Router } from '@angular/router';
+import { Assunto } from 'src/app/model/questoes/assunto';
+import { ModeloRespostaQuestao } from 'src/app/model/questoes/modeloRespostaQuestao';
 import { QuestaoProgramacao } from 'src/app/model/questoes/questaoProgramacao';
 
 @Component({

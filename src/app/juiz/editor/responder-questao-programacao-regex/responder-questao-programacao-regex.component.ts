@@ -1,18 +1,21 @@
-import { Component, OnInit } from '@angular/core';
+import { AfterViewChecked, AfterViewInit, Component, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { LoginService } from 'src/app/login-module/login.service';
-import { Assunto } from 'src/app/model/assunto';
 import Editor from 'src/app/model/editor';
 import ErroSintaxeVariavel from 'src/app/model/errors/analise-pre-compilacao/erroSintaxeVariavel';
 import Query from 'src/app/model/firestore/query';
+import { Assunto } from 'src/app/model/questoes/assunto';
 import { RespostaQuestaoProgramacaoRegex } from 'src/app/model/questoes/respostaQuestaoProgramacaoRegex';
+
+import { ApresentacaoService } from '../../../geral-module/apresentacao.service';
+
 
 @Component({
   selector: 'app-responder-questao-programacao-regex',
   templateUrl: './responder-questao-programacao-regex.component.html',
   styleUrls: ['./responder-questao-programacao-regex.component.css'],
 })
-export class ResponderQuestaoProgramacaoRegexComponent implements OnInit {
+export class ResponderQuestaoProgramacaoRegexComponent implements OnInit, AfterViewChecked {
   questao;
   assunto: Assunto;
   isEditorPronto;
@@ -21,9 +24,14 @@ export class ResponderQuestaoProgramacaoRegexComponent implements OnInit {
   respostaQuestao;
   erroProgramacao;
 
-  constructor(private route: ActivatedRoute, private login: LoginService) {
+  constructor(private route: ActivatedRoute, private login: LoginService, private apresentacao:ApresentacaoService) {
     this.isEditorPronto = false;
   }
+
+  ngAfterViewChecked() {
+    this.apresentacao.apresentarEditorRegex(this.login.getUsuarioLogado());
+  }
+
 
   ngOnInit(): void {
     this.route.params.subscribe((params) => {
@@ -51,7 +59,7 @@ export class ResponderQuestaoProgramacaoRegexComponent implements OnInit {
         Editor.getInstance().codigo.next("");
       }
 
-      
+
     });
   }
 
@@ -75,7 +83,7 @@ export class ResponderQuestaoProgramacaoRegexComponent implements OnInit {
             this.erroProgramacao = 'Seu algoritmo não apresenta erro de sintaxe, mas não produziu o resultado esperado. Erro na linha: '+resposta.linha;
 
           }
-            
+
           else this.erroProgramacao = null;
         }
 

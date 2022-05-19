@@ -117,7 +117,6 @@ export default class Grafo {
           if (tracks[i + 2] != null) {
             proximoProximo = tracks[i + 2].pagina;
           }
-
           if (
             proximoProximo == 'visualizar-assunto' &&
             source == 'editor' &&
@@ -125,14 +124,12 @@ export default class Grafo {
           ) {
             console.log('Só retornou ao assunto via self-instruction');
           }else if(
-
             proximoProximo == 'editor' &&
             source == 'editor' &&
             target == 'self-instruction'
           ) {
             let trackSource = tracks[i];
             let trackTarget = tracks[i+1];
-
             let visu = totalVisuSelfMonitoramento.get(trackTarget.estudanteId);
             if (visu == null) {
               totalVisuSelfMonitoramento.set(trackTarget.estudanteId, 0);
@@ -147,7 +144,6 @@ export default class Grafo {
             if (t == null) {
               tempoVisuSelfMonitoramento.set(trackSource.estudanteId, 0);
             }
-
             let dateSource = trackSource.data//Util.firestoreDateToDate(trackSource.data);
             let dateTarget = trackTarget.data//Util.firestoreDateToDate(trackTarget.data);
             if(dateSource.getDate() == dateTarget.getDate()){
@@ -170,7 +166,6 @@ export default class Grafo {
                 if (visu == null) {
                   tempoVisuMonitoramento.set(trackTarget.estudanteId, 0);
                 }
-
                 let dateSource = trackSource.data//Util.firestoreDateToDate(trackSource.data);
                 let dateTarget = trackTarget.data//Util.firestoreDateToDate(trackTarget.data);
                 if(dateSource.getDate() == dateTarget.getDate()){
@@ -188,7 +183,6 @@ export default class Grafo {
                 if (visu == null) {
                   tempoVisuSelfPlanejamento.set(trackSource.estudanteId, 0);
                 }
-
                 let dateSource = trackSource.data//Util.firestoreDateToDate(trackSource.data);
                 let dateTarget = trackTarget.data//Util.firestoreDateToDate(trackTarget.data);
                 if(dateSource.getDate() == dateTarget.getDate()){
@@ -302,7 +296,6 @@ export default class Grafo {
 
     if (pageTracks != null) {
 
-
       let estados = new Map<string, Map<string, number>>();
 
       /* Cria uma matriz que indica de um determinado local para onde o aluno foi
@@ -352,7 +345,6 @@ export default class Grafo {
     let totalVisuSelfMonitoramento = new Map<string, number>();
     let tempoVisuDesempenho = new Map<string, number>();
     if (this.pageTracks != null) {
-
 
       let estados = new Map<string, Map<string, number>>();
 

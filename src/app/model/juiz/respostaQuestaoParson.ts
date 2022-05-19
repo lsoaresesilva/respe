@@ -1,9 +1,7 @@
 import { Observable } from 'rxjs';
 import { Collection, date, Document } from '../firestore/document';
 import Query from '../firestore/query';
-import QuestaoParsonProblem from '../questoes/parsonProblem';
-import SegmentoParson from '../questoes/segmentoParson';
-import { RespostaQuestaoFechada } from '../respostaQuestaoFechada';
+import QuestaoParsonProblem from '../questoes/questaoParsonProblem';
 import Usuario from '../usuario';
 
 @Collection('respostaQuestaoParson')

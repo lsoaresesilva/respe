@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
-import { Assunto } from 'src/app/model/assunto';
 import { Router, ActivatedRoute } from '@angular/router';
 import { MessageService } from 'primeng/api';
+import { Assunto } from 'src/app/model/questoes/assunto';
 
 @Component({
   selector: 'app-cadastrar-assuntos',
@@ -9,7 +9,7 @@ import { MessageService } from 'primeng/api';
   styleUrls: ['./cadastrar-assuntos.component.css']
 })
 export class CadastrarAssuntosComponent implements OnInit {
-  
+
  assunto;
  id;
  isAlterar
@@ -24,17 +24,17 @@ export class CadastrarAssuntosComponent implements OnInit {
         this.isAlterar=true;
         Assunto.get(this.id).subscribe(resultado =>{
           this.assunto = resultado;
-        
+
         })
       }
-      
+
     });
   }
 
   messageCadastro() {
     this.messageService.add({severity:'success', summary:'Cadastrado!', detail: this.assunto.nome+"  foi adicionado"});
   }
- 
+
 
   messageUpdate() {
     this.messageService.add({severity:'success', summary:'Alterado!', detail: " assunto alterado"});
@@ -49,14 +49,14 @@ export class CadastrarAssuntosComponent implements OnInit {
   }
 
   cadastrarAssunto() {
-    
+
 
     if (this.assunto.validar()) {
       this.messageCadastro();
       this.assunto.save().subscribe(resultado => {
         this.router.navigate(["main", { outlets: { principal: ['juiz', 'listar-assuntos'] } }]);
-        
-       
+
+
 
       }, err => {
        this.messageErro();
@@ -65,7 +65,7 @@ export class CadastrarAssuntosComponent implements OnInit {
     } else {
      this.messageInformarDados();
     }
-   
+
   }
 
 }

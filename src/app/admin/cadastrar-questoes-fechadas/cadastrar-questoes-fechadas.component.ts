@@ -1,10 +1,10 @@
 import { Component, OnInit } from '@angular/core';
 import { SelectItem, MessageService } from 'primeng/api';
 import { Router, ActivatedRoute } from '@angular/router';
-import { Assunto } from 'src/app/model/assunto';
-import { Dificuldade } from 'src/app/model/enums/dificuldade';
-import Alternativa from 'src/app/model/alternativa';
-import QuestaoFechada from 'src/app/model/questoes/questaoFechada';
+import { Dificuldade } from '../../model/questoes/enum/dificuldade';
+import Alternativa from '../../model/questoes/alternativa';
+import QuestaoFechada from '../../model/questoes/questaoFechada';
+import { Assunto } from '../../model/questoes/assunto';
 
 @Component({
   selector: 'app-cadastrar-questoes-fechadas',
@@ -25,7 +25,7 @@ export class CadastrarQuestoesFechadasComponent implements OnInit {
   ) {}
 
   ngOnInit() {
-    this.questao = new QuestaoFechada(null, '', '', 0, 0, [], '');
+    this.questao = new QuestaoFechada(null, '', '', 0, 0, [], '', null, 0);
 
     this.activatedRoute.params.subscribe((params) => {
       this.questao.assuntoPrincipal = params['assuntoId'];

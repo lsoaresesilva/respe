@@ -1,12 +1,11 @@
 import { Observable } from 'rxjs';
-import { Assunto } from '../assunto';
+import { Assunto } from '../questoes/assunto';
 import { PerfilUsuario } from '../enums/perfilUsuario';
 import { Collection, date, Document } from '../firestore/document';
 import Query from '../firestore/query';
-import { QuestaoProgramacao } from '../questoes/questaoProgramacao';
-import QuestaoProgramacaoCorrecao from '../questoes/questaoProgramacaoCorrecao';
 import Submissao from '../submissao';
 import Usuario from '../usuario';
+import QuestaoProgramacaoCorrecao from '../questoes/questaoProgramacaoCorrecao';
 
 @Collection('correcoesAlgoritmos')
 export default class RespostaQuestaoCorrecaoAlgoritmo extends Document {
@@ -78,12 +77,12 @@ export default class RespostaQuestaoCorrecaoAlgoritmo extends Document {
   static getRecentePorQuestao(questao: QuestaoProgramacaoCorrecao, estudante: Usuario):Observable<RespostaQuestaoCorrecaoAlgoritmo> {
     return new Observable((observer) => {
       this.getPorQuestao(questao, estudante).subscribe((correcoes) => {
-        
+
         const correcaoRecente = this.filtrarRecente(correcoes);
-        
+
         observer.next(correcaoRecente);
         observer.complete();
-        
+
       });
     });
   }
@@ -109,5 +108,5 @@ export default class RespostaQuestaoCorrecaoAlgoritmo extends Document {
     return correcaoRecente;
   }
 
-  
+
 }

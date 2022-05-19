@@ -10,7 +10,7 @@
     <button pButton label="Estatísticas" (click)="visualizarEstatisticas()"></button>
     <button pButton label="Exportar analytics" (click)="exportarAnalytics()"></button>
     <button pButton label="MSLQ" (click)="abrirMslq()"></button>
-    <button pButton label="Exibir progresso" (click)="exibirProgresso()"></button>
+    <button pButton label="Exibir progresso"></button>
   </div>
 </div>
 <div class="ui-g-2">
@@ -22,6 +22,9 @@
   <ng-template pTemplate="header">
     <tr>
       <th>id</th>
+      <th>Gênero</th>
+      <th>Idade</th>
+      <th>Conhecimento programação</th>
       <th>Nome</th>
       <th>Progresso geral</th>
     </tr>
@@ -32,10 +35,23 @@
         <a>{{ estudante.id }}</a>
       </td>
       <td>
+        {{ estudante.genero }}
+      </td>
+      <td>
+        {{ estudante.faixaEtaria }}
+      </td>
+      <td>
+        {{ getConhecimento(estudante.conhecimentoPrevioProgramacao) }}
+      </td>
+      <td>
         <a (click)="abrirPerfilEstudante(estudante)">{{ estudante.nome }}</a>
       </td>
       <td>{{ estudante.progressoGeral }}</td>
     </tr>
   </ng-template>
 </p-table>
+
+
+<!--
+<app-matriz-transicao></app-matriz-transicao> -->
 <!-- <app-grafo-estudantes [pageTracks]="pageTracks"></app-grafo-estudantes> -->

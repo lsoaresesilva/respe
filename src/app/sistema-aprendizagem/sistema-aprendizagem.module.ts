@@ -6,7 +6,13 @@ import { VisualizarVideoComponent } from './visualizar-video/visualizar-video.co
 import { AuthGuard } from '../guards/auth.guard';
 import { PageTrack } from '../guards/pageTrack.guard';
 import { RouterModule, Routes } from '@angular/router';
-
+import { ListarMateriaisSequenciaComponent } from './listar-materiais-sequencia/listar-materiais-sequencia.component';
+import { TimelineModule } from 'primeng/timeline';
+import { KnobModule } from 'primeng/knob';
+import { FormsModule } from '@angular/forms';
+import { VisualizarTextoComponent } from './visualizar-texto/visualizar-texto.component';
+import { JuizModule } from '../juiz/juiz.module';
+import { CompartilhadoModule } from '../shared/shared.module';
 
 
 export const routes: Routes = [
@@ -21,14 +27,25 @@ export const routes: Routes = [
     component: VisualizarVideoComponent,
     canActivate: [AuthGuard, PageTrack]
   },
+  {
+    path: 'visualizacao-texto/:assuntoId/:textoId',
+    component: VisualizarTextoComponent,
+    canActivate: [AuthGuard, PageTrack]
+  },
 ];
 
 @NgModule({
-  declarations: [ListarVideosComponent, VisualizarVideoComponent],
+  declarations: [ListarVideosComponent, VisualizarVideoComponent, ListarMateriaisSequenciaComponent, VisualizarTextoComponent],
   imports: [
     CommonModule,
+    CompartilhadoModule,
+    /* JuizModule, */
     TableModule,
-    RouterModule.forChild(routes)
-  ]
+    FormsModule,
+    RouterModule.forChild(routes),
+    TimelineModule,
+    KnobModule
+  ],
+  exports:[ListarMateriaisSequenciaComponent]
 })
 export class SistemaAprendizagemModule { }

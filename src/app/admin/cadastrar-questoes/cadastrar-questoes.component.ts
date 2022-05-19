@@ -1,13 +1,13 @@
 import { Component, OnInit } from '@angular/core';
-import { QuestaoProgramacao } from 'src/app/model/questoes/questaoProgramacao';
-import { Dificuldade } from 'src/app/model/enums/dificuldade';
 import { SelectItem } from 'primeng/api';
 import { Router, ActivatedRoute } from '@angular/router';
-import { Assunto } from '../../model/assunto';
 import TestCase from 'src/app/model/testCase';
 import { MessageService } from 'primeng/api';
 import QuestaoColaborativa from 'src/app/model/cscl/questaoColaborativa';
-import { ModeloRespostaQuestao } from 'src/app/model/modeloRespostaQuestao';
+import { Assunto } from 'src/app/model/questoes/assunto';
+import { Dificuldade } from 'src/app/model/questoes/enum/dificuldade';
+import { ModeloRespostaQuestao } from 'src/app/model/questoes/modeloRespostaQuestao';
+import { QuestaoProgramacao } from 'src/app/model/questoes/questaoProgramacao';
 
 @Component({
   selector: 'app-cadastrar-questoes',
@@ -78,8 +78,8 @@ export class CadastrarQuestoesComponent implements OnInit {
   }
 
   cadastrar() {
-    this.questao.sequencia =
-      this.questao.sequencia !== 0 ? this.questao.sequencia : this.assunto.getUltimaSequencia();
+    this.questao.ordem =
+      this.questao.ordem !== 0 ? this.questao.ordem : this.assunto.getUltimaSequencia();
 
     if (typeof this.questao.algoritmoInicial === 'string') {
       this.questao.algoritmoInicial = this.questao.algoritmoInicial.split('\n');

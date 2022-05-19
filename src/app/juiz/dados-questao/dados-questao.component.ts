@@ -1,9 +1,9 @@
 import { Component, OnInit, Input, AfterViewInit } from '@angular/core';
-import { QuestaoProgramacao } from 'src/app/model/questoes/questaoProgramacao';
 import Submissao from 'src/app/model/submissao';
 import { LoginService } from 'src/app/login-module/login.service';
 import { ApresentacaoService } from 'src/app/geral-module/apresentacao.service';
 import { DomSanitizer } from '@angular/platform-browser';
+import { QuestaoProgramacao } from 'src/app/model/questoes/questaoProgramacao';
 
 @Component({
   selector: 'dados-questao',
@@ -22,13 +22,13 @@ export class DadosQuestaoComponent implements AfterViewInit {
     private sanitizer: DomSanitizer
   ) {}
 
-  
+
 
   ngAfterViewInit() {
     this.apresentacao.apresentarEditor(this.login.getUsuarioLogado());
   }
 
-  
+
 
   gerarHtmlTextoComCodigo(questao) {
     if (questao.possuiCodigoNoEnunciado()) {

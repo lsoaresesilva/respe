@@ -1,6 +1,7 @@
 <p-toast></p-toast>
 
 <div *ngIf="questao != undefined">
+
   <app-breadcrumb-assunto [assunto]="assunto" [questao]="questao"></app-breadcrumb-assunto>
   <div class="p-col-2 p-jc-end">
     <app-btn-avancar-questao [assunto]="assunto" [questao]="questao"></app-btn-avancar-questao>
@@ -49,7 +50,7 @@
         header="Tem certeza da resposta?"
         icon="pi pi-exclamation-triangle"
       ></p-confirmDialog>
-      
+
     </div>
   </div>
 </div>
@@ -65,5 +66,5 @@
         [disabled]="respostaQuestaoFechada.pk() != undefined"
       ></button>
   </div>
- 
+
 </div>

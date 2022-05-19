@@ -34,18 +34,17 @@ export class MainComponent implements OnInit {
     this.visibilidadeQuestionario = false;
     this.usuario = this.login.getUsuarioLogado();
 
-    let c = new ChatBot();
     if (this.usuario.perfil === PerfilUsuario.estudante) {
       this.gamification.inicializar(this.usuario);
     }
   }
 
   exportarDados(){
-    this.router.navigate(['geral/main', { outlets: { principal: ['experimento', 'exportar-dados'] } }]);
+    this.router.navigate(['geral/main', { outlets: { principal: ['admin', 'exportar-dados'] } }]);
   }
 
   ngOnInit() {
-    this.apresentarPretestRegulacao();
+    //this.apresentarPretestRegulacao();
   }
 
   abrirMateriaisEstudo(){

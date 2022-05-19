@@ -1,4 +1,4 @@
-import { Assunto } from './assunto';
+import { Assunto } from "./questoes/assunto";
 
 export class MaterialEstudo{
     assunto:Assunto;

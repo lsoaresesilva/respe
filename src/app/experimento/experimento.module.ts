@@ -12,8 +12,9 @@ import { AnaliseSelfInstructionComponent } from './analise-self-instruction/anal
 import { ExportComponent } from './export/export.component';
 import { RouterModule, Routes } from '@angular/router';
 import { AuthGuard } from '../guards/auth.guard';
-import { ListarLearningJournalsProgramacaoComponent } from './listar-learning-journals-programacao/listar-learning-journals-programacao.component';
 import { TableModule } from 'primeng/table';
+import { ProfessorModule } from '../professor/professor.module';
+import { ListarLearningJournalsProgramacaoComponent } from './listar-learning-journals-programacao/listar-learning-journals-programacao.component';
 
 export const routes:Routes = [
   {
@@ -33,6 +34,7 @@ export const routes:Routes = [
   imports: [
     RouterModule.forChild(routes),
     DialogModule,
+    ProfessorModule,
     CommonModule,
     ButtonModule,
     FieldsetModule,
@@ -41,6 +43,6 @@ export const routes:Routes = [
     FormsModule,
     ScrollPanelModule
   ],
-  exports: [QuestionarioAutorregulacaoComponent]
+  exports: [QuestionarioAutorregulacaoComponent, AnaliseSelfInstructionComponent]
 })
 export class ExperimentoModule { }

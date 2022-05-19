@@ -1,5 +1,4 @@
 import { Document, Collection } from './firestore/document';
-import { Assunto } from './assunto';
 import Usuario from './usuario';
 import { NivelConfianca } from './nivelConfianca';
 

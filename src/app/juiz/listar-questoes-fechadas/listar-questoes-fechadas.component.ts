@@ -2,10 +2,10 @@ import { Component, OnInit, Input } from '@angular/core';
 import { MenuItem, MessageService } from 'primeng/api';
 import { Router } from '@angular/router';
 import { LoginService } from '../../login-module/login.service';
-import { Assunto } from 'src/app/model/assunto';
-import { RespostaQuestaoFechada } from 'src/app/model/respostaQuestaoFechada';
+import QuestaoFechada from '../../model/questoes/questaoFechada';
+import { RespostaQuestaoFechada } from '../../model/questoes/respostaQuestaoFechada';
 import Query from 'src/app/model/firestore/query';
-import QuestaoFechada from 'src/app/model/questoes/questaoFechada';
+import { Assunto } from 'src/app/model/questoes/assunto';
 
 @Component({
   selector: 'app-listar-questoes-fechadas',

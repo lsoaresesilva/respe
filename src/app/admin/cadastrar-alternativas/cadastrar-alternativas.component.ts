@@ -1,5 +1,5 @@
 import { Component, OnInit, Input } from '@angular/core';
-import Alternativa from 'src/app/model/alternativa';
+import Alternativa from '../../model/questoes/alternativa';
 import { MessageService } from 'primeng/api';
 
 @Component({
@@ -8,21 +8,21 @@ import { MessageService } from 'primeng/api';
   styleUrls: ['./cadastrar-alternativas.component.css']
 })
 export class CadastrarAlternativasComponent implements OnInit {
-  
-  @Input("alternativa")
-  
-  alternativa:Alternativa;
-  
-  
 
-  constructor(private messageService: MessageService) { 
-   
+  @Input("alternativa")
+
+  alternativa:Alternativa;
+
+
+
+  constructor(private messageService: MessageService) {
+
   }
 
   ngOnInit() {
-   
+
   }
 
- 
- 
+
+
 }

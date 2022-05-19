@@ -1,7 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import AutoReflexao from 'src/app/model/autoReflexao';
 import { Message } from 'primeng/api';
-import { Assunto } from 'src/app/model/assunto';
 import { Router, ActivatedRoute } from '@angular/router';
 import { SelectItem } from 'primeng/api';
 import { NivelConfianca } from 'src/app/model/nivelConfianca';

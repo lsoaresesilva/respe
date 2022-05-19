@@ -1,6 +1,5 @@
 import { Component, OnInit } from '@angular/core';
 import PageTrackRecord from 'src/app/model/analytics/pageTrack';
-import { Assunto } from 'src/app/model/assunto';
 import Query from 'src/app/model/firestore/query';
 import Submissao from 'src/app/model/submissao';
 import Turma from 'src/app/model/turma';
@@ -9,7 +8,7 @@ import pageTracks from '../../../../json/pageTracks.json';
 
 import estudantesJson from '../../../../json/estudantes.json';
 import Usuario from 'src/app/model/usuario';
-import EstatisticaPageTrack from 'src/app/model/analytics/estatisticaPageTrack';
+import EstatisticaPageTrack from 'src/app/model/modelagem/estatisticaPageTrack';
 
 estudantesJson
 @Component({
@@ -57,13 +56,13 @@ export class ExportarDadosComponent implements OnInit {
         
     }) */
 
-    /* Submissao.exportToJson().subscribe(resultados=>{
+    Submissao.exportToJson().subscribe(resultados=>{
       this.json = resultados;
-    }) */
+    });
     /* Submissao.getAll(new Query("estudanteId", "==", "d6Qx0ydf7quJmGirnF35")).subscribe(submissoes=>{
       this.json = JSON.stringify(submissoes);
     }) */
-    this.gerarDataset();
+    //this.gerarDataset();
 
     
 

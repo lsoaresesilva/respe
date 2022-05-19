@@ -17,7 +17,6 @@ import { HttpHeaders, HttpClient } from '@angular/common/http';
 import { ActivatedRoute, NavigationExtras, Router } from '@angular/router';
 import PedidoAjuda from 'src/app/model/pedidoAjuda';
 import { Util } from 'src/app/model/util';
-import { Assunto } from 'src/app/model/assunto';
 import { LoginService } from '../../../login-module/login.service';
 
 import ErroEditor from 'src/app/model/erroEditor';
@@ -28,7 +27,6 @@ import ConsoleEditor from 'src/app/model/consoleEditor';
 import ErroServidor from 'src/app/model/errors/erroServidor';
 import { ApresentacaoService } from 'src/app/geral-module/apresentacao.service';
 import { Observable } from 'rxjs';
-import { QuestaoProgramacao } from 'src/app/model/questoes/questaoProgramacao';
 import Usuario from 'src/app/model/usuario';
 import PontuacaoQuestaoProgramacao from 'src/app/model/gamification/pontuacaoQuestaoProgramacao';
 import Gamification from 'src/app/model/gamification/gamification';
@@ -45,6 +43,9 @@ import DiarioProgramacao from 'src/app/model/srl/diarioProgramacao';
 import { ModoExecucao } from 'src/app/model/juiz/enum/modoExecucao';
 import { Groups } from 'src/app/model/experimento/groups';
 import { ChatbotService } from 'src/app/chatbot/chatbot.service';
+import { QuestaoProgramacao } from 'src/app/model/questoes/questaoProgramacao';
+import { Assunto } from 'src/app/model/questoes/assunto';
+
 
 @Component({
   selector: 'responder-questao-programacao',
@@ -109,7 +110,7 @@ export class ResponderQuestaoProgramacao implements OnInit, AfterViewInit, OnCha
       event => {
         this.submissao = null;
       });
-    
+
     Editor.getInstance().codigo.next('');
   }
 
@@ -170,8 +171,8 @@ export class ResponderQuestaoProgramacao implements OnInit, AfterViewInit, OnCha
   }
 
   ngOnInit() {
-    
-    
+
+
 
     if (this.usuario == null) {
       throw new Error('Não é possível executar o código, pois você não está logado.'); // TODO: mudar para o message
@@ -187,7 +188,7 @@ export class ResponderQuestaoProgramacao implements OnInit, AfterViewInit, OnCha
         params['questaoId'] != undefined
       ) {
 
-        
+
 
         AtividadeGrupo.get(params['atividadeGrupoId']).subscribe((atividadeGrupo) => {
           this.atividadeGrupo = atividadeGrupo as AtividadeGrupo;
@@ -224,7 +225,7 @@ export class ResponderQuestaoProgramacao implements OnInit, AfterViewInit, OnCha
                           (submissao: Submissao) => {
                             if (submissao != null) this.submissao = submissao;
                             //this.pausaIde = false;
-      
+
                             this.atualizarCardErros();
                           }
                         );

@@ -30,7 +30,6 @@ import RespostaQuestaoCorrecaoAlgoritmo from 'src/app/model/correcao-algoritmo/c
 import { DiarioProgramacaoComponent } from 'src/app/srl/monitoramento/diario-programacao/diario-programacao.component';
 import { TipoDiarioProgramacao } from 'src/app/model/srl/enum/tipoDiarioProgramacao';
 import DiarioProgramacao from 'src/app/model/srl/diarioProgramacao';
-import { VisualizacaoRespostasQuestoes } from 'src/app/model/visualizacaoRespostasQuestoes';
 import { ModoExecucao } from 'src/app/model/juiz/enum/modoExecucao';
 import { EscapeHtmlPipe } from 'src/app/pipes/keep-html.pipe';
 import { EditorTrintadoisbitsComponent } from '../editor-trintadoisbits/editor-trintadoisbits.component';
@@ -40,6 +39,7 @@ import { MonitorService } from 'src/app/chatbot/monitor.service';
 import { Groups } from 'src/app/model/experimento/groups';
 import Postagem from 'src/app/model/cscl/postagem';
 import Usuario from 'src/app/model/usuario';
+import { VisualizacaoRespostasQuestoes } from 'src/app/model/questoes/visualizacaoRespostasQuestoes';
 
 /**
  * Executa um javascript ide.js para acoplar o editor VStudio.

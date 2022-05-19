@@ -3,8 +3,8 @@ import { TestBed, inject } from '@angular/core/testing';
 import { DocumentModule } from '../firestore/document.module';
 import { AngularFireModule, FirebaseApp } from '@angular/fire';
 import { FirebaseConfiguracao } from 'src/environments/firebase';
-import { Assunto } from '../assunto';
-import { QuestaoProgramacao } from '../questoes/questaoProgramacao';
+import { Assunto } from '../sistema-aprendizagem/assunto';
+import { QuestaoProgramacao } from '../sistema-aprendizagem/questoes/questaoProgramacao';
 import { AutoInstrucao } from '../srl/autoInstrucao';
 
 describe('Testes de Auto instrução', () => {
@@ -49,7 +49,7 @@ describe('Testes de Auto instrução', () => {
     let ac: Assunto = new Assunto(null, 'Condições');
     let af: Assunto = new Assunto(null, 'Funções');
     let ar: Assunto = new Assunto(null, 'Repetições');
-    let q: QuestaoProgramacao = new QuestaoProgramacao(null, '', '', '', '', [ac, af], null, null, null);
+    let q: QuestaoProgramacao = new QuestaoProgramacao(null, '', '', null, '', [ac, af], null, null, null);
     ar.questoesProgramacao.push(q);
     let autoinstrucao1: AutoInstrucao = new AutoInstrucao(null, null, q, '', '', '', '', '', '');
     expect(autoinstrucao1.validar(ar)).toBeFalse();
@@ -66,7 +66,7 @@ describe('Testes de Auto instrução', () => {
     );
     expect(autoinstrucao2.validar(ar)).toBeTrue();
 
-    let q2: QuestaoProgramacao = new QuestaoProgramacao(null, '', '', '', '', [ac], null, null, null);
+    let q2: QuestaoProgramacao = new QuestaoProgramacao(null, '', '', null, '', [ac], null, null, null);
     ar.questoesProgramacao.push(q2);
 
     let autoinstrucao3: AutoInstrucao = new AutoInstrucao(

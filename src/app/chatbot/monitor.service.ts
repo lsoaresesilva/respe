@@ -1,6 +1,4 @@
 import { Injectable } from '@angular/core';
-import Questao from '../model/questoes/questao';
-import { QuestaoProgramacao } from '../model/questoes/questaoProgramacao';
 import { ErroCompilacao } from 'src/app/model/errors/analise-compilacao/erroCompilacao';
 import FrequenciaErro from '../model/errors/analise-compilacao/frequenciaErro';
 import Erro from '../model/errors/erro';
@@ -26,6 +24,7 @@ import { Observable } from 'rxjs';
 import { Util } from '../model/util';
 import { ChatbotService } from './chatbot.service';
 import ParseAlgoritmo from '../model/errors/analise-pre-compilacao/parseAlgoritmo';
+import { QuestaoProgramacao } from '../model/questoes/questaoProgramacao';
 
 @Injectable({
   providedIn: 'root',

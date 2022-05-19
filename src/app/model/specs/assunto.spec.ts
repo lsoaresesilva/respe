@@ -8,8 +8,8 @@ import { AngularFireModule, FirebaseApp } from '@angular/fire';
 
 import { FirebaseConfiguracao } from 'src/environments/firebase';
 
-import { Assunto } from '../assunto';
-import { RespostaQuestaoFechada } from '../respostaQuestaoFechada';
+import { Assunto } from '../questoes/assunto';
+import { RespostaQuestaoFechada } from '../questoes/respostaQuestaoFechada';
 import { Util } from '../util';
 import Submissao from '../submissao';
 import ResultadoTestCase from '../resultadoTestCase';

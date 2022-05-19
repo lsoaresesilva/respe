@@ -1,7 +1,6 @@
 import { forkJoin, Observable } from 'rxjs';
-import { Assunto } from '../assunto';
+import { Assunto } from '../questoes/assunto';
 import { Collection, date, Document, ignore } from '../firestore/document';
-import { QuestaoProgramacao } from '../questoes/questaoProgramacao';
 import Usuario from '../usuario';
 import * as firebase from 'firebase';
 import { Util } from '../util';
@@ -9,7 +8,6 @@ import Turma from '../turma';
 import QuestaoColaborativa from './questaoColaborativa';
 import Grupo from './grupo';
 import { environment } from 'src/environments/environment';
-import Questao from '../questoes/questao';
 import { Groups } from '../experimento/groups';
 import AutoInstrucaoColetiva from '../srl/autoInstrucaoColetivo';
 import ChatGrupo from './chat/chatGrupo';

@@ -1,12 +1,12 @@
 import { Observable, forkJoin } from 'rxjs';
-import { Assunto } from '../assunto';
 import { PerfilUsuario } from '../enums/perfilUsuario';
 import { Groups } from '../experimento/groups';
-import Grafo from '../grafo/grafo';
+import Grafo from './grafo';
 import Submissao from '../submissao';
 import Usuario from '../usuario';
-import AnalyticsProgramacao from './analyticsProgramacao';
-import PageTrackRecord from './pageTrack';
+import AnalyticsProgramacao from '../analytics/analyticsProgramacao';
+import PageTrackRecord from '../analytics/pageTrack';
+import { Assunto } from '../questoes/assunto';
 
 export default class EstatisticaPageTrack {
 
@@ -21,7 +21,7 @@ export default class EstatisticaPageTrack {
 
     return mapaSeamanas;
 }
-    
+
   static gerarDadosPageTrack(pageTracks: object, assuntos: Assunto[], submissoes: object) {
     let registros = [];
 
@@ -36,7 +36,7 @@ export default class EstatisticaPageTrack {
       let markov = new Grafo(tracks).criar();
     }
 
-    
+
 
     for (let [estudanteId, s] of Object.entries(submissoes)) {
       // Procurar em registro pelo estudante.

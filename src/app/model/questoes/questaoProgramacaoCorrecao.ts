@@ -1,20 +1,24 @@
+
 import { forkJoin, Observable } from 'rxjs';
-import { Assunto } from '../assunto';
 import RespostaQuestaoCorrecaoAlgoritmo from '../correcao-algoritmo/correcaoAlgoritmo';
 import Query from '../firestore/query';
 import Submissao from '../submissao';
 import Usuario from '../usuario';
 import { Util } from '../util';
+import { Assunto } from './assunto';
 import { QuestaoProgramacao } from './questaoProgramacao';
 
-export default class QuestaoProgramacaoCorrecao {
-  constructor(public id, public sequencia, public questao: QuestaoProgramacao) {
+export default class QuestaoProgramacaoCorrecao{
+
+
+  constructor(public id, public ordem, public questao: QuestaoProgramacao) {
     if (id == null) {
       this.id = Util.uuidv4();
     } else {
       this.id = id;
     }
   }
+  assunto: Assunto;
 
   static construir(questoes: any[], assunto) {
     const objetos: QuestaoProgramacaoCorrecao[] = [];
@@ -23,7 +27,7 @@ export default class QuestaoProgramacaoCorrecao {
       questoes.forEach((questao) => {
         let questaoProgramacao = assunto.getQuestaoProgramacaoById(questao.questaoId);
         objetos.push(
-          new QuestaoProgramacaoCorrecao(questao.id, questao.sequencia, questaoProgramacao)
+          new QuestaoProgramacaoCorrecao(questao.id, questao.ordem, questaoProgramacao)
         );
       });
     }
@@ -36,7 +40,7 @@ export default class QuestaoProgramacaoCorrecao {
   }
 
   objectToDocument() {
-    let objeto = { id: this.id, sequencia:this.sequencia };
+    let objeto = { id: this.id, ordem:this.ordem };
 
     if (this.questao != null && this.questao.id != null) {
       objeto['questaoId'] = this.questao.id;
@@ -143,7 +147,7 @@ export default class QuestaoProgramacaoCorrecao {
             observer.complete();
         })
       })
-    
+
 
   } */
 }

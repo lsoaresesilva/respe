@@ -1,12 +1,12 @@
-import { Component, OnInit, Input } from '@angular/core';
-import { QuestaoProgramacao } from 'src/app/model/questoes/questaoProgramacao';
-import { ActivatedRoute, Router } from '@angular/router';
-import { Assunto } from 'src/app/model/assunto';
-import { LoginService } from 'src/app/login-module/login.service';
+import { Component, OnInit } from '@angular/core';
 import { Assuntos } from 'src/app/model/enums/assuntos';
+import { Assunto } from 'src/app/model/questoes/assunto';
+import { QuestaoProgramacao } from 'src/app/model/questoes/questaoProgramacao';
+import { AutoInstrucao } from '../../../model/srl/autoInstrucao';
+import {LoginService} from '../../../login-module/login.service';
+import { ActivatedRoute, Router } from '@angular/router';
 import { MessageService } from 'primeng/api';
-import { ApresentacaoService } from 'src/app/geral-module/apresentacao.service';
-import { AutoInstrucao } from 'src/app/model/srl/autoInstrucao';
+import {ApresentacaoService} from '../../../geral-module/apresentacao.service';
 
 @Component({
   selector: 'app-self-instruction',
@@ -68,7 +68,7 @@ export class SelfInstructionComponent implements OnInit {
       let restante = 20 - referencia.length;
       return restante <= 0 ? 0 : restante;
     }
-    
+
   }
 
   getQuestao() {

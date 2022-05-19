@@ -7,9 +7,9 @@ import PageTrackRecord from './pageTrack';
 import { PageTrack } from '../../guards/pageTrack.guard';
 import Turma from '../turma';
 import Usuario from '../usuario';
-import { RespostaQuestaoFechada } from '../respostaQuestaoFechada';
+import { RespostaQuestaoFechada } from '../questoes/respostaQuestaoFechada';
 import AnalyticsProgramacao from './analyticsProgramacao';
-import { Assunto } from '../assunto';
+import { Assunto } from '../questoes/assunto';
 
 export default class Analytics {
   // TODO: Fazer apenas um carregamento de assunto e usar par atudo aqui.
@@ -234,14 +234,6 @@ export default class Analytics {
       }
     });
   }
-
-
-
-
-
-
-
-
 
   static calculaVisualizacoesProgresso(pageTracks) {
     if (Array.isArray(pageTracks)) return pageTracks.length;

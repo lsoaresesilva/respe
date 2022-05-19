@@ -52,7 +52,7 @@ import { CodeHighlighterModule } from 'primeng/codehighlighter';
 import { EditorProgramacaoComponent } from './editor/editor-programacao/editor-programacao.component';
 import { ResponderQuestaoProgramacaoLiteComponent } from './editor/responder-questao-programacao-lite/responder-questao-programacao-lite.component';
 import { ConsoleComponent } from './editor/console/console.component';
-import { BreadcrumbAssuntoComponent } from './breadcrumb-assunto/breadcrumb-assunto.component';
+
 import { ApresentacaoEntradasTestcaseComponent } from './apresentacao-entradas-testcase/apresentacao-entradas-testcase.component';
 import { EscapeHtmlPipe } from '../pipes/keep-html.pipe';
 import {SkeletonModule} from 'primeng/skeleton';
@@ -85,7 +85,9 @@ import { ChatbotModule } from '../chatbot/chatbot.module';
 import { MonitorService } from '../chatbot/monitor.service';
 import { BlockUIModule } from 'primeng/blockui';
 import { ResponderQuestaoProgramacaoRegexComponent } from './editor/responder-questao-programacao-regex/responder-questao-programacao-regex.component';
+import { SistemaAprendizagemModule } from '../sistema-aprendizagem/sistema-aprendizagem.module';
 import { ConsoleTrintadoisbitsControleComponent } from './editor/console-trintadoisbits-controle/console-trintadoisbits-controle.component';
+import { CompartilhadoModule } from '../shared/shared.module';
 
 export const routes: Routes = [
   {
@@ -149,9 +151,7 @@ export const routes: Routes = [
 
 @NgModule({
   declarations: [
-
     VisualizarParsonComponent,
-    BreadcrumbAssuntoComponent,
     DadosQuestaoComponent,
     VisualizarTestesComponent,
 
@@ -188,6 +188,8 @@ export const routes: Routes = [
   imports: [
     SrlModule,
     ChatModule,
+    CompartilhadoModule,
+    SistemaAprendizagemModule,
     ChatbotModule,
     /* CsclModule, */
     RouterModule.forChild(routes),
@@ -195,11 +197,11 @@ export const routes: Routes = [
     SplitButtonModule,
     SkeletonModule,
     TerminalModule,
-    TimelineModule,
+
     BlockUIModule,
     TooltipModule,
     DynamicDialogModule,
-    KnobModule,
+
     TableModule,
     PanelModule,
     ButtonModule,
@@ -238,7 +240,6 @@ export const routes: Routes = [
     VisualizarQuestaoFechadaComponent,
     ResponderQuestaoProgramacaoLiteComponent,
     BtnAvancarQuestaoComponent,
-    BreadcrumbAssuntoComponent,
     DadosQuestaoComponent
   ],
   entryComponents: [

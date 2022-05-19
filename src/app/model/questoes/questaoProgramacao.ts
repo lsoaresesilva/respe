@@ -1,49 +1,31 @@
-import { Assunto } from '../assunto';
-import { Document, Collection, ignore } from '../firestore/document';
-import { Observable, forkJoin } from 'rxjs';
-import { Dificuldade } from '../enums/dificuldade';
-import TestCase from '../testCase';
+import { Observable, forkJoin } from "rxjs";
+import { ModeloRespostaQuestao } from "./modeloRespostaQuestao";
+import { MaterialAprendizagem } from "../sistema-aprendizagem/materialAprendizagem";
+import Submissao from "../submissao";
+import TestCase from "../testCase";
+import { Util } from "../util";
+import { Assunto } from "./assunto";
+import { Dificuldade } from './enum/dificuldade';
 
-import Submissao from '../submissao';
-import Usuario from '../usuario';
-import { Util } from '../util';
-import { ErroCompilacao } from '../errors/analise-compilacao/erroCompilacao';
-import { ModeloRespostaQuestao } from '../modeloRespostaQuestao';
 
-export class QuestaoProgramacao {
+export class QuestaoProgramacao implements MaterialAprendizagem{
   constructor(
     public id,
-    nomeCurto,
-    enunciado,
-    dificuldade,
-    sequencia,
-    assuntos,
-    testsCases,
-    algoritmoInicial,
+    public nomeCurto,
+    public enunciado,
+    public dificuldade: Dificuldade,
+    public ordem,
+    public assuntos,
+    public testsCases: TestCase[],
+    public algoritmoInicial,
     public solucao: ModeloRespostaQuestao
   ) {
     if (id == null) {
       this.id = Util.uuidv4();
-    } else {
-      this.id = id;
     }
-    this.nomeCurto = nomeCurto;
-    this.enunciado = enunciado;
-    this.dificuldade = dificuldade;
-    this.sequencia = sequencia;
-    this.assuntos = assuntos;
-    this.testsCases = testsCases;
-    this.algoritmoInicial = algoritmoInicial;
-    
   }
 
-  nomeCurto: string;
-  enunciado: string;
-  dificuldade: Dificuldade;
-  assuntos: any[];
-  sequencia: number;
-  testsCases: TestCase[];
-  algoritmoInicial: any = '';
+  assunto: Assunto;
 
   isFinalizada(submissao, margemAceitavel){
     if(submissao == null || submissao.questaoId != this.id){
@@ -78,7 +60,7 @@ export class QuestaoProgramacao {
               let x = Util.firestoreDateToDate(submissao["data"]);
             }
           }
-          
+
           if (submissao != null && submissao['resultadosTestsCases'] != null) {
             const totalTestCase = questao.testsCases.length;
             let totalRespondidasSucesso = 0;
@@ -110,7 +92,10 @@ export class QuestaoProgramacao {
       if (Array.isArray(questoes) && questoes.length > 0) {
         const consultas = {};
 
+
+
         questoes.forEach((questao) => {
+          questao.percentualResposta = 0;
           consultas[questao.id] = QuestaoProgramacao.isFinalizada(questao, estudante);
         });
 
@@ -137,7 +122,7 @@ export class QuestaoProgramacao {
     const assuntos = [];
     if (questaoDocument.assuntos != null && questaoDocument.assuntos.length > 0) {
       questaoDocument.assuntos.forEach((assunto) => {
-        assuntos.push(Assunto.construir(assunto) /*new Assunto(assunto, null)*/);
+        assuntos.push(Assunto.criarAssunto(assunto) /*new Assunto(assunto, null)*/);
       });
 
       if (assunto != null) {
@@ -149,9 +134,9 @@ export class QuestaoProgramacao {
 
     let testsCases = TestCase.construir(questaoDocument.testsCases);
     let solucao = ModeloRespostaQuestao.construir(questaoDocument.solucao);
-    
+
     let questao = new QuestaoProgramacao(questaoDocument.id, questaoDocument.nomeCurto, questaoDocument.enunciado, questaoDocument.dificuldade, questaoDocument.sequencia, assuntos, testsCases, questaoDocument.algoritmoInicial, solucao )
-    
+
 
     return questao
   }
@@ -165,7 +150,7 @@ export class QuestaoProgramacao {
 
     if (questoes != null) {
       questoes.forEach((questao, index) => {
-        
+
         questao = this._construirIndividual(questao, assunto);
 
         objetosQuestoes.push(
@@ -174,7 +159,7 @@ export class QuestaoProgramacao {
             questao.nomeCurto,
             questao.enunciado,
             questao.dificuldade,
-            questao.sequencia,
+            questao.ordem,
             questao.assuntos,
             questao.testsCases,
             questao.algoritmoInicial,
@@ -237,7 +222,7 @@ export class QuestaoProgramacao {
       document['assuntos'] = assuntos;
     }
 
-    document['sequencia'] = this.sequencia;
+    document['ordem'] = this.ordem;
 
     if (this.testsCases != null && this.testsCases.length > 0) {
       const ts = [];
@@ -275,7 +260,7 @@ export class QuestaoProgramacao {
           if(testCase.id == id){
             ts.push(testCase.objectToDocument());
           }
-          
+
         });
       }
     }else{
@@ -285,7 +270,7 @@ export class QuestaoProgramacao {
         });
       }
     }
-    
+
 
     return {
       testsCases: ts,
@@ -334,8 +319,8 @@ export class QuestaoProgramacao {
       this.enunciado == null ||
       this.enunciado == '' ||
       this.dificuldade == null ||
-      this.sequencia == null ||
-      this.sequencia < 1 ||
+      this.ordem == null ||
+      this.ordem < 1 ||
       this.testsCases == undefined ||
       this.testsCases.length == 0 ||
       TestCase.validarTestsCases(this.testsCases) == false

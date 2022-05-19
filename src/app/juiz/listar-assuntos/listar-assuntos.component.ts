@@ -1,5 +1,4 @@
 import { Component, OnInit } from '@angular/core';
-import { Assunto } from 'src/app/model/assunto';
 import { MenuItem, MessageService } from 'primeng/api';
 import { Router, ActivatedRoute } from '@angular/router';
 import { LoginService } from '../../login-module/login.service';
@@ -9,6 +8,7 @@ import Query from 'src/app/model/firestore/query';
 
 import * as firebase from 'firebase';
 import { forkJoin } from 'rxjs';
+import { Assunto } from 'src/app/model/questoes/assunto';
 
 @Component({
   selector: 'app-listar-assuntos',
@@ -33,7 +33,7 @@ export class ListarAssuntosComponent implements OnInit {
           configuracao.assuntos.forEach(assunto => {
             query.push(Assunto.get(assunto));
           });
-            
+
         }
 
         forkJoin(query).subscribe(assuntos=>{
@@ -45,15 +45,15 @@ export class ListarAssuntosComponent implements OnInit {
                 let percentual = Assunto.calcularProgresso(assunto, respostas);
                 assunto['percentual'] = percentual;
               })
-              
+
             });
           }
         })
-        
+
       }else{
         Assunto.getAll().subscribe((assuntos) => {
           this.assuntos = assuntos;
-          
+
           if(this.usuario.grupoExperimento != Groups.control){
             this.assuntos.forEach((assunto) => {
               Assunto.consultarRespostasEstudante(this.usuario).subscribe(respostas=>{
@@ -62,15 +62,15 @@ export class ListarAssuntosComponent implements OnInit {
               })
             });
           }
-          
+
         });
       }
 
-      
 
-     
+
+
     })
-    
+
   }
 
   abrirAssunto(assunto) {

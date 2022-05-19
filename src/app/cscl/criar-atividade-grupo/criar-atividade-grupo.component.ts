@@ -1,11 +1,11 @@
 import { Component, OnInit } from '@angular/core';
 import { MessageService } from 'primeng/api';
 import { forkJoin } from 'rxjs';
-import { Assunto } from 'src/app/model/assunto';
 import AtividadeGrupo from 'src/app/model/cscl/atividadeGrupo';
 import Frequencia from 'src/app/model/cscl/frequencia';
 import QuestaoColaborativa from 'src/app/model/cscl/questaoColaborativa';
 import Query from 'src/app/model/firestore/query';
+import { Assunto } from 'src/app/model/questoes/assunto';
 import Turma from 'src/app/model/turma';
 import Usuario from 'src/app/model/usuario';
 import { Util } from 'src/app/model/util';

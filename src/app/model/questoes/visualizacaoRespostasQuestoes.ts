@@ -1,8 +1,7 @@
-import { Collection, Document, date } from './firestore/document';
-import Usuario from './usuario';
-import { ModeloRespostaQuestao } from './modeloRespostaQuestao';
-import { QuestaoProgramacao } from './questoes/questaoProgramacao';
-import Query from './firestore/query';
+import { Collection, Document, date } from '../firestore/document';
+import Usuario from '../usuario';
+import Query from '../firestore/query';
+import { QuestaoProgramacao } from './questaoProgramacao';
 
 @Collection('visualizacaoRespostasQuestoes')
 export class VisualizacaoRespostasQuestoes extends Document {

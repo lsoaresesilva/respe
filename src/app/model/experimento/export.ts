@@ -13,7 +13,6 @@ export default class Export {
 
   static excluidos = ['B3Xgj4IGEOQvjLKoTHI9', 'JJ8zNeRZBDr4qTElmYJk', 'xRSUKvyNAYV8Cmvn639q', 'LYx978JlOUowgMgR7gq0', 'BmIqbIXvbFLx0D4rqdvo', "1flzSjZxDqi7QmmoMRqG"];
   static paginasExcluir = ['criar-atividade-grupo', 'editor-regex', 'cadastrar-postagem', 'entrar-grupo', 'editor-programacao', 'visualizar-postagem', 'listagem-atividades-grupo', 'minha-turma', "listar-videos", "visualizacao-video", 'visualizacao-turma', 'listar-turmas', 'listagem-diarios-professor', 'visualizacao-estudante']
-
   static submissoes() {
     return new Observable((observer) => {
       Submissao.exportToJsonFiltroData().subscribe((submissoes) => {
@@ -64,13 +63,11 @@ export default class Export {
           getTracks([estudante]);
         })
       }
-
     });
   }
 
   static filtrarEstudantes(submissoesJson) {
     let submissoes = [];
-
     submissoesEstudantes['submissoes'].forEach((s) => {
       if (!Export.excluidos.includes(s['estudante'])) {
         submissoes.push(s);

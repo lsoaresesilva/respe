@@ -1,6 +1,6 @@
-import { Collection, Document } from "../firestore/document";
-import { QuestaoProgramacao } from "../questoes/questaoProgramacao";
+
 import { Util } from "../util";
+import {QuestaoProgramacao} from '../../model/questoes/questaoProgramacao';
 
 export default class QuestaoColaborativa{
 
@@ -24,14 +24,14 @@ export default class QuestaoColaborativa{
 
     static construir(questoes: any[], assunto) {
         const objetosQuestoes: QuestaoColaborativa[] = [];
-    
+
         if (questoes != null) {
           questoes.forEach((questao, index) => {
             const assuntos = [];
-    
-    
+
+
             questao.questao = QuestaoProgramacao._construirIndividual(questao.questao, assunto);
-    
+
             objetosQuestoes.push(
               new QuestaoColaborativa(
                 questao.id,
@@ -41,7 +41,7 @@ export default class QuestaoColaborativa{
             );
           });
         }
-    
+
         return objetosQuestoes;
       }
 }

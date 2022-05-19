@@ -1,10 +1,10 @@
 import { Component, Input, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { LoginService } from 'src/app/login-module/login.service';
-import { Assunto } from 'src/app/model/assunto';
 import { Groups } from 'src/app/model/experimento/groups';
-import QuestaoParsonProblem from 'src/app/model/questoes/parsonProblem';
+import { Assunto } from 'src/app/model/questoes/assunto';
 import QuestaoFechada from 'src/app/model/questoes/questaoFechada';
+import QuestaoParsonProblem from 'src/app/model/questoes/questaoParsonProblem';
 import { QuestaoProgramacaoRegex } from 'src/app/model/questoes/questaoProgramacaoRegex';
 
 @Component({
@@ -54,7 +54,7 @@ export class BtnAvancarQuestaoComponent implements OnInit {
           ]);
           return;
         }
-  
+
         this.router.navigate([
           'geral/main',
           { outlets: { principal: ['srl', 'self-instruction', this.assunto.pk(), questao.id] } },

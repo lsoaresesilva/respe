@@ -51,6 +51,11 @@ export const routes:Routes = [
     path: 'visualizar-mslq/:codigoTurma',
     component: VisualizarMslqComponent
   },
+  {
+    path: 'exportar-dados',
+    component: ExportarDadosComponent,
+    canActivate: [AuthGuard, AdminGuard]
+  },
 ]
 
 @NgModule({

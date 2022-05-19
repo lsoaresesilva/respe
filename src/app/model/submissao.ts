@@ -1,4 +1,4 @@
-import { QuestaoProgramacao } from './questoes/questaoProgramacao';
+
 import { Document, Collection, date, ignore } from './firestore/document';
 import Erro from './errors/erro';
 import { Observable, forkJoin } from 'rxjs';
@@ -7,12 +7,12 @@ import Usuario from './usuario';
 import ResultadoTestCase from './resultadoTestCase';
 import ErroCompilacaoFactory from './errors/analise-compilacao/erroCompilacaoFactory';
 import { ErroCompilacao } from './errors/analise-compilacao/erroCompilacao';
-import { Assunto } from './assunto';
+import { Assunto } from './questoes/assunto';
 import { keyframes } from '@angular/animations';
 import { Cacheable } from 'ts-cacheable';
 import { Util } from './util';
 import { database } from 'firebase';
-import Questao from './questoes/questao';
+import { QuestaoProgramacao } from './questoes/questaoProgramacao';
 
 @Collection('submissoes')
 export default class Submissao extends Document {
@@ -54,7 +54,7 @@ export default class Submissao extends Document {
         });
 
         submissoes = this.filtrarSubmissoesConclusao(submissoes);
-        submissoes = this.agruparPorEstudante(submissoes);
+        submissoes = this.agruparRecentePorEstudante(submissoes);
         observer.next(submissoes);
         observer.complete();
       });
@@ -92,6 +92,7 @@ export default class Submissao extends Document {
       Assunto.fromJson({ id: submissaoJson.assuntoId, nome: '' }),
       new QuestaoProgramacao(submissaoJson.questaoId, '', '', 1, 1, [], null, '', null)
     );
+
     submissao.resultadosTestsCases = [];
     submissao['questaoId'] = submissaoJson.questaoId;
     if (Array.isArray(submissaoJson.resultadosTesteCase)) {
@@ -99,6 +100,14 @@ export default class Submissao extends Document {
         let resultado = ResultadoTestCase.fromJson(r);
         submissao.resultadosTestsCases.push(resultado);
       });
+    };
+
+    if(submissaoJson.data != null){
+      submissao.data = new Date(submissaoJson.data);
+    }
+
+    if (submissaoJson.erro != null) {
+      submissao.erro = {data:submissaoJson.erro.data, id:submissaoJson.erro.id, traceback:submissaoJson.erro.traceback}
     }
 
     submissao.data = new Date(submissao.data);
@@ -157,7 +166,13 @@ export default class Submissao extends Document {
       submissoesAgrupadas[submissao['estudanteId']].push(submissao);
     });
 
-    const submissoesRecentesAgrupadas = [];
+    return submissoesAgrupadas;
+  }
+
+  static agruparRecentePorEstudante(submissoes: Submissao[]) {
+    let submissoesAgrupadas = this.agruparPorEstudante(submissoes);
+
+    let submissoesRecentesAgrupadas = [];
 
     Object.keys(submissoesAgrupadas).forEach((estudanteId) => {
       submissoesRecentesAgrupadas.push(this.filtrarRecente(submissoesAgrupadas[estudanteId]));
@@ -196,7 +211,7 @@ export default class Submissao extends Document {
     return submissoesUnicas;
   }
 
-  static filtrarSubmissoesConclusao(submissoesQuestao = [], status = false) {
+  static filtrarSubmissoesConclusao(submissoesQuestao = [], status = false):Submissao[] {
     // Filtrando todas as submissões que o seu resultadosTestsCase não seja undefined.
     const submissaoFiltrada = submissoesQuestao
       .filter((submissao) => {

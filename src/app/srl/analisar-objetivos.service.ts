@@ -5,7 +5,7 @@ import Usuario from '../model/usuario';
 import { forkJoin, Observable } from 'rxjs';
 import Submissao from '../model/submissao';
 import TempoOnline from '../model/analytics/tempoOnline';
-import { Assunto } from '../model/assunto';
+import { Assunto } from '../model/questoes/assunto';
 
 @Injectable({
   providedIn: 'root',
@@ -37,7 +37,7 @@ export class AnalisarObjetivosService {
           observer.next(percentual);
           observer.complete();
           }
-          
+
         });
       }
     });

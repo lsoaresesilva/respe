@@ -11,10 +11,9 @@ import assuntosJson from '../../../../../json/assuntos.json';
 import estudantesJson from '../../../../../json/estudantes.json';
 import PageTrackRecord from "../pageTrack";
 import Submissao from "../../submissao";
-import { Assunto } from "../../assunto";
+import { Assunto } from "../../sistema-aprendizagem/assunto";
 import Usuario from "../../usuario";
-import EstatisticaPageTrack from "../estatisticaPageTrack";
-import EstatisticasProgramacao from "../estatisticaProgramacao";
+import EstatisticaPageTrack from "../../modelagem/estatisticaPageTrack";
 
 describe('Testes para a classe de EstatisticaPageTrack', () => {
 

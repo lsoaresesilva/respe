@@ -82,6 +82,13 @@ export const routes: Routes = [
         canActivate: [AuthGuard],
         outlet: 'principal'
       },
+      {
+        path: 'professor',
+        loadChildren: () => import('../professor/professor.module').then(m => m.ProfessorModule),
+        /* component: ListarAssuntosComponent, */
+        canActivate: [AuthGuard],
+        outlet: 'principal'
+      },
     ], 
     
   },

@@ -1,20 +1,24 @@
-import { Document, Collection, ignore } from './firestore/document';
-import { Observable, forkJoin } from 'rxjs';
-import { QuestaoProgramacao } from './questoes/questaoProgramacao';
-import Usuario from './usuario';
-import Submissao from './submissao';
-import { Util } from './util';
-import { RespostaQuestaoFechada } from './respostaQuestaoFechada';
-import { Assuntos } from './enums/assuntos';
-import QuestaoFechada from './questoes/questaoFechada';
-import QuestaoParsonProblem from './questoes/parsonProblem';
-import Query from './firestore/query';
-import { RespostaQuestaoParson } from './juiz/respostaQuestaoParson';
-import QuestaoColaborativa from './cscl/questaoColaborativa';
-import QuestaoProgramacaoCorrecao from './questoes/questaoProgramacaoCorrecao';
-import RespostaQuestaoCorrecaoAlgoritmo from './correcao-algoritmo/correcaoAlgoritmo';
+
+import { Observable, forkJoin } from "rxjs";
+import QuestaoColaborativa from "../cscl/questaoColaborativa";
+import { Assuntos } from "../enums/assuntos";
+import { Collection, ignore } from "../firestore/document";
+import { MaterialAprendizagem } from "../sistema-aprendizagem/materialAprendizagem";
+import Submissao from "../submissao";
+import Usuario from "../usuario";
+import { Util } from "../util";
+import { QuestaoProgramacao } from "./questaoProgramacao";
+import QuestaoFechada  from './questaoFechada';
+import { Document } from "../firestore/document";
+import Query from '../firestore/query';
+import { RespostaQuestaoFechada } from "./respostaQuestaoFechada";
+import QuestaoParsonProblem from './questaoParsonProblem';
+import QuestaoProgramacaoCorrecao from './questaoProgramacaoCorrecao';
+import { QuestaoProgramacaoRegex } from './questaoProgramacaoRegex';
+import VideoProgramacao from '../sistema-aprendizagem/videoProgramacao';
 import { VisualizacaoRespostasQuestoes } from './visualizacaoRespostasQuestoes';
-import { QuestaoProgramacaoRegex } from './questoes/questaoProgramacaoRegex';
+import Texto from "../sistema-aprendizagem/texto";
+
 
 @Collection('assuntos')
 export class Assunto extends Document {
@@ -27,16 +31,21 @@ export class Assunto extends Document {
     this.questoesColaborativas = [];
     this.questoesCorrecao = [];
     this.questoesRegex = [];
+    this.videos = [];
   }
 
   sequencia;
   importancia;
+  // Materiais de aprendizagem
   questoesProgramacao;
   questoesFechadas;
   questoesParson: any;
   questoesColaborativas;
   questoesCorrecao;
   questoesRegex;
+  videos;
+
+
   objetivosEducacionais: [];
   isAtivo;
 
@@ -49,7 +58,7 @@ export class Assunto extends Document {
    * No entanto, isso é custoso, pois seria preciso carregar do BD cada assunto.
    * Para reduzir esse problema, futuramente, deve-se refatorar cada questão de programação para usar o nome que está no enumerador.
    */
-  static construir(assunto) {
+   static criarAssunto(assunto) {
     if (assunto != null) {
       const a = new Assunto(assunto, null);
       if (assunto == 'PU0EstYupXgDZ2a57X0X') {
@@ -88,7 +97,7 @@ export class Assunto extends Document {
         });
 
         assuntos.forEach(assunto=>{
-          Assunto.construirQuestoes(assunto);
+          Assunto.construir(assunto);
         })
 
         observer.next(assuntos);
@@ -116,7 +125,12 @@ export class Assunto extends Document {
     });
   }
 
-  static construirQuestoes(assunto){
+
+  /**
+   * Constrói as relações internas de um assunto com seus materiais de aprendizagem.
+   * @param assunto
+   */
+  static construir(assunto){
     assunto['questoesProgramacao'] = QuestaoProgramacao.construir(
       assunto['questoesProgramacao'],
       assunto
@@ -139,38 +153,27 @@ export class Assunto extends Document {
     assunto['questoesRegex'] = QuestaoProgramacaoRegex.construir(
       assunto['questoesRegex']
     );
+
+    assunto['videos'] = VideoProgramacao.construir(
+      assunto['videos']
+    );
+
+    assunto['textos'] = VideoProgramacao.construir(
+      assunto['textos']
+    );
   }
 
   static get(id): Observable<Assunto> {
     return new Observable<Assunto>((observer) => {
       super.get(id).subscribe(
         (assunto) => {
-          assunto['questoesProgramacao'] = QuestaoProgramacao.construir(
-            assunto['questoesProgramacao'],
-            assunto
-          );
 
-          assunto['questoesFechadas'] = QuestaoFechada.construir(assunto['questoesFechadas']);
-
-          assunto['questoesColaborativas'] = QuestaoColaborativa.construir(
-            assunto['questoesColaborativas'],
-            assunto
-          );
-
-          assunto['questoesParson'] = QuestaoParsonProblem.construir(assunto['questoesParson']);
-
-          assunto['questoesCorrecao'] = QuestaoProgramacaoCorrecao.construir(
-            assunto['questoesCorrecao'],
-            assunto
-          );
-
-
-          assunto['questoesRegex'] = QuestaoProgramacaoRegex.construir(
-            assunto['questoesRegex']
-          );
+          Assunto.construir(assunto);
 
           observer.next(assunto as Assunto);
           observer.complete();
+
+
         },
         (err) => {
           observer.error(err);
@@ -179,20 +182,58 @@ export class Assunto extends Document {
     });
   }
 
-  getQuestoesComStatusConclusao(estudante) {
+  ordenarMaterialAprendizagem(questoesComStatus){
+    let materiais:MaterialAprendizagem[] = []
+
+    materiais = materiais.concat(questoesComStatus, this.videos);
+    materiais.sort((qA, qB) => {
+
+      if(qA.ordem != null && qB.ordem != null){
+        if (qA.ordem < qB.ordem) {
+          return -1;
+        } else if (qA.ordem > qB.ordem) {
+          return 1;
+        } else {
+          return 0;
+        }
+      }else{
+        if(qA.ordem != null){
+          return 1;
+        }else if(qB.ordem != null){
+          return -1;
+        }else{ // TODO: Remover quando todos os objetos de materiais tiverem o atributo ordem
+          if(qA["sequencia"] != null && qB["sequencia"] != null){
+            return qA["sequencia"] - qB["sequencia"];
+          }
+        }
+      }
+
+
+
+    });
+
+    return materiais;
+  }
+
+  getMateriaisOrdenados(estudante):Observable<MaterialAprendizagem[]> {
     return new Observable((observer) => {
       let consultas = {};
-      if (Array.isArray(this.questoesFechadas) && this.questoesFechadas.length > 0) {
-        consultas['questoesFechadas'] = QuestaoFechada.verificarQuestoesRespondidas(
-          estudante,
-          this.questoesFechadas
-        );
-      }
+
+      // TODO: vincular os vídeos ao id do assunto. Carregar os vídeos referentes ao assunto aqui e incluir em consultas
+      consultas["videosProgramacao"] = VideoProgramacao.getAll(new Query("assuntoId", "==", this.pk()));
+      consultas["textosProgramacao"] = Texto.getAll(new Query("assuntoId", "==", this.pk()));
 
       if (Array.isArray(this.questoesProgramacao) && this.questoesProgramacao.length > 0) {
         consultas['questoesProgramacao'] = QuestaoProgramacao.verificarQuestoesRespondidas(
           estudante,
           this.questoesProgramacao
+        );
+      }
+
+      if (Array.isArray(this.questoesFechadas) && this.questoesFechadas.length > 0) {
+        consultas['questoesFechadas'] = QuestaoFechada.verificarQuestoesRespondidas(
+          estudante,
+          this.questoesFechadas
         );
       }
 
@@ -218,38 +259,38 @@ export class Assunto extends Document {
       }
 
       forkJoin(consultas).subscribe((respostas) => {
-        let questoes = [];
+        let materiais = [];
         if (respostas['questoesFechadas'] != null) {
-          questoes = questoes.concat(respostas['questoesFechadas']);
+          materiais = materiais.concat(respostas['questoesFechadas']);
         }
 
         if (respostas['questoesProgramacao'] != null) {
-          questoes = questoes.concat(respostas['questoesProgramacao']);
+          materiais = materiais.concat(respostas['questoesProgramacao']);
         }
 
         if (respostas['questoesCorrecao'] != null) {
-          questoes = questoes.concat(respostas['questoesCorrecao']);
+          materiais = materiais.concat(respostas['questoesCorrecao']);
         }
 
         if (respostas['questoesParson'] != null) {
-          questoes = questoes.concat(respostas['questoesParson']);
+          materiais = materiais.concat(respostas['questoesParson']);
         }
 
         if (respostas['questoesRegex'] != null) {
-          questoes = questoes.concat(respostas['questoesRegex']);
+          materiais = materiais.concat(respostas['questoesRegex']);
         }
 
-        questoes.sort((qA, qB) => {
-          if (qA.sequencia < qB.sequencia) {
-            return -1;
-          } else if (qA.sequencia > qB.sequencia) {
-            return 1;
-          } else {
-            return 0;
-          }
-        });
+        if (respostas['videosProgramacao'] != null) {
+          materiais = materiais.concat(respostas['videosProgramacao']);
+        }
 
-        observer.next(questoes);
+        if (respostas['textosProgramacao'] != null) {
+          materiais = materiais.concat(respostas['textosProgramacao']);
+        }
+
+        materiais = this.ordenarMaterialAprendizagem(materiais);
+
+        observer.next(materiais);
         observer.complete();
       });
     });
@@ -296,6 +337,36 @@ export class Assunto extends Document {
     });
   }
 
+  static calcularProgresso_controle_positivo_temp(assunto: Assunto, respostas) {
+    let percentualConclusao = 0;
+
+    percentualConclusao += this.calcularPercentualConclusaoQuestoesFechadas(
+      assunto,
+      respostas.respostaQuestaoFechada
+    );
+
+    /* percentualConclusao += this.calcularPercentualConclusaoQuestoesParson(
+      assunto,
+      respostas.respostaQuestaoParson
+    );
+
+    percentualConclusao += this.calcularPercentualConclusaoQuestoesCorrecao(
+      assunto,
+      respostas.respostaQuestaoCorrecao
+    );
+ */
+    percentualConclusao += this.calcularPercentualConclusaoQuestoesProgramacao(
+      assunto,
+      Submissao.agruparPorQuestao(respostas.submissoes),
+      respostas.visualizacoesRespostasProgramacao,
+      0.5
+    );
+
+
+
+    return (percentualConclusao * 100)/2; // Divide por dois, pois as questões parson e correção estavam com problema.
+  }
+
   static calcularProgresso(assunto: Assunto, respostas) {
     let percentualConclusao = 0;
 
@@ -308,7 +379,6 @@ export class Assunto extends Document {
       assunto,
       respostas.resposaQuestaoParson
     );
-
     percentualConclusao += this.calcularPercentualConclusaoQuestoesCorrecao(
       assunto,
       respostas.respostaQuestaoCorrecao
@@ -411,6 +481,7 @@ export class Assunto extends Document {
       for (let j = 0; j < respostasQuestoesParson.length; j++) {
         if (respostasQuestoesParson[j].questaoId == assunto.questoesParson[i].id) {
           resultado = assunto.questoesParson[i].isRespostaCorreta(respostasQuestoesParson[j]);
+          break
         }
       }
 
@@ -514,7 +585,9 @@ export class Assunto extends Document {
       if (
         questoes[i] instanceof QuestaoFechada ||
         questoes[i] instanceof QuestaoProgramacao ||
-        questoes[i] instanceof QuestaoParsonProblem
+        questoes[i] instanceof QuestaoParsonProblem ||
+        questoes[i] instanceof QuestaoProgramacaoRegex ||
+        questoes[i] instanceof QuestaoProgramacaoCorrecao
       ) {
         if (questoes[i].sequencia != null) {
           questoes[i].sequencia = i + 1;
@@ -529,6 +602,8 @@ export class Assunto extends Document {
     const questoesFechadas = [];
     const questoesProgramacao = [];
     const questoesParson = [];
+    const questoesRegex = []
+    const questoesProgramacaoCorrecao = []
 
     questoes.forEach((questao) => {
       if (questao instanceof QuestaoFechada) {
@@ -537,12 +612,18 @@ export class Assunto extends Document {
         questoesProgramacao.push(questao);
       } else if (questao instanceof QuestaoParsonProblem) {
         questoesParson.push(questao);
+      }else if (questao instanceof QuestaoProgramacaoRegex) {
+        questoesRegex.push(questao);
+      }else if (questao instanceof QuestaoProgramacaoCorrecao) {
+        questoesProgramacaoCorrecao.push(questao);
       }
     });
 
     this.questoesFechadas = questoesFechadas;
     this.questoesProgramacao = questoesProgramacao;
     this.questoesParson = questoesParson;
+    this.questoesRegex = questoesRegex;
+    this.questoesCorrecao = questoesProgramacaoCorrecao;
   }
 
   toJson() {
@@ -560,6 +641,8 @@ export class Assunto extends Document {
       this.questoesFechadas.length +
       this.questoesProgramacao.length +
       this.questoesParson.length +
+      this.questoesRegex.length +
+      this.questoesCorrecao.length +
       1
     );
   }
@@ -567,7 +650,7 @@ export class Assunto extends Document {
   /* Retorna as questões de um assunto ordenadas por sua sequência. */
   ordenarQuestoes() {
     let questoes = new Array(
-      this.questoesFechadas.length + this.questoesProgramacao.length + this.questoesParson.length+this.questoesRegex.length
+      this.questoesFechadas.length + this.questoesProgramacao.length + this.questoesParson.length+this.questoesRegex.length+this.questoesCorrecao.length
     );
 
     questoes = questoes.fill(0);
@@ -589,7 +672,46 @@ export class Assunto extends Document {
       questoes[questao.sequencia - 1] = questao;
     });
 
+    this.questoesCorrecao.forEach((questao) => {
+      questoes[questao.sequencia - 1] = questao;
+    });
+
     return questoes;
+  }
+
+  ordenarMateriais() {
+    let materiais = new Array(
+      this.questoesFechadas.length + this.questoesProgramacao.length + this.questoesParson.length+this.questoesRegex.length+this.questoesCorrecao.length+this.videos.length
+    );
+
+    materiais = materiais.fill(0);
+
+    this.questoesFechadas.forEach((questao) => {
+      materiais[questao.sequencia - 1] = questao;
+    });
+
+    this.questoesProgramacao.forEach((questao) => {
+      materiais[questao.sequencia - 1] = questao;
+    });
+
+    this.questoesParson.forEach((questao) => {
+      materiais[questao.sequencia - 1] = questao;
+    });
+
+
+    this.questoesRegex.forEach((questao) => {
+      materiais[questao.sequencia - 1] = questao;
+    });
+
+    this.questoesCorrecao.forEach((questao) => {
+      materiais[questao.sequencia - 1] = questao;
+    });
+
+    this.videos.forEach((video) => {
+      materiais[video.sequencia - 1] = video;
+    });
+
+    return materiais;
   }
 
   /**

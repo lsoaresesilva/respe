@@ -35,7 +35,7 @@ export default class PageTrackRecord extends Document {
   }
 
   
-  static getAllByEstudantes(estudantes:Usuario[], merge = true, type="array"):Observable<any[] | object>{
+  static getAllByEstudantes(estudantes:Usuario[], merge = true, type="array"):Observable<any>{
     return new Observable(observer=>{
       let consultas;
       if(type == "array"){
@@ -55,20 +55,54 @@ export default class PageTrackRecord extends Document {
         })
       }
 
-      forkJoin(consultas).subscribe(pageTracks=>{
+      let arrayDivididoPrimeiraParte = consultas.slice(0, 10)
+
+      let arrayDivididoSegundaParte = consultas.slice(10, 20)
+
+      let arrayDivididoTerceiraParte = consultas.slice(20, 30)
+
+      let arrayDivididoQuartaParte = consultas.slice(30, 40)
+
+      let arrayDivididoQuintaParte = consultas.slice(40)
+
+      forkJoin(arrayDivididoPrimeiraParte).subscribe(pageTracksPrimeiro=>{
+
+        forkJoin(arrayDivididoSegundaParte).subscribe(pageTracksSegunda=>{
+
+          forkJoin(arrayDivididoTerceiraParte).subscribe(pageTracksTerceira=>{
+
+            forkJoin(arrayDivididoQuartaParte).subscribe(pageTracksQuarta=>{
+
+              forkJoin(arrayDivididoQuintaParte).subscribe(pageTracksQuinta=>{
+                let pageTracks = pageTracksPrimeiro.concat(pageTracksSegunda, pageTracksTerceira, pageTracksQuarta, pageTracksQuinta);
+
+                if(type == "array"){
+                  if(merge){ // Combina em um único array
+                    observer.next([].concat.apply([], pageTracks));
+                    observer.complete();
+                  }else{
+                    observer.next(pageTracks);
+                    observer.complete();
+                  }
+                }else{
+                  observer.next(pageTracks);
+                  observer.complete();
+                }
+                });
+              });
+
+               
+
+            
+          });
+
+        });
+
         
-        if(type == "array"){
-          if(merge){ // Combina em um único array
-            observer.next([].concat.apply([], pageTracks));
-          }else{
-            observer.next(pageTracks);
-          }
-        }else{
-          observer.next(pageTracks);
-        }
         
         
-        observer.complete();
+        
+        
       });
     })
 
@@ -77,7 +111,7 @@ export default class PageTrackRecord extends Document {
   }
 
   toJson(){
-    return {id:this.id, pagina:this.pagina, estudante:this["estudanteId"], data:this.data};
+    return {id:this.id, pagina:this.pagina, estudante:this["estudanteId"], data:Util.firestoreDateToDate(this.data)};
   }
 
   
@@ -117,7 +151,9 @@ export default class PageTrackRecord extends Document {
   static fromJson(pageTrackJson){
     let track = new PageTrackRecord(pageTrackJson.id, pageTrackJson.pagina, Usuario.fromJson({id:pageTrackJson.estudante}));
     /* track.data = Util.firestoreDateToDate(pageTrackJson.data); */
-    track.data = new firebase.firestore.Timestamp(pageTrackJson.data.seconds, pageTrackJson.data.nanoseconds);
+    //track.data = new firebase.firestore.Timestamp(pageTrackJson.data.seconds, pageTrackJson.data.nanoseconds);
+    
+    track.data = new Date(pageTrackJson.data);
     return track;
   }
 
@@ -135,4 +171,9 @@ export default class PageTrackRecord extends Document {
 
     return contagem;
   }
+
+  static mergePageTracks(){
+
+  }
+
 }

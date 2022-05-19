@@ -1,6 +1,6 @@
 <p-toolbar>
   <div class="p-toolbar-group-left">
-    <button pButton class="p-button-text" label="Atividades" (click)="abrirAssuntos()" *ngIf="usuario.perfil == 1"
+    <button pButton class="p-button-text" label="Assuntos" (click)="abrirAssuntos()" *ngIf="usuario.perfil == 1"
       id="btnAtividades"></button>
     <button pButton id="btnMeuProgresso" class="p-button-text" label="Meu progresso" (click)="abrirDesempenho()"
       *ngIf="(usuario.grupoExperimento == 1 || usuario.grupoExperimento == 2) && usuario.perfil == 1"></button>
@@ -8,12 +8,12 @@
       *ngIf="(usuario.grupoExperimento == 1 || usuario.grupoExperimento == 2) && usuario.perfil == 1"></button>
     <button pButton id="btnTurma" class="p-button-text" label="Minha turma" (click)="abrirTurma()"
       *ngIf="usuario.grupoExperimento == 2 && usuario.perfil == 1"></button>
-    <button pButton id="btnMaterialEstudo" class="p-button-text" label="Materiais de estudo"
+   <!--  <button pButton id="btnMaterialEstudo" class="p-button-text" label="Materiais de estudo"
       (click)="abrirMateriaisEstudo()" *ngIf="usuario.perfil == 1"></button>
     <button pButton class="p-button-text" label="Atividades em grupo" (click)="abrirAtividadesGrupo()"
       *ngIf="usuario.perfil == 1"></button>
     <button pButton class="p-button-text" label="Editor programação" (click)="abrirEditorProgramacao()"
-      *ngIf="usuario.perfil == 1"></button>
+      *ngIf="usuario.perfil == 1"></button> -->
     <button pButton id="btnRanking" class="p-button-text" label="Ranking" (click)="abrirRanking()" *ngIf="usuario.perfil == 1 && usuario.grupoExperimento != 4"></button>
     <!-- Menu administrador -->
     <button pButton class="p-button-text" label="Assuntos" (click)="abrirAssuntosAdmin()"

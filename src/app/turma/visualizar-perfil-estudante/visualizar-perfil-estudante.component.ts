@@ -1,13 +1,14 @@
 import { Component, OnInit, Input } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import Usuario from 'src/app/model/usuario';
-import { QuestaoProgramacao } from 'src/app/model/questoes/questaoProgramacao';
 import { LoginService } from '../../login-module/login.service';
-import { Assunto } from 'src/app/model/assunto';
 import Submissao from 'src/app/model/submissao';
 import Query from 'src/app/model/firestore/query';
 import PageTrackRecord from 'src/app/model/analytics/pageTrack';
 import { AutoInstrucao } from 'src/app/model/srl/autoInstrucao';
+import CadeiaMarkov from 'src/app/model/experimento/cadeia_markov';
+import { Assunto } from 'src/app/model/questoes/assunto';
+import { QuestaoProgramacao } from 'src/app/model/questoes/questaoProgramacao';
 
 @Component({
   selector: 'app-visualizar-perfil-estudante',
@@ -43,18 +44,19 @@ export class VisualizarPerfilEstudanteComponent implements OnInit {
 
 
 
-      /*Usuario.get(params['id']).subscribe((estudante) => {
-        this.estudante = estudante;
-      });
+      /* CadeiaMarkov.construirMatrizTransicaoLowPerforming().subscribe(pageTracks=>{
+        this.pageTracks = pageTracks;
+      }) */
+
+
+
+      /*
        Submissao.getAll(new Query('estudanteId', '==', params['id'])).subscribe((resultado) => {
         this.submissoes = resultado;
         this.buscarQuestoes(resultado);
       });
 
-      PageTrackRecord.getAll(new Query('estudanteId', '==', params['id'])).subscribe(
-        (pageTracks) => {
-          this.pageTracks = pageTracks;
-      });
+
  */
       Assunto.getAll(new Query('isAtivo', '==', true)).subscribe((assuntos) => {
         AutoInstrucao.getAll(new Query('estudanteId', '==', params['id'])).subscribe(

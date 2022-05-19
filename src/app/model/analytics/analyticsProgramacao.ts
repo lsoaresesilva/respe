@@ -1,4 +1,4 @@
-import { Assunto } from '../assunto';
+import { Assunto } from '../questoes/assunto';
 import ErroCompilacaoFactory from '../errors/analise-compilacao/erroCompilacaoFactory';
 import Submissao from '../submissao';
 import { Util } from '../util';
@@ -153,7 +153,6 @@ export default class AnalyticsProgramacao {
 
 
 
-
         if(submissoesQuestao[i].hasErroSintaxe()){
           let erro = ErroCompilacaoFactory.construir(submissoesQuestao[i].erro.traceback);
           if(erroSintaxeAnterior == null){
@@ -178,7 +177,6 @@ export default class AnalyticsProgramacao {
           if(!submissoesQuestao[i].isFinalizada()){
 
             if(erroSintaxeAnterior != null){
-
               let x = 2;
             }
 
@@ -226,7 +224,6 @@ export default class AnalyticsProgramacao {
           '94511a38-5f2c-4fc3-90f5-f0255628c310',
           '3191595a-7493-4980-999e-c874b0b8d468',
         ];
-
         if (!questoesIgnoradas.includes(questaoId)) {
           if (submissoesQuestao[i].codigo.search(/#.[A-Za-z0-9]/g) != -1) {
             if(comentarioAnterior == null){
@@ -242,12 +239,10 @@ export default class AnalyticsProgramacao {
             }else{
               let comentariosAtuais = extrairComments(submissoesQuestao[i].codigo);
               let comentariosIguais = true;
-
               for(let i = 0; i < comentariosAtuais.length; i++){
                 if(!comentarioAnterior.includes(comentariosAtuais[i])){
 
                   if(isTestesCorretos){
-
                     let x = submissoesQuestao[i];
                 }
 
@@ -330,7 +325,6 @@ export default class AnalyticsProgramacao {
     }
 
     return matriz;
-
   }
 
   static calcularMediaSubmissoesCorrigirErro(submissoes) {
@@ -346,7 +340,6 @@ export default class AnalyticsProgramacao {
     submissoesAgrupadas.forEach((submissoesQuestao, questaoId, map) => {
       let isErro = false;
       let houveErro = false;
-
 
 
       submissoesQuestao.forEach((submissao) => {
@@ -557,7 +550,6 @@ export default class AnalyticsProgramacao {
     let totalConclusoes = 0;
 
     agrupadasPorQuestao.forEach((submissoesQuestao, questaoId) => {
-
       let submissoesconcluidas = Submissao.filtrarSubmissoesConclusao(submissoesQuestao);
       if (submissoesconcluidas.length > 0) {
         totalConclusoes += 1;
@@ -568,12 +560,10 @@ export default class AnalyticsProgramacao {
         let semana = Math.ceil(( data.getDay() + 1 + numberOfDays) / 7);
 
 
-
         if( semanas.includes(semana) == false ){
           semanas.push(semana);
         }
       }
-
     });
 
     return semanas.length > 0 ? totalConclusoes/semanas.length:0;

@@ -2,7 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { MenuItem, MessageService } from 'primeng/api';
 import { LoginService } from 'src/app/login-module/login.service';
-import { Assunto } from 'src/app/model/assunto';
+import { Assunto } from 'src/app/model/questoes/assunto';
 import QuestaoFechada from 'src/app/model/questoes/questaoFechada';
 import { QuestaoProgramacao } from 'src/app/model/questoes/questaoProgramacao';
 import Usuario from 'src/app/model/usuario';

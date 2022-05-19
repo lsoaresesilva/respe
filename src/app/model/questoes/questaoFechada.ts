@@ -1,15 +1,18 @@
 import { Observable } from 'rxjs';
-import Alternativa from '../alternativa';
-import { Assunto } from '../assunto';
-import { Dificuldade } from '../enums/dificuldade';
+import Alternativa from './alternativa';
+import { Assunto } from './assunto';
 import { ignore } from '../firestore/document';
 import Query from '../firestore/query';
-import { RespostaQuestaoFechada } from '../respostaQuestaoFechada';
+import { RespostaQuestaoFechada } from './respostaQuestaoFechada';
 import { Util } from '../util';
+import { MaterialAprendizagem } from '../sistema-aprendizagem/materialAprendizagem';
+import { Dificuldade } from './enum/dificuldade';
 
-export default class QuestaoFechada {
+export default class QuestaoFechada implements MaterialAprendizagem{
   @ignore()
   respondida;
+
+
 
   constructor(
     public id,
@@ -18,7 +21,9 @@ export default class QuestaoFechada {
     public dificuldade: Dificuldade,
     public sequencia,
     public alternativas: Alternativa[],
-    public respostaQuestao: String
+    public respostaQuestao: String,
+    public assunto,
+    public ordem
   ) {
     if (id == null) {
       this.id = Util.uuidv4();
@@ -50,7 +55,9 @@ export default class QuestaoFechada {
             questaoFechada.dificuldade,
             questaoFechada.sequencia,
             Alternativa.construir(questaoFechada.alternativas),
-            questaoFechada.respostaQuestao
+            questaoFechada.respostaQuestao,
+            null,
+            questaoFechada.ordem
           )
         );
       });

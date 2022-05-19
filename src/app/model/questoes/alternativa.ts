@@ -1,4 +1,4 @@
-import { Util } from './util';
+import { Util } from '../util';
 
 export default class Alternativa {
     constructor(public id, public texto, public isVerdadeira) {
@@ -23,7 +23,7 @@ export default class Alternativa {
 
     /**
      * Constrói objetos a partir do atributo array de uma document
-     * @param alternativas 
+     * @param alternativas
      */
     static construir(alternativas: any[]) {
         let objetosAlternativas: Alternativa[] = [];

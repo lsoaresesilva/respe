@@ -1,6 +1,5 @@
 import { Component, OnInit, Input, AfterViewInit } from '@angular/core';
 import { LoginService } from 'src/app/login-module/login.service';
-import { Assunto } from 'src/app/model/assunto';
 import { ActivatedRoute, Router } from '@angular/router';
 import Usuario from 'src/app/model/usuario';
 
