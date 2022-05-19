@@ -1,5 +1,5 @@
 import { Observable, forkJoin } from "rxjs";
-import { ModeloRespostaQuestao } from "../modeloRespostaQuestao";
+import { ModeloRespostaQuestao } from "./modeloRespostaQuestao";
 import { MaterialAprendizagem } from "../sistema-aprendizagem/materialAprendizagem";
 import Submissao from "../submissao";
 import TestCase from "../testCase";

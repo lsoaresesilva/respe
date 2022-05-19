@@ -1,17 +1,17 @@
 import { Component, OnInit, Input } from '@angular/core';
 import { Router, ActivatedRoute } from '@angular/router';
 import { LoginService } from '../../login-module/login.service';
-import { RespostaQuestaoFechada } from 'src/app/model/respostaQuestaoFechada';
 import { MessageService, ConfirmationService } from 'primeng/api';
-import Alternativa from 'src/app/model/alternativa';
+import Alternativa from '../../model/questoes/alternativa';
 import { Planejamento } from 'src/app/model/planejamento';
 import { DomSanitizer } from '@angular/platform-browser';
 import VisualizacaoQuestao from 'src/app/model/analytics/visualizacaoQuestao';
 import PontuacaoQuestaoFechada from 'src/app/model/gamification/pontuacaoQuestaoFechada';
 import Gamification from 'src/app/model/gamification/gamification';
 import { GamificationFacade } from 'src/app/gamification/gamification.service';
-import QuestaoFechada from 'src/app/model/sistema-aprendizagem/questoes/questaoFechada';
-import { Assunto } from 'src/app/model/sistema-aprendizagem/assunto';
+import { Assunto } from 'src/app/model/questoes/assunto';
+import QuestaoFechada from 'src/app/model/questoes/questaoFechada';
+import { RespostaQuestaoFechada } from 'src/app/model/questoes/respostaQuestaoFechada';
 
 @Component({
   selector: 'app-visualizar-questao-fechada',
@@ -37,7 +37,7 @@ export class VisualizarQuestaoFechadaComponent implements OnInit {
     private confirmationService: ConfirmationService,
     private gamification: GamificationFacade
   ) {
-    
+
   }
 
   /* selecionarAlternativa(alternativa) {

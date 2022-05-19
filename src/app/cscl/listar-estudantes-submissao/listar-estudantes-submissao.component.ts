@@ -4,7 +4,7 @@ import { Router, ActivatedRoute } from '@angular/router';
 import Query from 'src/app/model/firestore/query';
 import Usuario from 'src/app/model/usuario';
 import { LoginService } from 'src/app/login-module/login.service';
-import { Assunto } from 'src/app/model/sistema-aprendizagem/assunto';
+import { Assunto } from 'src/app/model/questoes/assunto';
 
 
 @Component({

@@ -44,7 +44,7 @@ import { MessageService } from 'primeng/api';
 import { ChartModule } from 'primeng/chart';
 import { ContextMenuModule } from 'primeng/contextmenu';
 import { InputTextModule } from 'primeng/inputtext';
-import { SharedModule } from '../shared/shared.module';
+import { CompartilhadoModule } from '../shared/shared.module';
 import { DesempenhoObjetivosExerciciosComponent } from './monitoramento/desempenho-objetivos-exercicios/desempenho-objetivos-exercicios.component';
 import { AnalisarObjetivosService } from './analisar-objetivos.service';
 import { DesempenhoObjetivosTempoOnlineComponent } from './monitoramento/desempenho-objetivos-tempo-online/desempenho-objetivos-tempo-online.component';
@@ -129,7 +129,7 @@ export const routes:Routes = [
     CommonModule,
     AccordionModule,
     RouterModule.forChild(routes),
-    SharedModule,
+    CompartilhadoModule,
     DynamicDialogModule,
     CodeHighlighterModule,
     MessagesModule,

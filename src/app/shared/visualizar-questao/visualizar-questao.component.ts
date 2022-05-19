@@ -1,12 +1,11 @@
 import { Component, OnInit, Input } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { MessageService, MenuItem } from 'primeng/api';
-import { QuestaoProgramacao } from 'src/app/model/sistema-aprendizagem/questoes/questaoProgramacao';
-import { LoginService } from 'src/app/login-module/login.service';
-import { Groups } from 'src/app/model/experimento/groups';
+import { QuestaoProgramacao } from '../../model/questoes/questaoProgramacao';
+import { LoginService } from '../../login-module/login.service';
+import { Groups } from '../../model/experimento/groups';
 import { DomSanitizer } from '@angular/platform-browser';
-import { Assunto } from 'src/app/model/sistema-aprendizagem/assunto';
-
+import {Assunto} from '../../model/questoes/assunto';
 @Component({
   selector: 'app-visualizar-questao',
   templateUrl: './visualizar-questao.component.html',

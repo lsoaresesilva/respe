@@ -1,9 +1,9 @@
 import Usuario from '../usuario';
 import { Document, Collection } from '../firestore/document';
-import { QuestaoProgramacao } from '../sistema-aprendizagem/questoes/questaoProgramacao';
 import { Observable } from 'rxjs';
 import Query from '../firestore/query';
 import { Assuntos } from '../enums/assuntos';
+import { QuestaoProgramacao } from '../questoes/questaoProgramacao';
 
 @Collection('autoInstrucao')
 export class AutoInstrucao extends Document {

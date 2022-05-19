@@ -4,7 +4,7 @@ import { MenuItem, MessageService } from 'primeng/api';
 import { LoginService } from 'src/app/login-module/login.service';
 import { PerfilUsuario } from 'src/app/model/enums/perfilUsuario';
 import Query from 'src/app/model/firestore/query';
-import { Assunto } from 'src/app/model/sistema-aprendizagem/assunto';
+import { Assunto } from 'src/app/model/questoes/assunto';
 
 @Component({
   selector: 'app-listar-assuntos-admin',

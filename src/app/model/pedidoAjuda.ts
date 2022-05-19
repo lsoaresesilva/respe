@@ -1,5 +1,4 @@
 import { Document, Collection } from './firestore/document';
-import { QuestaoProgramacao } from './sistema-aprendizagem/questoes/questaoProgramacao';
 import Submissao from './submissao';
 import RespostaPedidoAjuda from './respostaPedidoAjuda';
 

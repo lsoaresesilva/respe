@@ -1,13 +1,13 @@
 import Usuario from './usuario';
-import { Assunto } from './sistema-aprendizagem/assunto';
 import { Document, Collection, ignore } from './firestore/document';
-import { Dificuldade } from './enums/dificuldade';
 import { Observable, forkJoin } from 'rxjs';
 import AutoReflexao from './autoReflexao';
 import Query from './firestore/query';
 import { Util } from './util';
 import { ConsoleComponent } from '../juiz/editor/console/console.component';
 import { ObjetivosExercicios } from './enums/objetivosExercicios';
+import { Assunto } from './questoes/assunto';
+import { Dificuldade } from './questoes/enum/dificuldade';
 
 @Collection('planejamentos')
 export class Planejamento extends Document {

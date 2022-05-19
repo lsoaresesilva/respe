@@ -1,10 +1,10 @@
 import { BehaviorSubject } from 'rxjs';
 import ErroPreCompilacao from './errors/analise-pre-compilacao/erroPrecompilacao';
-import { QuestaoProgramacao } from './sistema-aprendizagem/questoes/questaoProgramacao';
+import { QuestaoProgramacao } from './questoes/questaoProgramacao';
 declare var monaco: any;
 
 export default class Editor {
-  
+
   instanciaMonaco;
 
   private constructor() {
@@ -14,7 +14,7 @@ export default class Editor {
       if(this.instanciaMonaco != null){
         this.instanciaMonaco.getModel().setValue(codigo);
       }
-      
+
     }) // Houve mudança no código
   }
 
@@ -49,7 +49,7 @@ export default class Editor {
 
   /* Constrói um algoritmo a partir das edições feitas por alunos colaborativamente. */
   static construirAlgoritmo(edicoes){
-    
+
   }
 
   destacarLinha(linha, status) {
@@ -67,14 +67,14 @@ export default class Editor {
           },
         ];
 
-        
+
         if( this.decorations == null){
           this.decorations = this.instanciaMonaco.deltaDecorations([], [{ range: new monaco.Range(1,1,1,1), options : { } }]);
         }
-          
+
         this.decorations = this.instanciaMonaco.deltaDecorations(this.decorations, decorations);
-        
-        
+
+
       }
     }
   }
@@ -93,14 +93,14 @@ export default class Editor {
             range: new monaco.Range(erro.linha, 1, erro.linha, lineLength),
             contents: [
               { value: erro.mensagem },
-              
+
             ]
           }
         }
       });
     }
-    
-    
+
+
   }
 
   removerDecorations(){
@@ -110,7 +110,7 @@ export default class Editor {
         []
       );
     }
-    
+
   }
 
   removerDisposableHover(){

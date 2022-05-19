@@ -1,23 +1,22 @@
 import { CdkDragDrop, moveItemInArray, transferArrayItem } from '@angular/cdk/drag-drop';
-import { Component, OnInit } from '@angular/core';
+import { AfterViewChecked, Component, OnInit } from '@angular/core';
 import { DomSanitizer } from '@angular/platform-browser';
 import { ActivatedRoute } from '@angular/router';
 import { MessageService } from 'primeng/api';
 import { GamificationFacade } from 'src/app/gamification/gamification.service';
+import { ApresentacaoService } from 'src/app/geral-module/apresentacao.service';
 import { LoginService } from 'src/app/login-module/login.service';
-import { Dificuldade } from 'src/app/model/enums/dificuldade';
 import PontuacaoQuestaoParson from 'src/app/model/gamification/pontuacaoQuestaoParson';
 import { RespostaQuestaoParson } from 'src/app/model/juiz/respostaQuestaoParson';
-import { Assunto } from 'src/app/model/sistema-aprendizagem/assunto';
-import QuestaoParsonProblem from 'src/app/model/sistema-aprendizagem/questoes/questaoParsonProblem';
-import SegmentoParson from 'src/app/model/sistema-aprendizagem/questoes/segmentoParson';
+import { Assunto } from 'src/app/model/questoes/assunto';
+import QuestaoParsonProblem from 'src/app/model/questoes/questaoParsonProblem';
 
 @Component({
   selector: 'app-visualizar-parson',
   templateUrl: './visualizar-parson.component.html',
   styleUrls: ['./visualizar-parson.component.css'],
 })
-export class VisualizarParsonComponent implements OnInit {
+export class VisualizarParsonComponent implements OnInit, AfterViewChecked {
   questao?: QuestaoParsonProblem;
   usuario;
   respostaQuestaoFechada?: RespostaQuestaoParson;
@@ -29,10 +28,16 @@ export class VisualizarParsonComponent implements OnInit {
     private route: ActivatedRoute,
     private login: LoginService,
     private messageService: MessageService,
-    private gamification: GamificationFacade
+    private gamification: GamificationFacade,
+    private apresentacao:ApresentacaoService
   ) {
     this.usuario = this.login.getUsuarioLogado();
     this.respostaQuestaoFechada = new RespostaQuestaoParson(null, this.usuario, [], this.questao);
+  }
+
+
+  ngAfterViewChecked() {
+    this.apresentacao.apresentarEditorParson(this.login.getUsuarioLogado());
   }
 
   formatarHtml(questao) {

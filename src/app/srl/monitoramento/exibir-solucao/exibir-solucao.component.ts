@@ -1,9 +1,6 @@
 import { Component, OnInit } from '@angular/core';
-import { ModeloRespostaQuestao } from 'src/app/model/modeloRespostaQuestao';
 import { LoginService } from 'src/app/login-module/login.service';
-import { VisualizacaoRespostasQuestoes } from 'src/app/model/visualizacaoRespostasQuestoes';
 import Query from 'src/app/model/firestore/query';
-import { QuestaoProgramacao } from 'src/app/model/sistema-aprendizagem/questoes/questaoProgramacao';
 import { ActivatedRoute, Router } from '@angular/router';
 import { MessageService } from 'primeng/api';
 import { DynamicDialogConfig } from 'primeng/dynamicdialog';
@@ -27,14 +24,14 @@ export class ExibirSolucaoComponent {
     public config: DynamicDialogConfig
   ) {
     /* const navigation = this.router.getCurrentNavigation();
-  
+
     const questao = navigation.extras.state.questao as QuestaoProgramacao; */
     const questao = this.config.data.questao;
     if (questao != null) {
       const solucao = questao.getExemploCorreto();
       if (Array.isArray(solucao.codigo)) {
         this.saida = solucao.codigo.join('\n');
-        
+
       }
     }
   }

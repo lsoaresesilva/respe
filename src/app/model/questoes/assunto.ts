@@ -17,6 +17,7 @@ import QuestaoProgramacaoCorrecao from './questaoProgramacaoCorrecao';
 import { QuestaoProgramacaoRegex } from './questaoProgramacaoRegex';
 import VideoProgramacao from '../sistema-aprendizagem/videoProgramacao';
 import { VisualizacaoRespostasQuestoes } from './visualizacaoRespostasQuestoes';
+import Texto from "../sistema-aprendizagem/texto";
 
 
 @Collection('assuntos')
@@ -186,13 +187,29 @@ export class Assunto extends Document {
 
     materiais = materiais.concat(questoesComStatus, this.videos);
     materiais.sort((qA, qB) => {
-      if (qA.ordem < qB.ordem) {
-        return -1;
-      } else if (qA.ordem > qB.ordem) {
-        return 1;
-      } else {
-        return 0;
+
+      if(qA.ordem != null && qB.ordem != null){
+        if (qA.ordem < qB.ordem) {
+          return -1;
+        } else if (qA.ordem > qB.ordem) {
+          return 1;
+        } else {
+          return 0;
+        }
+      }else{
+        if(qA.ordem != null){
+          return 1;
+        }else if(qB.ordem != null){
+          return -1;
+        }else{ // TODO: Remover quando todos os objetos de materiais tiverem o atributo ordem
+          if(qA["sequencia"] != null && qB["sequencia"] != null){
+            return qA["sequencia"] - qB["sequencia"];
+          }
+        }
       }
+
+
+
     });
 
     return materiais;
@@ -202,7 +219,10 @@ export class Assunto extends Document {
     return new Observable((observer) => {
       let consultas = {};
 
-/*
+      // TODO: vincular os vídeos ao id do assunto. Carregar os vídeos referentes ao assunto aqui e incluir em consultas
+      consultas["videosProgramacao"] = VideoProgramacao.getAll(new Query("assuntoId", "==", this.pk()));
+      consultas["textosProgramacao"] = Texto.getAll(new Query("assuntoId", "==", this.pk()));
+
       if (Array.isArray(this.questoesProgramacao) && this.questoesProgramacao.length > 0) {
         consultas['questoesProgramacao'] = QuestaoProgramacao.verificarQuestoesRespondidas(
           estudante,
@@ -229,7 +249,7 @@ export class Assunto extends Document {
           estudante,
           this.questoesCorrecao
         );
-      } */
+      }
 
       if (Array.isArray(this.questoesCorrecao) && this.questoesCorrecao.length > 0) {
         consultas['questoesRegex'] = QuestaoProgramacaoRegex.verificarQuestoesRespondidas(
@@ -239,28 +259,36 @@ export class Assunto extends Document {
       }
 
       forkJoin(consultas).subscribe((respostas) => {
-        let questoes = [];
+        let materiais = [];
         if (respostas['questoesFechadas'] != null) {
-          questoes = questoes.concat(respostas['questoesFechadas']);
+          materiais = materiais.concat(respostas['questoesFechadas']);
         }
 
         if (respostas['questoesProgramacao'] != null) {
-          questoes = questoes.concat(respostas['questoesProgramacao']);
+          materiais = materiais.concat(respostas['questoesProgramacao']);
         }
 
         if (respostas['questoesCorrecao'] != null) {
-          questoes = questoes.concat(respostas['questoesCorrecao']);
+          materiais = materiais.concat(respostas['questoesCorrecao']);
         }
 
         if (respostas['questoesParson'] != null) {
-          questoes = questoes.concat(respostas['questoesParson']);
+          materiais = materiais.concat(respostas['questoesParson']);
         }
 
         if (respostas['questoesRegex'] != null) {
-          questoes = questoes.concat(respostas['questoesRegex']);
+          materiais = materiais.concat(respostas['questoesRegex']);
         }
 
-        let materiais = this.ordenarMaterialAprendizagem(questoes);
+        if (respostas['videosProgramacao'] != null) {
+          materiais = materiais.concat(respostas['videosProgramacao']);
+        }
+
+        if (respostas['textosProgramacao'] != null) {
+          materiais = materiais.concat(respostas['textosProgramacao']);
+        }
+
+        materiais = this.ordenarMaterialAprendizagem(materiais);
 
         observer.next(materiais);
         observer.complete();

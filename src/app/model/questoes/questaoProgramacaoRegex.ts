@@ -1,15 +1,14 @@
 import { Observable } from "rxjs";
-import { Assunto } from "../assunto";
-import Query from "../../firestore/query";
-import { MaterialAprendizagem } from "../materialAprendizagem";
-import { Util } from "../../util";
+import { Assunto } from "./assunto";
+import { MaterialAprendizagem } from "../sistema-aprendizagem/materialAprendizagem";
 import { RespostaQuestaoProgramacaoRegex } from "./respostaQuestaoProgramacaoRegex";
+import { Util } from "../util";
 
 export class QuestaoProgramacaoRegex implements MaterialAprendizagem{
 
   assunto: Assunto;
 
-  
+
   constructor(public id, public nomeCurto, public enunciado, public ordem, public regex: string[]) {
     if (id == null) {
       this.id = Util.uuidv4();
@@ -17,7 +16,7 @@ export class QuestaoProgramacaoRegex implements MaterialAprendizagem{
       this.id = id;
     }
   }
-  
+
 
   executar(algoritmo:string[]){
       if(Array.isArray(this.regex) && Array.isArray(algoritmo)){
@@ -56,7 +55,7 @@ export class QuestaoProgramacaoRegex implements MaterialAprendizagem{
       return this.enunciado.search("'''python") != -1 ? true : false;
     }
   }
-    
+
 
   static construir(questoesProgramacaoRegex: any[]) {
     const objetos: QuestaoProgramacaoRegex[] = [];
@@ -92,14 +91,14 @@ export class QuestaoProgramacaoRegex implements MaterialAprendizagem{
                 questao.respondida = resposta.isRespostaCorreta
                 questao.percentualResposta = questao.respondida == true?100:0;
               }
-                
+
             })
         });
 
         observer.next(questoes);
         observer.complete();
 
-       
+
       } else {
         observer.next(questoes);
         observer.complete();

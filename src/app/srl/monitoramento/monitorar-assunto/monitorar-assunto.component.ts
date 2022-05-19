@@ -1,7 +1,7 @@
 import { Input, OnChanges } from '@angular/core';
 import { Component, OnInit } from '@angular/core';
 import { LoginService } from 'src/app/login-module/login.service';
-import { Assunto } from 'src/app/model/sistema-aprendizagem/assunto';
+import { Assunto } from 'src/app/model/questoes/assunto';
 @Component({
   selector: 'app-monitorar-assunto',
   templateUrl: './monitorar-assunto.component.html',
@@ -20,7 +20,7 @@ export class MonitorarAssuntoComponent implements OnChanges {
         let percentual = Assunto.calcularProgresso(this.assunto, respostas);
         this.assunto.percentualConclusao = percentual;
       })
-      
+
     }
   }
 }

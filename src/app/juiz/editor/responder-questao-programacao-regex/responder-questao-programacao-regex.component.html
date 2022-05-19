@@ -2,7 +2,7 @@
     <app-breadcrumb-assunto [assunto]="assunto" [questao]="questao">
     </app-breadcrumb-assunto>
     <div class="p-grid">
-        
+
         <div class="p-col-4">
             <app-btn-avancar-questao style="margin-left:5px" [assunto]="assunto" [questao]="questao">
             </app-btn-avancar-questao>
@@ -12,7 +12,7 @@
         <div class="p-col-8">
             <div class="p-grid">
                 <div class="p-col-12">
-                    <button type="button" (click)="executar()" pButton label="Executar" style="margin-right:10px"></button>
+                    <button type="button" (click)="executar()" pButton label="Executar" style="margin-right:10px" id="btnExecutar"></button>
                     <button pButton pRipple type="button"
                         icon="{{ resultado ? 'pi pi-check' : 'pi pi-times' }}" [ngClass]="{
       'p-button-rounded p-button-success': resultado,
@@ -22,7 +22,7 @@
                         *ngIf="resultado != undefined"></button>
                 </div>
                 <div class="p-col-12">
-                    <app-container-editor-programacao [liteMode]="false" (onContainerReady)="onContainerReady($event)">
+                    <app-container-editor-programacao [liteMode]="false" (onContainerReady)="onContainerReady($event)" id="editorProgramacao">
                     </app-container-editor-programacao>
                     <div *ngIf="isEditorPronto == false">Carregando editor..</div>
                 </div>
@@ -34,7 +34,7 @@
         <div class="p-col-8">
             <span *ngIf="erroProgramacao != null">{{erroProgramacao}}</span>
         </div>
-     
+
     </div>
 </div>
 

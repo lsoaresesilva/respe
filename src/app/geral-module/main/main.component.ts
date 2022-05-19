@@ -34,7 +34,6 @@ export class MainComponent implements OnInit {
     this.visibilidadeQuestionario = false;
     this.usuario = this.login.getUsuarioLogado();
 
-    let c = new ChatBot();
     if (this.usuario.perfil === PerfilUsuario.estudante) {
       this.gamification.inicializar(this.usuario);
     }
@@ -45,7 +44,7 @@ export class MainComponent implements OnInit {
   }
 
   ngOnInit() {
-    this.apresentarPretestRegulacao();
+    //this.apresentarPretestRegulacao();
   }
 
   abrirMateriaisEstudo(){

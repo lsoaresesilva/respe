@@ -1,10 +1,9 @@
 import { Component, Input, OnChanges, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import Query from 'src/app/model/firestore/query';
-import { Assunto } from 'src/app/model/sistema-aprendizagem/assunto';
-import { QuestaoProgramacao } from 'src/app/model/sistema-aprendizagem/questoes/questaoProgramacao';
+import { Assunto } from 'src/app/model/questoes/assunto';
+import { QuestaoProgramacao } from 'src/app/model/questoes/questaoProgramacao';
 import { AutoInstrucao } from 'src/app/model/srl/autoInstrucao';
-import { SelfInstructionComponent } from 'src/app/srl/planejamento/self-instruction/self-instruction.component';
 
 @Component({
   selector: 'app-analise-self-instruction',
@@ -15,7 +14,7 @@ export class AnaliseSelfInstructionComponent implements OnChanges {
 
   @Input()
   estudante;
-  
+
   planejamentos;
 
   constructor(private route:ActivatedRoute, private router: Router) { }
@@ -31,7 +30,7 @@ export class AnaliseSelfInstructionComponent implements OnChanges {
                 for (let i = 0; i < instrucoes.length; i++) {
                   if (instrucoes[i]['questaoId'] == questao.id) {
 
-                    
+
 
 
                     let autoInstrucao = {
@@ -44,21 +43,21 @@ export class AnaliseSelfInstructionComponent implements OnChanges {
                       autoInstrucao.status = percentual >= 0.75? true:false;
                     })
 
-  
+
                     if (instrucoes[i].condicoes != null) {
                       autoInstrucao['condicoes'] = instrucoes[i].condicoes;
                     }
-  
+
                     if (instrucoes[i].repeticoes != null) {
                       autoInstrucao['repeticoes'] = instrucoes[i].repeticoes;
                     }
-  
+
                     if (instrucoes[i].funcoes != null) {
                       autoInstrucao['funcoes'] = instrucoes[i].funcoes;
                     }
-  
+
                     questao["assunto"] = assunto.nome;
-  
+
                     this.planejamentos.push({
                       assunto:assunto,
                       questao: questao,
@@ -70,13 +69,13 @@ export class AnaliseSelfInstructionComponent implements OnChanges {
             });
           }
         );
-      }); 
+      });
     }
-    
+
     this.route.params.subscribe(params=>{
-      
+
     })
-    
+
   }
 
   abrirSubmissao(estudante, assunto, questao){

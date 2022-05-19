@@ -1,6 +1,5 @@
-import { Collection, Document } from './firestore/document';
-import { QuestaoProgramacao } from './sistema-aprendizagem/questoes/questaoProgramacao';
-import { Util } from './util';
+
+import { Util } from '../util';
 
 export class ModeloRespostaQuestao {
   constructor(public id, public codigo: String[], public isCorreto) {

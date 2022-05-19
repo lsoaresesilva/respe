@@ -1,5 +1,5 @@
 import { Collection, Document } from '../../firestore/document';
-import Alternativa from '../../alternativa';
+import Alternativa from '../../questoes/alternativa';
 import { TipoQuestaoExperimento } from './tipoQuestaoExperimento';
 
 @Collection("questoesExperimento")
@@ -25,6 +25,6 @@ export default class QuestaoExperimento extends Document{
         return document;
     }
 
-    
+
 
 }

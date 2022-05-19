@@ -8,6 +8,8 @@ declare var intro: any;
 enum TiposApresentacao {
   inicializacao = 'apresentacaoInicializacao',
   editor = 'apresentacaoEditor',
+  editorRegex = 'apresentacaoEditorRegex',
+  editorParson = 'apresentacaoEditorParson',
   assunto = 'apresentacaoAssunto',
   selfInstruction = 'selfInstruction',
 }
@@ -56,6 +58,65 @@ export class ApresentacaoService {
         ],
       };
       this.criarOpcoesIntroJS(usuario, opcoesIntro);
+    }
+  }
+
+  apresentarEditorRegex(usuario){
+    if (this.apresentou(usuario, TiposApresentacao.editorRegex) == false && usuario != null) {
+      this.salvarDadosApresentacao(usuario, TiposApresentacao.editorRegex);
+
+      const opcoesIntro = {
+        steps: [
+          {
+            element: document.getElementById('dadosQuestao'),
+            intro:
+              '<h3>O problema para resolver</h3><p>Aqui está a descrição sobre o problema que você irá resolver.</p>',
+          },
+
+          {
+            element: document.getElementById('editorProgramacao'),
+            intro:
+              '<h3>Editor de programação</h3><p>Neste espaço você deve escrever o algoritmo para resolver o problema apresentado.</p>',
+          },
+          {
+            element: document.getElementById('btnExecutar'),
+            intro:
+              '<h3>Execute o seu algoritmo</h3><p>Ao pressionar este botão o seu algoritmo será executado e você receberá um feedback se está certo ou errado.</p>',
+          }
+        ],
+      };
+      this.criarOpcoesIntroJS(usuario, opcoesIntro);
+
+    }
+  }
+
+
+  apresentarEditorParson(usuario){
+    if (this.apresentou(usuario, TiposApresentacao.editorParson) == false && usuario != null) {
+      this.salvarDadosApresentacao(usuario, TiposApresentacao.editorParson);
+
+      const opcoesIntro = {
+        steps: [
+          {
+            element: document.getElementById('segmentosParson'),
+            intro:
+              '<h3>Como resolver esta questão</h3><p>Aqui você encontra partes de um código que estão fora de ordem. Você deve clicar e arrastar uma dessas partes para o retângulo à direita.</p>',
+          },
+
+          {
+            element: document.getElementById('codigoParson'),
+            intro:
+              '<h3>Arraste para cá</h3><p>Arraste para este espaço as partes dos códigos de forma que elas fiquem ordenadas e formem um código que resolve o problema apresentado.</p>',
+          },
+          {
+            element: document.getElementById('enviarResposta'),
+            intro:
+              '<h3>Envie sua resposta</h3><p>Clique neste botão para verificar a corretude da sua resposta.</p>',
+          }
+        ],
+      };
+      this.criarOpcoesIntroJS(usuario, opcoesIntro);
+
     }
   }
 

@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
-import { Assunto } from 'src/app/model/sistema-aprendizagem/assunto';
+import { Assunto } from 'src/app/model/questoes/assunto';
 import Submissao from 'src/app/model/submissao';
 import Usuario from 'src/app/model/usuario';
 
@@ -24,7 +24,7 @@ export class VisualizarSubmissaoRecenteComponent implements OnInit {
             this.submissao = submissao as Submissao;
           })
         })
-        
+
       })
     })
   }

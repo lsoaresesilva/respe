@@ -1,6 +1,5 @@
 import { Collection, Document, date } from '../firestore/document';
 import Usuario from '../usuario';
-import { ModeloRespostaQuestao } from '../modeloRespostaQuestao';
 import Query from '../firestore/query';
 import { QuestaoProgramacao } from './questaoProgramacao';
 
