@@ -146,8 +146,9 @@ export class ChatWidgetComponent implements OnInit {
   public addMessage(from, text, type, direction: 'received' | 'sent') {
     // Array das mensagens que aparecem na janela do chatbot
     this.messages.unshift({ from, text, type, direction, date: new Date().getTime() })
+    console.log(this.messages)
     // Array com TODAS as mensagens
-    from = from.name;
+    /*from = from.name;
     // Fazer novo map array, pois este estava a dar erro porque era 
     if (type === "buttons_order") {
       let newText = []
@@ -155,11 +156,11 @@ export class ChatWidgetComponent implements OnInit {
         newText.push({ "text": element[1] })
       });
       text = newText;
-    }
+    }*/
     this.wholeConversation.push({ from, text, type, date: new Date().getTime() });
 
     // Guardar conversa na base de dados após receber resposta do Chatbot
-    if (from === "Monitor") {
+    /*if (from === "Monitor") {
       if (this.registroMensagem === undefined) {
         this.registroMensagem = new RegistroMensagensRasa(null, this.userName, this.wholeConversation);
       }
@@ -168,7 +169,7 @@ export class ChatWidgetComponent implements OnInit {
       }
       this.registroMensagem.save().subscribe(() => { });
       //console.log("Mensagem guardada");
-    }
+    }*/
   }
 
   // TOGGLE CHAT
