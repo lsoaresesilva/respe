@@ -96,7 +96,7 @@ export class ChatWidgetComponent implements OnInit {
             this.organizeMessages(responseMessages);
             this.isFirstMsg = false;
             this.newMsgWarningVisible = true;
-            this.checkViewedMens();
+            //this.checkViewedMens();
           }
         });
       // -------------------------------------------------------------------------------
@@ -115,11 +115,11 @@ export class ChatWidgetComponent implements OnInit {
     });
   }
 
-  public checkViewedMens() {
+  /*public checkViewedMens() {
     if (this.myScrollPosition.nativeElement.scrollHeight - this.myScrollPosition.nativeElement.scrollTop < 580 === true) {
       this.newMsgWarningVisible = false;
     }
-  }
+  }*/
 
   ngOnInit() {
     this.userName = this.login.getUsuarioLogado().pk();
@@ -191,12 +191,12 @@ export class ChatWidgetComponent implements OnInit {
     if (this.visible === false) {
       this.visible = true;
       // Ao abrir mantém a posição deixada pelo aluno
-      setTimeout(() => {
+      /*setTimeout(() => {
         this.myScrollPosition.nativeElement.scrollTop = this.currScrollPosition;
-      }, 1)
+      }, 1)*/
     }
     else {
-      this.currScrollPosition = this.myScrollPosition.nativeElement.scrollTop;
+      //this.currScrollPosition = this.myScrollPosition.nativeElement.scrollTop;
       this.visible = false;
     }
   }
