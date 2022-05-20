@@ -83,7 +83,7 @@ export class ChatWidgetComponent implements OnInit {
           // Se não for a primeira mensagem no array da conversa...
           if (this.messages[0] !== undefined) {
             // Parar animação de estar a escrever (...)
-            if (this.messages[0].text === "Estou a pesquisar a resposta por favor aguarde") { this.messages.shift(); }
+            if (this.messages[this.messages.length - 1].text === "Estou a pesquisar a resposta por favor aguarde") {this.messages.pop(); }
           }
           // Retornar erro se a mensagem do RASA vier vazia
           if (responseMessages.length === 0) {
@@ -96,7 +96,7 @@ export class ChatWidgetComponent implements OnInit {
             this.organizeMessages(responseMessages);
             this.isFirstMsg = false;
             this.newMsgWarningVisible = true;
-            //this.checkViewedMens();
+            this.checkViewedMens();
           }
         });
       // -------------------------------------------------------------------------------
@@ -115,11 +115,11 @@ export class ChatWidgetComponent implements OnInit {
     });
   }
 
-  /*public checkViewedMens() {
+  public checkViewedMens() {
     if (this.myScrollPosition.nativeElement.scrollHeight - this.myScrollPosition.nativeElement.scrollTop < 580 === true) {
       this.newMsgWarningVisible = false;
     }
-  }*/
+  }
 
   ngOnInit() {
     this.userName = this.login.getUsuarioLogado().pk();
@@ -145,10 +145,10 @@ export class ChatWidgetComponent implements OnInit {
   // O type, é simplesmente para controlar o css dos diferentes tipos (texto, codigo, botões, ...)
   public addMessage(from, text, type, direction: 'received' | 'sent') {
     // Array das mensagens que aparecem na janela do chatbot
-    this.messages.unshift({ from, text, type, direction, date: new Date().getTime() })
-    console.log(this.messages)
+    this.messages.push({ from, text, type, direction, date: new Date().getTime() })
+
     // Array com TODAS as mensagens
-    /*from = from.name;
+    from = from.name;
     // Fazer novo map array, pois este estava a dar erro porque era 
     if (type === "buttons_order") {
       let newText = []
@@ -156,11 +156,11 @@ export class ChatWidgetComponent implements OnInit {
         newText.push({ "text": element[1] })
       });
       text = newText;
-    }*/
+    }
     this.wholeConversation.push({ from, text, type, date: new Date().getTime() });
 
     // Guardar conversa na base de dados após receber resposta do Chatbot
-    /*if (from === "Monitor") {
+    if (from === "Monitor") {
       if (this.registroMensagem === undefined) {
         this.registroMensagem = new RegistroMensagensRasa(null, this.userName, this.wholeConversation);
       }
@@ -169,7 +169,7 @@ export class ChatWidgetComponent implements OnInit {
       }
       this.registroMensagem.save().subscribe(() => { });
       //console.log("Mensagem guardada");
-    }*/
+    }
   }
 
   // TOGGLE CHAT
@@ -192,9 +192,9 @@ export class ChatWidgetComponent implements OnInit {
     if (this.visible === false) {
       this.visible = true;
       // Ao abrir mantém a posição deixada pelo aluno
-      /*setTimeout(() => {
+      setTimeout(() => {
         this.myScrollPosition.nativeElement.scrollTop = this.currScrollPosition;
-      }, 1)*/
+      }, 1)
     }
     else {
       //this.currScrollPosition = this.myScrollPosition.nativeElement.scrollTop;
