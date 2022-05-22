@@ -76,6 +76,17 @@ export class ChatWidgetComponent implements OnInit {
     // ################ CHATBOT SERVICE - NOVAS MENSAGENS ################
     // ------------------> Nova mensagem do RASA <-------------------
     // Para quando é mandada uma mensagem ao RASA de outro componente (mensagem de erro, ...)
+    this.chatbotService.triggerRasaMessage.subscribe(() => {
+      let mensagem = this.chatbotService.mensagemTrigger;
+      this.wholeConversation.push({ from: "App", mensagem: mensagem, type: "info", date: new Date().getTime() });
+      if (this.registroMensagem === undefined) {
+          this.registroMensagem = new RegistroMensagensRasa(null, this.chatbotService.questaoOrdem, this.userName, this.wholeConversation);
+        }
+        else {
+          this.registroMensagem.conversa = this.wholeConversation;
+        }
+        this.registroMensagem.save().subscribe(() => { });
+    });
     this.chatbotService.messageUpdate.subscribe(() => {
       // Novas mensagens
       this.chatbotService.latestMessageArr.subscribe(
@@ -162,7 +173,7 @@ export class ChatWidgetComponent implements OnInit {
     // Guardar conversa na base de dados após receber resposta do Chatbot
     if (from === "Monitor") {
       if (this.registroMensagem === undefined) {
-        this.registroMensagem = new RegistroMensagensRasa(null, this.userName, this.wholeConversation);
+        this.registroMensagem = new RegistroMensagensRasa(null, this.chatbotService.questaoOrdem, this.userName, this.wholeConversation);
       }
       else {
         this.registroMensagem.conversa = this.wholeConversation;
