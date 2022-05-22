@@ -8,12 +8,16 @@ import { map, mergeMap } from 'rxjs/operators';
 })
 
 export class ChatbotService {
-  public url: string = "https://www.izzypeazy.com:5005";
-  public latestMessageArr: Observable<any[]>;
   constructor(private http: HttpClient) { }
   // ------------------ VARIÁVEIS ------------------
+  public url: string = "https://www.izzypeazy.com:5005";
   // Mandar as mensagens para o widget
   public messageUpdate = new EventEmitter();
+  public latestMessageArr: Observable<any[]>;
+  // Avisar que foi emitida uma mensagem de erro/ajuda no exercício
+  public triggerRasaMessage = new EventEmitter();
+  public mensagemTrigger = {};
+  public questaoOrdem;
   // Adicionar conceito à tela do algoritmo (quando se pressiona o botão - chat-buttons)
   public conceptUpdate = new EventEmitter();
   public conceptsClicked = [];
@@ -63,6 +67,7 @@ export class ChatbotService {
       this.sendMessage(message);
     }, 60000)
   }
+
   // !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!! RASA !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
 
   // Faz conecção com o RASA (reinicia a conversa --> /restart)
@@ -95,6 +100,8 @@ export class ChatbotService {
       if (message.contexto !== undefined) {
         // Formação da mensagem a enviar ao rasa
         message = `/EXTERNAL_ERROR_MESSAGE{"error_type":"${message.contexto}", "error_message":"${message.mensagem}"}`
+        this.mensagemTrigger = message;
+        this.triggerRasaMessage.emit();
         // Não perguntar por ajuda se esta já tiver sido dada
         console.log(this.errorsHelped)
         if (this.errorsHelped.includes(message)) {
@@ -106,25 +113,32 @@ export class ChatbotService {
       else {
         // O RASA é um pouco estranho com as mensagens que aceita, por isso tenho de as modificar
         // --- Formar a string com o/os input/s e o/os output/s do caso de teste ---
-        let test_case_inputs = message.teste.entradas;
-        let test_case_outputs = message.teste.saida;
         let test_case_string = "";
-        test_case_inputs.forEach(element => test_case_string = test_case_string + "<input>" + element);
-        test_case_string = test_case_string + "<sep>";
-        if (Array.isArray(test_case_outputs) === true) {
-          test_case_outputs.forEach(element => test_case_string = test_case_string + "<output>" + element);
-        }
-        else {
-          test_case_string = test_case_string + "<output>" + test_case_outputs;
+        if (message.teste !== undefined) {
+          let test_case_inputs = message.teste.entradas;
+          let test_case_outputs = message.teste.saida;
+          test_case_inputs.forEach(element => test_case_string = test_case_string + "<input>" + element);
+          test_case_string = test_case_string + "<sep>";
+          if (Array.isArray(test_case_outputs) === true) {
+            test_case_outputs.forEach(element => test_case_string = test_case_string + "<output>" + element);
+          }
+          else {
+            test_case_string = test_case_string + "<output>" + test_case_outputs;
+          }
         }
         // -------------------------------------------------------------------------
         // Criação de uma string com todos os elementos do array da resposta
+        // A resposta é composta por um array [resposta, número da pergunta]
+        this.questaoOrdem = message.resposta[1];
         let resposta_código = ""
-        message.resposta.forEach(linha_código => {
+        message.resposta[0].forEach(linha_código => {
           resposta_código = resposta_código + linha_código + "<new_line><br>";
         });
         // Formação da mensagem a enviar ao rasa
         message = `/EXTERNAL_CODE_MESSAGE{"code_test_case":"${test_case_string}", "code_message_answer":"${resposta_código}"}`
+        // Envio de um trigger para adicionar na base de dados
+        this.mensagemTrigger = message;
+        this.triggerRasaMessage.emit();
         // Se for um novo exercício dar restart do timer e limpar o array com os erros já ajudados
         if (message !== this.currHelpInfo) {
           this.errorsHelped = [];

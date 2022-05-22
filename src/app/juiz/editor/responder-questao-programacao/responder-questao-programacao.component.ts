@@ -302,7 +302,8 @@ export class ResponderQuestaoProgramacao implements OnInit, AfterViewInit, OnCha
                     // --------- Casos de Teste e Resposta para mandar ao RASA ------
                     let casosTeste = this.questao.testsCases[3];
                     let resposta = this.questao.solucao.codigo;
-                    this.chatbotService.sendMessage({ teste: casosTeste, resposta: resposta});
+                    let numeroPergunta = this.questao.ordem;
+                    this.chatbotService.sendMessage({ teste: casosTeste, resposta: [resposta, numeroPergunta]});
                     // --------------------------------------------------------------
 
                     Submissao.getRecentePorQuestao(this.questao, this.usuario).subscribe(
