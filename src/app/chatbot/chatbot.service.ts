@@ -11,6 +11,7 @@ export class ChatbotService {
   constructor(private http: HttpClient) { }
   // ------------------ VARIÁVEIS ------------------
   public url: string = "https://www.izzypeazy.com:5005";
+  //public url: string = "http://localhost:5005";
   // Mandar as mensagens para o widget
   public messageUpdate = new EventEmitter();
   public latestMessageArr: Observable<any[]>;
@@ -103,7 +104,6 @@ export class ChatbotService {
         this.mensagemTrigger = message;
         this.triggerRasaMessage.emit();
         // Não perguntar por ajuda se esta já tiver sido dada
-        console.log(this.errorsHelped)
         if (this.errorsHelped.includes(message)) {
           return
         }

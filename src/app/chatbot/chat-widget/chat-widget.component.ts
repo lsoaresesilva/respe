@@ -114,6 +114,9 @@ export class ChatWidgetComponent implements OnInit {
       // Abrir janela do chat se ela estiver fechada (ao receber mensagem inicial (erro/ajuda))
       if (this.visible === false) {
         this.visible = true;
+        setTimeout(() => {
+          this.myScrollPosition.nativeElement.scrollTop = this.currScrollPosition;
+        }, 1)
       }
     });
     // --> Novo conceito para adicionar à tela do algorimo (exercício de ordenar) <--
