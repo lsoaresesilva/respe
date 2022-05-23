@@ -9,7 +9,7 @@
     </tr>
   </ng-template>
   <ng-template pTemplate="body" let-testCase let-i="rowIndex">
-    <tr>
+    <tr *ngIf="i < 3">
       <td>
         <app-apresentacao-entradas-testcase [entradas]="testCase.entradas">
         </app-apresentacao-entradas-testcase>

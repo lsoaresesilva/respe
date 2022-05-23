@@ -4,12 +4,12 @@
     </div>
     <ng-template #exibirConsole>
       <div *ngIf="consoleEditor.submissao != null">
-      
+
         <div *ngFor="let resultado of submissao.resultadosTestsCases">
-          <p-panel
+          <p-panel *ngIf="submissao.questao.getTestCaseById(resultado.testCase.id) != null"
             header="Entrada: {{ submissao.questao.getTestCaseById(resultado.testCase.id).entradas }}"
           >
-           
+
             <div *ngFor="let saida of resultado.respostaAlgoritmo; let i = index" >
               {{ saida }}
             </div>
@@ -17,5 +17,5 @@
         </div>
       </div>
     </ng-template>
-  
+
   </div>
