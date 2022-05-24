@@ -27,16 +27,18 @@ export class ChatWidgetComponent implements OnInit {
   @Input() public userAvatar: string = "/assets/userAvatar.jpg";
   // URL para se conectar ao chatbot
   // Primeira mensagem
-  @Input() public startingMessage = 'Olá 👋, eu sou um monitor que está aqui para o ajudar. A qualquer momento poderá fazer perguntas como "O que é uma variável?", ou "Qual é um exemplo de uma condição?", que eu farei o meu melhor para responder! Estarei também aqui para quando tiver problemas na resolução dos seus exercicios!'
+  @Input() public startingMessage = 'Olá 👋, eu sou um monitor que está aqui para o ajudar. A qualquer momento poderá fazer perguntas como "O que é uma variável?", ou "Qual é um exemplo de uma condição?", que eu farei o meu melhor para responder! Estarei também aqui para quando tiver problemas na resolução dos seus exercicios! 👾'
   // Controla se a janela começa aberta ou fechada
   @Input() public opened: boolean = false;
-
+  // Controla a mensagem de intrpdução (pop up) do chatbot
+  public visible_intro = true;
   // Abrir/fechar a janela do chat <--
   public _visible = false;
   userName: any;
   public get visible() { return this._visible; }
   @Input() public set visible(visible) { this._visible = visible; }
-
+  // Mostrar o widget
+  public mainVisible = false;
   // ------------ Variáveis para as mensagens da conversa -------------
   // Contém as mensagens que aparecem na janela do chatbot
   public messages = [];
@@ -69,6 +71,17 @@ export class ChatWidgetComponent implements OnInit {
   public newMsgWarningVisible = false;
   // #########################################################################
 
+  public messagesSub;
+  public helpSub;
+  public conceptSub;
+  public triggerSub;
+
+  ngOnDestroy() {
+    this.messagesSub.unsubscribe();
+    this.helpSub.unsubscribe();
+    this.conceptSub.unsubscribe();
+    this.triggerSub.unsubscribe();
+  }
 
   constructor(private chatbotService: ChatbotService, private login: LoginService) {
 
@@ -76,25 +89,25 @@ export class ChatWidgetComponent implements OnInit {
     // ################ CHATBOT SERVICE - NOVAS MENSAGENS ################
     // ------------------> Nova mensagem do RASA <-------------------
     // Para quando é mandada uma mensagem ao RASA de outro componente (mensagem de erro, ...)
-    this.chatbotService.triggerRasaMessage.subscribe(() => {
+    this.triggerSub = this.chatbotService.triggerRasaMessage.subscribe(() => {
       let mensagem = this.chatbotService.mensagemTrigger;
       this.wholeConversation.push({ from: "App", text: mensagem, type: "info", date: new Date().getTime() });
       if (this.registroMensagem === undefined) {
-          this.registroMensagem = new RegistroMensagensRasa(null, this.chatbotService.questaoOrdem, this.userName, this.wholeConversation);
-        }
-        else {
-          this.registroMensagem.conversa = this.wholeConversation;
-        }
-        this.registroMensagem.save().subscribe(() => { });
+        this.registroMensagem = new RegistroMensagensRasa(null, this.chatbotService.questaoOrdem, this.userName, this.wholeConversation);
+      }
+      else {
+        this.registroMensagem.conversa = this.wholeConversation;
+      }
+      this.registroMensagem.save().subscribe(() => { });
     });
-    this.chatbotService.messageUpdate.subscribe(() => {
+    this.messagesSub = this.chatbotService.messageUpdate.subscribe(() => {
       // Novas mensagens
       this.chatbotService.latestMessageArr.subscribe(
         responseMessages => {
           // Se não for a primeira mensagem no array da conversa...
           if (this.messages[0] !== undefined) {
             // Parar animação de estar a escrever (...)
-            if (this.messages[this.messages.length - 1].text === "Estou a pesquisar a resposta por favor aguarde") {this.messages.pop(); }
+            if (this.messages[this.messages.length - 1].text === "Estou a pesquisar a resposta por favor aguarde") { this.messages.pop(); }
           }
           // Retornar erro se a mensagem do RASA vier vazia
           if (responseMessages.length === 0) {
@@ -120,11 +133,11 @@ export class ChatWidgetComponent implements OnInit {
       }
     });
     // --> Novo conceito para adicionar à tela do algorimo (exercício de ordenar) <--
-    this.chatbotService.conceptUpdate.subscribe(() => {
+    this.conceptSub = this.chatbotService.conceptUpdate.subscribe(() => {
       this.conceptsChosen = this.chatbotService.conceptsClicked;
     });
     // --------> Já pode pedir ajuda no exercício <----------
-    this.chatbotService.helpActivate.subscribe(() => {
+    this.helpSub = this.chatbotService.helpActivate.subscribe(() => {
       this.canAskExHelp = this.chatbotService.canAskHelp;
     });
   }
@@ -136,6 +149,16 @@ export class ChatWidgetComponent implements OnInit {
   }
 
   ngOnInit() {
+    //this.chatbotService.messageUpdate.subscribe();
+    // Fechar a mensagem de intro (pop up) do chatbot
+    setTimeout(() => {
+      this.visible_intro = false;
+    }, 12000);
+    // Aparecer o widget apenas passado 2s para dar tempo da página carregar
+    setTimeout(() => {
+      this.mainVisible = true;
+    }, 2000);
+
     this.userName = this.login.getUsuarioLogado().pk();
     this.estudante = {
       name: this.login.getUsuarioLogado().pk(),
@@ -190,6 +213,10 @@ export class ChatWidgetComponent implements OnInit {
   // ##################### FUNÇÃO QUE ABRE E FECHA A JANELA DO CHAT #####################
   // Abre e fecha janela do chatbot (quando se toca no seu icon)
   public toggleChat() {
+    // Apagar popup de introdução se estiver ativo e o aluno abrir o chat
+    if (this.visible_intro) {
+      this.visible_intro = false;
+    }
     if (this.messages.length === 0) {
       // Começa função de store das mensagens
       // Mostrar mensagem inicial mais informativa
@@ -208,7 +235,7 @@ export class ChatWidgetComponent implements OnInit {
       // Ao abrir mantém a posição deixada pelo aluno
       setTimeout(() => {
         this.myScrollPosition.nativeElement.scrollTop = this.currScrollPosition;
-      }, 1)
+      }, 10)
     }
     else {
       this.currScrollPosition = this.myScrollPosition.nativeElement.scrollTop;
