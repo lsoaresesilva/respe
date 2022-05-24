@@ -69,6 +69,10 @@ export class ChatbotService {
     }, 60000)
   }
 
+  public sendDados(dadosQuestao) {
+    this.questaoOrdem = dadosQuestao;
+  }
+
   // !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!! RASA !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
 
   // Faz conecção com o RASA (reinicia a conversa --> /restart)

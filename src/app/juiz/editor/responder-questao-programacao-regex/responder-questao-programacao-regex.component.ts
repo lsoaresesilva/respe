@@ -6,6 +6,7 @@ import ErroSintaxeVariavel from 'src/app/model/errors/analise-pre-compilacao/err
 import Query from 'src/app/model/firestore/query';
 import { Assunto } from 'src/app/model/questoes/assunto';
 import { RespostaQuestaoProgramacaoRegex } from 'src/app/model/questoes/respostaQuestaoProgramacaoRegex';
+import { ChatbotService } from 'src/app/chatbot/chatbot.service';
 
 import { ApresentacaoService } from '../../../geral-module/apresentacao.service';
 
@@ -24,7 +25,7 @@ export class ResponderQuestaoProgramacaoRegexComponent implements OnInit, AfterV
   respostaQuestao;
   erroProgramacao;
 
-  constructor(private route: ActivatedRoute, private login: LoginService, private apresentacao:ApresentacaoService) {
+  constructor(private route: ActivatedRoute, private login: LoginService, private apresentacao: ApresentacaoService, private chatbotService: ChatbotService) {
     this.isEditorPronto = false;
   }
 
@@ -39,6 +40,7 @@ export class ResponderQuestaoProgramacaoRegexComponent implements OnInit, AfterV
         Assunto.get(params['assuntoId']).subscribe((assunto) => {
           this.assunto = assunto as Assunto;
           this.questao = this.assunto.getQuestaoRegexById(params['questaoId']);
+          this.chatbotService.sendDados([this.questao.ordem, this.questao.nomeCurto]);
         });
       }
     });
