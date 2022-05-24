@@ -27,16 +27,18 @@ export class ChatWidgetComponent implements OnInit {
   @Input() public userAvatar: string = "/assets/userAvatar.jpg";
   // URL para se conectar ao chatbot
   // Primeira mensagem
-  @Input() public startingMessage = 'Olá 👋, eu sou um monitor que está aqui para o ajudar. A qualquer momento poderá fazer perguntas como "O que é uma variável?", ou "Qual é um exemplo de uma condição?", que eu farei o meu melhor para responder! Estarei também aqui para quando tiver problemas na resolução dos seus exercicios!'
+  @Input() public startingMessage = 'Olá 👋, eu sou um monitor que está aqui para o ajudar. A qualquer momento poderá fazer perguntas como "O que é uma variável?", ou "Qual é um exemplo de uma condição?", que eu farei o meu melhor para responder! Estarei também aqui para quando tiver problemas na resolução dos seus exercicios! 👾'
   // Controla se a janela começa aberta ou fechada
   @Input() public opened: boolean = false;
-
+  // Controla a mensagem de intrpdução (pop up) do chatbot
+  public visible_intro = true;
   // Abrir/fechar a janela do chat <--
   public _visible = false;
   userName: any;
   public get visible() { return this._visible; }
   @Input() public set visible(visible) { this._visible = visible; }
-
+  // Mostrar o widget
+  public mainVisible = false;
   // ------------ Variáveis para as mensagens da conversa -------------
   // Contém as mensagens que aparecem na janela do chatbot
   public messages = [];
@@ -136,6 +138,15 @@ export class ChatWidgetComponent implements OnInit {
   }
 
   ngOnInit() {
+    // Fechar a mensagem de intro (pop up) do chatbot
+    setTimeout(() => {
+      this.visible_intro = false;
+    }, 12000);
+    // Aparecer o widget apenas passado 2s para dar tempo da página carregar
+    setTimeout(() => {
+      this.mainVisible = true;
+    }, 2000);
+    
     this.userName = this.login.getUsuarioLogado().pk();
     this.estudante = {
       name: this.login.getUsuarioLogado().pk(),
@@ -190,6 +201,10 @@ export class ChatWidgetComponent implements OnInit {
   // ##################### FUNÇÃO QUE ABRE E FECHA A JANELA DO CHAT #####################
   // Abre e fecha janela do chatbot (quando se toca no seu icon)
   public toggleChat() {
+    // Apagar popup de introdução se estiver ativo e o aluno abrir o chat
+    if (this.visible_intro) {
+      this.visible_intro = false;
+    }
     if (this.messages.length === 0) {
       // Começa função de store das mensagens
       // Mostrar mensagem inicial mais informativa

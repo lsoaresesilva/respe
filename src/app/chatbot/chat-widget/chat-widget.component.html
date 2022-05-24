@@ -1,78 +1,84 @@
-<div class="wrapper {{theme}}">
-    <!--MESSAGE WINDOW-->
-    <div class="chat-box" *ngIf="visible" [@fadeInOut]="visible">
-        <!-----------HEADER--------->
-        <div class="chat-box-header">
-            <chat-avatar [image]="monitor.avatar"></chat-avatar>
-            <h3 class="operator-name">
-                {{monitor.name}}
-                <button class="clean" (click)="cleanWindow()">Limpar</button>
-                <span class="info">
-                    <span class="info-btn">i</span>
-                    <span class="extra-info">
-                        <br>O Monitor está aqui para o ajudar:<br><br>Se tiver dúvidas num conceito basta perguntar algo dentro
-                        das linhas de:<br><br>
-                        O que é uma variável?<br>
-                        Como se declara uma instrução while?<br><br>
-                        Tabém estarei aqui para o ajudar como erros que vá cometendo de maneira continua.<br><br>
-                        E se ficar preso num exercício lhe irei oferecer ajuda. Se recusar pode sempre voltar a pedir:<br><br>
-                        Me ajuda no exercíco?<br><br>
-                        E eu assim o tentarei fazer!
+<ng-container *ngIf="mainVisible">
+    <div class="wrapper {{theme}}">
+        <!--MESSAGE WINDOW-->
+        <div class="chat-box" *ngIf="visible" [@fadeInOut]="visible">
+            <!-----------HEADER--------->
+            <div class="chat-box-header">
+                <chat-avatar [image]="monitor.avatar"></chat-avatar>
+                <h3 class="operator-name">
+                    {{monitor.name}}
+                    <!--<button class="clean" (click)="cleanWindow()">Limpar</button>-->
+                    <span class="info">
+                        <span class="info-btn">i</span>
+                        <span class="extra-info">
+                            <br>O Monitor está aqui para o ajudar:<br><br>Se tiver dúvidas num conceito basta perguntar algo dentro
+                            das linhas de:<br><br>
+                            O que é uma variável?<br>
+                            Como se declara uma instrução while?<br><br>
+                            Tabém estarei aqui para o ajudar como erros que vá cometendo de maneira continua.<br><br>
+                            E se ficar preso num exercício lhe irei oferecer ajuda. Se recusar pode sempre voltar a pedir:<br><br>
+                            Me ajuda no exercíco?<br><br>
+                            E eu assim o tentarei fazer!
+                        </span>
                     </span>
-                </span>
-                <p *ngIf="newMsgWarningVisible" class="new-messages">NOVAS MENSAGENS</p>
-            </h3>
-        </div>
-        <!----------------------------->
-        <!------------BODY (scroll)="myScrollFunction()"------------->
-        <div class="chat-box-main" (scroll)="checkViewedMens()" #bottom>
-        <!--<div class="chat-box-main" #bottom>-->
-            <ng-container *ngFor="let message of messages">
-                <div class="chat-message" [class.chat-message-received]='message.direction === "received"' [@fadeIn]
-                    [class.chat-message-sent]="message.direction === 'sent'">
-                    <!--Typing dots-->
-                    <div *ngIf="message.type === 'typing'" class="chat-message-typing">
-                        <chat-typing></chat-typing>
-                    </div>
-                    <!--Avatar Icon-->
-                    <chat-avatar [image]="message.from.avatar" class="chat-message-from-avatar"></chat-avatar>
-                    <!--Text Message-->
-                    <div *ngIf="message.type === 'text'" class="chat-message-text">{{message.text}}</div>
-                    <!--Code Message-->
-                    <div *ngIf="message.type === 'code'" class="chat-message-code">{{message.text}}</div>
-                    <!--Code Message-->
-                    <div *ngIf="message.type === 'print'" class="chat-message-print">{{message.text}}</div>
-                    <!--Buttons Message-->
-                    <ng-container *ngIf='message.type === "buttons"'>
-                        <div *ngFor="let btn of message.text">
-                            <chat-buttons [titleBtn]="'Selecionar'" [btnLabel]="btn.title" [btnPayload]="btn.payload"
-                                (send)="sendMessage($event)" class="chat-message-buttons"></chat-buttons>
+                    <p *ngIf="newMsgWarningVisible" class="new-messages">NOVAS MENSAGENS</p>
+                </h3>
+            </div>
+            <!----------------------------->
+            <!------------BODY (scroll)="myScrollFunction()"------------->
+            <div class="chat-box-main" (scroll)="checkViewedMens()" #bottom>
+            <!--<div class="chat-box-main" #bottom>-->
+                <ng-container *ngFor="let message of messages">
+                    <div class="chat-message" [class.chat-message-received]='message.direction === "received"' [@fadeIn]
+                        [class.chat-message-sent]="message.direction === 'sent'">
+                        <!--Typing dots-->
+                        <div *ngIf="message.type === 'typing'" class="chat-message-typing">
+                            <chat-typing></chat-typing>
                         </div>
-                    </ng-container>
-                    <!--Order Buttons Message-->
-                    <ng-container *ngIf='message.type === "buttons_order"'>
-                        <div *ngFor="let btn of message.text">
-                            <chat-buttons [titleBtn]="'Clica para selecionar opção'" [id]="btn[0]" [btnLabel]="btn[1]"
-                                [clicked]="btn[2]" class="chat-message-buttons-order"></chat-buttons>
+                        <!--Avatar Icon-->
+                        <chat-avatar [image]="message.from.avatar" class="chat-message-from-avatar"></chat-avatar>
+                        <!--Text Message-->
+                        <div *ngIf="message.type === 'text'" class="chat-message-text">{{message.text}}</div>
+                        <!--Code Message-->
+                        <div *ngIf="message.type === 'code'" class="chat-message-code">{{message.text}}</div>
+                        <!--Code Message-->
+                        <div *ngIf="message.type === 'print'" class="chat-message-print">{{message.text}}</div>
+                        <!--Buttons Message-->
+                        <ng-container *ngIf='message.type === "buttons"'>
+                            <div *ngFor="let btn of message.text">
+                                <chat-buttons [titleBtn]="'Selecionar'" [btnLabel]="btn.title" [btnPayload]="btn.payload"
+                                    (send)="sendMessage($event)" class="chat-message-buttons"></chat-buttons>
+                            </div>
+                        </ng-container>
+                        <!--Order Buttons Message-->
+                        <ng-container *ngIf='message.type === "buttons_order"'>
+                            <div *ngFor="let btn of message.text">
+                                <chat-buttons [titleBtn]="'Clica para selecionar opção'" [id]="btn[0]" [btnLabel]="btn[1]"
+                                    [clicked]="btn[2]" class="chat-message-buttons-order"></chat-buttons>
+                            </div>
+                        </ng-container>
+                        <!--Show Date and Time-->
+                        <div class="chat-message-date">
+                            {{message.date | date: 'short'}}
                         </div>
-                    </ng-container>
-                    <!--Show Date and Time-->
-                    <div class="chat-message-date">
-                        {{message.date | date: 'short'}}
                     </div>
-                </div>
-            </ng-container>
+                </ng-container>
+            </div>
+            <!----------------------------->
+            <!--FOOTER (INPUT AND BUTTON)-->
+            <div class="chat-box-footer">
+                <chat-input (send)="sendMessage($event)" (dismiss)="toggleChat()"></chat-input>
+            </div>
+            <!----------------------------->
         </div>
-        <!----------------------------->
-        <!--FOOTER (INPUT AND BUTTON)-->
-        <div class="chat-box-footer">
-            <chat-input (send)="sendMessage($event)" (dismiss)="toggleChat()"></chat-input>
-        </div>
-        <!----------------------------->
+        <!--CHATBOT BUTTON/AVATAR-->
+        <button class="chat-button" (click)="toggleChat()">
+            <div *ngIf="visible_intro" class='speech-bubble' [@fadeIn]="visible_intro">
+                <h5>Olá! 👋 </h5>
+                <p>Talvez ainda não me conheça! Passei só para dizer que se precisar de alguma ajuda (e.g, rever conceito) estarei aqui para ajudar! 👾</p>
+            </div>
+            <span *ngIf="visible">✕</span>
+            <img *ngIf="!visible" [attr.src]="botAvatar" class="chat-button-img" />
+        </button>
     </div>
-    <!--CHATBOT BUTTON/AVATAR-->
-    <button class="chat-button" (click)="toggleChat()">
-        <span *ngIf="visible">✕</span>
-        <img *ngIf="!visible" [attr.src]="botAvatar" class="chat-button-img" />
-    </button>
-</div>
+</ng-container>
