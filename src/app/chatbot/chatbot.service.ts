@@ -52,7 +52,6 @@ export class ChatbotService {
   public enableStudentAskExHelp(message) {
     //this.canAskHelp = false;
     //this.helpActivate.emit();
-
     setTimeout(() => {
       this.canAskHelp = true;
       this.sendMessage(message);
@@ -115,6 +114,13 @@ export class ChatbotService {
         this.errorsHelped.push(message);
       }
       else {
+        // Se for um novo exercício dar restart do timer e limpar o array com os erros já ajudados
+        if (message !== this.currHelpInfo) {
+          this.errorsHelped = [];
+          this.currHelpInfo = message;
+          this.canAskHelp = false;
+          this.helpActivate.emit();
+        }
         // O RASA é um pouco estranho com as mensagens que aceita, por isso tenho de as modificar
         // --- Formar a string com o/os input/s e o/os output/s do caso de teste ---
         let test_case_string = "";
@@ -143,13 +149,6 @@ export class ChatbotService {
         // Envio de um trigger para adicionar na base de dados
         this.mensagemTrigger = message;
         this.triggerRasaMessage.emit();
-        // Se for um novo exercício dar restart do timer e limpar o array com os erros já ajudados
-        if (message !== this.currHelpInfo) {
-          this.errorsHelped = [];
-          this.currHelpInfo = message;
-          this.canAskHelp = false;
-          this.helpActivate.emit();
-        }
         // Se for a primeira vez que é chamado esperar pelo timer e chamar outra vez
         if (this.canAskHelp === false) {
           this.enableStudentAskExHelp(message);
