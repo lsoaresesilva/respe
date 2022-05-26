@@ -33,7 +33,7 @@ export class QuestaoProgramacao implements MaterialAprendizagem{
     }
 
 
-    const totalTestsCases = this.testsCases.length;
+    const totalTestsCases = this.testsCases.length-1;
     let totalAcertos = 0;
     if (submissao.questaoId != null && submissao.resultadosTestsCases.length != 0) {
       submissao.resultadosTestsCases.forEach((resultadoTestCase) => {
@@ -62,7 +62,12 @@ export class QuestaoProgramacao implements MaterialAprendizagem{
           }
 
           if (submissao != null && submissao['resultadosTestsCases'] != null) {
-            const totalTestCase = questao.testsCases.length;
+            let totalTestCase = questao.testsCases.length;
+            // TODO: Algumas questões tem 4 testscases e outros 3. Enquanto todas não tem 4, então usar esse código.
+            if(questao.testsCases.length == 4){
+              totalTestCase -= 1;
+            }
+
             let totalRespondidasSucesso = 0;
 
             submissao['resultadosTestsCases'].forEach((resultado) => {

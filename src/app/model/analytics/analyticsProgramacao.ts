@@ -519,7 +519,7 @@ export default class AnalyticsProgramacao {
 
       submissoes.forEach((submissao) => {
         if (submissao['questaoId'] == questao.id) {
-          const totalTestsCases = questao.testsCases.length;
+          const totalTestsCases = questao.testsCases.length-1;
           let totalAcertos = 0;
           if (submissao.resultadosTestsCases.length != 0) {
             submissao.resultadosTestsCases.forEach((resultadoTestCase) => {
