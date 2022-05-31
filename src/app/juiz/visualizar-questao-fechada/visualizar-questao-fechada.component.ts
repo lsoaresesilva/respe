@@ -12,6 +12,7 @@ import { GamificationFacade } from 'src/app/gamification/gamification.service';
 import { Assunto } from 'src/app/model/questoes/assunto';
 import QuestaoFechada from 'src/app/model/questoes/questaoFechada';
 import { RespostaQuestaoFechada } from 'src/app/model/questoes/respostaQuestaoFechada';
+import { ChatbotService } from 'src/app/chatbot/chatbot.service';
 
 @Component({
   selector: 'app-visualizar-questao-fechada',
@@ -35,7 +36,8 @@ export class VisualizarQuestaoFechadaComponent implements OnInit {
     private login: LoginService,
     private messageService: MessageService,
     private confirmationService: ConfirmationService,
-    private gamification: GamificationFacade
+    private gamification: GamificationFacade,
+    private chatbotService: ChatbotService,
   ) {
 
   }
@@ -71,7 +73,7 @@ export class VisualizarQuestaoFechadaComponent implements OnInit {
             this.questao
           );
           this.mostrar = false;
-
+          
           Assunto.get(params['assuntoId']).subscribe((assunto) => {
             this.assunto = assunto;
             const usuario = this.login.getUsuarioLogado();
@@ -80,6 +82,9 @@ export class VisualizarQuestaoFechadaComponent implements OnInit {
               assunto['questoesFechadas'].length > 0
             ) {
               this.questao = assunto['getQuestaoFechadaById'](params['questaoId']);
+
+              // Enviar dados da questão ao service
+              this.chatbotService.sendDados([this.questao.ordem, this.questao.nomeCurto, this.questao.id]);
 
               RespostaQuestaoFechada.getRespostaQuestaoEstudante(this.questao, usuario).subscribe(
                 (respostaUsuario: RespostaQuestaoFechada) => {
