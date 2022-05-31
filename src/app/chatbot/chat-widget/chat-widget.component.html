@@ -11,16 +11,19 @@
                     <span class="info">
                         <span class="info-btn">i</span>
                         <span class="extra-info">
-                            <br>O Monitor está aqui para o ajudar:<br><br>Se tiver dúvidas num conceito basta perguntar
-                            algo dentro
-                            das linhas de:<br><br>
-                            O que é uma variável?<br>
-                            Como se declara uma instrução while?<br><br>
-                            Tabém estarei aqui para o ajudar como erros que vá cometendo de maneira continua.<br><br>
-                            E se ficar preso num exercício lhe irei oferecer ajuda. Se recusar pode sempre voltar a
-                            pedir:<br><br>
-                            Me ajuda no exercíco?<br><br>
-                            E eu assim o tentarei fazer!
+                            <br>Exemplos de perguntas
+                            <br><br>Conceitos:
+                            <br>- Como se declara uma variável?
+                            <br>- Exemplo de uma instrução else?
+                            <br>- O que é um TestCase?
+                            <br>- Me diz o que é uma entrada?
+                            <br><br>Exercício (perguntas com TestCases):
+                            <br>- Me ajuda no exercício? (disponível depois de 2 min)
+                            <br>- Me dá uma dica?
+                            <br>- Sugestões de perguntas
+                            <br><br>Erro:
+                            <br>- Não entendo essa mensagem de erro
+                            <br>- Que quer dizer com “Você declarou uma string, mas esqueceu incluir as duas aspas (abertura e fechamento)”
                         </span>
                     </span>
                     <p *ngIf="newMsgWarningVisible" class="new-messages">NOVAS MENSAGENS</p>
@@ -43,8 +46,10 @@
                         <div *ngIf="message.type === 'text'" class="chat-message-text">{{message.text}}</div>
                         <!--Code Message-->
                         <div *ngIf="message.type === 'code'" class="chat-message-code">{{message.text}}</div>
-                        <!--Code Message-->
+                        <!--Code Result Message-->
                         <div *ngIf="message.type === 'print'" class="chat-message-print">{{message.text}}</div>
+                        <!--Help Message-->
+                        <div *ngIf="message.type === 'help'" class="chat-message-help">{{message.text}}</div>
                         <!--Buttons Message-->
                         <ng-container *ngIf='message.type === "buttons"'>
                             <div *ngFor="let btn of message.text">

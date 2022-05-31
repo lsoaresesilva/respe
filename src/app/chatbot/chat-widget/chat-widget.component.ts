@@ -30,8 +30,13 @@ export class ChatWidgetComponent implements OnInit {
   @Input() public startingMessage = 'Olá 👋, eu sou um monitor que está aqui para o ajudar. A qualquer momento poderá fazer perguntas como "O que é uma variável?", ou "Qual é um exemplo de uma condição?", que eu farei o meu melhor para responder! Estarei também aqui para quando tiver problemas na resolução dos seus exercicios! 👾'
   // Controla se a janela começa aberta ou fechada
   @Input() public opened: boolean = false;
+  // Mensagens
+  public exHelpMsg = 'Só relembrar que se precisar de ajuda no exercício me mande um "Me ajuda no exercício?"'
+  public suggestionsMsg = "Aqui vão algumas sugestões de perguntas que possam ajudar:"
+
   // Controla a mensagem de intrpdução (pop up) do chatbot
   public visible_intro = true;
+  public stopIntroMessage;
   // Abrir/fechar a janela do chat <--
   public _visible = false;
   userName: any;
@@ -39,13 +44,17 @@ export class ChatWidgetComponent implements OnInit {
   @Input() public set visible(visible) { this._visible = visible; }
   // Mostrar o widget
   public mainVisible = false;
+  // TimeOut para fechar a janela 
+  public closeWindow;
+  public visibleCloseWindow = false;
   // ------------ Variáveis para as mensagens da conversa -------------
   // Contém as mensagens que aparecem na janela do chatbot
   public messages = [];
+  // Para controlar a mensagem de novas mensagens
+  public controlNewMsg = false;
   // Array com TODAS as mensagens (inclui a primeira mensagem,
   // por exemplo, qual foi o erro, que não se mostra ao estudante)
   public wholeConversation = [];
-  public wholeConversationSent = [];
   public isFirstMessage = false; // !!!!!! Verificar utilidadde !!!!!!
   // Controla de quem é a mensagem
   public monitor;
@@ -58,7 +67,7 @@ export class ChatWidgetComponent implements OnInit {
 
   // Usada para verificar se o aluno já pode pedir ajuda
   public canAskExHelp = false;
-
+  public timeOutSuggestions;
   // ---- Váriáveis usadas para o exercício de ordenar os conceitos ----
   public isConceptOrderDisabled = true;
   public isConceptSecond = false;
@@ -70,11 +79,16 @@ export class ChatWidgetComponent implements OnInit {
   public currScrollPosition = 0;
   public newMsgWarningVisible = false;
   // #########################################################################
+  public counterSuggestionsOn = false;
 
   public messagesSub;
   public helpSub;
   public conceptSub;
   public triggerSub;
+  public hasGivenSuggestions = false;
+
+  public msgCodeInfo = true;
+  public conceptOrderQuestionsGive = false;
 
   ngOnDestroy() {
     this.messagesSub.unsubscribe();
@@ -83,8 +97,19 @@ export class ChatWidgetComponent implements OnInit {
     this.triggerSub.unsubscribe();
   }
 
-  constructor(private chatbotService: ChatbotService, private login: LoginService) {
 
+  // Controlar a mensagem de "novas mensagens"
+  public checkViewedMens() {
+    if (this.myScrollPosition.nativeElement.scrollHeight - this.myScrollPosition.nativeElement.scrollTop < this.myScrollPosition.nativeElement.offsetHeight + 10 || !this.controlNewMsg) {
+      this.newMsgWarningVisible = false;
+      this.controlNewMsg = false;
+    }
+    else {
+      this.newMsgWarningVisible = true;
+    }
+  }
+
+  constructor(private chatbotService: ChatbotService, private login: LoginService) {
 
     // ################ CHATBOT SERVICE - NOVAS MENSAGENS ################
     // ------------------> Nova mensagem do RASA <-------------------
@@ -92,6 +117,7 @@ export class ChatWidgetComponent implements OnInit {
     this.triggerSub = this.chatbotService.triggerRasaMessage.subscribe(() => {
       let mensagem = this.chatbotService.mensagemTrigger;
       this.wholeConversation.push({ from: "App", text: mensagem, type: "info", date: new Date().getTime() });
+      // Aidicionar as mensagens de info mandandos ao rasa à base de daos
       if (this.registroMensagem === undefined) {
         this.registroMensagem = new RegistroMensagensRasa(null, this.chatbotService.questaoOrdem, this.userName, this.wholeConversation);
       }
@@ -100,6 +126,7 @@ export class ChatWidgetComponent implements OnInit {
       }
       this.registroMensagem.save().subscribe(() => { });
     });
+    // -----------------------------------------------------
     this.messagesSub = this.chatbotService.messageUpdate.subscribe(() => {
       // Novas mensagens
       this.chatbotService.latestMessageArr.subscribe(
@@ -112,27 +139,34 @@ export class ChatWidgetComponent implements OnInit {
           // Retornar erro se a mensagem do RASA vier vazia
           if (responseMessages.length === 0) {
             if (!this.isFirstMsg) {
-              this.addMessage(this.monitor, "Desculpe estou com algumas dificuldades, por favor tente mais tarde 🤕", "erro", 'received');
+              this.addMessage(this.monitor, "Desculpe estou com algumas dificuldades, por favor tente mais tarde 🤕. Tentarei resolver o problema o mais rapidamente possível!", "erro", 'received');
             }
           }
           // Mostrar mensagem retornada pelo RASA
           else {
             this.organizeMessages(responseMessages);
             this.isFirstMsg = false;
-            this.newMsgWarningVisible = true;
+            //this.newMsgWarningVisible = true;
             this.checkViewedMens();
+            //this.visible = true;
           }
         });
       // -------------------------------------------------------------------------------
       // Abrir janela do chat se ela estiver fechada (ao receber mensagem inicial (erro/ajuda))
-      if (this.visible === false) {
+      if (!this.visible && !this.msgCodeInfo) {
+        this.visible_intro = false;
+        clearTimeout(this.stopIntroMessage);
         this.visible = true;
-        setTimeout(() => {
-          this.myScrollPosition.nativeElement.scrollTop = this.currScrollPosition;
-        }, 1)
+        //TimeOut de 1 millisegundos para dar tempo de carregar as informações do algoritmo
+        if (this.messages.length > 1) {
+          setTimeout(() => {
+            this.myScrollPosition.nativeElement.scrollTop = this.currScrollPosition;
+          }, 1)
+        }
       }
+      this.msgCodeInfo = false;
     });
-    // --> Novo conceito para adicionar à tela do algorimo (exercício de ordenar) <--
+    // --> Botão selecionado <--
     this.conceptSub = this.chatbotService.conceptUpdate.subscribe(() => {
       this.conceptsChosen = this.chatbotService.conceptsClicked;
     });
@@ -142,23 +176,17 @@ export class ChatWidgetComponent implements OnInit {
     });
   }
 
-  public checkViewedMens() {
-    if (this.myScrollPosition.nativeElement.scrollHeight - this.myScrollPosition.nativeElement.scrollTop < 580 === true) {
-      this.newMsgWarningVisible = false;
-    }
-  }
-
   ngOnInit() {
-    //this.chatbotService.messageUpdate.subscribe();
-    // Fechar a mensagem de intro (pop up) do chatbot
-    setTimeout(() => {
-      this.visible_intro = false;
-    }, 12000);
-    // Aparecer o widget apenas passado 2s para dar tempo da página carregar
+    // Aparecer o widget apenas passado 3s para dar tempo da página carregar
     setTimeout(() => {
       this.mainVisible = true;
-    }, 2000);
+      // Para balão de atenção passado 10s
+      this.stopIntroMessage = setTimeout(() => {
+        this.visible_intro = false;
+      }, 10000);
+    }, 3000);
 
+    // Controlar os nomes e os icones
     this.userName = this.login.getUsuarioLogado().pk();
     this.estudante = {
       name: this.login.getUsuarioLogado().pk(),
@@ -181,8 +209,49 @@ export class ChatWidgetComponent implements OnInit {
   // ###################### FUNÇÃO PARA ADICIONAR NOVAS MENSAGENS #######################
   // O type, é simplesmente para controlar o css dos diferentes tipos (texto, codigo, botões, ...)
   public addMessage(from, text, type, direction: 'received' | 'sent') {
-    // Array das mensagens que aparecem na janela do chatbot
-    this.messages.push({ from, text, type, direction, date: new Date().getTime() })
+    // Se for mensagem do aluno parar o timer de fechar a janela
+    if (!this.visibleCloseWindow && type !== "help") {
+      clearTimeout(this.closeWindow);
+    }
+    // Se for mensagem de trigger, avisar que é para fechar a janela
+    else if (type === "help" || this.visibleCloseWindow) {
+      // -------------> Fechar janela do chat <---------------
+      if (this.visibleCloseWindow || (text === this.exHelpMsg && !this.messages.includes(text))) {
+        if (this.closeWindow !== undefined) {
+          clearTimeout(this.closeWindow);
+        }
+        this.closeWindow = setTimeout(() => {
+          this.visible = false;
+        }, 20000);
+      }
+      // -----------------------------------------------------
+    }
+
+    // ----------------> Mostrar Sugestões <----------------
+    // Não mostrar as sugestões se já tiverem sido pedidas pelo aluno
+    if (text === this.suggestionsMsg) {
+      this.hasGivenSuggestions = true;
+      clearTimeout(this.timeOutSuggestions);
+    }
+    // Mostrar 1 min depois da mensagem de ajuda no algo
+    // Mostrar as sugestões apenas se elas não tiverem já sido dadas
+    else if (text === this.exHelpMsg && !this.hasGivenSuggestions) {
+      // Mandar mensagem ao rasa para pedir as sugestões
+      this.timeOutSuggestions = setTimeout(() => {
+        // Adicionar mensagem de trigger à base de dados 
+        this.wholeConversation.push({ from: "App", text: "me dá sugestões", type: "ajuda", date: new Date().getTime() });
+        this.chatbotService.sendMessage("me dá sugestões");
+        this.visibleCloseWindow = true;
+      }, 60000);
+    }
+  
+    if (text) {
+      this.messages.push({ from, text, type, direction, date: new Date().getTime() })
+      if (this.messages.length > 1) {
+        this.controlNewMsg = true;
+        this.checkViewedMens();
+      }
+    }
 
     // Array com TODAS as mensagens
     from = from.name;
@@ -194,7 +263,9 @@ export class ChatWidgetComponent implements OnInit {
       });
       text = newText;
     }
-    this.wholeConversation.push({ from, text, type, date: new Date().getTime() });
+    if (text) {
+      this.wholeConversation.push({ from, text, type, date: new Date().getTime() });
+    }
 
     // Guardar conversa na base de dados após receber resposta do Chatbot
     if (from === "Monitor") {
@@ -205,17 +276,46 @@ export class ChatWidgetComponent implements OnInit {
         this.registroMensagem.conversa = this.wholeConversation;
       }
       this.registroMensagem.save().subscribe(() => { });
-      //console.log("Mensagem guardada");
+    }
+    // -----------------------------------------------------
+    // Se a mensagem for do aluno
+    if (from !== "App" && from !== "Monitor") {
+      // Não fechar a janela do chat
+      this.visibleCloseWindow = false;
+      // Se o timer das sugestões estiver on, esperar mais 1 min
+      if (!this.hasGivenSuggestions) {
+        if (this.timeOutSuggestions !== undefined) {
+          // Parar o outro timer
+          clearTimeout(this.timeOutSuggestions);
+          // Recomeçar timer
+          this.timeOutSuggestions = setTimeout(() => {
+          // Abrir janela se estiver fechada
+          this.visible = true;
+          // Adicionar mensagem de trigger à base de dados
+          this.wholeConversation.push({ from: "App", text: "me dá sugestões", type: "ajuda", date: new Date().getTime() });
+          // Mandar mensagem ao rasa para obter as sugestões
+          this.chatbotService.sendMessage("me dá sugestões");
+          this.hasGivenSuggestions = true;
+          // Fechar janela se não houver interação
+          this.visibleCloseWindow = true;
+        }, 60000);
+      }
     }
   }
+}
 
   // TOGGLE CHAT
   // ##################### FUNÇÃO QUE ABRE E FECHA A JANELA DO CHAT #####################
   // Abre e fecha janela do chatbot (quando se toca no seu icon)
   public toggleChat() {
+    // Parar o timer de fechar a janela
+    if (this.closeWindow !== undefined) {
+      clearTimeout(this.closeWindow);
+    }
     // Apagar popup de introdução se estiver ativo e o aluno abrir o chat
     if (this.visible_intro) {
       this.visible_intro = false;
+      clearTimeout(this.stopIntroMessage);
     }
     if (this.messages.length === 0) {
       // Começa função de store das mensagens
@@ -227,7 +327,9 @@ export class ChatWidgetComponent implements OnInit {
       // Mostrar mensagem inicial mais simples
       else {
         this.addMessage(this.monitor, "Olá 👋 em que posso ajudar?", 'text', 'received');
+        this.visibleCloseWindow = false;
       }
+      this.visibleCloseWindow = false;
       this.isFirstMsg = false;
     }
     if (this.visible === false) {
@@ -389,6 +491,33 @@ export class ChatWidgetComponent implements OnInit {
         code_str = code_str + messages[i].message.replace("</code>", "").substring(-1);
         if (code_str[0] === "\n") { code_str = code_str.substring(1); }
         this.addMessage(this.monitor, code_str, "code", 'received');
+      }
+      else if (messages[i].type === "print") {
+        while (messages[i].message.includes("</code_print>") === false) {
+          code_str = code_str + messages[i].message + "\n\n";
+          i++;
+        }
+        code_str = code_str + messages[i].message.replace("</code_print>", "").substring(-1);
+        if (code_str[0] === "\n") { code_str = code_str.substring(1); }
+        this.addMessage(this.monitor, code_str, "print", 'received');
+      }
+      else if (messages[i].type === "texto") {
+        while (messages[i].message.includes("</text>") === false) {
+          code_str = code_str + messages[i].message + "\n\n";
+          i++;
+        }
+        code_str = code_str + messages[i].message.replace("</text>", "").substring(-1);
+        if (code_str[0] === "\n") { code_str = code_str.substring(1); }
+        this.addMessage(this.monitor, code_str, "text", 'received');
+      }
+      else if (messages[i].type === "help") {
+        while (messages[i].message.includes("</ajuda>") === false) {
+          code_str = code_str + messages[i].message + "\n\n";
+          i++;
+        }
+        code_str = code_str + messages[i].message.replace("</ajuda>", "").substring(-1);
+        if (code_str[0] === "\n") { code_str = code_str.substring(1); }
+        this.addMessage(this.monitor, code_str, "help", 'received');
       }
       // -----------------------------> SIMPLES <------------------------------
       else {

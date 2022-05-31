@@ -305,7 +305,7 @@ export class ResponderQuestaoProgramacao implements OnInit, AfterViewInit, OnCha
                       this.questao.testsCases.splice(3, 1);
                     }
                     let resposta = this.questao.solucao.codigo;
-                    let perguntaDados = [this.questao.ordem, this.questao.nomeCurto];
+                    let perguntaDados = [this.questao.ordem, this.questao.nomeCurto, this.questao.id];
                     this.chatbotService.sendMessage({ teste: casosTeste, resposta: [resposta, perguntaDados]});
                     // --------------------------------------------------------------
 
