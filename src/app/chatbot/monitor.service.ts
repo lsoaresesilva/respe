@@ -223,7 +223,7 @@ export class MonitorService {
       const errorQuotient = this.calcularErrorQuotient(submissoes);
       // Estabelecemos esse valor de 30% de error quotient arbitrariamente.
       // TODO: modificar o valor a partir dos dados de outros alunos. Identificar o % ideal que pode aumentar com o tempo.
-      if (errorQuotient > 0.3) {
+      if (errorQuotient > 0) {
         // Não é para pegar o principalErro, mas sim o mais recente.
         /* const erros = Submissao.getAllErros(submissoes);
         const frequencia = FrequenciaErro.calcularFrequencia(erros);
