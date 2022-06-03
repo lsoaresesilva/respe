@@ -90,14 +90,6 @@ export class ChatWidgetComponent implements OnInit {
   public msgCodeInfo = true;
   public conceptOrderQuestionsGive = false;
 
-  ngOnDestroy() {
-    this.messagesSub.unsubscribe();
-    this.helpSub.unsubscribe();
-    this.conceptSub.unsubscribe();
-    this.triggerSub.unsubscribe();
-  }
-
-
   // Controlar a mensagem de "novas mensagens"
   public checkViewedMens() {
     if (this.myScrollPosition.nativeElement.scrollHeight - this.myScrollPosition.nativeElement.scrollTop < this.myScrollPosition.nativeElement.offsetHeight + 10 || !this.controlNewMsg) {
@@ -566,4 +558,61 @@ export class ChatWidgetComponent implements OnInit {
       this.toggleChat()
     }
   }
+
+
+  ngOnDestroy() {
+    this.messagesSub.unsubscribe();
+    this.helpSub.unsubscribe();
+    this.conceptSub.unsubscribe();
+    this.triggerSub.unsubscribe();
+
+
+    this.counterSuggestionsOn = false;
+    this.messagesSub;
+    this.helpSub;
+    this.conceptSub;
+    this.triggerSub;
+    this.hasGivenSuggestions = false;
+    this.msgCodeInfo = true;
+    this.conceptOrderQuestionsGive = false;
+
+    this.visible_intro = true;
+    this.stopIntroMessage;
+    this._visible = false;
+    this.userName;
+    this.mainVisible = false;
+    this.closeWindow;
+    this.visibleCloseWindow = false;
+    this.messages = [];
+    this.controlNewMsg = false;
+    this.wholeConversation = [];
+    this.isFirstMessage = false; // !!!!!! Verificar utilidadde !!!!!!
+    this.monitor;
+    this.estudante;
+    this.isFirstMsg = true;
+    this.firstStore = true;
+    this.registroMensagem;
+    this.canAskExHelp = false;
+    this.timeOutSuggestions;
+    this.isConceptOrderDisabled = true;
+    this.isConceptSecond = false;
+    this.conceptsChosen = [];
+    this.deactivateBtnsIds = [];
+    this.isInitHelpMsg = true;
+    this.client;
+    this.currScrollPosition = 0;
+    this.newMsgWarningVisible = false;
+    this.chatbotService.mensagemTrigger = {};
+    this.chatbotService.questaoOrdem;
+    this.chatbotService.questaoId;
+    this.chatbotService.conceptsClicked = [];
+    this.chatbotService.buttonToEnable;
+    this.chatbotService.canAskHelp = false;
+    this.chatbotService.senderID;
+    this.chatbotService.currHelpInfo = "";
+    this.chatbotService.errorsHelped = [];
+    this.chatbotService.currErrorInfo = "";
+    clearTimeout(this.chatbotService.exercise_help);
+  }
+
 }
