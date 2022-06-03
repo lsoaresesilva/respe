@@ -34,6 +34,7 @@ export class ChatbotService {
   public currHelpInfo = "";
   public errorsHelped = [];
   public currErrorInfo = "";
+  public exercise_help;
 
   // Usado para desativar/ativar os botões de ordenação à medida que o aluno vai selecionando
   public chooseConcept(concept) {
@@ -52,7 +53,7 @@ export class ChatbotService {
   // Usada para informar o chatbot que o aluno já pode pedir ajuda sobre o ex (2 min)
   public enableStudentAskExHelp(message, messageCode) {
     this.sendMessage(messageCode);
-    setTimeout(() => {
+    this.exercise_help = setTimeout(() => {
       this.canAskHelp = true;
       this.sendMessage(message);
       this.helpActivate.emit();
