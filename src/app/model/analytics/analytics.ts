@@ -109,13 +109,19 @@ export default class Analytics {
           assuntos.forEach((assunto) => {
             consultasConclusao.push(Assunto.calcularProgresso(assunto, respostas));
           });
+
+          let percentualConclusao: any = 0;
+
+          consultasConclusao.forEach((percentual) => {
+            percentualConclusao += percentual;
+          });
+
+          observer.next(percentualConclusao / assuntos.length);
+          observer.complete();
         })
 
 
-        this.calcularPercentual(consultasConclusao, assuntos.length).subscribe((percentual) => {
-          observer.next(percentual);
-          observer.complete();
-        });
+
       } else {
         observer.next(0);
         observer.complete();

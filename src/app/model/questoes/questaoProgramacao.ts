@@ -140,7 +140,7 @@ export class QuestaoProgramacao implements MaterialAprendizagem{
     let testsCases = TestCase.construir(questaoDocument.testsCases);
     let solucao = ModeloRespostaQuestao.construir(questaoDocument.solucao);
 
-    let questao = new QuestaoProgramacao(questaoDocument.id, questaoDocument.nomeCurto, questaoDocument.enunciado, questaoDocument.dificuldade, questaoDocument.sequencia, assuntos, testsCases, questaoDocument.algoritmoInicial, solucao )
+    let questao = new QuestaoProgramacao(questaoDocument.id, questaoDocument.nomeCurto, questaoDocument.enunciado, questaoDocument.dificuldade, questaoDocument.ordem, assuntos, testsCases, questaoDocument.algoritmoInicial, solucao )
 
 
     return questao

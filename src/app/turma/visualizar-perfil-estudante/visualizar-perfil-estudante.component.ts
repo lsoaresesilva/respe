@@ -33,7 +33,9 @@ export class VisualizarPerfilEstudanteComponent implements OnInit {
   ngOnInit() {
     this.route.params.subscribe((params) => {
 
-      Assunto.consultarRespostasEstudante(new Usuario(params["id"], null, null, null, null, null)).subscribe(respostas=>{
+      this.estudante = new Usuario(params["id"], null, null, null, null, null)
+
+      Assunto.consultarRespostasEstudante(this.estudante).subscribe(respostas=>{
 
         Assunto.getAll().subscribe(assuntos=>{
           this.progressoGeral = Assunto.calcularProgressoGeral(assuntos, respostas);
@@ -58,7 +60,7 @@ export class VisualizarPerfilEstudanteComponent implements OnInit {
 
 
  */
-      Assunto.getAll(new Query('isAtivo', '==', true)).subscribe((assuntos) => {
+      /* Assunto.getAll(new Query('isAtivo', '==', true)).subscribe((assuntos) => {
         AutoInstrucao.getAll(new Query('estudanteId', '==', params['id'])).subscribe(
           (instrucoes) => {
             assuntos.forEach((assunto) => {
@@ -94,7 +96,7 @@ export class VisualizarPerfilEstudanteComponent implements OnInit {
             });
           }
         );
-      });
+      }); */
 
       this.planejamentos = [];
     });

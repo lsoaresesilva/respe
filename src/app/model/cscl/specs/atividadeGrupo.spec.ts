@@ -2,9 +2,7 @@ import { inject, TestBed } from "@angular/core/testing";
 import { AngularFireModule, FirebaseApp } from "@angular/fire";
 import { AngularFirestore, AngularFirestoreModule } from "@angular/fire/firestore";
 import { FirebaseConfiguracao } from "src/environments/firebase";
-import { Assunto } from "../../sistema-aprendizagem/assunto";
 import { DocumentModule } from "../../firestore/document.module";
-import { QuestaoProgramacao } from "../../sistema-aprendizagem/questoes/questaoProgramacao";
 import Usuario from "../../usuario";
 import AtividadeGrupo from "../atividadeGrupo";
 import QuestaoColaborativa from "../questaoColaborativa";
@@ -13,7 +11,7 @@ describe('Testes de AtividadeGrupo', () => {
 
     let app: firebase.app.App;
     let afs: AngularFirestore;
-  
+
     beforeAll(() => {
       jasmine.DEFAULT_TIMEOUT_INTERVAL = 1200000;
       TestBed.configureTestingModule({

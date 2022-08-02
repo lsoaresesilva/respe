@@ -2,7 +2,7 @@ import { Component, OnInit, Output, EventEmitter } from '@angular/core';
 import { MenuItem } from 'primeng/api';
 import SubSecao from 'src/app/model/livro/subsecao';
 import Query from 'src/app/model/firestore/query';
-import { Assunto } from 'src/app/model/sistema-aprendizagem/assunto';
+import { Assunto } from 'src/app/model/questoes/assunto';
 
 @Component({
   selector: 'app-menu-livro',

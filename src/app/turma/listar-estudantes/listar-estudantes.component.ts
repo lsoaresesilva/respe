@@ -6,6 +6,8 @@ import Usuario from 'src/app/model/usuario';
 import Turma from 'src/app/model/turma';
 import { Util } from 'src/app/model/util';
 import { ConhecimentoProgramacao } from 'src/app/model/enums/conhecimentoProgramacao';
+import Analytics from '../../model/analytics/analytics';
+import { Assunto } from '../../model/questoes/assunto';
 
 @Component({
   selector: 'app-listar-estudantes',
@@ -35,6 +37,13 @@ export class ListarEstudantesComponent implements OnInit {
 
         Turma.getAllEstudantes(params['codigoTurma']).subscribe((estudantes) => {
           this.estudantes$ = estudantes;
+          Assunto.getAll().subscribe(assuntos=>{
+            this.estudantes$.forEach(estudante => {
+              Analytics.calcularProgressoGeral(assuntos, estudante).subscribe(progresso=>{
+                estudante.progressoGeral = progresso;
+              })
+            });
+          })
 
           /*  */
         });
@@ -104,6 +113,8 @@ export class ListarEstudantesComponent implements OnInit {
       ]);
     }
   }
+
+
 
   exportarAnalytics() {
     if (this.turma != null && this.turma.codigo != null) {

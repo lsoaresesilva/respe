@@ -3,9 +3,10 @@ import { TestBed, inject } from '@angular/core/testing';
 import { DocumentModule } from '../firestore/document.module';
 import { AngularFireModule, FirebaseApp } from '@angular/fire';
 import { FirebaseConfiguracao } from 'src/environments/firebase';
-import { Assunto } from '../sistema-aprendizagem/assunto';
-import { QuestaoProgramacao } from '../sistema-aprendizagem/questoes/questaoProgramacao';
 import { AutoInstrucao } from '../srl/autoInstrucao';
+import { Assunto } from '../questoes/assunto';
+import { QuestaoProgramacao } from '../questoes/questaoProgramacao';
+import { ModeloRespostaQuestao } from '../questoes/modeloRespostaQuestao';
 
 describe('Testes de Auto instrução', () => {
   let app: firebase.app.App;
@@ -49,10 +50,10 @@ describe('Testes de Auto instrução', () => {
     let ac: Assunto = new Assunto(null, 'Condições');
     let af: Assunto = new Assunto(null, 'Funções');
     let ar: Assunto = new Assunto(null, 'Repetições');
-    let q: QuestaoProgramacao = new QuestaoProgramacao(null, '', '', null, '', [ac, af], null, null, null);
+    let q: QuestaoProgramacao = new QuestaoProgramacao(null, '', '', 1, '', [ac, af], [], null, new ModeloRespostaQuestao(null, [], false));
     ar.questoesProgramacao.push(q);
     let autoinstrucao1: AutoInstrucao = new AutoInstrucao(null, null, q, '', '', '', '', '', '');
-    expect(autoinstrucao1.validar(ar)).toBeFalse();
+    expect(autoinstrucao1.validar(ar)).toBeFalsy();
     let autoinstrucao2: AutoInstrucao = new AutoInstrucao(
       null,
       null,
@@ -64,9 +65,9 @@ describe('Testes de Auto instrução', () => {
       'e',
       'f'
     );
-    expect(autoinstrucao2.validar(ar)).toBeTrue();
+    expect(autoinstrucao2.validar(ar)).toBeTruthy();
 
-    let q2: QuestaoProgramacao = new QuestaoProgramacao(null, '', '', null, '', [ac], null, null, null);
+    let q2: QuestaoProgramacao = new QuestaoProgramacao(null, '', '', 1, '', [ac, af], [], null, new ModeloRespostaQuestao(null, [], false));
     ar.questoesProgramacao.push(q2);
 
     let autoinstrucao3: AutoInstrucao = new AutoInstrucao(
@@ -80,7 +81,7 @@ describe('Testes de Auto instrução', () => {
       '',
       ''
     );
-    expect(autoinstrucao3.validar(ar)).toBeTrue();
+    expect(autoinstrucao3.validar(ar)).toBeTruthy();
 
     let autoinstrucao4: AutoInstrucao = new AutoInstrucao(
       null,

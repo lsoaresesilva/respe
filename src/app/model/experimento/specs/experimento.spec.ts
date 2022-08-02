@@ -11,10 +11,48 @@ import Submissao from '../../submissao';
 import AnalyticsProgramacao from '../../analytics/analyticsProgramacao';
 import AtividadeGrupo from '../../cscl/atividadeGrupo';
 import { Util } from '../../util';
-import Export from '../export';
+
 import PageTrackRecord from '../../analytics/pageTrack';
 import Grafo from '../../modelagem/grafo';
 import { Assunto } from '../../questoes/assunto';
+import Export from '../export';
+
+const estudantesIgnorados = [
+  'B3Xgj4IGEOQvjLKoTHI9',
+  'JJ8zNeRZBDr4qTElmYJk',
+  'xRSUKvyNAYV8Cmvn639q',
+  'LYx978JlOUowgMgR7gq0',
+  'BmIqbIXvbFLx0D4rqdvo',
+  '1flzSjZxDqi7QmmoMRqG',
+  'gxDZLmDyYSRoPOw1DkCJ',
+  'mb7t9FEckyI2YEFHd8eH',
+  'GvyxgiQu8w2UsUzeCZSV',
+
+];
+
+const estudantesGrupo1 = [
+  '0tXcE0JVbzGME4825VQp',
+  '1flzSjZxDqi7QmmoMRqG',
+  '3Bwxn6PXZXHcTVxmszxR',
+  '5tw4w2xUn8YHBwzzN7go',
+  '7djJPWQ14hNLNM5rWyKG',
+  'AClTuaxkU4QBNNYiFtjS',
+  'Eyn9kNCBC0zgcXi1ZloQ',
+  'KCWXxsAXPj0jIby8yShA',
+  'KuLmIQqoO2GHEW3luHFm',
+  'WX7vsrbbLyo6kTAa02j1',
+  'Z2Id4vvBxRVB6xX7tBnu',
+  'fDELm9NgGHeDyGMNDdxq',
+  'mgrXUORVlo9woOIRqDrN',
+  'miT2WXUYWMPTg7WBy5BY',
+  'pqMtkIteoPd7ifSnhTL8',
+  'qIwjgwELLkCzT2K5YaJr',
+  'sKAIsfb52vrEVIq6AWUY',
+  'tVCnwCcm3laQQ3KEQcuh',
+  'thlkAsdAb01cWTe88wmq',
+  'zwCRM7eJnA5OzcJnj5j4',
+];
+
 
 describe('Testes para process mining', () => {
   let estudantesGrupo3 = [
@@ -43,6 +81,7 @@ describe('Testes para process mining', () => {
     'hESX6uYwfdfI8fdC0MLK',
     'il4Zx5lpyPacSFo7c9Bz',
     'j4pgzs4DpvDtVGZZKC24',
+    '0x7ADeL2wiqASd3Hh4zz',
     'kaprL0AVdVbHVZBCGhbn',
     'vHW4tDiQ9IeKYQawCgfC',
     'vsDMwOOR05sbVQo2eVLt',
@@ -50,30 +89,16 @@ describe('Testes para process mining', () => {
     'x8kO6wUbv70VQVWrvd1U',
     'y5xsnvOkv4N0E7yXTPel',
     'zIatf4iwesH8hfLxmSnT',
+    'C237gqDQZQlw3snj96JY',
+    'bEsUIFQvM7fpGdUDAMOc',
+    'bT0HYGprp7qG1tjuw502',
+    'cc0dI1GyKeCdXB3jbDxa',
+    'dk0lN6fFL1mTAXdHQr1o',
+    'o1H9L7DEb1IPBEX0pLpW'
+
   ];
 
-  let estudantesGrupo1 = [
-    '0tXcE0JVbzGME4825VQp',
-    '1flzSjZxDqi7QmmoMRqG',
-    '3Bwxn6PXZXHcTVxmszxR',
-    '5tw4w2xUn8YHBwzzN7go',
-    '7djJPWQ14hNLNM5rWyKG',
-    'AClTuaxkU4QBNNYiFtjS',
-    'Eyn9kNCBC0zgcXi1ZloQ',
-    'KCWXxsAXPj0jIby8yShA',
-    'KuLmIQqoO2GHEW3luHFm',
-    'WX7vsrbbLyo6kTAa02j1',
-    'Z2Id4vvBxRVB6xX7tBnu',
-    'fDELm9NgGHeDyGMNDdxq',
-    'mgrXUORVlo9woOIRqDrN',
-    'miT2WXUYWMPTg7WBy5BY',
-    'pqMtkIteoPd7ifSnhTL8',
-    'qIwjgwELLkCzT2K5YaJr',
-    'sKAIsfb52vrEVIq6AWUY',
-    'tVCnwCcm3laQQ3KEQcuh',
-    'thlkAsdAb01cWTe88wmq',
-    'zwCRM7eJnA5OzcJnj5j4',
-  ];
+
 
   let estudantesGrupo2 = [
     '139MdLNtSKa62Ip83e76',
@@ -151,15 +176,18 @@ describe('Testes para process mining', () => {
     })();
   });
 
-  it("Deve gerar dados dos alunos", (done)=>{
-
+  it("Deve carregar usuários que não devem ter os dados coletados para análise de pagetrack", (done)=>{
+    Export.getUsuariosExcluidos().subscribe(usuarios=>{
+      console.log(usuarios);
+      done();
+    })
   })
 
-  xit('Deve carregar os pagetracks', () => {
-    Export.getPageTracks().subscribe((pageTracks) => {
-      //console.log(pageTracks);
-    });
-  });
+  xit("Deve gerar dados dos alunos", (done)=>{
+    done();
+  })
+
+
 
   xit('Deve gerar uma matriz de transição', () => {
     let pTrack: PageTrackRecord[] = [];
@@ -289,7 +317,7 @@ describe('Testes para process mining', () => {
     });
   });
 
-  it("Deve exportar as submissões", (done)=>{
+  xit("Deve exportar as submissões", (done)=>{
     /* Export.submissoes().subscribe(submissoes=>{
       console.log(submissoes);
       done();
@@ -310,14 +338,7 @@ describe('Testes para process mining', () => {
 
   xit('Deve gerar métricas para análise dos algoritmos', () => {
     function ignorarEstudantes(estudanteId) {
-      let estudantesIgnorados = [
-        'B3Xgj4IGEOQvjLKoTHI9',
-        'JJ8zNeRZBDr4qTElmYJk',
-        'xRSUKvyNAYV8Cmvn639q',
-        'LYx978JlOUowgMgR7gq0',
-        'BmIqbIXvbFLx0D4rqdvo',
-        '1flzSjZxDqi7QmmoMRqG',
-      ];
+
 
       if (estudantesIgnorados.includes(estudanteId)) {
         return true;

@@ -8,12 +8,12 @@ import { AngularFireModule, FirebaseApp } from '@angular/fire';
 
 import { FirebaseConfiguracao } from 'src/environments/firebase';
 import Submissao from '../submissao';
-import { QuestaoProgramacao } from '../sistema-aprendizagem/questoes/questaoProgramacao';
 import { forkJoin } from 'rxjs';
 import Usuario from '../usuario';
 import TestCase from '../testCase';
 import ResultadoTestCase from '../resultadoTestCase';
 import { firestore } from 'firebase/app';
+import { QuestaoProgramacao } from '../questoes/questaoProgramacao';
 
 describe('Testes de Submissão', () => {
   let app: firebase.app.App;

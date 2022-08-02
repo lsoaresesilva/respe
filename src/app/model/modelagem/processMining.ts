@@ -1,33 +1,32 @@
-import { PageTrack } from "src/app/guards/pageTrack.guard";
-import { EventosProgramacao } from "../analytics/enum/eventosProgramacao";
+
 import PageTrackRecord from "../analytics/pageTrack";
 import { ErroCompilacao } from "../errors/analise-compilacao/erroCompilacao";
 import ErroCompilacaoFactory from "../errors/analise-compilacao/erroCompilacaoFactory";
-import { QuestaoProgramacao } from "../sistema-aprendizagem/questoes/questaoProgramacao";
+import { QuestaoProgramacao } from "../questoes/questaoProgramacao";
 import Submissao from "../submissao";
 import Usuario from "../usuario";
 
-/* 
+/*
         1. Agrupar submissões por questão
         2. Ordenar submissões
-        3. Pegar a submissão 
+        3. Pegar a submissão
             3a. Possui erro de sintaxe? Classificar como (CES)
                 Sim:
                     3aa. Existem submissões a seguir?
                         3aaa. Sim:
-                            3.aaaa. Próxima submissão resultou em correção do problema? 
+                            3.aaaa. Próxima submissão resultou em correção do problema?
                                 3.aaaa. Sim: (para erro de sintaxe verificar o atributo erro, para erro lógico verificar se os testes cases foram concluídos)
                                     Classificar como (CC)
                                         Ir ára 3a. "Possui erro Sintaxe?"
-                                3.aaab. Não: 
-                                    3.aaaba. É o mesmo erro? 
+                                3.aaab. Não:
+                                    3.aaaba. É o mesmo erro?
                                         3. aaabaa. Sim: Classificar como (CME)
                                         3. aaabab. Não: COE
                         3aab. Não:
                             Classificar como (D)
                         3aab. Não existem mais submissões? Classificar como (D)
             3b. 	Não :
-                3ba. Concluiu a questão? 
+                3ba. Concluiu a questão?
                     Sim: Classificar como (CF)
                     Não: Classificar como (CEL)
                         Ir para "Existem submissões a seguir?"
@@ -50,7 +49,7 @@ export default class ProcessMining{
                     paginas.push(pageTrack);
                 }
             }
-            
+
         })
 
         return paginas;
@@ -70,7 +69,7 @@ export default class ProcessMining{
                 if(!this._excluirRuidoPageTrack(pTrack)){
                     eventos.push(this.criarEvento(pTrack.estudante, pTrack.pagina, pTrack.data, questao))
                 }
-                
+
             })
         }
     }
@@ -86,7 +85,7 @@ export default class ProcessMining{
         // A diferença de tempo é grande. Significa que é uma submissão de outro momento
         if(submissaoSeguinte != null){
             diferencaTempo = (submissaoSeguinte.data.getTime() - submissaoAtual.data.getTime()) / 1000;
-         
+
         }
 
         let pageTracksEntreSubmissoes = [];
@@ -94,11 +93,11 @@ export default class ProcessMining{
             pageTracksEntreSubmissoes = this.extrairPageTracksIntervaloDate(submissaoAtual, submissaoSeguinte, pageTracks);
             let x = pageTracksEntreSubmissoes;
         }
-        
-        
+
+
         if(diferencaTempo < 300)
             pageTracksEntreSubmissoes = this.extrairPageTracksIntervaloDate(submissaoAtual, submissaoSeguinte, pageTracks);
-        
+
         /* if(submissaoAtual.hasErroSintaxe()){
             if(submissaoAnterior == null){
                 eventos.push(this.criarEvento(submissaoAtual.estudante, EventosProgramacao.codigo_erro_sintaxe, submissaoAtual.data, submissaoAtual.questao));
@@ -118,19 +117,19 @@ export default class ProcessMining{
                         this._criarEventosPageTrack(pageTracksEntreSubmissoes, eventos, submissaoAtual.questao);
                     }
 
-                    
+
                 }else{
                     //eventos.push({case:submissaoAtual.estudante.pk(), action:EventosProgramacao.codigo_erro_sintaxe, datetime:submissaoAtual.data});
                     eventos.push(this.criarEvento(submissaoAtual.estudante, EventosProgramacao.codigo_erro_sintaxe, submissaoAtual.data, submissaoAtual.questao))
                     this._criarEventosPageTrack(pageTracksEntreSubmissoes, eventos, submissaoAtual.questao);
                 }
-                
+
             }
-            
+
             if(submissaoSeguinte != null){
                 this._criarEventosPageTrack(pageTracksEntreSubmissoes, eventos, submissaoAtual.questao);
                 eventos = eventos.concat(this._identificarEventos(posicao+1, submissoes, pageTracks));
-                
+
             }else{
                 //eventos.push({case:submissaoAtual.estudante.pk(), action:EventosProgramacao.desistencia, datetime:submissaoAtual.data})
                 eventos.push(this.criarEvento(submissaoAtual.estudante, EventosProgramacao.desistencia, submissaoAtual.data, submissaoAtual.questao));
@@ -146,11 +145,11 @@ export default class ProcessMining{
                 eventos.push(this.criarEvento(submissaoAtual.estudante, EventosProgramacao.codigo_erro_logico_continuacao, submissaoAtual.data, submissaoAtual.questao))
                 this._criarEventosPageTrack(pageTracksEntreSubmissoes, eventos, submissaoAtual.questao);
             }
-            
+
             if(submissaoSeguinte != null){
                 this._criarEventosPageTrack(pageTracksEntreSubmissoes, eventos, submissaoAtual.questao);
                 eventos = eventos.concat(this._identificarEventos(posicao+1, submissoes, pageTracks));
-                
+
             }else{
                 //eventos.push({case:submissaoAtual.estudante.pk(), action:EventosProgramacao.desistencia, datetime:submissaoAtual.data})
                 eventos.push(this.criarEvento(submissaoAtual.estudante, EventosProgramacao.desistencia, submissaoAtual.data, submissaoAtual.questao));
@@ -165,7 +164,7 @@ export default class ProcessMining{
                 eventos.push(this.criarEvento(submissaoAtual.estudante, EventosProgramacao.codigo_finalizado, submissaoAtual.data, submissaoAtual.questao));
                 this._criarEventosPageTrack(pageTracksEntreSubmissoes, eventos, submissaoAtual.questao);
             }
-            
+
         } */
 
 

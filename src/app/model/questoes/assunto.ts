@@ -18,6 +18,8 @@ import { QuestaoProgramacaoRegex } from './questaoProgramacaoRegex';
 import VideoProgramacao from '../sistema-aprendizagem/videoProgramacao';
 import { VisualizacaoRespostasQuestoes } from './visualizacaoRespostasQuestoes';
 import Texto from "../sistema-aprendizagem/texto";
+import RespostaQuestaoCorrecaoAlgoritmo from "../correcao-algoritmo/correcaoAlgoritmo";
+import { RespostaQuestaoParson } from "../juiz/respostaQuestaoParson";
 
 
 @Collection('assuntos')
@@ -321,12 +323,12 @@ export class Assunto extends Document {
       query.respostaQuestaoFechada = RespostaQuestaoFechada.getAll(
         new Query('estudanteId', '==', estudante.pk())
       );
-      /* query.resposaQuestaoParson = RespostaQuestaoParson.getAll(
+       query.resposaQuestaoParson = RespostaQuestaoParson.getAll(
         new Query('estudanteId', '==', estudante.pk())
       );
       query.respostaQuestaoCorrecao = RespostaQuestaoCorrecaoAlgoritmo.getAll(
         new Query('estudanteId', '==', estudante.pk())
-      ); */
+      );
 
       query.visualizacoesRespostasProgramacao = VisualizacaoRespostasQuestoes.getAll(new Query("estudanteId", "==", estudante.pk()));
 
@@ -375,7 +377,7 @@ export class Assunto extends Document {
       respostas.respostaQuestaoFechada
     );
 
-    /* percentualConclusao += this.calcularPercentualConclusaoQuestoesParson(
+    percentualConclusao += this.calcularPercentualConclusaoQuestoesParson(
       assunto,
       respostas.resposaQuestaoParson
     );
@@ -383,7 +385,7 @@ export class Assunto extends Document {
       assunto,
       respostas.respostaQuestaoCorrecao
     );
- */
+
     percentualConclusao += this.calcularPercentualConclusaoQuestoesProgramacao(
       assunto,
       Submissao.agruparPorQuestao(respostas.submissoes),
@@ -393,7 +395,7 @@ export class Assunto extends Document {
 
 
 
-    return (percentualConclusao * 100)/2; // Divide por dois, pois as questões parson e correção estavam com problema.
+    return (percentualConclusao * 100)/4; // Divide por dois, pois as questões parson e correção estavam com problema.
   }
 
   static calcularProgressoGeral(assuntos: Assunto[], respostas) {

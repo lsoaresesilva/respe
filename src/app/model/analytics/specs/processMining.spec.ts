@@ -8,16 +8,16 @@ import submissoesEstudantes from '../../../../../json/submissoes_09abr.json';
 import pageTracksEstudantes from '../../../../../json/pageTracks.json';
 import Submissao from "../../submissao";
 import Usuario from "../../usuario";
-import { QuestaoProgramacao } from "../../sistema-aprendizagem/questoes/questaoProgramacao";
 import PageTrackRecord from "../pageTrack";
 import { Util } from "../../util";
 import ResultadoTestCase from "../../resultadoTestCase";
 import ProcessMining from "../../modelagem/processMining";
+import { QuestaoProgramacao } from "../../questoes/questaoProgramacao";
 
 describe('Testes para process mining', () => {
     let app: firebase.app.App;
     let afs: AngularFirestore;
-  
+
     beforeAll(() => {
       jasmine.DEFAULT_TIMEOUT_INTERVAL = 1200000;
       TestBed.configureTestingModule({
@@ -87,7 +87,7 @@ describe('Testes para process mining', () => {
 
                 //submissoesEstudante.push(s);
               }
-            
+
         });
 
         let pTrackJson = [];
@@ -106,7 +106,7 @@ describe('Testes para process mining', () => {
                 pTracksEstudantes.get(p["estudante"]).push(pageTrack)
                 /* p["data"] = Util.firestoreDateToDate(p["data"]) as any;
                 pTrackJson.push(p); */
-            } 
+            }
         });
 
         pTrackJson.sort((p1, p2)=>{
@@ -122,13 +122,13 @@ describe('Testes para process mining', () => {
 
         sEstudantes.forEach((subs, estudanteId)=>{
           let submissoesAgrupadas = Submissao.agruparPorQuestao(subs);
-          
+
           submissoesAgrupadas.forEach((subQuest, questaoId)=>{
             let submissoesQuestaoEstudante = [];
             subQuest.forEach(s=>{
               /* let submissao = new Submissao(null, s.codigo, new Usuario(s["estudante"], null, null, null, null, null), null, new QuestaoProgramacao(s.questaoId, null, null, null, null, null, null, null, null));
               submissao.erro = s.erro; */
-              
+
               submissoesQuestaoEstudante.push(s);
             })
 
@@ -143,10 +143,10 @@ describe('Testes para process mining', () => {
             })
             eventos = eventos.concat(ProcessMining.identificarEventos(submissoesQuestaoEstudante, pTracksEstudantes.get(estudanteId)));
           })
-          
+
         });
 
-        
+
         //let submissoesQuestao = submissoesAgrupadas.get("c4e98001-f1fb-4de3-979e-55718edb92d2");
         console.log(JSON.stringify(eventos));
     })

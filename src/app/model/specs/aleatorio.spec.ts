@@ -2,12 +2,11 @@ import { TestBed, inject } from "@angular/core/testing";
 import { AngularFireModule, FirebaseApp } from "@angular/fire";
 import { AngularFirestore, AngularFirestoreModule } from "@angular/fire/firestore";
 import { forkJoin, Observable } from "rxjs";
-import { FirebaseConfiguracao } from "src/environments/firebase";
-import { Assunto } from "../sistema-aprendizagem/assunto";
+import { FirebaseConfiguracao } from 'src/environments/firebase';
 import AtividadeGrupo from "../cscl/atividadeGrupo";
 import { DocumentModule } from "../firestore/document.module";
 import Query from "../firestore/query";
-import { QuestaoProgramacao } from "../sistema-aprendizagem/questoes/questaoProgramacao";
+import { Assunto } from "../questoes/assunto";
 import Submissao from "../submissao";
 import Usuario from "../usuario";
 import { Util } from "../util";
@@ -19,8 +18,8 @@ function isFinalizada(questao, estudanteId, dataEncerramento){
                 submissao.data = Util.firestoreDateToDate(submissao.data);
                 return submissao;
             })
-            
-            
+
+
 
             let submissoesFiltradas = submissoes.filter(submissao=>{
                 if(submissao.data.getDate() > dataEncerramento.getDate()){
@@ -31,7 +30,7 @@ function isFinalizada(questao, estudanteId, dataEncerramento){
             })
 
             submissoesFiltradas.sort((s1, s2)=>{
-               
+
                 if(s1.data < s2.data){
                     return 1;
                 }else if(s2.data < s1.data){
@@ -44,7 +43,7 @@ function isFinalizada(questao, estudanteId, dataEncerramento){
             let submissoesTambemForaPrazo = submissoes;
 
             submissoesTambemForaPrazo.sort((s1, s2)=>{
-               
+
                 if(s1.data < s2.data){
                     return 1;
                 }else if(s2.data < s1.data){
@@ -54,7 +53,7 @@ function isFinalizada(questao, estudanteId, dataEncerramento){
                 }
             });
 
-            
+
 
             let finalizada = questao.questao.isFinalizada(submissoesFiltradas[0], 0.85)
             let finalizadaForaPrazo = questao.questao.isFinalizada(submissoesTambemForaPrazo[0], 0.85)
@@ -68,7 +67,7 @@ function isFinalizada(questao, estudanteId, dataEncerramento){
 describe('Testes de questão', () => {
     let app: firebase.app.App;
     let afs: AngularFirestore;
-  
+
     beforeAll(() => {
       jasmine.DEFAULT_TIMEOUT_INTERVAL = 1200000;
       TestBed.configureTestingModule({
@@ -84,16 +83,16 @@ describe('Testes de questão', () => {
       })();
     });
 
-    
+
 
     it("Deve pegar o status de realização uma atividade em grupo", (done)=>{
         Assunto.get("hxPUrDutCr9KNR9zGLr8").subscribe(assunto=>{
 
             // Forca
             let questao = assunto.getQuestaoColaborativaById("20019e88-2ba0-4bf5-83ae-08dce48a68af");
-            
+
             AtividadeGrupo.get("yHWBuTe0IwFLmqfhYlnm").subscribe(atividadeGrupo=>{
-                
+
                 let grupos = new Map();
                 atividadeGrupo.grupos.forEach(grupo => {
                     let consultas = [];
@@ -101,26 +100,26 @@ describe('Testes de questão', () => {
                     grupo.estudantes.forEach(estudante=>{
                         consultas.push(isFinalizada(questao, estudante, Util.firestoreDateToDate(atividadeGrupo.data)))
                     })
-                    
-        
+
+
                     forkJoin(consultas).subscribe(resultados=>{
-                        console.log("Grupo: "+grupo.id+" Estudantes: "+grupo.estudantes); 
+                        console.log("Grupo: "+grupo.id+" Estudantes: "+grupo.estudantes);
                         console.log(JSON.stringify(resultados));
                         //grupos.set(grupo.id, resultados)
                     });
-                    
+
                 });
             })
 
-            
 
-            
-            
-            
 
-            
-    
-           
+
+
+
+
+
+
+
             //
             /* QuestaoProgramacao.isFinalizada(questao.questao, new Usuario("ZE3AZqq9KN6uTjQAw8LS", null, null, null, null, null)).subscribe(resposta=>{
                 let x = resposta;
@@ -139,7 +138,7 @@ describe('Testes de questão', () => {
                 }
             }) */
 
-            
+
 
         /*     QuestaoProgramacao.isFinalizada()
 

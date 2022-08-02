@@ -1,4 +1,4 @@
-import QuestaoFechada from '../sistema-aprendizagem/questoes/questaoFechada';
+import QuestaoFechada from "../questoes/questaoFechada";
 
 describe('Testes de questão fechada', () => {
   let questao = new QuestaoFechada(
@@ -8,7 +8,8 @@ describe('Testes de questão fechada', () => {
     1,
     1,
     null,
-    ''
+    '',
+    null, null
   );
 
   it('Deve retornar o texto de uma questão que contém código de programação', () => {
@@ -38,7 +39,9 @@ describe('Testes de questão fechada', () => {
       1,
       1,
       null,
-      ''
+      '',
+      null,
+      null
     );
     let resultado = questaoSemCodigo.possuiCodigoNoEnunciado();
     expect(resultado).toBeFalsy();

@@ -11,15 +11,15 @@ import assuntosJson from '../../../../../json/assuntos.json';
 import estudantesJson from '../../../../../json/estudantes.json';
 import PageTrackRecord from "../pageTrack";
 import Submissao from "../../submissao";
-import { Assunto } from "../../sistema-aprendizagem/assunto";
-import Usuario from "../../usuario";
 import EstatisticaPageTrack from "../../modelagem/estatisticaPageTrack";
+import Usuario from "../../usuario";
+import { Assunto } from "../../questoes/assunto";
 
 describe('Testes para a classe de EstatisticaPageTrack', () => {
 
     let app: firebase.app.App;
     let afs: AngularFirestore;
-  
+
     beforeAll(() => {
       jasmine.DEFAULT_TIMEOUT_INTERVAL = 1200000;
       TestBed.configureTestingModule({
@@ -35,8 +35,8 @@ describe('Testes para a classe de EstatisticaPageTrack', () => {
       })();
     });
 
-    
- 
+
+
 
   it("Deve retornar os erros das submissões de um estudante", ()=>{
 
@@ -61,13 +61,13 @@ describe('Testes para a classe de EstatisticaPageTrack', () => {
                     pageTracksAgrupados[track.estudante.pk()] = [];
                 }
 
-                
+
                 pageTracksAgrupados[track.estudante.pk()].push(track);
                 break;
             }
         }
     })
-   
+
     let sMissoes:Submissao[] = [];
     submissoes["submissoes"].forEach(s=>{
         sMissoes.push(Submissao.fromJson(s));
@@ -99,6 +99,6 @@ describe('Testes para a classe de EstatisticaPageTrack', () => {
     let registrosPageTracks = EstatisticaPageTrack.gerarDadosPageTrack(pageTracksAgrupados, assuntos, submissoesAgrupadas);
     console.log(JSON.stringify(registrosPageTracks));
 
-    }) 
+    })
 
 });
