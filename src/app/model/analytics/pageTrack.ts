@@ -34,7 +34,7 @@ export default class PageTrackRecord extends Document {
     return super.getAll(query, orderBy);
   }
 
-  
+
   static getAllByEstudantes(estudantes:Usuario[], merge = true, type="array"):Observable<any>{
     return new Observable(observer=>{
       let consultas;
@@ -51,19 +51,19 @@ export default class PageTrackRecord extends Document {
           }else{
             consultas[estudante.pk()] = PageTrackRecord.getAll(new Query('estudanteId', '==', estudante.pk()));
           }
-          
+
         })
       }
 
-      let arrayDivididoPrimeiraParte = consultas.slice(0, 10)
+      let arrayDivididoPrimeiraParte = consultas.slice(0, 5)
 
-      let arrayDivididoSegundaParte = consultas.slice(10, 20)
+      let arrayDivididoSegundaParte = consultas.slice(5, 15)
 
-      let arrayDivididoTerceiraParte = consultas.slice(20, 30)
+      let arrayDivididoTerceiraParte = consultas.slice(15, 20)
 
-      let arrayDivididoQuartaParte = consultas.slice(30, 40)
+      let arrayDivididoQuartaParte = consultas.slice(20, 25)
 
-      let arrayDivididoQuintaParte = consultas.slice(40)
+      let arrayDivididoQuintaParte = consultas.slice(25)
 
       forkJoin(arrayDivididoPrimeiraParte).subscribe(pageTracksPrimeiro=>{
 
@@ -91,30 +91,30 @@ export default class PageTrackRecord extends Document {
                 });
               });
 
-               
 
-            
+
+
           });
 
         });
 
-        
-        
-        
-        
-        
+
+
+
+
+
       });
     })
 
-    
-    
+
+
   }
 
   toJson(){
     return {id:this.id, pagina:this.pagina, estudante:this["estudanteId"], data:Util.firestoreDateToDate(this.data)};
   }
 
-  
+
 
   static agruparPorSemana(pageTracks:PageTrackRecord[]){
     function getWeekNumber(date){
@@ -122,7 +122,7 @@ export default class PageTrackRecord extends Document {
       let millisecsInDay = 86400000;
       return Math.ceil((((date - onejan) /millisecsInDay) + onejan.getDay()+1)/7);
 
-      
+
     };
 
     let mapaSemanas = new Map<number, Map<string, number>>();
@@ -138,7 +138,7 @@ export default class PageTrackRecord extends Document {
       let totalVisualizacoes = mapaSemana.get(pTrack.pagina);
       if(totalVisualizacoes == null){
         mapaSemana.set(pTrack.pagina, 0);
-      }  
+      }
 
       totalVisualizacoes = mapaSemana.get(pTrack.pagina);
       mapaSemana.set(pTrack.pagina, totalVisualizacoes+1);
@@ -152,7 +152,7 @@ export default class PageTrackRecord extends Document {
     let track = new PageTrackRecord(pageTrackJson.id, pageTrackJson.pagina, Usuario.fromJson({id:pageTrackJson.estudante}));
     /* track.data = Util.firestoreDateToDate(pageTrackJson.data); */
     //track.data = new firebase.firestore.Timestamp(pageTrackJson.data.seconds, pageTrackJson.data.nanoseconds);
-    
+
     track.data = new Date(pageTrackJson.data);
     return track;
   }

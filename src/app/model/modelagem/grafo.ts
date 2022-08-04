@@ -80,7 +80,7 @@ export default class Grafo {
             prosseguir = false;
           }
         }else if(source == "editor"){
-          if(target.pagina == "index" || target.pagina == "visualizacao-assunto" || target.pagina == "visualizar-assunto"){
+          if(target.pagina == "index" || target.pagina == "visualizacao-assunto" || target.pagina == "visualizar-assunto" || target.pagina == "editor"){
             prosseguir = false;
           }
         }else if(source == "visualizacao-questao-fechada"){
@@ -109,6 +109,8 @@ export default class Grafo {
           if( target.pagina == "index"){
             prosseguir = false;
           }
+        }else if(source == "cadastro-planejamento" || target.pagina == "cadastro-planejamento"){
+          prosseguir = false;
         }
 
         if(prosseguir){
