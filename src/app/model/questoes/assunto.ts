@@ -381,10 +381,11 @@ export class Assunto extends Document {
       assunto,
       respostas.resposaQuestaoParson
     );
-    percentualConclusao += this.calcularPercentualConclusaoQuestoesCorrecao(
+
+    /* percentualConclusao += this.calcularPercentualConclusaoQuestoesCorrecao(
       assunto,
       respostas.respostaQuestaoCorrecao
-    );
+    ); */
 
     percentualConclusao += this.calcularPercentualConclusaoQuestoesProgramacao(
       assunto,
@@ -395,7 +396,7 @@ export class Assunto extends Document {
 
 
 
-    return (percentualConclusao * 100)/4; // Divide por dois, pois as questões parson e correção estavam com problema.
+    return (percentualConclusao * 100)/3; // Divide por dois, pois as questões parson e correção estavam com problema.
   }
 
   static calcularProgressoGeral(assuntos: Assunto[], respostas) {

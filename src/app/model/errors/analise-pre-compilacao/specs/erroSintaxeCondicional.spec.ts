@@ -7,7 +7,7 @@ import { FirebaseConfiguracao } from 'src/environments/firebase';
 import ErroSintaxeCondicional from '../erroSintaxeCondiconal';
 
 import SyntaxError from '../../analise-compilacao/syntaxError';
-import submissoesEstudantes from '../../../../../../json/submissoes_09abr.json';
+import submissoesEstudantes from '../../../../../../json/submissoes_27_jan_v2.json';
 import ErroCompilacaoFactory from '../../analise-compilacao/erroCompilacaoFactory';
 import NameError from '../../analise-compilacao/nameError';
 import ErroSintaxeVariavel from '../erroSintaxeVariavel';
@@ -64,7 +64,7 @@ describe('Testes para identificar erros de sintaxe em condições', () => {
     expect(ErroSintaxe.apenasUmaComparacao(linhasCodigo[8])).toBeFalsy();
   });
 
-  
+
 
   xit('Deve identificar condições que foram comparadas com apenas uma =', () => {
     let algoritmo =
@@ -156,7 +156,7 @@ describe('Testes para identificar erros de sintaxe em condições', () => {
           let categoria = ErroCompilacaoFactory.construir(s['erro']['traceback']);
           if (categoria instanceof SyntaxError) {
             if (erros.length == 0) {
-                
+
                 falsoNegativo.push(s);
             }
           }

@@ -7,7 +7,7 @@ import { FirebaseConfiguracao } from 'src/environments/firebase';
 import ErroSintaxeCondicional from '../erroSintaxeCondiconal';
 
 import SyntaxError from '../../analise-compilacao/syntaxError';
-import submissoesEstudantes from '../../../../../../json/submissoes_09abr.json';
+import submissoesEstudantes from '../../../../../../json/submissoes_27_jan_v2.json';
 import ErroCompilacaoFactory from '../../analise-compilacao/erroCompilacaoFactory';
 import NameError from '../../analise-compilacao/nameError';
 import ErroSintaxeVariavel from '../erroSintaxeVariavel';
@@ -65,7 +65,7 @@ describe('Testes para identificar erros de sintaxe em repetições', () => {
     expect(ErroSintaxe.apenasUmaComparacao(linhasCodigo[8])).toBeFalsy();
   });
 
-  
+
 
   it('Deve identificar condições que foram comparadas com apenas uma =', () => {
     let algoritmo =
@@ -138,10 +138,10 @@ describe('Testes para identificar erros de sintaxe em repetições', () => {
           (s['erro']['traceback'].search('for') != -1 ||
           s['erro']['traceback'].search('while') != -1) && s['erro']['traceback'].search('while parsing') == -1
         ) {
-          
+
           let categoria = ErroCompilacaoFactory.construir(s['erro']['traceback']);
           if (categoria instanceof SyntaxError) {
-            
+
             let erros = ErroSintaxeRepeticao.erros(
               new Submissao(null, s['codigo'], null, null, null)
             );
@@ -150,7 +150,7 @@ describe('Testes para identificar erros de sintaxe em repetições', () => {
                 console.log(s["erro"])
                 falsoNegativo.push(s);
             }
-            
+
           }
         }
       }

@@ -114,7 +114,35 @@ export default class PageTrackRecord extends Document {
     return {id:this.id, pagina:this.pagina, estudante:this["estudanteId"], data:Util.firestoreDateToDate(this.data)};
   }
 
+  static agruparPorEstudante(pageTracks:PageTrackRecord[]){
+    const pageTracksAgrupados = new Map<string, any>();
+    pageTracks.forEach((pageTrack) => {
+      if (pageTracksAgrupados.get(pageTrack['estudante'].id) == undefined) {
+        pageTracksAgrupados.set(pageTrack['estudante'].id, []);
+      }
 
+      pageTracksAgrupados.get(pageTrack['estudante'].id).push(pageTrack);
+    });
+
+    return pageTracksAgrupados;
+  }
+
+  static ordernarPorData(pageTracks:PageTrackRecord[]) {
+    pageTracks.sort((s1, s2) => {
+      if (s1.data != null && s2.data != null && s1.data != "" && s2.data != "") {
+        if (s1.data.getTime() < s2.data.getTime()) {
+          return -1;
+        } else if (s1.data.getTime() > s2.data.getTime()) {
+          return 1;
+        } else {
+          return 0;
+        }
+      }
+      return 0;
+    });
+
+    return pageTracks;
+  }
 
   static agruparPorSemana(pageTracks:PageTrackRecord[]){
     function getWeekNumber(date){
@@ -125,23 +153,24 @@ export default class PageTrackRecord extends Document {
 
     };
 
-    let mapaSemanas = new Map<number, Map<string, number>>();
+    let mapaSemanas = new Map<number, any>();
     pageTracks.forEach(pTrack=>{
-      let data = Util.firestoreDateToDate(pTrack.data);
+      let data = pTrack.data;//Util.firestoreDateToDate(pTrack.data);
       let semana = getWeekNumber(data);
       let mapaSemana = mapaSemanas.get(semana);
       if(mapaSemana == null){
-        mapaSemanas.set(semana, new Map());
+        //mapaSemanas.set(semana, new Map());
+        mapaSemanas.set(semana, []);
       }
-
-      mapaSemana = mapaSemanas.get(semana);
-      let totalVisualizacoes = mapaSemana.get(pTrack.pagina);
+      mapaSemanas.get(semana).push(pTrack);
+      /*mapaSemana = mapaSemanas.get(semana);
+       let totalVisualizacoes = mapaSemana.get(pTrack.pagina);
       if(totalVisualizacoes == null){
         mapaSemana.set(pTrack.pagina, 0);
       }
 
       totalVisualizacoes = mapaSemana.get(pTrack.pagina);
-      mapaSemana.set(pTrack.pagina, totalVisualizacoes+1);
+      mapaSemana.set(pTrack.pagina, totalVisualizacoes+1); */
 
     });
 

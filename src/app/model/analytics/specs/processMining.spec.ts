@@ -4,7 +4,7 @@ import { AngularFirestore, AngularFirestoreModule } from "@angular/fire/firestor
 import { FirebaseConfiguracao } from "src/environments/firebase";
 import { DocumentModule } from "../../firestore/document.module";
 
-import submissoesEstudantes from '../../../../../json/submissoes_09abr.json';
+import submissoesEstudantes from '../../../../../json/submissoes_27_jan_v2.json';
 import pageTracksEstudantes from '../../../../../json/pageTracks.json';
 import Submissao from "../../submissao";
 import Usuario from "../../usuario";

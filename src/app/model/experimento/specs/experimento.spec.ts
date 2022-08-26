@@ -10,7 +10,7 @@ import pageTracks_highPerforming from '../../../../../json/pagetrack_high_perfor
 import pageTracks_lowPerforming from '../../../../../json/pagetrack_low_performing_2_ago_2022.json';
 
 
-import submissoesEstudantes from '../../../../../json/submissoes_27_jan.json';
+import submissoesEstudantes from '../../../../../json/submissoes_27_jan_v2.json';
 import Submissao from '../../submissao';
 import AnalyticsProgramacao from '../../analytics/analyticsProgramacao';
 import AtividadeGrupo from '../../cscl/atividadeGrupo';
@@ -18,8 +18,11 @@ import { Util } from '../../util';
 
 import PageTrackRecord from '../../analytics/pageTrack';
 import Grafo from '../../modelagem/grafo';
+import EstatisticaPageTrack from '../../modelagem/estatisticaPageTrack';
 import { Assunto } from '../../questoes/assunto';
 import Export from '../export';
+import { PageTrack } from '../../../guards/pageTrack.guard';
+import AnalyticsUsoSistema from '../../analytics/analyticsUsoSistema';
 
 const estudantesIgnorados = [
   'B3Xgj4IGEOQvjLKoTHI9',
@@ -57,243 +60,34 @@ const estudantesGrupo1 = [
   'zwCRM7eJnA5OzcJnj5j4',
 ];
 
-function excluirEstudante(estudanteId){
-  let estudantes_excluidos = [
-    'B3Xgj4IGEOQvjLKoTHI9',
-    'JJ8zNeRZBDr4qTElmYJk',
-    'xRSUKvyNAYV8Cmvn639q',
-    'LYx978JlOUowgMgR7gq0',
-    'BmIqbIXvbFLx0D4rqdvo',
-    '1flzSjZxDqi7QmmoMRqG',
-    'gxDZLmDyYSRoPOw1DkCJ',
-    'mb7t9FEckyI2YEFHd8eH',
-    'GvyxgiQu8w2UsUzeCZSV', // Fim usuários leonardo
-    '0tXcE0JVbzGME4825VQp',
-    '1flzSjZxDqi7QmmoMRqG',
-    '2FFjne8UUYTrdG1PpJqZ',
-    '3Bwxn6PXZXHcTVxmszxR',
-    '5tw4w2xUn8YHBwzzN7go',
-    '7W3FZQKLlw4QP4Zy8fFv',
-    '7djJPWQ14hNLNM5rWyKG',
-    'AClTuaxkU4QBNNYiFtjS',
-    'Eyn9kNCBC0zgcXi1ZloQ',
-    'GvyxgiQu8w2UsUzeCZSV',
-    'KCWXxsAXPj0jIby8yShA',
-    'KuLmIQqoO2GHEW3luHFm',
-    'L9UcVg4rzsLA4xH91iDE',
-    'QtZMOAXgaEVGrepNmtJO',
-    'RLqOdc9gqATmpTNIS3F3',
-    'WGUtX1rqhbqdFAzCXVvM',
-    'WX7vsrbbLyo6kTAa02j1',
-    'YrNsFFXnCD97g7kB0yT7',
-    'Z2Id4vvBxRVB6xX7tBnu',
-    'cX2S56rhGKbL0rMimcwS',
-    'd0mp7zBNmlOxX0BY8NzA',
-    'dcAkK8jDXvT8JK35DMku',
-    'e8Gf0bMXaz9JfkPtC0Qg',
-    'fDELm9NgGHeDyGMNDdxq',
-    'kQ519RbPEsSUAVf1DMIw',
-    'mgrXUORVlo9woOIRqDrN',
-    'miT2WXUYWMPTg7WBy5BY',
-    'nWFIXHvTbrgxMQO91lnm',
-    'nXj96K70H00UWIXSBLZd',
-    'pqMtkIteoPd7ifSnhTL8',
-    'qIwjgwELLkCzT2K5YaJr',
-    'sKAIsfb52vrEVIq6AWUY',
-    'sTw92uPpePll3oxj6spe',
-    'tVCnwCcm3laQQ3KEQcuh',
-    'thlkAsdAb01cWTe88wmq',
-    'yH7TlbWSPe9JBkdQAlGa',
-    'zwCRM7eJnA5OzcJnj5j4',
-    '1c8RIeoywI5WQVdtehei',
-    '37XfMQYMOyUszeeJKvsq',
-    '4Lp24XzRMgMHOZvbTxQe',
-    '7kVwSznCyNNFX01fowtI',
-    '9JAqWNioLUC3xohsk7JW',
-    '9d8AWC5E40VtgvpOBcyR',
-    'DiAvaZqqS46odlwJvwlI',
-    'GFUCnyERATC8GOj0aqCg',
-    'Gee99sdJaNqLYpKkmqIH',
-    'Jc64w0CLn07Jv7SbQfD9',
-    'L3FMWPNOb3j2W08k7238',
-    'NruNhsOzNQACW4xXhhrN',
-    'Oqk8GKqSbfeBMFzCshYp',
-    'Po0SsxCHU0vUoEQV6k9P',
-    'VyqkALFJG8lXdSW501IG',
-    'Xqwy12iiwSfYd27o50jT',
-    'YmZPmTdQ96eNPoDgDDy9',
-    'c2GO6l4I0rKCdpbXRuHg',
-    'cdNkDDWAdjGbYlNqkWdy',
-    'egJD23JyppACNqDfNmwz',
-    'giIfXErI58PNxyPG3uAh',
-    'iKYDFwDFJYSaqFHNxQzk',
-    'iWdE8e3RzOuMHR2Pd23I',
-    'mn2fSxZQrR53srmYekQf',
-    'rk2zpvKHhYQ36SKSXKqU',
-    'sracWnp06PBQdK9qvjmq',
-    'vzEnSs42T6s25WBOBkOa',
-    'xoEyp0Wl7mHTDKQcJZRd',
-    'y58GIWhEoOXOPE00bLIg',
-    'B3Xgj4IGEOQvjLKoTHI9',
-    'BmIqbIXvbFLx0D4rqdvo',
-    'JJ8zNeRZBDr4qTElmYJk',
-    'g7yVrT1HMGD4y1llr7El',
-    'q8IvsJdoIsc5fk6FRKBR',
-    't9D7htlu50iNyhNz3X5E',
-    'xRSUKvyNAYV8Cmvn639q',
-    '1eyJE7tLSz55rJ3TnHTz',
-    '4DRhVVyRiqR0ir2HcWON',
-    '4YagqYbRs6UKOLiul9dY',
-    '6GsyVOXxwFhoHVZrJLhX',
-    'ARmOrsemScAQffnSCHXN',
-    'AbhkE5gb21Ilf0MU0IYE',
-    'B4hnHkJdvPgaMa63Ud24',
-    'BLshTrN3finZJRWPfkn1',
-    'E3jEkBQ7FcCpnXhrMKcM',
-    'EmAOnD4N5X48iIH1RWWC',
-    'Ffa9l1DF5QFsXINoruMR',
-    'JHQiroTbasvEQNtmzH9R',
-    'LFghgzaoxLsPZCUdm45w',
-    'LUcvpR23R6lGZgTphijH',
-    'NLgFLOxY564bx8arrfBS',
-    'QXAtcNmbUp2SPJc7aEuA',
-    'Qn6zHj1aKhAQPi40P1dF',
-    'QnsA2K2QvUw24mfuemxj',
-    'RGKBEdTz6zwi9du880kk',
-    'XxTqbbHgD4RGC0lpe5Jq',
-    'Y2xcOroeaShqiZ8YrJWB',
-    'YpDzw0RnA2llpuQoARrr',
-    'ZRDrnotM3iWfLzeA46kc',
-    'asstXAlF0iGS5POEVHzF',
-    'hi4WbPPEDQDNtRzuQ8fR',
-    'kAXcnWJLbDAFEpIYBS3K',
-    'kpS1QIKHHODKMS3NptIQ',
-    'lKlsFID5xynyNsXaQ7KM',
-    'lpMfnSun87UnVDXB6nzq',
-    'sNmdv23YkBgiwnStwA5I',
-    'umTO90L0g1PNtDY6BORM',
-    '20idyOjnqpmsgAMZFdks',
-    '2NnaKJsmgJ4FHJz10JVc',
-    '3MKsU1aA1eH6Kz4b9vwe',
-    '5Ay3nNBQJArCfwww4uFc',
-    '6hWen5hfBEjQjNAs40RK',
-    '9GrPLbDbfBtAda8xSofl',
-    'Ao7vO4ago7bsaci4BgdJ',
-    'DUtJVHCzho2ifoDzgxrS',
-    'Eobb93vNpkhYjGLhMzuh',
-    'FDFERBLU10XmQ35HhBie',
-    'FPg1ZPVHdfYSphph0vc9',
-    'GMLdFEsbGPCQ4Aqk6vXw',
-    'Gc3Y4aGPBe3e4qhzoBEY',
-    'GnU7VlS9lrqnrtIWS3T8',
-    'II4MZAvbhAfrdC6pR6dp',
-    'J9GdMnyotIMDQizZO7ZD',
-    'LHpX21qhQ8uVczDWxIrd',
-    'M00W0CJ0MnG95LqoB1sf',
-    'M0FSeMKMebqI8kdYsxpl',
-    'NPUzVoBbxxi6QQtOTQJc',
-    'NtllxoJMlhZueLHFVBTa',
-    'ODeMW88JcoKSzZbRAfUW',
-    'R6hwLR08pxUdnUE7R7sT',
-    'RiWUrnksMW60YUgSGmfR',
-    'Rqz5zgYDNUKGde9jqBYG',
-    'T55vVkdYagAFl18vKaNK',
-    'UMGp1reTrLPYlYhb2jLe',
-    'Uc0Q6730sqdzjfOaB4se',
-    'VmMD6ALrLR2tN7O9qylU',
-    'WYBU50HmrYipTg56XWxK',
-    'XCTlq9qAarroxOJJ2MGb',
-    'Y5bewk1JGkyDc101pkMC',
-    'YQvodPsAWHjXKVFzuPZc',
-    'ZaiYiEP1b16FXoGuvAic',
-    'aH8urmCjl9ps2OgDSsoM',
-    'dNlxscodWi8gQX0iAnS8',
-    'esBsnSKOejZHZEMh3SGG',
-    'fUTShLfBO4rJ6nQ5n3Oh',
-    'gfmqlGAb8hJehfiwwQ7i',
-    'hOhZppUErIYfP22HMXew',
-    'icaNDih2i3Opi9ianTEV',
-    'kLTH2PPpOl2SNzKgNMnj',
-    'kTCcAV2Z9OaJKGjIaG4x',
-    'kdM9UL2fiNSXFOQLhUwk',
-    'l0oN6Jifqk0xPA2a8bGn',
-    'l7r3kRo8chrQ3YlFYe4f',
-    'la2QOgtCPrOIc4gtkimu',
-    'm9HI0F3IjpHMHSq9WayO',
-    'mRPlGRQLSLPlzrW90RhD',
-    'mkzo87kx1VDlx9xh1eIl',
-    'njmYsIzLWXAbPQvVcZol',
-    'oom9WfO9yKCqYNMKApZK',
-    'pqp7E1XZaWbaJ78zQO52',
-    'q8W1Ooukx670yBwomDti',
-    'qGn1ISQeRVMPnaVXwW9s',
-    'qgeTmd1mUwhWPKSdvZ5J',
-    'r3qMsTUQRZ09ekPmd28O',
-    'tP7Pn9pgU89Bws9XZr77',
-    'tq3kX743iNY3rsULvKdL',
-    'uJDPJQuKulzeB0kPZBMx',
-    'uX88XXlPtnEWKRvIBT5f',
-    'vhnU1UU2x2Xta7reYdow',
-    'wFabIK2HbtEag2q7ZU90',
-    'wSRBtADr6uhunYaNJSo2',
-    'xzlolNzbE87va71Nkbpr',
-    'yFplzZ1Z2XehxMBCzm2W',
-    'yWeglSUGqr4nmNVwqf3i',
-    'yliVgD5IMXz63ZlAeP23',
-    'z2JHnup3tLexJdoCFuKy',
-    'zCHv7YB1DE8lpCRGhXHi',
-    '0XQMMGnf8fO0v3ypOIxo',
-    '2qXDozyRLm09FsQa8Ss2',
-    '5o6GNh9PdPN9f82TEtSV',
-    '8dgnvQf2IgB3L3QTZO6N',
-    '9ZndTz0PiLn3rSFbYCKN',
-    '9yG9rhPGga6y1i48EMeD',
-    'AeFCdCf5Lh09SqEK7LIZ',
-    'AhNklPXW5frwhbfNk4wq',
-    'BrTdU25dIGthOD5F3AJO',
-    'EHorZ4oxCghTk2ET4JR0',
-    'IPMSWpt6pPxleO3WgoYs',
-    'Jlt7fyOfIifJcSzN6wIF',
-    'KVePdVi12Z0yyhsyeJZj',
-    'KlSqKQaDVT2pJMN2VrBo',
-    'LOzY47ukclxo1TZeoyho',
-    'MG39ooRSTROty2l4JMXz',
-    'PrMduzZVapo27Hh5n9RT',
-    'PvgC9DoAE22LNKbA6J38',
-    'RbopZ1tVWYa6PfyMhXEc',
-    'f5EUeaMFlyX61Gc9Tg0Q',
-    'fEbjYqw1Olhy2TJ5P7XL',
-    'fIz3KIhEmOIKmD9Phpx9',
-    'l1weAjIenJGiyqSlVyXv',
-    'mUZAWAEIw0tThUgWkYAd',
-    'oydATGc5WTmc4qCz4iDF',
-    'qI2hgvGSvIQdgIJcSfsn',
-    'qhRMCVMbAaVUt6eo1H69',
-    'tilWucbR0HcZau7LPGVz',
-    'vMSHBJ1uaGdWVcPJvCIZ',
-    'y2QdxjdMI6CuD8tGqP4d',
-    'yPRQAMD0lmAmNgph113l',
-    'z6kOtjIYSOnSzJDlnoOH',
-    'zdGG20O1BkfgkPg2lwyK',
-    '3DMP89y4o0ZSM9O8FEx5',
-    '4jMzcY7wg8eFWTgRbdQ2',
-    '7wue4zSD8jSpw8gJyNee',
-    '82oOReg3lhmYZsqvXSFk',
-    'JGs2lY6n7WhDRWR94Vn0',
-    'LALyqop0IG4YFRcv2EcJ',
-    'VnlBQt7qMS7F4Enrc81N',
-    'ZnPFKy6knmMJ1TUbW3Qo',
-    'gcQTbcw2Be5tf2c8q5oD',
-    'pwZKDuaMWQ30VNcQ0lGz',
-    'sfFZsw0HHHGLNr3zMcvl',
-    'ySrGEuabxsdijjvyyzWf',
-  ];
 
-  if (estudantes_excluidos.includes(estudanteId)) {
-    return true;
-  }
+function incluirAlunoSetentaPorCentoCurso(estudanteId){
+  let alunos = ['KuLmIQqoO2GHEW3luHFm',
+'fDELm9NgGHeDyGMNDdxq',
+'mgrXUORVlo9woOIRqDrN',
+'zwCRM7eJnA5OzcJnj5j4',
+'DiAvaZqqS46odlwJvwlI',
+'Jc64w0CLn07Jv7SbQfD9',
+'Oqk8GKqSbfeBMFzCshYp',
+'Xqwy12iiwSfYd27o50jT',
+'rk2zpvKHhYQ36SKSXKqU',
+'xoEyp0Wl7mHTDKQcJZRd',
+'0PsFCF7RPljJ0SAn1J5G',
+'0dV0X0EF0Rexfrj5nI8U',
+'FL7dGBw3G4Nb4E3Rzc9e',
+'PFZxLh3TS6S43NTGv7xZ',
+'q1gk7XrXK21MxZ21eRbL',
+'vHW4tDiQ9IeKYQawCgfC',
+'vsDMwOOR05sbVQo2eVLt',
+'y5xsnvOkv4N0E7yXTPel',
+'iLdani9C389FBJHei011',
+'DQ5WX7Y8peXeqNSL4lh0',
+'d6Qx0ydf7quJmGirnF35',
+'uwL18mtNF2M8Iy4DLFio',
+'zVdKYtWtx1myxFvocXSy',
+'KVePdVi12Z0yyhsyeJZj']
 
-  return false;
+return alunos.includes(estudanteId);
 }
 
 function incluirHighStudents(estudanteId) {
@@ -478,56 +272,403 @@ describe('Testes para process mining', () => {
     })
   })
 
-  it("Deve identificar os usuários que tiveram a interação registrada", (done)=>{
-    let pageTracks = pageTracks_highPerforming.concat(pageTracks_lowPerforming);
+  function fatiar_array_sem_inicio(tracks_ordenados){
+    let hasInicio = false;
+    let sliceInicio = -1;
+    let sliceFim = -1;
 
-    let estudantes = [];
+    for(let i = 0; i < tracks_ordenados.length; i++){
+      if(tracks_ordenados[i].pagina == "erro_sintaxe" || tracks_ordenados[i].pagina == "finalizada"){
+        if(!hasInicio && sliceInicio == -1){
+          sliceInicio = i;
+        }
 
-    pageTracks.forEach(page=>{
-      if(!estudantes.includes(page.estudante) && !excluirEstudante(page.estudante)){
-        estudantes.push(page.estudante);
+      }else{
+        if(tracks_ordenados[i].pagina == "visualizar-assunto"){
+          if(sliceInicio != -1){
+            sliceFim = i;
+            break;
+            /* pares.push(sliceInicio, sliceFim);
+            sliceInicio = -1;
+            sliceFim = -1;
+            hasInicio = false; */
+          }/* else{
+            if(hasInicio == true){
+              hasInicio = false;
+            }else{
+              hasInicio = true;
+            }
+
+          } */
+        }
       }
+    }
+
+    if(sliceInicio != -1 && sliceFim != -1){
+      tracks_ordenados = tracks_ordenados.splice(sliceInicio, sliceFim-sliceInicio);
+      return fatiar_array_sem_inicio(tracks_ordenados);
+    }else{
+      return tracks_ordenados;
+    }
+  }
+
+  xit("Deve identificar o fluxo de ações entre o uso das features Debug e Planner visualization e des. código", ()=>{
+    let tracks = AnalyticsUsoSistema.gerarTracks("high");
+
+    function transformarSubmissoesEmPagetracks(){
+
+      let estudantes_permitidos = AnalyticsUsoSistema.identificarEstudantesPelasTracks(tracks);
+
+      let submissoes = AnalyticsProgramacao.gerarSubmissoes(estudantes_permitidos);
+      let tracksApartirDeSubmissoes = [];
+      for(let i = 0; i < submissoes.length; i++){
+
+        let status = "";
+
+        if(submissoes[i].erro != null){
+          status = "erro_sintaxe";
+        }else if(submissoes[i].isFinalizada()){
+          status = "finalizada";
+        }else if(submissoes[i].erro == null){
+          status = "erro_logico";
+        }else{
+          status = "indefinido";
+        }
+
+        if(status != ""){
+          let pTrack = new PageTrackRecord(null, status, submissoes[i].estudante);
+          pTrack.data = submissoes[i].data;
+          tracksApartirDeSubmissoes.push(pTrack);
+        }
+
+
+      }
+
+      return tracksApartirDeSubmissoes;
+    }
+
+    let dataInicioCodigo = null;
+    let dataInicioFeature = null;
+    let dataFimFeature = null;
+    let estudante = null;
+    let questao = null;
+
+    let tracksSubmissoes = transformarSubmissoesEmPagetracks();
+
+    tracks = tracks.concat(tracksSubmissoes);
+
+    /*let tracksAgrupados = PageTrackRecord.agruparPorEstudante(tracks);
+    tracksAgrupados.forEach( (tracks, estudanteId) => {
+
+      let tracksAgrupadoSemana = PageTrackRecord.agruparPorSemana(tracks);
+      tracksAgrupadoSemana.forEach( (tracks, semana) => {
+        let tracksOrdenados = PageTrackRecord.ordernarPorData(tracks);
+        tracksAgrupadoSemana.set(semana, tracksOrdenados);
+      });
+
+      tracksAgrupados.set(estudanteId, tracksAgrupadoSemana);
+
     })
 
-    let x = estudantes;
-    console.log(estudantes);
-    done();
+    let analises = new Map<string, any[]>();
+    let fluxos = new Map<string, Map<string, any[]>>();
+
+     tracksAgrupados.forEach( (pages, estudanteId) => {
+      pages.forEach( (tracks, dia_semana) => {
+        for(let i = 0; i < tracks.length; i++){
+
+          if(fluxos.get(estudanteId) == null){
+            fluxos.set(estudanteId, new Map<string, any[]>());
+          }
+
+          if(tracks[i].pagina == "editor" && dataInicioCodigo == null){
+            dataInicioCodigo = tracks[i].data;
+            let dia = dataInicioCodigo.getDate();
+            let mes = dataInicioCodigo.getMonth();
+            if(fluxos.get(estudanteId).get(dia+"-"+mes) == null || !Array.isArray(fluxos.get(estudanteId).get(dia+"-"+mes))){
+              fluxos.get(estudanteId).set(dia+"-"+mes, []);
+            }
+
+            if(!Array.isArray(fluxos.get(estudanteId).get(dia+"-"+mes))){
+              console.log("Buuug");
+            }else{
+              fluxos.get(estudanteId).get(dia+"-"+mes).push(tracks[i]);
+            }
+
+          }
+
+          if(dataInicioCodigo != null){
+
+          }
+
+          if(tracks[i].pagina == "visualizacao-algoritmo" && dataInicioFeature == null){
+            dataInicioFeature = tracks[i].data;
+            estudante = estudanteId;
+            let dia = dataInicioFeature.getDate();
+            let mes = dataInicioFeature.getMonth();
+
+            if(!Array.isArray(fluxos.get(estudanteId).get(dia+"-"+mes))){
+              console.log("Buuug");
+            }else{
+              fluxos.get(estudanteId).get(dia+"-"+mes).push(tracks[i]);
+            }
+          }
+
+            if(tracks[i].pagina != "visualizacao-algoritmo" &&
+                tracks[i].pagina != "editor" &&
+                tracks[i].pagina != "self-instruction" &&
+                tracks[i].pagina != "visualizacao-resposta-questao" &&
+                tracks[i].pagina != "erro_sintaxe" &&
+                tracks[i].pagina != "finalizada"){
+                  if(dataInicioCodigo != null){
+                    dataFimFeature = tracks[i].data;
+                  let dia = dataFimFeature.getDate();
+                    let mes = dataFimFeature.getMonth();
+
+                    if(!Array.isArray(fluxos.get(estudanteId).get(dia+"-"+mes))){
+                      console.log("Buuug");
+                    }else{
+                      fluxos.get(estudanteId).get(dia+"-"+mes).push(tracks[i]);
+                    }
+
+
+                  }
+
+              }else{
+                let dia = tracks[i].data.getDate();
+                    let mes = tracks[i].data.getMonth();
+                let ar = fluxos.get(estudanteId).get(dia+"-"+mes);
+
+                let paginas_permitidas = [""]
+
+                if(!Array.isArray(fluxos.get(estudanteId).get(dia+"-"+mes))){
+                  fluxos.get(estudanteId).set(dia+"-"+mes, []);
+                }
+                  fluxos.get(estudanteId).get(dia+"-"+mes).push(tracks[i]);
+
+              }
+
+          if(dataInicioCodigo != null && dataFimFeature != null){
+            let estudanteAnalise = analises.get(estudanteId);
+            if(estudanteAnalise == null){
+              analises.set(estudanteId, []);
+            }
+            analises.get(estudanteId).push([dataInicioCodigo, dataFimFeature]);
+            dataInicioCodigo = null;
+            dataInicioFeature = null;
+            dataFimFeature = null;
+          }
+        }
+      });
+
+
+
+
+    }); */
+
+    let fluxos_filtrados_com_srl = new Map<string, Map<string, any[]>>();
+
+    /* let submissoesAgrupadas = Submissao.agruparPorEstudante(gerarSubmissoes()); */
+
+    let tracks_finais_analise_markov = [];
+    let tracksOrdenados = PageTrackRecord.ordernarPorData(tracks);
+
+    // Faz slice do array em caso de não ter identificado o início da interação
+    fatiar_array_sem_inicio(tracksOrdenados);
+
+    // Está duplicando alguns elementos, realiza a limpeza
+
+    let tracksOrdenados_sem_duplicatas = [];
+    tracksOrdenados.forEach(track_ordenado=>{
+      let add = true;
+      for(let i = 0; i < tracksOrdenados_sem_duplicatas.length; i++){
+        if(track_ordenado.id != null){
+          if(tracksOrdenados_sem_duplicatas[i].id == track_ordenado.id){
+            add = false;
+            break;
+          }
+        }
+
+      }
+
+      if(add){
+        tracksOrdenados_sem_duplicatas.push(track_ordenado);
+      }
+
+    })
+
+    let g = new Grafo(tracksOrdenados_sem_duplicatas);
+    let m = g.criarMatrizSomada(tracksOrdenados_sem_duplicatas);
+    m.forEach((probabilidadeEventos, evento, map) => {
+      console.log(evento);
+
+      probabilidadeEventos.forEach((probabilidade, e, map) => {
+        console.log(e + ' : ' + probabilidade);
+      });
+    });
+
+
+    /* fluxos.forEach((datas_desenvolvimentos, estudanteId)=>{
+      datas_desenvolvimentos.forEach((tracks,data)=>{
+
+        let deveAnalisar = false; // Variável de controle, pois a análise só deve ocorrer se houve episódio de SRL
+
+        for(let i = 0; i < tracks.length; i++){
+          if(tracks[i].pagina == "visualizacao-algoritmo"){
+            deveAnalisar = true;
+            break;
+          }
+        }
+
+        if(deveAnalisar){
+          if(fluxos_filtrados_com_srl.get(estudanteId) == null){
+            fluxos_filtrados_com_srl.set(estudanteId, new Map<string, any[]>());
+          }
+
+          let tracksOrdenados = PageTrackRecord.ordernarPorData(tracks);
+
+          // Faz slice do array em caso de não ter identificado o início da interação
+          fatiar_array_sem_inicio(tracksOrdenados);
+
+          // Está duplicando alguns elementos, realiza a limpeza
+
+          let tracksOrdenados_sem_duplicatas = [];
+          tracksOrdenados.forEach(track_ordenado=>{
+            let add = true;
+            for(let i = 0; i < tracksOrdenados_sem_duplicatas.length; i++){
+              if(track_ordenado.id != null){
+                if(tracksOrdenados_sem_duplicatas[i].id == track_ordenado.id){
+                  add = false;
+                  break;
+                }
+              }
+
+            }
+
+            if(add){
+              tracksOrdenados_sem_duplicatas.push(track_ordenado);
+            }
+
+          })
+
+          tracks_finais_analise_markov = tracks_finais_analise_markov.concat(tracksOrdenados_sem_duplicatas)
+
+
+          let z = 1;
+
+          // Ordenar tracks para ver a sequência de como as coisas aconteceram
+
+        }
+
+
+        // PAREI AQUI.
+        // # Pegar todas as submissões dentro do intervalo datas[0] e datas[1]
+        // Fazer MARKOV
+      })
+    }) */
+
+
+
+    /* let g = new Grafo(tracks_finais_analise_markov);
+    let m = g.criarMatrizSomada(tracks_finais_analise_markov);
+    m.forEach((probabilidadeEventos, evento, map) => {
+      console.log(evento);
+
+      probabilidadeEventos.forEach((probabilidade, e, map) => {
+        console.log(e + ' : ' + probabilidade);
+      });
+    }); */
+
+    console.log("Fim análise")
+    /* analises.forEach((datas_desenvolvimentos_codigo, estudanteId)=>{
+      datas_desenvolvimentos_codigo.forEach(datas=>{
+        let submissoesFiltradasSecao = Submissao.filtrarDataRange(submissoesAgrupadas[estudanteId], datas[0], datas[1]);
+        let y = submissoesFiltradasSecao;
+        // PAREI AQUI.
+        // # Pegar todas as submissões dentro do intervalo datas[0] e datas[1]
+        // Fazer MARKOV
+      })
+
+    }) */
+
+
+    /* tracks.forEach(pageTrack=>{
+      if(pageTrack.pagina == "visualizacao-algoritmo" && dataInicioFeature == null){
+          dataInicioFeature = Util.firestoreDateToDate(pageTrack.data);
+          estudante = pageTrack.estudante;
+      }
+
+
+    })
+
+    let submissoes = gerarSubmissoes();
+    let submissoesDia = [];
+    let agrupado = Submissao.agruparPorEstudante(submissoes);
+    let submissoesDoEstudante = agrupado[estudante];
+    if (submissoesDoEstudante != null) {
+      submissoesDoEstudante.forEach((submissaoEstudante) => {
+        let dataSubmissao = submissaoEstudante.data;
+      });
+    } */
+  })
+
+  xit("Deve identificar métricas no nível de criação de programas", ()=>{
+    let tracks = AnalyticsUsoSistema.gerarTracks("high");
+    let estudantes = AnalyticsUsoSistema.identificarEstudantesPelasTracks(tracks);
+    let todasSubmissoes = AnalyticsProgramacao.gerarSubmissoes(estudantes);
+
+    let submissoesAgrupadas = Submissao.agruparPorEstudante(todasSubmissoes);
+
+    Object.keys(submissoesAgrupadas).forEach((estudanteId) => {
+      let submissoes = submissoesAgrupadas[estudanteId];
+      Submissao._orderByDate(submissoes);
+      let tempomedioEntreExecucoes = Math.round(AnalyticsProgramacao.calcularTempoMedioEntreSubmissoes(submissoes));
+      let mediaSubmissoesAcerto = Math.round(AnalyticsProgramacao.calcularMediaSubmissoesParaAcerto(submissoes));
+      let mediaSubmissoesCorrigirErro =  Math.round(AnalyticsProgramacao.calcularMediaSubmissoesCorrigirErro(submissoes));
+      let mediaExecucoes = Math.round(AnalyticsProgramacao.calcularExecucoes(submissoes));
+      let mediaQuestoesSemana = Math.round(AnalyticsProgramacao.calcularMediaQuestoesSemana(submissoes));
+      let melhoriasCodigoAposFinalizacao = Math.round(AnalyticsProgramacao.identificarMelhoriasSubmissaoAposConclusao(submissoes));
+      // média erros sintaxe
+      // média erros lógicos
+      let dados = [estudanteId, tempomedioEntreExecucoes, mediaSubmissoesAcerto, mediaSubmissoesCorrigirErro, mediaExecucoes];
+      console.log(dados.toString());
+    });
+
+
+
+
+
+  })
+
+  it("Deve gerar uma contagem no acesso às features", ()=>{
+    let pTrack = AnalyticsUsoSistema.gerarTracks("low");
+
+    let navegacao = EstatisticaPageTrack.contarAcessos(pTrack);
+    navegacao.forEach((navegacoes, estudante)=>{
+        let contagens = [estudante,
+          navegacoes.get("visualizacao-resposta-questao"),
+          navegacoes.get("self-instruction"),
+          navegacoes.get("ranking"),
+          navegacoes.get("listagem-diarios"),
+          navegacoes.get("visualizacao-algoritmo"),
+          navegacoes.get("meu-desempenho"),
+        ]
+          /* let meudesempenho = navegacoes.get("visualizacao-resposta-questao");
+      if(meudesempenho == null){
+        meudesempenho = 0;
+      } */
+
+      console.log(contagens.toString());
+    });
+
+    /* let g = new Grafo(pTrack);
+    let matriz = g.criarMatriz(pTrack);
+    let x = matriz; */
   })
 
   xit('Deve gerar uma matriz de transição', () => {
-    let pTrack: PageTrackRecord[] = [];
 
-    let pageTracks = pageTracks_highPerforming;
-    let pages = [];
-
-    pageTracks.forEach(page => {
-      if(!excluirEstudante(page.estudante)){
-        pages.push(page)
-      }
-    })
-
-    pages.forEach((p) => {
-      if (p.pagina == 'visualizacao-assunto') {
-        p.pagina = 'visualizar-assunto';
-      }
-
-      if (p.pagina == 'listagem-assuntos') {
-        p.pagina = 'listar-assuntos';
-      }
-
-      if (p.pagina == 'self-instruction-editor') {
-        p.pagina = 'self-instruction';
-      }
-
-      if (
-        p.pagina != 'atividade-grupo' &&
-        p.pagina != 'pedido-ajuda' &&
-        p.pagina != 'responder-questao-correcao' &&
-        p.pagina != 'visualizar-documentacao-projeto'
-      ) {
-        pTrack.push(PageTrackRecord.fromJson(p));
-      }
-    });
+    let pTrack = AnalyticsUsoSistema.gerarTracks("high");
 
     let g = new Grafo(pTrack);
     let m = g.criarMatrizSomada(pTrack);
@@ -546,15 +687,7 @@ describe('Testes para process mining', () => {
           3. Verificar apenas as do dia limite da atividade Grupo ok
           4. Verificar se há alguma com status concluído */
 
-    let submissoes = [];
-
-    submissoesEstudantes['submissoes'].forEach((s) => {
-      //if(ignorar(s["questaoId"])){
-      let submissao = Submissao.fromJson(s);
-      submissao['estudanteId'] = submissao.estudante.pk();
-      submissoes.push(submissao);
-      //}
-    });
+    let submissoes = AnalyticsProgramacao.gerarSubmissoes([]);
 
     let agrupado = Submissao.agruparPorEstudante(submissoes);
 
