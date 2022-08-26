@@ -1,4 +1,4 @@
-import { async, ComponentFixture, TestBed } from '@angular/core/testing';
+import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 
 import { PercentualErrorQuotientComponent } from './percentual-error-quotient.component';
 
@@ -6,7 +6,7 @@ describe('PercentualErrorQuotientComponent', () => {
   let component: PercentualErrorQuotientComponent;
   let fixture: ComponentFixture<PercentualErrorQuotientComponent>;
 
-  beforeEach(async(() => {
+  beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
       declarations: [ PercentualErrorQuotientComponent ]
     })
