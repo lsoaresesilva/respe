@@ -24,8 +24,6 @@
     "@angular/router": "~12.2.16",
     "@babel/plugin-transform-modules-commonjs": "^7.6.0",
     "@ctrl/ngx-codemirror": "^4.1.0",
-    "@nebular/eva-icons": "7.0.0",
-    "@nebular/theme": "^7.0.0",
     "@schematics/angular": "^9.1.0",
     "@teamwork/websocket-json-stream": "^2.0.0",
     "@types/intro.js": "^2.4.6",
