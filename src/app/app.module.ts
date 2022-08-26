@@ -38,13 +38,10 @@ import { AngularFirestoreModule } from '@angular/fire/firestore';
 import { environment } from '../environments/environment';
 import { EscapeHtmlPipe } from './pipes/keep-html.pipe';
 
-import { SocketIoConfig } from 'ngx-socket-io';
 import { ToastModule } from 'primeng/toast';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { DocumentModule } from './model/firestore/document.module';
 import {ProgressSpinnerModule} from 'primeng/progressspinner';
-
-const config: SocketIoConfig = { url: 'http://localhost:3001', options: {} };
 
 @NgModule({
   schemas: [CUSTOM_ELEMENTS_SCHEMA],
