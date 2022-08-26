@@ -29,14 +29,11 @@ import { AnalyticsModule } from '../analytics-module/analytics.module';
 import { VisualizarPerfilEstudanteComponent } from './visualizar-perfil-estudante/visualizar-perfil-estudante.component';
 import { EstatisticasExperimentoComponent } from './estatisticas-experimento/estatisticas-experimento.component';
 import { ChartModule } from 'primeng/chart';
-import { GrafoEstudantesComponent } from '../modelagem-comportamento/grafo-estudantes/grafo-estudantes.component';
-import { NgxGraphModule } from '@swimlane/ngx-graph';
 import { ListarDiariosComponent } from './listar-diarios/listar-diarios.component';
 import { RouterModule, Routes } from '@angular/router';
 import { PageTrack } from '../guards/pageTrack.guard';
 import { AuthGuard } from '../guards/auth.guard';
 import { ProfessorGuard } from '../guards/professor.guard';
-import { ModelagemComportamentoModule } from '../modelagem-comportamento/modelagem-comportamento.module';
 import { ExperimentoModule } from '../experimento/experimento.module';
 
 
@@ -104,7 +101,6 @@ export const routes:Routes = [
     AutoCompleteModule,
     ToastModule,
     InputTextModule,
-    ModelagemComportamentoModule,
     SrlModule,
     ContextMenuModule,
     FileUploadModule,
