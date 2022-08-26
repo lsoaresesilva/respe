@@ -44,24 +44,20 @@ import { DocumentModule } from './model/firestore/document.module';
 import {ProgressSpinnerModule} from 'primeng/progressspinner';
 
 @NgModule({
-  schemas: [CUSTOM_ELEMENTS_SCHEMA],
-  declarations: [AppComponent/* , MainComponent */],
-  imports: [
-    BrowserModule,
-    BrowserAnimationsModule,
-    AngularFireModule.initializeApp(environment.firebase),
-    AngularFirestoreModule,
-    ProgressSpinnerModule,
-    LoginModule,
-    ToastModule,
-    DocumentModule,
-    AppRoutingModule
-  ],
-  providers: [AuthGuard, TurmaGuard, MessageService],
-  bootstrap: [AppComponent],
-  /* exports: [EscapeHtmlPipe], */
-  entryComponents: [
-    /* DiarioProgramacaoComponent */
-  ]
+    schemas: [CUSTOM_ELEMENTS_SCHEMA],
+    declarations: [AppComponent /* , MainComponent */],
+    imports: [
+        BrowserModule,
+        BrowserAnimationsModule,
+        AngularFireModule.initializeApp(environment.firebase),
+        AngularFirestoreModule,
+        ProgressSpinnerModule,
+        LoginModule,
+        ToastModule,
+        DocumentModule,
+        AppRoutingModule
+    ],
+    providers: [AuthGuard, TurmaGuard, MessageService],
+    bootstrap: [AppComponent]
 })
 export class AppModule {}
