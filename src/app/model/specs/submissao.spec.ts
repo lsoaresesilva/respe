@@ -1,10 +1,10 @@
-import { AngularFirestore, AngularFirestoreModule } from '@angular/fire/firestore';
+/* import { AngularFirestore, AngularFirestoreModule } from '@angular/fire/compat/firestore';
 
 import { TestBed, inject } from '@angular/core/testing';
 
 import { DocumentModule } from '../firestore/document.module';
 
-import { AngularFireModule, FirebaseApp } from '@angular/fire';
+import { AngularFireModule, FirebaseApp } from '@angular/fire/compat';
 
 import { FirebaseConfiguracao } from 'src/environments/firebase';
 import Submissao from '../submissao';
@@ -134,7 +134,7 @@ describe('Testes de Submissão', () => {
 
     submissao.save().subscribe((resultado) => {
       // TODO: Incluir erro
-      /*let erro = new Erro(null, 2, null, TipoErro.variavelNaoDeclarada, resultado);
+      let erro = new Erro(null, 2, null, TipoErro.variavelNaoDeclarada, resultado);
             erro.save().subscribe(erroCadastrado=>{
                 Submissao.get(resultado.id).subscribe(resultadoSubmissao=>{
                     let x = resultadoSubmissao["erros"];
@@ -144,7 +144,7 @@ describe('Testes de Submissão', () => {
                     })
 
                 });
-            })*/
+            })
     });
   });
 
@@ -224,3 +224,4 @@ describe('Testes de Submissão', () => {
     });
   });
 });
+ */

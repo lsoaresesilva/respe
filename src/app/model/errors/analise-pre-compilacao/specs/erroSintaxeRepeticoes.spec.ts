@@ -1,6 +1,6 @@
-import { inject, TestBed } from '@angular/core/testing';
-import { AngularFireModule, FirebaseApp } from '@angular/fire';
-import { AngularFirestore, AngularFirestoreModule } from '@angular/fire/firestore';
+/* import { inject, TestBed } from '@angular/core/testing';
+import { AngularFireModule, FirebaseApp } from '@angular/fire/compat';
+import { AngularFirestore, AngularFirestoreModule } from '@angular/fire/compat/firestore';
 import { DocumentModule } from 'src/app/model/firestore/document.module';
 import Submissao from 'src/app/model/submissao';
 import { FirebaseConfiguracao } from 'src/environments/firebase';
@@ -33,7 +33,7 @@ describe('Testes para identificar erros de sintaxe em repetições', () => {
     })();
   });
 
-  /* xit('Deve identificar condições com sintaxe inválida', () => {
+ xit('Deve identificar condições com sintaxe inválida', () => {
     let algoritmo =
       "if nome == 'leonardo':\nif idade >:\nif idade > 18:\nif idade <=:\nif idade <= 18:\nif idade = \nif idade > 2 and nome == 'leonardo'\nif salario > 950,30\nif idade = 10";
     let s = new Submissao(null, algoritmo, null, null, null);
@@ -85,19 +85,17 @@ describe('Testes para identificar erros de sintaxe em repetições', () => {
     expect(
         ErroSintaxe.comparacaoApenasUmaIgualdade(linhasCodigo[3])
     ).toBeFalsy();
-  }); */
+  });
 
   xit('Deve identificar os principais erros nos algoritmos', () => {
     let erroSyntax = [];
     submissoesEstudantes['submissoes'].forEach((s) => {
       if (s['erro'] != null && s['erro']['traceback'] != null) {
-        /* let categoria = ErroCompilacaoFactory.construir(s['erro']['traceback']);
-        if (categoria instanceof SyntaxError) { */
+
           let erros = ErroSintaxeRepeticao.erros(new Submissao(null, s["codigo"], null, null, null));
           if(erros.length != 0){
             erroSyntax.push(erros);
           }
-        //}
       }
     });
 
@@ -183,3 +181,4 @@ describe('Testes para identificar erros de sintaxe em repetições', () => {
   });
 });
 
+ */

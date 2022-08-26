@@ -14,7 +14,7 @@ import { ListarProfessoresComponent } from './listar-professores/listar-professo
 import { EnvioMaterialComponent } from './envio-material/envio-material.component';
 import { ListarMateriaisComponent } from './listar-materiais/listar-materiais.component';
 import { FirebaseConfiguracao } from '../../environments/firebase';
-import { AngularFireModule } from '@angular/fire';
+import { AngularFireModule } from '@angular/fire/compat';
 import { AngularFireStorageModule } from '@angular/fire/storage';
 import { FileUploadModule } from 'primeng/fileupload';
 import { FieldsetModule } from 'primeng/fieldset';

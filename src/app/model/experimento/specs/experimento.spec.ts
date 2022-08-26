@@ -1,6 +1,6 @@
-import { inject, TestBed } from '@angular/core/testing';
-import { AngularFireModule, FirebaseApp } from '@angular/fire';
-import { AngularFirestore, AngularFirestoreModule } from '@angular/fire/firestore';
+/* import { inject, TestBed } from '@angular/core/testing';
+import { AngularFireModule, FirebaseApp } from '@angular/fire/compat';
+import { AngularFirestore, AngularFirestoreModule } from '@angular/fire/compat/firestore';
 import { FirebaseConfiguracao } from 'src/environments/firebase';
 import { DocumentModule } from '../../firestore/document.module';
 
@@ -288,18 +288,8 @@ describe('Testes para process mining', () => {
           if(sliceInicio != -1){
             sliceFim = i;
             break;
-            /* pares.push(sliceInicio, sliceFim);
-            sliceInicio = -1;
-            sliceFim = -1;
-            hasInicio = false; */
-          }/* else{
-            if(hasInicio == true){
-              hasInicio = false;
-            }else{
-              hasInicio = true;
-            }
 
-          } */
+          }
         }
       }
     }
@@ -357,118 +347,10 @@ describe('Testes para process mining', () => {
 
     tracks = tracks.concat(tracksSubmissoes);
 
-    /*let tracksAgrupados = PageTrackRecord.agruparPorEstudante(tracks);
-    tracksAgrupados.forEach( (tracks, estudanteId) => {
 
-      let tracksAgrupadoSemana = PageTrackRecord.agruparPorSemana(tracks);
-      tracksAgrupadoSemana.forEach( (tracks, semana) => {
-        let tracksOrdenados = PageTrackRecord.ordernarPorData(tracks);
-        tracksAgrupadoSemana.set(semana, tracksOrdenados);
-      });
-
-      tracksAgrupados.set(estudanteId, tracksAgrupadoSemana);
-
-    })
-
-    let analises = new Map<string, any[]>();
-    let fluxos = new Map<string, Map<string, any[]>>();
-
-     tracksAgrupados.forEach( (pages, estudanteId) => {
-      pages.forEach( (tracks, dia_semana) => {
-        for(let i = 0; i < tracks.length; i++){
-
-          if(fluxos.get(estudanteId) == null){
-            fluxos.set(estudanteId, new Map<string, any[]>());
-          }
-
-          if(tracks[i].pagina == "editor" && dataInicioCodigo == null){
-            dataInicioCodigo = tracks[i].data;
-            let dia = dataInicioCodigo.getDate();
-            let mes = dataInicioCodigo.getMonth();
-            if(fluxos.get(estudanteId).get(dia+"-"+mes) == null || !Array.isArray(fluxos.get(estudanteId).get(dia+"-"+mes))){
-              fluxos.get(estudanteId).set(dia+"-"+mes, []);
-            }
-
-            if(!Array.isArray(fluxos.get(estudanteId).get(dia+"-"+mes))){
-              console.log("Buuug");
-            }else{
-              fluxos.get(estudanteId).get(dia+"-"+mes).push(tracks[i]);
-            }
-
-          }
-
-          if(dataInicioCodigo != null){
-
-          }
-
-          if(tracks[i].pagina == "visualizacao-algoritmo" && dataInicioFeature == null){
-            dataInicioFeature = tracks[i].data;
-            estudante = estudanteId;
-            let dia = dataInicioFeature.getDate();
-            let mes = dataInicioFeature.getMonth();
-
-            if(!Array.isArray(fluxos.get(estudanteId).get(dia+"-"+mes))){
-              console.log("Buuug");
-            }else{
-              fluxos.get(estudanteId).get(dia+"-"+mes).push(tracks[i]);
-            }
-          }
-
-            if(tracks[i].pagina != "visualizacao-algoritmo" &&
-                tracks[i].pagina != "editor" &&
-                tracks[i].pagina != "self-instruction" &&
-                tracks[i].pagina != "visualizacao-resposta-questao" &&
-                tracks[i].pagina != "erro_sintaxe" &&
-                tracks[i].pagina != "finalizada"){
-                  if(dataInicioCodigo != null){
-                    dataFimFeature = tracks[i].data;
-                  let dia = dataFimFeature.getDate();
-                    let mes = dataFimFeature.getMonth();
-
-                    if(!Array.isArray(fluxos.get(estudanteId).get(dia+"-"+mes))){
-                      console.log("Buuug");
-                    }else{
-                      fluxos.get(estudanteId).get(dia+"-"+mes).push(tracks[i]);
-                    }
-
-
-                  }
-
-              }else{
-                let dia = tracks[i].data.getDate();
-                    let mes = tracks[i].data.getMonth();
-                let ar = fluxos.get(estudanteId).get(dia+"-"+mes);
-
-                let paginas_permitidas = [""]
-
-                if(!Array.isArray(fluxos.get(estudanteId).get(dia+"-"+mes))){
-                  fluxos.get(estudanteId).set(dia+"-"+mes, []);
-                }
-                  fluxos.get(estudanteId).get(dia+"-"+mes).push(tracks[i]);
-
-              }
-
-          if(dataInicioCodigo != null && dataFimFeature != null){
-            let estudanteAnalise = analises.get(estudanteId);
-            if(estudanteAnalise == null){
-              analises.set(estudanteId, []);
-            }
-            analises.get(estudanteId).push([dataInicioCodigo, dataFimFeature]);
-            dataInicioCodigo = null;
-            dataInicioFeature = null;
-            dataFimFeature = null;
-          }
-        }
-      });
-
-
-
-
-    }); */
 
     let fluxos_filtrados_com_srl = new Map<string, Map<string, any[]>>();
 
-    /* let submissoesAgrupadas = Submissao.agruparPorEstudante(gerarSubmissoes()); */
 
     let tracks_finais_analise_markov = [];
     let tracksOrdenados = PageTrackRecord.ordernarPorData(tracks);
@@ -508,108 +390,13 @@ describe('Testes para process mining', () => {
     });
 
 
-    /* fluxos.forEach((datas_desenvolvimentos, estudanteId)=>{
-      datas_desenvolvimentos.forEach((tracks,data)=>{
 
-        let deveAnalisar = false; // Variável de controle, pois a análise só deve ocorrer se houve episódio de SRL
-
-        for(let i = 0; i < tracks.length; i++){
-          if(tracks[i].pagina == "visualizacao-algoritmo"){
-            deveAnalisar = true;
-            break;
-          }
-        }
-
-        if(deveAnalisar){
-          if(fluxos_filtrados_com_srl.get(estudanteId) == null){
-            fluxos_filtrados_com_srl.set(estudanteId, new Map<string, any[]>());
-          }
-
-          let tracksOrdenados = PageTrackRecord.ordernarPorData(tracks);
-
-          // Faz slice do array em caso de não ter identificado o início da interação
-          fatiar_array_sem_inicio(tracksOrdenados);
-
-          // Está duplicando alguns elementos, realiza a limpeza
-
-          let tracksOrdenados_sem_duplicatas = [];
-          tracksOrdenados.forEach(track_ordenado=>{
-            let add = true;
-            for(let i = 0; i < tracksOrdenados_sem_duplicatas.length; i++){
-              if(track_ordenado.id != null){
-                if(tracksOrdenados_sem_duplicatas[i].id == track_ordenado.id){
-                  add = false;
-                  break;
-                }
-              }
-
-            }
-
-            if(add){
-              tracksOrdenados_sem_duplicatas.push(track_ordenado);
-            }
-
-          })
-
-          tracks_finais_analise_markov = tracks_finais_analise_markov.concat(tracksOrdenados_sem_duplicatas)
-
-
-          let z = 1;
-
-          // Ordenar tracks para ver a sequência de como as coisas aconteceram
-
-        }
-
-
-        // PAREI AQUI.
-        // # Pegar todas as submissões dentro do intervalo datas[0] e datas[1]
-        // Fazer MARKOV
-      })
-    }) */
-
-
-
-    /* let g = new Grafo(tracks_finais_analise_markov);
-    let m = g.criarMatrizSomada(tracks_finais_analise_markov);
-    m.forEach((probabilidadeEventos, evento, map) => {
-      console.log(evento);
-
-      probabilidadeEventos.forEach((probabilidade, e, map) => {
-        console.log(e + ' : ' + probabilidade);
-      });
-    }); */
 
     console.log("Fim análise")
-    /* analises.forEach((datas_desenvolvimentos_codigo, estudanteId)=>{
-      datas_desenvolvimentos_codigo.forEach(datas=>{
-        let submissoesFiltradasSecao = Submissao.filtrarDataRange(submissoesAgrupadas[estudanteId], datas[0], datas[1]);
-        let y = submissoesFiltradasSecao;
-        // PAREI AQUI.
-        // # Pegar todas as submissões dentro do intervalo datas[0] e datas[1]
-        // Fazer MARKOV
-      })
-
-    }) */
 
 
-    /* tracks.forEach(pageTrack=>{
-      if(pageTrack.pagina == "visualizacao-algoritmo" && dataInicioFeature == null){
-          dataInicioFeature = Util.firestoreDateToDate(pageTrack.data);
-          estudante = pageTrack.estudante;
-      }
 
 
-    })
-
-    let submissoes = gerarSubmissoes();
-    let submissoesDia = [];
-    let agrupado = Submissao.agruparPorEstudante(submissoes);
-    let submissoesDoEstudante = agrupado[estudante];
-    if (submissoesDoEstudante != null) {
-      submissoesDoEstudante.forEach((submissaoEstudante) => {
-        let dataSubmissao = submissaoEstudante.data;
-      });
-    } */
   })
 
   xit("Deve identificar métricas no nível de criação de programas", ()=>{
@@ -653,17 +440,12 @@ describe('Testes para process mining', () => {
           navegacoes.get("visualizacao-algoritmo"),
           navegacoes.get("meu-desempenho"),
         ]
-          /* let meudesempenho = navegacoes.get("visualizacao-resposta-questao");
-      if(meudesempenho == null){
-        meudesempenho = 0;
-      } */
+
 
       console.log(contagens.toString());
     });
 
-    /* let g = new Grafo(pTrack);
-    let matriz = g.criarMatriz(pTrack);
-    let x = matriz; */
+
   })
 
   xit('Deve gerar uma matriz de transição', () => {
@@ -682,10 +464,7 @@ describe('Testes para process mining', () => {
   });
 
   xit('Deve identificar quantas atividades foram entregas no prazo pelos alunos', () => {
-    /* 1. Pegar o grupo ok
-          2. Pegar todas as submissoes de cada usuário associada à questãoId da atividade colaborativa. ok
-          3. Verificar apenas as do dia limite da atividade Grupo ok
-          4. Verificar se há alguma com status concluído */
+
 
     let submissoes = AnalyticsProgramacao.gerarSubmissoes([]);
 
@@ -724,7 +503,7 @@ describe('Testes para process mining', () => {
                   submissoesDoEstudante.forEach((submissaoEstudante) => {
                     if (
                       submissaoEstudante.questaoId ==
-                      /* atividade.questaoColaborativaId */ atividadeColaborativa.questao.id
+                      atividadeColaborativa.questao.id
                     ) {
                       let dataA = submissaoEstudante.data;
                       let dataB = Util.firestoreDateToDate(atividade.dataExpiracao);
@@ -764,10 +543,6 @@ describe('Testes para process mining', () => {
   });
 
   xit("Deve exportar as submissões", (done)=>{
-    /* Export.submissoes().subscribe(submissoes=>{
-      console.log(submissoes);
-      done();
-    }) */
 
     let submissoes = [];
 
@@ -824,12 +599,10 @@ describe('Testes para process mining', () => {
     Object.keys(agrupado).forEach((estudanteId) => {
       if (!ignorarEstudantes(estudanteId)) {
         if (agrupado[estudanteId].length >= 5) {
-          /* if( !incluirHighStudents(estudanteId) ){ */
           if (incluirEstudantes(estudanteId)) {
             soma += agrupado[estudanteId].length;
             submissoesAgrupadasPosFiltro[estudanteId] = agrupado[estudanteId];
           }
-          /* } */
         }
       }
     });
@@ -919,3 +692,4 @@ describe('Testes para process mining', () => {
     console.log(JSON.stringify(matrizProbabilidade));
   });
 });
+ */

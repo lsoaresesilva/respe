@@ -1,6 +1,6 @@
-import { inject, TestBed } from "@angular/core/testing";
-import { AngularFireModule, FirebaseApp } from "@angular/fire";
-import { AngularFirestore, AngularFirestoreModule } from "@angular/fire/firestore";
+/* import { inject, TestBed } from "@angular/core/testing";
+import { AngularFireModule, FirebaseApp } from "@angular/fire/compat";
+import { AngularFirestore, AngularFirestoreModule } from "@angular/fire/compat/firestore";
 import { FirebaseConfiguracao } from "src/environments/firebase";
 import { DocumentModule } from "../../firestore/document.module";
 
@@ -104,8 +104,7 @@ describe('Testes para process mining', () => {
                 pageTrack.data = Util.firestoreDateToDate(p["data"]);
 
                 pTracksEstudantes.get(p["estudante"]).push(pageTrack)
-                /* p["data"] = Util.firestoreDateToDate(p["data"]) as any;
-                pTrackJson.push(p); */
+
             }
         });
 
@@ -118,7 +117,6 @@ describe('Testes para process mining', () => {
             return 0;
           }
         })
-        /* console.log(JSON.stringify(pTrackJson)); */
 
         sEstudantes.forEach((subs, estudanteId)=>{
           let submissoesAgrupadas = Submissao.agruparPorQuestao(subs);
@@ -126,8 +124,6 @@ describe('Testes para process mining', () => {
           submissoesAgrupadas.forEach((subQuest, questaoId)=>{
             let submissoesQuestaoEstudante = [];
             subQuest.forEach(s=>{
-              /* let submissao = new Submissao(null, s.codigo, new Usuario(s["estudante"], null, null, null, null, null), null, new QuestaoProgramacao(s.questaoId, null, null, null, null, null, null, null, null));
-              submissao.erro = s.erro; */
 
               submissoesQuestaoEstudante.push(s);
             })
@@ -151,3 +147,4 @@ describe('Testes para process mining', () => {
         console.log(JSON.stringify(eventos));
     })
 });
+ */

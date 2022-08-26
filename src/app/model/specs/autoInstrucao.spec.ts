@@ -1,7 +1,7 @@
-import { AngularFirestore, AngularFirestoreModule } from '@angular/fire/firestore';
+/* import { AngularFirestore, AngularFirestoreModule } from '@angular/fire/compat/firestore';
 import { TestBed, inject } from '@angular/core/testing';
 import { DocumentModule } from '../firestore/document.module';
-import { AngularFireModule, FirebaseApp } from '@angular/fire';
+import { AngularFireModule, FirebaseApp } from '@angular/fire/compat';
 import { FirebaseConfiguracao } from 'src/environments/firebase';
 import { AutoInstrucao } from '../srl/autoInstrucao';
 import { Assunto } from '../questoes/assunto';
@@ -27,7 +27,7 @@ describe('Testes de Auto instrução', () => {
     })();
   });
 
-  /*it("deve salvar uma Autoinstrução", (done)=>{
+  it("deve salvar uma Autoinstrução", (done)=>{
         let e = new Estudante("12345", null);
         let q = new Questao("123456", "nomeCurto", "enunciado", Dificuldade.facil, 1, [], [], null);
         let autoInstrucao = new AutoInstrucao(null, e, q, "problema", "variaveis", "condicoes", "repeticoes", "funcoes", "vetores");
@@ -44,7 +44,7 @@ describe('Testes de Auto instrução', () => {
         let q = new Questao("123456", "nomeCurto", "enunciado", Dificuldade.facil, 1, [], [], null);
         let autoInstrucao = new AutoInstrucao(null, e, q, "problema", "variaveis", "condicoes", "repeticoes", "funcoes", "vetores");
         expect(autoInstrucao.objectToDocument()).toEqual({estudanteId:"12345", questaoId:"123456", problema:"problema", variaveis:"variaveis", condicoes:"condicoes", repeticoes:"repeticoes", funcoes:"funcoes", vetores:"vetores"})
-    })*/
+    })
 
   it('Deve validar se uma autoinstrução é válida, ou seja, está com os dados preenchidos corretamente', () => {
     let ac: Assunto = new Assunto(null, 'Condições');
@@ -97,3 +97,4 @@ describe('Testes de Auto instrução', () => {
     expect(autoinstrucao4.validar(ar)).toBeFalsy();
   });
 });
+ */

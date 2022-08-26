@@ -1,6 +1,6 @@
-import { inject, TestBed } from '@angular/core/testing';
-import { AngularFireModule, FirebaseApp } from '@angular/fire';
-import { AngularFirestore, AngularFirestoreModule } from '@angular/fire/firestore';
+/* import { inject, TestBed } from '@angular/core/testing';
+import { AngularFireModule, FirebaseApp } from '@angular/fire/compat';
+import { AngularFirestore, AngularFirestoreModule } from '@angular/fire/compat/firestore';
 import { DocumentModule } from 'src/app/model/firestore/document.module';
 import Submissao from 'src/app/model/submissao';
 import { FirebaseConfiguracao } from 'src/environments/firebase';
@@ -57,3 +57,4 @@ describe('Testes de análise de sintaxe para variáveis', () => {
 
 
 });
+ */

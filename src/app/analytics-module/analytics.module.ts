@@ -1,6 +1,6 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { AngularFirestoreModule } from '@angular/fire/firestore';
+import { AngularFirestoreModule } from '@angular/fire/compat/firestore';
 
 import { ChartModule } from 'primeng/chart';
 import { DadosEstudanteComponent } from './dados-estudante/dados-estudante.component';
