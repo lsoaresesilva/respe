@@ -25,7 +25,7 @@ import ChatGrupo from '../chatGrupo';
 @Component({
   selector: 'app-chat',
   templateUrl: './chat.component.html',
-  styleUrls: ['./chat.component.scss'],
+  styleUrls: ['./chat.component.css'],
 })
 export class ChatGrupoComponent implements OnInit, OnChanges, AfterViewInit, OnDestroy {
   mensagens$;

@@ -1,7 +1,6 @@
 import { Observable, forkJoin } from 'rxjs';
 import { PerfilUsuario } from '../enums/perfilUsuario';
 import { Groups } from '../experimento/groups';
-import Grafo from './grafo';
 import Submissao from '../submissao';
 import Usuario from '../usuario';
 import AnalyticsProgramacao from '../analytics/analyticsProgramacao';
@@ -11,7 +10,6 @@ import { Assunto } from '../questoes/assunto';
 export default class EstatisticaPageTrack {
 
   static contarAcessos(tracks:any[]){
-    let grafo = new Grafo(tracks);
     //let tracksAgrupados = grafo.prepararDados();
     let estados = new Map<string, Map<string, number>>();
     let navegacao = [];
@@ -78,7 +76,6 @@ export default class EstatisticaPageTrack {
           PageTrackRecord.contarVisualizacoesPorPagina(tracks)
         )
       );
-      let markov = new Grafo(tracks).criar();
     }
 
 

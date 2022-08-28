@@ -42,7 +42,7 @@ export default class Usuario extends Document implements IChatParticipant {
   @ignore()
   displayName: string;
 
-  
+
   minutos;
   genero;
   conhecimentoPrevioProgramacao;
@@ -57,7 +57,7 @@ export default class Usuario extends Document implements IChatParticipant {
   @ignore()
   totalRespostasProgramacao?;
 
-  
+
 
   static getByQuery(query):Observable<Usuario> {
     return new Observable((observer) => {
@@ -77,14 +77,14 @@ export default class Usuario extends Document implements IChatParticipant {
     });
   }
 
-  
+
   static getTodasSubmissoes(estudante:Usuario){
     return Submissao.getAll(
       new Query('estudanteId', '==', estudante.pk()), "data"
     );
   }
 
-  
+
   static fromJson(json) {
     if (json != null && json.id != undefined) {
       const usuario = new Usuario(
@@ -97,7 +97,7 @@ export default class Usuario extends Document implements IChatParticipant {
       );
 
       usuario.minutos = json.minutos;
-      
+
 
       if (json.turma != null) {
         usuario.turma = Turma.fromJson(json.turma);
@@ -142,9 +142,6 @@ export default class Usuario extends Document implements IChatParticipant {
     }
 
     if (this['codigoTurma'] != null) {
-      /* let turma = new Turma(null, null, null, null);
-      turma.codigo = this['codigoTurma']; */
-      
       objeto['turma'] = this.turma.stringfiy();
     }
 
@@ -158,7 +155,7 @@ export default class Usuario extends Document implements IChatParticipant {
   }
 
   salvar(perfil = PerfilUsuario.estudante, group:Groups = null, isRandom = false): Observable<Usuario> {
-    
+
     return new Observable((observer) => {
       this.perfil = perfil;
       if(!isRandom){
@@ -168,7 +165,7 @@ export default class Usuario extends Document implements IChatParticipant {
             this.grupoExperimento = atribuicao.grupoExperimental;
           }else{
             this.grupoExperimento = group;
-            
+
           }
           super.save().subscribe((result)=>{
             observer.next(result);
@@ -177,7 +174,7 @@ export default class Usuario extends Document implements IChatParticipant {
         })
 
 
-        
+
       }else{
         Usuario.getAll([
           new Query('codigoTurma', '==', this.turma.codigo),
@@ -188,7 +185,7 @@ export default class Usuario extends Document implements IChatParticipant {
             categorias,
             this.conhecimentoPrevioProgramacao
           );
-          
+
           super.save().subscribe((result) => {
             observer.next(result);
             observer.complete();
@@ -197,10 +194,10 @@ export default class Usuario extends Document implements IChatParticipant {
       }
 
 
-      
+
     });
   }
-  
+
   static get(id):Observable<Usuario>{
     return super.get(id);
   }

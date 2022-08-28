@@ -1,4 +1,4 @@
-/* import { AngularFirestore, AngularFirestoreModule } from '@angular/fire/compat/firestore';
+/* import { AngularFirestore, AngularFirestoreModule } from '@angular/fire/firestore';
 import AutoReflexao from '../autoReflexao';
 
 describe('Testes de autoreflexão', () => {

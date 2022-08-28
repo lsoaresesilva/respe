@@ -6,11 +6,11 @@ import { CategoriaErro } from '../../enum/categoriasErro';
 
 import * as firebase from 'firebase';
 
-import { AngularFirestore, AngularFirestoreModule } from '@angular/fire/compat/firestore';
+import { AngularFirestore, AngularFirestoreModule } from '@angular/fire/firestore';
 
 import { TestBed, inject } from '@angular/core/testing';
 
-import { AngularFireModule, FirebaseApp } from '@angular/fire/compat';
+import { AngularFireModule, FirebaseApp } from '@angular/fire';
 
 import { FirebaseConfiguracao } from 'src/environments/firebase';
 import { DocumentModule } from 'src/app/model/firestore/document.module';

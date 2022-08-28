@@ -2,9 +2,9 @@
 
 import { LivroService } from './livro.service';
 import Secao from '../model/livro/secao';
-import { AngularFirestore, AngularFirestoreModule } from '@angular/fire/compat/firestore';
+import { AngularFirestore, AngularFirestoreModule } from '@angular/fire/firestore';
 import { DocumentModule } from '../model/firestore/document.module';
-import { AngularFireModule, FirebaseApp } from '@angular/fire/compat';
+import { AngularFireModule, FirebaseApp } from '@angular/fire';
 import { FirebaseConfiguracao } from 'src/environments/firebase';
 
 describe('LivroService', () => {

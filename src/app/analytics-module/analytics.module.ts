@@ -1,9 +1,8 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { AngularFirestoreModule } from '@angular/fire/compat/firestore';
+import { AngularFirestoreModule } from '@angular/fire/firestore';
 
 import { ChartModule } from 'primeng/chart';
-import { DadosEstudanteComponent } from './dados-estudante/dados-estudante.component';
 import { ProgressBarModule } from 'primeng/progressbar';
 import { ProgessoGeralComponent } from './progesso-geral/progesso-geral.component';
 import { ProgressoQuestoesAbertasComponent } from './progresso-questoes-abertas/progresso-questoes-abertas.component';
@@ -14,14 +13,14 @@ import { MediaSubmissoesAcertoComponent } from './media-submissoes-acerto/media-
 import { TotalExecucoesComponent } from './total-execucoes/total-execucoes.component';
 import { TempoOnlineComponent } from './tempo-online/tempo-online.component';
 import { TentativaQuestoesComponent } from './tentativa-questoes/tentativa-questoes.component';
-import { AnalyticsTurmaComponent } from './analytics-turma/analytics-turma.component';
 import { TableModule } from 'primeng/table';
 import { SrlModule } from '../srl/srl.module';
 import { ExportarDadosAnalyticsComponent } from './exportar-dados-analytics/exportar-dados-analytics.component';
+import { DadosAnalyticsComponent } from './dados-estudante/dados-analytics.component';
 
 @NgModule({
   declarations: [
-    DadosEstudanteComponent,
+    DadosAnalyticsComponent,
     ProgessoGeralComponent,
     ProgressoQuestoesAbertasComponent,
     ProgressoQuestoesFechadasComponent,
@@ -31,10 +30,9 @@ import { ExportarDadosAnalyticsComponent } from './exportar-dados-analytics/expo
     TotalExecucoesComponent,
     TempoOnlineComponent,
     TentativaQuestoesComponent,
-    AnalyticsTurmaComponent,
     ExportarDadosAnalyticsComponent,
   ],
   imports: [SrlModule, CommonModule, ProgressBarModule, TableModule],
-  exports: [DadosEstudanteComponent, AnalyticsTurmaComponent],
+  exports: [DadosAnalyticsComponent],
 })
 export class AnalyticsModule {}

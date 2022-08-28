@@ -9,7 +9,7 @@
     "moduleResolution": "node",
     "experimentalDecorators": true,
     "importHelpers": true,
-    "target": "es5",
+    "target": "es2015",
     "resolveJsonModule": true,
     "esModuleInterop": true,
     "allowJs": true,

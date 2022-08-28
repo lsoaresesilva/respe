@@ -1,7 +1,7 @@
 /* import { AngularFirestore, AngularFirestoreModule } from "@angular/fire/compat/firestore";
 import { TestBed, inject } from '@angular/core/testing';
 import { DocumentModule } from '../firestore/document.module';
-import { AngularFireModule, FirebaseApp } from '@angular/fire/compat';
+import { AngularFireModule, FirebaseApp } from '@angular/fire';
 import { FirebaseConfiguracao } from 'src/environments/firebase';
 import TestCase from '../testCase';
 import Query from '../firestore/query';

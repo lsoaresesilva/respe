@@ -1,4 +1,4 @@
-import { Edge, Node } from '@swimlane/ngx-graph';
+/* import { Edge, Node } from '@swimlane/ngx-graph';
 import { Observable } from 'rxjs';
 import PageTrackRecord from '../analytics/pageTrack';
 import Query from '../firestore/query';
@@ -229,7 +229,7 @@ export default class Grafo {
 
               }
 
-              /* Núcleo do algoritmo está aqui. */
+              // Núcleo do algoritmo está aqui.
               let estado = estados.get(source);
               if (estado == null) {
                 estados.set(source, new Map());
@@ -240,7 +240,7 @@ export default class Grafo {
               }
               totalNovo = estados.get(source).get(target);
               estados.get(source).set(target, totalNovo + 1);
-              /* Fim Código novo */
+              // Fim Código novo 
             }
 
 
@@ -266,13 +266,12 @@ export default class Grafo {
     return n;
   }
 
-  /* Agrupa todos os pagetracks pelo dia em que a ação ocorreu.
+  // Agrupa todos os pagetracks pelo dia em que a ação ocorreu.
 
-  */
   public prepararDados(){
     if (this.pageTracks != null) {
       let dias = new Map<string, any[]>();
-      let matriz = []; /* new Map<string, any[]>(); */
+      let matriz = []; 
 
 
       this.pageTracks.forEach((track) => {
@@ -287,9 +286,8 @@ export default class Grafo {
         hasDia.push(track);
       });
 
-      /**
-       * Ordena os dias do mais antigo para o mais recente
-       */
+      //Ordena os dias do mais antigo para o mais recente
+       
 
       dias.forEach((dia) => {
         dia.sort(function (a, b) {
@@ -307,8 +305,7 @@ export default class Grafo {
         });
       });
 
-      /* Extrai todas as páginas visitadas em cada dia
-                    Adiciona, dia por dias, em uma matriz */
+      // Extrai todas as páginas visitadas em cada dia . Adiciona, dia por dias, em uma matriz 
 
       dias.forEach((dia) => {
         let m = [];
@@ -338,13 +335,7 @@ export default class Grafo {
         this.criarMatrizTransicao(mTrack, estados, tempoVisuDesempenho, totalVisuSelfMonitoramento, tempoVisuSelfPlanejamento, tempoVisuSelfMonitoramento);
       });
       matrizes = matrizes.concat(matriz);
-      /* pageTracks.forEach(tracks=>{
-
-
-
-
-
-      }) */
+      
     }
 
     return [matrizes, estados];
@@ -356,9 +347,9 @@ export default class Grafo {
 
       
 
-      /* Cria uma matriz que indica de um determinado local para onde o aluno foi
-           É incluída uma probabilidade dele ter ido de um local para outro dado as vezes em que ele fez isso.
-       */
+      // Cria uma matriz que indica de um determinado local para onde o aluno foi
+      //     É incluída uma probabilidade dele ter ido de um local para outro dado as vezes em que ele fez isso.
+      
 
       let totalTracks = 0;
 
@@ -366,7 +357,7 @@ export default class Grafo {
       let matrizes = resultado[0]
       let estados = resultado[1];
 
-      /* Calcula a probabilidade para a matriz de navegação */
+      // Calcula a probabilidade para a matriz de navegação 
 
       let probabilidades = new Map<string, Map<string, number>>();
       estados.forEach((targets, source) => {
@@ -391,9 +382,9 @@ export default class Grafo {
     let tempoVisuDesempenho = new Map<string, number>();
     let estados = new Map<string, Map<string, number>>();
     if (this.pageTracks != null) {
-      /* Cria uma matriz que indica de um determinado local para onde o aluno foi
+      // Cria uma matriz que indica de um determinado local para onde o aluno foi
            É incluída uma probabilidade dele ter ido de um local para outro dado as vezes em que ele fez isso.
-       */
+       //
 
       let totalTracks = 0;
 
@@ -404,7 +395,7 @@ export default class Grafo {
         this.criarMatrizTransicao(mTrack, estados, tempoVisuDesempenho, totalVisuSelfMonitoramento, tempoVisuSelfPlanejamento, tempoVisuSelfMonitoramento);
       });
 
-      /* Código novo */
+      // Código novo
 
       let probabilidades = new Map<string, Map<string, number>>();
       estados.forEach((targets, source) => {
@@ -420,3 +411,4 @@ export default class Grafo {
     }
   }
 }
+ */

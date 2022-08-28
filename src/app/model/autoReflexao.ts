@@ -4,11 +4,9 @@ import { NivelConfianca } from './nivelConfianca';
 
 @Collection('autoReflexoes')
 export default class AutoReflexao extends Document {
-  nivelConfianca: NivelConfianca;
 
-  constructor(id, nivelConfianca, public dificuldades, public acoesSucesso) {
+  constructor(id, public nivelConfianca: NivelConfianca, public dificuldades, public acoesSucesso) {
     super(id);
-    this.nivelConfianca = nivelConfianca;
   }
 
   validar() {

@@ -7,10 +7,11 @@
     <!--<button pButton label="Cadastrar" (click)="cadastrarEstudante()"></button> -->
   </div>
   <div class="ui-g-4">
-    <button pButton label="Estatísticas" (click)="visualizarEstatisticas()"></button>
+    <!-- <button pButton label="Estatísticas" (click)="visualizarEstatisticas()"></button>
     <button pButton label="Exportar analytics" (click)="exportarAnalytics()"></button>
-    <button pButton label="MSLQ" (click)="abrirMslq()"></button>
-    <button pButton label="Exibir progresso"></button>
+    <button pButton label="MSLQ" (click)="abrirMslq()"></button> -->
+    <button pButton label="Exibir progresso dos alunos" (click)="exibirProgresso()"></button>
+    <button pButton label="Exibir estatísticas da turma" (click)="visualizarEstatisticas()"></button>
   </div>
 </div>
 <div class="ui-g-2">
@@ -21,21 +22,25 @@
 <p-table [value]="estudantes$" [(contextMenuSelection)]="selectedEstudante">
   <ng-template pTemplate="header">
     <tr>
-      <th>id</th>
+      <!-- <th>id</th>
       <th>Gênero</th>
-      <th>Idade</th>
-      <th>Conhecimento programação</th>
+       -->
       <th>Nome</th>
+      <th>Idade</th>
+      <th>Conhecimento prévio em programação</th>
       <th>Progresso geral</th>
     </tr>
   </ng-template>
   <ng-template pTemplate="body" let-rowData let-estudante>
     <tr [pContextMenuRow]="rowData">
-      <td>
+      <!-- <td>
         <a>{{ estudante.id }}</a>
       </td>
       <td>
         {{ estudante.genero }}
+      </td> -->
+      <td>
+        <a (click)="abrirPerfilEstudante(estudante)">{{ estudante.nome }}</a>
       </td>
       <td>
         {{ estudante.faixaEtaria }}
@@ -43,9 +48,7 @@
       <td>
         {{ getConhecimento(estudante.conhecimentoPrevioProgramacao) }}
       </td>
-      <td>
-        <a (click)="abrirPerfilEstudante(estudante)">{{ estudante.nome }}</a>
-      </td>
+
       <td>{{ estudante.progressoGeral }}</td>
     </tr>
   </ng-template>
