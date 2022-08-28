@@ -1,24 +1,12 @@
-<h3>
-  <p>{{ estudante.nome }}</p>
-</h3>
+<h4>Estatísticas</h4>
 
-{{estudante.email}}
+<dados-analytics [analytics]="analytics$"></dados-analytics>
 
-<p-toast [style]="{ marginTop: '80px' }"></p-toast>
-
-<h4>Desempenho</h4>
-
-Progresso Geral: {{progressoGeral}}
-
-<h4>Analytics</h4>
-
-<app-analise-self-instruction [estudante]="estudante"></app-analise-self-instruction>
-
-<!-- <app-dados-estudante [estudante]="estudante"></app-dados-estudante>
+<!-- <app-analise-self-instruction [estudante]="estudante"></app-analise-self-instruction>
  -->
 
-<!-- 
+<!--
 <app-grafo-estudantes [pageTracks]="pageTracks"></app-grafo-estudantes> -->
 <!--
- --><!-- 
+ --><!--
 <app-revisao-codigo [estudante]="estudante"></app-revisao-codigo> -->

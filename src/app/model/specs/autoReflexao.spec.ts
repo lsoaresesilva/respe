@@ -1,11 +1,11 @@
-import { AngularFirestore, AngularFirestoreModule } from '@angular/fire/firestore';
+/* import { AngularFirestore, AngularFirestoreModule } from '@angular/fire/firestore';
 import AutoReflexao from '../autoReflexao';
 
 describe('Testes de autoreflexão', () => {
   let app: firebase.app.App;
   let afs: AngularFirestore;
   let areflexao: AutoReflexao;
-  /*
+
     beforeAll(() => {
         jasmine.DEFAULT_TIMEOUT_INTERVAL = 1200000;
         TestBed.configureTestingModule({
@@ -41,5 +41,6 @@ describe('Testes de autoreflexão', () => {
         let a = new Assunto("123456", null, null, null, null)
         areflexao = new AutoReflexao(null, e, a, "fiz certo", "fiz errado", null);
         expect(areflexao.objectToDocument()).toEqual({estudanteId:"12345", assuntoId:"123456", acoesSucesso:"fiz certo", acoesFracasso:"fiz errado"})
-    })*/
+    })
 });
+ */

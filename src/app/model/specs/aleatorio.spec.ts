@@ -1,6 +1,6 @@
-import { TestBed, inject } from "@angular/core/testing";
+/* import { TestBed, inject } from "@angular/core/testing";
 import { AngularFireModule, FirebaseApp } from "@angular/fire";
-import { AngularFirestore, AngularFirestoreModule } from "@angular/fire/firestore";
+import { AngularFirestore, AngularFirestoreModule } from "@angular/fire/compat/firestore";
 import { forkJoin, Observable } from "rxjs";
 import { FirebaseConfiguracao } from 'src/environments/firebase';
 import AtividadeGrupo from "../cscl/atividadeGrupo";
@@ -121,28 +121,12 @@ describe('Testes de questão', () => {
 
 
             //
-            /* QuestaoProgramacao.isFinalizada(questao.questao, new Usuario("ZE3AZqq9KN6uTjQAw8LS", null, null, null, null, null)).subscribe(resposta=>{
-                let x = resposta;
-            }) */
         })
         //Submissao.getAll([new Query("questaoId", "==", "d71b2ce8-2a29-4424-8f87-5eae8b37b3d9"), new Query("estudanteId", "==", "uqqsPnUvjguXc5nPAGtV")]).subscribe(submissoes=>{
-            /* submissoes.sort((s1, s2)=>{
-                let s1Data = Util.firestoreDateToDate(s1.data);
-                let s2Data = Util.firestoreDateToDate(s1.data);
-                if(s1Data < s2Data){
-                    return 1;
-                }else if(s2Data < s1Data){
-                    return -1;
-                }else{
-                    return 0;
-                }
-            }) */
 
 
 
-        /*     QuestaoProgramacao.isFinalizada()
 
-            let x = submissoes;
-        }) */
     })
 });
+ */

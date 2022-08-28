@@ -1,4 +1,4 @@
-import { inject, TestBed } from '@angular/core/testing';
+/* import { inject, TestBed } from '@angular/core/testing';
 import { AngularFireModule, FirebaseApp } from '@angular/fire';
 import { AngularFirestore, AngularFirestoreModule } from '@angular/fire/firestore';
 import { FirebaseConfiguracao } from 'src/environments/firebase';
@@ -41,3 +41,4 @@ describe('Testes para process mining', () => {
   })
 
 });
+ */

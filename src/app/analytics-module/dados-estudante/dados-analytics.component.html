@@ -1,7 +1,7 @@
 <div class="p-grid">
-  <div class="p-col-3">Conclusão dos assuntos</div>
+  <div class="p-col-3">Progresso no curso</div>
   <div class="p-col-6">
-    <app-progesso-geral [progresso]="analytics$?.progresoGeral"></app-progesso-geral>
+    <app-progesso-geral [progresso]="analytics?.progresoGeral"></app-progesso-geral>
   </div>
 </div>
 
@@ -9,7 +9,7 @@
   <div class="p-col-3">Conclusão das questões abertas</div>
   <div class="p-col-6">
     <app-progresso-questoes-abertas
-      [progresso]="analytics$?.progressoQuestoesAbertas"
+      [progresso]="analytics?.progressoQuestoesProgramacao"
     ></app-progresso-questoes-abertas>
   </div>
 </div>
@@ -18,31 +18,17 @@
   <div class="p-col-3">Conclusão das questões fechadas</div>
   <div class="p-col-6">
     <app-progresso-questoes-fechadas
-      [progresso]="analytics$?.progressoQuestoesFechadas"
+      [progresso]="analytics?.progressoQuestoesFechadas"
     ></app-progresso-questoes-fechadas>
   </div>
 </div>
 
-<div class="p-grid">
-  <div class="p-col-3">Percentual questões visualizadas</div>
-  <div class="p-col-6">
-    <app-progresso-questoes-fechadas
-      [progresso]="analytics$?.percentualVisualizacaoQuestoesFechadas"
-    ></app-progresso-questoes-fechadas>
-  </div>
-</div>
 
-<div class="p-grid">
-  <div class="p-col-3">Total de erros em programação</div>
-  <div class="p-col-6">
-    <app-total-erros [totalErrosProgramacao]="analytics$?.totalErrosProgramacao"></app-total-erros>
-  </div>
-</div>
 
 <app-card-erros-programacao-pizza
-  [erros]="analytics$?.errosProgramacao"
+  [erros]="analytics?.errosProgramacao"
 ></app-card-erros-programacao-pizza>
-
+<!--
 <div class="p-grid">
   <div class="p-col-3">Média de submissões até o acerto</div>
   <div class="p-col-6">
@@ -60,13 +46,6 @@
 </div>
 
 <div class="p-grid">
-  <div class="p-col-3">Tempo online</div>
-  <div class="p-col-6">
-    <app-tempo-online [tempoOnline]="analytics$?.tempoOnline"></app-tempo-online>
-  </div>
-</div>
-
-<div class="p-grid">
   <div class="p-col-3">Questões que tentou resolver</div>
   <div class="p-col-6">
     <app-tentativa-questoes
@@ -74,3 +53,4 @@
     ></app-tentativa-questoes>
   </div>
 </div>
+ -->

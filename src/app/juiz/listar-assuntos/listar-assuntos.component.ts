@@ -9,6 +9,7 @@ import Query from 'src/app/model/firestore/query';
 import * as firebase from 'firebase';
 import { forkJoin } from 'rxjs';
 import { Assunto } from 'src/app/model/questoes/assunto';
+import Analytics from 'src/app/model/analytics/analytics';
 
 @Component({
   selector: 'app-listar-assuntos',
@@ -42,7 +43,7 @@ export class ListarAssuntosComponent implements OnInit {
           if(this.usuario.grupoExperimento != Groups.control){
             this.assuntos.forEach((assunto) => {
               Assunto.consultarRespostasEstudante(this.usuario).subscribe(respostas=>{
-                let percentual = Assunto.calcularProgresso(assunto, respostas);
+                let percentual = Analytics.calcularProgressoNoAssunto(assunto, respostas);
                 assunto['percentual'] = percentual;
               })
 
@@ -57,7 +58,7 @@ export class ListarAssuntosComponent implements OnInit {
           if(this.usuario.grupoExperimento != Groups.control){
             this.assuntos.forEach((assunto) => {
               Assunto.consultarRespostasEstudante(this.usuario).subscribe(respostas=>{
-                let percentual = Assunto.calcularProgresso(assunto, respostas);
+                let percentual = Analytics.calcularProgressoNoAssunto(assunto, respostas);
                 assunto['percentual'] = percentual;
               })
             });

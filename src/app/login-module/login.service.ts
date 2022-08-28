@@ -81,7 +81,7 @@ export class LoginService {
                 usuarioLogado.turma = turma;
                 this.criarSessao(usuarioLogado);
                 //this.rastrearTempoOnline.iniciarTimer(usuarioLogado);
-    
+
                 const registroLogin = new RegistroLogin(null, usuarioLogado);
                 registroLogin.save().subscribe(() => {});
                 observer.next(true);
@@ -93,8 +93,8 @@ export class LoginService {
               observer.complete();
             }
 
-            
-            
+
+
           } else {
             observer.error(new Error("usuário ou senha inválidos."));
           }

@@ -1,4 +1,4 @@
-import { async, ComponentFixture, TestBed } from '@angular/core/testing';
+import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 
 import { VisualizarQuestaoFechadaComponent } from './visualizar-questao-fechada.component';
 
@@ -6,7 +6,7 @@ describe('VisualizarQuestaoFechadaComponent', () => {
   let component: VisualizarQuestaoFechadaComponent;
   let fixture: ComponentFixture<VisualizarQuestaoFechadaComponent>;
 
-  beforeEach(async(() => {
+  beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
       declarations: [ VisualizarQuestaoFechadaComponent ]
     })

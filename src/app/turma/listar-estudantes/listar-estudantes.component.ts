@@ -37,13 +37,7 @@ export class ListarEstudantesComponent implements OnInit {
 
         Turma.getAllEstudantes(params['codigoTurma']).subscribe((estudantes) => {
           this.estudantes$ = estudantes;
-          Assunto.getAll().subscribe(assuntos=>{
-            this.estudantes$.forEach(estudante => {
-              Analytics.calcularProgressoGeral(assuntos, estudante).subscribe(progresso=>{
-                estudante.progressoGeral = progresso;
-              })
-            });
-          })
+
 
           /*  */
         });
@@ -109,12 +103,22 @@ export class ListarEstudantesComponent implements OnInit {
     if (this.turma != null && this.turma.codigo != null) {
       this.router.navigate([
         'geral/main',
-        { outlets: { principal: ['analytics-turma', this.turma.codigo] } },
+        { outlets: { principal: ['turma', 'analytics-turma', this.turma.codigo] } },
       ]);
     }
   }
 
+  exibirProgresso(){
+    Assunto.getAll().subscribe(assuntos=>{
+      this.estudantes$.forEach(estudante => {
+        Assunto.consultarRespostasEstudante(estudante).subscribe(respostas=>{
+          estudante.progressoGeral = Analytics.calcularProgressoGeral(assuntos, respostas);
+        });
 
+      });
+    })
+
+  }
 
   exportarAnalytics() {
     if (this.turma != null && this.turma.codigo != null) {

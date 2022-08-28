@@ -1,7 +1,7 @@
-
+/*
 import { TestBed, inject } from "@angular/core/testing";
-import { AngularFireModule, FirebaseApp } from "@angular/fire";
-import { AngularFirestore, AngularFirestoreModule } from "@angular/fire/firestore";
+import { AngularFireModule, FirebaseApp } from "@angular/fire/compat";
+import { AngularFirestore, AngularFirestoreModule } from "@angular/fire/compat/firestore";
 import { FirebaseConfiguracao } from "src/environments/firebase";
 import { DocumentModule } from "../../firestore/document.module";
 
@@ -24,7 +24,7 @@ describe('Testes para a classe de Erro', () => {
     })();
   });
 
-  /*it("Deve retornar os erros das submissões de um estudante", (done)=>{
+  it("Deve retornar os erros das submissões de um estudante", (done)=>{
         let u = new Usuario(null, "", "", PerfilUsuario.estudante, 0);
         let q = new Questao(12345, "", "", Dificuldade.dificil, 1, [], [], "");
         let s1 = new Submissao(null, new Codigo(), u, q);
@@ -42,5 +42,6 @@ describe('Testes para a classe de Erro', () => {
                 })
             })
         })
-    })*/
+    })
 });
+ */

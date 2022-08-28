@@ -1,4 +1,4 @@
-import { async, ComponentFixture, TestBed } from '@angular/core/testing';
+import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 
 import { EnvioMaterialComponent } from './envio-material.component';
 
@@ -6,7 +6,7 @@ describe('EnvioMaterialComponent', () => {
   let component: EnvioMaterialComponent;
   let fixture: ComponentFixture<EnvioMaterialComponent>;
 
-  beforeEach(async(() => {
+  beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
       declarations: [ EnvioMaterialComponent ]
     })

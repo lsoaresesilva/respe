@@ -2,6 +2,7 @@ import { Component, OnInit, Input, OnChanges } from '@angular/core';
 import { Tutor } from '../../../model/tutor';
 import { LoginService } from '../../../login-module/login.service';
 import { Assunto } from '../../../model/questoes/assunto';
+import Analytics from '../../../model/analytics/analytics';
 
 @Component({
   selector: 'app-card-desempenho',
@@ -23,7 +24,7 @@ export class CardDesempenhoComponent implements OnChanges {
 
   ngOnChanges() {
     if(this.respostas != null && this.assuntos != null){
-      this.progresso = Assunto.calcularProgressoGeral(this.assuntos, this.respostas);
+      this.progresso = Analytics.calcularProgressoGeral(this.assuntos, this.respostas);
     }
 
   }

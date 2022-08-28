@@ -1,4 +1,4 @@
-import { Edge, Node } from '@swimlane/ngx-graph';
+/* import { Edge, Node } from '@swimlane/ngx-graph';
 import { Observable } from 'rxjs';
 import PageTrackRecord from '../analytics/pageTrack';
 import Query from '../firestore/query';
@@ -55,6 +55,39 @@ export default class Grafo {
     return { nos: nos, arestas: arestas };
   }
 
+  criarMatrizTransicaoAgrupadaEstudante(tracks){
+    let navegacaoEstudantes = new Map<string, Map<string, number>>();
+    for (let i = 0; i < tracks.length; i++) {
+      let source = tracks[i].pagina; // De onde ele estava
+      let target = tracks[i + 1]; // Para onde ele foi
+      if (target != undefined && (target.pagina != "atividade-grupo")) {
+
+        if((source == "editor" && target.pagina == "self-instruction") || 
+        target.pagina == "ranking" || target.pagina == "listagem-diarios" || 
+        target.pagina == "meu-desempenho" || target.pagina == "visualizacao-algoritmo" || 
+        target.pagina == "visualizacao-resposta-questao"){
+              let contagens = navegacaoEstudantes.get(tracks[i].estudante);
+              if(contagens == null){
+                contagens = new Map<string, number>();
+                navegacaoEstudantes.set(tracks[i].estudante, contagens);
+              }
+
+              let contagem = contagens.get(target.pagina);
+              if (contagem == null) {
+                contagens.set(target.pagina, 0);
+              }
+              contagem = contagens.get(target.pagina);
+              contagens.set(target.pagina, contagem + 1);
+        }
+
+
+
+      }
+    }
+
+    return navegacaoEstudantes;
+  }
+
   criarMatrizTransicao(tracks, estados, tempoVisuMonitoramento, totalVisuSelfMonitoramento, tempoVisuSelfPlanejamento, tempoVisuSelfMonitoramento) {
     for (let i = 0; i < tracks.length; i++) {
       let source = tracks[i].pagina; // De onde ele estava
@@ -76,19 +109,19 @@ export default class Grafo {
             prosseguir = false;
           }
         }else if(source == "self-instruction"){
-          if(target.pagina == "index" || target.pagina == "visualizacao-questao-fechada" || target.pagina == "visualizacao-algoritmo" || target.pagina == "visualizar-questao-parson" || target.pagina == "visualizacao-resposta-questao" ){
+          if(target.pagina == "visualizacao-questao-fechada" || target.pagina == "visualizacao-algoritmo" || target.pagina == "visualizar-questao-parson" || target.pagina == "visualizacao-resposta-questao" ){
             prosseguir = false;
           }
         }else if(source == "editor"){
-          if(target.pagina == "index" || target.pagina == "visualizacao-assunto" || target.pagina == "visualizar-assunto" || target.pagina == "editor"){
+          if(target.pagina == "visualizacao-assunto" || target.pagina == "visualizar-assunto" || target.pagina == "editor"){
             prosseguir = false;
           }
         }else if(source == "visualizacao-questao-fechada"){
-          if(target.pagina == "index" || target.pagina == "editor" || target.pagina == "visualizacao-algoritmo" || target.pagina == "visualizacao-resposta-questao"){
+          if(target.pagina == "editor" || target.pagina == "visualizacao-algoritmo" || target.pagina == "visualizacao-resposta-questao"){
             prosseguir = false;
           }
         }else if(source == "visualizacao-algoritmo"){
-          if(target.pagina == "index" || target.pagina == "visualizacao-assunto" || target.pagina == "visualizar-assunto"){
+          if(target.pagina == "visualizacao-assunto" || target.pagina == "visualizar-assunto"){
             prosseguir = false;
           }
         }else if(source == "responder-questao-correcao"){
@@ -196,7 +229,7 @@ export default class Grafo {
 
               }
 
-              /* Núcleo do algoritmo está aqui. */
+              // Núcleo do algoritmo está aqui.
               let estado = estados.get(source);
               if (estado == null) {
                 estados.set(source, new Map());
@@ -207,7 +240,7 @@ export default class Grafo {
               }
               totalNovo = estados.get(source).get(target);
               estados.get(source).set(target, totalNovo + 1);
-              /* Fim Código novo */
+              // Fim Código novo 
             }
 
 
@@ -233,13 +266,15 @@ export default class Grafo {
     return n;
   }
 
-  private prepararDados(pageTracks){
-    if (pageTracks != null) {
-      let dias = new Map<string, any[]>();
-      let matriz = []; /* new Map<string, any[]>(); */
+  // Agrupa todos os pagetracks pelo dia em que a ação ocorreu.
 
-      // Agrupa todos os pagetracks pelo dia em que a ação ocorreu.
-      pageTracks.forEach((track) => {
+  public prepararDados(){
+    if (this.pageTracks != null) {
+      let dias = new Map<string, any[]>();
+      let matriz = []; 
+
+
+      this.pageTracks.forEach((track) => {
         let dataDoTrack = track.data//.toDate();
         let mesDia = dataDoTrack.getDate().toString() + '/' + dataDoTrack.getMonth().toString();
         let hasDia = dias.get(mesDia);
@@ -251,9 +286,8 @@ export default class Grafo {
         hasDia.push(track);
       });
 
-      /**
-       * Ordena os dias do mais antigo para o mais recente
-       */
+      //Ordena os dias do mais antigo para o mais recente
+       
 
       dias.forEach((dia) => {
         dia.sort(function (a, b) {
@@ -271,8 +305,7 @@ export default class Grafo {
         });
       });
 
-      /* Extrai todas as páginas visitadas em cada dia
-                    Adiciona, dia por dias, em uma matriz */
+      // Extrai todas as páginas visitadas em cada dia . Adiciona, dia por dias, em uma matriz 
 
       dias.forEach((dia) => {
         let m = [];
@@ -286,44 +319,45 @@ export default class Grafo {
     }
   }
 
-  criarMatrizSomada(pageTracks){
+  criarMatriz(pageTracks){
     let matrizes = [];
-
     let tempoVisuSelfPlanejamento = new Map<string, number>();
     let tempoVisuSelfMonitoramento = new Map<string, number>();
     let totalVisuIndex = new Map<string, number>();
     let totalVisuSelfMonitoramento = new Map<string, number>();
     let tempoVisuDesempenho = new Map<string, number>();
+    let estados = new Map<string, Map<string, number>>();
+    let totalTracks = 0;
+    if(Array.isArray(pageTracks)){
+      let matriz = this.prepararDados();
+      matriz.forEach((mTrack) => {
+        totalTracks += mTrack.length;
+        this.criarMatrizTransicao(mTrack, estados, tempoVisuDesempenho, totalVisuSelfMonitoramento, tempoVisuSelfPlanejamento, tempoVisuSelfMonitoramento);
+      });
+      matrizes = matrizes.concat(matriz);
+      
+    }
 
+    return [matrizes, estados];
+  }
+
+  criarMatrizSomada(pageTracks){
 
     if (pageTracks != null) {
 
-      let estados = new Map<string, Map<string, number>>();
+      
 
-      /* Cria uma matriz que indica de um determinado local para onde o aluno foi
-           É incluída uma probabilidade dele ter ido de um local para outro dado as vezes em que ele fez isso.
-       */
+      // Cria uma matriz que indica de um determinado local para onde o aluno foi
+      //     É incluída uma probabilidade dele ter ido de um local para outro dado as vezes em que ele fez isso.
+      
 
       let totalTracks = 0;
 
-      if(Array.isArray(pageTracks)){
-        let matriz = this.prepararDados(pageTracks);
-        matriz.forEach((mTrack) => {
-          totalTracks += mTrack.length;
-          this.criarMatrizTransicao(mTrack, estados, tempoVisuDesempenho, totalVisuSelfMonitoramento, tempoVisuSelfPlanejamento, tempoVisuSelfMonitoramento);
-        });
-        matrizes = matrizes.concat(matriz);
-        /* pageTracks.forEach(tracks=>{
+      let resultado = this.criarMatriz(pageTracks);
+      let matrizes = resultado[0]
+      let estados = resultado[1];
 
-
-
-
-
-        }) */
-      }
-
-
-      /* Código novo */
+      // Calcula a probabilidade para a matriz de navegação 
 
       let probabilidades = new Map<string, Map<string, number>>();
       estados.forEach((targets, source) => {
@@ -346,24 +380,22 @@ export default class Grafo {
     let totalVisuIndex = new Map<string, number>();
     let totalVisuSelfMonitoramento = new Map<string, number>();
     let tempoVisuDesempenho = new Map<string, number>();
+    let estados = new Map<string, Map<string, number>>();
     if (this.pageTracks != null) {
-
-      let estados = new Map<string, Map<string, number>>();
-
-      /* Cria uma matriz que indica de um determinado local para onde o aluno foi
+      // Cria uma matriz que indica de um determinado local para onde o aluno foi
            É incluída uma probabilidade dele ter ido de um local para outro dado as vezes em que ele fez isso.
-       */
+       //
 
       let totalTracks = 0;
 
-      let matriz = this.prepararDados(this.pageTracks);
+      let matriz = this.prepararDados();
 
       matriz.forEach((mTrack) => {
         totalTracks += mTrack.length;
         this.criarMatrizTransicao(mTrack, estados, tempoVisuDesempenho, totalVisuSelfMonitoramento, tempoVisuSelfPlanejamento, tempoVisuSelfMonitoramento);
       });
 
-      /* Código novo */
+      // Código novo
 
       let probabilidades = new Map<string, Map<string, number>>();
       estados.forEach((targets, source) => {
@@ -379,3 +411,4 @@ export default class Grafo {
     }
   }
 }
+ */

@@ -1,4 +1,4 @@
-import { AngularFirestore, AngularFirestoreModule } from "@angular/fire/firestore";
+/* import { AngularFirestore, AngularFirestoreModule } from "@angular/fire/compat/firestore";
 import { TestBed, inject } from '@angular/core/testing';
 import { DocumentModule } from '../firestore/document.module';
 import { AngularFireModule, FirebaseApp } from '@angular/fire';
@@ -22,18 +22,19 @@ describe("Testes de testcase", ()=>{
           ]
         });
         inject([FirebaseApp, AngularFirestore], (_app: firebase.app.App, _afs: AngularFirestore) => {
-    
+
           app = _app;
           afs = _afs;
         })();
-    
+
       });
-/*
+
       it("deve carregar todos os testscases para uma questão", (done)=>{
         TestCase.getAll(new Query("idQuestao", "==", "LwC2ItAVtfkDhcE9jvpT")).subscribe(testsCases=>{
             expect(testsCases.length).toBe(2);
             done();
         })
     })
-*/
+
 });
+ */

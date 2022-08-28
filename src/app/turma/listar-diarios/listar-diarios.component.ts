@@ -16,10 +16,10 @@ export class ListarDiariosComponent implements OnInit {
 
   pesquisaTurmas;
   turmaSelecionada;
-  diarios$;
+  diarios$:Map<any, any>;
 
   constructor() {
-    this.diarios$ = [];
+    this.diarios$ = new Map();
    }
 
   ngOnInit(): void {

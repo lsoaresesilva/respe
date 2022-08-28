@@ -1,4 +1,4 @@
-
+/*
 import { TestBed, inject } from '@angular/core/testing';
 import { DocumentModule } from '../firestore/document.module';
 import { AngularFirestore, AngularFirestoreModule } from '@angular/fire/firestore';
@@ -13,7 +13,7 @@ import ResultadoTestCase from '../resultadoTestCase';
 import { Assuntos } from '../enums/assuntos';
 import { QuestaoProgramacao } from '../questoes/questaoProgramacao';
 import { ModeloRespostaQuestao } from '../questoes/modeloRespostaQuestao';
-/*
+
 describe('Testes de questão', () => {
   let app: firebase.app.App;
   let afs: AngularFirestore;
@@ -224,4 +224,5 @@ describe('Testes de questão', () => {
       })
     });
 });
+
  */
