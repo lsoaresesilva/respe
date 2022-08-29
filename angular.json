@@ -54,9 +54,10 @@
             ],
             "vendorChunk": true,
             "extractLicenses": false,
-            "buildOptimizer": false,
+            "buildOptimizer": true,
+            "aot":true,
             "sourceMap": true,
-            "optimization": false,
+            "optimization": true,
             "namedChunks": true
           },
           "configurations": {
@@ -67,11 +68,13 @@
                   "with": "src/environments/environment.prod.ts"
                 }
               ],
+              "vendorChunk": true,
+              "extractLicenses": false,
+              "buildOptimizer": true,
+              "aot":true,
+              "sourceMap": true,
               "optimization": true,
-              "outputHashing": "all",
-              "namedChunks": false,
-              "extractLicenses": true,
-              "vendorChunk": false,
+              "namedChunks": true,
               "budgets": [
                 {
                   "type": "initial",
