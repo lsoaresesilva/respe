@@ -24,7 +24,7 @@ import { CsclModule } from './cscl/cscl.module';
 import { LivroModule } from './livro/livro.module';
 import { SistemaAprendizagemModule } from './sistema-aprendizagem/sistema-aprendizagem.module'; */
 
-import { LoginModule } from './login-module/login.module';/* 
+import { LoginModule } from './login-module/login.module';/*
 import { MainComponent } from './geral-module/main/main.component'; */
 
 import { AuthGuard } from './guards/auth.guard';
@@ -43,7 +43,6 @@ import { ToastModule } from 'primeng/toast';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { DocumentModule } from './model/firestore/document.module';
 import {ProgressSpinnerModule} from 'primeng/progressspinner';
-import { NbThemeModule } from '@nebular/theme';
 
 const config: SocketIoConfig = { url: 'http://localhost:3001', options: {} };
 
@@ -71,16 +70,15 @@ const config: SocketIoConfig = { url: 'http://localhost:3001', options: {} };
     TurmaModule,
     ExperimentoModule,
     CsclModule,
-    
+
     GeralModuleModule,
     AnalyticsModule, */
-    
-    NbThemeModule.forRoot(),
+
     AppRoutingModule,
-    
+
     /* InputTextModule,
     MenubarModule,
-    
+
     AngularFireAuthModule,
     SharedPipesModule,
     ParsonProblemModule, */
