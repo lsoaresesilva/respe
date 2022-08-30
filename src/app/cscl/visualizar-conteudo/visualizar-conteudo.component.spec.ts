@@ -1,4 +1,4 @@
-import { async, ComponentFixture, TestBed } from '@angular/core/testing';
+import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 
 import { VisualizarConteudoComponent } from './visualizar-conteudo.component';
 
@@ -6,7 +6,7 @@ describe('VisualizarConteudoComponent', () => {
   let component: VisualizarConteudoComponent;
   let fixture: ComponentFixture<VisualizarConteudoComponent>;
 
-  beforeEach(async(() => {
+  beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
       declarations: [ VisualizarConteudoComponent ]
     })

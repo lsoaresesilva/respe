@@ -1,6 +1,5 @@
-import { ComponentFixture, TestBed } from '@angular/core/testing';
+/* import { ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { DadosEstudanteComponent } from './dados-estudante.component';
 
 describe('DadosEstudanteComponent', () => {
   let component: DadosEstudanteComponent;
@@ -23,3 +22,4 @@ describe('DadosEstudanteComponent', () => {
     expect(component).toBeTruthy();
   });
 });
+ */

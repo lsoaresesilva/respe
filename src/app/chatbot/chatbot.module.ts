@@ -19,10 +19,9 @@ import { ChatbotService } from './chatbot.service';
 import { ChatInputComponent } from './chat-input/chat-input.component';
 
 @NgModule({
-  declarations: [ChatComponent, ChatWidgetComponent, ChatTypingComponent, ChatAvatarComponent, ChatButtonsComponent, ChatConfigComponent, ChatErrorImageComponent, ChatInputComponent],
-  imports: [CommonModule, DialogModule, FormsModule, InputTextModule, ButtonModule, SharedPipesModule],
-  exports: [ChatComponent, ChatConfigComponent, ChatWidgetComponent],
-  providers: [DynamicDialogRef, ChatbotService],
-  entryComponents:[ChatConfigComponent, ChatWidgetComponent]
+    declarations: [ChatComponent, ChatWidgetComponent, ChatTypingComponent, ChatAvatarComponent, ChatButtonsComponent, ChatConfigComponent, ChatErrorImageComponent, ChatInputComponent],
+    imports: [CommonModule, DialogModule, FormsModule, InputTextModule, ButtonModule, SharedPipesModule],
+    exports: [ChatComponent, ChatConfigComponent, ChatWidgetComponent],
+    providers: [DynamicDialogRef, ChatbotService]
 })
 export class ChatbotModule {}

@@ -10,13 +10,14 @@ import Usuario from '../usuario';
 import { RespostaQuestaoFechada } from '../questoes/respostaQuestaoFechada';
 import AnalyticsProgramacao from './analyticsProgramacao';
 import { Assunto } from '../questoes/assunto';
+import QuestaoFechada from '../questoes/questaoFechada';
 
 export default class Analytics {
   // TODO: Fazer apenas um carregamento de assunto e usar par atudo aqui.
 
   // Analytics do estudante
   progresoGeral;
-  progressoQuestoesAbertas;
+  progressoQuestoesProgramacao;
   progressoQuestoesFechadas;
   percentualVisualizacaoQuestoesFechadas;
   totalErrosProgramacao;
@@ -32,14 +33,11 @@ export default class Analytics {
   static init(estudante): Observable<Analytics> {
     return new Observable((observer) => {
       if (estudante != null && estudante.pk() != null) {
-        const analytics = new Analytics();
-
         const consultasGerais = {};
         consultasGerais['assuntos'] = Assunto.getAll();
-        consultasGerais['submissoes'] = Submissao.getAll(
+        /* consultasGerais['submissoes'] = Submissao.getAll(
           new Query('estudanteId', '==', estudante.pk())
-        );
-        consultasGerais['tempoOnline'] = TempoOnline.getTempoOnline(estudante);
+        ); */
         consultasGerais['pageTrack'] = PageTrackRecord.getAll([
           new Query('estudanteId', '==', estudante.pk()),
           new Query('pagina', '==', 'meu-desempenho'),
@@ -47,148 +45,281 @@ export default class Analytics {
 
         forkJoin(consultasGerais).subscribe((resultadosConsultasGerais: any) => {
           const assuntos = resultadosConsultasGerais.assuntos;
-          const submissoes = resultadosConsultasGerais.submissoes;
+          //const submissoes = resultadosConsultasGerais.submissoes;
           const tempoOnline = resultadosConsultasGerais.tempoOnline;
           const pageTracks = resultadosConsultasGerais.PageTrack;
 
-          analytics.totalErrosProgramacao = AnalyticsProgramacao.calcularMediaErrosSintaxeProgramacao(submissoes);
-          analytics.mediaSubmissoesParaAcerto = AnalyticsProgramacao.calcularMediaSubmissoesParaAcerto(submissoes);
-          analytics.totalExecucoes = AnalyticsProgramacao.calcularExecucoes(submissoes);
-          analytics.tempoOnline = tempoOnline;
-          analytics.tentativasQuestoes = AnalyticsProgramacao.calculaTentativasQuestoes(submissoes);
-          analytics.visualizacoesProgresso = this.calculaVisualizacoesProgresso(pageTracks);
-          analytics.errosProgramacao = Submissao.getAllErros(submissoes);
-
           const consultas = {};
 
-          consultas['progressoGeral'] = this.calcularProgressoGeral(assuntos, estudante);
-          consultas['progressoQuestoesAbertas'] = this.calcularProgressoQuestoesAbertas(
-            assuntos,
-            estudante
-          );
-          consultas['progressoQuestoesFechadas'] = this.calcularProgressoQuestoesFechadas(
-            assuntos,
-            estudante
-          );
-
-          consultas[
-            'percentualVisualizacaoQuestoesFechadas'
-          ] = this.calcularPercentualVisualizacaoQuestoes(assuntos, estudante);
-
-          forkJoin(consultas).subscribe(
-            (respostas: any) => {
-              analytics.progresoGeral = respostas.progressoGeral;
-              analytics.progressoQuestoesAbertas = respostas.progressoQuestoesAbertas;
-              analytics.progressoQuestoesFechadas = respostas.progressoQuestoesFechadas;
-              analytics.percentualVisualizacaoQuestoesFechadas =
-                respostas.percentualVisualizacaoQuestoesFechadas;
-
-              observer.next(analytics);
-              observer.complete();
-            },
-            (err) => {
-              observer.error(err);
-            }
-          );
+          Assunto.consultarRespostasEstudante(estudante).subscribe((respostas) => {
+            const analytics: Analytics = this.getAnalytics(assuntos, respostas);
+            observer.next(analytics);
+            observer.complete();
+          });
         });
-
-        /* Assunto.getAll().subscribe((assuntos) => {
-
-        }); */
       } else {
         observer.error('É preciso informar um estudante para calcular o seu analytics');
       }
     });
   }
 
-  public static calcularProgressoGeral(assuntos, estudante) {
+  static getAnalytics(assuntos, respostas) {
+    const analytics = new Analytics();
+    analytics.totalErrosProgramacao = AnalyticsProgramacao.calcularMediaErrosSintaxeProgramacao(
+      respostas.submissoes
+    );
+    analytics.mediaSubmissoesParaAcerto = AnalyticsProgramacao.calcularMediaSubmissoesParaAcerto(
+      respostas.submissoes
+    );
+    analytics.totalExecucoes = AnalyticsProgramacao.calcularExecucoes(respostas.submissoes);
+
+    analytics.tentativasQuestoes = AnalyticsProgramacao.calculaTentativasQuestoes(
+      respostas.submissoes
+    );
+    //analytics.visualizacoesProgresso = this.calculaVisualizacoesProgresso(pageTracks);
+    analytics.errosProgramacao = Submissao.getAllErros(respostas.submissoes);
+    analytics.progressoQuestoesProgramacao = this.calcularProgressoQuestoesProgramacao(
+      assuntos,
+      respostas.submissoes,
+      respostas.visualizacoesRespostasProgramacao
+    );
+    analytics.progressoQuestoesFechadas = this.calcularProgressoQuestoesFechadas(
+      assuntos,
+      respostas.respostasQuestaoFechada
+    );
+    analytics.progresoGeral = this.calcularProgressoGeral(assuntos, respostas);
+    return analytics;
+  }
+
+  static getAnalyticsTurma(estudantes: Usuario[]) {
     return new Observable((observer) => {
-      if (estudante.pk() != null) {
-        const consultasConclusao = [];
-        Assunto.consultarRespostasEstudante(estudante).subscribe(respostas=>{
-          assuntos.forEach((assunto) => {
-            consultasConclusao.push(Assunto.calcularProgresso(assunto, respostas));
+      let consultaRespostas = [];
+      estudantes.forEach((estudante) => {
+        consultaRespostas.push(Assunto.consultarRespostasEstudante(estudante));
+      });
+
+      forkJoin(consultaRespostas).subscribe((respostas) => {
+        Assunto.getAll().subscribe((assuntos) => {
+          const analytics: Analytics = new Analytics();
+          let submissoes = [];
+
+          respostas.forEach((resposta) => {
+            submissoes = [...submissoes, ...resposta['submissoes']];
           });
 
-          let percentualConclusao: any = 0;
-
-          consultasConclusao.forEach((percentual) => {
-            percentualConclusao += percentual;
-          });
-
-          observer.next(percentualConclusao / assuntos.length);
-          observer.complete();
-        })
-
-
-
-      } else {
-        observer.next(0);
-        observer.complete();
-      }
+          analytics.errosProgramacao = Submissao.getAllErros(submissoes);
+          observer.next(analytics);
+          observer.next(analytics);
+        });
+      });
     });
   }
 
-  static calcularProgressoQuestoesAbertas(assuntos, estudante) {
-    return new Observable((observer) => {
-      if (estudante.pk() != null) {
-        const consultasConclusao = [];
-        assuntos.forEach((assunto) => {
-          consultasConclusao.push(
-            //Assunto.calcularPercentualConclusaoQuestoesProgramacao(assunto, estudante, 1)
-          );
-        });
+  public static calcularProgressoGeral(assuntos: Assunto[], respostas) {
+    let percentuais = [];
 
-        this.calcularPercentual(consultasConclusao, assuntos.length).subscribe((percentual) => {
-          observer.next(percentual);
-          observer.complete();
-        });
-      } else {
-        observer.next(0);
-        observer.complete();
-      }
+    assuntos.forEach((assunto) => {
+      percentuais.push(this.calcularProgressoNoAssunto(assunto, respostas));
     });
+    return Analytics.calcularPercentual(percentuais, assuntos.length);
   }
 
-  static calcularProgressoQuestoesFechadas(assuntos, estudante) {
-    return new Observable((observer) => {
-      if (estudante.pk() != null) {
-        const consultasConclusao = [];
-        assuntos.forEach((assunto) => {
-          consultasConclusao.push(
-            Assunto.calcularPercentualConclusaoQuestoesFechadas(assunto, estudante)
-          );
-        });
+  static calcularProgressoNoAssunto(assunto: Assunto, respostas) {
+    let percentualConclusao = 0;
 
-        this.calcularPercentual(consultasConclusao, assuntos.length).subscribe((percentual) => {
-          observer.next(percentual);
-          observer.complete();
-        });
-      } else {
-        observer.next(0);
-        observer.complete();
-      }
-    });
+    percentualConclusao += this.calcularPercentualConclusaoQuestoesFechadas(
+      assunto,
+      respostas.respostasQuestaoFechada
+    );
+
+    percentualConclusao += this.calcularPercentualConclusaoQuestoesParson(
+      assunto,
+      respostas.resposaQuestaoParson
+    );
+
+    /* percentualConclusao += this.calcularPercentualConclusaoQuestoesCorrecao(
+      assunto,
+      respostas.respostaQuestaoCorrecao
+    ); */
+
+    percentualConclusao += this.calcularPercentualConclusaoQuestoesProgramacao(
+      assunto,
+      Submissao.agruparPorQuestao(respostas.submissoes),
+      respostas.visualizacoesRespostasProgramacao,
+      0.5
+    );
+
+    return percentualConclusao / 3; // Divide por dois, pois as questões parson e correção estavam com problema.
   }
 
-  private static calcularPercentual(consultasConclusao, quantidadeAssuntos) {
-    return new Observable((observer) => {
-      forkJoin(consultasConclusao).subscribe(
-        (percentuais) => {
-          let percentualConclusao: any = 0;
-
-          percentuais.forEach((percentual) => {
-            percentualConclusao += percentual;
-          });
-
-          observer.next(percentualConclusao / quantidadeAssuntos);
-          observer.complete();
-        },
-        (err) => {
-          observer.error(err);
+  static calcularPercentualConclusaoQuestoesFechadas(assunto: Assunto, respostasQuestoesFechadas) {
+    if (
+      assunto != null &&
+      Array.isArray(assunto.questoesFechadas) &&
+      Array.isArray(respostasQuestoesFechadas)
+    ) {
+      let totalRespostas = 0;
+      for (let i = 0; i < assunto.questoesFechadas.length; i++) {
+        let resultado = false;
+        for (let j = 0; j < respostasQuestoesFechadas.length; j++) {
+          let questaoIdResposta = respostasQuestoesFechadas[j].questaoId;
+          let questaoId = assunto.questoesFechadas[i].id;
+          if (questaoIdResposta == questaoId) {
+            resultado = QuestaoFechada.isRespostaCorreta(
+              assunto.questoesFechadas[i],
+              respostasQuestoesFechadas[j]
+            );
+          }
         }
-      );
+
+        if (resultado) {
+          totalRespostas++;
+        }
+      }
+      const percentual = totalRespostas / assunto.questoesFechadas.length;
+
+      return percentual;
+    } else {
+      return 0;
+    }
+  }
+
+  static calcularPercentualConclusaoQuestoesParson(assunto: Assunto, respostasQuestoesParson) {
+    if (
+      assunto != null &&
+      Array.isArray(assunto.questoesParson) &&
+      Array.isArray(respostasQuestoesParson)
+    ) {
+      let totalRespostas = 0;
+      for (let i = 0; i < assunto.questoesParson.length; i++) {
+        let resultado = false;
+        for (let j = 0; j < respostasQuestoesParson.length; j++) {
+          if (respostasQuestoesParson[j].questaoId == assunto.questoesParson[i].id) {
+            resultado = assunto.questoesParson[i].isRespostaCorreta(respostasQuestoesParson[j]);
+            break;
+          }
+        }
+
+        if (resultado) {
+          totalRespostas++;
+        }
+      }
+      const percentual = totalRespostas / assunto.questoesParson.length;
+
+      return percentual;
+    } else {
+      return 0;
+    }
+  }
+
+  static calcularPercentualConclusaoQuestoesCorrecao(assunto: Assunto, respostas) {
+    let totalRespostas = 0;
+    for (let i = 0; i < assunto.questoesCorrecao.length; i++) {
+      let resultado = false;
+      for (let j = 0; j < respostas.length; j++) {
+        if (respostas[j].questaoCorrecaoId == assunto.questoesCorrecao[i].id) {
+          resultado = assunto.questoesCorrecao[i].isRespostaCorreta(respostas[j]);
+
+          if (resultado) {
+            break;
+          }
+        }
+      }
+
+      if (resultado) {
+        totalRespostas++;
+      }
+    }
+
+    if (assunto.questoesCorrecao.length > 0) {
+      return totalRespostas / assunto.questoesCorrecao.length;
+    }
+
+    return 0;
+  }
+
+  static calcularProgressoQuestoesProgramacao(assuntos, submissoes, visualizacoes) {
+    if (Array.isArray(assuntos) && Array.isArray(submissoes)) {
+      let percentuais = [];
+      assuntos.forEach((assunto) => {
+        percentuais.push(
+          this.calcularPercentualConclusaoQuestoesProgramacao(
+            assunto,
+            Submissao.agruparPorQuestao(submissoes),
+            visualizacoes,
+            0.7
+          )
+        );
+      });
+
+      return Analytics.calcularPercentual(percentuais, assuntos.length);
+    } else {
+      return 0;
+    }
+  }
+
+  static calcularProgressoQuestoesFechadas(assuntos, respostas) {
+    let percentuais = [];
+    assuntos.forEach((assunto) => {
+      percentuais.push(this.calcularPercentualConclusaoQuestoesFechadas(assunto, respostas));
     });
+
+    return Analytics.calcularPercentual(percentuais, assuntos.length);
+  }
+
+  private static calcularPercentual(percentuais, quantidadeAssuntos) {
+    let percentualConclusao: any = 0;
+
+    percentuais.forEach((percentual) => {
+      percentualConclusao += percentual;
+    });
+
+    return ((percentualConclusao / quantidadeAssuntos) * 100).toFixed(2);
+  }
+
+  static calcularPercentualConclusaoQuestoesProgramacao(
+    assunto: Assunto,
+    submissoes: Map<string, Submissao[]>,
+    visualizacoesQuestoesProgramacao: any[],
+    margemAceitavel
+  ) {
+    if (
+      assunto != undefined &&
+      submissoes != undefined &&
+      submissoes.size > 0 &&
+      Array.isArray(assunto.questoesProgramacao)
+    ) {
+      const totalQuestoes = assunto.questoesProgramacao.length;
+      let questoesRespondidas = 0;
+      assunto.questoesProgramacao.forEach((questao) => {
+        if (questao.id != '4fe6ba63-0d71-49e5-b3b9-a1756872e2ad') {
+          // Bloqueia a questão adicionada para prof. do if
+          let subsQuestao = submissoes.get(questao.id);
+          let subRecente = Submissao.filtrarRecente(subsQuestao);
+          let visualizouResposta = visualizacoesQuestoesProgramacao.findIndex((visualizacao) => {
+            if (visualizacao.questaoId == questao.id) {
+              return true;
+            }
+
+            return false;
+          });
+          if (visualizouResposta == -1) {
+            let resultado = questao.isFinalizada(subRecente, margemAceitavel);
+            if (resultado) {
+              questoesRespondidas += 1;
+            }
+          }
+        }
+      });
+
+      if (assunto.id != 'PU0EstYupXgDZ2a57X0X') {
+        return questoesRespondidas / totalQuestoes;
+      } else {
+        return questoesRespondidas / (totalQuestoes - 1);
+      }
+    } else {
+      return 0;
+    }
   }
 
   private static getTotalUnicoVisualizacoesQuestoes(estudante): Observable<number> {

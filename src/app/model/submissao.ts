@@ -159,6 +159,11 @@ export default class Submissao extends Document {
   static agruparPorEstudante(submissoes: Submissao[]) {
     const submissoesAgrupadas = {};
     submissoes.forEach((submissao) => {
+
+      if(submissao['estudanteId'] == null && submissao['estudante'] != null){
+        submissao['estudanteId'] = submissao['estudante'];
+      }
+
       if (submissoesAgrupadas[submissao['estudanteId']] == undefined) {
         submissoesAgrupadas[submissao['estudanteId']] = [];
       }
@@ -238,15 +243,39 @@ export default class Submissao extends Document {
   static _orderByDate(submissoes: Submissao[]) {
     submissoes.sort((s1, s2) => {
       if (s1.data != null && s2.data != null && s1.data != "" && s2.data != "") {
-        if (s1.data.toDate().getTime() < s2.data.toDate().getTime()) {
+        let dataS1 = null;
+        let dataS2 = null;
+        if(s1.data.toDate != null && s2.data.toDate != null){
+          dataS1 = s1.data.toDate();
+          dataS2 = s2.data.toDate();
+        }else{
+          dataS1 = new Date(s1.data);
+          dataS2 = new Date(s2.data);
+        }
+
+        if (dataS1.getTime() < dataS2.getTime()) {
           return -1;
-        } else if (s1.data.toDate().getTime() > s2.data.toDate().getTime()) {
+        } else if (dataS1.getTime() > dataS2.getTime()) {
           return 1;
         } else {
           return 0;
         }
+
+
       }
       return 0;
+    });
+  }
+
+  //
+  static filtrarDataRange(submissoes:Submissao[], dataInicio, dataTermino){
+    return submissoes.filter((submissao)=>{
+      let dataSubmissao = new Date(submissao.data).getTime();
+      if(dataSubmissao >= dataInicio.getTime() && dataSubmissao <= dataTermino.getTime()){
+        return true;
+      }else{
+        return false;
+      }
     });
   }
 

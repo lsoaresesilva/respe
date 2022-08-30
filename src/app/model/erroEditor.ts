@@ -5,13 +5,10 @@ import { Document, Collection} from './firestore/document';
 @Collection("errosEditor")
 export default class ErroEditor extends Document{
 
-    id;
-    submissaoId;
 
-    constructor(id,submissaoId){
+    constructor(public id, public submissaoId){
         super(id);
-        this.submissaoId = submissaoId;
-        
+
     }
 
     objectToDocument(){
@@ -19,10 +16,10 @@ export default class ErroEditor extends Document{
         return document;
     }
 
-   
-   
-   
 
-   
- 
+
+
+
+
+
 }

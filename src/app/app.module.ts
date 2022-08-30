@@ -38,56 +38,27 @@ import { AngularFirestoreModule } from '@angular/fire/firestore';
 import { environment } from '../environments/environment';
 import { EscapeHtmlPipe } from './pipes/keep-html.pipe';
 
-import { SocketIoConfig } from 'ngx-socket-io';
 import { ToastModule } from 'primeng/toast';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { DocumentModule } from './model/firestore/document.module';
 import {ProgressSpinnerModule} from 'primeng/progressspinner';
 
-const config: SocketIoConfig = { url: 'http://localhost:3001', options: {} };
 
 @NgModule({
-  schemas: [CUSTOM_ELEMENTS_SCHEMA],
-  declarations: [AppComponent/* , MainComponent */],
-  imports: [
-    BrowserModule,
-    BrowserAnimationsModule,
-    AngularFireModule.initializeApp(environment.firebase),
-    AngularFirestoreModule,
-    ProgressSpinnerModule,
-    LoginModule,
-    ToastModule,
-    DocumentModule,
-    /* AdminModule,
-    SistemaAprendizagemModule,
-    ChatbotModule,
-    SrlModule,
-    GamificationModule,
-    ButtonModule,
-    ToolbarModule,
-    GameBasedLearningModule,
-    LivroModule,
-    TurmaModule,
-    ExperimentoModule,
-    CsclModule,
-
-    GeralModuleModule,
-    AnalyticsModule, */
-
-    AppRoutingModule,
-
-    /* InputTextModule,
-    MenubarModule,
-
-    AngularFireAuthModule,
-    SharedPipesModule,
-    ParsonProblemModule, */
-  ],
-  providers: [AuthGuard, TurmaGuard, MessageService],
-  bootstrap: [AppComponent],
-  /* exports: [EscapeHtmlPipe], */
-  entryComponents: [
-    /* DiarioProgramacaoComponent */
-  ]
+    schemas: [CUSTOM_ELEMENTS_SCHEMA],
+    declarations: [AppComponent /* , MainComponent */],
+    imports: [
+        BrowserModule,
+        BrowserAnimationsModule,
+        AngularFireModule.initializeApp(environment.firebase),
+        AngularFirestoreModule,
+        ProgressSpinnerModule,
+        LoginModule,
+        ToastModule,
+        DocumentModule,
+        AppRoutingModule
+    ],
+    providers: [AuthGuard, TurmaGuard, MessageService],
+    bootstrap: [AppComponent]
 })
 export class AppModule {}

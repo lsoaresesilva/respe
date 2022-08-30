@@ -5,23 +5,17 @@ import Submissao from './submissao';
 @Collection("comentariosCodigos")
 export default class ComentarioCodigo extends Document{
 
-    @oneToOne({name:"usuarioId", type:Usuario})
-    private usuario;
-    @oneToOne({name:"submissaoId", type:Submissao})
-    private submissao:Submissao
 
 
-    constructor(id, usuario:Usuario, submissao:Submissao, public texto:string, public linha){
+    constructor(id, public usuario:Usuario, public submissao:Submissao, public texto:string, public linha){
         super(id);
-        this.usuario = usuario;
-        this.submissao = submissao;
     }
 
 
 
     /**
      * Agrupa os comentários que foram realizados em uma mesma linha
-     * @param comentarios 
+     * @param comentarios
      */
     static agrupar(comentarios:ComentarioCodigo[]){
         // criar posições por linha
@@ -31,9 +25,9 @@ export default class ComentarioCodigo extends Document{
             comentarios.forEach(comentario=>{
                 if(!(comentario.linha in agrupamento)){
                     agrupamento[comentario.linha] = [];
-                    
+
                 }
-                
+
                 agrupamento[comentario.linha].push(comentario)
             })
 
@@ -44,7 +38,7 @@ export default class ComentarioCodigo extends Document{
 
             return agrupamentos;
         }
-        
+
     }
 
 }

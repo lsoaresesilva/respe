@@ -9,6 +9,7 @@ import { AutoInstrucao } from 'src/app/model/srl/autoInstrucao';
 import CadeiaMarkov from 'src/app/model/experimento/cadeia_markov';
 import { Assunto } from 'src/app/model/questoes/assunto';
 import { QuestaoProgramacao } from 'src/app/model/questoes/questaoProgramacao';
+import Analytics from 'src/app/model/analytics/analytics';
 
 @Component({
   selector: 'app-visualizar-perfil-estudante',
@@ -23,7 +24,7 @@ export class VisualizarPerfilEstudanteComponent implements OnInit {
   respostaUsuario;
   pageTracks;
   planejamentos;
-
+  analytics$;
   progressoGeral;
 
   constructor(private route: ActivatedRoute, private login: LoginService) {
@@ -35,14 +36,11 @@ export class VisualizarPerfilEstudanteComponent implements OnInit {
 
       this.estudante = new Usuario(params["id"], null, null, null, null, null)
 
-      Assunto.consultarRespostasEstudante(this.estudante).subscribe(respostas=>{
-
-        Assunto.getAll().subscribe(assuntos=>{
-          this.progressoGeral = Assunto.calcularProgressoGeral(assuntos, respostas);
-        })
+      Analytics.init(this.estudante).subscribe((analytics) => {
+        this.analytics$ = analytics;
+      });
 
 
-      })
 
 
 
