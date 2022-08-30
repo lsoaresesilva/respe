@@ -1,4 +1,4 @@
-import { async, ComponentFixture, TestBed } from '@angular/core/testing';
+import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 
 import { NavegadorSubsecaoComponent } from './navegador-subsecao.component';
 
@@ -6,7 +6,7 @@ describe('NavegadorSubsecaoComponent', () => {
   let component: NavegadorSubsecaoComponent;
   let fixture: ComponentFixture<NavegadorSubsecaoComponent>;
 
-  beforeEach(async(() => {
+  beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
       declarations: [ NavegadorSubsecaoComponent ]
     })
