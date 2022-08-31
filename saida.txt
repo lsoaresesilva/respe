@@ -1,0 +1,48 @@
+Gerando build
+
+Initial Chunk Files                                                                 | Names                                                                     |      Size
+vendor-es5.js                                                                       | vendor                                                                    |   1.84 MB
+vendor-es2015.js                                                                    | vendor                                                                    |   1.75 MB
+scripts.js                                                                          | scripts                                                                   | 951.45 kB
+styles.css                                                                          | styles                                                                    | 243.70 kB
+polyfills-es5.js                                                                    | polyfills-es5                                                             | 158.85 kB
+main-es5.js                                                                         | main                                                                      | 111.00 kB
+main-es2015.js                                                                      | main                                                                      |  96.19 kB
+polyfills-es2015.js                                                                 | polyfills                                                                 |  57.85 kB
+runtime-es2015.js                                                                   | runtime                                                                   |   2.70 kB
+runtime-es5.js                                                                      | runtime                                                                   |   2.69 kB
+
+| Initial ES5 Total                                                         |   3.28 MB
+| Initial ES2015 Total                                                      |   3.07 MB
+
+Lazy Chunk Files                                                                    | Names                                                                     |      Size
+geral-module-geral-module-module-es5.js                                             | geral-module-geral-module-module                                          |  40.52 MB
+geral-module-geral-module-module-es2015.js                                          | geral-module-geral-module-module                                          |  40.35 MB
+admin-admin-module-es5.js                                                           | admin-admin-module                                                        |   2.60 MB
+admin-admin-module-es2015.js                                                        | admin-admin-module                                                        |   2.60 MB
+juiz-juiz-module-es5.js                                                             | juiz-juiz-module                                                          | 176.75 kB
+juiz-juiz-module-es2015.js                                                          | juiz-juiz-module                                                          | 165.60 kB
+default~cscl-cscl-module~turma-turma-module-es5.js                                  | default~cscl-cscl-module~turma-turma-module                               |  83.44 kB
+default~cscl-cscl-module~turma-turma-module-es2015.js                               | default~cscl-cscl-module~turma-turma-module                               |  73.87 kB
+default~admin-admin-module~juiz-juiz-module-es5.js                                  | default~admin-admin-module~juiz-juiz-module                               |  51.10 kB
+default~admin-admin-module~juiz-juiz-module-es2015.js                               | default~admin-admin-module~juiz-juiz-module                               |  46.90 kB
+default~cscl-cscl-module~juiz-juiz-module~turma-turma-module-es5.js                 | default~cscl-cscl-module~juiz-juiz-module~turma-turma-module              |  34.40 kB
+default~cscl-cscl-module~juiz-juiz-module~turma-turma-module-es2015.js              | default~cscl-cscl-module~juiz-juiz-module~turma-turma-module              |  29.45 kB
+turma-turma-module-es5.js                                                           | turma-turma-module                                                        |  24.34 kB
+highlight-js-lib-core-es5.js                                                        | highlight-js-lib-core                                                     |  23.95 kB
+turma-turma-module-es2015.js                                                        | turma-turma-module                                                        |  20.79 kB
+highlight-js-lib-core-es2015.js                                                     | highlight-js-lib-core                                                     |  19.17 kB
+default~juiz-juiz-module~sistema-aprendizagem-sistema-aprendizagem-module-es5.js    | default~juiz-juiz-module~sistema-aprendizagem-sistema-aprendizagem-module |  17.66 kB
+default~juiz-juiz-module~sistema-aprendizagem-sistema-aprendizagem-module-es2015.js | default~juiz-juiz-module~sistema-aprendizagem-sistema-aprendizagem-module |  16.02 kB
+highlightjs-line-numbers-js-es2015.js                                               | highlightjs-line-numbers-js                                               |   3.34 kB
+highlightjs-line-numbers-js-es5.js                                                  | highlightjs-line-numbers-js                                               |   3.33 kB
+highlight-js-lib-languages-python-es5.js                                            | highlight-js-lib-languages-python                                         |   3.09 kB
+highlight-js-lib-languages-python-es2015.js                                         | highlight-js-lib-languages-python                                         |   3.03 kB
+common-es5.js                                                                       | common                                                                    |   2.21 kB
+common-es2015.js                                                                    | common                                                                    |   1.69 kB
+firebase-auth-es2015.js                                                             | firebase-auth                                                             | 163 bytes
+firebase-auth-es5.js                                                                | firebase-auth                                                             | 160 bytes
+
+Build at: 2022-08-31T13:53:25.404Z - Hash: 56d6c1515841a5e58a93 - Time: 425669ms
+Enviando para o mundo!
+Wooooho!

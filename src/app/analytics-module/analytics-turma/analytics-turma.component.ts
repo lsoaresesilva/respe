@@ -1,13 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
-<<<<<<< HEAD
 import Analytics from '../../model/analytics/analytics';
 import Turma from '../../model/turma';
 
-=======
-import Analytics from 'src/app/model/analytics/analytics';
-import Turma from 'src/app/model/turma';
->>>>>>> bc14f6a9e419d4632749b2d4dde2c9dff799634e
 
 @Component({
   selector: 'app-analytics-turma',
