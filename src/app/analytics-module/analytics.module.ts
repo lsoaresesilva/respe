@@ -16,7 +16,8 @@ import { TentativaQuestoesComponent } from './tentativa-questoes/tentativa-quest
 import { TableModule } from 'primeng/table';
 import { SrlModule } from '../srl/srl.module';
 import { ExportarDadosAnalyticsComponent } from './exportar-dados-analytics/exportar-dados-analytics.component';
-import { DadosAnalyticsComponent } from './dados-estudante/dados-analytics.component';
+import { DadosAnalyticsComponent } from './dados-analytics/dados-analytics.component';
+import { AnalyticsTurmaComponent } from './analytics-turma/analytics-turma.component';
 
 @NgModule({
   declarations: [
@@ -31,8 +32,9 @@ import { DadosAnalyticsComponent } from './dados-estudante/dados-analytics.compo
     TempoOnlineComponent,
     TentativaQuestoesComponent,
     ExportarDadosAnalyticsComponent,
+    AnalyticsTurmaComponent
   ],
   imports: [SrlModule, CommonModule, ProgressBarModule, TableModule],
-  exports: [DadosAnalyticsComponent],
+  exports: [DadosAnalyticsComponent, AnalyticsTurmaComponent],
 })
 export class AnalyticsModule {}

@@ -2,14 +2,14 @@ import { Component, OnInit } from '@angular/core';
 import { MenuItem, MessageService } from 'primeng/api';
 import { Router, ActivatedRoute } from '@angular/router';
 import { LoginService } from '../../login-module/login.service';
-import { Groups } from 'src/app/model/experimento/groups';
-import ConfiguracaoEditor from 'src/app/model/configuracoes/configuracaoEditor';
-import Query from 'src/app/model/firestore/query';
 
 import * as firebase from 'firebase';
-import { forkJoin } from 'rxjs';
-import { Assunto } from 'src/app/model/questoes/assunto';
-import Analytics from 'src/app/model/analytics/analytics';
+import { forkJoin, Observable } from 'rxjs';
+import Analytics from '../../model/analytics/analytics';
+import ConfiguracaoEditor from '../../model/configuracoes/configuracaoEditor';
+import { Groups } from '../../model/experimento/groups';
+import { Assunto } from '../../model/questoes/assunto';
+import Query from '../../model/firestore/query';
 
 @Component({
   selector: 'app-listar-assuntos',
@@ -27,10 +27,9 @@ export class ListarAssuntosComponent implements OnInit {
   ngOnInit() {
 
     ConfiguracaoEditor.getByQuery(new Query("codigoTurma", "==", this.usuario.turma.codigo)).subscribe(configuracao=>{
-      let query = null;
+      const query: Observable<Assunto>[] = [];
       if(configuracao != null){
         if(configuracao.assuntos != null){
-          query = [];
           configuracao.assuntos.forEach(assunto => {
             query.push(Assunto.get(assunto));
           });

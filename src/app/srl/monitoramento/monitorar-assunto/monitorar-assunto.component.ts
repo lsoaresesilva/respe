@@ -1,8 +1,9 @@
 import { Input, OnChanges } from '@angular/core';
 import { Component, OnInit } from '@angular/core';
-import { LoginService } from 'src/app/login-module/login.service';
-import Analytics from 'src/app/model/analytics/analytics';
-import { Assunto } from 'src/app/model/questoes/assunto';
+import { LoginService } from '../../../login-module/login.service';
+import Analytics from '../../../model/analytics/analytics';
+import { Assunto } from '../../../model/questoes/assunto';
+
 @Component({
   selector: 'app-monitorar-assunto',
   templateUrl: './monitorar-assunto.component.html',

@@ -28,5 +28,4 @@ export class CardDesempenhoComponent implements OnChanges {
     }
 
   }
-
 }
