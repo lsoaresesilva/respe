@@ -1,4 +1,4 @@
-import { inject, TestBed } from '@angular/core/testing';
+/* import { inject, TestBed } from '@angular/core/testing';
 import { AngularFireModule, FirebaseApp } from '@angular/fire';
 import { AngularFirestore, AngularFirestoreModule } from '@angular/fire/firestore';
 import { DocumentModule } from 'src/app/model/firestore/document.module';
@@ -7,10 +7,9 @@ import { FirebaseConfiguracao } from 'src/environments/firebase';
 import ErroSintaxeCondicional from '../erroSintaxeCondiconal';
 
 import SyntaxError from '../../analise-compilacao/syntaxError';
-import submissoesEstudantes from '../../../../../../json/submissoes_09abr.json';
+import submissoesEstudantes from '../../../../../../json/submissoes_27_jan_v2.json';
 import ErroCompilacaoFactory from '../../analise-compilacao/erroCompilacaoFactory';
-import NameError from '../../analise-compilacao/nameError';
-import ErroSintaxeVariavel from '../erroSintaxeVariavel';
+
 import ErroSintaxe from '../erroSintaxe';
 
 describe('Testes para identificar erros de sintaxe em condições', () => {
@@ -64,7 +63,7 @@ describe('Testes para identificar erros de sintaxe em condições', () => {
     expect(ErroSintaxe.apenasUmaComparacao(linhasCodigo[8])).toBeFalsy();
   });
 
-  
+
 
   xit('Deve identificar condições que foram comparadas com apenas uma =', () => {
     let algoritmo =
@@ -102,17 +101,6 @@ describe('Testes para identificar erros de sintaxe em condições', () => {
 
     let x = erroSyntax;
 
-    /* let codigo = erroSyntax[1];
-    let totalErros = ErroSintaxeCondicional.erros(
-      new Submissao(null, codigo['codigo'], null, null, null)
-    );
-    expect(totalErros.length).toBe(2);
-
-    codigo = erroSyntax[2];
-    totalErros = ErroSintaxeCondicional.erros(
-      new Submissao(null, codigo['codigo'], null, null, null)
-    );
-    expect(totalErros.length).toBe(1); */
   });
 
   xit('Deve encontrar os falsos positivos', () => {
@@ -156,7 +144,7 @@ describe('Testes para identificar erros de sintaxe em condições', () => {
           let categoria = ErroCompilacaoFactory.construir(s['erro']['traceback']);
           if (categoria instanceof SyntaxError) {
             if (erros.length == 0) {
-                
+
                 falsoNegativo.push(s);
             }
           }
@@ -191,3 +179,4 @@ describe('Testes para identificar erros de sintaxe em condições', () => {
   });
 });
 
+ */

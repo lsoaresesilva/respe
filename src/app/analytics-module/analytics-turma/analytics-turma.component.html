@@ -1,16 +1,1 @@
-<p-table [value]="estudantes$ | async">
-  <ng-template pTemplate="header">
-    <tr>
-      <th>Estudante</th>
-      <th>Nº atividades fechadas</th>
-      <th>Nº atividades programação</th>
-    </tr>
-  </ng-template>
-  <ng-template pTemplate="body" let-estudante>
-    <tr>
-      <td>{{ estudante.email }}</td>
-      <td>{{ estudante.respostasQuestoesFechadas?.length }}</td>
-      <td>{{ estudante.respostasQuestoesProgramacao?.length }}</td>
-    </tr>
-  </ng-template>
-</p-table>
+<dados-analytics [analytics]="analytics$"></dados-analytics>

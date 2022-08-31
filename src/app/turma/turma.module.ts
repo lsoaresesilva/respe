@@ -1,3 +1,4 @@
+import { AnalyticsTurmaComponent } from './../analytics-module/analytics-turma/analytics-turma.component';
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { VisualizarTurmaComponent } from './visualizar-turma/visualizar-turma.component';
@@ -35,7 +36,6 @@ import { PageTrack } from '../guards/pageTrack.guard';
 import { AuthGuard } from '../guards/auth.guard';
 import { ProfessorGuard } from '../guards/professor.guard';
 import { ExperimentoModule } from '../experimento/experimento.module';
-import { AnalyticsTurmaComponent } from './analytics-turma/analytics-turma.component';
 
 
 export const routes:Routes = [
@@ -86,8 +86,7 @@ export const routes:Routes = [
     ListarMateriaisComponent,
     VisualizarPerfilEstudanteComponent,
     EstatisticasExperimentoComponent,
-    ListarDiariosComponent,
-    AnalyticsTurmaComponent
+    ListarDiariosComponent
   ],
 
   imports: [

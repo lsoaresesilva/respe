@@ -24,7 +24,7 @@ import { CsclModule } from './cscl/cscl.module';
 import { LivroModule } from './livro/livro.module';
 import { SistemaAprendizagemModule } from './sistema-aprendizagem/sistema-aprendizagem.module'; */
 
-import { LoginModule } from './login-module/login.module';/* 
+import { LoginModule } from './login-module/login.module';/*
 import { MainComponent } from './geral-module/main/main.component'; */
 
 import { AuthGuard } from './guards/auth.guard';
@@ -38,58 +38,26 @@ import { AngularFirestoreModule } from '@angular/fire/firestore';
 import { environment } from '../environments/environment';
 import { EscapeHtmlPipe } from './pipes/keep-html.pipe';
 
-import { SocketIoConfig } from 'ngx-socket-io';
 import { ToastModule } from 'primeng/toast';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { DocumentModule } from './model/firestore/document.module';
 import {ProgressSpinnerModule} from 'primeng/progressspinner';
-import { NbThemeModule } from '@nebular/theme';
-
-const config: SocketIoConfig = { url: 'http://localhost:3001', options: {} };
 
 @NgModule({
-  schemas: [CUSTOM_ELEMENTS_SCHEMA],
-  declarations: [AppComponent/* , MainComponent */],
-  imports: [
-    BrowserModule,
-    BrowserAnimationsModule,
-    AngularFireModule.initializeApp(environment.firebase),
-    AngularFirestoreModule,
-    ProgressSpinnerModule,
-    LoginModule,
-    ToastModule,
-    DocumentModule,
-    /* AdminModule,
-    SistemaAprendizagemModule,
-    ChatbotModule,
-    SrlModule,
-    GamificationModule,
-    ButtonModule,
-    ToolbarModule,
-    GameBasedLearningModule,
-    LivroModule,
-    TurmaModule,
-    ExperimentoModule,
-    CsclModule,
-    
-    GeralModuleModule,
-    AnalyticsModule, */
-    
-    NbThemeModule.forRoot(),
-    AppRoutingModule,
-    
-    /* InputTextModule,
-    MenubarModule,
-    
-    AngularFireAuthModule,
-    SharedPipesModule,
-    ParsonProblemModule, */
-  ],
-  providers: [AuthGuard, TurmaGuard, MessageService],
-  bootstrap: [AppComponent],
-  /* exports: [EscapeHtmlPipe], */
-  entryComponents: [
-    /* DiarioProgramacaoComponent */
-  ]
+    schemas: [CUSTOM_ELEMENTS_SCHEMA],
+    declarations: [AppComponent /* , MainComponent */],
+    imports: [
+        BrowserModule,
+        BrowserAnimationsModule,
+        AngularFireModule.initializeApp(environment.firebase),
+        AngularFirestoreModule,
+        ProgressSpinnerModule,
+        LoginModule,
+        ToastModule,
+        DocumentModule,
+        AppRoutingModule
+    ],
+    providers: [AuthGuard, TurmaGuard, MessageService],
+    bootstrap: [AppComponent]
 })
 export class AppModule {}

@@ -4,14 +4,42 @@ import Submissao from '../submissao';
 import { Util } from '../util';
 import { EventosProgramacao } from './enum/eventosProgramacao';
 
+import submissoesEstudantes from '../../../../json/submissoes_27_jan_v2.json';
 
 enum EstadosAlgoritmo{
 
 }
 
 export default class AnalyticsProgramacao {
+
+
+static gerarSubmissoes(estudantes_permitidos){
+  let submissoes = [];
+
+  submissoesEstudantes['submissoes'].forEach((s) => {
+
+
+    if(estudantes_permitidos.includes(s.estudante)){
+      //if(ignorar(s["questaoId"])){
+      let submissao = Submissao.fromJson(s);
+      submissao['estudanteId'] = submissao.estudante.pk();
+      submissoes.push(submissao);
+      //}
+    }
+  });
+
+  return submissoes;
+}
+
   static calcularExecucoes(submissoes) {
-    return Array.isArray(submissoes) ? submissoes.length : 0;
+    const submissoesAgrupadas = Submissao.agruparPorQuestao(submissoes);
+    let totalQuestoes = 0;
+
+    submissoesAgrupadas.forEach((submissoesQuestao, questaoId, map) => {
+      totalQuestoes += 1;
+    });
+
+    return Array.isArray(submissoes) ? submissoes.length/totalQuestoes : 0;
   }
 
   static calcularTotalQuestoesCorretas(submissoes) {
@@ -580,12 +608,12 @@ export default class AnalyticsProgramacao {
       let submissoesValidasParaContagem = [];
       for (let i = 0; i < submissoes.length; i++) {
         if (submissoes[i + 1] != null) {
-          let submissaoAnterior = Util.firestoreDateToDate(submissoes[i].data);
-          let submissaoAseguir = Util.firestoreDateToDate(submissoes[i + 1].data);
-          let mesmoDia = submissaoAnterior.getDate() == submissaoAseguir.getDate();
+          let submissaoAnterior = submissoes[i];
+          let submissaoAseguir = submissoes[i + 1];
+          let mesmoDia = submissaoAnterior.data.getDate() == submissaoAseguir.data.getDate();
           let feitaDentroDezMinutos =
-            (submissaoAseguir.getTime() - submissaoAnterior.getTime()) / 1000 < 600;
-          let difEntreMinutos = submissaoAseguir.getMinutes() - submissaoAnterior.getMinutes();
+            (submissaoAseguir.data.getTime() - submissaoAnterior.data.getTime()) / 1000 < 600;
+          let difEntreMinutos = submissaoAseguir.data.getMinutes() - submissaoAnterior.data.getMinutes();
           if (
             submissaoAnterior != null &&
             submissaoAseguir != null &&
@@ -593,11 +621,11 @@ export default class AnalyticsProgramacao {
             feitaDentroDezMinutos == true
           ) {
             // Apenas comparar duas submissões do mesmo dia
-            tempoEmSegundos += (submissaoAseguir.getTime() - submissaoAnterior.getTime()) / 1000;
+            tempoEmSegundos += (submissaoAseguir.data.getTime() - submissaoAnterior.data.getTime()) / 1000;
             submissoesValidasParaContagem.push({
               d1: submissaoAnterior,
               d2: submissaoAseguir,
-              tempo: (submissaoAseguir.getTime() - submissaoAnterior.getTime()) / 1000,
+              tempo: (submissaoAseguir.data.getTime() - submissaoAnterior.data.getTime()) / 1000,
             });
           }
         }

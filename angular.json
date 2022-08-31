@@ -25,7 +25,6 @@
         "build": {
           "builder": "@angular-devkit/build-angular:browser",
           "options": {
-            "aot": true,
             "outputPath": "dist/32bits",
             "index": "src/index.html",
             "main": "src/main.ts",
@@ -43,8 +42,7 @@
               "node_modules/primeng/resources/themes/nova/theme.css",
               "node_modules/primeng/resources/primeng.min.css",
               "node_modules/prismjs/themes/prism.css",
-              "node_modules/highlight.js/styles/github.css",
-              "node_modules/@nebular/theme/styles/prebuilt/default.css"
+              "node_modules/highlight.js/styles/github.css"
             ],
             "scripts": [
               "node_modules/prismjs/prism.js",
@@ -52,9 +50,15 @@
               "src/js/skulpt-stdlib.js",
               "src/js/ide.js",
               "src/js/visualizacaoConteudo.js",
-              "src/js/analyticsEstudante.js",
-              "./node_modules/chart.js/dist/Chart.js"
-            ]
+              "src/js/analyticsEstudante.js"
+            ],
+            "vendorChunk": true,
+            "extractLicenses": false,
+            "buildOptimizer": true,
+            "aot":true,
+            "sourceMap": true,
+            "optimization": true,
+            "namedChunks": true
           },
           "configurations": {
             "production": {
@@ -64,14 +68,13 @@
                   "with": "src/environments/environment.prod.ts"
                 }
               ],
-              "optimization": true,
-              "outputHashing": "all",
+              "vendorChunk": true,
+              "extractLicenses": false,
+              "buildOptimizer": true,
+              "aot":true,
               "sourceMap": true,
-              "namedChunks": false,
-              "aot": true,
-              "extractLicenses": true,
-              "vendorChunk": false,
-              "buildOptimizer": false,
+              "optimization": true,
+              "namedChunks": true,
               "budgets": [
                 {
                   "type": "initial",
@@ -84,7 +87,8 @@
                 }
               ]
             }
-          }
+          },
+          "defaultConfiguration": ""
         },
         "serve": {
           "builder": "@angular-devkit/build-angular:dev-server",
@@ -120,18 +124,6 @@
               "src/assets"
             ]
           }
-        },
-        "lint": {
-          "builder": "@angular-devkit/build-angular:tslint",
-          "options": {
-            "tsConfig": [
-              "src/tsconfig.app.json",
-              "src/tsconfig.spec.json"
-            ],
-            "exclude": [
-              "**/node_modules/**"
-            ]
-          }
         }
       }
     },
@@ -151,20 +143,10 @@
               "devServerTarget": "letscode:serve:production"
             }
           }
-        },
-        "lint": {
-          "builder": "@angular-devkit/build-angular:tslint",
-          "options": {
-            "tsConfig": "e2e/tsconfig.e2e.json",
-            "exclude": [
-              "**/node_modules/**"
-            ]
-          }
         }
       }
     }
   },
-  "defaultProject": "letscode",
   "cli": {
     "analytics": "0930e193-c427-421a-9eee-db61e3896d86"
   }

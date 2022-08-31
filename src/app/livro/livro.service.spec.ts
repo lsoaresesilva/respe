@@ -1,4 +1,4 @@
-import { TestBed, inject } from '@angular/core/testing';
+/* import { TestBed, inject } from '@angular/core/testing';
 
 import { LivroService } from './livro.service';
 import Secao from '../model/livro/secao';
@@ -42,20 +42,8 @@ describe('LivroService', () => {
     const service: LivroService = TestBed.get(LivroService);
 
     service.state["secoes"] = [s1, s2, s3];
-    /*service.getSecaoAnterior(s1).subscribe(secao=>{
-      expect(secao["sequencia"]).toBe(2);
-      service.getSecaoProxima(s2).subscribe(secao=>{
-        expect(secao["sequencia"]).toBe(3);
-        service.getSecaoAnterior(s3).subscribe(secao=>{
-          expect(secao).toBe(null);
-          service.getSecaoProxima(s1).subscribe(secao=>{
-            expect(secao).toBe(null);
-            done()
-          })
-        })
-      })
-      
-    })*/
-    
+
+
   })
 });
+ */

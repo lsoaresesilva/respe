@@ -1,4 +1,4 @@
-import { inject, TestBed } from '@angular/core/testing';
+/* import { inject, TestBed } from '@angular/core/testing';
 import { AngularFireModule, FirebaseApp } from '@angular/fire';
 import { AngularFirestore, AngularFirestoreModule } from '@angular/fire/firestore';
 import { DocumentModule } from 'src/app/model/firestore/document.module';
@@ -6,7 +6,7 @@ import Submissao from 'src/app/model/submissao';
 import { FirebaseConfiguracao } from 'src/environments/firebase';
 import ErroSintaxeVariavel from '../erroSintaxeVariavel';
 
-import submissoesEstudantes from '../../../../../../json/submissoes_09abr.json';
+import submissoesEstudantes from '../../../../../../json/submissoes_27_jan_v2.json';
 import ErroCompilacaoFactory from '../../analise-compilacao/erroCompilacaoFactory';
 import NameError from '../../analise-compilacao/nameError';
 
@@ -81,7 +81,7 @@ describe('Testes de análise de sintaxe para variáveis', () => {
     expect(ErroSintaxeVariavel.variavelDeclaradaComDoisIguais(linhas[3])).toBeFalsy();
   });
 
-  /* it('Deve identificar variáveis que tenham espaço em seu nome', () => {
+  it('Deve identificar variáveis que tenham espaço em seu nome', () => {
     let algoritmo =
       "nome = 'leonardo'\nnome do leonardo = 'leo'\nnome pessoa = 'leonardo' idade = 31";
     let s = new Submissao(null, algoritmo, null, null, null);
@@ -91,9 +91,9 @@ describe('Testes de análise de sintaxe para variáveis', () => {
     expect(ErroSintaxeVariavel.nomeVariavelComEspaco(linhasCodigo[1])).toBeTruthy();
     expect(ErroSintaxeVariavel.nomeVariavelComEspaco(linhasCodigo[2])).toBeTruthy();
     expect(ErroSintaxeVariavel.nomeVariavelComEspaco(linhasCodigo[3])).toBeFalsy();
-  }); */
+  });
 
-  
+
   xit('Deve identificar as variáveis utilizadas em uma condição', () => {
     let linha = 'if x == 2:';
     let linha2 = 'if x > a:';
@@ -105,7 +105,7 @@ describe('Testes de análise de sintaxe para variáveis', () => {
     expect(ErroSintaxeVariavel.getVariaveisCondicao(linha4)).toEqual(['a', 'b', 'z']);
   });
 
-  
+
   xit('Deve identificar as variáveis em uma operação matemática', () => {
     let linha = 'x = x + 2';
     let linha2 = 'z = z*3';
@@ -126,7 +126,7 @@ describe('Testes de análise de sintaxe para variáveis', () => {
   });
 
   xit('Deve identificar variáveis utilizadas em um algoritmo', () => {
-    
+
     let algoritmo = "nome = 'leonardo'\nprint(c)\nsomar(2,a)";
     let s = new Submissao(null, algoritmo, null, null, null);
     let variaveisUtilizadas = ErroSintaxeVariavel.identificarVariaveisUtilizadas(s);
@@ -148,8 +148,8 @@ describe('Testes de análise de sintaxe para variáveis', () => {
     s = new Submissao(null, algoritmo, null, null, null);
     variaveisUtilizadas = ErroSintaxeVariavel.identificarVariaveisUtilizadas(s);
     expect(variaveisUtilizadas).toEqual([{nome:'soma', linha:1}]);
-    
-  }); 
+
+  });
 
   xit("Deve identificar strings que faltam aspas", ()=>{
     let algoritmo = "nome = 'leonardo"
@@ -167,7 +167,7 @@ describe('Testes de análise de sintaxe para variáveis', () => {
           s['erro']['traceback'].search('elif') != -1 ||
           s['erro']['traceback'].search('else') != -1
         ) {
-          
+
           let categoria = ErroCompilacaoFactory.construir(s['erro']['traceback']);
           if (categoria instanceof NameError) {
             let erros = ErroSintaxeVariavel.erros(
@@ -195,7 +195,7 @@ describe('Testes de análise de sintaxe para variáveis', () => {
     let quantidade = submissoesEstudantes['submissoes'].length;
     console.log(quantidade);
 
-    /* submissoesEstudantes['submissoes'].forEach((s) => {
+    submissoesEstudantes['submissoes'].forEach((s) => {
       if (s['erro'] != null && s['erro']['traceback'] != null) {
         let categoria = ErroCompilacaoFactory.construir(s['erro']['traceback']);
         if (categoria instanceof NameError) {
@@ -208,8 +208,9 @@ describe('Testes de análise de sintaxe para variáveis', () => {
     });
 
     let resultado = ErroSintaxeVariavel.exportar(errosSyntax);
-    console.log(JSON.stringify(resultado)); */
+    console.log(JSON.stringify(resultado));
 
     expect(errosSyntax.length).toBe(118);
   });
 });
+ */

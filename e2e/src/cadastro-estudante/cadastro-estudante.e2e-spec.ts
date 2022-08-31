@@ -1,10 +1,5 @@
 import { CadastroEstudantePage } from './cadastro-estudante.po';
 import { browser, by, protractor } from 'protractor';
-import Usuario from '../../../src/app/model/usuario';
-import { AngularFirestore, AngularFirestoreModule } from '@angular/fire/firestore';
-import { TestBed, inject } from '@angular/core/testing';
-import { DocumentModule } from '../../../src/app/model/firestore/document.module';
-import { AngularFireModule, FirebaseApp } from '@angular/fire';
 import { FirebaseConfiguracao } from '../../../src/environments/firebase';
 import { BrowserDynamicTestingModule, platformBrowserDynamicTesting } from '@angular/platform-browser-dynamic/testing';
 import DocumentFirestoreTest from '../utility/document';
@@ -63,7 +58,7 @@ describe('Testes E2E de cadastro de estudante', () => {
       page.getInputNome().sendKeys("Teste com o Protractor");
       page.getInputSenha().sendKeys("12345");
       page.getButtonCadastrar().click().then(resultado => {
-        
+
         setTimeout(function () {
           browser.switchTo().alert().accept();
           firestore.count("usuarios").subscribe(contadorAtual => {
@@ -75,9 +70,9 @@ describe('Testes E2E de cadastro de estudante', () => {
             }else{
               expectedGroup = Groups.control;
             }
-            
+
             firestore.getLatest("usuarios").subscribe(latest => {
-              
+
               expect(latest["grupoExperimento"]).toBe(expectedGroup);
               expect(browser.getCurrentUrl()).toEqual("http://localhost:4200/");
               firestore.deleteLatest("usuarios").subscribe(res => {

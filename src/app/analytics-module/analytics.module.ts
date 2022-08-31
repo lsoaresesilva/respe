@@ -13,11 +13,11 @@ import { MediaSubmissoesAcertoComponent } from './media-submissoes-acerto/media-
 import { TotalExecucoesComponent } from './total-execucoes/total-execucoes.component';
 import { TempoOnlineComponent } from './tempo-online/tempo-online.component';
 import { TentativaQuestoesComponent } from './tentativa-questoes/tentativa-questoes.component';
-import { AnalyticsTurmaComponent } from './analytics-turma/analytics-turma.component';
 import { TableModule } from 'primeng/table';
 import { SrlModule } from '../srl/srl.module';
 import { ExportarDadosAnalyticsComponent } from './exportar-dados-analytics/exportar-dados-analytics.component';
 import { DadosAnalyticsComponent } from './dados-analytics/dados-analytics.component';
+import { AnalyticsTurmaComponent } from './analytics-turma/analytics-turma.component';
 
 @NgModule({
   declarations: [
@@ -31,8 +31,8 @@ import { DadosAnalyticsComponent } from './dados-analytics/dados-analytics.compo
     TotalExecucoesComponent,
     TempoOnlineComponent,
     TentativaQuestoesComponent,
-    AnalyticsTurmaComponent,
     ExportarDadosAnalyticsComponent,
+    AnalyticsTurmaComponent
   ],
   imports: [SrlModule, CommonModule, ProgressBarModule, TableModule],
   exports: [DadosAnalyticsComponent, AnalyticsTurmaComponent],

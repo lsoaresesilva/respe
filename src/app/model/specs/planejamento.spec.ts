@@ -1,4 +1,4 @@
-import { AngularFirestore, AngularFirestoreModule } from '@angular/fire/firestore';
+/* import { AngularFirestore, AngularFirestoreModule } from '@angular/fire/firestore';
 import { TestBed, inject } from '@angular/core/testing';
 import { DocumentModule } from '../firestore/document.module';
 import { AngularFireModule, FirebaseApp } from '@angular/fire';
@@ -22,7 +22,7 @@ describe('Testes de autoreflexão', () => {
       afs = _afs;
     })();
   });
-  /*
+
   it("deve salvar uma autoreflexao", (done)=>{
     let e = new Estudante("12345", null);
     let a = new Assunto("123456", null)
@@ -41,5 +41,6 @@ it("Deve gerar um document a partir de um objeto", () => {
   let a = new Assunto("123456", null)
   let planejamento = new Planejamento(null, e, a, 120, "muito", Dificuldade.medio, "estrategia", null, null)
   expect(planejamento.objectToDocument()).toEqual({ estudanteId: "12345", assuntoId: "123456", tempoEstudo: 120, importanciaAssunto: "muito", dificuldadeConteudo:Dificuldade.medio, estrategiaRealizacaoEstudo:"estrategia" })
-}) */
+})
 });
+ */

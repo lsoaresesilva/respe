@@ -1,4 +1,4 @@
-import Submissao from '../submissao';
+/* import Submissao from '../submissao';
 import Usuario from '../usuario';
 import { PerfilUsuario } from '../enums/perfilUsuario';
 import Erro from '../errors/erro';
@@ -29,7 +29,7 @@ describe('Testes para a classe de Erro', () => {
     })();
   });
 
-  /*it("Deve retornar os erros das submissões de um estudante", (done)=>{
+  it("Deve retornar os erros das submissões de um estudante", (done)=>{
         let u = new Usuario(null, "", "", PerfilUsuario.estudante, 0);
         let q = new Questao(12345, "", "", Dificuldade.dificil, 1, [], [], "");
         let s1 = new Submissao(null, new Codigo(), u, q);
@@ -47,5 +47,6 @@ describe('Testes para a classe de Erro', () => {
                 })
             })
         })
-    })*/
+    })
 });
+ */
