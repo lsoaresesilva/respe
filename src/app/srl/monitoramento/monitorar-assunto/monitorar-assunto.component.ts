@@ -1,7 +1,9 @@
 import { Input, OnChanges } from '@angular/core';
 import { Component, OnInit } from '@angular/core';
-import { LoginService } from 'src/app/login-module/login.service';
-import { Assunto } from 'src/app/model/questoes/assunto';
+import { LoginService } from '../../../login-module/login.service';
+import Analytics from '../../../model/analytics/analytics';
+import { Assunto } from '../../../model/questoes/assunto';
+
 @Component({
   selector: 'app-monitorar-assunto',
   templateUrl: './monitorar-assunto.component.html',
@@ -17,7 +19,7 @@ export class MonitorarAssuntoComponent implements OnChanges {
     const usuario = this.loginService.getUsuarioLogado();
     if (usuario != null) {
       Assunto.consultarRespostasEstudante(usuario).subscribe(respostas=>{
-        let percentual = Assunto.calcularProgresso(this.assunto, respostas);
+        let percentual = Analytics.calcularProgressoNoAssunto(this.assunto, respostas);
         this.assunto.percentualConclusao = percentual;
       })
 

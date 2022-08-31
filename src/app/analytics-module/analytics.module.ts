@@ -3,7 +3,6 @@ import { CommonModule } from '@angular/common';
 import { AngularFirestoreModule } from '@angular/fire/firestore';
 
 import { ChartModule } from 'primeng/chart';
-import { DadosEstudanteComponent } from './dados-estudante/dados-estudante.component';
 import { ProgressBarModule } from 'primeng/progressbar';
 import { ProgessoGeralComponent } from './progesso-geral/progesso-geral.component';
 import { ProgressoQuestoesAbertasComponent } from './progresso-questoes-abertas/progresso-questoes-abertas.component';
@@ -18,10 +17,11 @@ import { AnalyticsTurmaComponent } from './analytics-turma/analytics-turma.compo
 import { TableModule } from 'primeng/table';
 import { SrlModule } from '../srl/srl.module';
 import { ExportarDadosAnalyticsComponent } from './exportar-dados-analytics/exportar-dados-analytics.component';
+import { DadosAnalyticsComponent } from './dados-analytics/dados-analytics.component';
 
 @NgModule({
   declarations: [
-    DadosEstudanteComponent,
+    DadosAnalyticsComponent,
     ProgessoGeralComponent,
     ProgressoQuestoesAbertasComponent,
     ProgressoQuestoesFechadasComponent,
@@ -35,6 +35,6 @@ import { ExportarDadosAnalyticsComponent } from './exportar-dados-analytics/expo
     ExportarDadosAnalyticsComponent,
   ],
   imports: [SrlModule, CommonModule, ProgressBarModule, TableModule],
-  exports: [DadosEstudanteComponent, AnalyticsTurmaComponent],
+  exports: [DadosAnalyticsComponent, AnalyticsTurmaComponent],
 })
 export class AnalyticsModule {}

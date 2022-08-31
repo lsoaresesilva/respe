@@ -3,6 +3,7 @@ import Turma from 'src/app/model/turma';
 import { MenuItem, MessageService } from 'primeng/api';
 import { Router } from '@angular/router';
 import { LoginService } from '../../login-module/login.service';
+import Query from 'src/app/model/firestore/query';
 
 @Component({
   selector: 'app-listar-turma',
@@ -20,11 +21,12 @@ export class ListarTurmaComponent implements OnInit {
   usuario;
 
 
-  constructor(public router: Router, private messageService: MessageService, private login:LoginService) { 
-    this.usuario = this.login.getUsuarioLogado()};
+  constructor(public router: Router, private messageService: MessageService, private login:LoginService) {
+    this.usuario = this.login.getUsuarioLogado()
+  };
 
   ngOnInit() {
-    Turma.getAll().subscribe(turma => { this.turmas = turma });
+    Turma.getAll(new Query("professorId", "==", this.usuario.pk())).subscribe(turma => { this.turmas = turma });
 
     if(this.usuario.perfil == 3){
     this.items = [
@@ -33,7 +35,7 @@ export class ListarTurmaComponent implements OnInit {
       { label: 'Alterar', icon: '°', command: (event) => this.atualizar(this.selectedTurma) }
     ];
   }
-  
+
   }
   // abrirPostagensTurma(turma){
   //   this.router.navigate(['geral/main', { outlets: { principal: ['listar-postagens', turma.pk()] } }]);
@@ -64,5 +66,4 @@ export class ListarTurmaComponent implements OnInit {
 
   }
 }
-
 
