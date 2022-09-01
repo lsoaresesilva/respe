@@ -45,6 +45,7 @@ import { Groups } from 'src/app/model/experimento/groups';
 import { ChatbotService } from 'src/app/chatbot/chatbot.service';
 import { QuestaoProgramacao } from 'src/app/model/questoes/questaoProgramacao';
 import { Assunto } from 'src/app/model/questoes/assunto';
+import { AutoInstrucao } from '../../../model/srl/autoInstrucao';
 
 
 @Component({
@@ -157,8 +158,12 @@ export class ResponderQuestaoProgramacao implements OnInit, AfterViewInit, OnCha
   visualizarPlanejamento() {
     this.router.navigate([
       'geral/main',
-      { outlets: { principal: ['self-instruction-editor', this.assunto.pk(), this.questao.id] } },
+      { outlets: { principal: ['srl', 'self-instruction-editor', this.assunto.pk(), this.questao.id] } },
     ]);
+  }
+
+  exibirAutoInstrucao(){
+    return AutoInstrucao.exibirAutoInstrucao(this.questao);
   }
 
   onEditorError(submissao) {

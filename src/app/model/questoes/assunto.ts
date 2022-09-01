@@ -617,7 +617,7 @@ export class Assunto extends Document {
     return document;
   }
 
-  getQuestaoProgramacaoById(questaoId) {
+  getQuestaoProgramacaoById(questaoId):QuestaoProgramacao {
     let questaoLocalizada = null;
     this.questoesProgramacao.forEach((questao) => {
       if (questao.id == questaoId) {
