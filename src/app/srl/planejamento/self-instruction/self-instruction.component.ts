@@ -7,6 +7,7 @@ import {LoginService} from '../../../login-module/login.service';
 import { ActivatedRoute, Router } from '@angular/router';
 import { MessageService } from 'primeng/api';
 import {ApresentacaoService} from '../../../geral-module/apresentacao.service';
+import { Dificuldade } from 'src/app/model/questoes/enum/dificuldade';
 
 @Component({
   selector: 'app-self-instruction',
@@ -15,8 +16,8 @@ import {ApresentacaoService} from '../../../geral-module/apresentacao.service';
 })
 export class SelfInstructionComponent implements OnInit {
   autoInstrucao: AutoInstrucao;
-  questao;
-  assunto;
+  questao:QuestaoProgramacao;
+  assunto:Assunto;
   msgs;
   condicoes;
   repeticoes;
@@ -79,27 +80,25 @@ export class SelfInstructionComponent implements OnInit {
           this.questao = this.assunto.getQuestaoProgramacaoById(params['questaoId']);
 
           if (this.questao != null && this.questao.id != null) {
-            this.apresentarPerguntas(this.questao.assuntos);
-            AutoInstrucao.getByEstudanteQuestao(
-              this.login.getUsuarioLogado().pk(),
-              this.questao.id
-            ).subscribe((autoInstrucao) => {
-              if (autoInstrucao != null) {
-                this.autoInstrucao = autoInstrucao;
-              }
-            });
+            if( AutoInstrucao.exibirAutoInstrucao(this.questao)){
+              this.apresentarPerguntas(this.questao.assuntos);
+              AutoInstrucao.getByEstudanteQuestao(
+                this.login.getUsuarioLogado().pk(),
+                this.questao.id
+              ).subscribe((autoInstrucao) => {
+                if (autoInstrucao != null) {
+                  this.autoInstrucao = autoInstrucao;
+                }
+              });
+            } else{
+              this.router.navigate([
+                'geral/main',
+                { outlets: { principal: ['juiz', 'editor', this.assunto.pk(), this.questao.id] } },
+              ]);
+            }
+
           }
-          /*if (assunto["questoesProgramacao"] != undefined && assunto["questoesProgramacao"].length > 0) {
-            assunto["questoesProgramacao"].forEach(questao => {
-              if (questao.id == params["questaoId"]) {
 
-                this.questao = questao;
-
-
-
-              }
-            });
-          }*/
         });
       } else {
         throw new Error(

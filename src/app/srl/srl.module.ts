@@ -88,6 +88,11 @@ export const routes:Routes = [
     canActivate: [AuthGuard, ExperimentoGuard, PageTrack]
   },
   {
+    path: 'self-instruction-editor/:assuntoId/:questaoId',
+    component: SelfInstructionComponent,
+    canActivate: [AuthGuard, ExperimentoGuard, PageTrack]
+  },
+  {
     path: 'entrar-grupo/:atividadeGrupoId/:assuntoId/:questaoId',
     component: SelfInstructionColetivoComponent,
     canActivate: [AuthGuard, PageTrack]

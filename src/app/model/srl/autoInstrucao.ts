@@ -4,6 +4,7 @@ import { Observable } from 'rxjs';
 import Query from '../firestore/query';
 import { Assuntos } from '../enums/assuntos';
 import { QuestaoProgramacao } from '../questoes/questaoProgramacao';
+import { Dificuldade } from '../questoes/enum/dificuldade';
 
 @Collection('autoInstrucao')
 export class AutoInstrucao extends Document {
@@ -36,6 +37,14 @@ export class AutoInstrucao extends Document {
   repeticoes;
   funcoes;
   vetores;
+
+  static exibirAutoInstrucao(questao:QuestaoProgramacao){
+    if(questao != null && questao.dificuldade >= Dificuldade.medio){
+      return true;
+    }
+
+    return false;
+  }
 
   static getByEstudanteQuestao(estudanteId, questaoId): Observable<AutoInstrucao> {
     return new Observable((observer) => {
@@ -128,4 +137,6 @@ export class AutoInstrucao extends Document {
 
     return isValido;
   }
+
+
 }

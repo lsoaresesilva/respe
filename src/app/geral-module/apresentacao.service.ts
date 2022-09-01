@@ -133,12 +133,17 @@ export class ApresentacaoService {
           {
             element: document.getElementById('testsCases'),
             intro:
-              "<h3>Entradas e saídas esperadas</h3><p>O seu algoritmo receberá os valores da coluna <span style='font-weight:bold'>Entradas</span> e deverá produzir como resposta os valores da coluna <span style='font-weight:bold'></span>, considerando o problema que lhe foi passado. A coluna <span style='font-weight:bold'>Status</span> indica se o seu algoritmo produziu a resposta corretamente ou incorretamente. Por fim, na coluna <span style='font-weight:bold'>Saída algoritmo</span> é apresentada a resposta produzida pelo seu algoritmo, compare-a com a saída esperada, devem ser idênticos.</p>",
+              "<h3>Entradas e saídas esperadas</h3><p>O seu algoritmo receberá os valores da coluna <span style='font-weight:bold'>Entradas</span> e deverá produzir como resposta os valores da coluna <span style='font-weight:bold'>Saída esperada</span>. A coluna <span style='font-weight:bold'>Status</span> indica se o seu algoritmo produziu a resposta corretamente ou incorretamente.</p>",
           },
           {
             element: document.getElementById('editorProgramacao'),
             intro:
               '<h3>Editor de programação</h3><p>Neste espaço você deve escrever o algoritmo para resolver o problema apresentado.</p>',
+          },
+          {
+            element: document.getElementById('btnMudancaEditor'),
+            intro:
+              '<h3>Mudar o tipo de editor</h3><p>Você pode alternar entre o nosso editor ou se preferir um editor tradicional.<br><br>Recomendamos utilizar o nosso editor, pois ele oferece uma série de recursos que lhe ajudarão no aprendizado.</p>',
           },
           {
             element: document.getElementById('btnExecutar'),

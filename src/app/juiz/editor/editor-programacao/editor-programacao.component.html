@@ -1,7 +1,7 @@
 <p-confirmDialog header="Atenção" icon="pi pi-exclamation-triangle"></p-confirmDialog>
 <div class="p-grid">
   <div class="p-col-3">
-    <button type="button" pButton (click)="mudancaEditor()" icon="{{iconModoEditor}}" style="margin-right: 10px"
+    <button type="button" id="btnMudancaEditor" pButton (click)="mudancaEditor()" icon="{{iconModoEditor}}" style="margin-right: 10px"
       *ngIf="isMudancaEditorPermitida == true"></button>
     <app-editor-trintadoisbits [modoVisualizacao]="modoVisualizacao" [questao]="questao" [assunto]="assunto"
       (onSubmit)="submissaoRealizada($event)" (onServidorError)="erroServidor($event)" (onError)="erroSubmissao($event)"

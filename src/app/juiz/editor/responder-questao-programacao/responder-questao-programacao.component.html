@@ -1,5 +1,5 @@
 <p-toast></p-toast>
-<chat-widget></chat-widget>
+<!-- <chat-widget></chat-widget> -->
 
 <div *ngIf="questao != null; else loading">
   <app-chat *ngIf="this.atividadeGrupo != null" [atividadeGrupo]="atividadeGrupo" [grupo]="grupo"></app-chat>
@@ -26,7 +26,7 @@
               <div class="p-grid">
                 <div class="p-col-12">
                   <button type="button" (click)="visualizarPlanejamento()" pButton label="Visualizar planejamento"
-                    class="p-button-help" *ngIf="atividadeGrupo == null && usuario.grupoExperimento != 4"></button>
+                    class="p-button-help" *ngIf="atividadeGrupo == null && usuario.grupoExperimento != 4 && exibirAutoInstrucao()"></button>
               <!--     <app-btn-avancar-questao style="margin-left:5px" [assunto]="assunto" [questao]="questao"
                     *ngIf="atividadeGrupo == null">
                   </app-btn-avancar-questao> -->
