@@ -43,6 +43,7 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { DocumentModule } from './model/firestore/document.module';
 import {ProgressSpinnerModule} from 'primeng/progressspinner';
 
+
 @NgModule({
     schemas: [CUSTOM_ELEMENTS_SCHEMA],
     declarations: [AppComponent /* , MainComponent */],
