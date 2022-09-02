@@ -21,5 +21,6 @@ describe('DiarioComponent', () => {
 
   it('should create', () => {
     expect(component).toBeTruthy();
+
   });
 });

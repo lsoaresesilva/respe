@@ -1,6 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import Diario from 'src/app/model/srl/diario';
-import { LoginService } from 'src/app/login-module/login.service';
+import Diario, { ReflexaoAprendizagem } from 'src/app/model/srl/diario';
 import { MessageService, SelectItem } from 'primeng/api';
 import { NivelConfianca } from 'src/app/model/nivelConfianca';
 import { ObjetivosExercicios } from 'src/app/model/enums/objetivosExercicios';
@@ -8,6 +7,7 @@ import { Motivacao } from 'src/app/model/enums/motivacao';
 import Query from 'src/app/model/firestore/query';
 import { CategoriaPergunta } from 'src/app/model/diario/categoriaPergunta';
 import PerguntaDiario from 'src/app/model/diario/perguntaDiario';
+import { LoginService } from 'src/app/login-module/login.service';
 
 @Component({
   selector: 'app-diario',
@@ -21,6 +21,7 @@ export class DiarioComponent implements OnInit {
   niveisConfianca: SelectItem[];
   isPrimeiraSemana;
   motivacao: SelectItem[];
+  reflexao: SelectItem[];
 
   perguntas: Map<CategoriaPergunta, Map<number, PerguntaDiario>>;
 
@@ -28,7 +29,7 @@ export class DiarioComponent implements OnInit {
   hintReflexao;
 
   constructor(private login: LoginService, private messageService: MessageService) {
-    this.diario = new Diario(null, '', '', null, null, null, null, this.login.getUsuarioLogado());
+    this.diario = new Diario(null, new ReflexaoAprendizagem(), '', null, null, null, null, this.login.getUsuarioLogado());
     this.display = false;
     this.isPrimeiraSemana = false;
     this.inicializarPerguntas();
@@ -228,7 +229,7 @@ export class DiarioComponent implements OnInit {
         proximaSequencia = 1;
       }
 
-      
+
 
       localStorage.setItem('hintDiario', proximaSequencia.toString());
     }
