@@ -26,10 +26,10 @@
       *ngIf="usuario.perfil == 2"></button>
     <button pButton class="p-button-text" label="Atividades em grupo" (click)="abrirListagemGrupoProfessor()"
       *ngIf="usuario.perfil == 2"></button>
-    <button pButton class="p-button-text" label="Listagem diários" (click)="abrirListagemDiario()"
+    <!-- <button pButton class="p-button-text" label="Listagem diários" (click)="abrirListagemDiario()"
       *ngIf="usuario.perfil == 2"></button>
       <button pButton class="p-button-text" label="Listagem diários programação" (click)="abrirListagemDiarioProgramacao()"
-      *ngIf="usuario.perfil == 2"></button>
+      *ngIf="usuario.perfil == 2"></button> -->
   </div>
   <div style="margin: 0 auto; width: 15%">
     <app-progresso-proximo-nivel *ngIf="usuario.perfil == 1 && usuario.grupoExperimento != 4"></app-progresso-proximo-nivel>

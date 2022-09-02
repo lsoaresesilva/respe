@@ -7,11 +7,31 @@ import { ObjetivosExercicios } from '../enums/objetivosExercicios';
 import { Motivacao } from '../enums/motivacao';
 import { CategoriaPergunta } from '../diario/categoriaPergunta';
 
+export class ReflexaoAprendizagem {
+  mudarHorarioEstudos: boolean = false;
+  buscarNovasFormasEstudos: boolean = false;
+  dedicarMaisTempo: boolean = false;
+  reverMaterialAula: boolean = false;
+  reduzirDistracoes: boolean = false;
+  metasRealistas: boolean = false;
+
+  objectToDocument() {
+    return {
+      mudarHorarioEstudos: this.mudarHorarioEstudos,
+      buscarNovasFormasEstudos: this.buscarNovasFormasEstudos,
+      dedicarMaisTempo: this.dedicarMaisTempo,
+      reverMaterialAula: this.reverMaterialAula,
+      reduzirDistracoes: this.reduzirDistracoes,
+      metasRealistas: this.metasRealistas
+    };
+  }
+}
+
 @Collection('diarios')
 export default class Diario extends Document {
   constructor(
     id,
-    public reflexao,
+    public reflexao: ReflexaoAprendizagem,
     public planejamento,
     public nivelConfianca: NivelConfianca,
     public tempoEstudo,
@@ -58,32 +78,20 @@ export default class Diario extends Document {
   objectToDocument() {
     const document = super.objectToDocument();
     document['estudanteId'] = this.estudante.pk();
-
+    document['reflexao'] = this.reflexao.objectToDocument();
     return document;
   }
 
   validar(primeiraSemana = false) {
     if (
       this.nivelConfianca != null &&
-      this.planejamento != null &&
-      this.planejamento !== '' &&
-      this.planejamento.length >= 50 &&
       this.objetivoExercicio != null &&
       this.motivacao != null &&
       this.tempoEstudo != null
     ) {
-      if (!primeiraSemana) {
-        if (this.reflexao != null && this.reflexao !== '' && this.reflexao.length >= 50) {
-          return true;
-        }
-      }else{
-        return true
-      }
+      return true;
     }
 
     return false;
   }
-
-
-  
 }
