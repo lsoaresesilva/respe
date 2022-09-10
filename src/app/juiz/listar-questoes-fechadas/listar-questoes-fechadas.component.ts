@@ -2,10 +2,10 @@ import { Component, OnInit, Input } from '@angular/core';
 import { MenuItem, MessageService } from 'primeng/api';
 import { Router } from '@angular/router';
 import { LoginService } from '../../login-module/login.service';
-import QuestaoFechada from '../../model/questoes/questaoFechada';
-import { RespostaQuestaoFechada } from '../../model/questoes/respostaQuestaoFechada';
+import QuestaoFechada from '../../model/aprendizagem/questoes/questaoFechada';
+import { RespostaQuestaoFechada } from '../../model/aprendizagem/questoes/respostaQuestaoFechada';
 import Query from 'src/app/model/firestore/query';
-import { Assunto } from 'src/app/model/questoes/assunto';
+import { Assunto } from 'src/app/model/aprendizagem/questoes/assunto';
 
 @Component({
   selector: 'app-listar-questoes-fechadas',
@@ -72,21 +72,20 @@ export class ListarQuestoesFechadasComponent implements OnInit {
     this.respostasAluno = [];
 
     for (let i = 0; i < this.assunto.questoesFechadas.length; i++) {
-      if (this.respostasAluno[i] == undefined) this.respostasAluno[i] = 'Responder';
-
+      if (this.respostasAluno[i] == undefined) {
+        this.respostasAluno[i] = 'Responder';
+      }
+      const questao = this.assunto.questoesFechadas[i];
       respostasAlunoUsuario.map((respostaUsuario) => {
-        if (respostaUsuario.questaoId == this.assunto.questoesFechadas[i].id) {
-          this.respostasAluno[i] = QuestaoFechada.isRespostaCorreta(
-            this.assunto.questoesFechadas[i],
-            respostaUsuario
-          );
+        if (respostaUsuario.questaoId == questao.id) {
+          this.respostasAluno[i] = questao.isRespostaCorreta(respostaUsuario);
         }
       });
     }
   }
 
   ordernarPorSequencia(questoes: QuestaoFechada[]) {
-    questoes.sort((a, b) => a.sequencia - b.sequencia);
+    questoes.sort((a, b) => a.ordem - b.ordem);
     this.assunto.questoesFechadas = questoes;
   }
 

@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { Router, ActivatedRoute } from '@angular/router';
 import { MessageService } from 'primeng/api';
-import { Assunto } from 'src/app/model/questoes/assunto';
+import { Assunto } from 'src/app/model/aprendizagem/questoes/assunto';
 
 @Component({
   selector: 'app-cadastrar-assuntos',

@@ -4,7 +4,7 @@ import { Router, ActivatedRoute } from '@angular/router';
 import Query from 'src/app/model/firestore/query';
 import Usuario from 'src/app/model/usuario';
 import { LoginService } from 'src/app/login-module/login.service';
-import { Assunto } from 'src/app/model/questoes/assunto';
+import { Assunto } from 'src/app/model/aprendizagem/questoes/assunto';
 
 
 @Component({
@@ -28,9 +28,9 @@ export class ListarEstudantesSubmissaoComponent implements OnInit {
           let questao = assunto["getQuestaoProgramacaoById"](params["questaoId"]);
 
           // TODO: filtrar para listar apenas submissões de uma turma
-          Submissao.getSubmissoesRecentesTodosUsuarios(questao, this.login.getUsuarioLogado()).subscribe(submissoes => {
+          /* Submissao.getSubmissoesRecentesTodosUsuarios(questao, this.login.getUsuarioLogado()).subscribe(submissoes => {
             this.submissoesDaQuestao = submissoes
-          })
+          }) */
         });
 
       } else {

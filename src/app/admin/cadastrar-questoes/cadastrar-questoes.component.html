@@ -1,23 +1,6 @@
-<p-toast [style]="{ marginTop: '80px' }" [showTransitionOptions]="'10ms'" [hideTransitionOptions]="'10ms'"></p-toast>
-<div class="p-grid">
-  <div class="p-col-12">
-    <div *ngIf="isAlterar">
-      <h1 class="first">Cadastro de questao</h1>
-    </div>
-    <ng-template #other_content>
-      <h1 class="first">Alterar questao</h1>
-    </ng-template>
-  </div>
-</div>
-<div class="p-grid">
-  <div class="p-col-12">
-    <h3 class="first">Título (curto)</h3>
-    <input id="nomeCurto" type="text" [(ngModel)]="questao.nomeCurto" pInputText />
+<app-dados-questao-base [(questao)]="questao" [assunto]="assunto"></app-dados-questao-base>
 
-    <h3 class="first">Enunciado</h3>
-    <textarea [rows]="6" [cols]="60" pInputTextarea [(ngModel)]="questao.enunciado"></textarea>
-  </div>
-</div>
+
 <div class="p-grid">
   <div class="p-col-12">
     <h3>Assuntos</h3>
@@ -29,16 +12,6 @@
       [(ngModel)]="questao.assuntos" label="{{ assunto.nome }}" inputId="{{ assunto.id }}"></p-checkbox>
   </div>
 </div>
-<div class="p-grid">
-  <div class="p-col-12">
-    <h3 class="first">Dificuldade</h3>
-  </div>
-</div>
-<div class="p-grid" style="margin-bottom: 10px">
-  <div class="p-col-12">
-    <p-dropdown [options]="dificuldades" [(ngModel)]="questao.dificuldade"></p-dropdown>
-  </div>
-</div>
 
 <div class="p-grid" style="margin-bottom: 10px">
   <div class="p-col-12">
@@ -48,7 +21,7 @@
 <div class="p-grid" style="margin-bottom: 10px">
   <div class="p-col-12">
     <textarea [rows]="6" [cols]="60" pInputTextarea
-      [(ngModel)]="questao.algoritmoInicial"></textarea>
+      [(ngModel)]="algoritmoInicial"></textarea>
   </div>
 </div>
 <div class="p-grid" style="margin-bottom: 10px">
@@ -59,7 +32,7 @@
 <div class="p-grid" style="margin-bottom: 10px">
   <div class="p-col-12">
     <textarea [rows]="6" [cols]="60" pInputTextarea
-      [(ngModel)]="solucao.codigo"></textarea>
+      [(ngModel)]="solucao"></textarea>
   </div>
 </div>
 <div class="p-grid" style="margin-bottom: 10px">
@@ -88,12 +61,12 @@
 </div>
 <div class="p-grid" style="margin-bottom: 10px">
   <div class="p-col-12">
-    <app-cadastrar-teste-case *ngFor="let testCase of questao.testsCases" [testCase]="testCase">
+    <app-cadastrar-teste-case [testsCases]="questao.testsCases">
     </app-cadastrar-teste-case>
   </div>
 </div>
 <div class="p-grid">
   <div class="p-col-2">
-    <button pButton type="button" label="Cadastrar" (click)="cadastrar()"></button>
+    <button pButton type="button" label="Salvar" (click)="cadastrar()"></button>
   </div>
 </div>

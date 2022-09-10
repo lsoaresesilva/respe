@@ -3,7 +3,7 @@ import { DomSanitizer } from '@angular/platform-browser';
 import { ActivatedRoute } from '@angular/router';
 import { LoginService } from 'src/app/login-module/login.service';
 import PageTrackRecord from 'src/app/model/analytics/pageTrack';
-import VideoProgramacao from 'src/app/model/sistema-aprendizagem/videoProgramacao';
+import VideoProgramacao from 'src/app/model/aprendizagem/videoProgramacao';
 
 @Component({
   selector: 'app-visualizar-video',

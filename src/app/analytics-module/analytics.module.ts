@@ -18,6 +18,8 @@ import { SrlModule } from '../srl/srl.module';
 import { ExportarDadosAnalyticsComponent } from './exportar-dados-analytics/exportar-dados-analytics.component';
 import { DadosAnalyticsComponent } from './dados-analytics/dados-analytics.component';
 import { AnalyticsTurmaComponent } from './analytics-turma/analytics-turma.component';
+import { DropdownModule } from 'primeng/dropdown';
+import { FormsModule } from '@angular/forms';
 
 @NgModule({
   declarations: [
@@ -32,9 +34,9 @@ import { AnalyticsTurmaComponent } from './analytics-turma/analytics-turma.compo
     TempoOnlineComponent,
     TentativaQuestoesComponent,
     ExportarDadosAnalyticsComponent,
-    AnalyticsTurmaComponent
+    AnalyticsTurmaComponent,
   ],
-  imports: [SrlModule, CommonModule, ProgressBarModule, TableModule],
-  exports: [DadosAnalyticsComponent, AnalyticsTurmaComponent],
+  imports: [SrlModule, FormsModule, CommonModule, ProgressBarModule, TableModule, DropdownModule],
+  exports: [DadosAnalyticsComponent, AnalyticsTurmaComponent, ExportarDadosAnalyticsComponent],
 })
 export class AnalyticsModule {}

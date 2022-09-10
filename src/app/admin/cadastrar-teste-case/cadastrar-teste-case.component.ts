@@ -1,5 +1,5 @@
-import { Component, OnInit, Input } from '@angular/core';
-import TestCase from 'src/app/model/testCase';
+import { Component, OnInit, Input, ViewChild, ElementRef } from '@angular/core';
+import TestCase from 'src/app/model/aprendizagem/questoes/testCase';
 import { MenuItem, MessageService } from 'primeng/api';
 
 @Component({
@@ -8,58 +8,67 @@ import { MenuItem, MessageService } from 'primeng/api';
   styleUrls: ['./cadastrar-teste-case.component.css'],
 })
 export class CadastrarTesteCaseComponent implements OnInit {
-  @Input('testCase')
-  testeCase: TestCase;
-  entrada: string;
-  saida;
+  @Input()
+  testsCases: TestCase[];
+
   selectedEntrada: String;
   selectedTest: TestCase;
   items: MenuItem[];
+
+  @ViewChild('campoSaida')
+  campoSaida: ElementRef;
+
+  @ViewChild('campoEntrada')
+  campoEntrada: ElementRef;
 
   constructor(private messageService: MessageService) {}
 
   ngOnInit() {}
 
-  adicionarEntradaSaida(tipo) {
-    let dado;
+  adicionarEntradaSaida(dado, indice, tipo) {
 
-    if (tipo === 'entrada') {
-      dado = this.entrada;
-    } else {
-      dado = this.saida;
-    }
-
-    if (this.testeCase.validarEntradaSaida(dado)) {
+    if (this.testsCases[indice].validarEntradaSaida(dado)) {
       if (tipo === 'entrada') {
-        this.testeCase.entradas.push(this.entrada);
+        this.testsCases[indice].entradas.push(dado);
       } else {
-        if(Array.isArray(this.testeCase.saida)){
-          this.testeCase.saida.push(this.saida);
-        }else{
-          this.testeCase.saida = this.saida;
+        if(this.testsCases[indice].saida != null){
+          let saidaTemp = this.testsCases[indice].saida;
+          this.testsCases[indice].saida = [];
+          if(Array.isArray(saidaTemp)){
+            this.testsCases[indice].saida.push(...saidaTemp, dado);
+          }else{
+            this.testsCases[indice].saida.push(saidaTemp, dado);
+          }
+
+        } else {
+          this.testsCases[indice].saida = dado;
         }
-        
-        
+
+
       }
-      this.entrada = null;
-      this.saida = null;
+      this.campoEntrada.nativeElement.value = "";
+      this.campoSaida.nativeElement.value = "";
     } else {
       this.messageEntradaVazia();
     }
+  }
+
+  copiarEntradaSaida(entrada, indice){
+    this.adicionarEntradaSaida(entrada, indice, 'saida');
   }
 
   isArray(dado){
     return Array.isArray(dado);
   }
 
-  retirarEntradaSaida(dado: String, tipo) {
+  retirarEntradaSaida(dado: String, indice, tipo) {
     let index = -1;
     let dadoTestCase;
 
     if (tipo === 'entrada') {
-      dadoTestCase = this.testeCase.entradas;
+      dadoTestCase = this.testsCases[indice].entradas;
     } else {
-      dadoTestCase = this.testeCase.saida;
+      dadoTestCase = this.testsCases[indice].saida;
     }
 
     if(Array.isArray(dadoTestCase)){
@@ -72,11 +81,9 @@ export class CadastrarTesteCaseComponent implements OnInit {
       dadoTestCase.splice(index, 1);
     }else{
       if (tipo === 'saida') {
-        this.testeCase.saida = null;
+        this.testsCases[indice].saida = null;
       }
     }
-
-   
   }
 
   messageCadastrado() {
@@ -98,8 +105,8 @@ export class CadastrarTesteCaseComponent implements OnInit {
   messageEntradaVazia() {
     this.messageService.add({
       severity: 'info',
-      summary: 'Entrada negada',
-      detail: 'ops... a entrada não pode estar vazia',
+      summary: 'Atenção',
+      detail: 'ops... este campo não pode estar vazio.',
     });
   }
 }

@@ -1,5 +1,5 @@
 import { forkJoin, Observable } from 'rxjs';
-import { Assunto } from '../questoes/assunto';
+import { Assunto } from '../aprendizagem/questoes/assunto';
 import { Collection, date, Document, ignore } from '../firestore/document';
 import Usuario from '../usuario';
 import * as firebase from 'firebase';

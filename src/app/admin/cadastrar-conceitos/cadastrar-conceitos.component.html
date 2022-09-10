@@ -1,0 +1,36 @@
+<p-toast [style]="{ marginTop: '80px' }" [showTransitionOptions]="'10ms'" [hideTransitionOptions]="'10ms'"></p-toast>
+<div class="p-grid">
+  <div class="p-col-12">
+    <div *ngIf="isAlterar">
+      <h1 class="first">Cadastro de conceitos</h1>
+    </div>
+    <ng-template #other_content>
+      <h1 class="first">Alterar conceito</h1>
+    </ng-template>
+  </div>
+</div>
+<div class="p-grid">
+  <div class="p-col-12">
+    <h3 class="first">Assunto</h3>
+    <p-dropdown [options]="assuntos" [(ngModel)]="assunto"></p-dropdown>
+
+
+  </div>
+</div>
+<div class="p-grid">
+  <div class="p-col-12">
+    <h3>Conceitos</h3>
+  </div>
+</div>
+<div class="p-grid">
+  <div class="p-col-12">
+    Escreva os nomes dos conceitos. Um por linha.<br>
+    <textarea pInputTextarea [(ngModel)]="nomesConceitos"></textarea>
+  </div>
+</div>
+
+<div class="p-grid">
+  <div class="p-col-2">
+    <button pButton type="button" label="Cadastrar" (click)="cadastrar()"></button>
+  </div>
+</div>

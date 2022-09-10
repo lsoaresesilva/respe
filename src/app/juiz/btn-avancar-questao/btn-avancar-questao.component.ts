@@ -2,10 +2,10 @@ import { Component, Input, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { LoginService } from 'src/app/login-module/login.service';
 import { Groups } from 'src/app/model/experimento/groups';
-import { Assunto } from 'src/app/model/questoes/assunto';
-import QuestaoFechada from 'src/app/model/questoes/questaoFechada';
-import QuestaoParsonProblem from 'src/app/model/questoes/questaoParsonProblem';
-import { QuestaoProgramacaoRegex } from 'src/app/model/questoes/questaoProgramacaoRegex';
+import { Assunto } from 'src/app/model/aprendizagem/questoes/assunto';
+import QuestaoFechada from 'src/app/model/aprendizagem/questoes/questaoFechada';
+import QuestaoParsonProblem from 'src/app/model/aprendizagem/questoes/questaoParsonProblem';
+import { QuestaoProgramacaoRegex } from 'src/app/model/aprendizagem/questoes/questaoProgramacaoRegex';
 
 @Component({
   selector: 'app-btn-avancar-questao',

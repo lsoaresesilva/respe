@@ -5,7 +5,7 @@ import { LoginService } from 'src/app/login-module/login.service';
 import Submissao from 'src/app/model/submissao';
 import Usuario from 'src/app/model/usuario';
 import { Util } from 'src/app/model/util';
-import { Assunto } from 'src/app/model/questoes/assunto';
+import { Assunto } from 'src/app/model/aprendizagem/questoes/assunto';
 
 @Component({
   selector: 'app-visualizar-submissao-questao',

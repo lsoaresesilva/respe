@@ -16,11 +16,7 @@
       *ngIf="usuario.perfil == 1"></button> -->
     <button pButton id="btnRanking" class="p-button-text" label="Ranking" (click)="abrirRanking()" *ngIf="usuario.perfil == 1 && usuario.grupoExperimento != 4"></button>
     <!-- Menu administrador -->
-    <button pButton class="p-button-text" label="Assuntos" (click)="abrirAssuntosAdmin()"
-      *ngIf="usuario.perfil == 3"></button>
-
-    <button pButton class="p-button-text" label="Exportar dados" (click)="exportarDados()"
-      *ngIf="usuario.perfil == 3"></button>
+    <app-menu-admin *ngIf="usuario.perfil == 3" (abrirAssuntos)="abrirAssuntosAdmin()" (exportarDados)="exportarDados()"></app-menu-admin>
     <!-- Menu professor -->
     <button pButton class="p-button-text" label="Turmas" (click)="abrirListagemTurmas()"
       *ngIf="usuario.perfil == 2"></button>

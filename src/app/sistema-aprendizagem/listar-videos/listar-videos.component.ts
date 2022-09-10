@@ -4,7 +4,7 @@ import { Observable } from 'rxjs';
 import { LoginService } from 'src/app/login-module/login.service';
 import ConfiguracaoEditor from 'src/app/model/configuracoes/configuracaoEditor';
 import Query from 'src/app/model/firestore/query';
-import VideoProgramacao from 'src/app/model/sistema-aprendizagem/videoProgramacao';
+import VideoProgramacao from 'src/app/model/aprendizagem/videoProgramacao';
 
 @Component({
   selector: 'app-listar-videos',

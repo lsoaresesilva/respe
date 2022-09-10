@@ -39,7 +39,7 @@ import { MonitorService } from 'src/app/chatbot/monitor.service';
 import { Groups } from 'src/app/model/experimento/groups';
 import Postagem from 'src/app/model/cscl/postagem';
 import Usuario from 'src/app/model/usuario';
-import { VisualizacaoRespostasQuestoes } from 'src/app/model/questoes/visualizacaoRespostasQuestoes';
+import { VisualizacaoRespostasQuestoes } from 'src/app/model/aprendizagem/questoes/visualizacaoRespostasQuestoes';
 
 /**
  * Executa um javascript ide.js para acoplar o editor VStudio.

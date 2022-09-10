@@ -5,7 +5,7 @@ import Submissao from '../submissao';
 import Usuario from '../usuario';
 import AnalyticsProgramacao from '../analytics/analyticsProgramacao';
 import PageTrackRecord from '../analytics/pageTrack';
-import { Assunto } from '../questoes/assunto';
+import { Assunto } from '../aprendizagem/questoes/assunto';
 
 export default class EstatisticaPageTrack {
 

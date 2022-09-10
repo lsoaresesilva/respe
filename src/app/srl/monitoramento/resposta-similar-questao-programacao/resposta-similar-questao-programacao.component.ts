@@ -1,8 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
-import { Assunto } from 'src/app/model/questoes/assunto';
-import { ModeloRespostaQuestao } from 'src/app/model/questoes/modeloRespostaQuestao';
-import { QuestaoProgramacao } from 'src/app/model/questoes/questaoProgramacao';
+import { Assunto } from 'src/app/model/aprendizagem/questoes/assunto';
+import { ModeloRespostaQuestao } from 'src/app/model/aprendizagem/questoes/modeloRespostaQuestao';
+import { QuestaoProgramacao } from 'src/app/model/aprendizagem/questoes/questaoProgramacao';
 
 @Component({
   selector: 'app-resposta-similar-questao-programacao',
@@ -18,7 +18,7 @@ export class RespostaSimilarQuestaoProgramacaoComponent implements OnInit {
   resposta;
 
   constructor(private router: Router) {
-    this.questao = new QuestaoProgramacao(null, null, null, null, null, null, null, '', null);
+    this.questao = new QuestaoProgramacao(null, null, null, null, null, null, null, '', null, []);
     this.modeloRespostaQuestao = new ModeloRespostaQuestao(null, null, null);
   }
 
@@ -40,7 +40,8 @@ export class RespostaSimilarQuestaoProgramacaoComponent implements OnInit {
       for (let i = 0; i < this.assuntos.length; i++) {
         let rowData = this.assuntos[i];
         let questoesProgramacao = rowData.questoesProgramacao;
-        if (i == 0) {
+        // Corrigir o código abaixo
+        /* if (i == 0) {
           this.rowGroupMetadata[questoesProgramacao] = { index: 0, size: 1 };
         } else {
           let previousRowData = this.assuntos[i - 1];
@@ -49,7 +50,7 @@ export class RespostaSimilarQuestaoProgramacaoComponent implements OnInit {
           if (questoesProgramacao === previousRowGroup)
             this.rowGroupMetadata[questoesProgramacao].size++;
           else this.rowGroupMetadata[questoesProgramacao] = { index: i, size: 1 };
-        }
+        } */
       }
     }
   }

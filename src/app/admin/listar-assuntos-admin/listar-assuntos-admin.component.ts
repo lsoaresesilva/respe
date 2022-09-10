@@ -4,7 +4,7 @@ import { MenuItem, MessageService } from 'primeng/api';
 import { LoginService } from 'src/app/login-module/login.service';
 import { PerfilUsuario } from 'src/app/model/enums/perfilUsuario';
 import Query from 'src/app/model/firestore/query';
-import { Assunto } from 'src/app/model/questoes/assunto';
+import { Assunto } from 'src/app/model/aprendizagem/questoes/assunto';
 
 @Component({
   selector: 'app-listar-assuntos-admin',
@@ -50,7 +50,7 @@ export class ListarAssuntosAdminComponent implements OnInit {
     if (assunto != undefined) {
       this.router.navigate([
         'geral/main',
-        { outlets: { principal: ['atualizacao-assunto', assunto.pk()] } },
+        { outlets: { principal: ['admin', 'atualizacao-assunto', assunto.pk()] } },
       ]);
     }
   }
@@ -79,7 +79,7 @@ export class ListarAssuntosAdminComponent implements OnInit {
   abrirAssunto(assunto) {
     this.router.navigate([
       'geral/main',
-      { outlets: { principal: ['visualizar-assunto-admin', assunto.pk()] } },
+      { outlets: { principal: ['admin', 'visualizar-assunto-admin', assunto.pk()] } },
     ]);
   }
 }

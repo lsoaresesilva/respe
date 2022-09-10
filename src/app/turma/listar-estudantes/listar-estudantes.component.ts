@@ -7,7 +7,7 @@ import Turma from 'src/app/model/turma';
 import { Util } from 'src/app/model/util';
 import { ConhecimentoProgramacao } from 'src/app/model/enums/conhecimentoProgramacao';
 import Analytics from '../../model/analytics/analytics';
-import { Assunto } from '../../model/questoes/assunto';
+import { Assunto } from '../../model/aprendizagem/questoes/assunto';
 
 @Component({
   selector: 'app-listar-estudantes',

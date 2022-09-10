@@ -1,6 +1,6 @@
 import { Collection, Document, date } from './firestore/document';
 import { Observable, forkJoin } from 'rxjs';
-import TestCase from './testCase';
+import TestCase from './aprendizagem/questoes/testCase';
 import Submissao from './submissao';
 import Query from './firestore/query';
 
@@ -8,7 +8,7 @@ import * as firebase from 'firebase';
 import { Util } from './util';
 
 export default class ResultadoTestCase {
-  
+
   // TODO: incluir a submissão
 
   constructor(public id, public status, public respostaAlgoritmo, public testCase: TestCase) {

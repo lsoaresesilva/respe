@@ -3,7 +3,7 @@ import Submissao from 'src/app/model/submissao';
 import { LoginService } from 'src/app/login-module/login.service';
 import { ApresentacaoService } from 'src/app/geral-module/apresentacao.service';
 import { DomSanitizer } from '@angular/platform-browser';
-import { QuestaoProgramacao } from 'src/app/model/questoes/questaoProgramacao';
+import { QuestaoProgramacao } from 'src/app/model/aprendizagem/questoes/questaoProgramacao';
 
 @Component({
   selector: 'dados-questao',

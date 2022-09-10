@@ -2,7 +2,7 @@ import { Input, OnChanges } from '@angular/core';
 import { Component, OnInit } from '@angular/core';
 import { LoginService } from '../../../login-module/login.service';
 import Analytics from '../../../model/analytics/analytics';
-import { Assunto } from '../../../model/questoes/assunto';
+import { Assunto } from '../../../model/aprendizagem/questoes/assunto';
 
 @Component({
   selector: 'app-monitorar-assunto',

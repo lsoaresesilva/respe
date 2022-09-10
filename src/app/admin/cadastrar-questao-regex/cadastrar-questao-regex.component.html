@@ -1,0 +1,17 @@
+<app-dados-questao-base [(questao)]="questao" [assunto]="assunto"></app-dados-questao-base>
+<div class="p-grid">
+  <div class="p-col-12">
+    <h3>Expressões regular</h3>
+  </div>
+  <div class="p-col-12">
+    <textarea [rows]="6" [cols]="60" pInputTextarea autoResize="autoResize"
+    [(ngModel)]="regex"></textarea>
+  </div>
+</div>
+
+<div class="p-grid">
+  <div class="p-col-1"></div>
+  <div class="p-col-12">
+    <button pButton type="button" label="Salvar" (click)="salvar()"></button>
+  </div>
+</div>

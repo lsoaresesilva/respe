@@ -8,8 +8,8 @@ import { ApresentacaoService } from 'src/app/geral-module/apresentacao.service';
 import { LoginService } from 'src/app/login-module/login.service';
 import PontuacaoQuestaoParson from 'src/app/model/gamification/pontuacaoQuestaoParson';
 import { RespostaQuestaoParson } from 'src/app/model/juiz/respostaQuestaoParson';
-import { Assunto } from 'src/app/model/questoes/assunto';
-import QuestaoParsonProblem from 'src/app/model/questoes/questaoParsonProblem';
+import { Assunto } from 'src/app/model/aprendizagem/questoes/assunto';
+import QuestaoParsonProblem from 'src/app/model/aprendizagem/questoes/questaoParsonProblem';
 
 @Component({
   selector: 'app-visualizar-parson',

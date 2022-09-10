@@ -8,7 +8,7 @@ import { forkJoin, Observable } from 'rxjs';
 import Analytics from '../../model/analytics/analytics';
 import ConfiguracaoEditor from '../../model/configuracoes/configuracaoEditor';
 import { Groups } from '../../model/experimento/groups';
-import { Assunto } from '../../model/questoes/assunto';
+import { Assunto } from '../../model/aprendizagem/questoes/assunto';
 import Query from '../../model/firestore/query';
 
 @Component({

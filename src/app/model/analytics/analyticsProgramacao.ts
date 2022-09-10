@@ -1,4 +1,4 @@
-import { Assunto } from '../questoes/assunto';
+import { Assunto } from '../aprendizagem/questoes/assunto';
 import ErroCompilacaoFactory from '../errors/analise-compilacao/erroCompilacaoFactory';
 import Submissao from '../submissao';
 import { Util } from '../util';

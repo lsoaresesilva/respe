@@ -39,7 +39,7 @@ export class EscolherQuestaoComponent implements OnInit {
   cadastrarQuestaoParson() {
     this.router.navigate([
       'geral/main',
-      { outlets: { principal: ['cadastro-questao-parson', this.assuntoId] } },
+      { outlets: { principal: ['cadastrar-questao-parson', this.assuntoId] } },
     ]);
   }
 }
