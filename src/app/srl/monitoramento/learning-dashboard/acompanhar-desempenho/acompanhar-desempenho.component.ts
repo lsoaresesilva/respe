@@ -36,7 +36,7 @@ export class AcompanharDesempenhoComponent implements OnInit {
 
   ngOnInit() {
     this.estudante = this.loginService.getUsuarioLogado();
-    Analytics.getAnalyticsTurma([this.estudante]).subscribe(analytics=>{
+    Analytics.getAnalytics([this.estudante]).subscribe(analytics=>{
       this.analytics$ = analytics;
     });
 

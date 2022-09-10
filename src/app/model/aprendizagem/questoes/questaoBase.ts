@@ -81,5 +81,5 @@ export default abstract class QuestaoBase implements MaterialAprendizagem {
     return document;
   }
 
-  abstract isRespostaCorreta(resposta:RespostaBase): boolean;
+  abstract isRespostaCorreta(resposta: RespostaBase): boolean;
 }

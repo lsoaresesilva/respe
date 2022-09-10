@@ -23,7 +23,7 @@ export class AnalyticsTurmaComponent implements OnInit {
           Turma.getAllEstudantes(params['codigoTurma']).subscribe(estudantes=>{
             let consultaRespostas = {};
 
-            Analytics.getAnalyticsTurma(estudantes).subscribe(analytics=>{
+            Analytics.getAnalytics(estudantes).subscribe(analytics=>{
               this.analytics$ = analytics;
             })
           })

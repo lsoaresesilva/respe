@@ -16,6 +16,7 @@ import Conceito from '../aprendizagem/questoes/conceito';
 import RespostasQuestoes from '../aprendizagem/questoes/respostasQuestoes';
 import { MaterialAprendizagem } from '../aprendizagem/materialAprendizagem';
 import { QuestaoProgramacao } from '../aprendizagem/questoes/questaoProgramacao';
+import QuestaoParsonProblem from '../aprendizagem/questoes/questaoParsonProblem';
 
 export default class Analytics {
   // TODO: Fazer apenas um carregamento de assunto e usar par atudo aqui.
@@ -35,41 +36,8 @@ export default class Analytics {
 
   private constructor(public progresoGeral, public errosProgramacao, public errosConceituais: Map<Assunto, Map<string, number>>) {}
 
-  static init(estudante): Observable<Analytics> {
-    return new Observable((observer) => {
-      if (estudante != null && estudante.pk() != null) {
-        const consultasGerais = {};
-        consultasGerais['assuntos'] = Assunto.getAll();
-        /* consultasGerais['submissoes'] = Submissao.getAll(
-          new Query('estudanteId', '==', estudante.pk())
-        ); */
-        consultasGerais['pageTrack'] = PageTrackRecord.getAll([
-          new Query('estudanteId', '==', estudante.pk()),
-          new Query('pagina', '==', 'meu-desempenho'),
-        ]);
-
-        forkJoin(consultasGerais).subscribe((resultadosConsultasGerais: any) => {
-          const assuntos = resultadosConsultasGerais.assuntos;
-          //const submissoes = resultadosConsultasGerais.submissoes;
-          const tempoOnline = resultadosConsultasGerais.tempoOnline;
-          const pageTracks = resultadosConsultasGerais.PageTrack;
-
-          const consultas = {};
-
-          Assunto.consultarRespostasEstudante(estudante).subscribe((respostas) => {
-            const analytics: Analytics = this.getAnalytics(assuntos, respostas);
-            observer.next(analytics);
-            observer.complete();
-          });
-        });
-      } else {
-        observer.error('É preciso informar um estudante para calcular o seu analytics');
-      }
-    });
-  }
-
-  static getAnalytics(assuntos, respostas: RespostasQuestoes) {
-    /* const analytics = new Analytics();
+  /* static getAnalytics(assuntos, respostas: RespostasQuestoes) {
+    const analytics = new Analytics();
     analytics.totalErrosProgramacao = AnalyticsProgramacao.calcularMediaErrosSintaxeProgramacao(
       respostas.questoesProgramacao.submissoes
     );
@@ -95,11 +63,11 @@ export default class Analytics {
       respostas.questoesFechadas
     );
     analytics.progresoGeral = this.calcularProgressoGeral(assuntos, respostas);
-    return analytics; */
+    return analytics;
     return null;
-  }
+  }*/
 
-  static getAnalyticsTurma(estudantes: Usuario[]):Observable<Analytics> {
+  static getAnalytics(estudantes: Usuario[]):Observable<Analytics> {
     return new Observable<Analytics>((observer) => {
       const consultaRespostas: Observable<RespostasQuestoes>[] = [];
       estudantes.forEach((estudante) => {
@@ -190,8 +158,6 @@ export default class Analytics {
               quantidadeErrosDesteConceito += 1;
               mapeamento.set(conceito.id, quantidadeErrosDesteConceito);
             }
-
-
           });
         }
       }
@@ -213,7 +179,7 @@ export default class Analytics {
         } else{
           respostas.forEach((resposta) => {
             if (resposta.questao.id === questao.id) {
-              if(questao instanceof QuestaoFechada){
+              if(questao instanceof QuestaoFechada || questao instanceof QuestaoParsonProblem) {
                 resultado = questao.isRespostaCorreta(resposta);
               }
               if (!resultado) {
