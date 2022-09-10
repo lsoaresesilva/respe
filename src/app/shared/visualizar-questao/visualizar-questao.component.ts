@@ -1,11 +1,11 @@
 import { Component, OnInit, Input } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { MessageService, MenuItem } from 'primeng/api';
-import { QuestaoProgramacao } from '../../model/questoes/questaoProgramacao';
+import { QuestaoProgramacao } from '../../model/aprendizagem/questoes/questaoProgramacao';
 import { LoginService } from '../../login-module/login.service';
 import { Groups } from '../../model/experimento/groups';
 import { DomSanitizer } from '@angular/platform-browser';
-import {Assunto} from '../../model/questoes/assunto';
+import {Assunto} from '../../model/aprendizagem/questoes/assunto';
 @Component({
   selector: 'app-visualizar-questao',
   templateUrl: './visualizar-questao.component.html',
@@ -22,7 +22,7 @@ export class VisualizarQuestaoComponent implements OnInit {
     private loginService: LoginService,
     private sanitizer: DomSanitizer
   ) {
-    this.questao = new QuestaoProgramacao(null, null, null, null, null, [], [], '', null);
+    this.questao = new QuestaoProgramacao(null, null, null, null, null, [], [], '', null, []);
   }
 
   ngOnInit() {

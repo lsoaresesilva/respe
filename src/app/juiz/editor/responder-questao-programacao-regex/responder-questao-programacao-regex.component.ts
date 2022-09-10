@@ -4,8 +4,8 @@ import { LoginService } from 'src/app/login-module/login.service';
 import Editor from 'src/app/model/editor';
 import ErroSintaxeVariavel from 'src/app/model/errors/analise-pre-compilacao/erroSintaxeVariavel';
 import Query from 'src/app/model/firestore/query';
-import { Assunto } from 'src/app/model/questoes/assunto';
-import { RespostaQuestaoProgramacaoRegex } from 'src/app/model/questoes/respostaQuestaoProgramacaoRegex';
+import { Assunto } from 'src/app/model/aprendizagem/questoes/assunto';
+import { RespostaQuestaoProgramacaoRegex } from 'src/app/model/aprendizagem/questoes/respostaQuestaoProgramacaoRegex';
 import { ChatbotService } from 'src/app/chatbot/chatbot.service';
 
 import { ApresentacaoService } from '../../../geral-module/apresentacao.service';

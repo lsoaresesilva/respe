@@ -1,13 +1,13 @@
 import { Component, OnInit } from '@angular/core';
 import { SelectItem } from 'primeng/api';
 import { Router, ActivatedRoute } from '@angular/router';
-import TestCase from 'src/app/model/testCase';
+import TestCase from 'src/app/model/aprendizagem/questoes/testCase';
 import { MessageService } from 'primeng/api';
 import QuestaoColaborativa from 'src/app/model/cscl/questaoColaborativa';
-import { Assunto } from 'src/app/model/questoes/assunto';
-import { Dificuldade } from 'src/app/model/questoes/enum/dificuldade';
-import { ModeloRespostaQuestao } from 'src/app/model/questoes/modeloRespostaQuestao';
-import { QuestaoProgramacao } from 'src/app/model/questoes/questaoProgramacao';
+import { Assunto } from 'src/app/model/aprendizagem/questoes/assunto';
+import { Dificuldade } from 'src/app/model/aprendizagem/questoes/enum/dificuldade';
+import { ModeloRespostaQuestao } from 'src/app/model/aprendizagem/questoes/modeloRespostaQuestao';
+import { QuestaoProgramacao } from 'src/app/model/aprendizagem/questoes/questaoProgramacao';
 
 @Component({
   selector: 'app-cadastrar-questoes',
@@ -22,6 +22,7 @@ export class CadastrarQuestoesComponent implements OnInit {
   isAlterar: Boolean;
   isQuestaoColaborativa: Boolean;
 
+  algoritmoInicial;
   solucao;
 
   constructor(
@@ -29,10 +30,9 @@ export class CadastrarQuestoesComponent implements OnInit {
     private activatedRoute: ActivatedRoute,
     private messageService: MessageService
   ) {
-    this.questao = new QuestaoProgramacao(null, '', '', 0, 0, [], [], [], null);
+    this.questao = new QuestaoProgramacao(null, '', '', 0, 0, [], [], [], null, []);
     this.isAlterar = false;
     this.isQuestaoColaborativa = false;
-    this.solucao = new ModeloRespostaQuestao(null, [], true);
   }
 
   ngOnInit() {
@@ -42,64 +42,61 @@ export class CadastrarQuestoesComponent implements OnInit {
         Assunto.get(params['assuntoId']).subscribe((assunto: Assunto) => {
           this.assunto = assunto;
 
+          Assunto.getAll().subscribe((assuntos) => {
+            this.assuntos = assuntos;
+          });
+
           if (params['questaoId'] != undefined) {
             this.isAlterar = true;
-            assunto['questoesProgramacao'].forEach((questao) => {
-              if (questao.id == params['questaoId']) {
-                this.questao = questao;
 
-                this.questao.formatarAlgoritmoInicial();
+            this.questao = assunto.getQuestaoProgramacaoById(params['questaoId']);
+            this.questao.carregarConceitos();
+            // Preparar os dados de questão para serem exibidos na interface da forma adequada
+            if (this.questao.solucao != null && Array.isArray(this.questao.solucao.codigo)) {
+              this.solucao = this.questao.solucao.codigo.join('\n');
+            }
 
-                if (this.questao.assuntos != null && this.questao.assuntos.length > 0) {
-                  const assuntos = [];
-                  this.questao.assuntos.forEach((assunto) => {
-                    assuntos.push(assunto.id);
-                  });
+            if (this.questao.algoritmoInicial != null) {
+              this.algoritmoInicial = this.questao.algoritmoInicial.join('\n');
+            }
 
-                  this.questao.assuntos = assuntos;
-                }
-              }
-            });
+            if (this.questao.assuntos != null && this.questao.assuntos.length > 0) {
+              const assuntos = [];
+              this.questao.assuntos.forEach((assunto) => {
+                assuntos.push(assunto.id);
+              });
+
+              this.questao.assuntos = assuntos;
+            }
           }
         });
       }
     });
-
-    Assunto.getAll().subscribe((assuntos) => {
-      this.assuntos = assuntos;
-    });
-
-    this.dificuldades = [
-      { label: 'Selecione uma dificuldade', value: null },
-      { label: 'Difícil', value: Dificuldade.dificil },
-      { label: 'intermediário', value: Dificuldade.medio },
-      { label: 'Facíl', value: Dificuldade.facil },
-    ];
   }
 
-  cadastrar() {
+  async cadastrar() {
     this.questao.ordem =
-      this.questao.ordem !== 0 ? this.questao.ordem : this.assunto.getUltimaSequencia();
+      this.questao.ordem !== 0 ? this.questao.ordem : await this.assunto.getUltimaSequencia();
 
-    if (typeof this.questao.algoritmoInicial === 'string') {
-      this.questao.algoritmoInicial = this.questao.algoritmoInicial.split('\n');
+    if (typeof this.algoritmoInicial === 'string' && this.algoritmoInicial !== '') {
+      this.questao.algoritmoInicial = this.algoritmoInicial.split('\n');
+    }
+
+    if (typeof this.solucao === 'string' && this.solucao !== '') {
+      let codigo = this.solucao.split('\n');
+      this.questao.solucao = new ModeloRespostaQuestao(null, codigo, true);
+    }
+
+    if (this.questao.assuntos != null) {
+      this.questao.assuntos = this.questao.assuntos.map((assunto) => {
+        if (typeof assunto === 'string') {
+          return new Assunto(assunto, null);
+        }
+        return assunto;
+      });
     }
 
     if (this.questao.validar()) {
-      if(this.solucao.codigo.length > 0){
-        this.solucao.codigo = this.solucao.codigo.split('\n');
-        this.questao.solucao = this.solucao;
-      }
-
-      if (this.questao.assuntos != null) {
-        this.questao.assuntos = this.questao.assuntos.map((assunto) => {
-          if (typeof assunto === 'string') {
-            return new Assunto(assunto, null);
-          }
-          return assunto;
-        });
-      }
-
       if (this.isQuestaoColaborativa) {
         let questaoColaborativa = new QuestaoColaborativa(null, this.questao, null);
         if (this.assunto.questoesColaborativas == null) {
@@ -112,7 +109,7 @@ export class CadastrarQuestoesComponent implements OnInit {
           this.assunto.questoesProgramacao = [];
         }
 
-        if (this.isAlterar == false) {
+        if (this.isAlterar === false) {
           this.assunto.questoesProgramacao.push(this.questao);
         }
       }
@@ -122,7 +119,7 @@ export class CadastrarQuestoesComponent implements OnInit {
           this.messageCadastro();
           this.router.navigate([
             'geral/main',
-            { outlets: { principal: ['visualizar-assunto-admin', this.assunto.pk()] } },
+            { outlets: { principal: ['admin', 'visualizar-assunto-admin', this.assunto.pk()] } },
           ]);
         },
         (err) => {

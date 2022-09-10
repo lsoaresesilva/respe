@@ -1,8 +1,8 @@
 import { Component, Input, OnChanges, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import Query from 'src/app/model/firestore/query';
-import { Assunto } from 'src/app/model/questoes/assunto';
-import { QuestaoProgramacao } from 'src/app/model/questoes/questaoProgramacao';
+import { Assunto } from 'src/app/model/aprendizagem/questoes/assunto';
+import { QuestaoProgramacao } from 'src/app/model/aprendizagem/questoes/questaoProgramacao';
 import { AutoInstrucao } from 'src/app/model/srl/autoInstrucao';
 
 @Component({

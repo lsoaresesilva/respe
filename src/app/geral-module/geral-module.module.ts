@@ -10,93 +10,101 @@ import { GamificationModule } from '../gamification/gamification.module';
 import { MainComponent } from './main/main.component';
 import { RouterModule, Routes } from '@angular/router';
 import { AuthGuard } from '../guards/auth.guard';
-import { PageTrack } from '../guards/pageTrack.guard';
+import { BreadcrumbModule } from 'primeng/breadcrumb';
 import { ListarAssuntosComponent } from '../juiz/listar-assuntos/listar-assuntos.component';
 import { ChatbotModule } from '../chatbot/chatbot.module';
-import {ToolbarModule} from 'primeng/toolbar';
+import { ToolbarModule } from 'primeng/toolbar';
 import { ButtonModule } from 'primeng/button';
-import {ScrollPanelModule} from 'primeng/scrollpanel';
-import {BlockUIModule} from 'primeng/blockui';
+import { ScrollPanelModule } from 'primeng/scrollpanel';
+import { BlockUIModule } from 'primeng/blockui';
 import { ProgressSpinnerModule } from 'primeng/progressspinner';
 import { BlockableContainerComponent } from './blockable-container/blockable-container.component';
+import { MenuAdminComponent } from './menu-admin/menu-admin.component';
 
 export const routes: Routes = [
   {
     path: 'main',
     component: MainComponent,
     children: [
-
       {
         path: 'juiz',
-        loadChildren: () => import('../juiz/juiz.module').then(m => m.JuizModule),
+        loadChildren: () => import('../juiz/juiz.module').then((m) => m.JuizModule),
         /* component: ListarAssuntosComponent, */
-         canActivate: [AuthGuard],
-        outlet: 'principal'
+        canActivate: [AuthGuard],
+        outlet: 'principal',
       },
       {
         path: 'admin',
-        loadChildren: () => import('../admin/admin.module').then(m => m.AdminModule),
+        loadChildren: () => import('../admin/admin.module').then((m) => m.AdminModule),
         /* component: ListarAssuntosComponent, */
-         canActivate: [AuthGuard],
-        outlet: 'principal'
+        canActivate: [AuthGuard],
+        outlet: 'principal',
       },
       {
         path: 'aprendizado',
-        loadChildren: () => import('../sistema-aprendizagem/sistema-aprendizagem.module').then(m => m.SistemaAprendizagemModule),
+        loadChildren: () =>
+          import('../sistema-aprendizagem/sistema-aprendizagem.module').then(
+            (m) => m.SistemaAprendizagemModule
+          ),
         /* component: ListarAssuntosComponent, */
         canActivate: [AuthGuard],
-        outlet: 'principal'
+        outlet: 'principal',
       },
       {
         path: 'cscl',
-        loadChildren: () => import('../cscl/cscl.module').then(m => m.CsclModule),
+        loadChildren: () => import('../cscl/cscl.module').then((m) => m.CsclModule),
         /* component: ListarAssuntosComponent, */
         canActivate: [AuthGuard],
-        outlet: 'principal'
+        outlet: 'principal',
       },
       {
         path: 'gamification',
-        loadChildren: () => import('../gamification/gamification.module').then(m => m.GamificationModule),
+        loadChildren: () =>
+          import('../gamification/gamification.module').then((m) => m.GamificationModule),
         /* component: ListarAssuntosComponent, */
         canActivate: [AuthGuard],
-        outlet: 'principal'
+        outlet: 'principal',
       },
       {
         path: 'srl',
-        loadChildren: () => import('../srl/srl.module').then(m => m.SrlModule),
+        loadChildren: () => import('../srl/srl.module').then((m) => m.SrlModule),
         /* component: ListarAssuntosComponent, */
         canActivate: [AuthGuard],
-        outlet: 'principal'
+        outlet: 'principal',
       },
       {
         path: 'turma',
-        loadChildren: () => import('../turma/turma.module').then(m => m.TurmaModule),
+        loadChildren: () => import('../turma/turma.module').then((m) => m.TurmaModule),
         /* component: ListarAssuntosComponent, */
         canActivate: [AuthGuard],
-        outlet: 'principal'
+        outlet: 'principal',
       },
       {
         path: 'experimento',
-        loadChildren: () => import('../experimento/experimento.module').then(m => m.ExperimentoModule),
+        loadChildren: () =>
+          import('../experimento/experimento.module').then((m) => m.ExperimentoModule),
         /* component: ListarAssuntosComponent, */
         canActivate: [AuthGuard],
-        outlet: 'principal'
+        outlet: 'principal',
       },
       {
         path: 'professor',
-        loadChildren: () => import('../professor/professor.module').then(m => m.ProfessorModule),
+        loadChildren: () => import('../professor/professor.module').then((m) => m.ProfessorModule),
         /* component: ListarAssuntosComponent, */
         canActivate: [AuthGuard],
-        outlet: 'principal'
+        outlet: 'principal',
       },
-    ], 
-    
+    ],
   },
-  
 ];
 
 @NgModule({
-  declarations: [HomeComponent, MainComponent, BlockableContainerComponent],
+  declarations: [
+    HomeComponent,
+    MainComponent,
+    BlockableContainerComponent,
+    MenuAdminComponent
+  ],
   imports: [
     BlockUIModule,
     ProgressSpinnerModule,
@@ -108,8 +116,9 @@ export const routes: Routes = [
     SrlModule,
     ChatbotModule,
     ButtonModule,
+    BreadcrumbModule,
     GamificationModule,
-    RouterModule.forChild(routes)
+    RouterModule.forChild(routes),
   ],
   providers: [ApresentacaoService, StartupService],
   exports: [MainComponent],

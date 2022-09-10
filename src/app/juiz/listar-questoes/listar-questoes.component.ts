@@ -1,14 +1,14 @@
 import { Component, OnInit, Input, OnChanges, AfterViewInit } from '@angular/core';
 import { MenuItem } from 'primeng/api';
 import { MessageService } from 'primeng/api';
-import TestCase from 'src/app/model/testCase';
+import TestCase from 'src/app/model/aprendizagem/questoes/testCase';
 import { Router, ActivatedRoute } from '@angular/router';
 import Usuario from 'src/app/model/usuario';
 import { LoginService } from '../../login-module/login.service';
 import { Groups } from 'src/app/model/experimento/groups';
 import { ApresentacaoService } from 'src/app/geral-module/apresentacao.service';
-import { Assunto } from 'src/app/model/questoes/assunto';
-import { QuestaoProgramacao } from 'src/app/model/questoes/questaoProgramacao';
+import { Assunto } from 'src/app/model/aprendizagem/questoes/assunto';
+import { QuestaoProgramacao } from 'src/app/model/aprendizagem/questoes/questaoProgramacao';
 
 @Component({
   selector: 'app-listar-questoes',

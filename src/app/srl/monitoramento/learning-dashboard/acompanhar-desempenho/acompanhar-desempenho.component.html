@@ -1,0 +1,49 @@
+<div *ngIf="analytics$ == null; else dadosAnalytics">
+  <h3>Ainda não há dados para apresentar o seu progresso.</h3>
+</div>
+<ng-template #dadosAnalytics>
+  <dados-analytics [analytics]="analytics$"></dados-analytics>
+
+<div class="p-grid">
+  <div class="p-col-12">
+    <app-analise-desempenho-estudante  [erros]="analytics$.errosProgramacao"></app-analise-desempenho-estudante>
+  </div>
+</div>
+
+</ng-template>
+<!-- <h1>Seu desempenho em programação</h1>
+
+<div class="p-d-flex p-flex-column p-flex-md-row">
+  <div class="p-mb-4 p-mr-4">
+    <app-card-desempenho [respostas]="respostas" [assuntos]="assuntos"></app-card-desempenho>
+  </div>
+  <div class="p-mb-8 p-mr-8">
+
+    <p-card header="Meta de exercícios resolvidos na semana">
+      <p-progressBar id="progressoPlanejamento" [value]="progressoMetaExercicios"></p-progressBar>
+    </p-card>
+  </div>
+</div> -->
+<!--
+
+  Implementar, está sem funcionar, pois precisa de ajustes
+  <p-progressBar id="progressoNota" [value]="progressoNota"></p-progressBar>
+  <p-progressBar id="progressoTempoOnline" [value]="progressoTempoOnline"></p-progressBar>
+
+
+-->
+
+
+<!-- <div class="p-d-flex p-flex-column p-flex-md-row">
+  <div class="p-mb-4 p-mr-4">
+    <app-card-erros-programacao-doughnut [erros]="erros"></app-card-erros-programacao-doughnut>
+  </div>
+  <div class="p-mb-4 p-mr-4">
+    <app-card-historico-erros *ngIf="erros != undefined" [erros]="erros">
+    </app-card-historico-erros>
+  </div>
+  <div class="p-mb-4 p-mr-4">
+    <app-grafico-pizza-erros-conceitos *ngIf="erros != undefined" cabecalho="Erros conceituais" [errosConceitos]="errosConceitos">
+    </app-grafico-pizza-erros-conceitos>
+  </div>
+</div> -->

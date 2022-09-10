@@ -2,10 +2,12 @@ import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { MenuItem, MessageService } from 'primeng/api';
 import { LoginService } from 'src/app/login-module/login.service';
-import { Assunto } from 'src/app/model/questoes/assunto';
-import QuestaoFechada from 'src/app/model/questoes/questaoFechada';
-import { QuestaoProgramacao } from 'src/app/model/questoes/questaoProgramacao';
+import { Assunto } from 'src/app/model/aprendizagem/questoes/assunto';
+import QuestaoFechada from 'src/app/model/aprendizagem/questoes/questaoFechada';
+import { QuestaoProgramacao } from 'src/app/model/aprendizagem/questoes/questaoProgramacao';
 import Usuario from 'src/app/model/usuario';
+import QuestaoParsonProblem from '../../model/aprendizagem/questoes/questaoParsonProblem';
+import { QuestaoProgramacaoRegex } from '../../model/aprendizagem/questoes/questaoProgramacaoRegex';
 
 @Component({
   selector: 'app-visualizar-assunto-admin',
@@ -62,21 +64,25 @@ export class VisualizarAssuntoAdminComponent implements OnInit {
     if (this.questaoSelecionada != null) {
       let path = '';
       if (this.questaoSelecionada[0] instanceof QuestaoProgramacao) {
-        path = 'atualizacao-questao';
+        path = 'atualizar-questao';
       } else if(this.questaoSelecionada[0] instanceof QuestaoFechada) {
-        path = 'atualizacao-questao-fechada';
-      } else {
-        path = 'atualizacao-questao-parson';
+        path = 'atualizar-questao-fechada';
+      } else if(this.questaoSelecionada[0] instanceof QuestaoParsonProblem) {
+        path = 'atualizar-questao-parson';
+      } else if(this.questaoSelecionada[0] instanceof QuestaoProgramacaoRegex) {
+        path = 'atualizar-questao-regex';
       }
 
       this.router.navigate([
         'geral/main',
         {
           outlets: {
-            principal: [path, this.assunto$.pk(), this.questaoSelecionada[0].id],
+            principal: ['admin', path, this.assunto$.pk(), this.questaoSelecionada[0].id],
           },
         },
       ]);
+
+
     }
   }
 
@@ -96,7 +102,7 @@ export class VisualizarAssuntoAdminComponent implements OnInit {
     if (questao != undefined) {
       this.router.navigate([
         'geral/main',
-        { outlets: { principal: ['atualizar-questao-fechada', this.assunto$.pk(), questao.id] } },
+        { outlets: { principal: ['admin', 'atualizar-questao-fechada', this.assunto$.pk(), questao.id] } },
       ]);
     }
   }

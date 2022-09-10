@@ -1,11 +1,11 @@
 import { Injectable } from '@angular/core';
 import Query from '../model/firestore/query';
-import { Planejamento } from '../model/planejamento';
 import Usuario from '../model/usuario';
 import { forkJoin, Observable } from 'rxjs';
 import Submissao from '../model/submissao';
 import TempoOnline from '../model/analytics/tempoOnline';
-import { Assunto } from '../model/questoes/assunto';
+import { Assunto } from '../model/aprendizagem/questoes/assunto';
+import Diario from '../model/srl/diario';
 
 @Injectable({
   providedIn: 'root',
@@ -17,12 +17,12 @@ export class AnalisarObjetivosService {
     TODO: Melhorar a performance dessa função, pois está carregando todas as submissões de um usuário, o que deve ser um número grande.
     Verificar a possibilidade de usar um where para um intervalo de datas diretamente no firestore
   */
-  verificarObjetivoExercicios(estudante: Usuario) {
+  verificarObjetivoExercicios(estudante: Usuario, submmissoes) {
     return new Observable((observer) => {
       if (estudante != null && estudante.pk != null) {
         // Recuperar o total de exercícios esperados por semana
         forkJoin([
-          Planejamento.getByQuery(new Query('estudanteId', '==', estudante.pk())),
+          Diario.getByQuery(new Query('estudanteId', '==', estudante.pk())),
           Submissao.getExerciciosTrabalhadosUltimaSemana(estudante),
         ]).subscribe((resultados) => {
           if(resultados[0] != null){
@@ -43,7 +43,7 @@ export class AnalisarObjetivosService {
     });
   }
 
-  verificarObjetivoTempoOnline(estudante: Usuario) {
+  /* verificarObjetivoTempoOnline(estudante: Usuario) {
     return new Observable((observer) => {
       if (estudante != null && estudante.pk != null) {
         forkJoin([
@@ -95,5 +95,5 @@ export class AnalisarObjetivosService {
         });
       }
     });
-  }
+  } */
 }

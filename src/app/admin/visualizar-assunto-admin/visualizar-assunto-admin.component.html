@@ -8,7 +8,7 @@
   </div>
 </div>
 
-<div class="p-grid">
+<div class="p-grid" style="height: 600px">
   <div class="p-col-1"></div>
   <div class="p-col-10">
     <p-orderList
@@ -16,10 +16,11 @@
       [value]="questoes$"
       (onReorder)="reordenar($event)"
       [(selection)]="questaoSelecionada"
+
     >
       <ng-template pTemplate="item" let-rowData let-questao let-resposta let-i="rowIndex">
         <div>
-          <span style="cursor: pointer">{{ questao.nomeCurto }}</span>
+          <span style="cursor: pointer" (click)="visualizar()">{{ questao.nomeCurto }} - {{questao.conceitos}}</span>
         </div>
       </ng-template>
     </p-orderList>

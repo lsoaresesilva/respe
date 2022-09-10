@@ -1,7 +1,7 @@
 import { Component, OnInit, Input, OnChanges } from '@angular/core';
 import { Tutor } from '../../../model/tutor';
 import { LoginService } from '../../../login-module/login.service';
-import { Assunto } from '../../../model/questoes/assunto';
+import { Assunto } from '../../../model/aprendizagem/questoes/assunto';
 import Analytics from '../../../model/analytics/analytics';
 
 @Component({

@@ -2,16 +2,15 @@ import { Component, OnInit, Input } from '@angular/core';
 import { Router, ActivatedRoute } from '@angular/router';
 import { LoginService } from '../../login-module/login.service';
 import { MessageService, ConfirmationService } from 'primeng/api';
-import Alternativa from '../../model/questoes/alternativa';
-import { Planejamento } from 'src/app/model/planejamento';
+import Alternativa from '../../model/aprendizagem/questoes/alternativa';
 import { DomSanitizer } from '@angular/platform-browser';
 import VisualizacaoQuestao from 'src/app/model/analytics/visualizacaoQuestao';
 import PontuacaoQuestaoFechada from 'src/app/model/gamification/pontuacaoQuestaoFechada';
 import Gamification from 'src/app/model/gamification/gamification';
 import { GamificationFacade } from 'src/app/gamification/gamification.service';
-import { Assunto } from 'src/app/model/questoes/assunto';
-import QuestaoFechada from 'src/app/model/questoes/questaoFechada';
-import { RespostaQuestaoFechada } from 'src/app/model/questoes/respostaQuestaoFechada';
+import { Assunto } from 'src/app/model/aprendizagem/questoes/assunto';
+import QuestaoFechada from 'src/app/model/aprendizagem/questoes/questaoFechada';
+import { RespostaQuestaoFechada } from 'src/app/model/aprendizagem/questoes/respostaQuestaoFechada';
 import { ChatbotService } from 'src/app/chatbot/chatbot.service';
 
 @Component({
@@ -73,7 +72,7 @@ export class VisualizarQuestaoFechadaComponent implements OnInit {
             this.questao
           );
           this.mostrar = false;
-          
+
           Assunto.get(params['assuntoId']).subscribe((assunto) => {
             this.assunto = assunto;
             const usuario = this.login.getUsuarioLogado();

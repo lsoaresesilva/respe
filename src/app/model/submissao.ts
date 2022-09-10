@@ -7,15 +7,16 @@ import Usuario from './usuario';
 import ResultadoTestCase from './resultadoTestCase';
 import ErroCompilacaoFactory from './errors/analise-compilacao/erroCompilacaoFactory';
 import { ErroCompilacao } from './errors/analise-compilacao/erroCompilacao';
-import { Assunto } from './questoes/assunto';
+import { Assunto } from './aprendizagem/questoes/assunto';
 import { keyframes } from '@angular/animations';
 import { Cacheable } from 'ts-cacheable';
 import { Util } from './util';
 import { database } from 'firebase';
-import { QuestaoProgramacao } from './questoes/questaoProgramacao';
+import { QuestaoProgramacao } from './aprendizagem/questoes/questaoProgramacao';
+import RespostaBase from './aprendizagem/questoes/respostaBase';
 
 @Collection('submissoes')
-export default class Submissao extends Document {
+export default class Submissao extends Document implements RespostaBase{
   constructor(
     id,
     public codigo: string,
@@ -40,7 +41,7 @@ export default class Submissao extends Document {
    * Recupera todos os usuários que realizaram submissão
    * @param questao
    */
-  static getSubmissoesRecentesTodosUsuarios(
+  /* static getSubmissoesRecentesTodosUsuarios(
     questao: QuestaoProgramacao,
     usuarioLogado: Usuario
   ): Observable<any[]> {
@@ -59,6 +60,10 @@ export default class Submissao extends Document {
         observer.complete();
       });
     });
+  }
+ */
+  static toArray(submissoes:Submissao[]){
+
   }
 
   /*
@@ -90,7 +95,7 @@ export default class Submissao extends Document {
       submissaoJson.codigo,
       Usuario.fromJson({ id: submissaoJson.estudante }),
       Assunto.fromJson({ id: submissaoJson.assuntoId, nome: '' }),
-      new QuestaoProgramacao(submissaoJson.questaoId, '', '', 1, 1, [], null, '', null)
+      new QuestaoProgramacao(submissaoJson.questaoId, '', '', 1, 1, [], null, '', null, [])
     );
 
     submissao.resultadosTestsCases = [];
@@ -156,33 +161,32 @@ export default class Submissao extends Document {
     return datas;
   };
 
-  static agruparPorEstudante(submissoes: Submissao[]) {
-    const submissoesAgrupadas = {};
+  static agruparPorEstudante(submissoes: Submissao[]): Map<string, Submissao[]> {
+    const submissoesAgrupadas = new Map<string, Submissao[]>();
     submissoes.forEach((submissao) => {
 
       if(submissao['estudanteId'] == null && submissao['estudante'] != null){
         submissao['estudanteId'] = submissao['estudante'];
       }
 
-      if (submissoesAgrupadas[submissao['estudanteId']] == undefined) {
-        submissoesAgrupadas[submissao['estudanteId']] = [];
+      if (submissoesAgrupadas.get(submissao['estudanteId']) === undefined) {
+        submissoesAgrupadas.set(submissao['estudanteId'], []);
       }
 
-      submissoesAgrupadas[submissao['estudanteId']].push(submissao);
+      submissoesAgrupadas.get(submissao['estudanteId']).push(submissao);
     });
 
     return submissoesAgrupadas;
   }
 
-  static agruparRecentePorEstudante(submissoes: Submissao[]) {
-    let submissoesAgrupadas = this.agruparPorEstudante(submissoes);
-
-    let submissoesRecentesAgrupadas = [];
-
-    Object.keys(submissoesAgrupadas).forEach((estudanteId) => {
-      submissoesRecentesAgrupadas.push(this.filtrarRecente(submissoesAgrupadas[estudanteId]));
-    });
-
+  static agruparRecentePorEstudante(submissoes: Submissao[]): Map<string, Submissao> {
+    let submissoesRecentesAgrupadas: Map<string, Submissao> = new Map();
+    if(Array.isArray(submissoes)){
+      const submissoesAgrupadas = this.agruparPorEstudante(submissoes);
+      submissoesAgrupadas.forEach((submissoes, estudanteId) => {
+        submissoesRecentesAgrupadas.set(estudanteId, this.filtrarRecente(submissoesAgrupadas.get(estudanteId)));
+      });
+    }
     return submissoesRecentesAgrupadas;
   }
 
@@ -279,7 +283,7 @@ export default class Submissao extends Document {
     });
   }
 
-  static filtrarRecente(submissoes = []) {
+  static filtrarRecente(submissoes = []):Submissao {
     Submissao._orderByDate(submissoes);
 
     let submissaoRecente = null;
@@ -430,7 +434,7 @@ export default class Submissao extends Document {
       document.codigo,
       Usuario.fromJson({ id: document.estudanteId }),
       Assunto.fromJson({ id: document.assuntoId, nome: '' }),
-      new QuestaoProgramacao(document.questaoId, '', '', 1, 1, [], null, '', null)
+      new QuestaoProgramacao(document.questaoId, '', '', 1, 1, [], null, '', null, [])
     );
     submissao.resultadosTestsCases = [];
     submissao['questaoId'] = document.questaoId;

@@ -1,10 +1,10 @@
 import { Component, OnInit } from '@angular/core';
-import { SelectItem, MessageService } from 'primeng/api';
+import { SelectItem, MessageService, MenuItem } from 'primeng/api';
 import { Router, ActivatedRoute } from '@angular/router';
-import { Dificuldade } from '../../model/questoes/enum/dificuldade';
-import Alternativa from '../../model/questoes/alternativa';
-import QuestaoFechada from '../../model/questoes/questaoFechada';
-import { Assunto } from '../../model/questoes/assunto';
+import { Dificuldade } from '../../model/aprendizagem/questoes/enum/dificuldade';
+import Alternativa from '../../model/aprendizagem/questoes/alternativa';
+import QuestaoFechada from '../../model/aprendizagem/questoes/questaoFechada';
+import { Assunto } from '../../model/aprendizagem/questoes/assunto';
 
 @Component({
   selector: 'app-cadastrar-questoes-fechadas',
@@ -12,11 +12,13 @@ import { Assunto } from '../../model/questoes/assunto';
   styleUrls: ['./cadastrar-questoes-fechadas.component.css'],
 })
 export class CadastrarQuestoesFechadasComponent implements OnInit {
-  assunto?;
-  questao?;
+  assunto?:Assunto;
+  questao?:QuestaoFechada;
   dificuldades: SelectItem[];
   assuntos;
   isAlterar: Boolean = false;
+  items: MenuItem[];
+
 
   constructor(
     private router: Router,
@@ -25,21 +27,30 @@ export class CadastrarQuestoesFechadasComponent implements OnInit {
   ) {}
 
   ngOnInit() {
-    this.questao = new QuestaoFechada(null, '', '', 0, 0, [], '', null, 0);
+
+
+    this.questao = new QuestaoFechada(null, '', '', 0, [], [], '', null, 0);
 
     this.activatedRoute.params.subscribe((params) => {
-      this.questao.assuntoPrincipal = params['assuntoId'];
       if (params['assuntoId'] != undefined) {
         Assunto.get(params['assuntoId']).subscribe((assunto) => {
+          let menuItems = [];
           this.assunto = assunto;
-
+          menuItems.push(
+            {label:this.assunto.nome, command:(click)=>{this.router.navigate([
+              'geral/main',
+              { outlets: { principal: ['admin', 'visualizar-assunto-admin', assunto.pk()] } },
+            ]);}}
+          )
           if (params['questaoId'] != undefined) {
             this.isAlterar = true;
-            assunto['questoesFechadas'].forEach((questao) => {
-              if (questao.id == params['questaoId']) {
-                this.questao = questao;
-              }
-            });
+            this.questao = assunto.getQuestaoFechadaById(params['questaoId']);
+            this.questao.carregarConceitos();
+            menuItems.push(
+              {label:this.questao.nomeCurto},
+              {label:"Alterar questão"}
+            )
+            this.items = menuItems;
           }
         });
       }
@@ -57,12 +68,16 @@ export class CadastrarQuestoesFechadasComponent implements OnInit {
     ];
   }
 
-  cadastrar() {
-    this.questao.sequencia =
-      this.questao.sequencia !== 0 ? this.questao.sequencia : this.assunto.getUltimaSequencia();
+  alterarConceitos(conceitos){
+    this.questao.conceitos = conceitos;
+  }
+
+  async cadastrar() {
+    this.questao.ordem =
+      this.questao.ordem !== 0 ? this.questao.ordem : await this.assunto.getUltimaSequencia();
 
     if (this.questao.validar()) {
-      this.messageCadastro();
+
 
       if (this.assunto.questoesFechadas == null) {
         this.assunto.questoesFechadas = [];
@@ -74,9 +89,10 @@ export class CadastrarQuestoesFechadasComponent implements OnInit {
 
       this.assunto.save().subscribe(
         (resultado) => {
+          this.messageCadastro();
           this.router.navigate([
             'geral/main',
-            { outlets: { principal: ['visualizar-assunto-admin', this.assunto.pk()] } },
+            { outlets: { principal: ['admin', 'visualizar-assunto-admin', this.assunto.pk()] } },
           ]);
         },
         (err) => {

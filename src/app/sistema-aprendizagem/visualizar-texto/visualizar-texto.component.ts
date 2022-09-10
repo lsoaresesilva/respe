@@ -1,8 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 import { DomSanitizer } from '@angular/platform-browser';
 import { ActivatedRoute } from '@angular/router';
-import { Assunto } from 'src/app/model/questoes/assunto';
-import Texto from '../../model/sistema-aprendizagem/texto';
+import { Assunto } from 'src/app/model/aprendizagem/questoes/assunto';
+import Texto from '../../model/aprendizagem/texto';
 
 
 @Component({

@@ -1,11 +1,11 @@
 import { Component, Input, OnInit, OnChanges } from '@angular/core';
 import { Router } from '@angular/router';
 import { Observable } from 'rxjs';
-import { Assunto } from '../../model/questoes/assunto';
-import QuestaoFechada from '../../model/questoes/questaoFechada';
-import QuestaoParsonProblem from '../../model/questoes/questaoParsonProblem';
-import QuestaoProgramacaoCorrecao from '../../model/questoes/questaoProgramacaoCorrecao';
-import {QuestaoProgramacaoRegex} from '../../model/questoes/questaoProgramacaoRegex';
+import { Assunto } from '../../model/aprendizagem/questoes/assunto';
+import QuestaoFechada from '../../model/aprendizagem/questoes/questaoFechada';
+import QuestaoParsonProblem from '../../model/aprendizagem/questoes/questaoParsonProblem';
+import QuestaoProgramacaoCorrecao from '../../model/aprendizagem/questoes/questaoProgramacaoCorrecao';
+import {QuestaoProgramacaoRegex} from '../../model/aprendizagem/questoes/questaoProgramacaoRegex';
 import {LoginService} from '../../login-module/login.service';
 import {Groups} from '../../model/experimento/groups';
 

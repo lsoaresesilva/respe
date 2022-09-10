@@ -10,7 +10,7 @@ import AtividadeGrupo from 'src/app/model/cscl/atividadeGrupo';
 import DificuldadeAtividadeGrupo from 'src/app/model/cscl/dificuldadeAtividadeGrupo';
 import { Groups } from 'src/app/model/experimento/groups';
 import Query from 'src/app/model/firestore/query';
-import { Assunto } from 'src/app/model/questoes/assunto';
+import { Assunto } from 'src/app/model/aprendizagem/questoes/assunto';
 import AutoInstrucaoColetiva from 'src/app/model/srl/autoInstrucaoColetivo';
 import JustificativasAutoInstrucao from 'src/app/model/srl/justificativaInstrucaoColetiva';
 

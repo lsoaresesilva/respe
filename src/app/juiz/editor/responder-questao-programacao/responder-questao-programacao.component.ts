@@ -43,8 +43,8 @@ import DiarioProgramacao from 'src/app/model/srl/diarioProgramacao';
 import { ModoExecucao } from 'src/app/model/juiz/enum/modoExecucao';
 import { Groups } from 'src/app/model/experimento/groups';
 import { ChatbotService } from 'src/app/chatbot/chatbot.service';
-import { QuestaoProgramacao } from 'src/app/model/questoes/questaoProgramacao';
-import { Assunto } from 'src/app/model/questoes/assunto';
+import { QuestaoProgramacao } from 'src/app/model/aprendizagem/questoes/questaoProgramacao';
+import { Assunto } from 'src/app/model/aprendizagem/questoes/assunto';
 import { AutoInstrucao } from '../../../model/srl/autoInstrucao';
 
 

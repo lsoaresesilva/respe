@@ -3,15 +3,10 @@
   [showTransitionOptions]="'10ms'"
   [hideTransitionOptions]="'10ms'"
 ></p-toast>
+
+<p-breadcrumb [model]="items"></p-breadcrumb>
+
 <div class="p-grid">
-  <div class="p-col-12">
-    <div *ngIf="isAlterar">
-      <h1 class="first">Alterar questao</h1>
-    </div>
-    <ng-template #other_content>
-      <h1 class="first">Cadastrar questao</h1>
-    </ng-template>
-  </div>
   <div class="p-col-12">
     <h3 class="first">Título (curto)</h3>
     <input id="nomeCurto" type="text" [(ngModel)]="questao.nomeCurto" pInputText />
@@ -42,6 +37,10 @@
       pInputTextarea
       [(ngModel)]="questao.respostaQuestao"
     ></textarea>
+
+    <br />
+
+    <app-selecionar-conceitos [assunto]="assunto" [conceitosSelecionados]="questao.conceitos" (onMudancaConceito)="alterarConceitos($event)"></app-selecionar-conceitos>
 
     <br />
   </div>

@@ -4,8 +4,18 @@
     <app-progesso-geral [progresso]="analytics?.progresoGeral"></app-progesso-geral>
   </div>
 </div>
-
 <div class="p-grid">
+  <div class="p-col-6">
+    <app-card-erros-programacao-pizza [erros]="analytics.errosProgramacao"></app-card-erros-programacao-pizza>
+  </div>
+  <div class="p-col-6">
+    <app-grafico-pizza-erros-conceitos cabecalho="Erros conceituais" [errosConceitos]="analytics.errosConceituais">
+    </app-grafico-pizza-erros-conceitos>
+  </div>
+</div>
+
+
+<!-- <div class="p-grid">
   <div class="p-col-3">Conclusão das questões abertas</div>
   <div class="p-col-6">
     <app-progresso-questoes-abertas
@@ -21,13 +31,9 @@
       [progresso]="analytics?.progressoQuestoesFechadas"
     ></app-progresso-questoes-fechadas>
   </div>
-</div>
+</div> -->
 
 
-
-<app-card-erros-programacao-pizza
-  [erros]="analytics?.errosProgramacao"
-></app-card-erros-programacao-pizza>
 <!--
 <div class="p-grid">
   <div class="p-col-3">Média de submissões até o acerto</div>

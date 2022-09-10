@@ -84,7 +84,7 @@ export class MainComponent implements OnInit {
   }
 
   abrirAssuntosAdmin() {
-    this.router.navigate(['geral/main', { outlets: { principal: ['listar-assuntos-admin'] } }]);
+    this.router.navigate(['geral/main', { outlets: { principal: ['admin', 'listar-assuntos-admin'] } }]);
   }
 
   abrirRanking() {

@@ -24,7 +24,7 @@ import { Observable } from 'rxjs';
 import { Util } from '../model/util';
 import { ChatbotService } from './chatbot.service';
 import ParseAlgoritmo from '../model/errors/analise-pre-compilacao/parseAlgoritmo';
-import { QuestaoProgramacao } from '../model/questoes/questaoProgramacao';
+import { QuestaoProgramacao } from '../model/aprendizagem/questoes/questaoProgramacao';
 
 @Injectable({
   providedIn: 'root',

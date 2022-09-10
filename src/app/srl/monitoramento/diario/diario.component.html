@@ -10,9 +10,6 @@
   <div class="p-grid" *ngIf="isPrimeiraSemana == false">
     <div class="p-col-12">
       <div class="p-grid">
-        <div class="p-col-12">
-          <strong>Dica:</strong>{{hintReflexao.texto}}
-        </div>
         <div class="p-col-6">
           <p-checkbox [binary]="true" value="true" label="Preciso buscar novas formas de estudar" [(ngModel)]="diario.reflexao.buscarNovasFormasEstudos"></p-checkbox>
           <p-checkbox [binary]="true"value="true"  label="O tempo que dediquei não foi suficiente" [(ngModel)]="diario.reflexao.dedicarMaisTempo"></p-checkbox>

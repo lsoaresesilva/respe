@@ -1,4 +1,4 @@
-import QuestaoFechada from "../questoes/questaoFechada";
+import QuestaoFechada from "../aprendizagem/questoes/questaoFechada";
 
 describe('Testes de questão fechada', () => {
   let questao = new QuestaoFechada(
@@ -6,7 +6,7 @@ describe('Testes de questão fechada', () => {
     'bla',
     "bla bla bla\r'''python\rx = 2\r'''\rble ble ble",
     1,
-    1,
+    [],
     null,
     '',
     null, null
@@ -37,7 +37,7 @@ describe('Testes de questão fechada', () => {
       'bla',
       'bla bla bla\rble ble ble',
       1,
-      1,
+      [],
       null,
       '',
       null,

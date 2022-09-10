@@ -4,15 +4,15 @@ import { Router } from '@angular/router';
 import { Observable } from 'rxjs';
 import { LoginService } from 'src/app/login-module/login.service';
 import { Groups } from 'src/app/model/experimento/groups';
-import { Assunto } from 'src/app/model/questoes/assunto';
-import QuestaoFechada from 'src/app/model/questoes/questaoFechada';
-import QuestaoParsonProblem from 'src/app/model/questoes/questaoParsonProblem';
-import { QuestaoProgramacao } from 'src/app/model/questoes/questaoProgramacao';
-import QuestaoProgramacaoCorrecao from 'src/app/model/questoes/questaoProgramacaoCorrecao';
-import { QuestaoProgramacaoRegex } from 'src/app/model/questoes/questaoProgramacaoRegex';
-import { MaterialAprendizagem } from 'src/app/model/sistema-aprendizagem/materialAprendizagem';
-import VideoProgramacao from 'src/app/model/sistema-aprendizagem/videoProgramacao';
-import Texto from 'src/app/model/sistema-aprendizagem/texto';
+import { Assunto } from 'src/app/model/aprendizagem/questoes/assunto';
+import QuestaoFechada from 'src/app/model/aprendizagem/questoes/questaoFechada';
+import QuestaoParsonProblem from 'src/app/model/aprendizagem/questoes/questaoParsonProblem';
+import { QuestaoProgramacao } from 'src/app/model/aprendizagem/questoes/questaoProgramacao';
+import QuestaoProgramacaoCorrecao from 'src/app/model/aprendizagem/questoes/questaoProgramacaoCorrecao';
+import { QuestaoProgramacaoRegex } from 'src/app/model/aprendizagem/questoes/questaoProgramacaoRegex';
+import { MaterialAprendizagem } from 'src/app/model/aprendizagem/materialAprendizagem';
+import VideoProgramacao from 'src/app/model/aprendizagem/videoProgramacao';
+import Texto from 'src/app/model/aprendizagem/texto';
 
 
 @Component({

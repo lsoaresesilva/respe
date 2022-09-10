@@ -1,5 +1,5 @@
 import { Component, OnInit, Input } from '@angular/core';
-import Alternativa from '../../model/questoes/alternativa';
+import Alternativa from '../../model/aprendizagem/questoes/alternativa';
 import { MessageService } from 'primeng/api';
 
 @Component({

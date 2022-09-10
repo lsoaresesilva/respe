@@ -1,11 +1,11 @@
 import { Observable } from 'rxjs';
-import { Assunto } from '../questoes/assunto';
+import { Assunto } from '../aprendizagem/questoes/assunto';
 import { PerfilUsuario } from '../enums/perfilUsuario';
 import { Collection, date, Document } from '../firestore/document';
 import Query from '../firestore/query';
 import Submissao from '../submissao';
 import Usuario from '../usuario';
-import QuestaoProgramacaoCorrecao from '../questoes/questaoProgramacaoCorrecao';
+import QuestaoProgramacaoCorrecao from '../aprendizagem/questoes/questaoProgramacaoCorrecao';
 
 @Collection('correcoesAlgoritmos')
 export default class RespostaQuestaoCorrecaoAlgoritmo extends Document {

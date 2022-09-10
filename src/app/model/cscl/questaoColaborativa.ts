@@ -1,6 +1,6 @@
 
 import { Util } from "../util";
-import {QuestaoProgramacao} from '../../model/questoes/questaoProgramacao';
+import {QuestaoProgramacao} from '../aprendizagem/questoes/questaoProgramacao';
 
 export default class QuestaoColaborativa{
 

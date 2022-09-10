@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 
+
 @Component({
   selector: 'app-exportar-dados-analytics',
   templateUrl: './exportar-dados-analytics.component.html',
@@ -8,9 +9,13 @@ import { ActivatedRoute } from '@angular/router';
 })
 export class ExportarDadosAnalyticsComponent implements OnInit {
 
+
+
   json;
 
-  constructor(private route: ActivatedRoute) {}
+  constructor(private route: ActivatedRoute) {
+
+  }
 
   ngOnInit(): void {
     // Recuperar todos os estudantes da turma
@@ -49,7 +54,7 @@ export class ExportarDadosAnalyticsComponent implements OnInit {
             })
           })
 
-          
+
         }) */
       }
     });
