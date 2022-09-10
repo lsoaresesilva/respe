@@ -2,6 +2,7 @@ import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { AngularFirestoreModule } from '@angular/fire/firestore';
 
+import { CardModule } from 'primeng/card';
 import { ChartModule } from 'primeng/chart';
 import { ProgressBarModule } from 'primeng/progressbar';
 import { ProgessoGeralComponent } from './progesso-geral/progesso-geral.component';
@@ -20,6 +21,12 @@ import { DadosAnalyticsComponent } from './dados-analytics/dados-analytics.compo
 import { AnalyticsTurmaComponent } from './analytics-turma/analytics-turma.component';
 import { DropdownModule } from 'primeng/dropdown';
 import { FormsModule } from '@angular/forms';
+import { CardErrosProgramacaoDoughnutComponent } from './card-erros-programacao-doughnut/card-erros-programacao-doughnut.component';
+import { CardErrosProgramacaoPizzaComponent } from './card-erros-programacao-pizza/card-erros-programacao-pizza.component';
+import { CardHistoricoErrosComponent } from './card-historico-erros/card-historico-erros.component';
+import { RiscoEstudanteComponent } from './card-risco-estudante/card-risco-estudante.component';
+import { DesempenhoAssuntosComponent } from './desempenho-assuntos/desempenho-assuntos.component';
+import { GraficoPizzaErrosConceitos } from './grafico-pizza-erros-conceitos/grafico-pizza-erros-conceitos.component';
 
 @NgModule({
   declarations: [
@@ -35,8 +42,14 @@ import { FormsModule } from '@angular/forms';
     TentativaQuestoesComponent,
     ExportarDadosAnalyticsComponent,
     AnalyticsTurmaComponent,
+    GraficoPizzaErrosConceitos,
+CardErrosProgramacaoPizzaComponent,
+CardHistoricoErrosComponent,
+RiscoEstudanteComponent,
+CardErrosProgramacaoDoughnutComponent,
+DesempenhoAssuntosComponent,
   ],
-  imports: [SrlModule, FormsModule, CommonModule, ProgressBarModule, TableModule, DropdownModule],
-  exports: [DadosAnalyticsComponent, AnalyticsTurmaComponent, ExportarDadosAnalyticsComponent],
+  imports: [FormsModule, CommonModule, ProgressBarModule, TableModule, DropdownModule, CardModule, ChartModule],
+  exports: [DadosAnalyticsComponent, AnalyticsTurmaComponent, ExportarDadosAnalyticsComponent, DesempenhoAssuntosComponent],
 })
 export class AnalyticsModule {}

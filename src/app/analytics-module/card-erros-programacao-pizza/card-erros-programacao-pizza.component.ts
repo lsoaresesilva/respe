@@ -20,20 +20,22 @@ export class CardErrosProgramacaoPizzaComponent implements OnInit, OnChanges {
 
   @ViewChild('chart') chart: any;
 
-  constructor() {}
+  constructor() {
+    this.grafico = {
+      labels: [],
+      datasets: [],
+    };
+  }
 
   ngOnChanges(changes: SimpleChanges): void {
-    if (this.erros != null) {
+    if (this.erros != null && Array.isArray(this.grafico.datasets) && this.grafico.datasets.length == 0) {
       const frequenciaPorTipoErro = FrequenciaErro.calcularFrequenciaPorTipoErro(this.erros);
       this.construirGraficoPizza(frequenciaPorTipoErro);
     }
   }
 
   ngOnInit() {
-    this.grafico = {
-      labels: [],
-      datasets: [],
-    };
+
   }
 
   construirGraficoPizza(frequencias: FrequenciaErro[]) {

@@ -21,21 +21,19 @@ export default class Analytics {
   // TODO: Fazer apenas um carregamento de assunto e usar par atudo aqui.
 
   // Analytics do estudante
-  progresoGeral;
+
   progressoQuestoesProgramacao;
   progressoQuestoesFechadas;
   percentualVisualizacaoQuestoesFechadas;
   totalErrosProgramacao;
-  errosProgramacao;
   mediaSubmissoesParaAcerto;
   totalExecucoes;
   tempoOnline;
   tentativasQuestoes;
   visualizacoesProgresso;
 
-  errosConceituais: Map<Assunto, Map<string, number>>;
 
-  private constructor() {}
+  private constructor(public progresoGeral, public errosProgramacao, public errosConceituais: Map<Assunto, Map<string, number>>) {}
 
   static init(estudante): Observable<Analytics> {
     return new Observable((observer) => {
@@ -71,7 +69,7 @@ export default class Analytics {
   }
 
   static getAnalytics(assuntos, respostas: RespostasQuestoes) {
-    const analytics = new Analytics();
+    /* const analytics = new Analytics();
     analytics.totalErrosProgramacao = AnalyticsProgramacao.calcularMediaErrosSintaxeProgramacao(
       respostas.questoesProgramacao.submissoes
     );
@@ -97,7 +95,8 @@ export default class Analytics {
       respostas.questoesFechadas
     );
     analytics.progresoGeral = this.calcularProgressoGeral(assuntos, respostas);
-    return analytics;
+    return analytics; */
+    return null;
   }
 
   static getAnalyticsTurma(estudantes: Usuario[]):Observable<Analytics> {
@@ -109,7 +108,7 @@ export default class Analytics {
 
       forkJoin(consultaRespostas).subscribe((respostas) => {
         Assunto.getAll().subscribe((assuntos) => {
-          const analytics: Analytics = new Analytics();
+
           let submissoes = [];
           let respostasQuestoesFechadas = [];
           let respostasQuestoesParson = [];
@@ -137,10 +136,15 @@ export default class Analytics {
             visualizacoesRespostas: [],
           };
 
-          analytics.errosProgramacao = Submissao.getAllErros(submissoes);
-          analytics.errosConceituais = this.calcularErrosConceituais(assuntos, respostasTurma);
+          const errosProgramacao = Submissao.getAllErros(submissoes);
+          const errosConceituais = this.calcularErrosConceituais(assuntos, respostasTurma);
+          const progresoGeral = this.calcularProgressoGeral(assuntos, respostasTurma);
+
+          const analytics: Analytics = new Analytics(progresoGeral, errosProgramacao, errosConceituais);
+
+
           observer.next(analytics);
-          observer.next(analytics);
+          observer.complete();
         });
       });
     });
@@ -177,13 +181,16 @@ export default class Analytics {
       function atualizarMapeamento(questao){
         if(Array.isArray(questao.conceitos)){
           questao.conceitos.forEach((conceito) => {
-            let mapConceito = mapeamento.get(conceito.id);
-            if (mapConceito == null) {
-              mapeamento.set(conceito.id, 0);
+            if (conceito != null && conceito.id != null){
+              const mapConceito = mapeamento.get(conceito.id);
+              if (mapConceito == null) {
+                mapeamento.set(conceito.id, 0);
+              }
+              let quantidadeErrosDesteConceito = mapeamento.get(conceito.id);
+              quantidadeErrosDesteConceito += 1;
+              mapeamento.set(conceito.id, quantidadeErrosDesteConceito);
             }
-            let quantidadeErrosDesteConceito = mapeamento.get(conceito.id);
-            quantidadeErrosDesteConceito += 1;
-            mapeamento.set(conceito.id, quantidadeErrosDesteConceito);
+
 
           });
         }
@@ -259,7 +266,7 @@ export default class Analytics {
       0.5
     );
 
-    return percentualConclusao / 3; // Divide por dois, pois as questões parson e correção estavam com problema.
+    return Math.round((percentualConclusao / 3) * 100) / 100
   }
 
   static _isQuestaoFechadaRespondidaSucesso(

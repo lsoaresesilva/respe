@@ -1,8 +1,8 @@
 import { Component, Input, OnInit, SimpleChanges, ViewChild } from '@angular/core';
 import MapeamentoErrosConceituais from 'src/app/model/analytics/mapeamentoErrosConceituais';
 import { Assunto } from 'src/app/model/aprendizagem/questoes/assunto';
+import Conceito from 'src/app/model/aprendizagem/questoes/conceito';
 import { Util } from 'src/app/model/util';
-import Conceito from '../../../../model/aprendizagem/questoes/conceito';
 
 @Component({
   selector: 'app-grafico-pizza-erros-conceitos',

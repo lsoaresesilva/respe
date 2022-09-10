@@ -25,6 +25,9 @@ export class AcompanharDesempenhoComponent implements OnInit {
   respostas;
   assuntos;
 
+  estudante;
+  analytics$;
+
   constructor(private loginService: LoginService,
     private ref: ChangeDetectorRef,
     private analiseObjetivo: AnalisarObjetivosService) {
@@ -32,7 +35,12 @@ export class AcompanharDesempenhoComponent implements OnInit {
   }
 
   ngOnInit() {
-    Assunto.consultarRespostasEstudante(this.loginService.getUsuarioLogado()).subscribe(respostas=>{
+    this.estudante = this.loginService.getUsuarioLogado();
+    Analytics.getAnalyticsTurma([this.estudante]).subscribe(analytics=>{
+      this.analytics$ = analytics;
+    });
+
+    /* Assunto.consultarRespostasEstudante(this.loginService.getUsuarioLogado()).subscribe(respostas=>{
       this.respostas = respostas;
       if(respostas.questoesProgramacao.submissoes.length > 0){
         this.erros = ErroCompilacao.getAllErros(respostas.questoesProgramacao.submissoes);
@@ -46,7 +54,7 @@ export class AcompanharDesempenhoComponent implements OnInit {
         //this.errosConceitos = Analytics.calcularErrosConceituais(assuntos, respostas);
 
       });
-
+    }) */
 
       // TODO: Fazer isso
       /* this.analiseObjetivo.verificarObjetivoNota(this.login.getUsuarioLogado()).subscribe({
@@ -69,7 +77,7 @@ export class AcompanharDesempenhoComponent implements OnInit {
     });
 
       */
-    })
+
 
 
   }

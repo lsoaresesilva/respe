@@ -7,17 +7,17 @@ import Analytics from 'src/app/model/analytics/analytics';
   templateUrl: './dados-analytics.component.html',
   styleUrls: ['./dados-analytics.component.css'],
 })
-export class DadosAnalyticsComponent implements OnChanges {
+export class DadosAnalyticsComponent implements OnInit, OnChanges {
   @Input()
   analytics: Analytics;
 
   constructor(private login: LoginService) {}
 
+  ngOnInit(): void {
+    let x = this.analytics;
+  }
+
   ngOnChanges(): void {
-   /*  if (this.estudante != null && this.estudante.id != null) {
-      Analytics.init(this.estudante).subscribe((analytics) => {
-        this.analytics$ = analytics;
-      });
-    } */
+
   }
 }
