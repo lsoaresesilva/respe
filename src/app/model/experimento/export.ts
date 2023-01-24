@@ -1,7 +1,9 @@
 import { Observable, forkJoin } from 'rxjs';
 import Submissao from '../submissao';
 
-import submissoesEstudantes from '../../../../json/submissoes_29_mai.json';
+//import submissoesEstudantes from '../../../../json/submissoes_29_mai.json';
+let submissoesEstudantes = {};
+
 import ErroCompilacaoFactory from '../errors/analise-compilacao/erroCompilacaoFactory';
 import NameError from '../errors/analise-compilacao/nameError';
 import ErroSintaxeVariavel from '../errors/analise-pre-compilacao/erroSintaxeVariavel';
