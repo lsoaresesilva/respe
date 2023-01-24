@@ -50,3 +50,7 @@ testem.log
 # System Files
 .DS_Store
 Thumbs.db
+
+# Virtual environments
+.env
+.venv
