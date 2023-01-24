@@ -26,11 +26,49 @@ https://www.lucidchart.com/invitations/accept/c08e9d10-8fa1-41e7-a148-c1b70f3cb0
 
 # Instalação
 
-1. Instalar o Angular. 
-2. Instalar as dependências Python do projeto: pip3 install --user Django==2.2.4 && pip3 install --user djangorestframework 
-&& pip3 install --user django-cors-headers && pip3 install --user pexpect && pip3 install --user python-decouple
-3. Clonar o projeto
-4. Acessar a pasta do projeto e instalar as dependências do projeto: npm install
-5. Acessar a pasta src/app/model/firestore e digitar o comando: git submodule init && git submodule update
-6. Rodar o projeto: ng serve
-7. Acessar a pasta backend e executar o servidor Django: python manage.py runserver
+## Angular e demais dependências Node
+
+1. Clonar o projeto e acessar o diretório
+2. Criar ambiente virtual para Node 14.21.2   
+```
+nodeenv --node=14.21.2 .env
+. .env/bin/activate
+```
+3. Instalar as dependências Node do projeto
+```
+npm install
+```
+4. Acessar a pasta `src/app/model/firestore` e configurar submodulos do git
+```
+cd src/app/model/firestore
+git submodule init
+git submodule update
+cd - 
+```
+5. Rodar o projeto
+```
+npm run ng serve
+```
+
+O comando acima deverá resultar em
+```
+** Angular Live Development Server is listening on localhost:4200, open your browser on http://localhost:4200/ **
+```
+
+## Backend com Django
+
+0. Acessar o diretório `backend` (diretório não existe!)
+1. Criar e ativar ambiente virtual
+```
+python -m venv .venv
+source .venv/bin/activate
+```
+2. Instalar as dependências Python do projeto:
+```
+pip3 install Django==2.2.4 djangorestframework django-cors-headers
+pip3 install pexpect python-decouple
+```
+3. Executar o servidor Django:
+```
+python manage.py runserver
+```

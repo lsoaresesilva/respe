@@ -4,7 +4,8 @@ import Submissao from '../submissao';
 import { Util } from '../util';
 import { EventosProgramacao } from './enum/eventosProgramacao';
 
-import submissoesEstudantes from '../../../../json/submissoes_27_jan_v2.json';
+//import submissoesEstudantes from '../../../../json/submissoes_27_jan_v2.json';
+let submissoesEstudantes = {}
 
 enum EstadosAlgoritmo{
 
