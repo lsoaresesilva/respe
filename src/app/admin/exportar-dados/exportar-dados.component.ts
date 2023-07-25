@@ -4,14 +4,13 @@ import Query from 'src/app/model/firestore/query';
 import Submissao from 'src/app/model/submissao';
 import Turma from 'src/app/model/turma';
 import { SelectItem } from 'primeng/api';
-import pageTracks from '../../../../json/pageTracks.json';
+//import pageTracks from '../../../../json/pageTracks.json';
 
-import estudantesJson from '../../../../json/estudantes.json';
+//import estudantesJson from '../../../../json/estudantes.json';
 import Usuario from 'src/app/model/usuario';
 import EstatisticaPageTrack from 'src/app/model/modelagem/estatisticaPageTrack';
 import { Assunto } from '../../model/aprendizagem/questoes/assunto';
 
-estudantesJson;
 @Component({
   selector: 'app-exportar-dados',
   templateUrl: './exportar-dados.component.html',
