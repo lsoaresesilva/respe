@@ -1,7 +1,7 @@
 import { Observable, forkJoin } from 'rxjs';
 import Submissao from '../submissao';
 
-import submissoesEstudantes from '../../../../json/submissoes_29_mai.json';
+//import submissoesEstudantes from '../../../../json/submissoes_29_mai.json';
 import ErroCompilacaoFactory from '../errors/analise-compilacao/erroCompilacaoFactory';
 import NameError from '../errors/analise-compilacao/nameError';
 import ErroSintaxeVariavel from '../errors/analise-pre-compilacao/erroSintaxeVariavel';
@@ -566,11 +566,11 @@ export default class Export {
 
   static filtrarEstudantes(submissoesJson) {
     let submissoes = [];
-    submissoesEstudantes['submissoes'].forEach((s) => {
+    /* submissoesEstudantes['submissoes'].forEach((s) => {
       if (!Export.excluidos.includes(s['estudante'])) {
         submissoes.push(s);
       }
-    });
+    }); */
 
     return submissoes;
   }
@@ -581,7 +581,7 @@ export default class Export {
     /*  let quantidade = submissoesEstudantes["submissoes"].length;
         console.log(quantidade); */
 
-    let submissoes = Export.filtrarEstudantes(submissoesEstudantes);
+    /* let submissoes = Export.filtrarEstudantes(submissoesEstudantes);
 
     let estudantes = [];
 
@@ -604,6 +604,6 @@ export default class Export {
     console.log('Total: ' + estudantes.length);
 
     let resultado = ErroSintaxeVariavel.exportar(errosSyntax);
-    return JSON.stringify(resultado);
+    return JSON.stringify(resultado); */
   }
 }

@@ -4,7 +4,7 @@ import Submissao from '../submissao';
 import { Util } from '../util';
 import { EventosProgramacao } from './enum/eventosProgramacao';
 
-import submissoesEstudantes from '../../../../json/submissoes_27_jan_v2.json';
+//import submissoesEstudantes from '../../../../json/submissoes_27_jan_v2.json';
 
 enum EstadosAlgoritmo{
 
@@ -16,7 +16,7 @@ export default class AnalyticsProgramacao {
 static gerarSubmissoes(estudantes_permitidos){
   let submissoes = [];
 
-  submissoesEstudantes['submissoes'].forEach((s) => {
+  /* submissoesEstudantes['submissoes'].forEach((s) => {
 
 
     if(estudantes_permitidos.includes(s.estudante)){
@@ -26,7 +26,7 @@ static gerarSubmissoes(estudantes_permitidos){
       submissoes.push(submissao);
       //}
     }
-  });
+  }); */
 
   return submissoes;
 }
