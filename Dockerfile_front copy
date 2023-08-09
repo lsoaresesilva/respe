@@ -4,12 +4,12 @@ WORKDIR /app
 COPY . .
 RUN npm install
 RUN cd src/app/model/firestore && git submodule update --init --recursive
-
+RUN npm run build --prod
 
 FROM nginx:alpine
 WORKDIR /app
 RUN apk update & apk install -y nodejs npm git python3 python3-pip nginx
-RUN sudo alternatives --install /usr/bin/python python /usr/bin/python3.7 1
+
 RUN sudo npm install -g @angular/cli
 RUN pip3 install --user Django==2.2.4
 RUN pip3 install --user djangorestframework 

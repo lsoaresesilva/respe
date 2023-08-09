@@ -1,0 +1,4 @@
+version: '1'
+services:
+  frontend:
+    image: Dockerfile_front
