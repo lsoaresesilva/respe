@@ -1,6 +1,6 @@
-# Letscode
+# RESPE
 
-Este repositório faz parte de um projeto de pesquisa do Instituto Federal de Pernambuco (IFPE) denominado: "Autorregulação da aprendizagem em estudantes de programação: uma proposta de intervenção".
+RESPE é um ambiente de ensino de programação
 
 # Objetivo
 Construir um ambiente de desenvolvimento (IDE) online para o aprendizado de algoritmos. Inicialmente será oferecido suporte para a linguagem Python. Integrado ao ambiente está o suporte à autorregulação.
