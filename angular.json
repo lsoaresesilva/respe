@@ -108,21 +108,21 @@
         "serve": {
           "builder": "@angular-devkit/build-angular:dev-server",
           "options": {
-            "browserTarget": "letscode:build"
+            "buildTarget": "letscode:build"
           },
           "configurations": {
             "production": {
-              "browserTarget": "letscode:build:production"
+              "buildTarget": "letscode:build:production"
             },
             "develop": {
-              "browserTarget": "letscode:build:develop"
+              "buildTarget": "letscode:build:develop"
             }
           }
         },
         "extract-i18n": {
           "builder": "@angular-devkit/build-angular:extract-i18n",
           "options": {
-            "browserTarget": "letscode:build"
+            "buildTarget": "letscode:build"
           }
         },
         "test": {
