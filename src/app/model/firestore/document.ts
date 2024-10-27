@@ -1,11 +1,14 @@
-import { AngularFirestore, AngularFirestoreCollection } from '@angular/fire/firestore';
+
 import { Observable, forkJoin, Subject, observable } from 'rxjs';
 
 import { AppInjector } from './app-injector';
 import { FireStoreDocument } from './firestoreDocument';
-import Query from './query';
-import * as firebase from 'firebase';
+import CustomQuery from './customQuery';
+
 import DocumentTest, { DocumentSalvo } from './documentTest';
+import { doc } from 'firebase/firestore';
+import { inject } from '@angular/core';
+import { Firestore, collection, query, orderBy, startAt, endAt, getDocs, startAfter, endBefore, deleteDoc, setDoc, addDoc, serverTimestamp } from '@angular/fire/firestore';
 
 export default class DocumentNotFoundError extends Error {}
 
@@ -146,14 +149,14 @@ export class Document {
 
   static isModoTeste = false;
   static documentTeste:DocumentTest = new DocumentTest();
-  db: AngularFirestore;
+  db: Firestore;
   doc; // Reference to the document
 
 
 
 
   static getAngularFirestore() {
-    return AppInjector.get(AngularFirestore);
+    return inject(Firestore);
   }
 
   static getDaysInterval = function (start, end): any[] {
@@ -191,7 +194,7 @@ export class Document {
 
 
     const n = this['__name'];
-    const document: any = db.doc<any>(this['__name'] + '/' + id);
+    const document: any = doc(db, this['__name'] + '/' + id);
 
     document.snapshotChanges().subscribe(snapshot=>{
       let object = new FireStoreDocument(snapshot).toObject(this['prototype']);
@@ -258,7 +261,7 @@ export class Document {
 
     return new Observable((observer) => {
       const n = this['__name'];
-      const document: any = db.doc<any>(this['__name'] + '/' + id);
+      const document: any = doc(db, this['__name'] + '/' + id);
 
       document.get({ source: 'server' }).subscribe((result) => {
         try {
@@ -276,27 +279,33 @@ export class Document {
     });
   }
 
-  static search(query:Query){
+  static search(customQuery:CustomQuery){
     return new Observable((observer) => {
       const db = this.getAngularFirestore();
       const objetos = [];
-      const collection = db.collection(this['__name'], (ref) => ref.orderBy(query.column).startAt(query.value).endAt(query.value+"\uf8ff"));
+      const collectionRef = collection(db, this['__name']);
 
+      
+      // Define the query with orderBy, startAt, and endAt
+      const collectionQuery = query(
+        collectionRef,
+        orderBy(customQuery.column),
+        startAt(customQuery.value),
+        endAt(customQuery.value + '\uf8ff')
+      );
 
-
-      collection.get({ source: 'server' }).subscribe(
-        (resultados) => {
-          const i = 0;
-          resultados.docs.forEach((document) => {
+      // Execute the query and handle the results
+      getDocs(collectionQuery)
+        .then((resultados) => {
+          resultados.forEach((document) => {
             objetos.push(new FireStoreDocument(document).toObject(this['prototype']));
           });
           observer.next(objetos);
           observer.complete();
-        },
-        (err) => {
+        })
+        .catch((err) => {
           observer.error(err);
-        }
-      );
+        });
     });
   }
 
@@ -307,10 +316,10 @@ export class Document {
       // collection = db.collection(collectionName, ref=>ref.where(query.column, query.operator, query.value));
       if (orderByParam != null) {
         collection = db.collection(collectionName, (ref) =>
-          Query.build(ref, query).orderBy(orderByParam)
+          CustomQuery.build(ref, query).orderBy(orderByParam)
         );
       } else {
-        collection = db.collection(collectionName, (ref) => Query.build(ref, query));
+        collection = db.collection(collectionName, (ref) => CustomQuery.build(ref, query));
       }
     } else if (orderByParam != null) {
       collection = db.collection(collectionName, (ref) => ref.orderBy(orderByParam));
@@ -366,27 +375,36 @@ export class Document {
 
   }
 
-  static exportGetAll(query = null, orderBy = null): Observable<any[]> {
-    return new Observable(observer=>{
-      const db = this.getAngularFirestore();
-      const objetos = [];
-      let collection = db.collection(this['__name'], (ref) => ref.orderBy("data").startAfter(new Date("2021-11-07")).endBefore(new Date("2021-12-31")));
+  static exportGetAll(queryParam = null, orderByParam = null): Observable<any[]> {
+    return new Observable((observer) => {
+      const objetos: any[] = [];
 
-      collection.get({ source: 'server' }).subscribe(
-        (resultados) => {
-          const i = 0;
-          resultados.docs.forEach((document) => {
+      const db = this.getAngularFirestore();
+
+      // Reference the collection
+      const collectionRef = collection(db, this['__name']);
+
+      // Define the query with orderBy, startAfter, and endBefore
+      const collectionQuery = query(
+        collectionRef,
+        orderBy("data"),
+        startAfter(new Date("2021-11-07")),
+        endBefore(new Date("2021-12-31"))
+      );
+
+      // Execute the query and handle the results
+      getDocs(collectionQuery)
+        .then((resultados) => {
+          resultados.forEach((document) => {
             objetos.push(new FireStoreDocument(document).toObject(this['prototype']));
           });
           observer.next(objetos);
           observer.complete();
-        },
-        (err) => {
+        })
+        .catch((err) => {
           observer.error(err);
-        }
-      );
-
-    })
+        });
+    });
   }
 
   static getAll(query = null, orderBy = null): Observable<any[]> {
@@ -448,16 +466,17 @@ export class Document {
     });
   }
 
-  static delete(id) {
+  static delete(id: string): Observable<boolean> {
     const db = this.getAngularFirestore();
     Document.prerequisitos(this['__name'], db);
 
     return new Observable((observer) => {
-      const collection: AngularFirestoreCollection<any> = db.collection<any>(this['__name']);
-      collection
-        .doc(id)
-        .delete()
-        .then((resultado) => {
+      // Create a reference to the document
+      const documentRef = doc(db, `${this['__name']}/${id}`);
+
+      // Execute delete operation
+      deleteDoc(documentRef)
+        .then(() => {
           observer.next(true);
           observer.complete();
         })
@@ -517,9 +536,9 @@ export class Document {
 
 
 
-  init(){
-    if(this.db == null){
-      this.db = AppInjector.get(AngularFirestore);
+  init() {
+    if (this.db == null) {
+      this.db = Document.getAngularFirestore(); // Directly assign the injected Firestore instance
     }
 
     this.constructDateObjects();
@@ -547,7 +566,7 @@ export class Document {
           (this['__ignore'] != undefined && !this['__ignore'].includes(propriedade))
         ) {
           if (this['__date'] != undefined && this['__date'].includes(propriedade)) {
-            object[propriedade] = firebase.firestore.FieldValue.serverTimestamp();
+            object[propriedade] = serverTimestamp();
           } else {
             // aqui usar o __oneToOne
             const tipo = typeof this[propriedade];
@@ -586,45 +605,40 @@ export class Document {
   }
 
   save(): Observable<any> {
-    Document.prerequisitos(this.constructor['__name'], this.db);
-
-    const ___this = this;
+    const db = Document.getAngularFirestore();
+    Document.prerequisitos(this.constructor['__name'], db);
 
     return new Observable((observer) => {
       try {
         this.priorToSave();
-        const document = ___this.objectToDocument();
+        const document = this.objectToDocument();
 
         if (document['id'] != undefined) {
-          const docRef = this.db.collection<any>(this.constructor['__name']).doc(document['id']);
-          delete document['id']; // id cannot be in the document, as it isnt an attribute.
-          docRef
-            .update(document)
-            .then((result) => {
-              observer.next(___this);
+          const docRef = doc(db, `${this.constructor['__name']}/${document['id']}`);
+          delete document['id']; // id cannot be in the document, as it isn't an attribute.
+          setDoc(docRef, document, { merge: true }) // Use setDoc for updates
+            .then(() => {
+              observer.next(this);
               observer.complete();
             })
             .catch((err) => {
               observer.error(err);
             });
         } else {
-          const collection: AngularFirestoreCollection<any> = this.db.collection<any>(
-            this.constructor['__name']
-          );
-
-          collection
-            .add(document)
+          const collectionRef = collection(db, this.constructor['__name']);
+          
+          addDoc(collectionRef, document) // Use addDoc for new documents
             .then((result) => {
-              ___this.id = result.id;
+              this.id = result.id;
               if (Document.isModoTeste) {
-                let documentSalvo:DocumentSalvo = {
-                  nomeColecao:this.constructor['__name'],
-                  id:result.id
+                let documentSalvo: DocumentSalvo = {
+                  nomeColecao: this.constructor['__name'],
+                  id: result.id
                 }
                 Document.documentTeste.incluirDocument(documentSalvo);
               }
 
-              observer.next(___this);
+              observer.next(this);
               observer.complete();
             })
             .catch((err) => {

@@ -1,6 +1,6 @@
-import { firestore } from 'firebase/app';
 
-export default class Query{
+
+export default class CustomQuery{
     
     column;
     operator;
@@ -28,13 +28,13 @@ export default class Query{
         }
 
         if(query != null && query.length != null){
-            return Query.buildMultipleQuery(ref, query);
+            return CustomQuery.buildMultipleQuery(ref, query);
         }else{
             return ref.where(query.column, query.operator, query.value)
         }
     }
 
-    static buildMultipleQuery(ref, queries:Query[]):firestore.Query{
+    static buildMultipleQuery(ref, queries:CustomQuery[]):any{
 
         if(queries.length == 0){
             throw new Error("Not possible to build a query with empty queries");
