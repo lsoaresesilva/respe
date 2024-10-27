@@ -33,7 +33,7 @@
     "codemirror": "^5.60.0",
     "core-js": "^2.5.4",
     "eva-icons": "^1.1.2",
-    "firebase": "^7.23.0",
+    "firebase": "^11.0.1",
     "firepad": "^1.5.11",
     "hammerjs": "^2.0.8",
     "html2canvas": "^1.0.0-rc.7",
