@@ -1,6 +1,6 @@
 import { Injectable, OnDestroy } from '@angular/core';
-import { CanActivate } from '@angular/router';
-import { ActivatedRouteSnapshot, RouterStateSnapshot, Router, CanLoad, Route } from '@angular/router';
+
+import { ActivatedRouteSnapshot, RouterStateSnapshot, Router, Route } from '@angular/router';
 import { Observable } from 'rxjs';
 import Turma from '../model/turma';
 import Query from '../model/firestore/query';
@@ -14,7 +14,7 @@ import { PerfilUsuario } from '../model/enums/perfilUsuario';
   providedIn: 'root'
 })
 
-export class TurmaGuard implements CanActivate {
+export class TurmaGuard  {
   path: ActivatedRouteSnapshot[];
   route: ActivatedRouteSnapshot;
 

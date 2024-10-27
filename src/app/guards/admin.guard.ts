@@ -1,6 +1,6 @@
 import { Injectable, OnDestroy } from '@angular/core';
-import { CanActivate } from '@angular/router';
-import { ActivatedRouteSnapshot, RouterStateSnapshot, Router, CanLoad, Route } from '@angular/router';
+
+import { ActivatedRouteSnapshot, RouterStateSnapshot, Router, Route } from '@angular/router';
 import { Observable } from 'rxjs';
 import { LoginService } from '../login-module/login.service';
 import { PerfilUsuario } from '../model/enums/perfilUsuario';
@@ -10,7 +10,7 @@ import { PerfilUsuario } from '../model/enums/perfilUsuario';
     providedIn: 'root'
   })
 
-export class AdminGuard implements CanActivate, CanLoad {
+export class AdminGuard  {
 
     path: ActivatedRouteSnapshot[];
     route: ActivatedRouteSnapshot;

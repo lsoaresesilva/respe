@@ -1,12 +1,6 @@
 import { Injectable, OnDestroy } from '@angular/core';
-import { CanActivate } from '@angular/router';
-import {
-  ActivatedRouteSnapshot,
-  RouterStateSnapshot,
-  Router,
-  CanLoad,
-  Route,
-} from '@angular/router';
+
+import { ActivatedRouteSnapshot, RouterStateSnapshot, Router, Route } from '@angular/router';
 import { Observable } from 'rxjs';
 import { LoginService } from '../login-module/login.service';
 import PageTrackRecord from '../model/analytics/pageTrack';
@@ -15,7 +9,7 @@ import Turma from '../model/turma';
 @Injectable({
   providedIn: 'root',
 })
-export class PageTrack implements CanActivate {
+export class PageTrack  {
   path: ActivatedRouteSnapshot[];
   route: ActivatedRouteSnapshot;
 

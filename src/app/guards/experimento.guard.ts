@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
-import { CanActivate } from '@angular/router';
-import { CanLoad, ActivatedRouteSnapshot, Router, RouterStateSnapshot } from '@angular/router';
+
+import { ActivatedRouteSnapshot, Router, RouterStateSnapshot } from '@angular/router';
 import { LoginService } from '../login-module/login.service';
 import { Observable } from 'rxjs';
 import { Groups } from '../model/experimento/groups';
@@ -9,7 +9,7 @@ import { Groups } from '../model/experimento/groups';
   providedIn: 'root'
 })
 
-export class ExperimentoGuard implements CanActivate {
+export class ExperimentoGuard  {
 
   path: ActivatedRouteSnapshot[];
   route: ActivatedRouteSnapshot;

@@ -1,6 +1,6 @@
 import { Injectable, OnDestroy } from '@angular/core';
-import { CanActivate } from '@angular/router';
-import { ActivatedRouteSnapshot, RouterStateSnapshot, Router, CanLoad, Route } from '@angular/router';
+
+import { ActivatedRouteSnapshot, RouterStateSnapshot, Router, Route } from '@angular/router';
 import { Observable } from 'rxjs';
 import { LoginService } from '../login-module/login.service';
 import Turma from '../model/turma';
@@ -10,7 +10,7 @@ import Turma from '../model/turma';
     providedIn: 'root'
   })
 
-export class AuthGuard implements CanActivate {
+export class AuthGuard  {
 
     path: ActivatedRouteSnapshot[];
     route: ActivatedRouteSnapshot;
