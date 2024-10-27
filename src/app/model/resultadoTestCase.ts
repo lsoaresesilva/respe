@@ -4,7 +4,7 @@ import TestCase from './aprendizagem/questoes/testCase';
 import Submissao from './submissao';
 import Query from './firestore/query';
 
-import * as firebase from 'firebase';
+import * as firebase from 'firebase/compat';
 import { Util } from './util';
 
 export default class ResultadoTestCase {

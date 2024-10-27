@@ -3,7 +3,7 @@ import { MenuItem, MessageService } from 'primeng/api';
 import { Router, ActivatedRoute } from '@angular/router';
 import { LoginService } from '../../login-module/login.service';
 
-import * as firebase from 'firebase';
+import * as firebase from 'firebase/compat';
 import { forkJoin, Observable } from 'rxjs';
 import Analytics from '../../model/analytics/analytics';
 import ConfiguracaoEditor from '../../model/configuracoes/configuracaoEditor';

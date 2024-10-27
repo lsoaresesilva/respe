@@ -4,7 +4,7 @@ import Query from 'src/app/model/firestore/query';
 import { ActivatedRoute, Router } from '@angular/router';
 import { MessageService } from 'primeng/api';
 import { LoginService } from 'src/app/login-module/login.service';
-import { AngularFireStorage } from '@angular/fire/storage';
+import { AngularFireStorage } from '@angular/fire/compat/storage';
 import Turma from 'src/app/model/turma';
 
 

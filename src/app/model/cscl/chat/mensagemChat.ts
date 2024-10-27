@@ -6,7 +6,7 @@ import { forkJoin, Observable } from 'rxjs';
 import Query from '../../firestore/query';
 
 
-import * as firebase from 'firebase';
+import * as firebase from 'firebase/compat';
 
 export default class MensagemChat{
 

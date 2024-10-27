@@ -8,7 +8,7 @@ import Grupo from '../cscl/grupo';
 import { Groups } from '../experimento/groups';
 import { Util } from '../util';
 
-import * as firebase from 'firebase';
+import * as firebase from 'firebase/compat';
 
 @Collection('pageTrack')
 export default class PageTrackRecord extends Document {

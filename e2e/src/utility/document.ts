@@ -1,4 +1,4 @@
-import * as firebase from 'firebase';
+import * as firebase from 'firebase/compat';
 import { Observable } from 'rxjs';
 
 export default class DocumentFirestoreTest {

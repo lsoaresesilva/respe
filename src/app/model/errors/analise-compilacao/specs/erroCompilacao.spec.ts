@@ -4,13 +4,13 @@ import SyntaxError from '../syntaxError';
 import { ErroCompilacao } from '../erroCompilacao';
 import { CategoriaErro } from '../../enum/categoriasErro';
 
-import * as firebase from 'firebase';
+import * as firebase from 'firebase/compat';
 
-import { AngularFirestore, AngularFirestoreModule } from '@angular/fire/firestore';
+import { AngularFirestore, AngularFirestoreModule } from '@angular/fire/compat/firestore';
 
 import { TestBed, inject } from '@angular/core/testing';
 
-import { AngularFireModule, FirebaseApp } from '@angular/fire';
+import { AngularFireModule, FirebaseApp } from '@angular/fire/compat';
 
 import { FirebaseConfiguracao } from 'src/environments/firebase';
 import { DocumentModule } from 'src/app/model/firestore/document.module';

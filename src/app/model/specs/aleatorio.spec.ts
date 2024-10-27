@@ -1,5 +1,5 @@
 /* import { TestBed, inject } from "@angular/core/testing";
-import { AngularFireModule, FirebaseApp } from "@angular/fire";
+import { AngularFireModule, FirebaseApp } from "@angular/fire/compat";
 import { AngularFirestore, AngularFirestoreModule } from "@angular/fire/compat/firestore";
 import { forkJoin, Observable } from "rxjs";
 import { FirebaseConfiguracao } from 'src/environments/firebase';

@@ -1,10 +1,10 @@
-/* import { AngularFirestore, AngularFirestoreModule } from '@angular/fire/firestore';
+/* import { AngularFirestore, AngularFirestoreModule } from '@angular/fire/compat/firestore';
 
 import { TestBed, inject } from '@angular/core/testing';
 
 import { DocumentModule } from '../firestore/document.module';
 
-import { AngularFireModule, FirebaseApp } from '@angular/fire';
+import { AngularFireModule, FirebaseApp } from '@angular/fire/compat';
 
 import { FirebaseConfiguracao } from 'src/environments/firebase';
 import Submissao from '../submissao';
@@ -12,7 +12,7 @@ import { forkJoin } from 'rxjs';
 import Usuario from '../usuario';
 import TestCase from '../testCase';
 import ResultadoTestCase from '../resultadoTestCase';
-import { firestore } from 'firebase/app';
+import { firestore } from 'firebase/compat/app';
 import { QuestaoProgramacao } from '../questoes/questaoProgramacao';
 
 describe('Testes de Submissão', () => {

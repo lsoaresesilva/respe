@@ -1,8 +1,8 @@
 import Sequencia from "../sequencia"
-import { AngularFirestore, AngularFirestoreModule } from '@angular/fire/firestore';
+import { AngularFirestore, AngularFirestoreModule } from '@angular/fire/compat/firestore';
 import { TestBed, inject } from '@angular/core/testing';
 import { DocumentModule } from '../../firestore/document.module';
-import { AngularFireModule, FirebaseApp } from '@angular/fire';
+import { AngularFireModule, FirebaseApp } from '@angular/fire/compat';
 import { FirebaseConfiguracao } from 'src/environments/firebase';
 
 describe("Testes de sequência", ()=>{

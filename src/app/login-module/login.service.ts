@@ -4,10 +4,10 @@ import { Observable } from 'rxjs';
 import Query from '../model/firestore/query';
 import { sha256 } from 'js-sha256';
 import { MessageService } from 'primeng/api';
-import { AngularFireAuth } from '@angular/fire/auth';
-import * as firebase from 'firebase/app';
+import { AngularFireAuth } from '@angular/fire/compat/auth';
+import * as firebase from 'firebase/compat/app';
 import { Router } from '@angular/router';
-import { AngularFirestore } from '@angular/fire/firestore';
+import { AngularFirestore } from '@angular/fire/compat/firestore';
 import RegistroLogin from '../model/registroLogin';
 
 import { RastrearTempoOnlineService } from '../srl/rastrear-tempo-online.service';

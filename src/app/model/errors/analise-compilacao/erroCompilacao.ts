@@ -1,7 +1,7 @@
 import { CategoriaErro, getCategoriaPorInstancia } from '../enum/categoriasErro';
 import { Util } from '../../util';
 
-import * as firebase from 'firebase';
+import * as firebase from 'firebase/compat';
 import FrequenciaErro from './frequenciaErro';
 import { getLabelPorCategoriaNumero } from '../enum/labelCategoriasErro';
 import { trace } from 'console';

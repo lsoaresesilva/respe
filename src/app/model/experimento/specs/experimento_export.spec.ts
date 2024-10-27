@@ -1,6 +1,6 @@
 /* import { inject, TestBed } from '@angular/core/testing';
-import { AngularFireModule, FirebaseApp } from '@angular/fire';
-import { AngularFirestore, AngularFirestoreModule } from '@angular/fire/firestore';
+import { AngularFireModule, FirebaseApp } from '@angular/fire/compat';
+import { AngularFirestore, AngularFirestoreModule } from '@angular/fire/compat/firestore';
 import { FirebaseConfiguracao } from 'src/environments/firebase';
 import { DocumentModule } from '../../firestore/document.module';
 import Export from '../export';

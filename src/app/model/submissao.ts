@@ -11,7 +11,7 @@ import { Assunto } from './aprendizagem/questoes/assunto';
 import { keyframes } from '@angular/animations';
 import { Cacheable } from 'ts-cacheable';
 import { Util } from './util';
-import { database } from 'firebase';
+import { database } from 'firebase/compat';
 import { QuestaoProgramacao } from './aprendizagem/questoes/questaoProgramacao';
 import RespostaBase from './aprendizagem/questoes/respostaBase';
 

@@ -2,7 +2,7 @@ import { forkJoin, Observable } from 'rxjs';
 import { Assunto } from '../aprendizagem/questoes/assunto';
 import { Collection, date, Document, ignore } from '../firestore/document';
 import Usuario from '../usuario';
-import * as firebase from 'firebase';
+import * as firebase from 'firebase/compat';
 import { Util } from '../util';
 import Turma from '../turma';
 import QuestaoColaborativa from './questaoColaborativa';

@@ -2,7 +2,7 @@ import Usuario from '../usuario';
 import { Util } from '../util';
 
 
-import * as firebase from 'firebase';
+import * as firebase from 'firebase/compat';
 
 export default class RespostaPostagem {
 

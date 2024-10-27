@@ -1,9 +1,9 @@
 /*
 import { TestBed, inject } from '@angular/core/testing';
 import { DocumentModule } from '../firestore/document.module';
-import { AngularFirestore, AngularFirestoreModule } from '@angular/fire/firestore';
+import { AngularFirestore, AngularFirestoreModule } from '@angular/fire/compat/firestore';
 import { FirebaseConfiguracao } from 'src/environments/firebase';
-import { AngularFireModule, FirebaseApp } from '@angular/fire';
+import { AngularFireModule, FirebaseApp } from '@angular/fire/compat';
 import Query from '../firestore/query';
 import TestCase from '../testCase';
 import { forkJoin } from 'rxjs';

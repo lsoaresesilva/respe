@@ -5,7 +5,7 @@ import Usuario from '../usuario';
 import RespostaPostagem from './respostaPostagem';
 
 
-import * as firebase from 'firebase';
+import * as firebase from 'firebase/compat';
 import { Util } from '../util';
 
 @Collection('postagens')
