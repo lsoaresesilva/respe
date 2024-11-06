@@ -57,6 +57,7 @@ export class EditorPadraoComponent implements OnInit, AfterViewInit {
       return Sk.builtinFiles['files'][x];
     }
 
+
     function prepararSaida(saida){
       
       if(saida != ""){

@@ -497,7 +497,7 @@ export default class Submissao extends Document implements RespostaBase{
   /**
    * Constrói o JSON que será enviado ao backend.
    */
-  construirJson(questao: QuestaoProgramacao, tipo) {
+  construirJson(questao: QuestaoProgramacao, tipo):any {
     const json = {};
     json['submissao'] = this.toJson();
     json['tipo'] = tipo;

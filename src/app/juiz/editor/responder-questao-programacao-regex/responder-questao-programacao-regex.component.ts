@@ -30,7 +30,7 @@ export class ResponderQuestaoProgramacaoRegexComponent implements OnInit, AfterV
   }
 
   ngAfterViewChecked() {
-    this.apresentacao.apresentarEditorRegex(this.login.getUsuarioLogado());
+    //this.apresentacao.apresentarEditorRegex(this.login.getUsuarioLogado());
   }
 
 

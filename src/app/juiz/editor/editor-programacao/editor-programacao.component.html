@@ -1,15 +1,15 @@
 <p-confirmDialog header="Atenção" icon="pi pi-exclamation-triangle"></p-confirmDialog>
 <div class="p-grid">
   <div class="p-col-3">
-    <button type="button" id="btnMudancaEditor" pButton (click)="mudancaEditor()" icon="{{iconModoEditor}}" style="margin-right: 10px"
-      *ngIf="isMudancaEditorPermitida == true"></button>
+    <!-- <button type="button" id="btnMudancaEditor" pButton (click)="mudancaEditor()" icon="{{iconModoEditor}}" style="margin-right: 10px"
+      *ngIf="isMudancaEditorPermitida == true"></button> -->
     <app-editor-trintadoisbits [modoVisualizacao]="modoVisualizacao" [questao]="questao" [assunto]="assunto"
       (onSubmit)="submissaoRealizada($event)" (onServidorError)="erroServidor($event)" (onError)="erroSubmissao($event)"
       (onSubmitInicio)="inicioSubmissao()" *ngIf="(modoExecucao == 1 || modoExecucao == 2) && modoVisualizacao == false">
     </app-editor-trintadoisbits>
-    <app-editor-padrao [questao]="questao" [assunto]="assunto" (onSubmitInicio)="inicioSubmissao()"
+<!--     <app-editor-padrao [questao]="questao" [assunto]="assunto" (onSubmitInicio)="inicioSubmissao()"
         (onSubmit)="submissaoRealizada($event)" (onError)="erroSubmissao($event)"
-        *ngIf="modoExecucao == 0 && modoVisualizacao == false"></app-editor-padrao>
+        *ngIf="modoExecucao == 0 && modoVisualizacao == false"></app-editor-padrao> -->
     <ng-template #editorPadrao>
 
     </ng-template>
