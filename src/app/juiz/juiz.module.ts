@@ -88,6 +88,7 @@ import { ResponderQuestaoProgramacaoRegexComponent } from './editor/responder-qu
 import { SistemaAprendizagemModule } from '../sistema-aprendizagem/sistema-aprendizagem.module';
 import { ConsoleTrintadoisbitsControleComponent } from './editor/console-trintadoisbits-controle/console-trintadoisbits-controle.component';
 import { CompartilhadoModule } from '../shared/shared.module';
+import { InterpretadorPythonService } from './editor/interpretador-python.service';
 
 export const routes: Routes = [
   {
@@ -235,7 +236,7 @@ export const routes: Routes = [
         BtnAvancarQuestaoComponent,
         DadosQuestaoComponent
     ],
-    providers: [MessageService, MonitorService, LoginService, EditorService, ConfirmationService, DialogService],
+    providers: [MessageService, MonitorService, LoginService, EditorService, ConfirmationService, DialogService, InterpretadorPythonService],
     schemas: [CUSTOM_ELEMENTS_SCHEMA]
 })
 export class JuizModule {}

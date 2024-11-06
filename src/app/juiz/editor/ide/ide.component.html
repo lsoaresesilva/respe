@@ -13,6 +13,7 @@
 
   </div>
   <div class="p-col-12">
+    <strong>Saída do programa</strong>
     <div *ngIf="modoVisualizacao == false; else visualizacao" style="margin-top: 10px">
       <app-console [submissao]="submissao" [consoleEditor]="consoleEditor" *ngIf="modoExecucao == 1"></app-console>
       <app-console-trintadoisbits-controle [submissao]="submissao" [consoleEditor]="consoleEditor"
