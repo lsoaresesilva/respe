@@ -28,10 +28,10 @@
       id="statusExecucaoAlgoritmo" *ngIf="submissao != undefined && submissao.isFinalizada() != null"></button>
 
 
-    <p-splitButton
+    <!-- <p-splitButton
       *ngIf="this.login.getUsuarioLogado().grupoExperimento != 4  && modoVisualizacao == false &&  apresentarVisualizacao == true"
       label="Vizualizar execução" style="margin-left:10px" icon="pi pi-eye" [model]="items" class="p-button-warning">
-    </p-splitButton>
+    </p-splitButton> -->
     <p-progressBar *ngIf="processandoVisualizacao == true" mode="indeterminate"
       [style]="{ height: '6px', width: '180px' }">
     </p-progressBar>
