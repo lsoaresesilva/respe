@@ -14,7 +14,7 @@ export default class RegistroLogin extends Document{
 
     objectToDocument(){
         let document = super.objectToDocument();
-        document["usuarioId"] = this.usuario.pk();
+        document["usuarioId"] = this.usuario.pk;
 
         return document;
     }

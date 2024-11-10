@@ -12,7 +12,7 @@ export default class VisualizacaoQuestao extends Document {
   objectToDocument() {
     if (
       this.estudante != null &&
-      this.estudante.pk() != null &&
+      this.estudante.pk != null &&
       this.questao != null &&
       this.questao.id != null &&
       this.assunto != null &&
@@ -20,7 +20,7 @@ export default class VisualizacaoQuestao extends Document {
     ) {
       const document = super.objectToDocument();
 
-      document['estudanteId'] = this.estudante.pk();
+      document['estudanteId'] = this.estudante.pk;
       document['questaoId'] = this.questao.id;
       document['assuntoId'] = this.assunto.pk();
 

@@ -175,7 +175,7 @@ export class DiarioComponent implements OnInit {
 
   async apresentarDiario() {
     let usuario = this.login.getUsuarioLogado();
-    Diario.getAll(new Query('estudanteId', '==', usuario.pk())).subscribe(
+    Diario.getAll(new Query('estudanteId', '==', usuario.pk)).subscribe(
       (diarios) => {
         if (diarios.length == 0) {
           this.isPrimeiraSemana = true;

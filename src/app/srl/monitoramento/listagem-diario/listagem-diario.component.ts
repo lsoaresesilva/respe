@@ -22,7 +22,7 @@ export class ListagemDiarioComponent implements OnInit {
   ngOnInit(): void {
     this.usuario = this.login.getUsuarioLogado();
     if(this.usuario != null){
-      Diario.getAll(new Query("estudanteId", "==", this.usuario.pk())).subscribe(diarios=>{
+      Diario.getAll(new Query("estudanteId", "==", this.usuario.pk)).subscribe(diarios=>{
         this.diarios$ = this.ordenarDiarios(diarios);
       });
     }

@@ -44,7 +44,7 @@ export class PostagensTurmaGuard implements CanActivate {
      
             turma.estudantes.forEach(estudante =>{
 
-              if(estudante == usuario.pk()){
+              if(estudante == usuario.pk){
                 return true;
               } 
               this.router.navigate([""]);

@@ -84,7 +84,7 @@ export class SelfInstructionComponent implements OnInit {
               this.apresentarPerguntas(this.questao.assuntos);
               const usuario = this.login.getUsuarioLogado();
               AutoInstrucao.getByEstudanteQuestao(
-                usuario.pk(),
+                usuario.pk,
                 this.questao.id
               ).subscribe((autoInstrucao) => {
                 if (autoInstrucao != null) {

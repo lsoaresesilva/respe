@@ -72,7 +72,7 @@ export default class Submissao extends Document implements RespostaBase{
   */
   static getExerciciosTrabalhadosUltimaSemana(estudante: Usuario) {
     return new Observable((observer) => {
-      Submissao.getAll(new Query('estudanteId', '==', estudante.pk())).subscribe((submissoes) => {
+      Submissao.getAll(new Query('estudanteId', '==', estudante.pk)).subscribe((submissoes) => {
         // Filtrar apenas da ultima semana
         const semanaAtras = new Date();
         semanaAtras.setDate(new Date().getDate() - 7);
@@ -337,7 +337,7 @@ export default class Submissao extends Document implements RespostaBase{
         observer.error(new Error('Questão ou estudante não podem ser vazios'));
       } else {
         Submissao.getAll([
-          new Query('estudanteId', '==', estudante.pk()),
+          new Query('estudanteId', '==', estudante.pk),
           new Query('questaoId', '==', questao.id),
         ]).subscribe((submissoes) => {
           observer.next(submissoes);
@@ -455,8 +455,8 @@ export default class Submissao extends Document implements RespostaBase{
   objectToDocument() {
     const document = super.objectToDocument();
 
-    if (this.estudante != null && this.estudante.pk() != null) {
-      document['estudanteId'] = this.estudante.pk();
+    if (this.estudante != null && this.estudante.pk != null) {
+      document['estudanteId'] = this.estudante.pk;
     }
 
     if (this.questao != null && this.questao.id != null) {

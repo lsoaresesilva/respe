@@ -36,8 +36,8 @@ export default class RespostaQuestaoCorrecaoAlgoritmo extends Document {
       object['submissao'] = this.submissao.objectToDocument();
     }
 
-    if (this.estudante != null && this.estudante.pk() != null) {
-      object['estudanteId'] = this.estudante.pk();
+    if (this.estudante != null && this.estudante.pk != null) {
+      object['estudanteId'] = this.estudante.pk;
     }
 
     if (this.assunto != null && this.assunto.pk() != null) {
@@ -66,7 +66,7 @@ export default class RespostaQuestaoCorrecaoAlgoritmo extends Document {
 
   static getPorQuestao(questao, estudante) {
     return RespostaQuestaoCorrecaoAlgoritmo.getAll([
-      new Query('estudanteId', '==', estudante.pk()),
+      new Query('estudanteId', '==', estudante.pk),
       new Query('questaoCorrecaoId', '==', questao.id),
     ]);
   }

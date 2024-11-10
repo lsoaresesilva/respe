@@ -20,7 +20,7 @@ export class RespostaQuestaoParson extends Document {
   static getRespostaQuestaoEstudante(questao, usuario): Observable<RespostaQuestaoParson> {
     return new Observable((observer) => {
       RespostaQuestaoParson.getByQuery([
-        new Query('estudanteId', '==', usuario.pk()),
+        new Query('estudanteId', '==', usuario.pk),
         new Query('questaoId', '==', questao.id),
       ]).subscribe((respostaSalva: RespostaQuestaoParson) => {
         observer.next(respostaSalva);
@@ -31,7 +31,7 @@ export class RespostaQuestaoParson extends Document {
 
   objectToDocument() {
     const document = super.objectToDocument();
-    document['estudanteId'] = this.estudante.pk();
+    document['estudanteId'] = this.estudante.pk;
     document['questaoId'] = this.questao.id;
 
     if (Array.isArray(this.algoritmo)) {

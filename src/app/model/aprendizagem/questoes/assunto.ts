@@ -102,8 +102,8 @@ export class Assunto extends Document {
           return 0;
         });
 
-        assuntos.forEach((assunto) => {
-          Assunto.construir(assunto);
+        assuntos.forEach((assunto, index, arr) => {
+          assuntos[index] = Assunto.construir(assunto); // Substitui cada valor no array original
         });
 
         observer.next(assuntos);
@@ -131,17 +131,25 @@ export class Assunto extends Document {
     });
   }
 
+
+
   /**
    * Constrói as relações internas de um assunto com seus materiais de aprendizagem.
    * @param assunto
    */
-  static construir(assunto) {
-    assunto['questoesProgramacao'] = QuestaoProgramacao.construir(
+  static construir(assuntoJson:any) {
+
+    
+    const assunto = new Assunto(assuntoJson.primary_key, assuntoJson.nome);
+
+    assunto.questoesFechadas = QuestaoFechada.construir(assuntoJson.questoes_fechadas);
+
+    /* assunto['questoesProgramacao'] = QuestaoProgramacao.construir(
       assunto['questoesProgramacao'],
       assunto
     );
 
-    assunto['questoesFechadas'] = QuestaoFechada.construir(assunto['questoesFechadas']);
+    
 
     assunto['questoesColaborativas'] = QuestaoColaborativa.construir(
       assunto['questoesColaborativas'],
@@ -159,7 +167,9 @@ export class Assunto extends Document {
 
     assunto['videos'] = VideoProgramacao.construir(assunto['videos']);
 
-    assunto['textos'] = VideoProgramacao.construir(assunto['textos']);
+    assunto['textos'] = VideoProgramacao.construir(assunto['textos']); */
+
+    return assunto;
   }
 
   static get(id): Observable<Assunto> {
@@ -199,19 +209,34 @@ export class Assunto extends Document {
   static consultarRespostasEstudante(estudante: Usuario): Observable<RespostasQuestoes> {
     return new Observable<any>((observer) => {
       const query: any = {};
-      query.submissoes = Submissao.getAll(new Query('estudanteId', '==', estudante.pk()));
       query.respostasQuestoesFechadas = RespostaQuestaoFechada.getAll(
-        new Query('estudanteId', '==', estudante.pk())
+        new Query('estudanteId', '==', estudante.pk)
+      );
+
+      forkJoin(query).subscribe((respostasEstudante:any) => {
+        const respostas: RespostasQuestoes = new RespostasQuestoes();
+        respostas.questoesFechadas = respostasEstudante.respostasQuestoesFechadas;
+        observer.next(respostas);
+        observer.complete();
+      });
+    });
+
+  }
+
+
+  /* static consultarRespostasEstudante(estudante: Usuario): Observable<RespostasQuestoes> {
+    return new Observable<any>((observer) => {
+      const query: any = {};
+      query.submissoes = Submissao.getAll(new Query('estudanteId', '==', estudante.pk));
+      query.respostasQuestoesFechadas = RespostaQuestaoFechada.getAll(
+        new Query('estudanteId', '==', estudante.pk)
       );
       query.respostasQuestoesParson = RespostaQuestaoParson.getAll(
-        new Query('estudanteId', '==', estudante.pk())
+        new Query('estudanteId', '==', estudante.pk)
       );
-      /* query.respostasQuestaoCorrecao = RespostaQuestaoCorrecaoAlgoritmo.getAll(
-        new Query('estudanteId', '==', estudante.pk())
-      ); */
 
       query.visualizacoesRespostasProgramacao = VisualizacaoRespostasQuestoes.getAll(
-        new Query('estudanteId', '==', estudante.pk())
+        new Query('estudanteId', '==', estudante.pk)
       );
 
       forkJoin(query).subscribe((respostasEstudante:any) => {
@@ -226,7 +251,7 @@ export class Assunto extends Document {
         observer.complete();
       });
     });
-  }
+  } */
 
   /**
    * Recupera as submissões mais recentes do estudante. As submissões são referentes a diferentes questões de programação.
@@ -672,5 +697,11 @@ export class Assunto extends Document {
     }
 
     return true;
+  }
+
+  static validarJson(assuntoJson:any){
+    if (assuntoJson.nome == null || assuntoJson.primary_key == null) {
+      throw new Error("Dados de assunto recebidos do servidor estão inválidos.")
+    }
   }
 }

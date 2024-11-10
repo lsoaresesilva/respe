@@ -65,7 +65,7 @@ export default class AtividadeGrupo extends Document {
     /* if (Array.isArray(this.estudantes)) {
       document['estudantes'] = [];
       this.estudantes.forEach((estudante) => {
-        document['estudantes'].push(estudante.pk());
+        document['estudantes'].push(estudante.pk);
       });
     } */
 
@@ -131,7 +131,7 @@ export default class AtividadeGrupo extends Document {
       estudantes.forEach((estudante) => {
         let estudanteEmGrupo = grupos.find(function (grupo, index) {
           return grupo.estudantes.find(function (e) {
-            if (estudante.pk() == e.pk()) {
+            if (estudante.pk == e.pk()) {
               return true;
             }
           });
@@ -399,7 +399,7 @@ export default class AtividadeGrupo extends Document {
           id = e;
         }
 
-        if (id == estudante.pk()) {
+        if (id == estudante.pk) {
           grupoEstudante = grupo;
         }
 

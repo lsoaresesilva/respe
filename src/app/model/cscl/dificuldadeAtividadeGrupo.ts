@@ -21,7 +21,7 @@ export default class DificuldadeAtividadeGrupo extends Document{
         }
 
         if(this.estudante != null){
-            document["estudanteId"] = this.estudante.pk();
+            document["estudanteId"] = this.estudante.pk;
         }
 
         return document;

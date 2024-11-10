@@ -31,7 +31,7 @@ export class ExportarDadosAnalyticsComponent implements OnInit {
         /* Turma.getAllEstudantes(params['turmaId']).subscribe(estudantes=>{
           let consultaSubmissoes = {};
           estudantes.forEach(estudante=>{
-            consultaSubmissoes[estudante.pk()] = Usuario.getTodasSubmissoes(estudante);
+            consultaSubmissoes[estudante.pk] = Usuario.getTodasSubmissoes(estudante);
           })
 
           Estatisticas.gerarDadosPageTrack(estudantes).subscribe(dados=>{

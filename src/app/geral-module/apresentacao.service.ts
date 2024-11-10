@@ -258,12 +258,12 @@ export class ApresentacaoService {
     let usuariosQueJaReceberamApresentacao: any = [];
     let dadosApresentacao = localStorage.getItem(apresentacao);
     if (dadosApresentacao == null) {
-      usuariosQueJaReceberamApresentacao = [usuario.pk()];
+      usuariosQueJaReceberamApresentacao = [usuario.pk];
     } else {
       dadosApresentacao = JSON.parse(dadosApresentacao);
       usuariosQueJaReceberamApresentacao = dadosApresentacao['usuarios'];
       if (Array.isArray(usuariosQueJaReceberamApresentacao)) {
-        usuariosQueJaReceberamApresentacao.push(usuario.pk());
+        usuariosQueJaReceberamApresentacao.push(usuario.pk);
       }
     }
 
@@ -282,7 +282,7 @@ export class ApresentacaoService {
         dadosApresentacao = JSON.parse(dadosApresentacao);
         if (
           Array.isArray(dadosApresentacao['usuarios']) &&
-          dadosApresentacao['usuarios'].includes(usuario.pk())
+          dadosApresentacao['usuarios'].includes(usuario.pk)
         ) {
           return true;
         }

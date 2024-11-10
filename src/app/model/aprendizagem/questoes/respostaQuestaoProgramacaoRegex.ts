@@ -16,7 +16,7 @@ export class RespostaQuestaoProgramacaoRegex extends Document {
 
   objectToDocument() {
     const document = super.objectToDocument();
-    document['estudanteId'] = this.estudante.pk();
+    document['estudanteId'] = this.estudante.pk;
     document['questaoId'] = this.questao.id;
     document['algoritmo'] = this.algoritmo
     document['isRespostaCorreta'] = this.isRespostaCorreta
@@ -89,7 +89,7 @@ export class RespostaQuestaoProgramacaoRegex extends Document {
         observer.error(new Error('Questão ou estudante não podem ser vazios'));
       } else {
         RespostaQuestaoProgramacaoRegex.getAll([
-          new Query('estudanteId', '==', estudante.pk()),
+          new Query('estudanteId', '==', estudante.pk),
           new Query('questaoId', '==', questao.id),
         ]).subscribe((submissoes) => {
           observer.next(submissoes);

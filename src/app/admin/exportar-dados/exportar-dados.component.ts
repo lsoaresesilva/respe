@@ -97,12 +97,12 @@ export class ExportarDadosComponent implements OnInit {
 
     pTrack.forEach((track) => {
       for (let i = 0; i < estudantes.length; i++) {
-        if (track.estudante.pk() == estudantes[i].pk()) {
-          if (pageTracksAgrupados[track.estudante.pk()] == null) {
-            pageTracksAgrupados[track.estudante.pk()] = [];
+        if (track.estudante.pk == estudantes[i].pk()) {
+          if (pageTracksAgrupados[track.estudante.pk] == null) {
+            pageTracksAgrupados[track.estudante.pk] = [];
           }
 
-          pageTracksAgrupados[track.estudante.pk()].push(track);
+          pageTracksAgrupados[track.estudante.pk].push(track);
           break;
         }
       }

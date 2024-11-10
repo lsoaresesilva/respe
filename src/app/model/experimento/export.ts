@@ -547,7 +547,7 @@ export default class Export {
               return false;
             }
 
-            if (Export.excluidos.includes(estudante.pk())) {
+            if (Export.excluidos.includes(estudante.pk)) {
               return false;
             }
 
@@ -557,7 +557,7 @@ export default class Export {
 
         }); */
       } else {
-        Usuario.get(estudante.pk()).subscribe((estudante) => {
+        Usuario.get(estudante.pk).subscribe((estudante) => {
           getTracks([estudante]);
         });
       }

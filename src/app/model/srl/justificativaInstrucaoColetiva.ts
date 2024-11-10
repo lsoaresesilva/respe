@@ -17,7 +17,7 @@ export default class JustificativasAutoInstrucao{
         let nome = null;
         if(this.estudante != null){
             if(this.estudante.pk != null)
-                estudanteId = this.estudante.pk();
+                estudanteId = this.estudante.pk;
             else
                 estudanteId = this.estudante["id"];
 

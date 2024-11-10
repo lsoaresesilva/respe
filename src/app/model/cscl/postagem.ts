@@ -29,8 +29,8 @@ export default class Postagem extends Document {
     
 
 
-    if(this.estudante != null && this.estudante.pk() != null){
-      document["estudante"] = {id:this.estudante.pk(), nome:this.estudante.nome};
+    if(this.estudante != null && this.estudante.pk != null){
+      document["estudante"] = {id:this.estudante.pk, nome:this.estudante.nome};
     }
 
     if(this.turma != null && this.turma.codigo != null){

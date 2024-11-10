@@ -71,7 +71,7 @@ export class ListarEstudantesComponent implements OnInit {
   } */
 
   /* deleteEstudante(estudante: Usuario) {
-    Usuario.delete(estudante.pk()).subscribe((resultado) => {
+    Usuario.delete(estudante.pk).subscribe((resultado) => {
       Usuario.getAll().subscribe((estudantes) => {
         this.estudantes = estudantes;
       });
@@ -86,7 +86,7 @@ export class ListarEstudantesComponent implements OnInit {
   abrirPerfilEstudante(estudante) {
     this.router.navigate([
       'geral/main',
-      { outlets: { principal: ['turma', 'visualizacao-estudante', estudante.pk()] } },
+      { outlets: { principal: ['turma', 'visualizacao-estudante', estudante.pk] } },
     ]);
   }
 

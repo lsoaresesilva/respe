@@ -54,14 +54,14 @@ export class ListarDiariosComponent implements OnInit {
       let consultas = [];
       
       estudantes.forEach(estudante=>{
-        consultas.push(Diario.getAll(new Query("estudanteId", "==", estudante.pk())));
+        consultas.push(Diario.getAll(new Query("estudanteId", "==", estudante.pk)));
         this.diarios$.push({estudante:estudante});
       })
 
       forkJoin(consultas).subscribe(resultado=>{
         this.diarios$.forEach(diario => {
           resultado.forEach(d=>{
-            if(d[0] != null && diario.estudante.pk() == d[0]["estudanteId"]){
+            if(d[0] != null && diario.estudante.pk == d[0]["estudanteId"]){
               diario.diarios = this.ordenarDiarios(d);
             }
           })

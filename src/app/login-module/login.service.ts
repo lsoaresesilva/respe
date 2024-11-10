@@ -36,7 +36,7 @@ export class LoginService {
     const usuarioSalvo = sessionStorage.getItem('usuario');
 
     if (usuarioSalvo) {
-      return JSON.parse(usuarioSalvo) as Usuario
+      return Usuario.fromJson(JSON.parse(usuarioSalvo))
     } 
 
     /*  */
@@ -54,16 +54,29 @@ export class LoginService {
   }
 
   criarSessao() {
-    const url = this.URL + 'usuario';
-    return this.http.get<Usuario>(url).pipe(
-      tap((usuario: Usuario) => {
-        sessionStorage.setItem('usuario', JSON.stringify(usuario)); // Salva o usuário no localStorage
-      }),
-      catchError((error) => {
-        console.error('Erro ao buscar o usuário:', error);
-        return of(null); // Em caso de erro, retorna null
-      })
-    );
+    return new Observable(observer=>{
+      const usuario = this.getUsuarioLogado();
+      if( usuario == null){
+        const url = this.URL + 'usuario';
+        this.http.get<Usuario>(url).pipe(
+          tap((usuario: Usuario) => {
+            sessionStorage.setItem('usuario', JSON.stringify(usuario)); // Salva o usuário no localStorage
+          }),
+          catchError((error) => {
+            console.error('Erro ao buscar o usuário:', error);
+            return of(null); // Em caso de erro, retorna null
+          })
+        ).subscribe(res=>{
+          observer.next(res);
+          observer.complete();
+        });
+      }else{
+        observer.next();
+        observer.complete();
+      }
+    })
+    
+    
   }
 
   criarSessaoAdmin(usuario: Usuario) {
@@ -90,7 +103,7 @@ export class LoginService {
       if (response) {
         localStorage.setItem('access_token', response.access);
         localStorage.setItem('refresh_token', response.refresh);
-        await this.criarSessao();
+        await this.criarSessao().toPromise();
       }
     })
     .catch(error => {

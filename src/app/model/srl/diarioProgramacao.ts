@@ -15,8 +15,8 @@ export default class DiarioProgramacao extends Document {
 
   objectToDocument() {
     let document = super.objectToDocument();
-    if (this.estudante != null && this.estudante.pk() != null) {
-      document['estudanteId'] = this.estudante.pk();
+    if (this.estudante != null && this.estudante.pk != null) {
+      document['estudanteId'] = this.estudante.pk;
     }
 
     return document;
@@ -24,7 +24,7 @@ export default class DiarioProgramacao extends Document {
 
   static exibirDiario(estudante: Usuario, tipo: TipoDiarioProgramacao) {
     return new Observable((observer) => {
-      DiarioProgramacao.getAll(new Query('estudanteId', '==', estudante.pk())).subscribe(
+      DiarioProgramacao.getAll(new Query('estudanteId', '==', estudante.pk)).subscribe(
         (diarios) => {
           if (Array.isArray(diarios) && diarios.length > 0) {
             // Verificar se a data do último foi de 7 dias atrás

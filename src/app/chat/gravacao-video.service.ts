@@ -48,10 +48,10 @@ export class GravacaoVideoService {
   }
 
   obterToken(nomeCanal, estudante) {
-    if (nomeCanal != null && estudante != null && estudante.pk() != null) {
+    if (nomeCanal != null && estudante != null && estudante.pk != null) {
       const url = this.URL + 'token/';
       let appCertificate = '3bb78775146547fc9b764ae7c8b048fb';
-      /* let uid = [...estudante.pk()].map(l=>{
+      /* let uid = [...estudante.pk].map(l=>{
         return l.charCodeAt(0);
       }).slice(0, 5).join(""); */
       let uid = 0;

@@ -22,8 +22,8 @@ export default class PageTrackRecord extends Document {
   objectToDocument() {
     const document = super.objectToDocument();
 
-    if (this.estudante != null && this.estudante.pk() != null) {
-      document['estudanteId'] = this.estudante.pk();
+    if (this.estudante != null && this.estudante.pk != null) {
+      document['estudanteId'] = this.estudante.pk;
     }
 
     return document;
@@ -47,9 +47,9 @@ export default class PageTrackRecord extends Document {
       if(Array.isArray(estudantes)){
         estudantes.forEach(estudante=>{
           if(type == "array"){
-            consultas.push(PageTrackRecord.getAll(new Query('estudanteId', '==', estudante.pk())));
+            consultas.push(PageTrackRecord.getAll(new Query('estudanteId', '==', estudante.pk)));
           }else{
-            consultas[estudante.pk()] = PageTrackRecord.getAll(new Query('estudanteId', '==', estudante.pk()));
+            consultas[estudante.pk] = PageTrackRecord.getAll(new Query('estudanteId', '==', estudante.pk));
           }
 
         })

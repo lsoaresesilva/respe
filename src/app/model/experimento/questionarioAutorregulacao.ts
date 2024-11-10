@@ -38,7 +38,7 @@ export default class QuestionarioAutorregulacao extends Document {
   static isRespondido(usuario) {
     return new Observable((observer) => {
       if (usuario != null && typeof usuario.pk === 'function') {
-        QuestionarioAutorregulacao.getByQuery(new Query('usuarioId', '==', usuario.pk())).subscribe(
+        QuestionarioAutorregulacao.getByQuery(new Query('usuarioId', '==', usuario.pk)).subscribe(
           (resultado) => {
             if (resultado != null) {
               observer.next(true);
@@ -62,7 +62,7 @@ export default class QuestionarioAutorregulacao extends Document {
   objectToDocument() {
     if (this.validar()) {
       const document = super.objectToDocument();
-      document['usuarioId'] = this.usuario.pk();
+      document['usuarioId'] = this.usuario.pk;
 
       return document;
     } else {

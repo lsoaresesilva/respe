@@ -43,6 +43,7 @@ export class MainComponent implements OnInit {
 
   async ngOnInit() {
     this.usuario = await this.login.getUsuarioLogado();
+    const pk = this.usuario.pk
     if(this.usuario != null && this.usuario.perfil == PerfilUsuario.estudante){
       this.gamification.inicializar(this.usuario);
     }
@@ -104,51 +105,6 @@ export class MainComponent implements OnInit {
   abrirListagemDiario(){
     this.router.navigate(['geral/main', { outlets: { principal: ['turma', 'listagem-diarios-professor'] } }]);
   }
-
-  async apresentarPretestRegulacao() {
-   
-    if (
-      this.usuario != null &&
-      typeof this.usuario.pk === 'function' &&
-      this.usuario.perfil == PerfilUsuario.estudante
-    ) {
-      QuestionarioAutorregulacao.isRespondido(this.usuario).subscribe(
-        (resultado) => {
-          this.visibilidadeQuestionario = !resultado;
-          if (resultado) {
-            this.apresentacao.apresentarInicializacao(this.usuario);
-          }
-        },
-        (err) => {
-          this.visibilidadeQuestionario = false;
-        }
-      );
-    }
-  }
-
-  onQuestionarioRespondido(resultado) {
-    if (resultado) {
-      this.apresentacao.apresentarInicializacao(this.usuario);
-    }
-  }
-
-  /*
-  apresentarPretest() {
-    RespostaQuestaoExperimento.isFinalizado(this.login.getUsuarioLogado()).subscribe(resultado => {
-      if (resultado) {
-        this.apresentarPostest();
-      } else {
-        this.visibilidadeDialog = !resultado;
-      }
-
-    })
-  }
-
-  apresentarPostest() {
-    PosTeste.apresentar(this.login.getUsuarioLogado()).subscribe(resultado => {
-      this.visibilidadeDialog = resultado;
-    })
-  }*/
 
   logout() {
     if (this.login.logout()) {

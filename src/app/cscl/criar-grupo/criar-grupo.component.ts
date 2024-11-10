@@ -36,10 +36,10 @@ export class CriarGrupoComponent implements OnInit {
   }
 
   excluir(estudante){
-    this.estudantes = this.estudantes.filter(item => item.pk() !== estudante.pk());
+    this.estudantes = this.estudantes.filter(item => item.pk() !== estudante.pk);
 
     for(let i = 0; i < this.atividadeGrupo.estudantes.length; i++){
-      if( this.atividadeGrupo.estudantes[i].pk() == estudante.pk()){
+      if( this.atividadeGrupo.estudantes[i].pk() == estudante.pk){
         this.atividadeGrupo.estudantes.splice(i, 1)
       }
     }
@@ -52,7 +52,7 @@ export class CriarGrupoComponent implements OnInit {
     this.estudantes.forEach(estudante => {
       let isAdicionado;
       this.atividadeGrupo.estudantes.forEach(estudanteAdicionado => {
-        if(estudanteAdicionado.pk() == estudante.pk()){
+        if(estudanteAdicionado.pk() == estudante.pk){
           isAdicionado = true;
         }
       });

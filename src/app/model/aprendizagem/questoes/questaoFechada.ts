@@ -68,7 +68,7 @@ export default class QuestaoFechada extends QuestaoBase {
   static usuarioRespondeu(estudante, questao) {
     return new Observable((observer) => {
       RespostaQuestaoFechada.getAll([
-        new Query('usuarioId', '==', estudante.pk()),
+        new Query('usuarioId', '==', estudante.pk),
         new Query('questaoId', '==', questao.id),
       ]).subscribe((respostasAluno) => {
         respostasAluno.length == 0 ? observer.next(false) : observer.next(true);
@@ -81,7 +81,7 @@ export default class QuestaoFechada extends QuestaoBase {
   static verificarQuestoesRespondidas(estudante, questoes: QuestaoFechada[]) {
     return new Observable((observer) => {
       if (Array.isArray(questoes) && questoes.length > 0) {
-        RespostaQuestaoFechada.getAll(new Query('estudanteId', '==', estudante.pk())).subscribe(
+        RespostaQuestaoFechada.getAll(new Query('estudanteId', '==', estudante.pk)).subscribe(
           (respostas) => {
             questoes.forEach((questao) => {
               respostas.forEach((resposta) => {

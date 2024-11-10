@@ -18,8 +18,8 @@ export default class RegistroMensagemChatbot extends Document {
     
         
 
-        if(this.estudante != null && this.estudante.pk() != null){
-            objeto["estudanteId"] = this.estudante.pk();
+        if(this.estudante != null && this.estudante.pk != null){
+            objeto["estudanteId"] = this.estudante.pk;
         }
         
     

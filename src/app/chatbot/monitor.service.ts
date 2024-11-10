@@ -143,7 +143,7 @@ export class MonitorService {
     return new Observable((observer) => {
       if (grupo != null && estudante != null) {
         /* MensagemChat.getAll(
-          [new Query('grupoId', '==', grupo.id), new Query('estudanteId', '==', estudante.pk())],
+          [new Query('grupoId', '==', grupo.id), new Query('estudanteId', '==', estudante.pk)],
           'data'
         ).subscribe((mensagens) => {
           if (Array.isArray(mensagens) && mensagens.length > 0) {

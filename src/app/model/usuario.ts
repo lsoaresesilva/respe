@@ -72,15 +72,15 @@ export default class Usuario {
 
   static getTodasSubmissoes(estudante:Usuario){
     return Submissao.getAll(
-      new Query('estudanteId', '==', estudante.pk()), "data"
+      new Query('estudanteId', '==', estudante.pk), "data"
     );
   }
 
 
   static fromJson(json) {
-    if (json != null && json.id != undefined) {
+    if (json != null && json.primary_key != undefined) {
       const usuario = new Usuario(
-        json.id,
+        json.primary_key,
         json.email,
         json.perfil,
         json.grupoExperimento,

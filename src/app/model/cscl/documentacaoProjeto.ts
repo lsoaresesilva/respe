@@ -19,8 +19,8 @@ export default class DocumentacaoProjeto extends Document{
 
     objectToDocument(){
         let document = super.objectToDocument();
-        if(this.estudante.pk() != null){
-            document["estudanteId"] = this.estudante.pk();
+        if(this.estudante.pk != null){
+            document["estudanteId"] = this.estudante.pk;
         }
 
         if(this.grupo.id != null){

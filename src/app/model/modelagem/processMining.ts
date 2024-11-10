@@ -38,7 +38,7 @@ import Usuario from "../usuario";
 export default class ProcessMining{
 
     static criarEvento(estudante:Usuario, action, data, questao:QuestaoProgramacao){
-        return {case:estudante.pk(), action:action, datetime:Math.round(data.getTime()/1000), questaoId:questao.id}
+        return {case:estudante.pk, action:action, datetime:Math.round(data.getTime()/1000), questaoId:questao.id}
     }
 
     static extrairPageTracksIntervaloDate(submissaoInicial, submissaoFim, pageTracks:PageTrackRecord[]){
@@ -108,18 +108,18 @@ export default class ProcessMining{
                     let erroAnterior = ErroCompilacaoFactory.construir(submissaoAnterior.erro.traceback);
                     let erroAtual = ErroCompilacaoFactory.construir(submissaoAtual.erro.traceback);
                     if(ErroCompilacao.getCategoria(erroAnterior.categoria) == ErroCompilacao.getCategoria(erroAtual.categoria)){
-                        //eventos.push({case:submissaoAtual.estudante.pk(), action:EventosProgramacao.codigo_mesmo_erro, datetime:submissaoAtual.data});
+                        //eventos.push({case:submissaoAtual.estudante.pk, action:EventosProgramacao.codigo_mesmo_erro, datetime:submissaoAtual.data});
                         eventos.push(this.criarEvento(submissaoAtual.estudante, EventosProgramacao.codigo_mesmo_erro, submissaoAtual.data, submissaoAtual.questao))
                         this._criarEventosPageTrack(pageTracksEntreSubmissoes, eventos, submissaoAtual.questao);
                     }else{
-                        //eventos.push({case:submissaoAtual.estudante.pk(), action:EventosProgramacao.codigo_outro_erro, datetime:submissaoAtual.data});
+                        //eventos.push({case:submissaoAtual.estudante.pk, action:EventosProgramacao.codigo_outro_erro, datetime:submissaoAtual.data});
                         eventos.push(this.criarEvento(submissaoAtual.estudante, EventosProgramacao.codigo_outro_erro, submissaoAtual.data, submissaoAtual.questao))
                         this._criarEventosPageTrack(pageTracksEntreSubmissoes, eventos, submissaoAtual.questao);
                     }
 
 
                 }else{
-                    //eventos.push({case:submissaoAtual.estudante.pk(), action:EventosProgramacao.codigo_erro_sintaxe, datetime:submissaoAtual.data});
+                    //eventos.push({case:submissaoAtual.estudante.pk, action:EventosProgramacao.codigo_erro_sintaxe, datetime:submissaoAtual.data});
                     eventos.push(this.criarEvento(submissaoAtual.estudante, EventosProgramacao.codigo_erro_sintaxe, submissaoAtual.data, submissaoAtual.questao))
                     this._criarEventosPageTrack(pageTracksEntreSubmissoes, eventos, submissaoAtual.questao);
                 }
@@ -131,17 +131,17 @@ export default class ProcessMining{
                 eventos = eventos.concat(this._identificarEventos(posicao+1, submissoes, pageTracks));
 
             }else{
-                //eventos.push({case:submissaoAtual.estudante.pk(), action:EventosProgramacao.desistencia, datetime:submissaoAtual.data})
+                //eventos.push({case:submissaoAtual.estudante.pk, action:EventosProgramacao.desistencia, datetime:submissaoAtual.data})
                 eventos.push(this.criarEvento(submissaoAtual.estudante, EventosProgramacao.desistencia, submissaoAtual.data, submissaoAtual.questao));
                 this._criarEventosPageTrack(pageTracksEntreSubmissoes, eventos, submissaoAtual.questao);
             }
         }else if(!submissaoAtual.isFinalizada()){
             if(submissaoAnterior == null || (submissaoAnterior != null && submissaoAnterior.hasErroSintaxe())){
-                //eventos.push({case:submissaoAtual.estudante.pk(), action:EventosProgramacao.codigo_erro_logico, datetime:submissaoAtual.data});
+                //eventos.push({case:submissaoAtual.estudante.pk, action:EventosProgramacao.codigo_erro_logico, datetime:submissaoAtual.data});
                 eventos.push(this.criarEvento(submissaoAtual.estudante, EventosProgramacao.codigo_erro_logico, submissaoAtual.data, submissaoAtual.questao))
                 this._criarEventosPageTrack(pageTracksEntreSubmissoes, eventos, submissaoAtual.questao);
             }else if(submissaoAnterior != null && !submissaoAnterior.hasErroSintaxe() && !submissaoAnterior.isFinalizada()){
-                //eventos.push({case:submissaoAtual.estudante.pk(), action:EventosProgramacao.codigo_erro_logico_continuacao, datetime:submissaoAtual.data});
+                //eventos.push({case:submissaoAtual.estudante.pk, action:EventosProgramacao.codigo_erro_logico_continuacao, datetime:submissaoAtual.data});
                 eventos.push(this.criarEvento(submissaoAtual.estudante, EventosProgramacao.codigo_erro_logico_continuacao, submissaoAtual.data, submissaoAtual.questao))
                 this._criarEventosPageTrack(pageTracksEntreSubmissoes, eventos, submissaoAtual.questao);
             }
@@ -151,12 +151,12 @@ export default class ProcessMining{
                 eventos = eventos.concat(this._identificarEventos(posicao+1, submissoes, pageTracks));
 
             }else{
-                //eventos.push({case:submissaoAtual.estudante.pk(), action:EventosProgramacao.desistencia, datetime:submissaoAtual.data})
+                //eventos.push({case:submissaoAtual.estudante.pk, action:EventosProgramacao.desistencia, datetime:submissaoAtual.data})
                 eventos.push(this.criarEvento(submissaoAtual.estudante, EventosProgramacao.desistencia, submissaoAtual.data, submissaoAtual.questao));
                 this._criarEventosPageTrack(pageTracksEntreSubmissoes, eventos, submissaoAtual.questao);
             }
         }else{
-            //eventos.push({case:submissaoAtual.estudante.pk(), action:EventosProgramacao.codigo_finalizado, datetime:submissaoAtual.data});
+            //eventos.push({case:submissaoAtual.estudante.pk, action:EventosProgramacao.codigo_finalizado, datetime:submissaoAtual.data});
             if(submissaoAnterior != null && submissaoAnterior.isFinalizada()){
                 eventos.push(this.criarEvento(submissaoAtual.estudante, EventosProgramacao.refatoramento, submissaoAtual.data, submissaoAtual.questao));
                 this._criarEventosPageTrack(pageTracksEntreSubmissoes, eventos, submissaoAtual.questao);

@@ -55,14 +55,14 @@ describe('Testes para a classe de EstatisticaPageTrack', () => {
 
     pTrack.forEach(track=>{
         for(let i = 0; i < estudantes.length; i++){
-            if(track.estudante.pk() == estudantes[i].pk()){
+            if(track.estudante.pk == estudantes[i].pk()){
 
-                if(pageTracksAgrupados[track.estudante.pk()] == null){
-                    pageTracksAgrupados[track.estudante.pk()] = [];
+                if(pageTracksAgrupados[track.estudante.pk] == null){
+                    pageTracksAgrupados[track.estudante.pk] = [];
                 }
 
 
-                pageTracksAgrupados[track.estudante.pk()].push(track);
+                pageTracksAgrupados[track.estudante.pk].push(track);
                 break;
             }
         }
@@ -77,13 +77,13 @@ describe('Testes para a classe de EstatisticaPageTrack', () => {
 
     sMissoes.forEach(submissao=>{
         for(let i = 0; i < estudantes.length; i++){
-            if(submissao.estudante.pk() == estudantes[i].pk()){
+            if(submissao.estudante.pk == estudantes[i].pk()){
 
 
-                if(submissoesAgrupadas[submissao.estudante.pk()] == null){
-                    submissoesAgrupadas[submissao.estudante.pk()] = [];
+                if(submissoesAgrupadas[submissao.estudante.pk] == null){
+                    submissoesAgrupadas[submissao.estudante.pk] = [];
                 }
-                submissoesAgrupadas[submissao.estudante.pk()].push(submissao);
+                submissoesAgrupadas[submissao.estudante.pk].push(submissao);
                 break;
             }
         }

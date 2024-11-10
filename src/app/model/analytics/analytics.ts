@@ -37,14 +37,14 @@ export default class Analytics {
 
   static init(estudante): Observable<Analytics> {
     return new Observable((observer) => {
-      if (estudante != null && estudante.pk() != null) {
+      if (estudante != null && estudante.pk != null) {
         const consultasGerais = {};
         consultasGerais['assuntos'] = Assunto.getAll();
         /* consultasGerais['submissoes'] = Submissao.getAll(
-          new Query('estudanteId', '==', estudante.pk())
+          new Query('estudanteId', '==', estudante.pk)
         ); */
         consultasGerais['pageTrack'] = PageTrackRecord.getAll([
-          new Query('estudanteId', '==', estudante.pk()),
+          new Query('estudanteId', '==', estudante.pk),
           new Query('pagina', '==', 'meu-desempenho'),
         ]);
 
@@ -107,7 +107,7 @@ export default class Analytics {
       });
 
       forkJoin(consultaRespostas).subscribe((respostas) => {
-        Assunto.getAll().subscribe((assuntos) => {
+        Assunto.getAll([new Query("lazy", "=", true)]).subscribe((assuntos) => {
 
           let submissoes = [];
           let respostasQuestoesFechadas = [];
@@ -450,7 +450,7 @@ export default class Analytics {
 
   private static getTotalUnicoVisualizacoesQuestoes(estudante): Observable<number> {
     return new Observable((observer) => {
-      VisualizacaoQuestao.getAll(new Query('estudanteId', '==', estudante.pk())).subscribe(
+      VisualizacaoQuestao.getAll(new Query('estudanteId', '==', estudante.pk)).subscribe(
         (visualizacoes) => {
           const visualizacoesQuestaoUnicas = new Set(); // Para várias visualizações de uma questão, pega apenas uma
           visualizacoes.forEach((visualizacao) => {
@@ -515,10 +515,10 @@ export default class Analytics {
 
           estudantes.forEach((estudante) => {
             consultasRespostasFechadasAtividades[
-              estudante.pk()
+              estudante.pk
             ] = RespostaQuestaoFechada.getAtividadesTrabalhadasUltimaSemana(estudante);
             consultasRespostasProgramacaoAtividades[
-              estudante.pk()
+              estudante.pk
             ] = Submissao.getExerciciosTrabalhadosUltimaSemana(estudante);
           });
 
@@ -526,7 +526,7 @@ export default class Analytics {
             (atividadesTrabalhadas: object) => {
               estudantes.forEach((estudante) => {
                 for (const prop in atividadesTrabalhadas) {
-                  if (prop === estudante.pk()) {
+                  if (prop === estudante.pk) {
                     estudante.respostasQuestoesFechadas = atividadesTrabalhadas[prop];
                     break;
                   }
@@ -537,7 +537,7 @@ export default class Analytics {
                 (atividadesTrabalhadas: object) => {
                   estudantes.forEach((estudante) => {
                     for (const prop in atividadesTrabalhadas) {
-                      if (prop === estudante.pk()) {
+                      if (prop === estudante.pk) {
                         estudante.respostasQuestoesProgramacao = atividadesTrabalhadas[prop];
                         break;
                       }

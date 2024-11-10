@@ -45,7 +45,7 @@ export default class AutoInstrucaoColetiva extends Document{
             for(let i = 0; i < this.justificativas.length; i++){
                 if(this.justificativas[i].estudante != null){
                     if(this.justificativas[i].estudante.pk != null){
-                        if(this.justificativas[i].estudante.pk() == estudante.pk()){
+                        if(this.justificativas[i].estudante.pk == estudante.pk){
                             return this.justificativas[i];
                         }
                     }else{
@@ -129,12 +129,12 @@ export default class AutoInstrucaoColetiva extends Document{
 
         for(let i = 0; i < this.justificativas.length; i++){
             if(this.justificativas[i]["estudanteId"] != null){
-                if(this.justificativas[i]["estudanteId"] == estudante.pk()){
+                if(this.justificativas[i]["estudanteId"] == estudante.pk){
                     this.justificativas[i] = novaJustificativa;
                     atualizacao = true;
                 }
             }else{
-                if(this.justificativas[i].estudante.pk() == estudante.pk()){
+                if(this.justificativas[i].estudante.pk == estudante.pk){
                     this.justificativas[i] = novaJustificativa;
                     atualizacao = true;
                 }

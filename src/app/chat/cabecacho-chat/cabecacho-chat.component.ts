@@ -29,7 +29,7 @@ export class CabecachoChatComponent implements OnChanges {
         let p = []
         estudantes.forEach(estudante => {
           if(estudante.nome != null){
-            p.push({isConectado:false, nome:estudante.nome.substring(0,10), id:estudante.pk()});
+            p.push({isConectado:false, nome:estudante.nome.substring(0,10), id:estudante.pk});
           }
           
         });

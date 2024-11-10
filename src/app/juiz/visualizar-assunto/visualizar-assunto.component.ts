@@ -42,9 +42,9 @@ export class VisualizarAssuntoComponent implements OnInit {
 
     const usuario = this.login.getUsuarioLogado();
 
-    if (!visualizouImportancia.includes(usuario.pk())) {
+    if (!visualizouImportancia.includes(usuario.pk)) {
       
-      visualizouImportancia.push(usuario.pk());
+      visualizouImportancia.push(usuario.pk);
 
       localStorage.setItem('visualizouImportancia', JSON.stringify(visualizouImportancia));
       this.dialogImportanciaAssunto = true;

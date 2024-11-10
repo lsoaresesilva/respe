@@ -20,7 +20,7 @@ export class RevisaoCodigoComponent implements OnChanges {
 
   ngOnChanges(): void {
 
-    Submissao.getAll(new Query('estudanteId', '==', this.estudante.pk())).subscribe(
+    Submissao.getAll(new Query('estudanteId', '==', this.estudante.pk)).subscribe(
       (submissoes) => {
         // Agrupar por questões
         let questoes = new Map<string, Submissao[]>();

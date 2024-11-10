@@ -22,8 +22,8 @@ export default class MensagemChat{
         
         let document = {texto:this.texto};
 
-        if(this.estudante.pk() != null){
-            document["estudante"] = {id:this.estudante.pk(), nome:this.estudante.nome};
+        if(this.estudante.pk != null){
+            document["estudante"] = {id:this.estudante.pk, nome:this.estudante.nome};
         }
 
         

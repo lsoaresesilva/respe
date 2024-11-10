@@ -31,7 +31,7 @@ export default abstract class Erro extends Document {
 
   static getAllErrosEstudante(usuario) {
     return new Observable((observer) => {
-      Submissao.getAll(new Query('estudanteId', '==', usuario.pk())).subscribe((submissoes) => {
+      Submissao.getAll(new Query('estudanteId', '==', usuario.pk)).subscribe((submissoes) => {
         let erros = [];
         submissoes.forEach((submissao) => {
           erros.push(Erro.getAll(new Query('submissaoId', '==', submissao.pk())));

@@ -24,8 +24,8 @@ export default class RespostaPostagem {
 
     document['data'] = firebase.firestore.Timestamp.fromDate(this.data);
 
-    if(this.estudante != null && this.estudante.pk() != null){
-      document['estudante'] = {id:this.estudante.pk(), nome: this.estudante.nome};
+    if(this.estudante != null && this.estudante.pk != null){
+      document['estudante'] = {id:this.estudante.pk, nome: this.estudante.nome};
     }
     
 
@@ -57,7 +57,7 @@ export default class RespostaPostagem {
       this.texto == null ||
       this.texto == '' ||
       this.estudante == null ||
-      this.estudante.pk() == undefined
+      this.estudante.pk == undefined
     ) {
       return false;
     }

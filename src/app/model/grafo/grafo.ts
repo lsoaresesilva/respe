@@ -91,9 +91,9 @@ export default class Grafo {
 
           // Computo to dempo
 
-          let t = tempoVisuSelfMonitoramento.get(trackSource.estudante.pk());
+          let t = tempoVisuSelfMonitoramento.get(trackSource.estudante.pk);
           if (t == null) {
-            tempoVisuSelfMonitoramento.set(trackSource.estudante.pk(), 0);
+            tempoVisuSelfMonitoramento.set(trackSource.estudante.pk, 0);
           }
 
           let dateSource = Util.firestoreDateToDate(trackSource.data);
@@ -101,8 +101,8 @@ export default class Grafo {
           if(dateSource.getDate() == dateTarget.getDate()){
             let difTime = (dateTarget.getTime() - dateSource.getTime())/1000;
 
-            let totalNovo = tempoVisuSelfMonitoramento.get(trackSource.estudante.pk());
-            tempoVisuSelfMonitoramento.set(trackSource.estudante.pk(), totalNovo + difTime);
+            let totalNovo = tempoVisuSelfMonitoramento.get(trackSource.estudante.pk);
+            tempoVisuSelfMonitoramento.set(trackSource.estudante.pk, totalNovo + difTime);
           }
 
         }else {
@@ -112,7 +112,7 @@ export default class Grafo {
             let trackTarget = tracks[i+1];
             let visu = tempoVisuMonitoramento.get(trackTarget.estudanteId);
             if (visu == null) {
-              tempoVisuMonitoramento.set(trackTarget.estudante.pk(), 0);
+              tempoVisuMonitoramento.set(trackTarget.estudante.pk, 0);
             }
 
             let dateSource = Util.firestoreDateToDate(trackSource.data);
@@ -120,17 +120,17 @@ export default class Grafo {
             if(dateSource.getDate() == dateTarget.getDate()){
               let difTime = (dateTarget.getTime() - dateSource.getTime())/1000;
 
-              let totalNovo = tempoVisuMonitoramento.get(trackSource.estudante.pk());
-              tempoVisuMonitoramento.set(trackSource.estudante.pk(), totalNovo + difTime);
+              let totalNovo = tempoVisuMonitoramento.get(trackSource.estudante.pk);
+              tempoVisuMonitoramento.set(trackSource.estudante.pk, totalNovo + difTime);
             }
           }
 
           if(source == "self-instruction" && target == "editor"){
             let trackSource = tracks[i];
             let trackTarget = tracks[i+1];
-            let visu = tempoVisuSelfPlanejamento.get(trackSource.estudante.pk());
+            let visu = tempoVisuSelfPlanejamento.get(trackSource.estudante.pk);
             if (visu == null) {
-              tempoVisuSelfPlanejamento.set(trackSource.estudante.pk(), 0);
+              tempoVisuSelfPlanejamento.set(trackSource.estudante.pk, 0);
             }
 
             let dateSource = Util.firestoreDateToDate(trackSource.data);
@@ -138,8 +138,8 @@ export default class Grafo {
             if(dateSource.getDate() == dateTarget.getDate()){
               let difTime = (dateTarget.getTime() - dateSource.getTime())/1000;
 
-              let totalNovo = tempoVisuSelfPlanejamento.get(trackSource.estudante.pk());
-              tempoVisuSelfPlanejamento.set(trackSource.estudante.pk(), totalNovo + difTime);
+              let totalNovo = tempoVisuSelfPlanejamento.get(trackSource.estudante.pk);
+              tempoVisuSelfPlanejamento.set(trackSource.estudante.pk, totalNovo + difTime);
             }
 
           }

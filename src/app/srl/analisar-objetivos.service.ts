@@ -22,7 +22,7 @@ export class AnalisarObjetivosService {
       if (estudante != null && estudante.pk != null) {
         // Recuperar o total de exercícios esperados por semana
         forkJoin([
-          Diario.getByQuery(new Query('estudanteId', '==', estudante.pk())),
+          Diario.getByQuery(new Query('estudanteId', '==', estudante.pk)),
           Submissao.getExerciciosTrabalhadosUltimaSemana(estudante),
         ]).subscribe((resultados) => {
           if(resultados[0] != null){
@@ -47,7 +47,7 @@ export class AnalisarObjetivosService {
     return new Observable((observer) => {
       if (estudante != null && estudante.pk != null) {
         forkJoin([
-          Planejamento.getByQuery(new Query('estudanteId', '==', estudante.pk())),
+          Planejamento.getByQuery(new Query('estudanteId', '==', estudante.pk)),
           TempoOnline.getTempoOnlineUltimaSemana(estudante),
         ]).subscribe((resultados) => {
           const numeroTempoOnlineSemana = resultados[0]['tempoEstudo'];
@@ -66,7 +66,7 @@ export class AnalisarObjetivosService {
     return new Observable((observer) => {
       if (estudante != null && estudante.pk != null) {
         forkJoin([
-          Planejamento.getByQuery(new Query('estudanteId', '==', estudante.pk())),
+          Planejamento.getByQuery(new Query('estudanteId', '==', estudante.pk)),
           Assunto.getAll(),
         ]).subscribe((resultados) => {
           const objetivoDesempenho = resultados[0]['objetivoDesempenho'];

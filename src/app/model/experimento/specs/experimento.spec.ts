@@ -589,7 +589,7 @@ describe('Testes para process mining', () => {
     submissoesEstudantes['submissoes'].forEach((s) => {
       if (!ignorar(s['questaoId'])) {
         let submissao = Submissao.fromJson(s);
-        submissao['estudanteId'] = submissao.estudante.pk();
+        submissao['estudanteId'] = submissao.estudante.pk;
         submissoes.push(submissao);
       }
     });

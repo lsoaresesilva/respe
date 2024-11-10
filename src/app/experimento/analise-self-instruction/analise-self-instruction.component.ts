@@ -21,9 +21,9 @@ export class AnaliseSelfInstructionComponent implements OnChanges {
 
   ngOnChanges(): void {
     this.planejamentos = [];
-    if(this.estudante != null && this.estudante.pk() != null){
+    if(this.estudante != null && this.estudante.pk != null){
       Assunto.getAll(new Query('isAtivo', '==', true)).subscribe((assuntos) => {
-        AutoInstrucao.getAll(new Query('estudanteId', '==', this.estudante.pk())).subscribe(
+        AutoInstrucao.getAll(new Query('estudanteId', '==', this.estudante.pk)).subscribe(
           (instrucoes) => {
             assuntos.forEach((assunto) => {
               assunto.questoesProgramacao.forEach((questao) => {
@@ -79,7 +79,7 @@ export class AnaliseSelfInstructionComponent implements OnChanges {
   }
 
   abrirSubmissao(estudante, assunto, questao){
-    this.router.navigate(['geral/main', { outlets: { principal: ['professor', 'visualizar-submissao-recente', estudante.pk(), assunto.pk(), questao.id, ] } }]);
+    this.router.navigate(['geral/main', { outlets: { principal: ['professor', 'visualizar-submissao-recente', estudante.pk, assunto.pk(), questao.id, ] } }]);
   }
 
 }

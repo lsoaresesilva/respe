@@ -47,14 +47,14 @@ export class PreencherFrequenciaComponent implements OnInit {
           });
         }else{
           if(this.frequencia != null){
-            if(this.frequencia.estudantes.includes(usuario.pk())){
+            if(this.frequencia.estudantes.includes(usuario.pk)){
               this.messageService.add({
                 severity: 'error',
                 summary: 'Frequência já preenchida',
                 detail: 'Você não pode preencher a frequência mais de uma vez.',
               });
             }else{
-              this.frequencia.estudantes.push(usuario.pk());
+              this.frequencia.estudantes.push(usuario.pk);
               this.frequencia.save().subscribe(()=>{
                 this.messageService.add({
                   severity: 'success',

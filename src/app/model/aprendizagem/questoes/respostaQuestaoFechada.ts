@@ -49,7 +49,7 @@ export class RespostaQuestaoFechada extends Document {
   */
   static getAtividadesTrabalhadasUltimaSemana(estudante: Usuario) {
     return new Observable((observer) => {
-      RespostaQuestaoFechada.getAll(new Query('estudanteId', '==', estudante.pk())).subscribe(
+      RespostaQuestaoFechada.getAll(new Query('estudanteId', '==', estudante.pk)).subscribe(
         (submissoes) => {
           // Filtrar apenas da ultima semana
           const semanaAtras = new Date();
@@ -70,7 +70,7 @@ export class RespostaQuestaoFechada extends Document {
 
   objectToDocument() {
     const document = super.objectToDocument();
-    document['estudanteId'] = this.estudante.pk();
+    document['estudanteId'] = this.estudante.pk;
     document['questaoId'] = this.questao.id;
     document['alternativaId'] = this.alternativa.id;
     return document;
@@ -81,7 +81,7 @@ export class RespostaQuestaoFechada extends Document {
   static getRespostaQuestaoEstudante(questao, usuario): Observable<RespostaQuestaoFechada> {
     return new Observable((observer) => {
       RespostaQuestaoFechada.getByQuery([
-        new Query('estudanteId', '==', usuario.pk()),
+        new Query('estudanteId', '==', usuario.pk),
         new Query('questaoId', '==', questao.id),
       ]).subscribe((respostaSalva: RespostaQuestaoFechada) => {
         observer.next(respostaSalva);
@@ -92,7 +92,7 @@ export class RespostaQuestaoFechada extends Document {
 
   getTodasRespostasQuestoesFechadasEstudante(usuario) {
     return new Observable((observer) => {
-      RespostaQuestaoFechada.getAll(new Query('estudanteId', '==', usuario.pk())).subscribe(
+      RespostaQuestaoFechada.getAll(new Query('estudanteId', '==', usuario.pk)).subscribe(
         (respostas) => {
           observer.next(respostas);
           observer.complete();

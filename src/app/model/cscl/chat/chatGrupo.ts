@@ -42,7 +42,7 @@ export default class ChatGrupo extends Document{
         if(Array.isArray(this.estudantesConectados)){
             document["estudantesConectados"] = [];
             this.estudantesConectados.forEach(estudante=>{
-                document["estudantesConectados"].push({id:estudante.pk(), nome:estudante.nome});
+                document["estudantesConectados"].push({id:estudante.pk, nome:estudante.nome});
             });
         }
 
@@ -117,7 +117,7 @@ export default class ChatGrupo extends Document{
               let m = new Message();
 
               m.dateSent = mensagem.data;
-              m.fromId = mensagem.estudante.pk();
+              m.fromId = mensagem.estudante.pk;
               m.message = mensagem.texto;
               m.toId = this.grupo.id;
 
@@ -137,7 +137,7 @@ export default class ChatGrupo extends Document{
 
     isEstudanteConectado(estudante:Usuario){
         return this.estudantesConectados.filter((e) => {
-            if(e.pk() == estudante.pk()){
+            if(e.pk() == estudante.pk){
                 return true;
             }
         }).length > 0?true:false;
@@ -145,7 +145,7 @@ export default class ChatGrupo extends Document{
 
     desconectarEstudante(estudante:Usuario){
         for(let i = 0; i < this.estudantesConectados.length; i++){
-            if(this.estudantesConectados[i].pk() == estudante.pk()){
+            if(this.estudantesConectados[i].pk() == estudante.pk){
                 this.estudantesConectados.splice(i, 1);
                 return true;
             }

@@ -58,8 +58,8 @@ export default class HistoricoEdicoes extends Document {
             objeto["grupoId"] = this.grupo.id;
         }
 
-        if(this.estudante.pk() != null){
-            objeto["estudanteId"] = this.estudante.pk();
+        if(this.estudante.pk != null){
+            objeto["estudanteId"] = this.estudante.pk;
         }
         
     

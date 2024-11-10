@@ -16,7 +16,7 @@ export class PercentualErrorQuotientComponent implements OnInit {
 
   ngOnInit() {
     if (this.estudante != undefined) {
-      Submissao.getAll(new Query('estudanteId', '==', this.estudante.pk()), 'data').subscribe(
+      Submissao.getAll(new Query('estudanteId', '==', this.estudante.pk), 'data').subscribe(
         (submissoes) => {
           /* let errorQuotient = Tutor.calcularErrorQuotient(submissoes);
         if(errorQuotient != null)

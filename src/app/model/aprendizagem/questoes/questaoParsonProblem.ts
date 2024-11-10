@@ -68,7 +68,7 @@ export default class QuestaoParsonProblem extends QuestaoBase {
   static verificarQuestoesRespondidas(estudante, questoes: QuestaoParsonProblem[]) {
     return new Observable((observer) => {
       if (Array.isArray(questoes) && questoes.length > 0) {
-        RespostaQuestaoParson.getAll(new Query('estudanteId', '==', estudante.pk())).subscribe(
+        RespostaQuestaoParson.getAll(new Query('estudanteId', '==', estudante.pk)).subscribe(
           (respostas) => {
             questoes.forEach((questao) => {
               respostas.forEach((resposta) => {

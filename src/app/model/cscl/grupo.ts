@@ -17,7 +17,7 @@ export default class Grupo {
     if (Array.isArray(this.estudantes)) {
       document['estudantes'] = [];
       this.estudantes.forEach((estudante) => {
-        document['estudantes'].push(estudante.pk());
+        document['estudantes'].push(estudante.pk);
       });
     }
 
@@ -32,7 +32,7 @@ export default class Grupo {
     return new Observable<any[]>(observer=>{
       let consultaUsuarios = [];
       this.estudantes.forEach(estudante=>{
-        consultaUsuarios.push(Usuario.get(estudante.pk()));
+        consultaUsuarios.push(Usuario.get(estudante.pk));
       })
 
       forkJoin(consultaUsuarios).subscribe(usuarios=>{

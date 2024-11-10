@@ -77,7 +77,7 @@ export default class Diario extends Document {
 
   objectToDocument() {
     const document = super.objectToDocument();
-    document['estudanteId'] = this.estudante.pk();
+    document['estudanteId'] = this.estudante.pk;
     document['reflexao'] = this.reflexao.objectToDocument();
     return document;
   }

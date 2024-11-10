@@ -11,7 +11,7 @@ export default class PosTeste {
     static apresentar(usuario: Usuario) {
         return new Observable(observer => {
             // Deve pegar a data da resposta da questão do experimento do tipo pré-teste
-            RespostaQuestaoExperimento.getAll(new Query("usuarioId", "==", usuario.pk())).subscribe(respostas => {
+            RespostaQuestaoExperimento.getAll(new Query("usuarioId", "==", usuario.pk)).subscribe(respostas => {
 
                 if (respostas.length != 0) {
                     let respondeu = false;

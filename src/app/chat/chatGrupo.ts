@@ -145,7 +145,7 @@ export default class ChatGrupoAdapter extends ChatAdapter implements IChatGroupA
               let m = new Message();
               m.type = MessageType.Text;
               m.message = mensagem.texto;
-              m.fromId = mensagem.estudante.pk();
+              m.fromId = mensagem.estudante.pk;
               m.toId = _this.grupoAtividade.id;
               m.dateSent = Util.firestoreDateToDate(mensagem.data)
 
@@ -176,7 +176,7 @@ export default class ChatGrupoAdapter extends ChatAdapter implements IChatGroupA
             let consultas = [];
             this.grupoAtividade.estudantes.forEach(estudante=>{
 
-              consultas.push(Usuario.get(estudante.pk()));
+              consultas.push(Usuario.get(estudante.pk));
 
               /* let participante = new Usuario(estudante, null, null, null, null, null);
               estudantesGrupo.push(participante); */

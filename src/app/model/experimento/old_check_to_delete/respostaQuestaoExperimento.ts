@@ -16,7 +16,7 @@ export class RespostaQuestaoExperimento extends Document{
 
     objectToDocument() {
         let document = super.objectToDocument()
-        document["usuarioId"] = this.estudante.pk();
+        document["usuarioId"] = this.estudante.pk;
         document["questaoId"] = this.questao.pk();
         document["alternativaId"] = this.alternativa.id;
         return document;
@@ -27,7 +27,7 @@ export class RespostaQuestaoExperimento extends Document{
         // Carregar todas as respostas
        
         return new Observable(observer=>{
-            RespostaQuestaoExperimento.getAll(new Query("usuarioId", "==", estudante.pk())).subscribe(respostas=>{
+            RespostaQuestaoExperimento.getAll(new Query("usuarioId", "==", estudante.pk)).subscribe(respostas=>{
                 QuestaoExperimento.getAll().subscribe(questoes=>{
                     let respondeuTodas = {}
                     for(let i = 0; i < respostas.length; i++){

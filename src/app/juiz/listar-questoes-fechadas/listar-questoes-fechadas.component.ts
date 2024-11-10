@@ -30,7 +30,7 @@ export class ListarQuestoesFechadasComponent implements OnInit {
   async ngOnInit() {
     const usuario = this.login.getUsuarioLogado();
     RespostaQuestaoFechada.getAll(
-      new Query('usuarioId', '==', usuario.pk())
+      new Query('usuarioId', '==', usuario.pk)
     ).subscribe((respostasAluno) => {
       this.carregarStatusRespostasAluno(respostasAluno);
     });

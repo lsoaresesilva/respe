@@ -24,7 +24,7 @@ export default class Gamification extends Document{
         if ( this.estudante != null || this["estudanteId"] != null){
           const document = super.objectToDocument();
           document["turmaId"] = this.estudante != null ? this.estudante.turma.codigo : this["turmaId"]; // TODO: deve incluir turma como sendo um main document e os estudantes como subdocuments.
-          document["estudanteId"] = this.estudante != null ? this.estudante.pk() : this["estudanteId"];
+          document["estudanteId"] = this.estudante != null ? this.estudante.pk : this["estudanteId"];
           document["questoesResolvidas"] = this.questoesResolvidas;
 
           return document;
@@ -71,7 +71,7 @@ export default class Gamification extends Document{
 
     static aumentarPontuacao(estudante, questao, tipo:TipoPontuacao){
       return new Observable(observer => {
-        this.getByQuery(new Query("estudanteId", "==", estudante.pk())).subscribe((gamification:Gamification)=>{
+        this.getByQuery(new Query("estudanteId", "==", estudante.pk)).subscribe((gamification:Gamification)=>{
           if(gamification != null){
             if( !gamification.isQuestaoPontuada(questao) ){
               gamification.pontuacao += tipo.getPontuacao();
@@ -98,7 +98,7 @@ export default class Gamification extends Document{
     }
 
     static getByEstudante(estudante:Usuario):Observable<Gamification>{
-      return super.getByQuery(new Query("estudanteId", "==", estudante.pk())) as Observable<Gamification>;
+      return super.getByQuery(new Query("estudanteId", "==", estudante.pk)) as Observable<Gamification>;
     }
 
     

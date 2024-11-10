@@ -207,7 +207,7 @@
             <div class="p-grid">
                 <div class="p-col-1">
                     <button pButton label="Avançar" (click)="salvar()" *ngIf="autoInstrucaoColetiva.lider != null"
-                        [disabled]="!(autoInstrucaoColetiva.lider.pk() == estudante.pk())"></button>
+                        [disabled]="!(autoInstrucaoColetiva.lider.pk() == estudante.pk)"></button>
                 </div>
             </div>
         </div>

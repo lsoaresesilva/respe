@@ -13,7 +13,7 @@ export default class DuvidaEstudante extends Document{
 
     objectToDocument(){
         let document = super.objectToDocument();
-        if(this.estudante != null && this.estudante.pk()){
+        if(this.estudante != null && this.estudante.pk){
             document["estudanteId"] = this.estudante;
         }
 

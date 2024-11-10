@@ -14,14 +14,14 @@ export class VisualizacaoRespostasQuestoes extends Document {
 
   static getByEstudante(questao: QuestaoProgramacao, estudante: Usuario) {
     return super.getByQuery([
-      new Query('estudanteId', '==', estudante.pk()),
+      new Query('estudanteId', '==', estudante.pk),
       new Query('questaoId', '==', questao.id),
     ]);
   }
 
   objectToDocument() {
     const document = super.objectToDocument();
-    document['estudanteId'] = this.estudante.pk();
+    document['estudanteId'] = this.estudante.pk;
     document['questaoId'] = this.questao.id;
     return document;
   }

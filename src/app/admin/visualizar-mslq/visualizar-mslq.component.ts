@@ -19,7 +19,7 @@ export class VisualizarMslqComponent implements OnInit {
         this.estudantes = estudantes;
 
         this.estudantes.map(estudante=>{
-          QuestionarioAutorregulacao.getByQuery(new Query("usuarioId", "==", estudante.pk())).subscribe(mslq=>{
+          QuestionarioAutorregulacao.getByQuery(new Query("usuarioId", "==", estudante.pk)).subscribe(mslq=>{
             if(mslq != null){
               mslq.respostaPergunta3 = 6 - mslq.respostaPergunta3;
               mslq.respostaPergunta15 = 6 - mslq.respostaPergunta15;

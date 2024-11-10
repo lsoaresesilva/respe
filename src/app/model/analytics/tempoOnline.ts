@@ -14,7 +14,7 @@ export default class TempoOnline extends Document {
 
   static getTempoOnlineUltimaSemana(estudante: Usuario) {
     return new Observable((observer) => {
-      TempoOnline.getAll(new Query('estudanteId', '==', estudante.pk())).subscribe(
+      TempoOnline.getAll(new Query('estudanteId', '==', estudante.pk)).subscribe(
         (registrosTempo) => {
           // Filtrar apenas da ultima semana
           const semanaAtras = new Date();
@@ -47,7 +47,7 @@ export default class TempoOnline extends Document {
 
   static getTempoOnline(estudante, formato = 'minutos') {
     return new Observable((observer) => {
-      TempoOnline.getAll(new Query('estudanteId', '==', estudante.pk())).subscribe(
+      TempoOnline.getAll(new Query('estudanteId', '==', estudante.pk)).subscribe(
         (registrosTempo) => {
           let totalTempoOnline = 0;
 
@@ -69,7 +69,7 @@ export default class TempoOnline extends Document {
   objectToDocument() {
     const document = super.objectToDocument();
     if (this.estudante != null && this.estudante.pk != null) {
-      document['estudanteId'] = this.estudante.pk();
+      document['estudanteId'] = this.estudante.pk;
     }
 
     return document;

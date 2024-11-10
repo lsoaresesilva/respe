@@ -22,7 +22,7 @@ static gerarSubmissoes(estudantes_permitidos){
     if(estudantes_permitidos.includes(s.estudante)){
       //if(ignorar(s["questaoId"])){
       let submissao = Submissao.fromJson(s);
-      submissao['estudanteId'] = submissao.estudante.pk();
+      submissao['estudanteId'] = submissao.estudante.pk;
       submissoes.push(submissao);
       //}
     }

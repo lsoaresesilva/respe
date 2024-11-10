@@ -60,7 +60,7 @@ export default class QuestaoProgramacaoCorrecao{
 
           let submissaoSelecionada;
           submissoesComProblema.forEach((submissao) => {
-            if (submissao['estudanteId'] != estudante.pk()) {
+            if (submissao['estudanteId'] != estudante.pk) {
               if (submissaoSelecionada == null) {
                 submissaoSelecionada = submissao;
               } else {
@@ -138,7 +138,7 @@ export default class QuestaoProgramacaoCorrecao{
 
   /* static filtrarSubmissoesCorrecao(submissoes:Submissao[], estudante:Usuario){
       return new Observable(observer=>{
-        CorrecaoAlgoritmo.getAll(new Query("estudanteId", "==", estudante.pk())).subscribe(correcoes=>{
+        CorrecaoAlgoritmo.getAll(new Query("estudanteId", "==", estudante.pk)).subscribe(correcoes=>{
             let intersection = submissoes.filter(x => correcoes.some((y, i, arr)=>{
                 return x.pk() == y.pk();
             }));

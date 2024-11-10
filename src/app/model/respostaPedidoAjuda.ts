@@ -8,7 +8,7 @@ export default class RespostaPedidoAjuda{
 
     objectToDocument(){
         return {
-            estudanteId:this.estudante.pk(),
+            estudanteId:this.estudante.pk,
             resposta:this.resposta
         }
     }
