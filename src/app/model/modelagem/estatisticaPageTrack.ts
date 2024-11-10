@@ -87,7 +87,6 @@ export default class EstatisticaPageTrack {
       let usuario = new Usuario(
         estudanteId,
         '',
-        '',
         PerfilUsuario.estudante,
         Groups.experimentalA,
         ''

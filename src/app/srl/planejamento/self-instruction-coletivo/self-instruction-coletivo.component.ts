@@ -270,8 +270,9 @@ export class SelfInstructionColetivoComponent implements OnInit, AfterViewInit {
                 ? true
                 : false;
 
-            this.autoInstrucaoColetiva.justificativas.forEach((justificativa) => {
-              if (justificativa.estudante.pk() == this.login.getUsuarioLogado().pk()) {
+            this.autoInstrucaoColetiva.justificativas.forEach(async (justificativa) => {
+              const usuario = this.login.getUsuarioLogado();
+              if (justificativa.estudante.pk() == usuario.pk()) {
                 this.relatoDificuldade.dificuldade = justificativa.dificuldade;
                 this.relatoDificuldade.texto = justificativa.texto;
                 this.relatoDificuldade.avaliacaoDificuldades = justificativa.avaliacaoDificuldades;

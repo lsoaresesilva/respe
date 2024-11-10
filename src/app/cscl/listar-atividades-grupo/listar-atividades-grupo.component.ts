@@ -19,11 +19,11 @@ export class ListarAtividadesGrupoComponent implements OnInit {
 
   constructor(private login:LoginService) {
     this.atividades = []
-    this.usuario = this.login.getUsuarioLogado();
+    
    }
 
-  ngOnInit(): void {
-
+  async ngOnInit(): Promise<void> {
+    const usuario = this.login.getUsuarioLogado();
     AtividadeGrupo.getAll(new Query("turmaCodigo", "==", this.usuario.turma.codigo)).subscribe(as => {
       this.atividades = as;
       this.gerarLink();

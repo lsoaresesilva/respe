@@ -59,11 +59,11 @@ export class VisualizarTestesComponent implements OnInit, OnChanges {
 
 
   constructor(private login:LoginService) {
-    this.estudante = this.login.getUsuarioLogado();
+    
   }
 
-  ngOnInit() {
-
+  async ngOnInit() {
+    this.estudante = this.login.getUsuarioLogado();
     
   }
 

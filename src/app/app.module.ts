@@ -33,32 +33,33 @@ import { BrowserModule } from '@angular/platform-browser';
 import { TurmaGuard } from './guards/acessoTurma.guard';
 import { MessageService } from 'primeng/api';
 import { CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
-import { AngularFireModule } from '@angular/fire';
-import { AngularFirestoreModule } from '@angular/fire/firestore';
-import { environment } from '../environments/environment';
-import { EscapeHtmlPipe } from './pipes/keep-html.pipe';
 
 import { ToastModule } from 'primeng/toast';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { DocumentModule } from './model/firestore/document.module';
 import {ProgressSpinnerModule} from 'primeng/progressspinner';
+import { HTTP_INTERCEPTORS } from '@angular/common/http';
+import { AuthInterceptorService } from './login-module/auth-interceptor.service';
 
 
 @NgModule({
     schemas: [CUSTOM_ELEMENTS_SCHEMA],
-    declarations: [AppComponent /* , MainComponent */],
-    imports: [
+    declarations: [AppComponent],
+    imports: [  
         BrowserModule,
         BrowserAnimationsModule,
-        AngularFireModule.initializeApp(environment.firebase),
-        AngularFirestoreModule,
         ProgressSpinnerModule,
         LoginModule,
         ToastModule,
         DocumentModule,
-        AppRoutingModule
+        AppRoutingModule  ],
+    providers: [AuthGuard, TurmaGuard, MessageService,
+        {
+            provide: HTTP_INTERCEPTORS,
+            useClass: AuthInterceptorService,
+            multi: true
+          }
     ],
-    providers: [AuthGuard, TurmaGuard, MessageService],
     bootstrap: [AppComponent]
 })
 export class AppModule {}

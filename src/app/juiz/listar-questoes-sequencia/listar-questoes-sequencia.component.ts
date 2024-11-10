@@ -38,7 +38,7 @@ export class ListarQuestoesSequenciaComponent implements OnChanges {
     }
   }
 
-  abrirQuestao(questao) {
+  async abrirQuestao(questao) {
     if (questao instanceof QuestaoFechada) {
       this.router.navigate([
         'geral/main',
@@ -61,7 +61,8 @@ export class ListarQuestoesSequenciaComponent implements OnChanges {
       ]);
     }
     else {
-      if (this.login.getUsuarioLogado().grupoExperimento === Groups.control) {
+      const usuario = this.login.getUsuarioLogado();
+      if (usuario.grupoExperimento === Groups.control) {
         this.router.navigate([
           'geral/main',
           { outlets: { principal: ['juiz', 'editor', this.assunto.pk(), questao.id] } },

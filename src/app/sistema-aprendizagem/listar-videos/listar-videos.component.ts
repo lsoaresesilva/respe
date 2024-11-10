@@ -17,7 +17,7 @@ export class ListarVideosComponent implements OnInit {
 
   constructor(private router:Router, private login:LoginService) { }
 
-  ngOnInit(): void {
+  async ngOnInit(): Promise<void> {
     let usuario = this.login.getUsuarioLogado();
     this.videos$ = VideoProgramacao.listarTodos(usuario);
     

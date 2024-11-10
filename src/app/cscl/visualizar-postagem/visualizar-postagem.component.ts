@@ -41,7 +41,8 @@ export class VisualizarPostagemComponent implements OnInit {
           detail: ' Não é possível visualizar uma postagem sem os seus dados.',
         });
       }else{
-        this.resposta = new RespostaPostagem(null, null, this.login.getUsuarioLogado());
+        
+        this.resposta = new RespostaPostagem(null, null, null);
         this.postagem$ = Postagem.get(params["postagemId"]).pipe(tap(postagem => this.postagem = postagem));
       }
       
@@ -109,13 +110,14 @@ export class VisualizarPostagemComponent implements OnInit {
     }
   }
 
-  responder() {
+  async responder() {
     if (this.resposta.validar()) {
       
 
       if(this.postagem != null){
         this.postagem.respostas.push(this.resposta);
-        this.resposta = new RespostaPostagem(null, null, this.login.getUsuarioLogado())
+        const usuario = this.login.getUsuarioLogado();
+        this.resposta = new RespostaPostagem(null, null, usuario)
         this.postagem.save().subscribe(()=>{
           this.messageCadastro();
         });

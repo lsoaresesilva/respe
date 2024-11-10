@@ -17,9 +17,9 @@ export class RankingComponent implements OnInit {
   constructor(private login:LoginService, private gamification:GamificationFacade) {
   
   }
-  ngOnInit(): void {
-    
-    this.ranking$ = this.gamification.carregarRanking(this.login.getUsuarioLogado().turma);
+  async ngOnInit(): Promise<void> {
+    const usuario = this.login.getUsuarioLogado();
+    this.ranking$ = this.gamification.carregarRanking(usuario.turma);
     
   }
   

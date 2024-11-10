@@ -90,9 +90,10 @@ export class ComentariosCodigoComponent implements OnInit {
     dialogEmExibicao = e;
   }
 
-  salvarComentario(texto){
+  async salvarComentario(texto){
     // TODO: pegar a submissao e estudante
-    let comentario = new ComentarioCodigo(null, this.login.getUsuarioLogado(), this.submissao, texto, this.linhaComentario);
+    const usuario = this.login.getUsuarioLogado();
+    let comentario = new ComentarioCodigo(null, usuario, this.submissao, texto, this.linhaComentario);
     comentario.save().subscribe(resultado=>{
       this.visibilidade = false;
       dialogEmExibicao = false;

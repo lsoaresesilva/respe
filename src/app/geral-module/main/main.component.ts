@@ -32,19 +32,21 @@ export class MainComponent implements OnInit {
   ) {
     this.loading = false;
     this.visibilidadeQuestionario = false;
-    this.usuario = this.login.getUsuarioLogado();
+    
 
-    if (this.usuario.perfil === PerfilUsuario.estudante) {
-      this.gamification.inicializar(this.usuario);
-    }
+    
   }
 
   exportarDados(){
     this.router.navigate(['geral/main', { outlets: { principal: ['admin', 'exportar-dados'] } }]);
   }
 
-  ngOnInit() {
-    //this.apresentarPretestRegulacao();
+  async ngOnInit() {
+    this.usuario = await this.login.getUsuarioLogado();
+    if(this.usuario != null && this.usuario.perfil == PerfilUsuario.estudante){
+      this.gamification.inicializar(this.usuario);
+    }
+
   }
 
   abrirMateriaisEstudo(){
@@ -103,14 +105,14 @@ export class MainComponent implements OnInit {
     this.router.navigate(['geral/main', { outlets: { principal: ['turma', 'listagem-diarios-professor'] } }]);
   }
 
-  apresentarPretestRegulacao() {
-    const usuario = this.login.getUsuarioLogado();
+  async apresentarPretestRegulacao() {
+   
     if (
-      usuario != null &&
-      typeof usuario.pk === 'function' &&
-      usuario.perfil == PerfilUsuario.estudante
+      this.usuario != null &&
+      typeof this.usuario.pk === 'function' &&
+      this.usuario.perfil == PerfilUsuario.estudante
     ) {
-      QuestionarioAutorregulacao.isRespondido(usuario).subscribe(
+      QuestionarioAutorregulacao.isRespondido(this.usuario).subscribe(
         (resultado) => {
           this.visibilidadeQuestionario = !resultado;
           if (resultado) {

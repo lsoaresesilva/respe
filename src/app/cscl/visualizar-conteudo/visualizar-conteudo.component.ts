@@ -66,9 +66,10 @@ export class VisualizarConteudoComponent implements OnInit {
     this.inicializarTexto();
   }
 
-  salvarComentario(comentario) {
+  async salvarComentario(comentario) {
     // TODO: pegar a submissao que vem pela rota
-    let comentarioEstudante = new ComentarioEstudo(null, this.login.getUsuarioLogado(), comentario, textoSelecionado);
+    const usuario = this.login.getUsuarioLogado();
+    let comentarioEstudante = new ComentarioEstudo(null, usuario, comentario, textoSelecionado);
     comentarioEstudante.save().subscribe(resultado => {
       this.visibilidadeDialogComentario = false;
       this.inicializarTexto();

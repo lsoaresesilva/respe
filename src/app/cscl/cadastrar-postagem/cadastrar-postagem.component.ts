@@ -26,12 +26,13 @@ export class CadastrarPostagemComponent implements OnInit {
   }
 
   ngOnInit() {
-    this.route.params.subscribe((params) => {
+    this.route.params.subscribe(async (params) => {
       if(params['codigoTurma'] != null){
         this.turma = new Turma(null, null, null, null);
         this.turma.codigo = params['codigoTurma'];
         this.postagemId = params['postagemId'];
-        this.postagem = new Postagem(null, null, null, this.login.getUsuarioLogado(), this.turma);
+        const usuario = this.login.getUsuarioLogado();
+        this.postagem = new Postagem(null, null, null, usuario, this.turma);
         if (this.postagemId != undefined) {
           this.isAlterar = true;
           Postagem.get(this.postagemId).subscribe((resultado) => {

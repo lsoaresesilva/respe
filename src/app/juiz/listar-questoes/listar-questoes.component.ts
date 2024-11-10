@@ -70,8 +70,9 @@ export class ListarQuestoesComponent implements OnInit, OnChanges, AfterViewInit
     this.questoes = questoes;
   }
 
-  visualizar(questao) {
-    if (this.login.getUsuarioLogado().grupoExperimento == Groups.control) {
+  async visualizar(questao) {
+    const usuario = this.login.getUsuarioLogado();
+    if (usuario.grupoExperimento == Groups.control) {
       this.router.navigate([
         'geral/main',
         { outlets: { principal: ['editor', this.assunto.pk(), questao.id] } },

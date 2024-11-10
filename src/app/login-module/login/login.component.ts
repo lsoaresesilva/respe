@@ -32,41 +32,40 @@ export class LoginComponent implements OnInit {
       },
     ];
 
-    this.usuario = new Usuario(null, "", "", 0, null, null);
+    this.usuario = new Usuario(null, "", null, null, null);
   }
 
   ngOnInit() {
     
   }
 
-  acessar() {
+  async acessar() {
     if (!this.usuario.validarLogin()) {
       this.messageService.add({
         key: 'loginToast',
         severity: 'error',
-        summary: 'Houve um erro:',
-        detail: 'Você não preencheu o usuário ou senha.',
+        summary: 'Atenção',
+        detail: 'É preciso preencher usuário e senha.',
       });
     } else {
       this.loading = true;
-      this.login.logar(this.usuario).subscribe((resultado) => {
-        // Iniciar timer
-
-        this.redirecionar(resultado);
-      },
-      (err) => {
+      try{
+        await this.login.logar(this.usuario);
+        this.redirecionar();
+      }catch(err) {
+        err = typeof err === 'function' ? err() : err;
         this.messageService.add({
           severity: 'error',
           summary: 'Houve um erro',
-          detail: 'Não foi possível realizar o login: '+ err.toString(),
+          detail: 'Não foi possível realizar o login: '+ err.message,
         });
         this.loading = false;
-      });
+      }
     }
   }
 
-  redirecionar(resultado) {
-    if (resultado) {
+  async redirecionar() {
+    
       const usuario = this.login.getUsuarioLogado();
       if (usuario.perfil == PerfilUsuario.estudante) {
         if (usuario.grupoExperimento == Groups.control) {
@@ -79,51 +78,12 @@ export class LoginComponent implements OnInit {
       } else if (usuario.perfil == PerfilUsuario.admin) {
         this.router.navigate(['geral/main', { outlets: { principal: ['admin', 'listar-assuntos-admin'] } }]);
       }
-    }
+    
   }
 
   cadastrar() {
     this.router.navigate(['cadastro-estudante']);
   }
 
-  signInWithGoogle() {
-    /* this.login.signInWithGoogle()
-      .then((res) => {
-        if (res != undefined) {
-          Usuario.logar(new Query('email', "==", res.user.email)).subscribe(usuarioLogado => {
-            if (usuarioLogado != undefined) {
-              this.login.criarSessao(usuarioLogado);
-
-              this.router.navigate(["main", { outlets: { principal: ['home'] } }]);
-            } else {
-              this.router.navigate(["cadastro-estudante", res.user.email, res.user.displayName])
-            }
-          }), err => {
-            alert("erro ao tentar realizar login:" + err.string())
-          }
-
-        }
-      })
-      .catch((err) => console.log(err)); */
-  }
-
-  signInWithFacebook() {
-    /* this.login.signInWithFacebook()
-      .then((res) => {
-        if (res != undefined) {
-          Usuario.logar(new Query('email', "==", res.user.email)).subscribe(usuarioLogado => {
-            if (usuarioLogado != undefined) {
-              this.login.criarSessao(usuarioLogado);
-              this.router.navigate(["main", { outlets: { principal: ['home'] } }]);
-            } else {
-              this.router.navigate(["cadastro-estudante", res.user.email, res.user.displayName])
-            }
-          }), err => {
-            alert("erro ao tentar realizar login:" + err.string())
-          }
-
-        }
-      })
-      .catch((err) => console.log(err)); */
-  }
+  
 }

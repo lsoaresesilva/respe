@@ -33,7 +33,7 @@ export class VisualizarAssuntoAdminComponent implements OnInit {
     this.questoes$ = [];
   }
 
-  ngOnInit(): void {
+  async ngOnInit(): Promise<void> {
     this.route.params.subscribe((params) => {
       if (params['id'] != null) {
         Assunto.get(params['id']).subscribe((assunto: Assunto) => {

@@ -18,6 +18,7 @@ import { DropdownModule } from 'primeng/dropdown';
 import { ProgressSpinnerModule } from 'primeng/progressspinner';
 import {BlockUIModule} from 'primeng/blockui';
 import {PanelModule} from 'primeng/panel';
+import { HttpClientModule } from '@angular/common/http';
 
 @NgModule({
   declarations: [LoginComponent, CadastrarEstudantesComponent, PreencherFrequenciaComponent],
@@ -32,11 +33,12 @@ import {PanelModule} from 'primeng/panel';
     InputTextModule,
     CardModule,
     ToastModule,
+    HttpClientModule,
     DialogModule,
     DropdownModule,
     /* SrlModule, */
     MenubarModule,
   ],
-  providers: [MessageService],
+  providers: [],
 })
 export class LoginModule {}

@@ -1,0 +1,226 @@
+[1m[31m****************************************************************************************[39m[22m
+[1m[31mThis is a simple server for use in testing or debugging Angular applications locally.[39m[22m
+[1m[31mIt hasn't been reviewed for security issues.[39m[22m
+[1m[31m[39m[22m
+[1m[31mDON'T USE IT FOR PRODUCTION![39m[22m
+[1m[31m****************************************************************************************[39m[22m
+- Generating browser application bundles...
+[1m[31m(node:43280) [DEP0111] DeprecationWarning: Access to process.binding('http_parser') is deprecated.[39m[22m
+[1m[31m(Use `node --trace-deprecation ...` to show where the warning was created)[39m[22m
+[32m✔[39m Browser application bundle generation complete.
+[1m[33m[39m[22m
+[1m[33m[0m[93mWarning: Circular dependency detected:[39m[33m[0m[39m[22m
+[1m[33m[0m[93msrc/app/model/aprendizagem/questoes/assunto.ts -> src/app/model/cscl/questaoColaborativa.ts -> src/app/model/aprendizagem/questoes/questaoProgramacao.ts -> src/app/model/submissao.ts -> src/app/model/usuario.ts -> src/app/model/turma.ts -> src/app/model/cscl/atividadeGrupo.ts -> src/app/model/aprendizagem/questoes/assunto.ts[39m[33m[0m[39m[22m
+[1m[33m[0m[93m[39m[33m[0m[39m[22m
+[1m[33m[0m[93m[39m[33m[0m[0m[93mWarning: Circular dependency detected:[39m[33m[0m[39m[22m
+[1m[33m[0m[93msrc/app/model/aprendizagem/questoes/conceito.ts -> src/app/model/aprendizagem/questoes/assunto.ts -> src/app/model/cscl/questaoColaborativa.ts -> src/app/model/aprendizagem/questoes/questaoProgramacao.ts -> src/app/model/aprendizagem/questoes/questaoBase.ts -> src/app/model/aprendizagem/questoes/conceito.ts[39m[33m[0m[39m[22m
+[1m[33m[0m[93m[39m[33m[0m[39m[22m
+[1m[33m[0m[93m[39m[33m[0m[0m[93mWarning: Circular dependency detected:[39m[33m[0m[39m[22m
+[1m[33m[0m[93msrc/app/model/aprendizagem/questoes/questaoBase.ts -> src/app/model/aprendizagem/questoes/conceito.ts -> src/app/model/aprendizagem/questoes/assunto.ts -> src/app/model/cscl/questaoColaborativa.ts -> src/app/model/aprendizagem/questoes/questaoProgramacao.ts -> src/app/model/aprendizagem/questoes/questaoBase.ts[39m[33m[0m[39m[22m
+[1m[33m[0m[93m[39m[33m[0m[39m[22m
+[1m[33m[0m[93m[39m[33m[0m[0m[93mWarning: Circular dependency detected:[39m[33m[0m[39m[22m
+[1m[33m[0m[93msrc/app/model/aprendizagem/questoes/questaoFechada.ts -> src/app/model/aprendizagem/questoes/assunto.ts -> src/app/model/aprendizagem/questoes/questaoFechada.ts[39m[33m[0m[39m[22m
+[1m[33m[0m[93m[39m[33m[0m[39m[22m
+[1m[33m[0m[93m[39m[33m[0m[0m[93mWarning: Circular dependency detected:[39m[33m[0m[39m[22m
+[1m[33m[0m[93msrc/app/model/aprendizagem/questoes/questaoParsonProblem.ts -> src/app/model/aprendizagem/questoes/conceito.ts -> src/app/model/aprendizagem/questoes/assunto.ts -> src/app/model/aprendizagem/questoes/questaoParsonProblem.ts[39m[33m[0m[39m[22m
+[1m[33m[0m[93m[39m[33m[0m[39m[22m
+[1m[33m[0m[93m[39m[33m[0m[0m[93mWarning: Circular dependency detected:[39m[33m[0m[39m[22m
+[1m[33m[0m[93msrc/app/model/aprendizagem/questoe[39m[22m[1m[33ms/questaoProgramacao.ts -> src/app/model/submissao.ts -> src/app/model/usuario.ts -> src/app/model/turma.ts -> src/app/model/cscl/atividadeGrupo.ts -> src/app/model/aprendizagem/questoes/assunto.ts -> src/app/model/cscl/questaoColaborativa.ts -> src/app/model/aprendizagem/questoes/questaoProgramacao.ts[39m[33m[0m[39m[22m
+[1m[33m[0m[93m[39m[33m[0m[39m[22m
+[1m[33m[0m[93m[39m[33m[0m[0m[93mWarning: Circular dependency detected:[39m[33m[0m[39m[22m
+[1m[33m[0m[93msrc/app/model/aprendizagem/questoes/questaoProgramacaoCorrecao.ts -> src/app/model/correcao-algoritmo/correcaoAlgoritmo.ts -> src/app/model/submissao.ts -> src/app/model/usuario.ts -> src/app/model/turma.ts -> src/app/model/cscl/atividadeGrupo.ts -> src/app/model/aprendizagem/questoes/assunto.ts -> src/app/model/aprendizagem/questoes/questaoProgramacaoCorrecao.ts[39m[33m[0m[39m[22m
+[1m[33m[0m[93m[39m[33m[0m[39m[22m
+[1m[33m[0m[93m[39m[33m[0m[0m[93mWarning: Circular dependency detected:[39m[33m[0m[39m[22m
+[1m[33m[0m[93msrc/app/model/aprendizagem/questoes/questaoProgramacaoRegex.ts -> src/app/model/aprendizagem/questoes/conceito.ts -> src/app/model/aprendizagem/questoes/assunto.ts -> src/app/model/aprendizagem/questoes/questaoProgramacaoRegex.ts[39m[33m[0m[39m[22m
+[1m[33m[0m[93m[39m[33m[0m[39m[22m
+[1m[33m[0m[93m[39m[33m[0m[0m[93mWarning: Circular dependency detected:[39m[33m[0m[39m[22m
+[1m[33m[0m[93msrc/app/model/aprendizagem/questoes/respostaQuestaoFechada.ts -> src/app/model/aprendizagem/questoes/questaoFechada.ts -> src/app/model/aprendizagem/questoes/assunto.ts -> src/app/model/aprendizagem/questoes/respostaQuestaoFechada.ts[39m[33m[0m[39m[22m
+[1m[33m[0m[93m[39m[33m[0m[39m[22m
+[1m[33m[0m[93m[39m[33m[0m[0m[93mWarning: Circular dependency detected:[39m[33m[0m[39m[22m
+[1m[33m[0m[93msrc/app/model/correcao-algoritmo/correcaoAlgoritmo.ts -> src/app/model/submissao.ts -> src/app/model/usuario.ts -> src/app/model/turma.ts -> src/app/model/cscl/atividadeGrupo.ts -> src/app/model/aprendizagem/questoes/assunto.ts -> src/app/model/aprendizagem/questoes/questaoProgramacaoCorrecao.ts -> src/app/model/correcao-algoritmo/correcaoAlgoritmo.ts[39m[33m[0m[39m[22m
+[1m[33m[0m[93m[39m[33m[0m[39m[22m
+[1m[33m[0m[93m[39m[33m[0m[0m[93mWarni[39m[22m[1m[33mng: Circular dependency detected:[39m[33m[0m[39m[22m
+[1m[33m[0m[93msrc/app/model/cscl/atividadeGrupo.ts -> src/app/model/aprendizagem/questoes/assunto.ts -> src/app/model/cscl/questaoColaborativa.ts -> src/app/model/aprendizagem/questoes/questaoProgramacao.ts -> src/app/model/submissao.ts -> src/app/model/usuario.ts -> src/app/model/turma.ts -> src/app/model/cscl/atividadeGrupo.ts[39m[33m[0m[39m[22m
+[1m[33m[0m[93m[39m[33m[0m[39m[22m
+[1m[33m[0m[93m[39m[33m[0m[0m[93mWarning: Circular dependency detected:[39m[33m[0m[39m[22m
+[1m[33m[0m[93msrc/app/model/cscl/chat/chatGrupo.ts -> src/app/model/usuario.ts -> src/app/model/turma.ts -> src/app/model/cscl/atividadeGrupo.ts -> src/app/model/cscl/chat/chatGrupo.ts[39m[33m[0m[39m[22m
+[1m[33m[0m[93m[39m[33m[0m[39m[22m
+[1m[33m[0m[93m[39m[33m[0m[0m[93mWarning: Circular dependency detected:[39m[33m[0m[39m[22m
+[1m[33m[0m[93msrc/app/model/cscl/grupo.ts -> src/app/model/usuario.ts -> src/app/model/turma.ts -> src/app/model/cscl/atividadeGrupo.ts -> src/app/model/cscl/grupo.ts[39m[33m[0m[39m[22m
+[1m[33m[0m[93m[39m[33m[0m[39m[22m
+[1m[33m[0m[93m[39m[33m[0m[0m[93mWarning: Circular dependency detected:[39m[33m[0m[39m[22m
+[1m[33m[0m[93msrc/app/model/cscl/questaoColaborativa.ts -> src/app/model/aprendizagem/questoes/questaoProgramacao.ts -> src/app/model/submissao.ts -> src/app/model/usuario.ts -> src/app/model/turma.ts -> src/app/model/cscl/atividadeGrupo.ts -> src/app/model/aprendizagem/questoes/assunto.ts -> src/app/model/cscl/questaoColaborativa.ts[39m[33m[0m[39m[22m
+[1m[33m[0m[93m[39m[33m[0m[39m[22m
+[1m[33m[0m[93m[39m[33m[0m[0m[93mWarning: Circular dependency detected:[39m[33m[0m[39m[22m
+[1m[33m[0m[93msrc/app/model/errors/analise-pre-compilacao/erroSintaxeFuncao.ts -> src/app/model/errors/analise-pre-compilacao/erroSintaxeVariavel.ts -> src/app/model/errors/analise-pre-compilacao/erroSintaxeFuncao.ts[39m[33m[0m[39m[22m
+[1m[33m[0m[93m[39m[33m[0m[39m[22m
+[1m[33m[0m[93m[39m[33m[0m[0m[93mWarning: Circular dependency detected:[39m[33m[0m[39m[22m
+[1m[33m[0m[93msrc/app/model/errors/analise-pre-compilacao/erroSintaxeVariavel.ts -> src/app/model/errors/analise-pre-compilacao/erroSintaxeFuncao.ts -> src/app/model/errors/analise-pre-compilacao/erroSintaxeVariavel.ts[39m[33m[0m[39m[22m
+[1m[33m[[39m[22m[1m[33m0m[93m[39m[33m[0m[39m[22m
+[1m[33m[0m[93m[39m[33m[0m[0m[93mWarning: Circular dependency detected:[39m[33m[0m[39m[22m
+[1m[33m[0m[93msrc/app/model/errors/enum/categoriasErro.ts -> src/app/model/errors/enum/labelCategoriasErro.ts -> src/app/model/errors/enum/categoriasErro.ts[39m[33m[0m[39m[22m
+[1m[33m[0m[93m[39m[33m[0m[39m[22m
+[1m[33m[0m[93m[39m[33m[0m[0m[93mWarning: Circular dependency detected:[39m[33m[0m[39m[22m
+[1m[33m[0m[93msrc/app/model/errors/enum/labelCategoriasErro.ts -> src/app/model/errors/enum/categoriasErro.ts -> src/app/model/errors/enum/labelCategoriasErro.ts[39m[33m[0m[39m[22m
+[1m[33m[0m[93m[39m[33m[0m[39m[22m
+[1m[33m[0m[93m[39m[33m[0m[0m[93mWarning: Circular dependency detected:[39m[33m[0m[39m[22m
+[1m[33m[0m[93msrc/app/model/srl/autoInstrucaoColetivo.ts -> src/app/model/usuario.ts -> src/app/model/turma.ts -> src/app/model/cscl/atividadeGrupo.ts -> src/app/model/srl/autoInstrucaoColetivo.ts[39m[33m[0m[39m[22m
+[1m[33m[0m[93m[39m[33m[0m[39m[22m
+[1m[33m[0m[93m[39m[33m[0m[0m[93mWarning: Circular dependency detected:[39m[33m[0m[39m[22m
+[1m[33m[0m[93msrc/app/model/srl/justificativaInstrucaoColetiva.ts -> src/app/model/usuario.ts -> src/app/model/turma.ts -> src/app/model/cscl/atividadeGrupo.ts -> src/app/model/srl/autoInstrucaoColetivo.ts -> src/app/model/srl/justificativaInstrucaoColetiva.ts[39m[33m[0m[39m[22m
+[1m[33m[0m[93m[39m[33m[0m[39m[22m
+[1m[33m[0m[93m[39m[33m[0m[0m[93mWarning: Circular dependency detected:[39m[33m[0m[39m[22m
+[1m[33m[0m[93msrc/app/model/submissao.ts -> src/app/model/usuario.ts -> src/app/model/turma.ts -> src/app/model/cscl/atividadeGrupo.ts -> src/app/model/aprendizagem/questoes/assunto.ts -> src/app/model/cscl/questaoColaborativa.ts -> src/app/model/aprendizagem/questoes/questaoProgramacao.ts -> src/app/model/submissao.ts[39m[33m[0m[39m[22m
+[1m[33m[0m[93m[39m[33m[0m[39m[22m
+[1m[33m[0m[93m[39m[33m[0m[0m[93mWarning: Circular dependency detected:[39m[33m[0m[39m[22m
+[1m[33m[0m[93msrc/app/model/turma.ts -> src/app/model/usuario.ts -> src/app/model/turma.ts[39m[33m[0m[39m[22m
+[1m[33m[0m[93m[39m[33m[0m[39m[22m
+[1m[33m[0m[93m[39m[33m[0m[0m[93mWarning: Circular dependency detected:[39m[33m[0m[39m[22m
+[1m[33m[0m[93msrc/app/model/usuario.ts -> src/app/model/turma.ts -> src/app/model/usuario.ts[39m[33m[0m[39m[22m
+[1m[33m[0m[93m[39m[33m[0m[39m[22m
+[1m[33m[0m[93[39m[22m[1m[33mm[39m[33m[0m[0m[93mWarning: /home/leonardosoaresesilva/Documents/projetos/respe/src/app/srl/rastrear-tempo-online.service.ts depends on 'timeme.js'. CommonJS or AMD dependencies can cause optimization bailouts.[39m[33m[0m[39m[22m
+[1m[33m[0m[93mFor more info see: https://angular.io/guide/build#configuring-commonjs-dependencies[39m[33m[0m[39m[22m
+[1m[33m[0m[93m[39m[33m[0m[39m[22m
+[1m[33m[0m[93m[39m[33m[0m[0m[93mWarning: /home/leonardosoaresesilva/Documents/projetos/respe/src/app/model/usuario.ts depends on 'js-sha256'. CommonJS or AMD dependencies can cause optimization bailouts.[39m[33m[0m[39m[22m
+[1m[33m[0m[93mFor more info see: https://angular.io/guide/build#configuring-commonjs-dependencies[39m[33m[0m[39m[22m
+[1m[33m[0m[93m[39m[33m[0m[39m[22m
+[1m[33m[0m[93m[39m[33m[0m[0m[93mWarning: /home/leonardosoaresesilva/Documents/projetos/respe/src/app/model/errors/analise-compilacao/erroCompilacao.ts depends on 'firebase'. CommonJS or AMD dependencies can cause optimization bailouts.[39m[33m[0m[39m[22m
+[1m[33m[0m[93mFor more info see: https://angular.io/guide/build#configuring-commonjs-dependencies[39m[33m[0m[39m[22m
+[1m[33m[0m[93m[39m[33m[0m[39m[22m
+[1m[33m[0m[93m[39m[33m[0m[0m[93mWarning: /home/leonardosoaresesilva/Documents/projetos/respe/node_modules/primeng/__ivy_ngcc__/fesm2015/primeng-chart.js depends on 'chart.js'. CommonJS or AMD dependencies can cause optimization bailouts.[39m[33m[0m[39m[22m
+[1m[33m[0m[93mFor more info see: https://angular.io/guide/build#configuring-commonjs-dependencies[39m[33m[0m[39m[22m
+[1m[33m[0m[93m[39m[33m[0m[39m[22m
+[1m[33m[0m[93m[39m[33m[0m[0m[93mWarning: /home/leonardosoaresesilva/Documents/projetos/respe/src/app/cscl/cscl.module.ts depends on '@ctrl/ngx-codemirror'. CommonJS or AMD dependencies can cause optimization bailouts.[39m[33m[0m[39m[22m
+[1m[33m[0m[93mFor more info see: https://angular.io/guide/build#configuring-commonjs-dependencies[39m[33m[0m[39m[22m
+[1m[33m[0m[93m[39m[33m[0m[39m[22m
+[1m[33m[0m[93m[39m[33m[0m[39m[22m
+[1m[31m[39m[22m
+[1m[31m[0m[91mError: [96msrc/app/admin/cadastrar-questao-regex/cadastrar-questao-regex.component.html[0m[0m:[93m1[0m[0m:[93m38[0m[0m - [91merror[0m[0m[90m TS2322: [0m[0mType 'string' is not assignable to type 'QuestaoProgramacaoRegex'.[39m[31m[0m[39m[22m
+[1m[31m[0m[91m[39m[31m[0m[39m[22m
+[1m[31m[0m[91m[7m1[0m[0m <app-dados-questao-base [(questao)]="questao" [assunto]="assunto"></app-dados-questao-base>[39m[31m[0m[39m[22m
+[1m[31m[0m[91m[7m [0m[0m [91m                                     ~~~~~~~~~~~~~~[0m[0m[39m[31m[0m[39m[22m
+[1m[31m[0m[91m[39m[31m[0m[39m[22m
+[1m[31m[0m[91m  [96msrc/app/admin/cadastrar-questao-regex/cadastrar-questao-regex.component.ts[0m[0m:[93m9[0m[0m:[93m16[0m[0m[39m[31m[0m[39m[22m
+[1m[31m[0m[91m    [7m9[0m[0m   templateUrl: './cadastrar-questao-regex.component.html',[39m[31m[0m[39m[22m
+[1m[31m[0m[91m    [7m [0m[0m [96m               ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~[0m[0m[39m[31m[0m[39m[22m
+[1m[31m[0m[91m    Error occurs in the template of component CadastrarQuestaoRegexComponent.[39m[31m[0m[39m[22m
+[1m[31m[0m[91m[39m[31m[0m[39m[22m
+[1m[31m[0m[91m[39m[31m[0m[39m[22m
+[1m[31m[0m[91m[39m[31m[0m[0m[91mError: [96msrc/app/admin/cadastrar-questoes/cadastrar-questoes.component.html[0m[0m:[93m1[0m[0m:[93m38[0m[0m - [91merror[0m[0m[90m TS2322: [0m[0mType 'string' is not assignable to type 'QuestaoProgramacao'.[39m[31m[0m[39m[22m
+[1m[31m[0m[91m[39m[31m[0m[39m[22m
+[1m[31m[0m[91m[7m1[0m[0m <app-dados-questao-base [(questao)]="questao" [assunto]="assunto"></app-dados-questao-base>[39m[31m[0m[39m[22m
+[1m[31m[0m[91m[7m [0m[0m [91m                                     ~~~~~~~~~~~~~~[0m[0m[39m[31m[0m[39m[22m
+[1m[31m[0m[91m[39m[31m[0m[39m[22m
+[1m[31m[0m[91m  [96msrc/app/admin/cadastrar-questoes/cadastrar-questoes.component.ts[0m[0m:[93m14[0m[0m:[93m16[0m[0m[39m[31m[0m[39m[22m
+[1m[31m[0m[91m    [7m14[0m[0m   templateUrl: './cadastrar-questoes.component.html',[39m[31m[0m[39m[22m
+[1m[31m[0m[91m    [7m  [0m[0m [96m               ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~[0m[0m[39m[31m[0m[39m[22m
+[1m[31m[0m[91m    Error occurs in the template of component CadastrarQuestoesComponent.[39m[31m[0m[39m[22m
+[1m[31m[0m[91m[39m[31m[0m[39m[22m
+[1m[31m[0m[91m[39m[31m[0m[39m[22m
+[1m[31m[0m[91m[39m[31m[0m[0m[91mError: [96m[39m[22m[1m[31msrc/app/analytics-module/analise-desempenho-estudante/analise-desempenho-estudante.component.html[0m[0m:[93m1[0m[0m:[93m1[0m[0m - [91merror[0m[0m[90m NG8001: [0m[0m'p-card' is not a known element:[39m[31m[0m[39m[22m
+[1m[31m[0m[91m1. If 'p-card' is an Angular component, then verify that it is part of this module.[39m[31m[0m[39m[22m
+[1m[31m[0m[91m2. If 'p-card' is a Web Component then add 'CUSTOM_ELEMENTS_SCHEMA' to the '@NgModule.schemas' of this component to suppress this message.[39m[31m[0m[39m[22m
+[1m[31m[0m[91m[39m[31m[0m[39m[22m
+[1m[31m[0m[91m[7m1[0m[0m <p-card>[39m[31m[0m[39m[22m
+[1m[31m[0m[91m[7m [0m[0m [91m~~~~~~~~[0m[0m[39m[31m[0m[39m[22m
+[1m[31m[0m[91m[39m[31m[0m[39m[22m
+[1m[31m[0m[91m  [96msrc/app/analytics-module/analise-desempenho-estudante/analise-desempenho-estudante.component.ts[0m[0m:[93m7[0m[0m:[93m16[0m[0m[39m[31m[0m[39m[22m
+[1m[31m[0m[91m    [7m7[0m[0m   templateUrl: './analise-desempenho-estudante.component.html',[39m[31m[0m[39m[22m
+[1m[31m[0m[91m    [7m [0m[0m [96m               ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~[0m[0m[39m[31m[0m[39m[22m
+[1m[31m[0m[91m    Error occurs in the template of component AnaliseDesempenhoEstudanteComponent.[39m[31m[0m[39m[22m
+[1m[31m[0m[91m[39m[31m[0m[39m[22m
+[1m[31m[0m[91m[39m[31m[0m[39m[22m
+[1m[31m[0m[91m[39m[31m[0m[0m[91mError: [96msrc/app/analytics-module/card-risco-estudante/card-risco-estudante.component.html[0m[0m:[93m2[0m[0m:[93m36[0m[0m - [91merror[0m[0m[90m NG8002: [0m[0mCan't bind to 'percentual' since it isn't a known property of 'app-percentual-error-quotient'.[39m[31m[0m[39m[22m
+[1m[31m[0m[91m1. If 'app-percentual-error-quotient' is an Angular component and it has 'percentual' input, then verify that it is part of this module.[39m[31m[0m[39m[22m
+[1m[31m[0m[91m2. If 'app-percentual-error-quotient' is a Web Component then add 'CUSTOM_ELEMENTS_SCHEMA' to the '@NgModule.schemas' of this component to suppress this message.[39m[31m[0m[39m[22m
+[1m[31m[0m[91m3. To allow any property add 'NO_ERRORS_SCHEMA' to the '@NgModule.schemas' of this component.[39m[31m[0m[39m[22m
+[1m[31m[0m[91m[39m[31m[0m[39m[22m
+[1m[31m[0m[91m[7m2[0m[0m     <app-percentual-error-quotient [percentual]="percentualErrorQuotient"></app-pe[39m[22m[1m[31mrcentual-error-quotient>[39m[31m[0m[39m[22m
+[1m[31m[0m[91m[7m [0m[0m [91m                                   ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~[0m[0m[39m[31m[0m[39m[22m
+[1m[31m[0m[91m[39m[31m[0m[39m[22m
+[1m[31m[0m[91m  [96msrc/app/analytics-module/card-risco-estudante/card-risco-estudante.component.ts[0m[0m:[93m6[0m[0m:[93m16[0m[0m[39m[31m[0m[39m[22m
+[1m[31m[0m[91m    [7m6[0m[0m   templateUrl: './card-risco-estudante.component.html',[39m[31m[0m[39m[22m
+[1m[31m[0m[91m    [7m [0m[0m [96m               ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~[0m[0m[39m[31m[0m[39m[22m
+[1m[31m[0m[91m    Error occurs in the template of component RiscoEstudanteComponent.[39m[31m[0m[39m[22m
+[1m[31m[0m[91m[39m[31m[0m[39m[22m
+[1m[31m[0m[91m[39m[31m[0m[39m[22m
+[1m[31m[0m[91m[39m[31m[0m[0m[91mError: [96msrc/app/analytics-module/card-risco-estudante/card-risco-estudante.component.html[0m[0m:[93m2[0m[0m:[93m5[0m[0m - [91merror[0m[0m[90m NG8001: [0m[0m'app-percentual-error-quotient' is not a known element:[39m[31m[0m[39m[22m
+[1m[31m[0m[91m1. If 'app-percentual-error-quotient' is an Angular component, then verify that it is part of this module.[39m[31m[0m[39m[22m
+[1m[31m[0m[91m2. If 'app-percentual-error-quotient' is a Web Component then add 'CUSTOM_ELEMENTS_SCHEMA' to the '@NgModule.schemas' of this component to suppress this message.[39m[31m[0m[39m[22m
+[1m[31m[0m[91m[39m[31m[0m[39m[22m
+[1m[31m[0m[91m[7m2[0m[0m     <app-percentual-error-quotient [percentual]="percentualErrorQuotient"></app-percentual-error-quotient>[39m[31m[0m[39m[22m
+[1m[31m[0m[91m[7m [0m[0m [91m    ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~[0m[0m[39m[31m[0m[39m[22m
+[1m[31m[0m[91m[39m[31m[0m[39m[22m
+[1m[31m[0m[91m  [96msrc/app/analytics-module/card-risco-estudante/card-risco-estudante.component.ts[0m[0m:[93m6[0m[0m:[93m16[0m[0m[39m[31m[0m[39m[22m
+[1m[31m[0m[91m    [7m6[0m[0m   templateUrl: './card-risco-estudante.component.html',[39m[31m[0m[39m[22m
+[1m[31m[0m[91m    [7m [0m[0m [96m               ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~[0m[0m[39m[31m[0m[39m[22m
+[1m[31m[0m[91m    Error occurs in the template of component RiscoEstudanteComponent.[39m[31m[0m[39m[22m
+[1m[31m[0m[91m[39m[31m[0m[39m[22m
+[1m[31m[0m[91m[39m[31m[0m[39m[22m
+[1m[31m[0m[91m[39m[31m[0m[0m[91[39m[22m[1m[31mmError: [96msrc/app/juiz/visualizar-questao-fechada/visualizar-questao-fechada.component.html[0m[0m:[93m12[0m[0m:[93m44[0m[0m - [91merror[0m[0m[90m TS2339: [0m[0mProperty 'sequencia' does not exist on type 'QuestaoFechada'.[39m[31m[0m[39m[22m
+[1m[31m[0m[91m[39m[31m[0m[39m[22m
+[1m[31m[0m[91m[7m12[0m[0m   <p-fieldset legend="Questão: {{ questao?.sequencia }}">[39m[31m[0m[39m[22m
+[1m[31m[0m[91m[7m  [0m[0m [91m                                           ~~~~~~~~~[0m[0m[39m[31m[0m[39m[22m
+[1m[31m[0m[91m[39m[31m[0m[39m[22m
+[1m[31m[0m[91m  [96msrc/app/juiz/visualizar-questao-fechada/visualizar-questao-fechada.component.ts[0m[0m:[93m18[0m[0m:[93m16[0m[0m[39m[31m[0m[39m[22m
+[1m[31m[0m[91m    [7m18[0m[0m   templateUrl: './visualizar-questao-fechada.component.html',[39m[31m[0m[39m[22m
+[1m[31m[0m[91m    [7m  [0m[0m [96m               ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~[0m[0m[39m[31m[0m[39m[22m
+[1m[31m[0m[91m    Error occurs in the template of component VisualizarQuestaoFechadaComponent.[39m[31m[0m[39m[22m
+[1m[31m[0m[91m[39m[31m[0m[39m[22m
+[1m[31m[0m[91m[39m[31m[0m[39m[22m
+[1m[31m[0m[91m[39m[31m[0m[0m[91mError: [96msrc/app/srl/monitoramento/card-desempenho/card-desempenho.component.html[0m[0m:[93m1[0m[0m:[93m1[0m[0m - [91merror[0m[0m[90m NG8001: [0m[0m'p-card' is not a known element:[39m[31m[0m[39m[22m
+[1m[31m[0m[91m1. If 'p-card' is an Angular component, then verify that it is part of this module.[39m[31m[0m[39m[22m
+[1m[31m[0m[91m2. If 'p-card' is a Web Component then add 'CUSTOM_ELEMENTS_SCHEMA' to the '@NgModule.schemas' of this component to suppress this message.[39m[31m[0m[39m[22m
+[1m[31m[0m[91m[39m[31m[0m[39m[22m
+[1m[31m[0m[91m[7m1[0m[0m <p-card header="Progresso geral">[39m[31m[0m[39m[22m
+[1m[31m[0m[91m[7m [0m[0m [91m~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~[0m[0m[39m[31m[0m[39m[22m
+[1m[31m[0m[91m[39m[31m[0m[39m[22m
+[1m[31m[0m[91m  [96msrc/app/srl/monitoramento/card-desempenho/card-desempenho.component.ts[0m[0m:[93m9[0m[0m:[93m16[0m[0m[39m[31m[0m[39m[22m
+[1m[31m[0m[91m    [7m9[0m[0m   templateUrl: './card-desempenho.component.html',[39m[31m[0m[39m[22m
+[1m[31m[0m[91m    [7m [0m[0m [96m               ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~[0m[0m[39m[31m[0m[39m[22m
+[1m[31m[0m[91m    Error occurs in the te[39m[22m[1m[31mmplate of component CardDesempenhoComponent.[39m[31m[0m[39m[22m
+[1m[31m[0m[91m[39m[31m[0m[39m[22m
+[1m[31m[0m[91m[39m[31m[0m[39m[22m
+[1m[31m[0m[91m[39m[31m[0m[0m[91mError: [96msrc/app/srl/planejamento/self-instruction-coletivo/self-instruction-coletivo.component.html[0m[0m:[93m1[0m[0m:[93m1[0m[0m - [91merror[0m[0m[90m NG8001: [0m[0m'app-chat' is not a known element:[39m[31m[0m[39m[22m
+[1m[31m[0m[91m1. If 'app-chat' is an Angular component, then verify that it is part of this module.[39m[31m[0m[39m[22m
+[1m[31m[0m[91m2. If 'app-chat' is a Web Component then add 'CUSTOM_ELEMENTS_SCHEMA' to the '@NgModule.schemas' of this component to suppress this message.[39m[31m[0m[39m[22m
+[1m[31m[0m[91m[39m[31m[0m[39m[22m
+[1m[31m[0m[91m[7m1[0m[0m <app-chat *ngIf="atividadeGrupo != null && grupo != null" [atividadeGrupo]="atividadeGrupo" [grupo]="grupo"></app-chat>[39m[31m[0m[39m[22m
+[1m[31m[0m[91m[7m [0m[0m [91m~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~[0m[0m[39m[31m[0m[39m[22m
+[1m[31m[0m[91m[39m[31m[0m[39m[22m
+[1m[31m[0m[91m  [96msrc/app/srl/planejamento/self-instruction-coletivo/self-instruction-coletivo.component.ts[0m[0m:[93m25[0m[0m:[93m16[0m[0m[39m[31m[0m[39m[22m
+[1m[31m[0m[91m    [7m25[0m[0m   templateUrl: './self-instruction-coletivo.component.html',[39m[31m[0m[39m[22m
+[1m[31m[0m[91m    [7m  [0m[0m [96m               ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~[0m[0m[39m[31m[0m[39m[22m
+[1m[31m[0m[91m    Error occurs in the template of component SelfInstructionColetivoComponent.[39m[31m[0m[39m[22m
+[1m[31m[0m[91m[39m[31m[0m[39m[22m
+[1m[31m[0m[91m[39m[31m[0m[39m[22m
+[1m[31m[0m[91m[39m[31m[0m[0m[91mError: [96msrc/app/srl/planejamento/self-instruction-coletivo/self-instruction-coletivo.component.html[0m[0m:[93m1[0m[0m:[93m59[0m[0m - [91merror[0m[0m[90m NG8002: [0m[0mCan't bind to 'atividadeGrupo' since it isn't a known property of 'app-chat'.[39m[31m[0m[39m[22m
+[1m[31m[0m[91m1. If 'app-chat' is an Angular component and it has 'atividadeGrupo' input, then verify that it is part of this module.[39m[31m[0m[39m[22m
+[1m[31m[0m[91m2. If 'app-chat' is a Web Component then add 'CUSTOM_ELEMENTS_SCHEMA' to the '@NgModule.schemas' of t[39m[22m[1m[31mhis component to suppress this message.[39m[31m[0m[39m[22m
+[1m[31m[0m[91m3. To allow any property add 'NO_ERRORS_SCHEMA' to the '@NgModule.schemas' of this component.[39m[31m[0m[39m[22m
+[1m[31m[0m[91m[39m[31m[0m[39m[22m
+[1m[31m[0m[91m[7m1[0m[0m <app-chat *ngIf="atividadeGrupo != null && grupo != null" [atividadeGrupo]="atividadeGrupo" [grupo]="grupo"></app-chat>[39m[31m[0m[39m[22m
+[1m[31m[0m[91m[7m [0m[0m [91m                                                          ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~[0m[0m[39m[31m[0m[39m[22m
+[1m[31m[0m[91m[39m[31m[0m[39m[22m
+[1m[31m[0m[91m  [96msrc/app/srl/planejamento/self-instruction-coletivo/self-instruction-coletivo.component.ts[0m[0m:[93m25[0m[0m:[93m16[0m[0m[39m[31m[0m[39m[22m
+[1m[31m[0m[91m    [7m25[0m[0m   templateUrl: './self-instruction-coletivo.component.html',[39m[31m[0m[39m[22m
+[1m[31m[0m[91m    [7m  [0m[0m [96m               ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~[0m[0m[39m[31m[0m[39m[22m
+[1m[31m[0m[91m    Error occurs in the template of component SelfInstructionColetivoComponent.[39m[31m[0m[39m[22m
+[1m[31m[0m[91m[39m[31m[0m[39m[22m
+[1m[31m[0m[91m[39m[31m[0m[39m[22m
+[1m[31m[0m[91m[39m[31m[0m[0m[91mError: [96msrc/app/srl/planejamento/self-instruction-coletivo/self-instruction-coletivo.component.html[0m[0m:[93m1[0m[0m:[93m93[0m[0m - [91merror[0m[0m[90m NG8002: [0m[0mCan't bind to 'grupo' since it isn't a known property of 'app-chat'.[39m[31m[0m[39m[22m
+[1m[31m[0m[91m1. If 'app-chat' is an Angular component and it has 'grupo' input, then verify that it is part of this module.[39m[31m[0m[39m[22m
+[1m[31m[0m[91m2. If 'app-chat' is a Web Component then add 'CUSTOM_ELEMENTS_SCHEMA' to the '@NgModule.schemas' of this component to suppress this message.[39m[31m[0m[39m[22m
+[1m[31m[0m[91m3. To allow any property add 'NO_ERRORS_SCHEMA' to the '@NgModule.schemas' of this component.[39m[31m[0m[39m[22m
+[1m[31m[0m[91m[39m[31m[0m[39m[22m
+[1m[31m[0m[91m[7m1[0m[0m <app-chat *ngIf="atividadeGrupo != null && grupo != null" [atividadeGrupo]="atividadeGrupo" [grupo]="grupo"></app-chat>[39m[31m[0m[39m[22m
+[1m[31m[0m[91m[7m [0m[0m [91m                                                                                            ~~~~~~~~~~~~~~~[0m[0m[39m[31m[0m[39m[22m[1m[31m[39m[22m
+[1m[31m[0m[91m[39m[31m[0m[39m[22m
+[1m[31m[0m[91m  [96msrc/app/srl/planejamento/self-instruction-coletivo/self-instruction-coletivo.component.ts[0m[0m:[93m25[0m[0m:[93m16[0m[0m[39m[31m[0m[39m[22m
+[1m[31m[0m[91m    [7m25[0m[0m   templateUrl: './self-instruction-coletivo.component.html',[39m[31m[0m[39m[22m
+[1m[31m[0m[91m    [7m  [0m[0m [96m               ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~[0m[0m[39m[31m[0m[39m[22m
+[1m[31m[0m[91m    Error occurs in the template of component SelfInstructionColetivoComponent.[39m[31m[0m[39m[22m
+[1m[31m[0m[91m[39m[31m[0m[39m[22m
+[1m[31m[0m[91m[39m[31m[0m[39m[22m
+[1m[31m[0m[91m[39m[31m[0m[39m[22m
+- Generating browser application bundles...

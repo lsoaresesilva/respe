@@ -23,13 +23,13 @@ export class VisualizarPerfilEstudanteComponent implements OnInit {
   progressoGeral;
 
   constructor(private route: ActivatedRoute, private login: LoginService) {
-    this.estudante = new Usuario(null, null, null, null, null, null);
+    this.estudante = Usuario.fabricar();
   }
 
   ngOnInit() {
     this.route.params.subscribe((params) => {
 
-      this.estudante = new Usuario(params["id"], null, null, null, null, null)
+      this.estudante = new Usuario(params["id"], null, null, null, null)
 
       Analytics.init(this.estudante).subscribe((analytics) => {
         this.analytics$ = analytics;

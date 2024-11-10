@@ -59,7 +59,7 @@ export default class ChatGrupo extends Document{
                         let estudantesConectados = [];
 
                         chatGrupo.estudantesConectados.forEach(aluno => {
-                            estudantesConectados.push(new Usuario(aluno.id, null, null, null, null, aluno.nome));
+                            estudantesConectados.push(new Usuario(aluno.id, null, null, null, aluno.nome));
                         });
 
                         chatGrupo.estudantesConectados = estudantesConectados;
@@ -71,7 +71,7 @@ export default class ChatGrupo extends Document{
 
                         chatGrupo.mensagens.forEach(mensagem => {
                             if(mensagem != null && mensagem.estudante != null){
-                                mensagens.push(new MensagemChat(mensagem.id, new Usuario(mensagem.estudante.id, null, null, null, null, mensagem.estudante.nome), mensagem.texto, mensagem.data));
+                                mensagens.push(new MensagemChat(mensagem.id, new Usuario(mensagem.estudante.id, null, null, null, mensagem.estudante.nome), mensagem.texto, mensagem.data));
                             }
 
                         });
@@ -101,7 +101,7 @@ export default class ChatGrupo extends Document{
               this.estudantesConectados.map((user) => {
                 let participantResponse = new ParticipantResponse();
 
-                participantResponse.participant = user.toChatParticipant();
+                //participantResponse.participant = user.toChatParticipant();
                 participantResponse.metadata = {
                   totalUnreadMessages: 0,
                 };
@@ -117,7 +117,7 @@ export default class ChatGrupo extends Document{
               let m = new Message();
 
               m.dateSent = mensagem.data;
-              m.fromId = mensagem.estudante.id;
+              m.fromId = mensagem.estudante.pk();
               m.message = mensagem.texto;
               m.toId = this.grupo.id;
 

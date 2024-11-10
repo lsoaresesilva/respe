@@ -4,6 +4,7 @@ import { MenuItem, MessageService } from 'primeng/api';
 import { Router } from '@angular/router';
 import { LoginService } from '../../login-module/login.service';
 import Query from 'src/app/model/firestore/query';
+import Usuario from 'src/app/model/usuario';
 
 @Component({
   selector: 'app-listar-turma',
@@ -18,15 +19,16 @@ export class ListarTurmaComponent implements OnInit {
   items: MenuItem[];
   estudante: Turma;
   id: Turma;
-  usuario;
+  usuario: Usuario;
 
 
   constructor(public router: Router, private messageService: MessageService, private login:LoginService) {
-    this.usuario = this.login.getUsuarioLogado()
+    
   };
 
-  ngOnInit() {
-    Turma.getAll(new Query("professorId", "==", this.usuario.pk())).subscribe(turma => { this.turmas = turma });
+  async ngOnInit() {
+    this.usuario = this.login.getUsuarioLogado();
+    Turma.getAll().subscribe(turma => { this.turmas = turma });
 
     if(this.usuario.perfil == 3){
     this.items = [

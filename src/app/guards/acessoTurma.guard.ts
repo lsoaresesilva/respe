@@ -9,6 +9,9 @@ import { Message } from 'primeng//api';
 import { MessageService } from 'primeng/api';
 import { LoginService } from '../login-module/login.service';
 import { PerfilUsuario } from '../model/enums/perfilUsuario';
+import Usuario from '../model/usuario';
+import { HttpClient } from '@angular/common/http';
+import { environment } from 'src/environments/environment';
 
 @Injectable({
   providedIn: 'root'
@@ -18,49 +21,41 @@ export class TurmaGuard implements CanActivate {
   path: ActivatedRouteSnapshot[];
   route: ActivatedRouteSnapshot;
 
-  constructor(private router: Router, private login: LoginService, private messageService: MessageService) { }
+  URL = environment.URL;
 
-  canActivate(route: ActivatedRouteSnapshot, state: RouterStateSnapshot): Observable<boolean> | boolean {
+  constructor(private router: Router, private http: HttpClient, private login: LoginService, private messageService: MessageService) { }
+
+  canActivate(route: ActivatedRouteSnapshot, state: RouterStateSnapshot): Observable<boolean> | Promise<boolean> {
 
 
-
-    return new Observable(observer => {
-      this.acessoTurma(route.params['turmaId']).subscribe(
-        retorno => {
-          observer.next(retorno);
-          observer.complete();
-        }
-      )
-    });
+    return this.acessoTurma(route.params['turmaId']);
   }
 
 
-  acessoTurma(codigoTurma) {
-    return new Observable<boolean>(observer => {
-      let usuario = this.login.getUsuarioLogado();
-      if (usuario != null && codigoTurma != null) {
-        if (usuario.perfil == PerfilUsuario.estudante && usuario["codigoTurma"] == codigoTurma) {
-          observer.next(false);
-          observer.complete();
+  async acessoTurma(codigoTurma: string): Promise<boolean> {
+    const usuario: Usuario = this.login.getUsuarioLogado(); // Recupera o usuário logado
+
+    if (usuario && codigoTurma) {
+      try {
+        // Chamada ao endpoint verifica-acesso-turma passando o código da turma
+        const response: any = await this.http
+          .get<any>(`${this.URL}${codigoTurma}/verifica-acesso`)
+          .toPromise();
+
+        // Verifica a resposta do endpoint
+        if (response.acesso) {
+          return true;
+        } else {
+          return false;
         }
-      } else {
-        Turma.get(codigoTurma).subscribe(turma => {
-          if (turma != undefined) {
-            if (turma["professorId"] == usuario.pk()) {
-              observer.next(true);
-
-            } else {
-              observer.next(false);
-            }
-            observer.complete();
-          }else{
-            observer.next(false);
-          }
-        })
+      } catch (error) {
+        console.error('Erro ao verificar acesso à turma:', error);
+        return false;
       }
-
-
-    });
+    } else {
+      // Se o usuário ou código da turma não for válido, retorna false
+      return false;
+    }
   }
 
 

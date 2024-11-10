@@ -54,13 +54,14 @@ export default class Postagem extends Document {
       super.get(id).subscribe(postagem=>{
         if(postagem != null){
           postagem.data = Util.firestoreDateToDate(postagem.data);
-          postagem.estudante = new Usuario(postagem.estudante.id, null, null, null, null, postagem.estudante.nome);
+          postagem.estudante = new Usuario(postagem.estudante.id, null, null, null, postagem.estudante.nome);
           postagem.respostas = RespostaPostagem.construir(postagem.respostas);
           observer.next(postagem);
           observer.complete();
         }
       })
     })
+    
   }
 
   validar() {

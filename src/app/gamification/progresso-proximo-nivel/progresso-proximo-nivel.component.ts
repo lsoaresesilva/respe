@@ -22,7 +22,7 @@ export class ProgressoProximoNivelComponent implements OnInit {
     let x = changes;
   }
 
-  ngOnInit(): void {
+  async ngOnInit(): Promise<void> {
     this.usuario = this.login.getUsuarioLogado();
     /* Gamification.getByEstudante(this.usuario).subscribe((gamification) => {
       this.gamification$ = gamification;

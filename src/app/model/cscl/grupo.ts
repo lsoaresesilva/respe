@@ -47,7 +47,7 @@ export default class Grupo {
     let estudantes = [];
     if(Array.isArray(grupo.estudantes)){
       grupo.estudantes.forEach(estudante=>{
-        estudantes.push(new Usuario(estudante, null, null, null, null, null));
+        estudantes.push(Usuario.fabricar());
       });
     }
     return new Grupo(grupo.id, estudantes);

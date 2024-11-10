@@ -17,7 +17,7 @@ export class AtividadeGrupoControleComponent implements OnInit {
   grupo: Grupo;
 
   constructor(private route: ActivatedRoute, private login: LoginService, private router:Router) {
-    this.estudante = this.login.getUsuarioLogado();
+    
 
     this.route.params.subscribe((params) => {
       if (
@@ -28,7 +28,8 @@ export class AtividadeGrupoControleComponent implements OnInit {
     });
   }
 
-  ngOnInit(): void {
+  async ngOnInit(): Promise<void> {
+    this.estudante = this.login.getUsuarioLogado();
     AtividadeGrupo.get(this.atividadeGrupoId).subscribe((atividadeGrupo) => {
       this.atividadeGrupo = atividadeGrupo;
 

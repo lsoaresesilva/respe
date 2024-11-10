@@ -41,9 +41,10 @@ export class ChatComponent implements OnInit {
     this.chatbot.receberPedidoAjuda(this.mensagem, this.login.getUsuarioLogado(), )
   } */
 
-  enviar(){
+  async enviar(){
     if(this.mensagem != null){
-      let duvidaEstudante = new DuvidaEstudante(null, this.mensagem, this.login.getUsuarioLogado());
+      const usuario = this.login.getUsuarioLogado();
+      let duvidaEstudante = new DuvidaEstudante(null, this.mensagem, usuario);
       duvidaEstudante.save().subscribe(()=>{
 
       });

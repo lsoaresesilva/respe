@@ -21,7 +21,7 @@ export class ChatbotServiceProprio {
 
   constructor() {
     this.reinicializar();
-    this.usuario = new Usuario(null, null, null, null, null, null);
+    this.usuario = Usuario.fabricar();
     this.usuario.nome = 'Davi';
     this.mensagemUpdate = new EventEmitter();
   }

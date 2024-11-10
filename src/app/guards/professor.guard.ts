@@ -21,26 +21,37 @@ export class ProfessorGuard implements CanActivate {
     ) { }
 
 
-    canActivate(
+    async canActivate(
         route: ActivatedRouteSnapshot,
         state: RouterStateSnapshot
-    ): Observable<boolean> | boolean {
+    ): Promise<boolean> {
 
 
-        return this.verificarAcesso();
+        return await this.verificarAcesso();
     }
 
     canLoad(route: Route): boolean | Observable<boolean> | Promise<boolean> {
         return this.verificarAcesso();
     }
 
-    verificarAcesso() {
-        let usuario = this.login.getUsuarioLogado();
+
+    async verificarAcesso() {
+        const usuario = this.login.getUsuarioLogado();
+
         if (usuario.perfil == PerfilUsuario.professor || usuario.perfil == PerfilUsuario.admin) {
-            return true;
+            return true
         }
-        this.router.navigate([""]);
-        return false;
+        /* return new Observable<boolean>(observer=>{
+            this.login.getUsuarioLogado().subscribe(usuario => {
+                if (usuario.perfil == PerfilUsuario.professor || usuario.perfil == PerfilUsuario.admin) {
+                    observer.next(true);
+                }
+                this.router.navigate([""]);
+                observer.next(false);
+            })
+        }) */
+       return false;
+       
     }
 
 }

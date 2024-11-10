@@ -74,7 +74,7 @@ export class CadastrarEstudantesComponent implements OnInit {
   }
 
   ngOnInit() {
-    this.usuario = new Usuario(null, null, null, PerfilUsuario.professor, null, null);
+    this.usuario = Usuario.fabricar();
     this.usuario.turma = new Turma(null, null, null, null);
     this.visibilidadeCadastro = false;
     // background: #0d476e;

@@ -3,7 +3,7 @@ import Usuario from "../usuario";
 export default class JustificativasAutoInstrucao{
 
     static construir(justificativa: any) {
-        return new JustificativasAutoInstrucao(new Usuario(justificativa.estudante.id, null, null, null, null, justificativa.estudante.nome), justificativa.dificuldade, justificativa.texto, justificativa.avaliacaoDificuldades);
+        return new JustificativasAutoInstrucao(new Usuario(justificativa.estudante.id, null, null, null, justificativa.estudante.nome), justificativa.dificuldade, justificativa.texto, justificativa.avaliacaoDificuldades);
     }
 
     constructor(public estudante:Usuario, public dificuldade, public texto, public avaliacaoDificuldades){

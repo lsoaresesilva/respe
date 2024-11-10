@@ -19,7 +19,7 @@ export class TipsRegulacaoComponent implements OnInit {
 
   }
 
-  ngOnInit() {
+  async ngOnInit() {
     let usuario = this.login.getUsuarioLogado();
     let dialogExibida = sessionStorage.getItem("dialogTipsAutorregulacao");
     if (usuario != null && usuario.grupoExperimento != Groups.control && (dialogExibida == null || dialogExibida != "true")) {

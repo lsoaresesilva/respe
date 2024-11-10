@@ -61,8 +61,9 @@ export class VisualizarQuestaoComponent implements OnInit {
     ]);
   }
 
-  responder(questao) {
-    if (this.loginService.getUsuarioLogado().grupoExperimento == Groups.control) {
+  async responder(questao) {
+    let usuario = this.loginService.getUsuarioLogado();
+    if (usuario.grupoExperimento == Groups.control) {
       this.router.navigate([
         'geral/main',
         { outlets: { principal: ['editor', this.assunto.pk(), questao.id] } },

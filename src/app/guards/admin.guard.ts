@@ -4,6 +4,7 @@ import { ActivatedRouteSnapshot, RouterStateSnapshot, Router, CanLoad, Route } f
 import { Observable } from 'rxjs';
 import { LoginService } from '../login-module/login.service';
 import { PerfilUsuario } from '../model/enums/perfilUsuario';
+import { tap } from 'rxjs/operators';
 
 
 @Injectable({
@@ -30,17 +31,17 @@ export class AdminGuard implements CanActivate, CanLoad {
     return this.verificarAcesso();
   }
 
-  canLoad(route: Route): boolean | Observable<boolean> | Promise<boolean> {
+  canLoad(route: Route): boolean | Observable<boolean>  {
     return this.verificarAcesso();
   }
 
-  verificarAcesso() {
-    let usuario = this.login.getUsuarioLogado();
-    if (usuario.perfil == PerfilUsuario.admin) {
+  verificarAcesso(): boolean {
+    const usuario = this.login.getUsuarioLogado();
+    if(usuario && usuario.perfil == PerfilUsuario.admin){
       return true;
     }
-      this.router.navigate([""]);
-      return false;
-  }
 
+    return false;
+    
+  }
 }

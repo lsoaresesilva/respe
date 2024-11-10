@@ -536,7 +536,7 @@ export default class Export {
         }) */
           // Código de high-performers
         Export.estudantesHighPerforming.forEach((estudante) => {
-          let u = new Usuario(estudante, null, null, null, null, '');
+          let u = new Usuario(estudante, null, null, null, '');
           estudantes.push(u);
         });
 

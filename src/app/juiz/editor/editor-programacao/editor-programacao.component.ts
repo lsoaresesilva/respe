@@ -156,7 +156,7 @@ export class EditorProgramacaoComponent implements AfterViewInit, OnChanges, OnI
     this.onEditorReady = new EventEmitter();
     this.processandoSubmissao = false;
     this.processandoVisualizacao = false;
-    this.usuario = this.login.getUsuarioLogado();
+    
     editorProgramacao = null;
     this.iconModoEditor =
       parseInt(this.modoExecucao) == ModoExecucao.execucao32bits ? 'pi pi-pencil' : 'pi pi-table';
@@ -174,7 +174,8 @@ export class EditorProgramacaoComponent implements AfterViewInit, OnChanges, OnI
     this.modoVisualizacao = false;
   }
 
-  ngOnInit(): void {
+  async ngOnInit(): Promise<void> {
+    this.usuario = this.login.getUsuarioLogado();
     this.posicaoCursor = { column: 1, lineNumber: 1 };
   }
 
@@ -306,20 +307,21 @@ export class EditorProgramacaoComponent implements AfterViewInit, OnChanges, OnI
           'Se você visualizar a resposta dessa questão não ganhará pontos ao respondê-la. Tem certeza que deseja visualizar?',
         acceptLabel: 'Sim',
         rejectLabel: 'Não',
-        accept: () => {
+        accept: async () => {
+          const usuario = this.login.getUsuarioLogado();
           const pageTrack = new PageTrackRecord(
             null,
             'visualizacao-resposta-questao',
-            this.login.getUsuarioLogado()
+            usuario
           );
           pageTrack.save().subscribe(() => {});
-
+          
           VisualizacaoRespostasQuestoes.getByEstudante(
             questao,
-            this.login.getUsuarioLogado()
+            usuario
           ).subscribe((visualizou) => {
             if (visualizou == null) {
-              new VisualizacaoRespostasQuestoes(null, this.login.getUsuarioLogado(), questao)
+              new VisualizacaoRespostasQuestoes(null, usuario, questao)
                 .save()
                 .subscribe();
             }

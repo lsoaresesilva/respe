@@ -33,15 +33,18 @@ export class VisualizarAssuntoComponent implements OnInit {
     this.exibirDialogImportanciaAssunto();
   }
 
-  exibirDialogImportanciaAssunto() {
+  async exibirDialogImportanciaAssunto() {
     const visualizouImportancia = [
       ...(JSON.parse(localStorage.getItem('visualizouImportancia')) === null
         ? []
         : JSON.parse(localStorage.getItem('visualizouImportancia'))),
     ];
 
-    if (!visualizouImportancia.includes(this.login.getUsuarioLogado().pk())) {
-      visualizouImportancia.push(this.login.getUsuarioLogado().pk());
+    const usuario = this.login.getUsuarioLogado();
+
+    if (!visualizouImportancia.includes(usuario.pk())) {
+      
+      visualizouImportancia.push(usuario.pk());
 
       localStorage.setItem('visualizouImportancia', JSON.stringify(visualizouImportancia));
       this.dialogImportanciaAssunto = true;

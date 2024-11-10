@@ -179,11 +179,11 @@ export class ChatWidgetComponent implements OnInit {
     }, 3000);
 
     // Controlar os nomes e os icones
-    this.userName = this.login.getUsuarioLogado().pk();
+    /* this.userName = this.login.getUsuarioLogado().pk();
     this.estudante = {
       name: this.login.getUsuarioLogado().pk(),
       avatar: this.userAvatar,
-    };
+    }; */
     this.monitor = {
       name: this.botName,
       avatar: this.botAvatar,

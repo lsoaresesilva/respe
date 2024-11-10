@@ -2,46 +2,28 @@ import { Document, Collection, date, ignore } from './firestore/document';
 import { forkJoin, Observable } from 'rxjs';
 import Query from './firestore/query';
 import { PerfilUsuario } from './enums/perfilUsuario';
-import { sha256 } from 'js-sha256';
-import Experiment from './experimento/experiment';
+
 import { Groups } from './experimento/groups';
 import Turma from './turma';
 import Submissao from './submissao';
-import { Cacheable } from 'ts-cacheable';
-import AtribuicaoGrupoExperimental from './experimento/atribuicaoGrupoExperimental';
-import { ChatParticipantStatus, ChatParticipantType, IChatParticipant } from 'ng-chat';
+import { sha256 } from 'js-sha256';
 
-@Collection('usuarios')
-export default class Usuario extends Document implements IChatParticipant {
 
-  @date()
+export default class Usuario {
+
   data;
-
+  senha;
+  
   constructor(
-    id,
+    public primary_key,
     public email,
-    public senha,
     public perfil: PerfilUsuario,
     public grupoExperimento: Groups,
     public nome
   ) {
-    super(id);
 
     this.minutos = 0;
-    this.status = ChatParticipantStatus.Offline;
-    this.displayName = this.nome;
-    this.participantType = ChatParticipantType.User;
   }
-
-  @ignore()
-  participantType: ChatParticipantType;
-  @ignore()
-  status: ChatParticipantStatus;
-  @ignore()
-  avatar: string;
-  @ignore()
-  displayName: string;
-
 
   minutos;
   genero;
@@ -57,23 +39,33 @@ export default class Usuario extends Document implements IChatParticipant {
   @ignore()
   totalRespostasProgramacao?;
 
+  get pk(){
+    return this.primary_key;
+  }
 
+  static getAll(x=null):any{
+    return new Observable();
+  }
+
+  static delete(x=null):any{
+    return new Observable();
+  }
 
   static getByQuery(query):Observable<Usuario> {
     return new Observable((observer) => {
-      super.getByQuery(query).subscribe((usuario: Usuario) => {
+      /* super.getByQuery(query).subscribe((usuario: Usuario) => {
         observer.next(usuario);
         observer.complete();
-      });
+      }); */
     });
   }
 
   static pesquisar(query) {
     return new Observable((observer) => {
-      super.search(query).subscribe((usuarios: Usuario) => {
+      /* super.search(query).subscribe((usuarios: Usuario) => {
         observer.next(usuarios);
         observer.complete();
-      });
+      }); */
     });
   }
 
@@ -90,7 +82,6 @@ export default class Usuario extends Document implements IChatParticipant {
       const usuario = new Usuario(
         json.id,
         json.email,
-        json.senha,
         json.perfil,
         json.grupoExperimento,
         json.nome
@@ -112,19 +103,32 @@ export default class Usuario extends Document implements IChatParticipant {
   }
 
   objectToDocument() {
-    const document = super.objectToDocument();
+    /* const document = super.objectToDocument();
     document['senha'] = sha256(this.senha);
 
     if (this.turma != undefined && this.turma.codigo != undefined) {
       document['codigoTurma'] = this.turma.codigo;
     }
 
-    return document;
+    return document; */
   }
 
-  toJson(){
-    return {id:this.id, email:this.email, senha:this.senha, perfil:this.perfil, grupoExperimento:this.grupoExperimento, nome:this.nome};
-  }
+  toJson() {
+   
+    let json: any = {};
+
+    
+    if (this.pk() !== null) json.id = this.pk();
+    if (this.email !== null) json.email = this.email;
+    if (this.senha !== null) json.senha = sha256(this.senha);
+    if (this.perfil !== null) json.perfil = this.perfil;
+    if (this.grupoExperimento !== null) json.grupoExperimento = this.grupoExperimento;
+    if (this.nome !== null) json.nome = this.nome;
+
+    
+    return json;
+}
+
 
 
   stringfiy() {
@@ -141,18 +145,22 @@ export default class Usuario extends Document implements IChatParticipant {
       objeto['grupoExperimento'] = this.grupoExperimento;
     }
 
-    if (this['codigoTurma'] != null) {
+    if (this.turma != null) {
       objeto['turma'] = this.turma.stringfiy();
     }
 
     return objeto;
   }
 
-  toChatParticipant(){
+  /* toChatParticipant(){
     let participante:IChatParticipant = {id:this.id, participantType:this.participantType, status:ChatParticipantStatus.Online, avatar: null, displayName:this.nome}
 
     return participante;
-  }
+  }*/
+
+  static fabricar(){
+    return new Usuario(null, null, null, null, null);
+  }  
 
   salvar(perfil = PerfilUsuario.estudante, group:Groups = null, isRandom = false): Observable<Usuario> {
 
@@ -160,7 +168,7 @@ export default class Usuario extends Document implements IChatParticipant {
       this.perfil = perfil;
       if(!isRandom){
 
-        AtribuicaoGrupoExperimental.getByQuery(new Query("codigoTurma", "==", this.turma.codigo)).subscribe(atribuicao=>{
+        /* AtribuicaoGrupoExperimental.getByQuery(new Query("codigoTurma", "==", this.turma.codigo)).subscribe(atribuicao=>{
           if(atribuicao != null){
             this.grupoExperimento = atribuicao.grupoExperimental;
           }else{
@@ -171,12 +179,12 @@ export default class Usuario extends Document implements IChatParticipant {
             observer.next(result);
             observer.complete();
           })
-        })
+        }) */
 
 
 
       }else{
-        Usuario.getAll([
+        /* Usuario.getAll([
           new Query('codigoTurma', '==', this.turma.codigo),
           new Query('perfil', '==', PerfilUsuario.estudante),
         ]).subscribe((usuarios) => {
@@ -190,8 +198,8 @@ export default class Usuario extends Document implements IChatParticipant {
             observer.next(result);
             observer.complete();
           });
-        });
-      }
+        });*/
+      } 
 
 
 
@@ -199,7 +207,8 @@ export default class Usuario extends Document implements IChatParticipant {
   }
 
   static get(id):Observable<Usuario>{
-    return super.get(id);
+    /* return super.get(id); */
+    return null;
   }
 
   /*atualizarTempo(){
@@ -228,7 +237,7 @@ export default class Usuario extends Document implements IChatParticipant {
 
   validar() {
     return new Observable((observer) => {
-      const validacaoEmail = this.isEmailCadastrado();
+      /* const validacaoEmail = this.isEmailCadastrado();
       const validacaoTurma = this.turma.validarCodigo();
 
       forkJoin([validacaoEmail, validacaoTurma]).subscribe(
@@ -251,8 +260,6 @@ export default class Usuario extends Document implements IChatParticipant {
               this.nome == '' ||
               this.senha == null ||
               this.senha == '' ||
-              /* this.perfil == null ||
-              this.perfil <= 0 ||*/
               this.conhecimentoPrevioProgramacao == null ||
               this.genero == null ||
               this.faixaEtaria == null
@@ -269,11 +276,11 @@ export default class Usuario extends Document implements IChatParticipant {
         (err) => {
           observer.error(err);
         }
-      );
+      ); */
     });
   }
 
-  isEmailCadastrado() {
+  /* isEmailCadastrado() {
     return new Observable((observer) => {
       if (this.email != null) {
         Usuario.getAll(new Query('email', '==', this.email)).subscribe((usuarios) => {
@@ -287,5 +294,5 @@ export default class Usuario extends Document implements IChatParticipant {
         });
       }
     });
-  }
+  } */
 }

@@ -27,16 +27,18 @@ export class ListarQuestoesFechadasComponent implements OnInit {
     this.respostasAluno = [];
   }
 
-  ngOnInit() {
+  async ngOnInit() {
+    const usuario = this.login.getUsuarioLogado();
     RespostaQuestaoFechada.getAll(
-      new Query('usuarioId', '==', this.login.getUsuarioLogado().pk())
+      new Query('usuarioId', '==', usuario.pk())
     ).subscribe((respostasAluno) => {
       this.carregarStatusRespostasAluno(respostasAluno);
     });
 
     this.ordernarPorSequencia(this.assunto.questoesFechadas);
 
-    if (this.login.getUsuarioLogado().perfil == 3) {
+    
+    if (usuario.perfil == 3) {
       this.items = [
         {
           label: 'Alterar',

@@ -97,7 +97,7 @@ export class ResponderQuestaoProgramacao implements OnInit, AfterViewInit, OnCha
       observer.complete();
     });
 
-    this.usuario = this.login.getUsuarioLogado();
+    
 
     this.apresentarTestesCases = true;
     this.isMudancaEditorPermitida = true;
@@ -122,7 +122,8 @@ export class ResponderQuestaoProgramacao implements OnInit, AfterViewInit, OnCha
     console.log('algo mudou');
   }
 
-  ngAfterViewInit(): void {
+  async ngAfterViewInit(): Promise<void> {
+    this.usuario = this.login.getUsuarioLogado();
     let _this = this;
     setTimeout(function () {
       _this.route.params.subscribe((params) => {});

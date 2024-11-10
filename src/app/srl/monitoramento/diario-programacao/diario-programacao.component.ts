@@ -21,13 +21,14 @@ export class DiarioProgramacaoComponent implements OnInit {
     
   }
 
-  ngOnInit(): void {
+  async ngOnInit(): Promise<void> {
     
     this.tipo = this.config.data.tipo;
     this.config.header = this.getTitulo();
     this.config.closable = false;
     this.config.closeOnEscape = false;
-    this.diario = new DiarioProgramacao(null, "", this.login.getUsuarioLogado(), this.tipo);
+    let usuario = this.login.getUsuarioLogado();
+    this.diario = new DiarioProgramacao(null, "", usuario, this.tipo);
   }
 
   

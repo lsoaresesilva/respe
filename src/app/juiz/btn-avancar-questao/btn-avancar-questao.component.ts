@@ -26,7 +26,7 @@ export class BtnAvancarQuestaoComponent implements OnInit {
 
   }
 
-  avancarQuestao(){
+  async avancarQuestao(){
     // verificar o tipo da próxima questão
     let questao = this.assunto.proximaQuestao(this.questao) as any;
     if(questao != null){
@@ -47,7 +47,8 @@ export class BtnAvancarQuestaoComponent implements OnInit {
         ]);
       }
       else {
-        if (this.login.getUsuarioLogado().grupoExperimento === Groups.control) {
+        const usuario = this.login.getUsuarioLogado();
+        if (usuario.grupoExperimento === Groups.control) {
           this.router.navigate([
             'geral/main',
             { outlets: { principal: ['juiz', 'editor', this.assunto.pk(), questao.id] } },

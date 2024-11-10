@@ -17,7 +17,7 @@ export class AppComponent implements OnInit{
   title = '32bits';
 
   constructor(){
-    Experiment.start(configuracao);
+    //Experiment.start(configuracao);
   }
 }
 

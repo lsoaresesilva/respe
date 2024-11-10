@@ -40,7 +40,7 @@ export default class RespostaPostagem {
         let r = new RespostaPostagem(
           resposta.id,
           resposta.texto,
-          new Usuario(resposta.estudante.id, null, null, null, null, resposta.estudante.nome)
+          new Usuario(resposta.estudante.id, null, null, null, resposta.estudante.nome)
         )
         r.data = Util.firestoreDateToDate(resposta.data);
         objetos.push(

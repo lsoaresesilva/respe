@@ -52,7 +52,7 @@ export class ChatGrupoComponent implements OnInit, OnChanges, AfterViewInit, OnD
     private changeDetectorRef: ChangeDetectorRef,
     private monitor: MonitorService
   ) {
-    this.estudante = this.loginService.getUsuarioLogado();
+    
     this.grupoInicializado = false;
 
     /* this.mensagem = new MensagemChat(null, this.estudante, "", this.grupo, this.atividadeGrupo); */
@@ -75,7 +75,9 @@ export class ChatGrupoComponent implements OnInit, OnChanges, AfterViewInit, OnD
     this.grupoAdapter.desconectar(this.estudante);
   }
 
-  ngAfterViewInit(): void {
+  async ngAfterViewInit(): Promise<void> {
+
+    this.estudante = this.loginService.getUsuarioLogado();
 
     if(this.estudante.grupoExperimento == Groups.control){
       this.grupoInicializado = true;

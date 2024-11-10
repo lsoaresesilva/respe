@@ -46,12 +46,13 @@ export class ResponderQuestaoProgramacaoRegexComponent implements OnInit, AfterV
     });
   }
 
-  onContainerReady(event) {
+  async onContainerReady(event) {
+    const usuario = this.login.getUsuarioLogado();
     this.isEditorPronto = true;
     this.editorCodigo = Editor.getInstance();
     RespostaQuestaoProgramacaoRegex.getRecentePorQuestao(
       this.questao,
-      this.login.getUsuarioLogado()
+      usuario
     ).subscribe((resposta) => {
       this.respostaQuestao = resposta;
       if (this.respostaQuestao != null) {

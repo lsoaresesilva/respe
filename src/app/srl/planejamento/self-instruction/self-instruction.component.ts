@@ -75,15 +75,16 @@ export class SelfInstructionComponent implements OnInit {
   getQuestao() {
     this.route.params.subscribe((params) => {
       if (params['assuntoId'] != undefined && params['questaoId'] != undefined) {
-        Assunto.get(params['assuntoId']).subscribe((assunto) => {
+        Assunto.get(params['assuntoId']).subscribe(async (assunto) => {
           this.assunto = assunto;
           this.questao = this.assunto.getQuestaoProgramacaoById(params['questaoId']);
 
           if (this.questao != null && this.questao.id != null) {
             if( AutoInstrucao.exibirAutoInstrucao(this.questao)){
               this.apresentarPerguntas(this.questao.assuntos);
+              const usuario = this.login.getUsuarioLogado();
               AutoInstrucao.getByEstudanteQuestao(
-                this.login.getUsuarioLogado().pk(),
+                usuario.pk(),
                 this.questao.id
               ).subscribe((autoInstrucao) => {
                 if (autoInstrucao != null) {

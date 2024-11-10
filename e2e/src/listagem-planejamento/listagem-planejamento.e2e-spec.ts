@@ -89,7 +89,7 @@ describe('Listagem planejamento', () => {
     });
 
     it("Deve listar os planejamentos cadastrados", (done)=>{
-        let e = new Usuario(null, null, null, PerfilUsuario.estudante, Groups.experimentalA);
+        let e = new Usuario(null, null, null, PerfilUsuario.estudante, Groups.experimentalA, '');
         e.save().subscribe(r=>{
             let p:Planejamento = new Planejamento(null, e, new Assunto("12345", "variáveis"), 10, "alta", "fácil", "bla", false, null);
             p.save().subscribe(rp=>{

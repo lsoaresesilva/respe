@@ -64,7 +64,7 @@ export class ListarMateriaisSequenciaComponent implements OnChanges {
     return 'color: black; cursor:pointer';
   }
 
-  abrirMaterial(material) {
+  async abrirMaterial(material) {
     if (material instanceof QuestaoFechada) {
       this.router.navigate([
         'geral/main',
@@ -97,7 +97,8 @@ export class ListarMateriaisSequenciaComponent implements OnChanges {
       ]);
     }
     else {
-      if (this.login.getUsuarioLogado().grupoExperimento === Groups.control) {
+      let usuario = this.login.getUsuarioLogado();
+      if (usuario.grupoExperimento === Groups.control) {
         this.router.navigate([
           'geral/main',
           { outlets: { principal: ['juiz', 'editor', this.assunto.pk(), material.id] } },
