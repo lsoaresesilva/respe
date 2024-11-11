@@ -503,7 +503,7 @@ describe('Testes para process mining', () => {
                   submissoesDoEstudante.forEach((submissaoEstudante) => {
                     if (
                       submissaoEstudante.questaoId ==
-                      atividadeColaborativa.questao.id
+                      atividadeColaborativa.questao.pk
                     ) {
                       let dataA = submissaoEstudante.data;
                       let dataB = Util.firestoreDateToDate(atividade.dataExpiracao);

@@ -21,7 +21,7 @@ export default class QuestaoParsonProblem extends QuestaoBase {
     public id,
     public enunciado,
     public nomeCurto,
-    public ordem,
+    public sequencia,
     public dificuldade,
     public respostaCorreta,
     public segmentos: any  /* As opções de segmentos disponíveis para utilizar. É um array */,
@@ -45,15 +45,15 @@ export default class QuestaoParsonProblem extends QuestaoBase {
       questoes.forEach((questao) => {
         objetos.push(
           new QuestaoParsonProblem(
-            questao.id,
+            questao.pk,
             questao.enunciado,
-            questao.nomeCurto,
-            questao.ordem,
+            questao.nome_curto,
+            questao.sequencia,
             questao.dificuldade,
-            questao.respostaCorreta,
+            questao.resposta_correta,
             questao.segmentos,
-            questao.algoritmoInicial,
-            questao.sequenciaCorreta,
+            questao.algoritmo_inicial,
+            questao.sequencia_correta,
             questao.orientacao,
             Conceito.construir(questao.conceitos)
           )
@@ -72,7 +72,7 @@ export default class QuestaoParsonProblem extends QuestaoBase {
           (respostas) => {
             questoes.forEach((questao) => {
               respostas.forEach((resposta) => {
-                if (resposta.questaoId === questao.id) {
+                if (resposta.questaoId === questao.pk) {
                   questao.respondida = questao.isRespostaCorreta(resposta);
                   questao["percentualResposta"] = 0;
                 }
@@ -91,7 +91,7 @@ export default class QuestaoParsonProblem extends QuestaoBase {
   }
 
   objectToDocument() {
-    const document = {id:this.id, nomeCurto:this.nomeCurto, enunciado:this.enunciado, ordem:this.ordem};
+    const document = {id:this.id, nomeCurto:this.nomeCurto, enunciado:this.enunciado, ordem:this.sequencia};
 
     document['respostaCorreta'] = this.respostaCorreta != null ? this.respostaCorreta : '';
 
@@ -150,8 +150,8 @@ export default class QuestaoParsonProblem extends QuestaoBase {
       this.enunciado != null ||
       this.enunciado != '' ||
       this.dificuldade != null ||
-      this.ordem != null ||
-      this.ordem >= 1
+      this.sequencia != null ||
+      this.sequencia >= 1
     ) {
       return true;
     }

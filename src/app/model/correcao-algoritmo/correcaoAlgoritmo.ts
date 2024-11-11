@@ -40,12 +40,12 @@ export default class RespostaQuestaoCorrecaoAlgoritmo extends Document {
       object['estudanteId'] = this.estudante.pk;
     }
 
-    if (this.assunto != null && this.assunto.pk() != null) {
-      object['assuntoId'] = this.assunto.pk();
+    if (this.assunto != null && this.assunto.pk != null) {
+      object['assuntoId'] = this.assunto.pk;
     }
 
-    if (this.questao != null && this.questao.id != null) {
-      object['questaoCorrecaoId'] = this.questao.id;
+    if (this.questao != null && this.questao.pk != null) {
+      object['questaoCorrecaoId'] = this.questao.pk;
     }
 
     return object;
@@ -67,7 +67,7 @@ export default class RespostaQuestaoCorrecaoAlgoritmo extends Document {
   static getPorQuestao(questao, estudante) {
     return RespostaQuestaoCorrecaoAlgoritmo.getAll([
       new Query('estudanteId', '==', estudante.pk),
-      new Query('questaoCorrecaoId', '==', questao.id),
+      new Query('questaoCorrecaoId', '==', questao.pk),
     ]);
   }
 

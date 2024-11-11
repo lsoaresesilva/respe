@@ -16,7 +16,7 @@ export default class QuestaoFechada extends QuestaoBase {
 
 
   constructor(
-    public id,
+    public primary_key,
     public nomeCurto,
     public enunciado,
     public dificuldade: Dificuldade,
@@ -24,9 +24,9 @@ export default class QuestaoFechada extends QuestaoBase {
     public alternativas: Alternativa[],
     public respostaQuestao: String,
     public assunto,
-    public ordem
+    public sequencia
   ) {
-    super(id);
+    super(primary_key);
 
   }
   @ignore()
@@ -44,14 +44,14 @@ export default class QuestaoFechada extends QuestaoBase {
         objetos.push(
           new QuestaoFechada(
             questaoFechada.id,
-            questaoFechada.nomeCurto,
+            questaoFechada.nome_curto,
             questaoFechada.enunciado,
             questaoFechada.dificuldade,
             Conceito.construir(questaoFechada.conceitos),
             Alternativa.construir(questaoFechada.alternativas),
-            questaoFechada.respostaQuestao,
+            questaoFechada.resposta_questao,
             null,
-            questaoFechada.ordem
+            questaoFechada.sequencia
           )
         );
       });
@@ -69,7 +69,7 @@ export default class QuestaoFechada extends QuestaoBase {
     return new Observable((observer) => {
       RespostaQuestaoFechada.getAll([
         new Query('usuarioId', '==', estudante.pk),
-        new Query('questaoId', '==', questao.id),
+        new Query('questaoId', '==', questao.pk),
       ]).subscribe((respostasAluno) => {
         respostasAluno.length == 0 ? observer.next(false) : observer.next(true);
         observer.complete();
@@ -85,7 +85,7 @@ export default class QuestaoFechada extends QuestaoBase {
           (respostas) => {
             questoes.forEach((questao) => {
               respostas.forEach((resposta) => {
-                if (resposta.questao.id === questao.id) {
+                if (resposta.questao.pk === questao.pk) {
                   questao.respondida = questao.isRespostaCorreta(resposta);
                   questao.percentualResposta = questao.respondida === true || questao.respondida === false ? 100:0;
                 }

@@ -28,7 +28,7 @@ export class AnaliseSelfInstructionComponent implements OnChanges {
             assuntos.forEach((assunto) => {
               assunto.questoesProgramacao.forEach((questao) => {
                 for (let i = 0; i < instrucoes.length; i++) {
-                  if (instrucoes[i]['questaoId'] == questao.id) {
+                  if (instrucoes[i]['questaoId'] == questao.pk) {
 
 
 
@@ -79,7 +79,7 @@ export class AnaliseSelfInstructionComponent implements OnChanges {
   }
 
   abrirSubmissao(estudante, assunto, questao){
-    this.router.navigate(['geral/main', { outlets: { principal: ['professor', 'visualizar-submissao-recente', estudante.pk, assunto.pk(), questao.id, ] } }]);
+    this.router.navigate(['geral/main', { outlets: { principal: ['professor', 'visualizar-submissao-recente', estudante.pk, assunto.pk(), questao.pk, ] } }]);
   }
 
 }

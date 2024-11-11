@@ -24,8 +24,8 @@ import RespostasQuestoes from './respostasQuestoes';
 @Collection('assuntos')
 export class Assunto extends Document {
 
-  constructor(id, public nome) {
-    super(id);
+  constructor(primary_key, public nome) {
+    super(primary_key);
     this.questoesFechadas = [];
     this.questoesProgramacao = [];
     this.objetivosEducacionais = [];
@@ -36,7 +36,7 @@ export class Assunto extends Document {
     this.videos = [];
   }
 
-  ordem: number;
+  sequencia: number;
 
   importancia;
   // Materiais de aprendizagem
@@ -137,12 +137,15 @@ export class Assunto extends Document {
    * Constrói as relações internas de um assunto com seus materiais de aprendizagem.
    * @param assunto
    */
-  static construir(assuntoJson:any) {
+  static construir(assuntoJson:any):Assunto {
 
     
     const assunto = new Assunto(assuntoJson.primary_key, assuntoJson.nome);
 
     assunto.questoesFechadas = QuestaoFechada.construir(assuntoJson.questoes_fechadas);
+    assunto.questoesParson = QuestaoParsonProblem.construir(assuntoJson.questoes_parson);
+    assunto.questoesRegex = QuestaoProgramacaoRegex.construir(assuntoJson.questoes_regex);
+    assunto.questoesProgramacao = QuestaoProgramacao.construir(assuntoJson.questoes_programacao);
 
     /* assunto['questoesProgramacao'] = QuestaoProgramacao.construir(
       assunto['questoesProgramacao'],
@@ -172,13 +175,13 @@ export class Assunto extends Document {
     return assunto;
   }
 
-  static get(id): Observable<Assunto> {
+  static get(id, lazy=true): Observable<Assunto> {
     return new Observable<Assunto>((observer) => {
-      super.get(id).subscribe(
+      super.get(id, lazy).subscribe(
         (assunto) => {
-          Assunto.construir(assunto);
+          assunto = Assunto.construir(assunto);
 
-          observer.next(assunto as Assunto);
+          observer.next(assunto);
           observer.complete();
         },
         (err) => {
@@ -262,7 +265,7 @@ export class Assunto extends Document {
     const submissoes = {};
     assunto.questoesProgramacao.forEach((questao) => {
       if (questao.testsCases != undefined && questao.testsCases.length > 0) {
-        submissoes[questao.id] = Submissao.getRecentePorQuestao(questao, usuario);
+        submissoes[questao.pk] = Submissao.getRecentePorQuestao(questao, usuario);
       }
     });
 
@@ -298,7 +301,7 @@ export class Assunto extends Document {
   /* Ordena os assuntos a partir da sequência em que devem ser trabalhados. */
   static ordenar(arrayAssuntos: Assunto[]) {
     arrayAssuntos.sort(function (assuntoA, assuntoB) {
-      return assuntoA.ordem - assuntoB.ordem;
+      return assuntoA.sequencia - assuntoB.sequencia;
     });
 
     return arrayAssuntos;
@@ -334,18 +337,18 @@ export class Assunto extends Document {
 
     materiais = materiais.concat(questoesComStatus, this.videos);
     materiais.sort((qA, qB) => {
-      if (qA.ordem != null && qB.ordem != null) {
-        if (qA.ordem < qB.ordem) {
+      if (qA.sequencia != null && qB.sequencia != null) {
+        if (qA.sequencia < qB.sequencia) {
           return -1;
-        } else if (qA.ordem > qB.ordem) {
+        } else if (qA.sequencia > qB.sequencia) {
           return 1;
         } else {
           return 0;
         }
       } else {
-        if (qA.ordem != null) {
+        if (qA.sequencia != null) {
           return 1;
-        } else if (qB.ordem != null) {
+        } else if (qB.sequencia != null) {
           return -1;
         } else {
           // TODO: Remover quando todos os objetos de materiais tiverem o atributo ordem
@@ -357,89 +360,6 @@ export class Assunto extends Document {
     });
 
     return materiais;
-  }
-
-  getMateriaisOrdenados(estudante): Observable<MaterialAprendizagem[]> {
-    return new Observable((observer) => {
-      const consultas = {};
-
-      // TODO: vincular os vídeos ao id do assunto. Carregar os vídeos referentes ao assunto aqui e incluir em consultas
-      consultas['videosProgramacao'] = VideoProgramacao.getAll(
-        new Query('assuntoId', '==', this.pk())
-      );
-      consultas['textosProgramacao'] = Texto.getAll(new Query('assuntoId', '==', this.pk()));
-
-      if (Array.isArray(this.questoesProgramacao) && this.questoesProgramacao.length > 0) {
-        consultas['questoesProgramacao'] = QuestaoProgramacao.verificarQuestoesRespondidas(
-          estudante,
-          this.questoesProgramacao
-        );
-      }
-
-      if (Array.isArray(this.questoesFechadas) && this.questoesFechadas.length > 0) {
-        consultas['questoesFechadas'] = QuestaoFechada.verificarQuestoesRespondidas(
-          estudante,
-          this.questoesFechadas
-        );
-      }
-
-      if (Array.isArray(this.questoesParson) && this.questoesParson.length > 0) {
-        consultas['questoesParson'] = QuestaoParsonProblem.verificarQuestoesRespondidas(
-          estudante,
-          this.questoesParson
-        );
-      }
-
-      if (Array.isArray(this.questoesCorrecao) && this.questoesCorrecao.length > 0) {
-        consultas['questoesCorrecao'] = QuestaoProgramacaoCorrecao.verificarQuestoesRespondidas(
-          estudante,
-          this.questoesCorrecao
-        );
-      }
-
-      if (Array.isArray(this.questoesCorrecao) && this.questoesCorrecao.length > 0) {
-        consultas['questoesRegex'] = QuestaoProgramacaoRegex.verificarQuestoesRespondidas(
-          estudante,
-          this.questoesRegex
-        );
-      }
-
-      forkJoin(consultas).subscribe((respostas) => {
-        let materiais = [];
-        if (respostas['questoesFechadas'] != null) {
-          materiais = materiais.concat(respostas['questoesFechadas']);
-        }
-
-        if (respostas['questoesProgramacao'] != null) {
-          materiais = materiais.concat(respostas['questoesProgramacao']);
-        }
-
-        if (respostas['questoesCorrecao'] != null) {
-          materiais = materiais.concat(respostas['questoesCorrecao']);
-        }
-
-        if (respostas['questoesParson'] != null) {
-          materiais = materiais.concat(respostas['questoesParson']);
-        }
-
-        if (respostas['questoesRegex'] != null) {
-          materiais = materiais.concat(respostas['questoesRegex']);
-        }
-
-        if (respostas['videosProgramacao'] != null) {
-          materiais = materiais.concat(respostas['videosProgramacao']);
-        }
-
-        if (respostas['textosProgramacao'] != null) {
-          materiais = materiais.concat(respostas['textosProgramacao']);
-        }
-
-        materiais = this.ordenarMaterialAprendizagem(materiais);
-
-        observer.next(materiais);
-        observer.complete();
-      });
-    });
   }
 
   definirSequenciaQuestoes(questoes: any[]) {
@@ -639,7 +559,7 @@ export class Assunto extends Document {
   getQuestaoProgramacaoById(questaoId): QuestaoProgramacao {
     let questaoLocalizada = null;
     this.questoesProgramacao.forEach((questao) => {
-      if (questao.id == questaoId) {
+      if (questao.pk == questaoId) {
         questaoLocalizada = questao;
       }
     });
@@ -650,7 +570,7 @@ export class Assunto extends Document {
   getQuestaoColaborativaById(questaoId): QuestaoColaborativa | null {
     let questaoLocalizada = null;
     this.questoesColaborativas.forEach((questao) => {
-      if (questao.id == questaoId) {
+      if (questao.pk == questaoId) {
         questaoLocalizada = questao;
       }
     });
@@ -661,7 +581,7 @@ export class Assunto extends Document {
   getQuestaoFechadaById(questaoId) {
     let questaoLocalizada = null;
     this.questoesFechadas.forEach((questao) => {
-      if (questao.id == questaoId) {
+      if (questao.pk == questaoId) {
         questaoLocalizada = questao;
       }
     });
@@ -672,7 +592,7 @@ export class Assunto extends Document {
   getQuestaoParsonById(questaoId) {
     let questaoLocalizada = null;
     this.questoesParson.forEach((questao) => {
-      if (questao.id == questaoId) {
+      if (questao.pk == questaoId) {
         questaoLocalizada = questao;
       }
     });
@@ -683,7 +603,7 @@ export class Assunto extends Document {
   getQuestaoRegexById(questaoId) {
     let questaoLocalizada = null;
     this.questoesRegex.forEach((questao) => {
-      if (questao.id == questaoId) {
+      if (questao.pk == questaoId) {
         questaoLocalizada = questao;
       }
     });

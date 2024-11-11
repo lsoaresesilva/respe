@@ -111,7 +111,7 @@ export default class PageTrackRecord extends Document {
   }
 
   toJson(){
-    return {id:this.id, pagina:this.pagina, estudante:this["estudanteId"], data:Util.firestoreDateToDate(this.data)};
+    return {id:this.pk, pagina:this.pagina, estudante:this["estudanteId"], data:Util.firestoreDateToDate(this.data)};
   }
 
   static agruparPorEstudante(pageTracks:PageTrackRecord[]){

@@ -9,7 +9,7 @@ export default class Texto extends Document implements MaterialAprendizagem {
     public link,
     public nomeCurto,
     public assunto,
-    public ordem,
+    public sequencia,
     public conceitos:Conceito[]) {
     super(id);
   }

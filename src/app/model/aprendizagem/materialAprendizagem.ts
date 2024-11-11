@@ -2,9 +2,10 @@ import { Assunto } from "./questoes/assunto";
 import Conceito from './questoes/conceito';
 
 export interface MaterialAprendizagem{
-    id;
+    primary_key;
     assunto:Assunto;
-    ordem:number;
+    sequencia:number;
     nomeCurto;
     conceitos:Conceito[];
+   
 }

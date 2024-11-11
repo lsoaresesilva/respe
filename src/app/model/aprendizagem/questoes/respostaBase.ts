@@ -1,3 +1,3 @@
 export default interface RespostaBase{
-  id;
+  primary_key;
 }

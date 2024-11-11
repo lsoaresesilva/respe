@@ -57,7 +57,7 @@ export class ListarQuestoesFechadasComponent implements OnInit {
   visualizar(questao: QuestaoFechada) {
     this.router.navigate([
       'geral/main',
-      { outlets: { principal: ['visualizar-questao-fechada', this.assunto.pk(), questao.id] } },
+      { outlets: { principal: ['visualizar-questao-fechada', this.assunto.pk, questao.pk] } },
     ]);
   }
 
@@ -65,7 +65,7 @@ export class ListarQuestoesFechadasComponent implements OnInit {
     if (questao != undefined) {
       this.router.navigate([
         'geral/main',
-        { outlets: { principal: ['cadastro-questao-fechada', this.assunto.pk(), questao.id] } },
+        { outlets: { principal: ['cadastro-questao-fechada', this.assunto.pk, questao.pk] } },
       ]);
     }
   }
@@ -79,7 +79,7 @@ export class ListarQuestoesFechadasComponent implements OnInit {
       }
       const questao = this.assunto.questoesFechadas[i];
       respostasAlunoUsuario.map((respostaUsuario) => {
-        if (respostaUsuario.questaoId == questao.id) {
+        if (respostaUsuario.questaoId == questao.pk) {
           this.respostasAluno[i] = questao.isRespostaCorreta(respostaUsuario);
         }
       });
@@ -87,14 +87,14 @@ export class ListarQuestoesFechadasComponent implements OnInit {
   }
 
   ordernarPorSequencia(questoes: QuestaoFechada[]) {
-    questoes.sort((a, b) => a.ordem - b.ordem);
+    questoes.sort((a, b) => a.sequencia - b.sequencia);
     this.assunto.questoesFechadas = questoes;
   }
 
   deletar(questao: QuestaoFechada) {
     let index = -1;
     for (let i = 0; i < this.assunto.questoesFechadas; i++) {
-      if (this.assunto.questoeFechadas[i].id == questao.id) {
+      if (this.assunto.questoeFechadas[i].id == questao.pk) {
         index = i;
         break;
       }

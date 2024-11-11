@@ -38,7 +38,7 @@ import Usuario from "../usuario";
 export default class ProcessMining{
 
     static criarEvento(estudante:Usuario, action, data, questao:QuestaoProgramacao){
-        return {case:estudante.pk, action:action, datetime:Math.round(data.getTime()/1000), questaoId:questao.id}
+        return {case:estudante.pk, action:action, datetime:Math.round(data.getTime()/1000), questaoId:questao.pk}
     }
 
     static extrairPageTracksIntervaloDate(submissaoInicial, submissaoFim, pageTracks:PageTrackRecord[]){

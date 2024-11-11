@@ -73,7 +73,7 @@ export class AutoInstrucao extends Document {
   objectToDocument() {
     let document = super.objectToDocument();
     document['estudanteId'] = this.estudante.pk;
-    document['questaoId'] = this.questao.id; // TODO: incluir também o assuntoID
+    document['questaoId'] = this.questao.pk; // TODO: incluir também o assuntoID
     return document;
   }
 

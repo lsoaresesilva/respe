@@ -38,7 +38,7 @@ export class DadosQuestaoBaseComponent implements OnInit, OnChanges {
       menuItems.push(
         {label: this.assunto.nome, command: (click) => {this.router.navigate([
           'geral/main',
-          { outlets: { principal: ['admin', 'visualizar-assunto-admin', this.assunto.pk()] } },
+          { outlets: { principal: ['admin', 'visualizar-assunto-admin', this.assunto.pk] } },
         ]); }},
         {label: this.questao.nomeCurto},
         {label:'Alterar questão'}

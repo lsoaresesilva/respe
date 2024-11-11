@@ -79,13 +79,13 @@ export class SelfInstructionComponent implements OnInit {
           this.assunto = assunto;
           this.questao = this.assunto.getQuestaoProgramacaoById(params['questaoId']);
 
-          if (this.questao != null && this.questao.id != null) {
+          if (this.questao != null && this.questao.pk != null) {
             if( AutoInstrucao.exibirAutoInstrucao(this.questao)){
               this.apresentarPerguntas(this.questao.assuntos);
               const usuario = this.login.getUsuarioLogado();
               AutoInstrucao.getByEstudanteQuestao(
                 usuario.pk,
-                this.questao.id
+                this.questao.pk
               ).subscribe((autoInstrucao) => {
                 if (autoInstrucao != null) {
                   this.autoInstrucao = autoInstrucao;
@@ -94,7 +94,7 @@ export class SelfInstructionComponent implements OnInit {
             } else{
               this.router.navigate([
                 'geral/main',
-                { outlets: { principal: ['juiz', 'editor', this.assunto.pk(), this.questao.id] } },
+                { outlets: { principal: ['juiz', 'editor', this.assunto.pk, this.questao.pk] } },
               ]);
             }
 
@@ -116,7 +116,7 @@ export class SelfInstructionComponent implements OnInit {
         (resultado) => {
           this.router.navigate([
             'geral/main',
-            { outlets: { principal: ['juiz', 'editor', this.assunto.pk(), this.questao.id] } },
+            { outlets: { principal: ['juiz', 'editor', this.assunto.pk, this.questao.pk] } },
           ]);
         },
         (err) => {

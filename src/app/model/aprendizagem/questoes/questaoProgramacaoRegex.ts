@@ -11,7 +11,7 @@ export class QuestaoProgramacaoRegex extends QuestaoBase {
 
 
   constructor(public id, public nomeCurto,
-    public enunciado, public ordem, public regex: string[],
+    public enunciado, public sequencia, public regex: string[],
     public conceitos:Conceito[], public dificuldade:Dificuldade) {
     super(id);
   }
@@ -26,9 +26,9 @@ export class QuestaoProgramacaoRegex extends QuestaoBase {
         objetos.push(
           new QuestaoProgramacaoRegex(
             questaoProgramacaoRegex.id,
-            questaoProgramacaoRegex.nomeCurto,
+            questaoProgramacaoRegex.nome_curto,
             questaoProgramacaoRegex.enunciado,
-            questaoProgramacaoRegex.ordem,
+            questaoProgramacaoRegex.sequencia,
             questaoProgramacaoRegex.regex,
             Conceito.construir(questaoProgramacaoRegex.conceitos),
             questaoProgramacaoRegex.dificuldade

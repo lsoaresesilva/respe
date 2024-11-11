@@ -18,13 +18,13 @@ import RespostaBase from './aprendizagem/questoes/respostaBase';
 @Collection('submissoes')
 export default class Submissao extends Document implements RespostaBase{
   constructor(
-    id,
+    primary_key,
     public codigo: string,
     public estudante: Usuario,
     public assunto: Assunto,
     public questao: QuestaoProgramacao
   ) {
-    super(id);
+    super(primary_key);
 
     this.erro = null;
     this.resultadosTestsCases = [];
@@ -46,7 +46,7 @@ export default class Submissao extends Document implements RespostaBase{
     usuarioLogado: Usuario
   ): Observable<any[]> {
     return new Observable((observer) => {
-      Submissao.getAll(new Query('questaoId', '==', questao.id)).subscribe((resultado) => {
+      Submissao.getAll(new Query('questaoId', '==', questao.pk)).subscribe((resultado) => {
         // eliminar a submissao do próprio estudante
         let submissoes = resultado.filter((sub) => {
           if (sub.estudanteId !== usuarioLogado.pk()) {
@@ -330,7 +330,7 @@ export default class Submissao extends Document implements RespostaBase{
     return new Observable((observer) => {
       if (
         questao == null ||
-        typeof questao.id == null ||
+        typeof questao.pk == null ||
         estudante == null ||
         typeof estudante.pk != 'function'
       ) {
@@ -338,7 +338,7 @@ export default class Submissao extends Document implements RespostaBase{
       } else {
         Submissao.getAll([
           new Query('estudanteId', '==', estudante.pk),
-          new Query('questaoId', '==', questao.id),
+          new Query('questaoId', '==', questao.pk),
         ]).subscribe((submissoes) => {
           observer.next(submissoes);
           observer.complete();
@@ -351,7 +351,7 @@ export default class Submissao extends Document implements RespostaBase{
     return new Observable((observer) => {
       if (questao != null){
         Submissao.getAll([
-          new Query('questaoId', '==', questao.id),
+          new Query('questaoId', '==', questao.pk),
           new Query("estudantes", "array-contains", {status:true})
         ]).subscribe((submissoes) => {
           observer.next(submissoes);
@@ -459,12 +459,12 @@ export default class Submissao extends Document implements RespostaBase{
       document['estudanteId'] = this.estudante.pk;
     }
 
-    if (this.questao != null && this.questao.id != null) {
-      document['questaoId'] = this.questao.id;
+    if (this.questao != null && this.questao.pk != null) {
+      document['questaoId'] = this.questao.pk;
     }
 
-    if (this.assunto != null && this.assunto.pk() != null) {
-      document['assuntoId'] = this.assunto.pk();
+    if (this.assunto != null && this.assunto.pk != null) {
+      document['assuntoId'] = this.assunto.pk;
     }
 
     document['codigo'] = this.codigo;

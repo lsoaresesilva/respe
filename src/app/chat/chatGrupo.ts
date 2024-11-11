@@ -190,7 +190,7 @@ export default class ChatGrupoAdapter extends ChatAdapter implements IChatGroupA
 
               this.grupoChat = new Group(estudantesGrupo);
               this.grupoChat.id = this.grupoAtividade.id;
-              ChatGrupo.onDocumentUpdate(chatGrupo.id, callback);
+              ChatGrupo.onDocumentUpdate(chatGrupo.pk, callback);
               observer.next(this.grupoChat);
               observer.complete();
 

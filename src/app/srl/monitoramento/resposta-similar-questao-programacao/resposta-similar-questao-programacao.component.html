@@ -21,9 +21,9 @@
     <ng-template pTemplate="rowexpansion" let-assunto let-rowIndex="rowIndex">
        
         <tr> 
-            <p-radioButton *ngFor="let questao of assunto.questoesProgramacao" class= "alternativa" name="{{questao.nomeCurto}}" value= "{{questao.id}}"
+            <p-radioButton *ngFor="let questao of assunto.questoesProgramacao" class= "alternativa" name="{{questao.nomeCurto}}" value= "{{questao.pk}}"
 
-            [(ngModel)]="modeloRespostaQuestao.questao" label="{{questao.nomeCurto}}" inputId= "{{questao.id}}"></p-radioButton>
+            [(ngModel)]="modeloRespostaQuestao.questao" label="{{questao.nomeCurto}}" inputId= "{{questao.pk}}"></p-radioButton>
           
         </tr>
     </ng-template>

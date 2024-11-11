@@ -16,6 +16,7 @@ import Conceito from '../aprendizagem/questoes/conceito';
 import RespostasQuestoes from '../aprendizagem/questoes/respostasQuestoes';
 import { MaterialAprendizagem } from '../aprendizagem/materialAprendizagem';
 import { QuestaoProgramacao } from '../aprendizagem/questoes/questaoProgramacao';
+import QuestaoBase from '../aprendizagem/questoes/questaoBase';
 
 export default class Analytics {
   // TODO: Fazer apenas um carregamento de assunto e usar par atudo aqui.
@@ -107,9 +108,11 @@ export default class Analytics {
       });
 
       forkJoin(consultaRespostas).subscribe((respostas) => {
-        Assunto.getAll([new Query("lazy", "=", true)]).subscribe((assuntos) => {
+        Assunto.getAll([new Query("lazy", "=", false)]).subscribe((assuntos) => {
 
-          let submissoes = [];
+          // TODO: Refatorar, deixar mais orientado à objetos.
+
+          /* let submissoes = [];
           let respostasQuestoesFechadas = [];
           let respostasQuestoesParson = [];
 
@@ -144,6 +147,8 @@ export default class Analytics {
 
 
           observer.next(analytics);
+          observer.complete(); */
+          observer.next(null);
           observer.complete();
         });
       });
@@ -168,7 +173,7 @@ export default class Analytics {
   }
 
   static calcularErrosConceituaisQuestoes(
-    questoes: MaterialAprendizagem[],
+    questoes: QuestaoBase[],
     respostas: any[],
     mapeamento: Map<string, number>
   ) {
@@ -201,7 +206,7 @@ export default class Analytics {
         let resultado;
         if(questao instanceof QuestaoProgramacao){
           const submissoesAgrupadas = Submissao.agruparPorQuestao(respostas);
-          const submissoesQuestao = submissoesAgrupadas.get(questao.id);
+          const submissoesQuestao = submissoesAgrupadas.get(questao.pk);
           const submissoesQuestaoPorEstudante = Submissao.agruparRecentePorEstudante(submissoesQuestao);
           submissoesQuestaoPorEstudante.forEach((submissao, estudanteId)=>{
             resultado = submissao.isFinalizada();
@@ -212,7 +217,7 @@ export default class Analytics {
           });
         } else{
           respostas.forEach((resposta) => {
-            if (resposta.questao.id === questao.id) {
+            if (resposta.questao.pk === questao.pk) {
               if(questao instanceof QuestaoFechada){
                 resultado = questao.isRespostaCorreta(resposta);
               }
@@ -244,28 +249,29 @@ export default class Analytics {
   static calcularProgressoNoAssunto(assunto: Assunto, respostas: RespostasQuestoes) {
     let percentualConclusao = 0;
 
-    percentualConclusao += this.calcularPercentualConclusaoQuestoesFechadas(
-      assunto,
-      respostas.questoesFechadas
-    );
+    if(respostas.questoesProgramacao != null){
+      percentualConclusao += this.calcularPercentualConclusaoQuestoesFechadas(
+        assunto,
+        respostas.questoesFechadas
+      );
+    }
 
-    percentualConclusao += this.calcularPercentualConclusaoQuestoesParson(
-      assunto,
-      respostas.questoesParson
-    );
-
-    /* percentualConclusao += this.calcularPercentualConclusaoQuestoesCorrecao(
-      assunto,
-      respostas.respostaQuestaoCorrecao
-    ); */
-
-    percentualConclusao += this.calcularPercentualConclusaoQuestoesProgramacao(
-      assunto,
-      Submissao.agruparPorQuestao(respostas.questoesProgramacao.submissoes),
-      respostas.questoesProgramacao.visualizacoesRespostas,
-      0.5
-    );
-
+    if(respostas.questoesParson != null){
+      percentualConclusao += this.calcularPercentualConclusaoQuestoesParson(
+        assunto,
+        respostas.questoesParson
+      );
+    }
+    
+    if(respostas.questoesProgramacao != null && respostas.questoesProgramacao.submissoes != null){
+      percentualConclusao += this.calcularPercentualConclusaoQuestoesProgramacao(
+        assunto,
+        Submissao.agruparPorQuestao(respostas.questoesProgramacao.submissoes),
+        respostas.questoesProgramacao.visualizacoesRespostas,
+        0.5
+      );
+    }
+  
     return Math.round((percentualConclusao / 3) * 100) / 100
   }
 
@@ -276,7 +282,7 @@ export default class Analytics {
     let resultado = false;
 
     for (let i = 0; i < respostasQuestoesFechadas.length; i++) {
-      if (respostasQuestoesFechadas[i].questao.id === questaoFechada.id) {
+      if (respostasQuestoesFechadas[i].questao.pk === questaoFechada.pk) {
         resultado = questaoFechada.isRespostaCorreta(respostasQuestoesFechadas[i]);
       }
     }
@@ -343,7 +349,7 @@ export default class Analytics {
     for (let i = 0; i < assunto.questoesCorrecao.length; i++) {
       let resultado = false;
       for (let j = 0; j < respostas.length; j++) {
-        if (respostas[j].questaoCorrecaoId == assunto.questoesCorrecao[i].id) {
+        if (respostas[j].questaoCorrecaoId == assunto.questoesCorrecao[i].pk) {
           resultado = assunto.questoesCorrecao[i].isRespostaCorreta(respostas[j]);
 
           if (resultado) {
@@ -418,12 +424,12 @@ export default class Analytics {
       const totalQuestoes = assunto.questoesProgramacao.length;
       let questoesRespondidas = 0;
       assunto.questoesProgramacao.forEach((questao) => {
-        if (questao.id != '4fe6ba63-0d71-49e5-b3b9-a1756872e2ad') {
+        if (questao.pk != '4fe6ba63-0d71-49e5-b3b9-a1756872e2ad') {
           // Bloqueia a questão adicionada para prof. do if
-          const subsQuestao = submissoes.get(questao.id);
+          const subsQuestao = submissoes.get(questao.pk);
           const subRecente = Submissao.filtrarRecente(subsQuestao);
           const visualizouResposta = visualizacoesQuestoesProgramacao.findIndex((visualizacao) => {
-            if (visualizacao.questaoId == questao.id) {
+            if (visualizacao.questaoId == questao.pk) {
               return true;
             }
 
@@ -438,7 +444,7 @@ export default class Analytics {
         }
       });
 
-      if (assunto.id != 'PU0EstYupXgDZ2a57X0X') {
+      if (assunto.pk != 'PU0EstYupXgDZ2a57X0X') {
         return questoesRespondidas / totalQuestoes;
       } else {
         return questoesRespondidas / (totalQuestoes - 1);

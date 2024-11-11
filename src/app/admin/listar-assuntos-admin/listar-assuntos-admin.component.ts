@@ -79,7 +79,7 @@ export class ListarAssuntosAdminComponent implements OnInit {
   abrirAssunto(assunto) {
     this.router.navigate([
       'geral/main',
-      { outlets: { principal: ['admin', 'visualizar-assunto-admin', assunto.pk()] } },
+      { outlets: { principal: ['admin', 'visualizar-assunto-admin', assunto.pk] } },
     ]);
   }
 }

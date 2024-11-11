@@ -237,10 +237,10 @@ export class MonitorService {
 
           /* const suporteParaCategoria = this.suporte.get(submissao.erro.categoria);
 
-          if (!suporteParaCategoria.includes(questao.id)) {
+          if (!suporteParaCategoria.includes(questao.pk)) {
             this.suporteRecente = submissao.erro.categoria;
             enviarMensagem = true;
-            suporteParaCategoria.push(questao.id);
+            suporteParaCategoria.push(questao.pk);
             const mensagemSuporte = MensagemSuporteMonitor.getMensagem(
               getLabelPorCategoriaNumero(submissao.erro.categoria)
             );
@@ -254,8 +254,8 @@ export class MonitorService {
           //}
           /* else {
             if (errorQuotient > 0.7) {
-              if (!this.suporteMotivacional.includes(questao.id)) {
-                this.suporteMotivacional.push(questao.id);
+              if (!this.suporteMotivacional.includes(questao.pk)) {
+                this.suporteMotivacional.push(questao.pk);
                 const mensagemSuporteMotivacional = MensagemSuporteMonitor.getMensagem(
                   'mensagensMotivacionais'
                 );

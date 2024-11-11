@@ -13,7 +13,7 @@ import { Util } from "../util";
 
 function isFinalizada(questao, estudanteId, dataEncerramento){
     return new Observable(observer=>{
-        Submissao.getAll([new Query("questaoId", "==", questao.questao.id), new Query("estudanteId", "==", estudanteId)]).subscribe(submissoes=>{
+        Submissao.getAll([new Query("questaoId", "==", questao.questao.pk), new Query("estudanteId", "==", estudanteId)]).subscribe(submissoes=>{
             submissoes = submissoes.map(submissao=>{
                 submissao.data = Util.firestoreDateToDate(submissao.data);
                 return submissao;

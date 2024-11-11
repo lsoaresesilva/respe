@@ -59,7 +59,7 @@ export class VisualizarPerfilEstudanteComponent implements OnInit {
             assuntos.forEach((assunto) => {
               assunto.questoesProgramacao.forEach((questao) => {
                 for (let i = 0; i < instrucoes.length; i++) {
-                  if (instrucoes[i]['questaoId'] == questao.id) {
+                  if (instrucoes[i]['questaoId'] == questao.pk) {
                     let autoInstrucao = {
                       problema: instrucoes[i].problema,
                       variaveis: instrucoes[i].variaveis,
@@ -110,7 +110,7 @@ export class VisualizarPerfilEstudanteComponent implements OnInit {
       Assunto.getAll().subscribe((assuntos) => {
         assuntos.forEach((assunto) => {
           assunto.questoesProgramacao.forEach((questao) => {
-            if (questao.id == submissao.questaoId) {
+            if (questao.pk == submissao.questaoId) {
               this.questoes.push(questao);
               this.porcetagemEstudante(this.questoes);
             }

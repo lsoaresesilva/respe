@@ -14,15 +14,15 @@ export default class VisualizacaoQuestao extends Document {
       this.estudante != null &&
       this.estudante.pk != null &&
       this.questao != null &&
-      this.questao.id != null &&
+      this.questao.pk != null &&
       this.assunto != null &&
-      this.assunto.pk() != null
+      this.assunto.pk != null
     ) {
       const document = super.objectToDocument();
 
       document['estudanteId'] = this.estudante.pk;
-      document['questaoId'] = this.questao.id;
-      document['assuntoId'] = this.assunto.pk();
+      document['questaoId'] = this.questao.pk;
+      document['assuntoId'] = this.assunto.pk;
 
       return document;
     }

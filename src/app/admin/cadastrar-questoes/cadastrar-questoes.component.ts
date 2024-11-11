@@ -75,8 +75,8 @@ export class CadastrarQuestoesComponent implements OnInit {
   }
 
   async cadastrar() {
-    this.questao.ordem =
-      this.questao.ordem !== 0 ? this.questao.ordem : await this.assunto.getUltimaSequencia();
+    this.questao.sequencia =
+      this.questao.sequencia !== 0 ? this.questao.sequencia : await this.assunto.getUltimaSequencia();
 
     if (typeof this.algoritmoInicial === 'string' && this.algoritmoInicial !== '') {
       this.questao.algoritmoInicial = this.algoritmoInicial.split('\n');
@@ -119,7 +119,7 @@ export class CadastrarQuestoesComponent implements OnInit {
           this.messageCadastro();
           this.router.navigate([
             'geral/main',
-            { outlets: { principal: ['admin', 'visualizar-assunto-admin', this.assunto.pk()] } },
+            { outlets: { principal: ['admin', 'visualizar-assunto-admin', this.assunto.pk] } },
           ]);
         },
         (err) => {

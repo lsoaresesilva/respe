@@ -59,7 +59,7 @@ import {SkeletonModule} from 'primeng/skeleton';
 import { SharedPipesModule } from '../pipes/shared-pipes.module';
 import { ProgressBarModule } from 'primeng/progressbar';
 import { SrlModule } from '../srl/srl.module';
-import { ListarQuestoesSequenciaComponent } from './listar-questoes-sequencia/listar-questoes-sequencia.component';
+
 import { ProgressSpinnerModule } from 'primeng/progressspinner';
 import { ChatModule } from '../chat/chat.module';
 import { BtnAvancarQuestaoComponent } from './btn-avancar-questao/btn-avancar-questao.component';
@@ -170,7 +170,6 @@ export const routes: Routes = [
         ResponderQuestaoProgramacaoLiteComponent,
         ConsoleComponent,
         ApresentacaoEntradasTestcaseComponent,
-        ListarQuestoesSequenciaComponent,
         BtnAvancarQuestaoComponent,
         EditorPadraoComponent,
         ConsolePadraoComponent,

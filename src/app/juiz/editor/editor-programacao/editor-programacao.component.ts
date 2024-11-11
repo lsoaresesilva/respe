@@ -535,7 +535,7 @@ export class EditorProgramacaoComponent implements AfterViewInit, OnChanges, OnI
             'visualizar-documentacao-projeto',
             this.atividadeGrupo.pk(),
             this.grupo.id,
-            this.assunto.pk(),
+            this.assunto.pk,
             this.questaoColaborativa.id,
           ],
         },

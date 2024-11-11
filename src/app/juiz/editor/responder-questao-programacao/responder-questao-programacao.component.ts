@@ -159,7 +159,7 @@ export class ResponderQuestaoProgramacao implements OnInit, AfterViewInit, OnCha
   visualizarPlanejamento() {
     this.router.navigate([
       'geral/main',
-      { outlets: { principal: ['srl', 'self-instruction-editor', this.assunto.pk(), this.questao.id] } },
+      { outlets: { principal: ['srl', 'self-instruction-editor', this.assunto.pk, this.questao.pk] } },
     ]);
   }
 
@@ -218,8 +218,7 @@ export class ResponderQuestaoProgramacao implements OnInit, AfterViewInit, OnCha
 
                 if (this.questaoColaborativa != null && this.questaoColaborativa.questao != null) {
                   let questao = QuestaoProgramacao._construirIndividual(
-                    this.questaoColaborativa.questao,
-                    this.assunto
+                    this.questaoColaborativa.questao
                   ) as QuestaoProgramacao;
                   if (questao != null) {
                     this.questao = questao;
@@ -253,7 +252,7 @@ export class ResponderQuestaoProgramacao implements OnInit, AfterViewInit, OnCha
 
           if (assunto['questoesCorrecao'] != undefined && assunto['questoesCorrecao'].length > 0) {
             assunto['questoesCorrecao'].forEach((questaoCorrecao) => {
-              if (questaoCorrecao.id == params['questaoCorrecaoId']) {
+              if (questaoCorrecao.pk == params['questaoCorrecaoId']) {
                 this.questaoCorrecao = questaoCorrecao;
                 this.questao = questaoCorrecao.questao;
 
@@ -288,7 +287,7 @@ export class ResponderQuestaoProgramacao implements OnInit, AfterViewInit, OnCha
               assunto['questoesProgramacao'].length > 0
             ) {
               assunto['questoesProgramacao'].forEach((questao) => {
-                if (questao.id == params['questaoId']) {
+                if (questao.pk == params['questaoId']) {
                   this.questao = questao;
 
                   /* if (this.usuario.grupoExperimento != Groups.control) {
@@ -311,7 +310,7 @@ export class ResponderQuestaoProgramacao implements OnInit, AfterViewInit, OnCha
                       this.questao.testsCases.splice(3, 1);
                     }
                     let resposta = this.questao.solucao.codigo;
-                    let perguntaDados = [this.questao.ordem, this.questao.nomeCurto, this.questao.id];
+                    let perguntaDados = [this.questao.sequencia, this.questao.nomeCurto, this.questao.pk];
                     this.chatbotService.sendMessage({ teste: casosTeste, resposta: [resposta, perguntaDados]});
                     // --------------------------------------------------------------
 
@@ -381,7 +380,7 @@ export class ResponderQuestaoProgramacao implements OnInit, AfterViewInit, OnCha
   /* listarSubmissao() {
     this.router.navigate([
       'geral/main',
-      { outlets: { principal: ['estudantes-questao', this.assunto.id, this.questao.id] } },
+      { outlets: { principal: ['estudantes-questao', this.assunto.id, this.questao.pk] } },
     ]);
   } */
 

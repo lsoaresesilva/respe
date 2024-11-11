@@ -35,7 +35,7 @@ export class VisualizarQuestaoComponent implements OnInit {
             assunto['questoesProgramacao'].length > 0
           ) {
             assunto['questoesProgramacao'].forEach((questao) => {
-              if (questao.id == params['questaoId']) {
+              if (questao.pk == params['questaoId']) {
                 this.questao = questao;
                 if (this.questao.testsCases.length > 3) {
                   this.questao.testsCases.splice(3, 1);
@@ -57,7 +57,7 @@ export class VisualizarQuestaoComponent implements OnInit {
   abrirEditor(questao) {
     this.router.navigate([
       'geral/main',
-      { outlets: { principal: ['editor', this.assunto.pk(), questao.id] } },
+      { outlets: { principal: ['editor', this.assunto.pk, questao.pk] } },
     ]);
   }
 
@@ -66,21 +66,21 @@ export class VisualizarQuestaoComponent implements OnInit {
     if (usuario.grupoExperimento == Groups.control) {
       this.router.navigate([
         'geral/main',
-        { outlets: { principal: ['editor', this.assunto.pk(), questao.id] } },
+        { outlets: { principal: ['editor', this.assunto.pk, questao.pk] } },
       ]);
       return;
     }
 
     this.router.navigate([
       'geral/main',
-      { outlets: { principal: ['self-instruction', this.assunto.pk(), questao.id] } },
+      { outlets: { principal: ['self-instruction', this.assunto.pk, questao.pk] } },
     ]);
   }
   alterarQuestao(questao: QuestaoProgramacao) {
     if (questao != undefined) {
       this.router.navigate([
         'geral/main',
-        { outlets: { principal: ['atualizacao-questao', questao.id] } },
+        { outlets: { principal: ['atualizacao-questao', questao.pk] } },
       ]);
     }
   }

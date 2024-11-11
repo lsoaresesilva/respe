@@ -86,11 +86,11 @@ describe('Testes de Submissão', () => {
       null, null
     );
     const submissao = new Submissao(null, 'x = 2\ny = c', estudante, null, questao);
-    submissao['questaoId'] = questao.id;
+    submissao['questaoId'] = questao.pk;
     submissao.data = firestore.Timestamp.now();
 
     const submissaoDois = new Submissao(null, 'x = 2\ny = c', estudante, null, questao);
-    submissaoDois['questaoId'] = questao.id;
+    submissaoDois['questaoId'] = questao.pk;
 
     const oitoDiasAtras = new Date();
     oitoDiasAtras.setDate(new Date().getDate() - 8);

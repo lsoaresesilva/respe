@@ -83,7 +83,7 @@ export class VisualizarQuestaoFechadaComponent implements OnInit {
               this.questao = assunto['getQuestaoFechadaById'](params['questaoId']);
 
               // Enviar dados da questão ao service
-              this.chatbotService.sendDados([this.questao.ordem, this.questao.nomeCurto, this.questao.id]);
+              this.chatbotService.sendDados([this.questao.sequencia, this.questao.nomeCurto, this.questao.pk]);
 
               RespostaQuestaoFechada.getRespostaQuestaoEstudante(this.questao, usuario).subscribe(
                 (respostaUsuario: RespostaQuestaoFechada) => {

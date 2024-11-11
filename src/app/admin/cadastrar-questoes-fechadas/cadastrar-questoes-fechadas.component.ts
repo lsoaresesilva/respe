@@ -73,8 +73,8 @@ export class CadastrarQuestoesFechadasComponent implements OnInit {
   }
 
   async cadastrar() {
-    this.questao.ordem =
-      this.questao.ordem !== 0 ? this.questao.ordem : await this.assunto.getUltimaSequencia();
+    this.questao.sequencia =
+      this.questao.sequencia !== 0 ? this.questao.sequencia : await this.assunto.getUltimaSequencia();
 
     if (this.questao.validar()) {
 
@@ -92,7 +92,7 @@ export class CadastrarQuestoesFechadasComponent implements OnInit {
           this.messageCadastro();
           this.router.navigate([
             'geral/main',
-            { outlets: { principal: ['admin', 'visualizar-assunto-admin', this.assunto.pk()] } },
+            { outlets: { principal: ['admin', 'visualizar-assunto-admin', this.assunto.pk] } },
           ]);
         },
         (err) => {

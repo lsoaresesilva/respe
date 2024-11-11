@@ -75,14 +75,14 @@ export class ListarQuestoesComponent implements OnInit, OnChanges, AfterViewInit
     if (usuario.grupoExperimento == Groups.control) {
       this.router.navigate([
         'geral/main',
-        { outlets: { principal: ['editor', this.assunto.pk(), questao.id] } },
+        { outlets: { principal: ['editor', this.assunto.pk, questao.pk] } },
       ]);
       return;
     }
 
     this.router.navigate([
       'geral/main',
-      { outlets: { principal: ['self-instruction', this.assunto.pk(), questao.id] } },
+      { outlets: { principal: ['self-instruction', this.assunto.pk, questao.pk] } },
     ]);
   }
 
@@ -90,7 +90,7 @@ export class ListarQuestoesComponent implements OnInit, OnChanges, AfterViewInit
     if (questao != undefined) {
       this.router.navigate([
         'geral/main',
-        { outlets: { principal: ['cadastro-questao', this.assunto.pk(), questao.id] } },
+        { outlets: { principal: ['cadastro-questao', this.assunto.pk, questao.pk] } },
       ]);
     }
   }
@@ -98,7 +98,7 @@ export class ListarQuestoesComponent implements OnInit, OnChanges, AfterViewInit
   deletar(questao: QuestaoProgramacao) {
     let index = -1;
     for (let i = 0; i < this.assunto.questoesProgramacao; i++) {
-      if (this.assunto.questoeProgramacao[i].id == questao.id) {
+      if (this.assunto.questoeProgramacao[i].id == questao.pk) {
         index = i;
         break;
       }

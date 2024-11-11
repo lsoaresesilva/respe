@@ -24,7 +24,7 @@ export class ListarMateriaisSequenciaComponent implements OnChanges {
 
   @Input()
   assunto?: Assunto;
-  materiaisAprendizagem:MaterialAprendizagem[];
+  materiaisAprendizagem:(QuestaoFechada | QuestaoParsonProblem | QuestaoProgramacao | QuestaoProgramacaoRegex)[] = [];
   events;
 
   constructor(private login:LoginService, private router: Router) { }
@@ -34,15 +34,14 @@ export class ListarMateriaisSequenciaComponent implements OnChanges {
   }
 
   ngOnChanges(): void {
-    if(this.assunto != null && this.assunto.pk() != null){
-      this.assunto.getMateriaisOrdenados(this.login.getUsuarioLogado()).subscribe(materiais=>{
-        this.materiaisAprendizagem = materiais;
-        this.construirTimeline();
-      });
+    if(this.assunto != null && this.assunto.pk != null){
+      this.construirTimeline();
     }
 
 
   }
+
+
 
   getMaterial(material){
     if (material instanceof QuestaoFechada || material instanceof QuestaoProgramacao || material instanceof QuestaoParsonProblem || material instanceof QuestaoProgramacaoCorrecao ||  material instanceof QuestaoProgramacaoRegex) {
@@ -68,22 +67,22 @@ export class ListarMateriaisSequenciaComponent implements OnChanges {
     if (material instanceof QuestaoFechada) {
       this.router.navigate([
         'geral/main',
-        { outlets: { principal: ['juiz', 'visualizar-questao-fechada', this.assunto.pk(), material.id] } },
+        { outlets: { principal: ['juiz', 'visualizar-questao-fechada', this.assunto.pk, material.pk] } },
       ]);
     } else if (material instanceof QuestaoParsonProblem) {
       this.router.navigate([
         'geral/main',
-        { outlets: { principal: ['juiz', 'visualizar-questao-parson', this.assunto.pk(), material.id] } },
+        { outlets: { principal: ['juiz', 'visualizar-questao-parson', this.assunto.pk, material.pk] } },
       ]);
     }  else if (material instanceof QuestaoProgramacaoCorrecao) {
       this.router.navigate([
         'geral/main',
-        { outlets: { principal: ['juiz', 'responder-questao-correcao', this.assunto.pk(), material.id] } },
+        { outlets: { principal: ['juiz', 'responder-questao-correcao', this.assunto.pk, material.pk] } },
       ]);
     } else if (material instanceof QuestaoProgramacaoRegex) {
       this.router.navigate([
         'geral/main',
-        { outlets: { principal: ['juiz', 'editor-regex', this.assunto.pk(), material.id] } },
+        { outlets: { principal: ['juiz', 'editor-regex', this.assunto.pk, material.pk] } },
       ]);
     } else if (material instanceof VideoProgramacao) {
       this.router.navigate([
@@ -93,7 +92,7 @@ export class ListarMateriaisSequenciaComponent implements OnChanges {
     }else if (material instanceof Texto) {
       this.router.navigate([
         'geral/main',
-        { outlets: { principal: ['aprendizado', 'visualizacao-texto', this.assunto.pk(), material.pk()] } },
+        { outlets: { principal: ['aprendizado', 'visualizacao-texto', this.assunto.pk, material.pk()] } },
       ]);
     }
     else {
@@ -101,28 +100,28 @@ export class ListarMateriaisSequenciaComponent implements OnChanges {
       if (usuario.grupoExperimento === Groups.control) {
         this.router.navigate([
           'geral/main',
-          { outlets: { principal: ['juiz', 'editor', this.assunto.pk(), material.id] } },
+          { outlets: { principal: ['juiz', 'editor', this.assunto.pk, material.pk] } },
         ]);
         return;
       }
 
       this.router.navigate([
         'geral/main',
-        { outlets: { principal: ['srl', 'self-instruction', this.assunto.pk(), material.id] } },
+        { outlets: { principal: ['srl', 'self-instruction', this.assunto.pk, material.pk] } },
       ]);
     }
   }
 
   construirTimeline(){
-    let materiais = []
-    this.materiaisAprendizagem.forEach(materialAprendizagem => {
-      materiais.push(materialAprendizagem)
-    });
+     this.materiaisAprendizagem = [
+      ...this.assunto.questoesFechadas,
+      ...this.assunto.questoesParson,
+      ...this.assunto.questoesProgramacao,
+      ...this.assunto.questoesRegex
+    ];
 
-    this.events = new Observable<any[]>(observer=>{
-      observer.next(materiais);
-      observer.complete();
-    })
+
+    this.materiaisAprendizagem.sort((a, b) => a.sequencia - b.sequencia);
   }
 
 }

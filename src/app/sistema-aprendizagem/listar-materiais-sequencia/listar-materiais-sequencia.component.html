@@ -1,5 +1,5 @@
 
-<p-timeline [value]="events | async" align="alternate">
+<p-timeline [value]="materiaisAprendizagem" align="alternate">
     <ng-template pTemplate="marker" let-material>
       <ng-container *ngIf="getMaterial(material) == 'questoes'; else outros">
        <p-knob *ngIf="material.percentualResposta != null" [(ngModel)]="material.percentualResposta" [size]="25" [readonly]="true"></p-knob>
@@ -14,6 +14,6 @@
       </ng-template>
     </ng-template>
     <ng-template pTemplate="content" let-material>
-     <span (click)="abrirMaterial(material)" [style]="getCorMaterial(material)">{{material.ordem}}. {{material.nomeCurto}}</span>
+     <span (click)="abrirMaterial(material)" [style]="getCorMaterial(material)">{{material.sequencia}}. {{material.nomeCurto}}</span>
     </ng-template>
   </p-timeline>

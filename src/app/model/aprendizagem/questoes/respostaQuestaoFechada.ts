@@ -71,7 +71,7 @@ export class RespostaQuestaoFechada extends Document {
   objectToDocument() {
     const document = super.objectToDocument();
     document['estudanteId'] = this.estudante.pk;
-    document['questaoId'] = this.questao.id;
+    document['questaoId'] = this.questao.pk;
     document['alternativaId'] = this.alternativa.id;
     return document;
   }
@@ -82,7 +82,7 @@ export class RespostaQuestaoFechada extends Document {
     return new Observable((observer) => {
       RespostaQuestaoFechada.getByQuery([
         new Query('estudanteId', '==', usuario.pk),
-        new Query('questaoId', '==', questao.id),
+        new Query('questaoId', '==', questao.pk),
       ]).subscribe((respostaSalva: RespostaQuestaoFechada) => {
         observer.next(respostaSalva);
         observer.complete();

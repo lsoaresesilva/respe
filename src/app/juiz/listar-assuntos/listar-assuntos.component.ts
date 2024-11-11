@@ -26,7 +26,21 @@ export class ListarAssuntosComponent implements OnInit {
 
   ngOnInit() {
 
-    ConfiguracaoEditor.getByQuery(new Query("codigoTurma", "==", this.usuario.turma.codigo)).subscribe(configuracao=>{
+    Assunto.getAll([new Query("lazy", "=", false)]).subscribe((assuntos) => {
+      this.assuntos = assuntos;
+
+      if(this.usuario.grupoExperimento != Groups.control){
+        this.assuntos.forEach((assunto) => {
+          Assunto.consultarRespostasEstudante(this.usuario).subscribe(respostas=>{
+            let percentual = Analytics.calcularProgressoNoAssunto(assunto, respostas);
+            assunto['percentual'] = percentual;
+          })
+        });
+      }
+
+    });
+
+    /* ConfiguracaoEditor.getByQuery(new Query("codigoTurma", "==", this.usuario.turma.codigo)).subscribe(configuracao=>{
       const query: Observable<Assunto>[] = [];
       if(configuracao != null){
         if(configuracao.assuntos != null){
@@ -69,14 +83,14 @@ export class ListarAssuntosComponent implements OnInit {
 
 
 
-    })
+    }) */
 
   }
 
   abrirAssunto(assunto) {
     this.router.navigate([
       'geral/main',
-      { outlets: { principal: ['juiz','visualizar-assunto', assunto.pk()] } },
+      { outlets: { principal: ['juiz','visualizar-assunto', assunto.pk] } },
     ]);
   }
 

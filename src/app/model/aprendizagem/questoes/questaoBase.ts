@@ -1,5 +1,5 @@
 import { Observable, forkJoin } from 'rxjs';
-import { ignore } from '../../firestore/document';
+import { Document, ignore } from '../../firestore/document';
 import { Util } from '../../util';
 import { MaterialAprendizagem } from '../materialAprendizagem';
 import { Assunto } from './assunto';
@@ -8,9 +8,9 @@ import conceito from './conceito';
 import { Dificuldade } from './enum/dificuldade';
 import RespostaBase from './respostaBase';
 
-export default abstract class QuestaoBase implements MaterialAprendizagem {
+export default abstract class QuestaoBase extends Document implements MaterialAprendizagem {
   assunto: Assunto;
-  ordem: number;
+  sequencia: number;
   nomeCurto: string;
   enunciado: string;
   conceitos: conceito[];
@@ -19,12 +19,8 @@ export default abstract class QuestaoBase implements MaterialAprendizagem {
   @ignore()
   percentualResposta;
 
-  constructor(public id) {
-    if (id == null) {
-      this.id = Util.uuidv4();
-    } else {
-      this.id = id;
-    }
+  constructor(public primary_key) {
+    super(primary_key);
   }
 
   carregarConceitos() {
@@ -47,7 +43,7 @@ export default abstract class QuestaoBase implements MaterialAprendizagem {
       this.dificuldade > 0 &&
       this.enunciado !== '' &&
       this.nomeCurto !== '' &&
-      this.ordem > 0) {
+      this.sequencia > 0) {
       return true;
     }
 
@@ -56,10 +52,10 @@ export default abstract class QuestaoBase implements MaterialAprendizagem {
 
   objectToDocument() {
     const document = {};
-    document['id'] = this.id;
+    document['primary_key'] = this.primary_key;
     document['nomeCurto'] = this.nomeCurto;
     document['enunciado'] = this.enunciado;
-    document['ordem'] = this.ordem;
+    document['ordem'] = this.sequencia;
     document['dificuldade'] = this.dificuldade ?? '';
 
     const conceitos = [];

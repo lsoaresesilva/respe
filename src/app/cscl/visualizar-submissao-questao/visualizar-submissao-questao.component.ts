@@ -36,7 +36,7 @@ export class VisualizarSubmissaoQuestaoComponent implements OnInit {
               let a = assunto as Assunto;
               if(params['isAtividadeGrupo'] != null){
                 let questaoColaborativa = a.questoesColaborativas.find(questaoColaborativa=>{
-                  if(questaoColaborativa.questao.id == this.submissao.questaoId){
+                  if(questaoColaborativa.questao.pk == this.submissao.questaoId){
                     return true;
                   }
 

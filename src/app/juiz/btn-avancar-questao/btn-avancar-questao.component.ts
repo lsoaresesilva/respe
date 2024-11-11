@@ -33,17 +33,17 @@ export class BtnAvancarQuestaoComponent implements OnInit {
       if (questao instanceof QuestaoFechada) {
         this.router.navigate([
           'geral/main',
-          { outlets: { principal: ['juiz', 'visualizar-questao-fechada', this.assunto.pk(), questao.id] } },
+          { outlets: { principal: ['juiz', 'visualizar-questao-fechada', this.assunto.pk, questao.pk] } },
         ]);
       } else if (questao instanceof QuestaoParsonProblem) {
         this.router.navigate([
           'geral/main',
-          { outlets: { principal: ['juiz', 'visualizar-questao-parson', this.assunto.pk(), questao.id] } },
+          { outlets: { principal: ['juiz', 'visualizar-questao-parson', this.assunto.pk, questao.pk] } },
         ]);
       } else if (questao instanceof QuestaoProgramacaoRegex) {
         this.router.navigate([
           'geral/main',
-          { outlets: { principal: ['juiz', 'editor-regex', this.assunto.pk(), questao.id] } },
+          { outlets: { principal: ['juiz', 'editor-regex', this.assunto.pk, questao.pk] } },
         ]);
       }
       else {
@@ -51,14 +51,14 @@ export class BtnAvancarQuestaoComponent implements OnInit {
         if (usuario.grupoExperimento === Groups.control) {
           this.router.navigate([
             'geral/main',
-            { outlets: { principal: ['juiz', 'editor', this.assunto.pk(), questao.id] } },
+            { outlets: { principal: ['juiz', 'editor', this.assunto.pk, questao.pk] } },
           ]);
           return;
         }
 
         this.router.navigate([
           'geral/main',
-          { outlets: { principal: ['srl', 'self-instruction', this.assunto.pk(), questao.id] } },
+          { outlets: { principal: ['srl', 'self-instruction', this.assunto.pk, questao.pk] } },
         ]);
       }
     }

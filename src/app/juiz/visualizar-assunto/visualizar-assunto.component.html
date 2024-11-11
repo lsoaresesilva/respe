@@ -1,38 +1,23 @@
-<div class="p-grid">
-  <div class="p-col">
-    <app-monitorar-assunto
-      [assunto]="assunto"
-      *ngIf="usuario.grupoExperimento != 4"
-    ></app-monitorar-assunto>
+<div *ngIf="assunto != null">
+  <div class="p-grid">
+    <div class="p-col">
+      <app-monitorar-assunto [assunto]="assunto" *ngIf="usuario.grupoExperimento != 4"></app-monitorar-assunto>
+    </div>
   </div>
-</div>
 
-<div class="p-grid">
-  <div class="p-col">
-    <h2>Questões</h2>
-    <app-listar-materiais-sequencia [assunto]="assunto"></app-listar-materiais-sequencia>
+  <div class="p-grid">
+    <div class="p-col">
+      <h2>Questões</h2>
+      <app-listar-materiais-sequencia [assunto]="assunto"></app-listar-materiais-sequencia>
+    </div>
   </div>
-</div>
 
-<p-dialog
-  header="Você sabia?"
-  [(visible)]="dialogImportanciaAssunto"
-  [modal]="true"
-  [style]="{ width: '30vw' }"
-  [baseZIndex]="10000"
-  [draggable]="false"
-  [resizable]="false"
-  *ngIf="usuario.perfil == 1"
->
-  <div *ngIf="assunto != null" [innerHTML]="assunto.importancia | keepHtml"></div>
-  <p-footer>
-    <button
-      type="button"
-      pButton
-      icon="pi pi-times"
-      (click)="dialogImportanciaAssunto = false"
-      label="Ok, obrigado pela dica."
-      class="ui-button-secondary"
-    ></button>
-  </p-footer>
-</p-dialog>
+  <p-dialog header="Você sabia?" [(visible)]="dialogImportanciaAssunto" [modal]="true" [style]="{ width: '30vw' }"
+    [baseZIndex]="10000" [draggable]="false" [resizable]="false" *ngIf="usuario.perfil == 1">
+    <div *ngIf="assunto != null" [innerHTML]="assunto.importancia | keepHtml"></div>
+    <p-footer>
+      <button type="button" pButton icon="pi pi-times" (click)="dialogImportanciaAssunto = false"
+        label="Ok, obrigado pela dica." class="ui-button-secondary"></button>
+    </p-footer>
+  </p-dialog>
+</div>

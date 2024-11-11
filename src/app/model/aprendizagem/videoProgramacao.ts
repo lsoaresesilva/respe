@@ -19,7 +19,7 @@ export default class VideoProgramacao extends Document implements MaterialAprend
       videosProgramacao.forEach((video) => {
         videos.push(
           new VideoProgramacao(
-            video.id,
+            video.primary_key,
             video.nomeCurto,
             video.link,
             video.descricao,
@@ -115,7 +115,7 @@ export default class VideoProgramacao extends Document implements MaterialAprend
     public link,
     public descricao,
     public isExperimental,
-    public ordem,
+    public sequencia,
     public conceitos: Conceito[]
   ) {
     super(id);
@@ -125,7 +125,7 @@ export default class VideoProgramacao extends Document implements MaterialAprend
     let document = super.objectToDocument();
 
     if (this.assunto != null) {
-      document['assuntoId'] = this.assunto.pk();
+      document['assuntoId'] = this.assunto.pk;
     }
 
     return document;

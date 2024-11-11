@@ -21,7 +21,7 @@ export class RespostaQuestaoParson extends Document {
     return new Observable((observer) => {
       RespostaQuestaoParson.getByQuery([
         new Query('estudanteId', '==', usuario.pk),
-        new Query('questaoId', '==', questao.id),
+        new Query('questaoId', '==', questao.pk),
       ]).subscribe((respostaSalva: RespostaQuestaoParson) => {
         observer.next(respostaSalva);
         observer.complete();
@@ -32,7 +32,7 @@ export class RespostaQuestaoParson extends Document {
   objectToDocument() {
     const document = super.objectToDocument();
     document['estudanteId'] = this.estudante.pk;
-    document['questaoId'] = this.questao.id;
+    document['questaoId'] = this.questao.pk;
 
     if (Array.isArray(this.algoritmo)) {
       document['algoritmo'] = this.algoritmo.map((segmento) => {

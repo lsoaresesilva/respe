@@ -10,13 +10,12 @@ import { LoginService } from '../../login-module/login.service';
   styleUrls: ['./visualizar-assunto.component.css'],
 })
 export class VisualizarAssuntoComponent implements OnInit {
-  @Input()
-  assunto;
 
+  assunto;
   usuario;
 
   constructor(private route: ActivatedRoute, private router: Router, public login: LoginService) {
-    this.assunto = new Assunto(null, null);
+  
   }
 
   dialogImportanciaAssunto;
@@ -24,7 +23,7 @@ export class VisualizarAssuntoComponent implements OnInit {
   ngOnInit() {
     this.route.params.subscribe((params) => {
       if (params['id'] != null) {
-        Assunto.get(params['id']).subscribe((resultado) => {
+        Assunto.get(params['id'], false).subscribe((resultado) => {
           this.assunto = resultado;
         });
       }

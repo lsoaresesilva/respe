@@ -102,7 +102,7 @@ export class VisualizarAssuntoAdminComponent implements OnInit {
     if (questao != undefined) {
       this.router.navigate([
         'geral/main',
-        { outlets: { principal: ['admin', 'atualizar-questao-fechada', this.assunto$.pk(), questao.id] } },
+        { outlets: { principal: ['admin', 'atualizar-questao-fechada', this.assunto$.pk(), questao.pk] } },
       ]);
     }
   }
@@ -110,7 +110,7 @@ export class VisualizarAssuntoAdminComponent implements OnInit {
   deletar(questao: QuestaoFechada) {
     /* let index = -1;
     for (let i = 0; i < this.assunto.questoesFechadas; i++) {
-      if (this.assunto.questoesFechadas[i].id == questao.id) {
+      if (this.assunto.questoesFechadas[i].id == questao.pk) {
         index = i;
         break;
       }

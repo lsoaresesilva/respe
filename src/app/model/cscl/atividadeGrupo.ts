@@ -48,11 +48,11 @@ export default class AtividadeGrupo extends Document {
     }
 
     if (this.assunto != null) {
-      document['assuntoId'] = this.assunto.pk();
+      document['assuntoId'] = this.assunto.pk;
     }
 
     if (this.questao != null) {
-      document['questaoColaborativaId'] = this.questao.id;
+      document['questaoColaborativaId'] = this.questao.pk;
     }
 
     if (Array.isArray(this.grupos)) {
@@ -203,7 +203,7 @@ export default class AtividadeGrupo extends Document {
     if (Array.isArray(atividadesGrupo)) {
       atividadesGrupo.forEach((atvGrupo) => {
         let isAtividadeInserida = atividades.find(function (atividadesInserida) {
-          if (atividadesInserida.questao.id == atvGrupo.questao.id) {
+          if (atividadesInserida.questao.pk == atvGrupo.questao.pk) {
             return true;
           }
         });

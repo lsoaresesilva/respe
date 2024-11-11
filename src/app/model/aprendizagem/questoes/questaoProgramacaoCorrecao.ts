@@ -11,11 +11,11 @@ import { QuestaoProgramacao } from './questaoProgramacao';
 export default class QuestaoProgramacaoCorrecao{
 
 
-  constructor(public id, public ordem, public questao: QuestaoProgramacao) {
-    if (id == null) {
-      this.id = Util.uuidv4();
+  constructor(public primary_key, public sequencia, public questao: QuestaoProgramacao) {
+    if (primary_key == null) {
+      this.primary_key = Util.uuidv4();
     } else {
-      this.id = id;
+      this.primary_key = primary_key;
     }
   }
   assunto: Assunto;
@@ -27,7 +27,7 @@ export default class QuestaoProgramacaoCorrecao{
       questoes.forEach((questao) => {
         let questaoProgramacao = assunto.getQuestaoProgramacaoById(questao.questaoId);
         objetos.push(
-          new QuestaoProgramacaoCorrecao(questao.id, questao.ordem, questaoProgramacao)
+          new QuestaoProgramacaoCorrecao(questao.pk, questao.sequencia, questaoProgramacao)
         );
       });
     }
@@ -35,15 +35,19 @@ export default class QuestaoProgramacaoCorrecao{
     return objetos;
   }
 
+  get pk(){
+    return this.primary_key;
+  }
+
   get nomeCurto() {
     return this.questao.nomeCurto + ' (Correção)';
   }
 
   objectToDocument() {
-    let objeto = { id: this.id, ordem:this.ordem };
+    let objeto = { primary_key: this.primary_key, ordem:this.sequencia };
 
-    if (this.questao != null && this.questao.id != null) {
-      objeto['questaoId'] = this.questao.id;
+    if (this.questao != null && this.questao.pk != null) {
+      objeto['questaoId'] = this.questao.pk;
     }
 
     return objeto;
@@ -52,7 +56,7 @@ export default class QuestaoProgramacaoCorrecao{
   getSubmissaoComErro(estudante: Usuario) {
     return new Observable((observer) => {
       if (this.questao != null) {
-        Submissao.getAll(new Query('questaoId', '==', this.questao.id)).subscribe((submisses) => {
+        Submissao.getAll(new Query('questaoId', '==', this.questao.pk)).subscribe((submisses) => {
           // TODO: filtrar pelo cache
           let submissoesComProblema = Submissao.filtrarSubmissoesConclusao(submisses, true);
 
@@ -107,13 +111,13 @@ export default class QuestaoProgramacaoCorrecao{
         let consultas = {};
 
         questoes.forEach((questao) => {
-          consultas[questao.id] = QuestaoProgramacaoCorrecao.isFinalizada(questao, estudante);
+          consultas[questao.pk] = QuestaoProgramacaoCorrecao.isFinalizada(questao, estudante);
         });
 
         forkJoin(consultas).subscribe((statusConclusaoQuestoes) => {
           questoes.forEach((questao) => {
-            if (statusConclusaoQuestoes[questao.id] != null) {
-              questao.respondida = statusConclusaoQuestoes[questao.id];
+            if (statusConclusaoQuestoes[questao.pk] != null) {
+              questao.respondida = statusConclusaoQuestoes[questao.pk];
               questao.percentualResposta = questao.respondida == true ? 100 : 0;
             }
           });

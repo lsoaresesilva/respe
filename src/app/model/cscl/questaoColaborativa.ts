@@ -6,17 +6,22 @@ export default class QuestaoColaborativa{
 
     questao:QuestaoProgramacao
 
-    constructor(public id, questao, public isOpenEnded){
-        if(id == null){
-            this.id = Util.uuidv4();
+    constructor(public primary_key, questao, public isOpenEnded){
+        if(primary_key == null){
+            this.primary_key = Util.uuidv4();
         }
 
         this.questao = questao;
     }
 
+    get pk(){
+      
+      return this.primary_key;
+    }
+
     objectToDocument(){
         const document = {};
-        document['id'] = this.id;
+        document['id'] = this.primary_key;
         document['questao'] = this.questao.objectToDocument();
 
         return document;
@@ -30,11 +35,11 @@ export default class QuestaoColaborativa{
             const assuntos = [];
 
 
-            questao.questao = QuestaoProgramacao._construirIndividual(questao.questao, assunto);
+            questao.questao = QuestaoProgramacao._construirIndividual(questao.questao);
 
             objetosQuestoes.push(
               new QuestaoColaborativa(
-                questao.id,
+                questao.pk,
                 questao.questao,
                 questao.isOpenEnded
               )

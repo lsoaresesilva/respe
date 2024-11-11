@@ -546,7 +546,7 @@ static gerarSubmissoes(estudantes_permitidos){
       const resultadoAtualTestCase = null;
 
       submissoes.forEach((submissao) => {
-        if (submissao['questaoId'] == questao.id) {
+        if (submissao['questaoId'] == questao.pk) {
           const totalTestsCases = questao.testsCases.length-1;
           let totalAcertos = 0;
           if (submissao.resultadosTestsCases.length != 0) {

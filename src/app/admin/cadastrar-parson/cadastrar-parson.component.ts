@@ -102,8 +102,8 @@ export class CadastrarParsonComponent implements OnInit {
 
   async cadastrar() {
     // TODO: Migrar isso para dentro do model Questao
-    this.questao.ordem =
-      this.questao.ordem !== 0 ? this.questao.ordem : await this.assunto.getUltimaSequencia();
+    this.questao.sequencia =
+      this.questao.sequencia !== 0 ? this.questao.sequencia : await this.assunto.getUltimaSequencia();
 
     if (this.questao.validar()) {
 
@@ -153,7 +153,7 @@ export class CadastrarParsonComponent implements OnInit {
           });
           this.router.navigate([
             'geral/main',
-            { outlets: { principal: ['visualizar-assunto-admin', this.assunto.pk()] } },
+            { outlets: { principal: ['visualizar-assunto-admin', this.assunto.pk] } },
           ]);
         },
         (err) => {

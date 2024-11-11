@@ -22,7 +22,7 @@ export class SelecionarConceitosComponent implements OnInit, OnChanges {
   constructor() { }
   ngOnChanges(changes: SimpleChanges): void {
     if (this.assunto != null) {
-      Conceito.getAll(new Query('assuntoId', '==', this.assunto.pk())).subscribe(conceitos => {
+      Conceito.getAll(new Query('assuntoId', '==', this.assunto.pk)).subscribe(conceitos => {
         this.conceitos = conceitos;
       });
     }

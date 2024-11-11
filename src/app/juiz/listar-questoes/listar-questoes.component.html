@@ -11,7 +11,7 @@
     <ng-template pTemplate="body" let-rowData let-questao>
         <tr [pContextMenuRow]="rowData">
             <td (click)="visualizar(questao)" style="cursor: pointer">{{questao.nomeCurto}}</td>
-            <td>{{statusQuestoes[questao.id] | async}}%</td>
+            <td>{{statusQuestoes[questao.pk] | async}}%</td>
         </tr>
     </ng-template>
 </p-table>

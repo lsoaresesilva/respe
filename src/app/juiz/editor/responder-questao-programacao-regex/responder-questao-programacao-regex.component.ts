@@ -40,7 +40,7 @@ export class ResponderQuestaoProgramacaoRegexComponent implements OnInit, AfterV
         Assunto.get(params['assuntoId']).subscribe((assunto) => {
           this.assunto = assunto as Assunto;
           this.questao = this.assunto.getQuestaoRegexById(params['questaoId']);
-          this.chatbotService.sendDados([this.questao.ordem, this.questao.nomeCurto, this.questao.id]);
+          this.chatbotService.sendDados([this.questao.sequencia, this.questao.nomeCurto, this.questao.pk]);
         });
       }
     });

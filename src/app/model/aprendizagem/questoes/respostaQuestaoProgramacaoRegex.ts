@@ -17,7 +17,7 @@ export class RespostaQuestaoProgramacaoRegex extends Document {
   objectToDocument() {
     const document = super.objectToDocument();
     document['estudanteId'] = this.estudante.pk;
-    document['questaoId'] = this.questao.id;
+    document['questaoId'] = this.questao.pk;
     document['algoritmo'] = this.algoritmo
     document['isRespostaCorreta'] = this.isRespostaCorreta
     return document;
@@ -82,7 +82,7 @@ export class RespostaQuestaoProgramacaoRegex extends Document {
     return new Observable((observer) => {
       if (
         questao == null ||
-        typeof questao.id == null ||
+        typeof questao.pk == null ||
         estudante == null ||
         typeof estudante.pk != 'function'
       ) {
@@ -90,7 +90,7 @@ export class RespostaQuestaoProgramacaoRegex extends Document {
       } else {
         RespostaQuestaoProgramacaoRegex.getAll([
           new Query('estudanteId', '==', estudante.pk),
-          new Query('questaoId', '==', questao.id),
+          new Query('questaoId', '==', questao.pk),
         ]).subscribe((submissoes) => {
           observer.next(submissoes);
           observer.complete();

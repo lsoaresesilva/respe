@@ -9,22 +9,22 @@ import { Dificuldade } from './enum/dificuldade';
 import Conceito from './conceito';
 import QuestaoBase from './questaoBase';
 
-export class QuestaoProgramacao  extends QuestaoBase  {
+export class QuestaoProgramacao extends QuestaoBase  {
 
 
   constructor(
-    public id,
+    public primary_key,
     public nomeCurto,
     public enunciado,
     public dificuldade: Dificuldade,
-    public ordem,
+    public sequencia,
     public assuntos,
     public testsCases: TestCase[],
     public algoritmoInicial,
     public solucao: ModeloRespostaQuestao,
     public conceitos: Conceito[]
   ) {
-    super(id);
+    super(primary_key);
   }
 
   assunto: Assunto;
@@ -85,14 +85,14 @@ export class QuestaoProgramacao  extends QuestaoBase  {
 
         questoes.forEach((questao) => {
           questao.percentualResposta = 0;
-          consultas[questao.id] = QuestaoProgramacao.isFinalizada(questao, estudante);
+          consultas[questao.pk] = QuestaoProgramacao.isFinalizada(questao, estudante);
         });
 
         forkJoin(consultas).subscribe((questoesFinalizadas) => {
           questoes.forEach((questao) => {
-            if (questoesFinalizadas[questao.id] != null) {
-              questao.respondida = questoesFinalizadas[questao.id] === 100 ? true : false;
-              questao.percentualResposta = questoesFinalizadas[questao.id];
+            if (questoesFinalizadas[questao.pk] != null) {
+              questao.respondida = questoesFinalizadas[questao.pk] === 100 ? true : false;
+              questao.percentualResposta = questoesFinalizadas[questao.pk];
             }
           });
 
@@ -107,32 +107,21 @@ export class QuestaoProgramacao  extends QuestaoBase  {
   }
 
   /** TODO: Verificar se é possível construir, caso contrário disparar um erro. */
-  static _construirIndividual(questaoDocument, assunto): QuestaoProgramacao {
+  static _construirIndividual(questaoDocument): QuestaoProgramacao {
     const assuntos = [];
-    if (questaoDocument.assuntos != null && questaoDocument.assuntos.length > 0) {
-      questaoDocument.assuntos.forEach((assunto) => {
-        assuntos.push(Assunto.criarAssunto(assunto) /*new Assunto(assunto, null)*/);
-      });
-
-      if (assunto != null) {
-        assuntos.push(assunto);
-      }
-
-      //questao.assuntos = assuntos;
-    }
-
+  
     let testsCases = TestCase.construir(questaoDocument.testsCases);
     let solucao = ModeloRespostaQuestao.construir(questaoDocument.solucao);
 
     let questao = new QuestaoProgramacao(
       questaoDocument.id,
-      questaoDocument.nomeCurto,
+      questaoDocument.nome_curto,
       questaoDocument.enunciado,
       questaoDocument.dificuldade,
-      questaoDocument.ordem,
+      questaoDocument.sequencia,
       assuntos,
       testsCases,
-      questaoDocument.algoritmoInicial,
+      questaoDocument.algoritmo_inicial,
       solucao,
       questaoDocument.conceitos
     );
@@ -144,12 +133,12 @@ export class QuestaoProgramacao  extends QuestaoBase  {
    * Constrói objetos Questao a partir do atributo questoes de um assunto (que é um array)
    * @param testsCases
    */
-  static construir(questoes: any[], assunto) {
+  static construir(questoes: any[]) {
     const objetosQuestoes: QuestaoProgramacao[] = [];
 
     if (questoes != null) {
       questoes.forEach((questao, index) => {
-        questao = this._construirIndividual(questao, assunto);
+        questao = this._construirIndividual(questao);
 
         objetosQuestoes.push(
           questao
@@ -185,7 +174,7 @@ export class QuestaoProgramacao  extends QuestaoBase  {
   }
 
   isFinalizada(submissao, margemAceitavel) {
-    if (submissao == null || submissao.questaoId != this.id) {
+    if (submissao == null || submissao.questaoId != this.pk) {
       return false;
     }
 

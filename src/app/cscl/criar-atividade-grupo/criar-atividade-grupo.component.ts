@@ -191,7 +191,7 @@ export class CriarAtividadeGrupoComponent implements OnInit {
   removerQuestao(questao:QuestaoColaborativa) {
     let index = -1;
     for(let i = 0; i < this.questoesSelecionadas.length; i++){
-      if(this.questoesSelecionadas[i].id == questao.id){
+      if(this.questoesSelecionadas[i].id == questao.pk){
         index = i;
         break
       }

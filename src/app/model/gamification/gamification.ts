@@ -75,12 +75,12 @@ export default class Gamification extends Document{
           if(gamification != null){
             if( !gamification.isQuestaoPontuada(questao) ){
               gamification.pontuacao += tipo.getPontuacao();
-              gamification.questoesResolvidas.push(questao.id);
+              gamification.questoesResolvidas.push(questao.pk);
               gamification.save().subscribe();
             }
             
           }else{
-            const gamification = new Gamification(null, tipo.getPontuacao(), estudante, [questao.id]);
+            const gamification = new Gamification(null, tipo.getPontuacao(), estudante, [questao.pk]);
             gamification.save().subscribe();
           }
 
@@ -94,7 +94,7 @@ export default class Gamification extends Document{
     }
 
     isQuestaoPontuada(questao){
-      return this.questoesResolvidas.includes(questao.id);
+      return this.questoesResolvidas.includes(questao.pk);
     }
 
     static getByEstudante(estudante:Usuario):Observable<Gamification>{
