@@ -25,8 +25,8 @@ export class PageTrack implements CanActivate {
     route: ActivatedRouteSnapshot,
     state: RouterStateSnapshot
   ): Observable<boolean> | boolean {
-    const pageTrack = new PageTrackRecord(null, route.url[0].path, this.login.getUsuarioLogado());
-    pageTrack.save().subscribe(() => {});
+    /* const pageTrack = new PageTrackRecord(null, route.url[0].path, this.login.getUsuarioLogado());
+    pageTrack.save().subscribe(() => {}); */
 
     return true;
   }

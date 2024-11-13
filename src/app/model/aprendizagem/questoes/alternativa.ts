@@ -1,20 +1,24 @@
 import { Util } from '../../util';
 
 export default class Alternativa {
-    constructor(public id, public texto, public isVerdadeira) {
-        if (id == null) {
-            this.id = Util.uuidv4();
+    constructor(public primary_key, public texto, public isVerdadeira) {
+        if (primary_key == null) {
+            this.primary_key = Util.uuidv4();
         } else {
-            this.id = id;
+            this.primary_key = primary_key;
         }
         this.texto = texto;
         this.isVerdadeira = isVerdadeira;
     }
 
+    get pk(){
+        return this.primary_key
+    }
+
     objectToDocument() {
         let document = {}
 
-        document["id"] = this.id;
+        document["id"] = this.primary_key;
         document["texto"] = this.texto;
         document["isVerdadeira"] = this.isVerdadeira;
 
@@ -30,7 +34,7 @@ export default class Alternativa {
 
         if (alternativas != null) {
             alternativas.forEach(alternativa => {
-                objetosAlternativas.push(new Alternativa(alternativa.id, alternativa.texto, alternativa.isVerdadeira));
+                objetosAlternativas.push(new Alternativa(alternativa.primary_key, alternativa.texto, alternativa.is_verdadeira));
             })
         }
 

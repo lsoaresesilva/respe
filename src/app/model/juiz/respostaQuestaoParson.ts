@@ -17,10 +17,9 @@ export class RespostaQuestaoParson extends Document {
   @date()
   data;
 
-  static getRespostaQuestaoEstudante(questao, usuario): Observable<RespostaQuestaoParson> {
+  static getRespostaQuestaoEstudante(questao): Observable<RespostaQuestaoParson> {
     return new Observable((observer) => {
       RespostaQuestaoParson.getByQuery([
-        new Query('estudanteId', '==', usuario.pk),
         new Query('questaoId', '==', questao.pk),
       ]).subscribe((respostaSalva: RespostaQuestaoParson) => {
         observer.next(respostaSalva);

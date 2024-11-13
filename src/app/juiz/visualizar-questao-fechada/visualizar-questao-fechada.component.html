@@ -25,11 +25,11 @@
       *ngFor="let alternativa of questao.alternativas"
       name="alternativas"
       class="alternativa"
-      value="{{ alternativa.id }}"
+      value="{{ alternativa.primary_key }}"
       label="{{ alternativa.texto }}"
-      inputId="{{ alternativa.id }}"
-      [(ngModel)]="respostaQuestaoFechada.alternativa.id"
-      [disabled]="respostaQuestaoFechada.pk() != undefined"
+      inputId="{{ alternativa.primary_key }}"
+      [(ngModel)]="respostaQuestaoFechada?.alternativa.primary_key"
+      [disabled]="respostaQuestaoFechada?.primary_key != undefined"
       [style]="{ 'margin-top': '5px' }"
     ></p-radioButton>
   </div>
@@ -64,7 +64,7 @@
         icon="pi pi-check"
         class="ui-button-success"
         label="Responder"
-        [disabled]="respostaQuestaoFechada.pk() != undefined"
+        [disabled]="respostaQuestaoFechada?.pk != undefined"
       ></button>
   </div>
 

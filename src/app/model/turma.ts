@@ -42,7 +42,7 @@ export default class Turma extends Document {
     return document;
   }
 
-  save() {
+  save<T extends Document>(): Observable<T> {
     return new Observable((observer) => {
       this.codigo = GeradorCodigo.gerar();
       super.save().subscribe(

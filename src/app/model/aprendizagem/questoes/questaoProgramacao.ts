@@ -107,14 +107,14 @@ export class QuestaoProgramacao extends QuestaoBase  {
   }
 
   /** TODO: Verificar se é possível construir, caso contrário disparar um erro. */
-  static _construirIndividual(questaoDocument): QuestaoProgramacao {
+  static dataToObject(questaoDocument): QuestaoProgramacao {
     const assuntos = [];
   
     let testsCases = TestCase.construir(questaoDocument.testsCases);
     let solucao = ModeloRespostaQuestao.construir(questaoDocument.solucao);
 
     let questao = new QuestaoProgramacao(
-      questaoDocument.id,
+      questaoDocument.primary_key,
       questaoDocument.nome_curto,
       questaoDocument.enunciado,
       questaoDocument.dificuldade,
@@ -133,12 +133,12 @@ export class QuestaoProgramacao extends QuestaoBase  {
    * Constrói objetos Questao a partir do atributo questoes de um assunto (que é um array)
    * @param testsCases
    */
-  static construir(questoes: any[]) {
+  static construirMultiplos(questoes: any[]) {
     const objetosQuestoes: QuestaoProgramacao[] = [];
 
     if (questoes != null) {
       questoes.forEach((questao, index) => {
-        questao = this._construirIndividual(questao);
+        questao = this.dataToObject(questao);
 
         objetosQuestoes.push(
           questao

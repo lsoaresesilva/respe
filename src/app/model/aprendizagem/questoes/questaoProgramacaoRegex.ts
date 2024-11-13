@@ -18,23 +18,29 @@ export class QuestaoProgramacaoRegex extends QuestaoBase {
 
   assunto: Assunto;
 
-  static construir(questoesProgramacaoRegex: any[]) {
+  static dataToObject(questaoProgramacaoRegex:any){
+    return new QuestaoProgramacaoRegex(
+      questaoProgramacaoRegex.id,
+      questaoProgramacaoRegex.nomeCurto,
+      questaoProgramacaoRegex.enunciado,
+      questaoProgramacaoRegex.sequencia,
+      questaoProgramacaoRegex.regex,
+      Conceito.construir(questaoProgramacaoRegex.conceitos),
+      questaoProgramacaoRegex.dificuldade
+    );
+  }
+
+  static construirMultiplos(questoesProgramacaoRegex: any[]) {
     const objetos: QuestaoProgramacaoRegex[] = [];
 
     if (questoesProgramacaoRegex != null && Array.isArray(questoesProgramacaoRegex)) {
       questoesProgramacaoRegex.forEach((questaoProgramacaoRegex) => {
         objetos.push(
-          new QuestaoProgramacaoRegex(
-            questaoProgramacaoRegex.id,
-            questaoProgramacaoRegex.nome_curto,
-            questaoProgramacaoRegex.enunciado,
-            questaoProgramacaoRegex.sequencia,
-            questaoProgramacaoRegex.regex,
-            Conceito.construir(questaoProgramacaoRegex.conceitos),
-            questaoProgramacaoRegex.dificuldade
+            this.dataToObject(questaoProgramacaoRegex)
           )
+        }
         );
-      });
+      
     }
 
     return objetos;

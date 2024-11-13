@@ -19,7 +19,7 @@ import QuestaoParsonProblem from 'src/app/model/aprendizagem/questoes/questaoPar
 export class VisualizarParsonComponent implements OnInit, AfterViewChecked {
   questao?: QuestaoParsonProblem;
   usuario;
-  respostaQuestaoFechada?: RespostaQuestaoParson;
+  respostaQuestao?: RespostaQuestaoParson;
   assunto: Assunto;
   segmentoSelecionado;
 
@@ -32,7 +32,7 @@ export class VisualizarParsonComponent implements OnInit, AfterViewChecked {
     private apresentacao:ApresentacaoService
   ) {
     this.usuario = this.login.getUsuarioLogado();
-    this.respostaQuestaoFechada = new RespostaQuestaoParson(null, this.usuario, [], this.questao);
+    this.respostaQuestao = new RespostaQuestaoParson(null, this.usuario, [], this.questao);
   }
 
 
@@ -57,7 +57,22 @@ export class VisualizarParsonComponent implements OnInit, AfterViewChecked {
   }
 
   ngOnInit(): void {
-    this.route.params.subscribe((params) => {
+    if (this.questao == null) {
+      this.route.params.subscribe((params) => {
+        QuestaoParsonProblem.get(params['questaoId']).subscribe((questao) => {
+          this.questao = questao as QuestaoParsonProblem;
+          this.respostaQuestao = new RespostaQuestaoParson(null, this.usuario, [], this.questao);
+          RespostaQuestaoParson.getRespostaQuestaoEstudante(this.questao).subscribe(
+            (respostaUsuario: RespostaQuestaoParson) => {
+              if (respostaUsuario != null) {
+                this.respostaQuestao = respostaUsuario;
+              }
+            }
+          );
+        });
+      });
+    }
+    /* this.route.params.subscribe((params) => {
       if (params['assuntoId'] != undefined && params['questaoId'] != undefined) {
         Assunto.get(params['assuntoId']).subscribe((assunto: Assunto) => {
           this.assunto = assunto;
@@ -82,7 +97,7 @@ export class VisualizarParsonComponent implements OnInit, AfterViewChecked {
           'Não é possível visualizar uma questão, pois não foram passados os identificadores de assunto e questão.'
         );
       }
-    });
+    }); */
   }
 
   drop(event: CdkDragDrop<string[]>) {
@@ -99,8 +114,8 @@ export class VisualizarParsonComponent implements OnInit, AfterViewChecked {
   }
 
   enviar() {
-    this.respostaQuestaoFechada.save().subscribe((resposta) => {
-      if (this.questao.isRespostaCorreta(this.respostaQuestaoFechada)) {
+    this.respostaQuestao.save().subscribe((resposta) => {
+      if (this.questao.isRespostaCorreta(this.respostaQuestao)) {
         this.gamification.aumentarPontuacao(
           this.login.getUsuarioLogado(),
           this.questao,

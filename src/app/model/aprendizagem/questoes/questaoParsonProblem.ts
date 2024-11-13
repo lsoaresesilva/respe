@@ -1,6 +1,6 @@
 
 import { Observable } from 'rxjs';
-import { ignore } from '../../firestore/document';
+import { Collection, ignore } from '../../firestore/document';
 import Query from '../../firestore/query';
 import { RespostaQuestaoParson } from '../../juiz/respostaQuestaoParson';
 import { MaterialAprendizagem } from '../materialAprendizagem';
@@ -12,6 +12,7 @@ import SegmentoParson from './segmentoParson';
 import Conceito from './conceito';
 import QuestaoBase from './questaoBase';
 
+@Collection("questaoparson")
 export default class QuestaoParsonProblem extends QuestaoBase {
   @ignore()
   respondida;
@@ -33,30 +34,34 @@ export default class QuestaoParsonProblem extends QuestaoBase {
     super(id);
   }
 
+  static dataToObject(questao: any): QuestaoParsonProblem {
+    return new QuestaoParsonProblem(
+      questao.primary_key,
+      questao.enunciado,
+      questao.nome_curto,
+      questao.sequencia,
+      questao.dificuldade,
+      questao.resposta_correta,
+      questao.segmentos,
+      questao.algoritmo_inicial,
+      questao.sequencia_correta,
+      questao.orientacao,
+      Conceito.construir(questao.conceitos)
+    )
+  }
+
 
   /**
    * Constrói objetos a partir do atributo array de uma document
    * @param questoesFechadas
    */
-  static construir(questoes: any[]) {
+  static construirMultiplos(questoes: any[]) {
     const objetos: QuestaoParsonProblem[] = [];
 
     if (questoes != null) {
       questoes.forEach((questao) => {
         objetos.push(
-          new QuestaoParsonProblem(
-            questao.pk,
-            questao.enunciado,
-            questao.nome_curto,
-            questao.sequencia,
-            questao.dificuldade,
-            questao.resposta_correta,
-            questao.segmentos,
-            questao.algoritmo_inicial,
-            questao.sequencia_correta,
-            questao.orientacao,
-            Conceito.construir(questao.conceitos)
-          )
+          this.dataToObject(questao)
         );
       });
     }

@@ -142,10 +142,10 @@ export class Assunto extends Document {
     
     const assunto = new Assunto(assuntoJson.primary_key, assuntoJson.nome);
 
-    assunto.questoesFechadas = QuestaoFechada.construir(assuntoJson.questoes_fechadas);
-    assunto.questoesParson = QuestaoParsonProblem.construir(assuntoJson.questoes_parson);
-    assunto.questoesRegex = QuestaoProgramacaoRegex.construir(assuntoJson.questoes_regex);
-    assunto.questoesProgramacao = QuestaoProgramacao.construir(assuntoJson.questoes_programacao);
+    assunto.questoesFechadas = QuestaoFechada.construirMultiplos(assuntoJson.questoes_fechadas);
+    assunto.questoesParson = QuestaoParsonProblem.construirMultiplos(assuntoJson.questoes_parson);
+    assunto.questoesRegex = QuestaoProgramacaoRegex.construirMultiplos(assuntoJson.questoes_regex);
+    assunto.questoesProgramacao = QuestaoProgramacao.construirMultiplos(assuntoJson.questoes_programacao);
 
     /* assunto['questoesProgramacao'] = QuestaoProgramacao.construir(
       assunto['questoesProgramacao'],
@@ -279,7 +279,7 @@ export class Assunto extends Document {
       assunto.questoesFechadas.forEach((questao) => {
         // Recuperar todas as respostas às questões fechadas
 
-        respostas.push(RespostaQuestaoFechada.getRespostaQuestaoEstudante(questao, estudante));
+        respostas.push(RespostaQuestaoFechada.getRespostaQuestaoEstudante(questao));
       });
 
       if (respostas.length > 0 && assunto.questoesFechadas.length == respostas.length) {

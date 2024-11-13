@@ -217,7 +217,7 @@ export class ResponderQuestaoProgramacao implements OnInit, AfterViewInit, OnCha
                 }
 
                 if (this.questaoColaborativa != null && this.questaoColaborativa.questao != null) {
-                  let questao = QuestaoProgramacao._construirIndividual(
+                  let questao = QuestaoProgramacao.dataToObject(
                     this.questaoColaborativa.questao
                   ) as QuestaoProgramacao;
                   if (questao != null) {

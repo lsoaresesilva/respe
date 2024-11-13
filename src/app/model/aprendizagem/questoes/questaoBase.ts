@@ -78,4 +78,19 @@ export default abstract class QuestaoBase extends Document implements MaterialAp
   }
 
   abstract isRespostaCorreta(resposta:RespostaBase): boolean;
+  static get(id, lazy=true): Observable<QuestaoBase> {
+    return new Observable<QuestaoBase>((observer) => {
+      
+      super.get(id, lazy).subscribe(
+        (questao) => {
+          questao = this.dataToObject(questao);
+          observer.next(questao);
+          observer.complete();
+        },
+        (err) => {
+          observer.error(err);
+        }
+      )
+    });
+  }
 }

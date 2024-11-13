@@ -20,7 +20,7 @@ export default class QuestaoProgramacaoCorrecao{
   }
   assunto: Assunto;
 
-  static construir(questoes: any[], assunto) {
+  static dataToObject(questoes: any[], assunto) {
     const objetos: QuestaoProgramacaoCorrecao[] = [];
 
     if (questoes != null) {

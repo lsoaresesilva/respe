@@ -35,7 +35,7 @@ export default class QuestaoColaborativa{
             const assuntos = [];
 
 
-            questao.questao = QuestaoProgramacao._construirIndividual(questao.questao);
+            questao.questao = QuestaoProgramacao.dataToObject(questao.questao);
 
             objetosQuestoes.push(
               new QuestaoColaborativa(

@@ -13,6 +13,7 @@ export class RespostaQuestaoFechada extends Document {
   alternativa: Alternativa;
   questao: QuestaoFechada;
 
+
   constructor(public id, estudante, alternativa, questao) {
     super(id);
 
@@ -21,7 +22,7 @@ export class RespostaQuestaoFechada extends Document {
     this.questao = questao;
   }
 
-  static getAll(query): Observable<RespostaQuestaoFechada[]> {
+  /* static getAll(query): Observable<RespostaQuestaoFechada[]> {
     return new Observable((observer) => {
       super.getAll(query).subscribe(
         (respostas) => {
@@ -41,7 +42,7 @@ export class RespostaQuestaoFechada extends Document {
         }
       );
     });
-  }
+  } */
 
   /*
     Recupera os exercícios em que o estudante trabalhou na última semana.
@@ -70,19 +71,22 @@ export class RespostaQuestaoFechada extends Document {
 
   objectToDocument() {
     const document = super.objectToDocument();
-    document['estudanteId'] = this.estudante.pk;
-    document['questaoId'] = this.questao.pk;
-    document['alternativaId'] = this.alternativa.id;
+    document['estudante_id'] = this.estudante.pk;
+    document['questao'] = this.questao.pk;
+    document['alternativa'] = this.alternativa.pk;
     return document;
   }
 
+  static dataToObject(data) {
+  const respQuestaoFechada:RespostaQuestaoFechada = new RespostaQuestaoFechada(data.primary_key, data.estudante, data.alternativa, QuestaoFechada.dataToObject(data.questao));
+    return respQuestaoFechada;
+  }
   
 
-  static getRespostaQuestaoEstudante(questao, usuario): Observable<RespostaQuestaoFechada> {
+  static getRespostaQuestaoEstudante(questao): Observable<RespostaQuestaoFechada> {
     return new Observable((observer) => {
       RespostaQuestaoFechada.getByQuery([
-        new Query('estudanteId', '==', usuario.pk),
-        new Query('questaoId', '==', questao.pk),
+        new Query('questao_id', '==', questao.pk),
       ]).subscribe((respostaSalva: RespostaQuestaoFechada) => {
         observer.next(respostaSalva);
         observer.complete();
@@ -104,7 +108,7 @@ export class RespostaQuestaoFechada extends Document {
   isCorreta() {
     const alternativaCerta = this.questao.getAlternativaCerta();
 
-    if (this.alternativa.id == alternativaCerta.id) {
+    if (this.alternativa.pk == alternativaCerta.pk) {
       return true;
     } else {
       return false;

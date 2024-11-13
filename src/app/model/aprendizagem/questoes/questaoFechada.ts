@@ -1,7 +1,7 @@
 import { Observable, forkJoin } from 'rxjs';
 import Alternativa from './alternativa';
 import { Assunto } from './assunto';
-import { ignore } from '../../firestore/document';
+import { Collection, ignore } from '../../firestore/document';
 import Query from '../../firestore/query';
 import { RespostaQuestaoFechada } from './respostaQuestaoFechada';
 import { Util } from '../../util';
@@ -12,6 +12,7 @@ import QuestaoBase from './questaoBase';
 import respostaBase from './respostaBase';
 import RespostaBase from './respostaBase';
 
+@Collection('questaoFechada')
 export default class QuestaoFechada extends QuestaoBase {
 
 
@@ -36,28 +37,35 @@ export default class QuestaoFechada extends QuestaoBase {
    * Constrói objetos a partir do atributo array de uma document
    * @param questoesFechadas
    */
-  static construir(questoesFechadas: any[]) {
+  static construirMultiplos(questoesFechadas: any[]) {
     const objetos: QuestaoFechada[] = [];
 
     if (questoesFechadas != null) {
       questoesFechadas.forEach((questaoFechada) => {
         objetos.push(
-          new QuestaoFechada(
-            questaoFechada.id,
-            questaoFechada.nome_curto,
-            questaoFechada.enunciado,
-            questaoFechada.dificuldade,
-            Conceito.construir(questaoFechada.conceitos),
-            Alternativa.construir(questaoFechada.alternativas),
-            questaoFechada.resposta_questao,
-            null,
-            questaoFechada.sequencia
-          )
+          this.dataToObject(questaoFechada)
         );
       });
     }
 
     return objetos;
+  }
+
+  static dataToObject(questaoFechada: any) {
+    const objeto: QuestaoFechada = new QuestaoFechada(
+      questaoFechada.primary_key,
+      questaoFechada.nome_curto,
+      questaoFechada.enunciado,
+      questaoFechada.dificuldade,
+      Conceito.construir(questaoFechada.conceitos),
+      Alternativa.construir(questaoFechada.alternativas),
+      questaoFechada.resposta_questao,
+      null,
+      questaoFechada.sequencia
+    )
+
+
+    return objeto;
   }
 
   /**
@@ -110,7 +118,7 @@ export default class QuestaoFechada extends QuestaoBase {
 
     const alternativaCorreta = this.getAlternativaCerta();
     if (alternativaCorreta != null) {
-      if (alternativaCorreta.id === respostaConvertida.alternativa.id) {
+      if (alternativaCorreta.pk === respostaConvertida.alternativa.pk) {
         return true;
       }
     }
@@ -236,7 +244,7 @@ export default class QuestaoFechada extends QuestaoBase {
   isRespostaValida(respostaQuestaoFechada: RespostaQuestaoFechada) {
     let valido = false;
     for (let i = 0; i < this.alternativas.length; i++) {
-      if (respostaQuestaoFechada.alternativa.id == this.alternativas[i].id) {
+      if (respostaQuestaoFechada.alternativa.pk == this.alternativas[i].pk) {
         valido = true;
         break;
       }
@@ -244,4 +252,6 @@ export default class QuestaoFechada extends QuestaoBase {
 
     return valido;
   }
+
+  
 }

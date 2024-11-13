@@ -25,7 +25,7 @@ export class VisualizarQuestaoFechadaComponent implements OnInit {
   respostaQuestaoFechada: RespostaQuestaoFechada;
   mostrar;
   assunto;
-
+  usuario;
   alternativaEscolhida;
 
   constructor(
@@ -38,7 +38,7 @@ export class VisualizarQuestaoFechadaComponent implements OnInit {
     private gamification: GamificationFacade,
     private chatbotService: ChatbotService,
   ) {
-
+    
   }
 
   /* selecionarAlternativa(alternativa) {
@@ -62,44 +62,22 @@ export class VisualizarQuestaoFechadaComponent implements OnInit {
   }
 
   ngOnInit() {
+    this.usuario = this.login.getUsuarioLogado();
+    
     if (this.questao == null) {
       this.route.params.subscribe((params) => {
-        if (params['assuntoId'] != undefined && params['questaoId'] != undefined) {
-          this.respostaQuestaoFechada = new RespostaQuestaoFechada(
-            null,
-            this.login.getUsuarioLogado(),
-            new Alternativa(null, null, null),
-            this.questao
-          );
-          this.mostrar = false;
-
-          Assunto.get(params['assuntoId']).subscribe((assunto) => {
-            this.assunto = assunto;
-            const usuario = this.login.getUsuarioLogado();
-            if (
-              assunto['questoesFechadas'] != undefined &&
-              assunto['questoesFechadas'].length > 0
-            ) {
-              this.questao = assunto['getQuestaoFechadaById'](params['questaoId']);
-
-              // Enviar dados da questão ao service
-              this.chatbotService.sendDados([this.questao.sequencia, this.questao.nomeCurto, this.questao.pk]);
-
-              RespostaQuestaoFechada.getRespostaQuestaoEstudante(this.questao, usuario).subscribe(
-                (respostaUsuario: RespostaQuestaoFechada) => {
-                  if (respostaUsuario != null) {
-                    this.respostaQuestaoFechada = respostaUsuario;
-                    this.mostrar = true;
-                  }
-                }
-              );
+        QuestaoFechada.get(params['questaoId']).subscribe((questao) => {
+          this.questao = questao as QuestaoFechada;
+          this.respostaQuestaoFechada = new RespostaQuestaoFechada(null, this.usuario, new Alternativa(null, null, null), questao);
+          RespostaQuestaoFechada.getRespostaQuestaoEstudante(this.questao).subscribe(
+            (respostaUsuario: RespostaQuestaoFechada) => {
+              if (respostaUsuario != null) {
+                this.respostaQuestaoFechada = respostaUsuario;
+                this.mostrar = true;
+              }
             }
-          });
-        } else {
-          throw new Error(
-            'Não é possível visualizar uma questão, pois não foram passados os identificadores de assunto e questão.'
           );
-        }
+        });
       });
     }
   }
@@ -111,21 +89,14 @@ export class VisualizarQuestaoFechadaComponent implements OnInit {
         summary: 'ops...',
         detail: 'É preciso selecionar uma alternativa!',
       });
-    } else if (this.respostaQuestaoFechada.pk() != undefined) {
+    } else if (this.respostaQuestaoFechada.pk != undefined) {
       this.messageService.add({
         severity: 'warn',
         summary: 'ops...',
         detail: 'Só é possível responder uma vez!',
       });
     } else {
-      this.confirmationService.confirm({
-        message: 'Você não poderá responder essa questão novamente.',
-        acceptLabel: 'Sim',
-        rejectLabel: 'Não',
-        accept: () => {
-          this.responder();
-        },
-      });
+      this.responder();
     }
   }
 
@@ -133,6 +104,8 @@ export class VisualizarQuestaoFechadaComponent implements OnInit {
     this.respostaQuestaoFechada.questao = this.questao;
     //this.respostaQuestaoFechada.alternativa.id = this.alternativaEscolhida;
     this.respostaQuestaoFechada.save().subscribe((resultado) => {
+      this.respostaQuestaoFechada = resultado as RespostaQuestaoFechada;
+      this.respostaQuestaoFechada.questao = this.questao;
       this.mostrar = true;
       if (this.respostaQuestaoFechada.isCorreta()) {
         /* Gamification.aumentarPontuacao(this.login.getUsuarioLogado(), this.questao, new PontuacaoQuestaoFechada()); */
