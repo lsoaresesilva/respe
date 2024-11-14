@@ -2,7 +2,7 @@
 import { Observable } from 'rxjs';
 import { Collection, ignore } from '../../firestore/document';
 import Query from '../../firestore/query';
-import { RespostaQuestaoParson } from '../../juiz/respostaQuestaoParson';
+import { RespostaQuestaoParson } from './respostaQuestaoParson';
 import { MaterialAprendizagem } from '../materialAprendizagem';
 import { Util } from '../../util';
 import { Assunto } from './assunto';

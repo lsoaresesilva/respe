@@ -7,7 +7,7 @@ import { GamificationFacade } from 'src/app/gamification/gamification.service';
 import { ApresentacaoService } from 'src/app/geral-module/apresentacao.service';
 import { LoginService } from 'src/app/login-module/login.service';
 import PontuacaoQuestaoParson from 'src/app/model/gamification/pontuacaoQuestaoParson';
-import { RespostaQuestaoParson } from 'src/app/model/juiz/respostaQuestaoParson';
+import { RespostaQuestaoParson } from 'src/app/model/aprendizagem/questoes/respostaQuestaoParson';
 import { Assunto } from 'src/app/model/aprendizagem/questoes/assunto';
 import QuestaoParsonProblem from 'src/app/model/aprendizagem/questoes/questaoParsonProblem';
 
@@ -37,7 +37,8 @@ export class VisualizarParsonComponent implements OnInit, AfterViewChecked {
 
 
   ngAfterViewChecked() {
-    this.apresentacao.apresentarEditorParson(this.login.getUsuarioLogado());
+    if(this.questao != null)
+      this.apresentacao.apresentarEditorParson(this.login.getUsuarioLogado());
   }
 
   formatarHtml(questao) {
@@ -72,32 +73,6 @@ export class VisualizarParsonComponent implements OnInit, AfterViewChecked {
         });
       });
     }
-    /* this.route.params.subscribe((params) => {
-      if (params['assuntoId'] != undefined && params['questaoId'] != undefined) {
-        Assunto.get(params['assuntoId']).subscribe((assunto: Assunto) => {
-          this.assunto = assunto;
-
-          if (assunto['questoesFechadas'] != undefined && assunto['questoesFechadas'].length > 0) {
-            this.questao = assunto['getQuestaoParsonById'](params['questaoId']);
-            this.respostaQuestaoFechada.questao = this.questao;
-
-            RespostaQuestaoParson.getRespostaQuestaoEstudante(this.questao, this.usuario).subscribe(
-              (respostaUsuario: RespostaQuestaoParson) => {
-                if (respostaUsuario != null) {
-                  this.respostaQuestaoFechada = respostaUsuario;
-                  this.questao.segmentos = [];
-
-                }
-              }
-            );
-          }
-        });
-      } else {
-        throw new Error(
-          'Não é possível visualizar uma questão, pois não foram passados os identificadores de assunto e questão.'
-        );
-      }
-    }); */
   }
 
   drop(event: CdkDragDrop<string[]>) {

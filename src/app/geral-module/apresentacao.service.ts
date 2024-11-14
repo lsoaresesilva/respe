@@ -98,7 +98,7 @@ export class ApresentacaoService {
       const opcoesIntro = {
         steps: [
           {
-            element: document.getElementById('segmentosParson'),
+            element: document.getElementById('container-segmentos'),
             intro:
               '<h3>Como resolver esta questão</h3><p>Aqui você encontra partes de um código que estão fora de ordem. Você deve clicar e arrastar uma dessas partes para o retângulo à direita.</p>',
           },

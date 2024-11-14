@@ -1,10 +1,10 @@
 import { Observable } from 'rxjs';
-import { Collection, date, Document } from '../firestore/document';
-import Query from '../firestore/query';
-import QuestaoParsonProblem from '../aprendizagem/questoes/questaoParsonProblem';
-import Usuario from '../usuario';
+import { Collection, date, Document } from '../../firestore/document';
+import Query from '../../firestore/query';
+import QuestaoParsonProblem from './questaoParsonProblem';
+import Usuario from '../../usuario';
 
-@Collection('respostaQuestaoParson')
+@Collection('respostaquestaoparson')
 export class RespostaQuestaoParson extends Document {
   constructor(
     public id,
@@ -30,12 +30,11 @@ export class RespostaQuestaoParson extends Document {
 
   objectToDocument() {
     const document = super.objectToDocument();
-    document['estudanteId'] = this.estudante.pk;
-    document['questaoId'] = this.questao.pk;
+    document['questao_id'] = this.questao.pk;
 
     if (Array.isArray(this.algoritmo)) {
-      document['algoritmo'] = this.algoritmo.map((segmento) => {
-        return { id: segmento.id, conteudo: segmento.conteudo, sequencia: segmento.sequencia };
+      document['segmentos'] = this.algoritmo.map((segmento) => {
+        return { segmento_id: segmento.id, sequencia: segmento.sequencia };
       });
     }
 

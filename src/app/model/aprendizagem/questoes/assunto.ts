@@ -18,7 +18,7 @@ import VideoProgramacao from '../videoProgramacao';
 import { VisualizacaoRespostasQuestoes } from './visualizacaoRespostasQuestoes';
 import Texto from '../texto';
 import RespostaQuestaoCorrecaoAlgoritmo from '../../correcao-algoritmo/correcaoAlgoritmo';
-import { RespostaQuestaoParson } from '../../juiz/respostaQuestaoParson';
+import { RespostaQuestaoParson } from './respostaQuestaoParson';
 import RespostasQuestoes from './respostasQuestoes';
 
 @Collection('assuntos')
