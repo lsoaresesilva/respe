@@ -1,11 +1,12 @@
 import { Component, OnInit } from '@angular/core';
 import { Router, ActivatedRoute } from '@angular/router';
 import { MenuItem, MessageService, SelectItem } from 'primeng/api';
-import SegmentoParson from 'src/app/model/aprendizagem/questoes/segmentoParson';
+import SegmentoRespostaParson from 'src/app/model/aprendizagem/questoes/segmentoRespostaParson';
 import { Assunto } from '../../model/aprendizagem/questoes/assunto';
 import { Dificuldade } from '../../model/aprendizagem/questoes/enum/dificuldade';
 import { OrientacaoParson } from '../../model/aprendizagem/questoes/enum/orientacaoParson';
 import QuestaoParsonProblem from '../../model/aprendizagem/questoes/questaoParsonProblem';
+import SegmentoParson from 'src/app/model/aprendizagem/questoes/segmentoParson';
 @Component({
   selector: 'app-cadastrar-parson',
   templateUrl: './cadastrar-parson.component.html',

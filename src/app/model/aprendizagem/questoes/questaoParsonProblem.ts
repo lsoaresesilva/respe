@@ -8,7 +8,7 @@ import { Util } from '../../util';
 import { Assunto } from './assunto';
 import { OrientacaoParson } from './enum/orientacaoParson';
 import ArrayUtilities from '../../../util/arrayUtilities';
-import SegmentoParson from './segmentoParson';
+import SegmentoRespostaParson from './segmentoRespostaParson';
 import Conceito from './conceito';
 import QuestaoBase from './questaoBase';
 
@@ -35,6 +35,10 @@ export default class QuestaoParsonProblem extends QuestaoBase {
   }
 
   static dataToObject(questao: any): QuestaoParsonProblem {
+
+    
+
+
     return new QuestaoParsonProblem(
       questao.primary_key,
       questao.enunciado,
@@ -42,7 +46,7 @@ export default class QuestaoParsonProblem extends QuestaoBase {
       questao.sequencia,
       questao.dificuldade,
       questao.resposta_correta,
-      questao.segmentos,
+      SegmentoRespostaParson.construirMultiplos(questao.segmentos),
       questao.algoritmo_inicial,
       questao.sequencia_correta,
       questao.orientacao,
@@ -132,16 +136,7 @@ export default class QuestaoParsonProblem extends QuestaoBase {
   }
 
   isRespostaCorreta(resposta: RespostaQuestaoParson) {
-    const sequenciaAlgoritmo = [];
-    if (Array.isArray(resposta.algoritmo)) {
-      resposta.algoritmo.forEach((segmento) => {
-        sequenciaAlgoritmo.push(segmento.sequencia.toString());
-      });
-
-      return ArrayUtilities.equals(sequenciaAlgoritmo, this.sequenciaCorreta);
-    }
-
-    return false;
+    return ArrayUtilities.equals(resposta.getSequenciaResposta(), this.sequenciaCorreta);
   }
 
   validar() {

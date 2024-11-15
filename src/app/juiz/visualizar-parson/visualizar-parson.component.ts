@@ -10,6 +10,9 @@ import PontuacaoQuestaoParson from 'src/app/model/gamification/pontuacaoQuestaoP
 import { RespostaQuestaoParson } from 'src/app/model/aprendizagem/questoes/respostaQuestaoParson';
 import { Assunto } from 'src/app/model/aprendizagem/questoes/assunto';
 import QuestaoParsonProblem from 'src/app/model/aprendizagem/questoes/questaoParsonProblem';
+import Query from 'src/app/model/firestore/query';
+import SegmentoRespostaParson from 'src/app/model/aprendizagem/questoes/segmentoRespostaParson';
+import SegmentoParson from 'src/app/model/aprendizagem/questoes/segmentoParson';
 
 @Component({
   selector: 'app-visualizar-parson',
@@ -57,16 +60,21 @@ export class VisualizarParsonComponent implements OnInit, AfterViewChecked {
     }
   }
 
+  
+
   ngOnInit(): void {
     if (this.questao == null) {
       this.route.params.subscribe((params) => {
         QuestaoParsonProblem.get(params['questaoId']).subscribe((questao) => {
           this.questao = questao as QuestaoParsonProblem;
           this.respostaQuestao = new RespostaQuestaoParson(null, this.usuario, [], this.questao);
-          RespostaQuestaoParson.getRespostaQuestaoEstudante(this.questao).subscribe(
+          RespostaQuestaoParson.getByQuery([
+            new Query('questao_id', '==', questao.pk),
+          ]).subscribe(
             (respostaUsuario: RespostaQuestaoParson) => {
               if (respostaUsuario != null) {
                 this.respostaQuestao = respostaUsuario;
+                this.respostaQuestao.prepararSegmentos(this.questao)
               }
             }
           );
@@ -90,12 +98,14 @@ export class VisualizarParsonComponent implements OnInit, AfterViewChecked {
 
   enviar() {
     this.respostaQuestao.save().subscribe((resposta) => {
+      this.respostaQuestao = resposta as RespostaQuestaoParson;
+      this.respostaQuestao.questao = this.questao;
       if (this.questao.isRespostaCorreta(this.respostaQuestao)) {
-        this.gamification.aumentarPontuacao(
+       /*  this.gamification.aumentarPontuacao(
           this.login.getUsuarioLogado(),
           this.questao,
           new PontuacaoQuestaoParson()
-        );
+        ); */
         this.messageService.add({
           severity: 'success',
           summary: 'Parabéns',

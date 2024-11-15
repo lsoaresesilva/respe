@@ -5,7 +5,7 @@ export default class ArrayUtilities {
     }
 
     for (let i = 0; i < arr1.length; i++) {
-      if (arr1[i] !== arr2[i]) {
+      if (arr1[i] != arr2[i]) {
         return false;
       }
     }
