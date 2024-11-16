@@ -90,6 +90,7 @@ import { ConsoleTrintadoisbitsControleComponent } from './editor/console-trintad
 import { CompartilhadoModule } from '../shared/shared.module';
 import { InterpretadorPythonService } from './editor/interpretador-python.service';
 import { GeralModuleModule } from '../geral-module/geral-module.module';
+import { EditorProgramacaoRespeComponent } from './editor-programacao-respe/editor-programacao-respe.component';
 
 export const routes: Routes = [
   {
@@ -180,7 +181,8 @@ export const routes: Routes = [
         EditorIndependenteComponent,
         ContainerEditorProgramacaoComponent,
         ResponderQuestaoProgramacaoRegexComponent,
-        ConsoleTrintadoisbitsControleComponent
+        ConsoleTrintadoisbitsControleComponent,
+        EditorProgramacaoRespeComponent
     ],
     imports: [
         SrlModule,

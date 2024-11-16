@@ -1,7 +1,8 @@
 import { Component, Input, OnChanges, OnInit } from '@angular/core';
 import { DomSanitizer } from '@angular/platform-browser';
 import ConsoleEditor from 'src/app/model/consoleEditor';
-import Submissao from 'src/app/model/respostaQuestaoProgramacao';
+import RespostaQuestaoProgramacao from 'src/app/model/aprendizagem/questoes/respostaQuestaoProgramacao';
+
 import { EscapeHtmlPipe } from 'src/app/pipes/keep-html.pipe';
 
 @Component({
@@ -13,7 +14,7 @@ import { EscapeHtmlPipe } from 'src/app/pipes/keep-html.pipe';
 export class ConsoleTrintadoisbitsControleComponent implements OnChanges {
 
   @Input()
-  submissao: Submissao;
+  submissao: RespostaQuestaoProgramacao;
 
   @Input()
   consoleEditor: ConsoleEditor;

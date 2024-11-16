@@ -11,7 +11,7 @@ import {
   ComponentFactoryResolver,
 } from '@angular/core';
 import { HttpHeaders, HttpClient, HttpErrorResponse } from '@angular/common/http';
-import Submissao from 'src/app/model/respostaQuestaoProgramacao';
+
 import Editor from 'src/app/model/editor';
 import { LoginService } from 'src/app/login-module/login.service';
 
@@ -40,6 +40,8 @@ import { Groups } from 'src/app/model/experimento/groups';
 import Postagem from 'src/app/model/cscl/postagem';
 import Usuario from 'src/app/model/usuario';
 import { VisualizacaoRespostasQuestoes } from 'src/app/model/aprendizagem/questoes/visualizacaoRespostasQuestoes';
+import RespostaQuestaoProgramacao from 'src/app/model/aprendizagem/questoes/respostaQuestaoProgramacao';
+import { ParseError } from 'src/app/model/parseError';
 
 /**
  * Executa um javascript ide.js para acoplar o editor VStudio.
@@ -104,7 +106,7 @@ export class EditorProgramacaoComponent implements AfterViewInit, OnChanges, OnI
     this.atualizarEditorComSubmissao();
   }
 
-  get submissao() {
+  get submissao():RespostaQuestaoProgramacao {
     return this._submissao;
   }
 
@@ -186,7 +188,7 @@ export class EditorProgramacaoComponent implements AfterViewInit, OnChanges, OnI
    */
   clonarSubmissao(submissao) {
     if (submissao != undefined) {
-      let _submissaoClone = new Submissao(
+      let _submissaoClone = new RespostaQuestaoProgramacao(
         submissao.pk(),
         submissao.codigo,
         submissao.estudante,
@@ -206,9 +208,6 @@ export class EditorProgramacaoComponent implements AfterViewInit, OnChanges, OnI
   }
 
   ngOnChanges(changes: import('@angular/core').SimpleChanges): void {
-    /*  if(changes.submissao != null && changes.submissao.currentValue != null){
-
-    } */
 
     this.editorCodigo = Editor.getInstance();
 
@@ -516,7 +515,7 @@ export class EditorProgramacaoComponent implements AfterViewInit, OnChanges, OnI
    */
   prepararSubmissao() {
     this.editorCodigo.codigo.next(this.editorCodigo.instanciaMonaco.getValue());
-    const submissao = new Submissao(
+    const submissao = new RespostaQuestaoProgramacao(
       null,
       this.editorCodigo.instanciaMonaco.getValue(),
       this.usuario,
@@ -670,17 +669,16 @@ export class EditorProgramacaoComponent implements AfterViewInit, OnChanges, OnI
     }
 
     if (this.atividadeGrupo == null) {
-      let parseError = new ParseAlgoritmo(this.submissao.linhasAlgoritmo());
-      if (this.submissao.erro != null) {
-        let erro = parseError.getHint(this.submissao.erro.traceback);
-        if (erro.length > 0) {
-          this.erroAtivo = erro[0];
-        }
+      
+      let erro = new ParseAlgoritmo(this.submissao.linhasAlgoritmo()).analisar().getPrimeiroErro();
+      if (erro != null) {
+        this.erroAtivo = erro;
+      }  
 
         // TODO: precisa ser melhorado. A mensagem está repetida com a apresentada pelo console.
         this.monitor.monitorarErrosEstudante(this.questao, this.usuario, erro[0]);
       }
-    }
+    
 
     if (this.questaoCorrecao == null) {
       this.submissao.save().subscribe((resultado) => {

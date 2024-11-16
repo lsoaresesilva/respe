@@ -34,12 +34,10 @@ export class EditorIndependenteComponent implements OnInit {
 
     this.console.tracebackOriginal = erro;
 
-    let parseError = new ParseAlgoritmo(codigo);
-    if(erro != null){
-      let erroIdentificado = parseError.getHint(erro);
-      if(erroIdentificado.length > 0){
-        this.console.erro = erroIdentificado[0].construirMensagem();
-      }
+
+    let erroIdentificado = new ParseAlgoritmo(codigo).analisar().getPrimeiroErro();
+    if(erroIdentificado != null){
+      this.console.erro = erroIdentificado[0].construirMensagem();
     }
 
     

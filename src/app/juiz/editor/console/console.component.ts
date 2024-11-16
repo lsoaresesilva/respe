@@ -4,8 +4,9 @@ import { LabelCategoriasErros } from 'src/app/model/errors/enum/labelCategoriasE
 import { getLabelPorCategoriaNumero } from 'src/app/model/errors/enum/labelCategoriasErro';
 import { EscapeHtmlPipe } from 'src/app/pipes/keep-html.pipe';
 import ConsoleEditor from 'src/app/model/consoleEditor';
-import Submissao from 'src/app/model/respostaQuestaoProgramacao';
+
 import { DomSanitizer } from '@angular/platform-browser';
+import RespostaQuestaoProgramacao from 'src/app/model/aprendizagem/questoes/respostaQuestaoProgramacao';
 
 @Component({
   selector: 'app-console',
@@ -15,7 +16,7 @@ import { DomSanitizer } from '@angular/platform-browser';
 })
 export class ConsoleComponent  {
   @Input()
-  submissao: Submissao;
+  submissao: RespostaQuestaoProgramacao;
 
   @Input()
   consoleEditor: ConsoleEditor;

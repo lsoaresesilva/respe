@@ -12,10 +12,11 @@ import ParseAlgoritmo from 'src/app/model/errors/analise-pre-compilacao/parseAlg
 import PontuacaoQuestaoProgramacao from 'src/app/model/gamification/pontuacaoQuestaoProgramacao';
 import DiarioProgramacao from 'src/app/model/srl/diarioProgramacao';
 import { TipoDiarioProgramacao } from 'src/app/model/srl/enum/tipoDiarioProgramacao';
-import Submissao from 'src/app/model/respostaQuestaoProgramacao';
+
 import { DiarioProgramacaoComponent } from 'src/app/srl/monitoramento/diario-programacao/diario-programacao.component';
 import { environment } from 'src/environments/environment';
 import { InterpretadorPythonService } from '../interpretador-python.service';
+import RespostaQuestaoProgramacao from 'src/app/model/aprendizagem/questoes/respostaQuestaoProgramacao';
 
 @Component({
   selector: 'app-editor-trintadoisbits',
@@ -45,7 +46,7 @@ export class EditorTrintadoisbitsComponent implements OnInit {
 
   usuario;
   editorCodigo;
-  submissao:Submissao;
+  submissao:RespostaQuestaoProgramacao;
 
   constructor(private http: HttpClient, 
     private interpretadorPython: InterpretadorPythonService,
@@ -70,78 +71,33 @@ export class EditorTrintadoisbitsComponent implements OnInit {
     this.submissao = this.prepararSubmissao();
 
     if (this.submissao.validar()) {
-      // this.submissao.analisarErros(); // TODO: esse código está comentado, pois a função de analisar os erros do estudante está com bugs.
-
-      const httpOptions = {
-        headers: new HttpHeaders({
-          'Content-Type': 'application/json',
-        }),
-      };
-
-      /*
-      Verificação antes da submissão do código para identificar erros.
-      Não está sendo utilizada, pois está com problemas.
-      Potencial para uso. */
-      /*
-      if (this.submissao.hasErrors()) {
-        
-        this.onError.emit(this.submissao);
-      } else {*/
-      const tipoExecucao = Editor.getTipoExecucao(this.questao);
-
-      const json = this.submissao.construirJson(this.questao, tipoExecucao);
-
-      const resultado = await this.interpretadorPython.runPythonCodeAndCompare(
-        json.submissao,
-        json.questao
-      );
-
-      this.onSubmitInicio.emit();
-
-      this.submissao.processarRespostaServidor(resultado);
-
-      if (this.submissao.isFinalizada()) {
-
-        this.gamification.aumentarPontuacao(
-          this.login.getUsuarioLogado(),
-          this.questao,
-          new PontuacaoQuestaoProgramacao()
+      
+      const erro = new ParseAlgoritmo(this.submissao.linhasAlgoritmo()).analisar().getPrimeiroErro();
+      if( erro == null){
+        this.onSubmitInicio.emit();
+        const tipoExecucao = Editor.getTipoExecucao(this.questao);
+        const json = this.submissao.construirJson(this.questao, tipoExecucao);
+        const resultado = await this.interpretadorPython.runPythonCodeAndCompare(
+          json.submissao,
+          json.questao
         );
+        this.submissao.processarRespostaServidor(resultado);
+        
+        if (this.submissao.isFinalizada()) {
+
+          /*  this.gamification.aumentarPontuacao(
+             this.login.getUsuarioLogado(),
+             this.questao,
+             new PontuacaoQuestaoProgramacao()
+           ); */
+         }
+   
+         this.onSubmit.emit(this.submissao);
+      }else{
+        this.submissao.erro = erro;
+        this.onError.emit(this.submissao);
       }
-
-      this.onSubmit.emit(this.submissao);
-
-      /* this.http
-        .post<any>(url, json, httpOptions)
-        .pipe(timeout(30000))
-        .subscribe({
-          next: (resposta) => {
-            this.submissao.processarRespostaServidor(resposta)
-            if (this.submissao.isFinalizada()) {
-
-              this.gamification.aumentarPontuacao(
-                this.login.getUsuarioLogado(),
-                this.questao,
-                new PontuacaoQuestaoProgramacao()
-              );
-            }
-            this.onSubmit.emit(this.submissao);
-          },
-          error: (erro) => {
-            //this.destacarErros(this.submissao); TODO;
-
-            if (erro.status == 0) {
-              this.onServidorError.emit(erro);
-            } else {
-              this.onError.emit({ erro: erro, submissao: this.submissao });
-            }
-
-
-          },
-          complete: () => {
-
-          },
-        }); */
+      
     } else {
       this.processandoSubmissao = false;
       this.messageService.add({
@@ -157,7 +113,7 @@ export class EditorTrintadoisbitsComponent implements OnInit {
    */
   prepararSubmissao() {
     this.editorCodigo.codigo.next(this.editorCodigo.instanciaMonaco.getValue());
-    const submissao = new Submissao(
+    const submissao = new RespostaQuestaoProgramacao(
       null,
       this.editorCodigo.instanciaMonaco.getValue(),
       this.usuario,

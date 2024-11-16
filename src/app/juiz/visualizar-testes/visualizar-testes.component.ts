@@ -19,7 +19,7 @@ export class VisualizarTestesComponent implements OnInit, OnChanges {
   estudante:Usuario;
 
   ngOnChanges(changes: import('@angular/core').SimpleChanges): void {
-    // PROBLEMA: mudou a estrutura, não há mais resultado test case. apenas submissao
+    // PROBLEMA: mudou a estrutura, não há mais resultado test case. apenas RespostaQuestaoProgramacao
 
     if (
       this.submissao != undefined &&

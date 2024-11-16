@@ -130,7 +130,7 @@ export class ListarQuestoesComponent implements OnInit, OnChanges, AfterViewInit
         if (this.statusQuestoes[this.assunto.questoesProgramacao[i].id] == undefined) {
           this.statusQuestoes[
             this.assunto.questoesProgramacao[i].id
-          ] = QuestaoProgramacao.isFinalizada(this.assunto.questoesProgramacao[i], this.usuario);
+          ] = QuestaoProgramacao.isFinalizada(this.assunto.questoesProgramacao[i]);
         }
       }
     }

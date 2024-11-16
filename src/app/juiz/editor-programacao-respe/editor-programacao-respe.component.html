@@ -1,0 +1,187 @@
+<p-toast></p-toast>
+<!-- <chat-widget></chat-widget> -->
+
+<div *ngIf="questao != null; else loading">
+
+
+    <div class="p-grid" style="margin: 10px 10px 10px 10px">
+        <app-breadcrumb-assunto [assunto]="assunto" [questao]="questao">
+        </app-breadcrumb-assunto>
+
+
+        <div class="p-col-12">
+            <div class="p-grid">
+                <div class="p-col-4">
+                    <div class="p-grid">
+                        <div class="p-col-12">
+                            <div class="p-grid">
+                                <div class="p-col-12">
+                                    <button type="button" (click)="visualizarPlanejamento()" pButton
+                                        label="Visualizar planejamento" class="p-button-help"
+                                        *ngIf="exibirAutoInstrucao()"></button>
+                                    <!--     <app-btn-avancar-questao style="margin-left:5px" [assunto]="assunto" [questao]="questao"
+                    *ngIf="atividadeGrupo == null">
+                  </app-btn-avancar-questao> -->
+                                </div>
+                                <div class="p-col-4">
+
+
+                                </div>
+                            </div>
+                        </div>
+                        <div class="p-col-12">
+                            <dados-questao [assunto]="assunto" [questao]="questao" [submissao]="submissao"
+                                id="dadosQuestao">
+                            </dados-questao>
+                            <div id="testsCases">
+                                <app-visualizar-testes [questao]="questao"
+                                    [submissao]="submissao"></app-visualizar-testes>
+                            </div>
+
+                        </div>
+                        <div class="p-col-12">
+                            <app-card-erros-programacao-pizza
+                                [submissao]="submissao"></app-card-erros-programacao-pizza>
+                        </div>
+                    </div>
+
+                </div>
+
+                <div class="p-col-8">
+
+                    <div class="p-grid">
+                        <div class="p-col-12">
+
+                            <p-confirmDialog header="Atenção" icon="pi pi-exclamation-triangle"></p-confirmDialog>
+                            <div class="p-grid">
+                                <div class="p-col-3">
+                                    
+                                    <button type="button" (click)="executar()" pButton id="btnExecutar" label="Executar"
+                                    icon="pi pi-play" iconPos="left" class="ui-button-success" style="margin-right: 10px"></button>
+
+                                    <ng-template #editorPadrao>
+
+                                    </ng-template>
+
+                                    <p-progressBar *ngIf="processandoSubmissao == true" mode="indeterminate"
+                                        [style]="{ height: '6px', width: '120px', marginLeft:'50px', marginTop:'2px'}">
+                                    </p-progressBar>
+                                </div>
+                                <div class="p-col-9">
+                                    <button pButton pRipple type="button"
+                                        icon="{{ submissao.isFinalizada() ? 'pi pi-check' : 'pi pi-times' }}" [ngClass]="{
+      'p-button-rounded p-button-success': submissao.isFinalizada(),
+      'p-button-rounded p-button-danger': !submissao.isFinalizada()
+    }" pTooltip="{{ submissao.isFinalizada() ? 'Seu algoritmo está correto.' : 'Seu algoritmo apresenta um problema.' }}"
+                                        id="statusExecucaoAlgoritmo"
+                                        *ngIf="submissao != undefined && submissao.isFinalizada() != null"></button>
+
+
+                                    <!-- <p-splitButton
+                                        *ngIf="this.login.getUsuarioLogado().grupoExperimento != 4  && modoVisualizacao == false &&  apresentarVisualizacao == true"
+                                        label="Vizualizar execução" style="margin-left:10px" icon="pi pi-eye"
+                                        [model]="items" class="p-button-warning">
+                                    </p-splitButton>
+                                    <p-progressBar *ngIf="processandoVisualizacao == true" mode="indeterminate"
+                                        [style]="{ height: '6px', width: '180px' }">
+                                    </p-progressBar>
+
+                                    <button *ngIf="modoVisualizacao == true" type="button"
+                                        (click)="suspenderVisualizacao()" pButton
+                                        label="Voltar ao modo execução"></button> -->
+                                    <button type="button" (click)="visualizarResposta()" pButton
+                                        label="Visualizar resposta" class="p-button-secondary" style="margin-left:10px"
+                                        *ngIf="questao.getExemploCorreto() != null"></button>
+                                    <!-- <button type="button" (click)="pedirAjuda()" pButton label="Pedir ajuda"
+                                        class="p-button-secondary" style="margin-left:10px"
+                                        *ngIf="atividadeGrupo == null && usuario.grupoExperimento != 4"></button> -->
+                                    <!-- <button type="button" (click)="visualizarDocumentacaoProjeto()" pButton label="Documentação"
+      class="p-button-secondary" style="margin-left:10px" *ngIf="atividadeGrupo != null"></button> -->
+                                  <!--   <button type="button" (click)="enviarRespostaAtividadeGrupo()" pButton
+                                        label="Enviar resposta" class="p-button-secondary" style="margin-left:10px"
+                                        *ngIf="atividadeGrupo != null"></button> -->
+                                </div>
+
+
+                            </div>
+
+                            <div class="p-grid">
+                                <div class="p-col-12" id="divEditorProgramacao">
+                                 
+                              
+                                  
+                                </div>
+                              </div>
+
+                            <div *ngIf="isEditorPronto == false">Carregando editor..</div>
+
+                            <!-- <p-dialog header="Pedir ajuda" [(visible)]="displayPedidoAjuda">
+                                <div class="p-grid">
+                                    <div class="p-col-6">
+                                        Detalhe a sua dúvida
+                                    </div>
+                                </div>
+                                <div class="p-grid">
+                                    <div class="p-col-6">
+                                        <textarea id="float-input" [rows]="5" [cols]="60" pInputTextarea
+                                            #pedidoAjuda></textarea>
+
+
+                                    </div>
+                                </div>
+                                <div class="p-grid">
+                                    <div class="p-col-6">
+                                        <button type="button" (click)="enviarPedidoAjuda(pedidoAjuda)" pButton
+                                            label="Enviar"></button>
+                                    </div>
+                                </div>
+                            </p-dialog> -->
+
+
+                        </div>
+                        <div class="p-col-12">
+                            <strong>Saída do programa</strong>
+                            <div *ngIf="modoVisualizacao == false; else visualizacao" style="margin-top: 10px">
+                                <app-console [submissao]="submissao" [consoleEditor]="consoleEditor"
+                                    *ngIf="modoExecucao == 1"></app-console>
+                                <app-console-trintadoisbits-controle [submissao]="submissao"
+                                    [consoleEditor]="consoleEditor"
+                                    *ngIf="modoExecucao == 2"></app-console-trintadoisbits-controle>
+
+                                <app-console-padrao [console]="consoleEditor"
+                                    *ngIf="modoExecucao == 0"></app-console-padrao>
+
+                            </div>
+                           <!--  <ng-template #visualizacao>
+                                <visualizar-execucao [traceExecucao]="traceExecucao" [editor]="editorCodigo"
+                                    *ngIf="traceExecucao != null">
+                                </visualizar-execucao>
+                            </ng-template> -->
+                        </div>
+                    </div>
+
+
+                    <!--     <app-ide [submissao]="submissao"
+            [modoExecucao]="modoExecucao" [questaoCorrecao]="questaoCorrecao" [grupo]="grupo"
+            [atividadeGrupo]="atividadeGrupo" [questao]="questao" [questaoColaborativa]="questaoColaborativa"
+            [assunto]="assunto" (onEditorError)="onEditorError($event)" (onEditorSubmit)="onEditorSubmit($event)">
+          </app-ide> -->
+
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<ng-template #loading>Carregando questão...</ng-template>
+
+<!-- <p-dialog header="Indique o motivo do pedido de ajuda (dúvida):" [(visible)]="dialogPedirAjuda">
+    <span class="ui-float-label">
+        <textarea pInputTextarea [cols]="44" [(ngModel)]="duvida"></textarea>
+        <label for="float-input">Digite o motivo</label>
+    </span>
+    <button type="button" pButton icon="pi pi-check" (click)="dialogPedirAjuda = false; enviarPedidoDeAjuda()"
+        label="Enviar"></button>
+    <button type="button" pButton icon="pi pi-close" (click)="dialogPedirAjuda = false" label="Cancelar"
+        class="ui-button-secondary"></button>
+</p-dialog> -->

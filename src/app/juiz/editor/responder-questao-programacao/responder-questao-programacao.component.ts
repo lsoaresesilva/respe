@@ -22,7 +22,7 @@ import { LoginService } from '../../../login-module/login.service';
 import ErroEditor from 'src/app/model/erroEditor';
 
 import { FormBuilder } from '@angular/forms';
-import Submissao from 'src/app/model/respostaQuestaoProgramacao';
+
 import ConsoleEditor from 'src/app/model/consoleEditor';
 import ErroServidor from 'src/app/model/errors/erroServidor';
 import { ApresentacaoService } from 'src/app/geral-module/apresentacao.service';
@@ -46,6 +46,7 @@ import { ChatbotService } from 'src/app/chatbot/chatbot.service';
 import { QuestaoProgramacao } from 'src/app/model/aprendizagem/questoes/questaoProgramacao';
 import { Assunto } from 'src/app/model/aprendizagem/questoes/assunto';
 import { AutoInstrucao } from '../../../model/srl/autoInstrucao';
+import RespostaQuestaoProgramacao from 'src/app/model/aprendizagem/questoes/respostaQuestaoProgramacao';
 
 
 @Component({
@@ -62,7 +63,7 @@ export class ResponderQuestaoProgramacao implements OnInit, AfterViewInit {
   pausaIde;
   questao?: QuestaoProgramacao;
   statusExecucao;
-  submissao: Submissao;
+  submissao: RespostaQuestaoProgramacao;
   dialogPedirAjuda: boolean = false;
   duvida: string = '';
 
@@ -167,7 +168,10 @@ export class ResponderQuestaoProgramacao implements OnInit, AfterViewInit {
   }
 
   onEditorSubmit(submissao) {
-    this.submissao = submissao;
+    /* this.submissao.save().subscribe(
+      (resultado) => {
+      
+    }); */
   }
 
   ngOnInit() {
@@ -198,7 +202,7 @@ export class ResponderQuestaoProgramacao implements OnInit, AfterViewInit {
                 ).subscribe((correcao: RespostaQuestaoCorrecaoAlgoritmo) => {
                   if (correcao != null) {
                     this.correcao = correcao;
-                    this.submissao = new RespostaQuestaoProgramacao(fromJson(correcao.submissao);
+                    this.submissao = RespostaQuestaoProgramacao.dataToObject(correcao.submissao);
                   } else {
                     this.questaoCorrecao
                       .getSubmissaoComErro(this.usuario)
@@ -216,8 +220,9 @@ export class ResponderQuestaoProgramacao implements OnInit, AfterViewInit {
 
           QuestaoProgramacao.get(params['questaoId']).subscribe((questao) => {
             this.questao = questao as QuestaoProgramacao;
+            RespostaQuestaoProgramacao.filtrarRecente(this.questao).subscribe((submissao) => { this.submissao = submissao; });
             if( AutoInstrucao.exibirAutoInstrucao(this.questao)){
-              this.apresentarPerguntas(this.questao.assuntos);
+              /* this.apresentarPerguntas(this.questao.assuntos);
               const usuario = this.login.getUsuarioLogado();
               AutoInstrucao.getByEstudanteQuestao(
                 usuario.pk,
@@ -226,7 +231,7 @@ export class ResponderQuestaoProgramacao implements OnInit, AfterViewInit {
                 if (autoInstrucao != null) {
                   this.autoInstrucao = autoInstrucao;
                 }
-              });
+              }); */
             } else{
               this.router.navigate([
                 'geral/main',
@@ -261,7 +266,7 @@ export class ResponderQuestaoProgramacao implements OnInit, AfterViewInit {
                     // --------------------------------------------------------------
 
                     new RespostaQuestaoProgramacao(getRecentePorQuestao(this.questao, this.usuario).subscribe(
-                      (submissao: Submissao) => {
+                      (submissao: RespostaQuestaoProgramacao) => {
                         if (submissao != null) {
                           this.submissao = this.prepararSubmissao(submissao);
                         }
@@ -290,8 +295,8 @@ export class ResponderQuestaoProgramacao implements OnInit, AfterViewInit {
   }
 
   atualizarCardErros() {
-    new RespostaQuestaoProgramacao(getPorQuestao(this.questao, this.usuario).subscribe((submissoes) => {
-      const erros = new RespostaQuestaoProgramacao(getAllErros(submissoes);
+    RespostaQuestaoProgramacao.getPorQuestao(this.questao, this.usuario).subscribe((submissoes) => {
+      const erros = RespostaQuestaoProgramacao.getAllErros(submissoes);
       this.errosEstudante = erros;
     });
   }
