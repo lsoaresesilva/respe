@@ -3,7 +3,7 @@ import { Assunto } from '../aprendizagem/questoes/assunto';
 import { PerfilUsuario } from '../enums/perfilUsuario';
 import { Collection, date, Document } from '../firestore/document';
 import Query from '../firestore/query';
-import Submissao from '../submissao';
+import Submissao from '../respostaQuestaoProgramacao';
 import Usuario from '../usuario';
 import QuestaoProgramacaoCorrecao from '../aprendizagem/questoes/questaoProgramacaoCorrecao';
 

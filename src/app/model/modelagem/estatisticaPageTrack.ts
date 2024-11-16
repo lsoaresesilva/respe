@@ -1,7 +1,7 @@
 import { Observable, forkJoin } from 'rxjs';
 import { PerfilUsuario } from '../enums/perfilUsuario';
 import { Groups } from '../experimento/groups';
-import Submissao from '../submissao';
+import Submissao from '../respostaQuestaoProgramacao';
 import Usuario from '../usuario';
 import AnalyticsProgramacao from '../analytics/analyticsProgramacao';
 import PageTrackRecord from '../analytics/pageTrack';

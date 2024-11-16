@@ -1,6 +1,6 @@
 import ErroSintaxe from './erroSintaxe';
 import Erro from '../erro';
-import Submissao from '../../submissao';
+import Submissao from '../../respostaQuestaoProgramacao';
 
 export default class ErroTypeError extends ErroSintaxe{
 

@@ -13,6 +13,7 @@ import { QuestaoProgramacaoRegex } from 'src/app/model/aprendizagem/questoes/que
 import { MaterialAprendizagem } from 'src/app/model/aprendizagem/materialAprendizagem';
 import VideoProgramacao from 'src/app/model/aprendizagem/videoProgramacao';
 import Texto from 'src/app/model/aprendizagem/texto';
+import { BreadcrumbService } from 'src/app/geral-module/breadcrumb.service';
 
 
 @Component({
@@ -27,7 +28,7 @@ export class ListarMateriaisSequenciaComponent implements OnChanges {
   materiaisAprendizagem:(QuestaoFechada | QuestaoParsonProblem | QuestaoProgramacao | QuestaoProgramacaoRegex)[] = [];
   events;
 
-  constructor(private login:LoginService, private router: Router) { }
+  constructor(private login:LoginService, private router: Router, private breadcrumbService:BreadcrumbService) { }
 
   ngOnInit(): void {
 

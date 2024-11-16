@@ -6,22 +6,24 @@ import { Util } from '../../util';
 import Conceito from './conceito';
 import QuestaoBase from './questaoBase';
 import { Dificuldade } from './enum/dificuldade';
+import { Collection } from '../../firestore/document';
 
+@Collection("questaoregex")
 export class QuestaoProgramacaoRegex extends QuestaoBase {
 
 
-  constructor(public id, public nomeCurto,
+  constructor(primary_key, public nomeCurto,
     public enunciado, public sequencia, public regex: string[],
     public conceitos:Conceito[], public dificuldade:Dificuldade) {
-    super(id);
+    super(primary_key);
   }
 
   assunto: Assunto;
 
   static dataToObject(questaoProgramacaoRegex:any){
     return new QuestaoProgramacaoRegex(
-      questaoProgramacaoRegex.id,
-      questaoProgramacaoRegex.nomeCurto,
+      questaoProgramacaoRegex.primary_key,
+      questaoProgramacaoRegex.nome_curto,
       questaoProgramacaoRegex.enunciado,
       questaoProgramacaoRegex.sequencia,
       questaoProgramacaoRegex.regex,

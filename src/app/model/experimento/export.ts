@@ -1,5 +1,5 @@
 import { Observable, forkJoin } from 'rxjs';
-import Submissao from '../submissao';
+import Submissao from '../respostaQuestaoProgramacao';
 
 //import submissoesEstudantes from '../../../../json/submissoes_29_mai.json';
 import ErroCompilacaoFactory from '../errors/analise-compilacao/erroCompilacaoFactory';

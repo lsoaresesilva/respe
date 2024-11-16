@@ -1,6 +1,6 @@
 import { TipoErro } from './analise-pre-compilacao/enum/tipoErro';
 import { Document, Collection, ignore, date } from '../firestore/document';
-import Submissao from '../submissao';
+import Submissao from '../respostaQuestaoProgramacao';
 import { forkJoin, Observable } from 'rxjs';
 import Query from '../firestore/query';
 import { ErroCompilacao } from './analise-compilacao/erroCompilacao';

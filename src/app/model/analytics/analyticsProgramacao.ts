@@ -1,6 +1,6 @@
 import { Assunto } from '../aprendizagem/questoes/assunto';
 import ErroCompilacaoFactory from '../errors/analise-compilacao/erroCompilacaoFactory';
-import Submissao from '../submissao';
+import Submissao from '../respostaQuestaoProgramacao';
 import { Util } from '../util';
 import { EventosProgramacao } from './enum/eventosProgramacao';
 

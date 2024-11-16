@@ -1,5 +1,5 @@
 import { Component, OnInit, Input, AfterViewInit } from '@angular/core';
-import Submissao from 'src/app/model/submissao';
+import Submissao from 'src/app/model/respostaQuestaoProgramacao';
 import { LoginService } from 'src/app/login-module/login.service';
 import { ApresentacaoService } from 'src/app/geral-module/apresentacao.service';
 import { DomSanitizer } from '@angular/platform-browser';

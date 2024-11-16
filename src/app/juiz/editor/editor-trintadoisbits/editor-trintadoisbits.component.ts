@@ -12,7 +12,7 @@ import ParseAlgoritmo from 'src/app/model/errors/analise-pre-compilacao/parseAlg
 import PontuacaoQuestaoProgramacao from 'src/app/model/gamification/pontuacaoQuestaoProgramacao';
 import DiarioProgramacao from 'src/app/model/srl/diarioProgramacao';
 import { TipoDiarioProgramacao } from 'src/app/model/srl/enum/tipoDiarioProgramacao';
-import Submissao from 'src/app/model/submissao';
+import Submissao from 'src/app/model/respostaQuestaoProgramacao';
 import { DiarioProgramacaoComponent } from 'src/app/srl/monitoramento/diario-programacao/diario-programacao.component';
 import { environment } from 'src/environments/environment';
 import { InterpretadorPythonService } from '../interpretador-python.service';

@@ -1,6 +1,6 @@
 import { Component, Input, OnChanges, OnInit } from '@angular/core';
 import Query from 'src/app/model/firestore/query';
-import Submissao from 'src/app/model/submissao';
+import Submissao from 'src/app/model/respostaQuestaoProgramacao';
 
 @Component({
   selector: 'app-revisao-codigo',

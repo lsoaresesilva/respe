@@ -1,7 +1,7 @@
 import AtividadeGrupo from "./atividadeGrupo";
 import Edicao from "./edicao";
 import { Collection, date, Document } from "../firestore/document";
-import Submissao from "../submissao";
+import Submissao from "../respostaQuestaoProgramacao";
 import Grupo from "./grupo";
 
 @Collection('submissoesGrupo')

@@ -1,7 +1,7 @@
 import Estudante from './errors/analise-pre-compilacao/erroSintaxeFuncao';
 import Erro from './errors/erro';
 import { Observable, forkJoin } from 'rxjs';
-import Submissao from './submissao';
+import Submissao from './respostaQuestaoProgramacao';
 import Usuario from './usuario';
 
 export class Tutor {

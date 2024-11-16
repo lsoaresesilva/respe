@@ -1,4 +1,5 @@
 import { Component, OnInit, Input } from '@angular/core';
+import { BreadcrumbService } from '../breadcrumb.service';
 
 
 @Component({
@@ -8,18 +9,12 @@ import { Component, OnInit, Input } from '@angular/core';
 })
 export class BreadcrumbAssuntoComponent implements OnInit {
 
+  navegacao;
 
-  @Input()
-  assunto;
-
-  @Input()
-  questao;
-
-
-
-  constructor() { }
+  constructor(private breadcrumbService:BreadcrumbService) { }
 
   ngOnInit() {
+    this.navegacao = this.breadcrumbService.navegacao
   }
 
 }

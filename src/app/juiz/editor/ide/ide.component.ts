@@ -79,7 +79,7 @@ export class IdeComponent implements OnChanges{
   }
 
   erroEditor(submissao) {
-    //this.submissao = Object.assign({}, submissao);//new Submissao(null, null, null, null, null)//this.prepararSubmissao(submissao);
+    //this.submissao = Object.assign({}, submissao);//new RespostaQuestaoProgramacao(null, null, null, null, null)//this.prepararSubmissao(submissao);
     //this.changeDetector.detectChanges();
     this.submissao = submissao;
     this.consoleEditor.erro = null;

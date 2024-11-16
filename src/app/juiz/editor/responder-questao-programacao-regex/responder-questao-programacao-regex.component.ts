@@ -9,6 +9,7 @@ import { RespostaQuestaoProgramacaoRegex } from 'src/app/model/aprendizagem/ques
 import { ChatbotService } from 'src/app/chatbot/chatbot.service';
 
 import { ApresentacaoService } from '../../../geral-module/apresentacao.service';
+import { QuestaoProgramacaoRegex } from 'src/app/model/aprendizagem/questoes/questaoProgramacaoRegex';
 
 
 @Component({
@@ -24,6 +25,7 @@ export class ResponderQuestaoProgramacaoRegexComponent implements OnInit, AfterV
   resultado;
   respostaQuestao;
   erroProgramacao;
+  usuario;
 
   constructor(private route: ActivatedRoute, private login: LoginService, private apresentacao: ApresentacaoService, private chatbotService: ChatbotService) {
     this.isEditorPronto = false;
@@ -35,35 +37,45 @@ export class ResponderQuestaoProgramacaoRegexComponent implements OnInit, AfterV
 
 
   ngOnInit(): void {
-    this.route.params.subscribe((params) => {
+    this.usuario = this.login.getUsuarioLogado();
+    if (this.questao == null) {
+      this.route.params.subscribe((params) => {
+        QuestaoProgramacaoRegex.get(params['questaoId']).subscribe((questao) => {
+          this.questao = questao as QuestaoProgramacaoRegex;
+          this.respostaQuestao = new RespostaQuestaoProgramacaoRegex(null, this.usuario, [], false, this.questao);
+          
+        });
+      });
+    }
+   /*  this.route.params.subscribe((params) => {
       if (params['assuntoId'] != null && params['questaoId'] != null) {
         Assunto.get(params['assuntoId']).subscribe((assunto) => {
           this.assunto = assunto as Assunto;
           this.questao = this.assunto.getQuestaoRegexById(params['questaoId']);
-          this.chatbotService.sendDados([this.questao.sequencia, this.questao.nomeCurto, this.questao.pk]);
+          //this.chatbotService.sendDados([this.questao.sequencia, this.questao.nomeCurto, this.questao.pk]);
         });
       }
-    });
+    }); */
   }
 
   async onContainerReady(event) {
     const usuario = this.login.getUsuarioLogado();
     this.isEditorPronto = true;
     this.editorCodigo = Editor.getInstance();
-    RespostaQuestaoProgramacaoRegex.getRecentePorQuestao(
-      this.questao,
-      usuario
-    ).subscribe((resposta) => {
-      this.respostaQuestao = resposta;
-      if (this.respostaQuestao != null) {
-        this.resultado = this.respostaQuestao.isRespostaCorreta;
-        Editor.getInstance().codigo.next(this.respostaQuestao.algoritmo.join('\n'));
-      }else{
-        Editor.getInstance().codigo.next("");
+    Editor.getInstance().codigo.next("");
+    RespostaQuestaoProgramacaoRegex.getByQuery([
+      new Query('questao_id', '==', this.questao.pk),
+    ]).subscribe(
+      (respostaUsuario: RespostaQuestaoProgramacaoRegex) => {
+        if (respostaUsuario != null) {
+          this.respostaQuestao = respostaUsuario;
+          this.resultado = this.respostaQuestao.isRespostaCorreta;
+          Editor.getInstance().codigo.next(this.respostaQuestao.algoritmo.join('\n'));
+        }
       }
+    );
 
-
-    });
+    
   }
 
   executar() {
@@ -90,14 +102,26 @@ export class ResponderQuestaoProgramacaoRegexComponent implements OnInit, AfterV
           else this.erroProgramacao = null;
         }
 
-        let resposta = new RespostaQuestaoProgramacaoRegex(
-          null,
-          this.login.getUsuarioLogado(),
-          codigo,
-          this.resultado,
-          this.questao
-        );
-        resposta.save().subscribe((r) => {});
+        if(this.respostaQuestao.pk == null){
+          this.respostaQuestao = new RespostaQuestaoProgramacaoRegex(
+            null,
+            this.login.getUsuarioLogado(),
+            codigo,
+            this.resultado,
+            this.questao
+          );
+          
+        }else{
+          this.respostaQuestao.algoritmo = codigo;
+          this.respostaQuestao.isRespostaCorreta = this.resultado;
+          
+        }
+
+        this.respostaQuestao.save().subscribe((r) => {
+          this.respostaQuestao = r;
+        });
+
+        
       }
     }
   }

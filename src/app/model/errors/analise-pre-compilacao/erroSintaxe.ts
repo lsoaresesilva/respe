@@ -1,5 +1,5 @@
 import Erro from '../erro';
-import Submissao from '../../submissao';
+import Submissao from '../../respostaQuestaoProgramacao';
 import ErroPreCompilacao from './erroPrecompilacao';
 import { TipoErro } from './enum/tipoErro';
 

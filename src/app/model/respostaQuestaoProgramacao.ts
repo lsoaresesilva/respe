@@ -15,8 +15,8 @@ import { database } from 'firebase';
 import { QuestaoProgramacao } from './aprendizagem/questoes/questaoProgramacao';
 import RespostaBase from './aprendizagem/questoes/respostaBase';
 
-@Collection('submissoes')
-export default class Submissao extends Document implements RespostaBase{
+@Collection('respostaquestaoprogramacao')
+export default class RespostaQuestaoProgramacao extends Document implements RespostaBase{
   constructor(
     primary_key,
     public codigo: string,
@@ -46,7 +46,7 @@ export default class Submissao extends Document implements RespostaBase{
     usuarioLogado: Usuario
   ): Observable<any[]> {
     return new Observable((observer) => {
-      Submissao.getAll(new Query('questaoId', '==', questao.pk)).subscribe((resultado) => {
+      RespostaQuestaoProgramacao.getAll(new Query('questaoId', '==', questao.pk)).subscribe((resultado) => {
         // eliminar a submissao do próprio estudante
         let submissoes = resultado.filter((sub) => {
           if (sub.estudanteId !== usuarioLogado.pk()) {
@@ -62,7 +62,7 @@ export default class Submissao extends Document implements RespostaBase{
     });
   }
  */
-  static toArray(submissoes:Submissao[]){
+  static toArray(submissoes:RespostaQuestaoProgramacao[]){
 
   }
 
@@ -72,7 +72,7 @@ export default class Submissao extends Document implements RespostaBase{
   */
   static getExerciciosTrabalhadosUltimaSemana(estudante: Usuario) {
     return new Observable((observer) => {
-      Submissao.getAll(new Query('estudanteId', '==', estudante.pk)).subscribe((submissoes) => {
+      RespostaQuestaoProgramacao.getAll(new Query('estudanteId', '==', estudante.pk)).subscribe((submissoes) => {
         // Filtrar apenas da ultima semana
         const semanaAtras = new Date();
         semanaAtras.setDate(new Date().getDate() - 7);
@@ -90,7 +90,7 @@ export default class Submissao extends Document implements RespostaBase{
   }
 
   static fromJson(submissaoJson: any) {
-    let submissao = new Submissao(
+    let submissao = new RespostaQuestaoProgramacao(
       submissaoJson.id,
       submissaoJson.codigo,
       Usuario.fromJson({ id: submissaoJson.estudante }),
@@ -161,8 +161,8 @@ export default class Submissao extends Document implements RespostaBase{
     return datas;
   };
 
-  static agruparPorEstudante(submissoes: Submissao[]): Map<string, Submissao[]> {
-    const submissoesAgrupadas = new Map<string, Submissao[]>();
+  static agruparPorEstudante(submissoes: RespostaQuestaoProgramacao[]): Map<string, RespostaQuestaoProgramacao[]> {
+    const submissoesAgrupadas = new Map<string, RespostaQuestaoProgramacao[]>();
     submissoes.forEach((submissao) => {
 
       if(submissao['estudanteId'] == null && submissao['estudante'] != null){
@@ -179,8 +179,8 @@ export default class Submissao extends Document implements RespostaBase{
     return submissoesAgrupadas;
   }
 
-  static agruparRecentePorEstudante(submissoes: Submissao[]): Map<string, Submissao> {
-    let submissoesRecentesAgrupadas: Map<string, Submissao> = new Map();
+  static agruparRecentePorEstudante(submissoes: RespostaQuestaoProgramacao[]): Map<string, RespostaQuestaoProgramacao> {
+    let submissoesRecentesAgrupadas: Map<string, RespostaQuestaoProgramacao> = new Map();
     if(Array.isArray(submissoes)){
       const submissoesAgrupadas = this.agruparPorEstudante(submissoes);
       submissoesAgrupadas.forEach((submissoes, estudanteId) => {
@@ -190,7 +190,7 @@ export default class Submissao extends Document implements RespostaBase{
     return submissoesRecentesAgrupadas;
   }
 
-  static agruparPorQuestao(submissoes: Submissao[]): Map<string, any[]> {
+  static agruparPorQuestao(submissoes: RespostaQuestaoProgramacao[]): Map<string, any[]> {
     const submissoesAgrupadas = new Map();
     submissoes.forEach((submissao) => {
       if (submissoesAgrupadas.get(submissao['questaoId']) === undefined) {
@@ -220,7 +220,7 @@ export default class Submissao extends Document implements RespostaBase{
     return submissoesUnicas;
   }
 
-  static filtrarSubmissoesConclusao(submissoesQuestao = [], status = false):Submissao[] {
+  static filtrarSubmissoesConclusao(submissoesQuestao = [], status = false):RespostaQuestaoProgramacao[] {
     // Filtrando todas as submissões que o seu resultadosTestsCase não seja undefined.
     const submissaoFiltrada = submissoesQuestao
       .filter((submissao) => {
@@ -244,7 +244,7 @@ export default class Submissao extends Document implements RespostaBase{
     return submissaoFiltrada;
   }
 
-  static _orderByDate(submissoes: Submissao[]) {
+  static _orderByDate(submissoes: RespostaQuestaoProgramacao[]) {
     submissoes.sort((s1, s2) => {
       if (s1.data != null && s2.data != null && s1.data != "" && s2.data != "") {
         let dataS1 = null;
@@ -272,7 +272,7 @@ export default class Submissao extends Document implements RespostaBase{
   }
 
   //
-  static filtrarDataRange(submissoes:Submissao[], dataInicio, dataTermino){
+  static filtrarDataRange(submissoes:RespostaQuestaoProgramacao[], dataInicio, dataTermino){
     return submissoes.filter((submissao)=>{
       let dataSubmissao = new Date(submissao.data).getTime();
       if(dataSubmissao >= dataInicio.getTime() && dataSubmissao <= dataTermino.getTime()){
@@ -281,32 +281,6 @@ export default class Submissao extends Document implements RespostaBase{
         return false;
       }
     });
-  }
-
-  static filtrarRecente(submissoes = []):Submissao {
-    Submissao._orderByDate(submissoes);
-
-    let submissaoRecente = null;
-    if (submissoes.length != 0) {
-      if (submissoes.length == 1) {
-        submissaoRecente = submissoes[0];
-      } else {
-        submissoes.forEach((submissao) => {
-          if (submissaoRecente == null) {
-            submissaoRecente = submissao;
-          } else {
-
-            if (submissaoRecente.data != null && submissao.data != null && submissaoRecente.data != "" && submissao.data != "") {
-              if (submissaoRecente.data.toDate().getTime() <= submissao.data.toDate().getTime()) {
-                submissaoRecente = submissao;
-              }
-            }
-          }
-        });
-      }
-    }
-
-    return submissaoRecente;
   }
 
   /**
@@ -336,7 +310,7 @@ export default class Submissao extends Document implements RespostaBase{
       ) {
         observer.error(new Error('Questão ou estudante não podem ser vazios'));
       } else {
-        Submissao.getAll([
+        RespostaQuestaoProgramacao.getAll([
           new Query('estudanteId', '==', estudante.pk),
           new Query('questaoId', '==', questao.pk),
         ]).subscribe((submissoes) => {
@@ -350,7 +324,7 @@ export default class Submissao extends Document implements RespostaBase{
   static getSubmissaoConcluidaPorQuestao(questao:QuestaoProgramacao){
     return new Observable((observer) => {
       if (questao != null){
-        Submissao.getAll([
+        RespostaQuestaoProgramacao.getAll([
           new Query('questaoId', '==', questao.pk),
           new Query("estudantes", "array-contains", {status:true})
         ]).subscribe((submissoes) => {
@@ -429,7 +403,7 @@ export default class Submissao extends Document implements RespostaBase{
 
 
   static documentToObject(document) {
-    let submissao = new Submissao(
+    let submissao = new RespostaQuestaoProgramacao(
       document.id,
       document.codigo,
       Usuario.fromJson({ id: document.estudanteId }),

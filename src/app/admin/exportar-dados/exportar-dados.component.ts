@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import PageTrackRecord from 'src/app/model/analytics/pageTrack';
 import Query from 'src/app/model/firestore/query';
-import Submissao from 'src/app/model/submissao';
+import Submissao from 'src/app/model/respostaQuestaoProgramacao';
 import Turma from 'src/app/model/turma';
 import { SelectItem } from 'primeng/api';
 //import pageTracks from '../../../../json/pageTracks.json';

@@ -1,7 +1,7 @@
 import { Component, OnInit, Input, Output, EventEmitter } from '@angular/core';
 import ComentarioCodigo from 'src/app/model/comentarioCodigo';
 import Usuario from 'src/app/model/usuario';
-import Submissao from 'src/app/model/submissao';
+import Submissao from 'src/app/model/respostaQuestaoProgramacao';
 
 declare var dialogEmExibicao: any;
 

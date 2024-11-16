@@ -1,6 +1,6 @@
 import ErroSintaxe from './erroSintaxe';
 import Erro from '../erro';
-import Submissao from '../../submissao';
+import Submissao from '../../respostaQuestaoProgramacao';
 import ErroSintaxeVariavel from './erroSintaxeVariavel';
 import ErroPreCompilacao from './erroPrecompilacao';
 import { ErrosFuncoes } from './enum/errosFuncoes';

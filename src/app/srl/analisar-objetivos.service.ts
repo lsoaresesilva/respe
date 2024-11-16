@@ -2,7 +2,7 @@ import { Injectable } from '@angular/core';
 import Query from '../model/firestore/query';
 import Usuario from '../model/usuario';
 import { forkJoin, Observable } from 'rxjs';
-import Submissao from '../model/submissao';
+import Submissao from '../model/respostaQuestaoProgramacao';
 import TempoOnline from '../model/analytics/tempoOnline';
 import { Assunto } from '../model/aprendizagem/questoes/assunto';
 import Diario from '../model/srl/diario';

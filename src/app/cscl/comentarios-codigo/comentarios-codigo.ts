@@ -2,7 +2,7 @@ import { Component, OnInit, Input } from '@angular/core';
 import ComentarioCodigo from 'src/app/model/comentarioCodigo';
 import Query from 'src/app/model/firestore/query';
 import Usuario from 'src/app/model/usuario';
-import Submissao from 'src/app/model/submissao';
+import Submissao from 'src/app/model/respostaQuestaoProgramacao';
 import { ActivatedRoute } from '@angular/router';
 import { LoginService } from 'src/app/login-module/login.service';
 

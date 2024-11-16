@@ -4,13 +4,13 @@ import { FieldsetModule } from 'primeng/fieldset';
 import { TableModule } from 'primeng/table';
 
 import { ToastModule } from 'primeng/toast';
-import {BreadcrumbAssuntoComponent} from './breadcrumb-assunto/breadcrumb-assunto.component';
+import {BreadcrumbAssuntoComponent} from '../geral-module/breadcrumb-assunto/breadcrumb-assunto.component';
 import { VisualizarQuestaoComponent } from './visualizar-questao/visualizar-questao.component';
 import { RouterModule } from '@angular/router';
 
 @NgModule({
-  declarations: [VisualizarQuestaoComponent, BreadcrumbAssuntoComponent],
+  declarations: [VisualizarQuestaoComponent],
   imports: [CommonModule, FieldsetModule, TableModule, ToastModule, RouterModule],
-  exports: [VisualizarQuestaoComponent, BreadcrumbAssuntoComponent,],
+  exports: [VisualizarQuestaoComponent],
 })
 export class CompartilhadoModule {}

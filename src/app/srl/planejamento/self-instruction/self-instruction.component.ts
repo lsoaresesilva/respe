@@ -38,11 +38,7 @@ export class SelfInstructionComponent implements OnInit {
     this.repeticoes = false;
     this.funcoes = false;
     this.vetores = false;
-    let dialogExibida = sessionStorage.getItem("dialogTipsSelfInstruction");
-    if((dialogExibida == null || dialogExibida != "true")){
-      this.display = true;
-      sessionStorage.setItem('dialogTipsSelfInstruction', "true");
-    }
+    
   }
 
   ngOnInit() {
@@ -73,30 +69,45 @@ export class SelfInstructionComponent implements OnInit {
   }
 
   getQuestao() {
+    let dialogExibida = sessionStorage.getItem("dialogTipsSelfInstruction");
+    if((dialogExibida == null || dialogExibida != "true")){
+      this.display = true;
+      sessionStorage.setItem('dialogTipsSelfInstruction', "true");
+    }
+
     this.route.params.subscribe((params) => {
+      QuestaoProgramacao.get(params['questaoId']).subscribe((questao) => {
+        this.questao = questao as QuestaoProgramacao;
+        if( AutoInstrucao.exibirAutoInstrucao(this.questao)){
+          this.apresentarPerguntas(this.questao.assuntos);
+          const usuario = this.login.getUsuarioLogado();
+          AutoInstrucao.getByEstudanteQuestao(
+            usuario.pk,
+            this.questao.pk
+          ).subscribe((autoInstrucao) => {
+            if (autoInstrucao != null) {
+              this.autoInstrucao = autoInstrucao;
+            }
+          });
+        } else{
+          this.router.navigate([
+            'geral/main',
+            { outlets: { principal: ['juiz', 'editor', this.questao.pk] } },
+          ]);
+        }
+        //this.respostaQuestao = new RespostaQuestaoProgramacaoRegex(null, this.usuario, [], false, this.questao);
+        
+      });
+    });
+
+    /* this.route.params.subscribe((params) => {
       if (params['assuntoId'] != undefined && params['questaoId'] != undefined) {
         Assunto.get(params['assuntoId']).subscribe(async (assunto) => {
           this.assunto = assunto;
           this.questao = this.assunto.getQuestaoProgramacaoById(params['questaoId']);
 
           if (this.questao != null && this.questao.pk != null) {
-            if( AutoInstrucao.exibirAutoInstrucao(this.questao)){
-              this.apresentarPerguntas(this.questao.assuntos);
-              const usuario = this.login.getUsuarioLogado();
-              AutoInstrucao.getByEstudanteQuestao(
-                usuario.pk,
-                this.questao.pk
-              ).subscribe((autoInstrucao) => {
-                if (autoInstrucao != null) {
-                  this.autoInstrucao = autoInstrucao;
-                }
-              });
-            } else{
-              this.router.navigate([
-                'geral/main',
-                { outlets: { principal: ['juiz', 'editor', this.assunto.pk, this.questao.pk] } },
-              ]);
-            }
+            
 
           }
 
@@ -106,7 +117,7 @@ export class SelfInstructionComponent implements OnInit {
           'Não é possível visualizar uma questão, pois não foram passados os identificadores de assunto e questão.'
         );
       }
-    });
+    }); */
   }
 
   salvar() {

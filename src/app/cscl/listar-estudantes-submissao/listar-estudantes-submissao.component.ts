@@ -1,5 +1,5 @@
 import { Component, OnInit, Input } from '@angular/core';
-import Submissao from 'src/app/model/submissao';
+import Submissao from 'src/app/model/respostaQuestaoProgramacao';
 import { Router, ActivatedRoute } from '@angular/router';
 import Query from 'src/app/model/firestore/query';
 import Usuario from 'src/app/model/usuario';

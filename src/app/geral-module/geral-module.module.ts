@@ -4,7 +4,7 @@ import { MenubarModule } from 'primeng/menubar';
 import { HomeComponent } from './home/home.component';
 import { ExperimentoModule } from '../experimento/experimento.module';
 import { ApresentacaoService } from './apresentacao.service';
-import { StartupService } from './startup.service';
+
 import { SrlModule } from '../srl/srl.module';
 import { GamificationModule } from '../gamification/gamification.module';
 import { MainComponent } from './main/main.component';
@@ -20,6 +20,8 @@ import { BlockUIModule } from 'primeng/blockui';
 import { ProgressSpinnerModule } from 'primeng/progressspinner';
 import { BlockableContainerComponent } from './blockable-container/blockable-container.component';
 import { MenuAdminComponent } from './menu-admin/menu-admin.component';
+import { BreadcrumbService } from './breadcrumb.service';
+import { BreadcrumbAssuntoComponent } from './breadcrumb-assunto/breadcrumb-assunto.component';
 
 export const routes: Routes = [
   {
@@ -103,7 +105,8 @@ export const routes: Routes = [
     HomeComponent,
     MainComponent,
     BlockableContainerComponent,
-    MenuAdminComponent
+    MenuAdminComponent,
+    BreadcrumbAssuntoComponent
   ],
   imports: [
     BlockUIModule,
@@ -120,7 +123,7 @@ export const routes: Routes = [
     GamificationModule,
     RouterModule.forChild(routes),
   ],
-  providers: [ApresentacaoService, StartupService],
-  exports: [MainComponent],
+  providers: [ApresentacaoService, BreadcrumbService],
+  exports: [MainComponent, BreadcrumbAssuntoComponent],
 })
 export class GeralModuleModule {}

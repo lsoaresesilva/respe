@@ -26,7 +26,7 @@ import { VisualizarMslqComponent } from './visualizar-mslq/visualizar-mslq.compo
 import { CadastrarConceitosComponent } from './cadastrar-conceitos/cadastrar-conceitos.component';
 import { SelecionarConceitosComponent } from './selecionar-conceitos/selecionar-conceitos.component';
 import { MultiSelectModule } from 'primeng/multiselect';
-import { BreadcrumbModule } from 'primeng/breadcrumb';
+
 import { ExportarDadosAnalyticsComponent } from '../analytics-module/exportar-dados-analytics/exportar-dados-analytics.component';
 import { CadastrarParsonComponent } from './cadastrar-parson/cadastrar-parson.component';
 import { DadosQuestaoBaseComponent } from './dados-questao-base/dados-questao-base.component';
@@ -122,7 +122,6 @@ export const routes: Routes = [
   imports: [
     RouterModule.forChild(routes),
     CommonModule,
-    BreadcrumbModule,
     TableModule,
     ChartModule,
     ToastModule,

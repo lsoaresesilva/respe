@@ -1,5 +1,5 @@
 import { ErroCompilacao } from '../errors/analise-compilacao/erroCompilacao';
-import Submissao from '../submissao';
+import Submissao from '../respostaQuestaoProgramacao';
 import Mensagem from './mensagem';
 import Observavel from './observavel';
 

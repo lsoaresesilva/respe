@@ -1,4 +1,4 @@
-import Submissao from '../../submissao';
+import Submissao from '../../respostaQuestaoProgramacao';
 import ErroCompilacaoFactory from '../analise-compilacao/erroCompilacaoFactory';
 import NameError from '../analise-compilacao/nameError';
 import SyntaxError from '../analise-compilacao/syntaxError';

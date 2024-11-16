@@ -1,7 +1,7 @@
 import { AfterViewInit, Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import { LoginService } from 'src/app/login-module/login.service';
 import Editor from 'src/app/model/editor';
-import Submissao from 'src/app/model/submissao';
+import Submissao from 'src/app/model/respostaQuestaoProgramacao';
 declare var Sk: any;
 
 declare function carregarIdePadrao(instance, callbackOnEditorLoad, codigo): any;

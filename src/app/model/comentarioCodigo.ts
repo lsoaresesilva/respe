@@ -1,6 +1,6 @@
 import { Collection, Document, oneToOne } from './firestore/document';
 import Usuario from './usuario';
-import Submissao from './submissao';
+import Submissao from './respostaQuestaoProgramacao';
 
 @Collection("comentariosCodigos")
 export default class ComentarioCodigo extends Document{

@@ -2,7 +2,7 @@
 import { forkJoin, Observable } from 'rxjs';
 import RespostaQuestaoCorrecaoAlgoritmo from '../../correcao-algoritmo/correcaoAlgoritmo';
 import Query from '../../firestore/query';
-import Submissao from '../../submissao';
+import Submissao from '../../respostaQuestaoProgramacao';
 import Usuario from '../../usuario';
 import { Util } from '../../util';
 import { Assunto } from './assunto';

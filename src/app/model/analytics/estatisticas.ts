@@ -3,7 +3,7 @@ import { Assunto } from "../aprendizagem/assunto";
 import { PerfilUsuario } from "../enums/perfilUsuario";
 import { Groups } from "../experimento/groups";
 import Grafo from "../modelagem/grafo";
-import Submissao from "../submissao";
+import Submissao from "../respostaQuestaoProgramacao";
 import Usuario from "../usuario";
 import AnalyticsProgramacao from "./analyticsProgramacao";
 import PageTrackRecord from "./pageTrack";

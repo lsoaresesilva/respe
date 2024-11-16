@@ -3,7 +3,7 @@ import QuestaoColaborativa from '../../cscl/questaoColaborativa';
 import { Assuntos } from '../../enums/assuntos';
 import { Collection, ignore } from '../../firestore/document';
 import { MaterialAprendizagem } from '../materialAprendizagem';
-import Submissao from '../../submissao';
+import Submissao from '../../respostaQuestaoProgramacao';
 import Usuario from '../../usuario';
 import { Util } from '../../util';
 import { QuestaoProgramacao } from './questaoProgramacao';

@@ -1,5 +1,5 @@
 import { Document, Collection } from './firestore/document';
-import Submissao from './submissao';
+import Submissao from './respostaQuestaoProgramacao';
 import RespostaPedidoAjuda from './respostaPedidoAjuda';
 
 @Collection('pedidosAjuda')

@@ -3,7 +3,7 @@ import PageTrackRecord from "../analytics/pageTrack";
 import { ErroCompilacao } from "../errors/analise-compilacao/erroCompilacao";
 import ErroCompilacaoFactory from "../errors/analise-compilacao/erroCompilacaoFactory";
 import { QuestaoProgramacao } from "../aprendizagem/questoes/questaoProgramacao";
-import Submissao from "../submissao";
+import Submissao from "../respostaQuestaoProgramacao";
 import Usuario from "../usuario";
 
 /*

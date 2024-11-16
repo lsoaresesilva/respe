@@ -2,7 +2,7 @@ import { Injectable } from '@angular/core';
 import { ErroCompilacao } from 'src/app/model/errors/analise-compilacao/erroCompilacao';
 import FrequenciaErro from '../model/errors/analise-compilacao/frequenciaErro';
 import Erro from '../model/errors/erro';
-import Submissao from '../model/submissao';
+import Submissao from '../model/respostaQuestaoProgramacao';
 import { ChatbotServiceProprio } from './chatbot-proprio.service';
 import MensagemSuporteMonitor from '../model/mensagemSuporteMonitor';
 import { getLabelPorCategoriaNumero } from '../model/errors/enum/labelCategoriasErro';

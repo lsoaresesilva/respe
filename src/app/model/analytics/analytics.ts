@@ -1,6 +1,6 @@
 import { forkJoin, Observable } from 'rxjs';
 import Query from '../firestore/query';
-import Submissao from '../submissao';
+import Submissao from '../respostaQuestaoProgramacao';
 import VisualizacaoQuestao from './visualizacaoQuestao';
 import TempoOnline from './tempoOnline';
 import PageTrackRecord from './pageTrack';

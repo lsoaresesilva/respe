@@ -5,22 +5,33 @@ import { Collection, date, Document } from "../../firestore/document";
 import Usuario from "../../usuario";
 import { QuestaoProgramacaoRegex } from "./questaoProgramacaoRegex";
 
-@Collection('respostaQuestaoProgramacaoRegex')
+@Collection('respostaquestaoregex')
 export class RespostaQuestaoProgramacaoRegex extends Document {
   @date()
   data;
 
-  constructor(public id, public estudante, public algoritmo, public isRespostaCorreta, public questao) {
-    super(id);
+  constructor(primaryKey, public estudante, public algoritmo, public isRespostaCorreta, public questao) {
+    super(primaryKey);
   }
 
   objectToDocument() {
     const document = super.objectToDocument();
-    document['estudanteId'] = this.estudante.pk;
-    document['questaoId'] = this.questao.pk;
+    document['estudante_id'] = this.estudante.pk;
+    document['questao_id'] = this.questao.pk;
     document['algoritmo'] = this.algoritmo
-    document['isRespostaCorreta'] = this.isRespostaCorreta
+    document['is_resposta_correta'] = this.isRespostaCorreta
     return document;
+  }
+
+
+  static dataToObject(respostaQuestaoProgramacaoRegex:any){
+    return new RespostaQuestaoProgramacaoRegex(
+      respostaQuestaoProgramacaoRegex.primary_key,
+      respostaQuestaoProgramacaoRegex.estudante,
+      respostaQuestaoProgramacaoRegex.algoritmo,
+      respostaQuestaoProgramacaoRegex.is_resposta_correta,
+      respostaQuestaoProgramacaoRegex.questao
+    );
   }
 
   static _orderByDate(respostas: RespostaQuestaoProgramacaoRegex[]) {

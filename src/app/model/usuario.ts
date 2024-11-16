@@ -5,7 +5,7 @@ import { PerfilUsuario } from './enums/perfilUsuario';
 
 import { Groups } from './experimento/groups';
 import Turma from './turma';
-import Submissao from './submissao';
+import Submissao from './respostaQuestaoProgramacao';
 import { sha256 } from 'js-sha256';
 
 

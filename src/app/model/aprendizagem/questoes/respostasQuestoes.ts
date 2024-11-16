@@ -1,5 +1,5 @@
 import { RespostaQuestaoFechada } from './respostaQuestaoFechada';
-import Submissao from '../../submissao';
+import Submissao from '../../respostaQuestaoProgramacao';
 import { RespostaQuestaoParson } from './respostaQuestaoParson';
 import { VisualizacaoRespostasQuestoes } from './visualizacaoRespostasQuestoes';
 export default class RespostasQuestoes {

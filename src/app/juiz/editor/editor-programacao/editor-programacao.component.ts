@@ -11,7 +11,7 @@ import {
   ComponentFactoryResolver,
 } from '@angular/core';
 import { HttpHeaders, HttpClient, HttpErrorResponse } from '@angular/common/http';
-import Submissao from 'src/app/model/submissao';
+import Submissao from 'src/app/model/respostaQuestaoProgramacao';
 import Editor from 'src/app/model/editor';
 import { LoginService } from 'src/app/login-module/login.service';
 

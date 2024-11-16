@@ -10,6 +10,7 @@ import ConfiguracaoEditor from '../../model/configuracoes/configuracaoEditor';
 import { Groups } from '../../model/experimento/groups';
 import { Assunto } from '../../model/aprendizagem/questoes/assunto';
 import Query from '../../model/firestore/query';
+import { BreadcrumbService } from 'src/app/geral-module/breadcrumb.service';
 
 @Component({
   selector: 'app-listar-assuntos',
@@ -29,9 +30,9 @@ export class ListarAssuntosComponent implements OnInit {
     Assunto.getAll([new Query("lazy", "=", false)]).subscribe((assuntos) => {
       this.assuntos = assuntos;
 
-      if(this.usuario.grupoExperimento != Groups.control){
+      if (this.usuario.grupoExperimento != Groups.control) {
         this.assuntos.forEach((assunto) => {
-          Assunto.consultarRespostasEstudante(this.usuario).subscribe(respostas=>{
+          Assunto.consultarRespostasEstudante(this.usuario).subscribe(respostas => {
             let percentual = Analytics.calcularProgressoNoAssunto(assunto, respostas);
             assunto['percentual'] = percentual;
           })
@@ -40,59 +41,9 @@ export class ListarAssuntosComponent implements OnInit {
 
     });
 
-    /* ConfiguracaoEditor.getByQuery(new Query("codigoTurma", "==", this.usuario.turma.codigo)).subscribe(configuracao=>{
-      const query: Observable<Assunto>[] = [];
-      if(configuracao != null){
-        if(configuracao.assuntos != null){
-          configuracao.assuntos.forEach(assunto => {
-            query.push(Assunto.get(assunto));
-          });
-
-        }
-
-        forkJoin(query).subscribe(assuntos=>{
-          this.assuntos = assuntos;
-
-          if(this.usuario.grupoExperimento != Groups.control){
-            this.assuntos.forEach((assunto) => {
-              Assunto.consultarRespostasEstudante(this.usuario).subscribe(respostas=>{
-                let percentual = Analytics.calcularProgressoNoAssunto(assunto, respostas);
-                assunto['percentual'] = percentual;
-              })
-
-            });
-          }
-        })
-
-      }else{
-        Assunto.getAll().subscribe((assuntos) => {
-          this.assuntos = assuntos;
-
-          if(this.usuario.grupoExperimento != Groups.control){
-            this.assuntos.forEach((assunto) => {
-              Assunto.consultarRespostasEstudante(this.usuario).subscribe(respostas=>{
-                let percentual = Analytics.calcularProgressoNoAssunto(assunto, respostas);
-                assunto['percentual'] = percentual;
-              })
-            });
-          }
-
-        });
-      }
-
-
-
-
-    }) */
-
   }
 
-  abrirAssunto(assunto) {
-    this.router.navigate([
-      'geral/main',
-      { outlets: { principal: ['juiz','visualizar-assunto', assunto.pk] } },
-    ]);
-  }
+ 
 
   registrar() {
     this.router.navigate(['geral/main', { outlets: { principal: ['codigo-similar'] } }]);

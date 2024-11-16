@@ -22,7 +22,7 @@ import { LoginService } from '../../../login-module/login.service';
 import ErroEditor from 'src/app/model/erroEditor';
 
 import { FormBuilder } from '@angular/forms';
-import Submissao from 'src/app/model/submissao';
+import Submissao from 'src/app/model/respostaQuestaoProgramacao';
 import ConsoleEditor from 'src/app/model/consoleEditor';
 import ErroServidor from 'src/app/model/errors/erroServidor';
 import { ApresentacaoService } from 'src/app/geral-module/apresentacao.service';
@@ -53,7 +53,7 @@ import { AutoInstrucao } from '../../../model/srl/autoInstrucao';
   templateUrl: './responder-questao-programacao.component.html',
   styleUrls: ['./responder-questao-programacao.component.css'],
 })
-export class ResponderQuestaoProgramacao implements OnInit, AfterViewInit, OnChanges, OnDestroy {
+export class ResponderQuestaoProgramacao implements OnInit, AfterViewInit {
   [x: string]: any;
 
   assunto;
@@ -98,14 +98,15 @@ export class ResponderQuestaoProgramacao implements OnInit, AfterViewInit, OnCha
     });
 
     
-
+    this.usuario = this.login.getUsuarioLogado();
     this.apresentarTestesCases = true;
     this.isMudancaEditorPermitida = true;
-    if(this.usuario.grupoExperimento == Groups.control){
+    this.modoExecucao = ModoExecucao.execucao32bits;
+    /* if(this.usuario.grupoExperimento == Groups.control){
       this.modoExecucao = ModoExecucao.execucao32bitsPadrao;
     }else{
       this.modoExecucao = ModoExecucao.execucao32bits;
-    }
+    } */
 
     this.router.events.subscribe(
       event => {
@@ -115,15 +116,8 @@ export class ResponderQuestaoProgramacao implements OnInit, AfterViewInit, OnCha
     Editor.getInstance().codigo.next('');
   }
 
-  ngOnDestroy(): void {
-    let x = 2;
-  }
-  ngOnChanges(changes: SimpleChanges): void {
-    console.log('algo mudou');
-  }
-
   async ngAfterViewInit(): Promise<void> {
-    this.usuario = this.login.getUsuarioLogado();
+    
     let _this = this;
     setTimeout(function () {
       _this.route.params.subscribe((params) => {});
@@ -137,7 +131,7 @@ export class ResponderQuestaoProgramacao implements OnInit, AfterViewInit, OnCha
    */
   prepararSubmissao(submissao) {
     if (submissao != undefined) {
-      let _submissaoClone = new Submissao(
+      let _submissaoClone = new RespostaQuestaoProgramacao(
         submissao.pk(),
         submissao.codigo,
         submissao.estudante,
@@ -187,65 +181,7 @@ export class ResponderQuestaoProgramacao implements OnInit, AfterViewInit, OnCha
     this.route.params.subscribe((params) => {
       // Atividade em grupo
 
-      if (
-        params['atividadeGrupoId'] != null &&
-        params['grupoId'] != undefined &&
-        params['assuntoId'] != undefined &&
-        params['questaoId'] != undefined
-      ) {
-
-
-
-        AtividadeGrupo.get(params['atividadeGrupoId']).subscribe((atividadeGrupo) => {
-          this.atividadeGrupo = atividadeGrupo as AtividadeGrupo;
-          this.grupo = this.atividadeGrupo.getGrupo(params['grupoId']);
-          if (this.grupo != null) {
-            Assunto.get(params['assuntoId']).subscribe((assunto) => {
-              this.assunto = assunto as Assunto;
-
-              if (
-                assunto['questoesColaborativas'] != undefined &&
-                assunto['questoesColaborativas'].length > 0
-              ) {
-                this.questaoColaborativa = this.assunto.getQuestaoColaborativaById(
-                  params['questaoId']
-                );
-                if (this.questaoColaborativa.isOpenEnded == true) {
-                  this.apresentarTestesCases = false;
-                  this.modoExecucao = ModoExecucao.execucaoPadrao;
-                  this.isMudancaEditorPermitida = false;
-                }
-
-                if (this.questaoColaborativa != null && this.questaoColaborativa.questao != null) {
-                  let questao = QuestaoProgramacao.dataToObject(
-                    this.questaoColaborativa.questao
-                  ) as QuestaoProgramacao;
-                  if (questao != null) {
-                    this.questao = questao;
-
-                    this.submissao = null;
-                    Editor.getInstance().codigo.next(null);
-                    /* if (this.usuario != null) {
-                        Submissao.getRecentePorQuestao(this.questao, this.usuario).subscribe(
-                          (submissao: Submissao) => {
-                            if (submissao != null) this.submissao = submissao;
-                            //this.pausaIde = false;
-
-                            this.atualizarCardErros();
-                          }
-                        );
-                      } */
-                  } else {
-                    throw new Error('Não é possível iniciar o editor sem uma questão.');
-                  }
-                }
-              }
-            });
-          } else {
-            // TODO: Mostrar mensagem de erro, pois não é possível iniciar uma atividade em grupo, pois o grupo informado não existe
-          }
-        });
-      } else if (params['questaoCorrecaoId'] != null) {
+      if (params['questaoCorrecaoId'] != null) {
         // Atividade de correção
         Assunto.get(params['assuntoId']).subscribe((assunto) => {
           this.assunto = assunto as Assunto;
@@ -262,7 +198,7 @@ export class ResponderQuestaoProgramacao implements OnInit, AfterViewInit, OnCha
                 ).subscribe((correcao: RespostaQuestaoCorrecaoAlgoritmo) => {
                   if (correcao != null) {
                     this.correcao = correcao;
-                    this.submissao = Submissao.fromJson(correcao.submissao);
+                    this.submissao = new RespostaQuestaoProgramacao(fromJson(correcao.submissao);
                   } else {
                     this.questaoCorrecao
                       .getSubmissaoComErro(this.usuario)
@@ -276,10 +212,33 @@ export class ResponderQuestaoProgramacao implements OnInit, AfterViewInit, OnCha
           }
         });
       } else {
-        if (params['assuntoId'] != undefined && params['questaoId'] != undefined) {
+        if (params['questaoId'] != undefined) {
 
+          QuestaoProgramacao.get(params['questaoId']).subscribe((questao) => {
+            this.questao = questao as QuestaoProgramacao;
+            if( AutoInstrucao.exibirAutoInstrucao(this.questao)){
+              this.apresentarPerguntas(this.questao.assuntos);
+              const usuario = this.login.getUsuarioLogado();
+              AutoInstrucao.getByEstudanteQuestao(
+                usuario.pk,
+                this.questao.pk
+              ).subscribe((autoInstrucao) => {
+                if (autoInstrucao != null) {
+                  this.autoInstrucao = autoInstrucao;
+                }
+              });
+            } else{
+              this.router.navigate([
+                'geral/main',
+                { outlets: { principal: ['juiz', 'editor', this.questao.pk] } },
+              ]);
+            }
+            //this.respostaQuestao = new RespostaQuestaoProgramacaoRegex(null, this.usuario, [], false, this.questao);
+            
+          });
+        }
 
-          Assunto.get(params['assuntoId']).subscribe((assunto) => {
+          /* Assunto.get(params['assuntoId']).subscribe((assunto) => {
             this.assunto = assunto as Assunto;
 
             if (
@@ -289,19 +248,6 @@ export class ResponderQuestaoProgramacao implements OnInit, AfterViewInit, OnCha
               assunto['questoesProgramacao'].forEach((questao) => {
                 if (questao.pk == params['questaoId']) {
                   this.questao = questao;
-
-                  /* if (this.usuario.grupoExperimento != Groups.control) {
-                    DiarioProgramacao.exibirDiario(
-                      this.login.getUsuarioLogado(),
-                      TipoDiarioProgramacao.planejamento
-                    ).subscribe((visibilidade) => {
-                      if (visibilidade) {
-                        this.dialogService.open(DiarioProgramacaoComponent, {
-                          data: { tipo: TipoDiarioProgramacao.planejamento },
-                        });
-                      }
-                    });
-                  } */
 
                   if (this.usuario != null) {
                     // --------- Casos de Teste e Resposta para mandar ao RASA ------
@@ -314,7 +260,7 @@ export class ResponderQuestaoProgramacao implements OnInit, AfterViewInit, OnCha
                     this.chatbotService.sendMessage({ teste: casosTeste, resposta: [resposta, perguntaDados]});
                     // --------------------------------------------------------------
 
-                    Submissao.getRecentePorQuestao(this.questao, this.usuario).subscribe(
+                    new RespostaQuestaoProgramacao(getRecentePorQuestao(this.questao, this.usuario).subscribe(
                       (submissao: Submissao) => {
                         if (submissao != null) {
                           this.submissao = this.prepararSubmissao(submissao);
@@ -336,7 +282,7 @@ export class ResponderQuestaoProgramacao implements OnInit, AfterViewInit, OnCha
           });
         } else {
           throw new Error('Não é possível iniciar o editor sem uma questão.');
-        }
+        } */
       }
     });
 
@@ -344,8 +290,8 @@ export class ResponderQuestaoProgramacao implements OnInit, AfterViewInit, OnCha
   }
 
   atualizarCardErros() {
-    Submissao.getPorQuestao(this.questao, this.usuario).subscribe((submissoes) => {
-      const erros = Submissao.getAllErros(submissoes);
+    new RespostaQuestaoProgramacao(getPorQuestao(this.questao, this.usuario).subscribe((submissoes) => {
+      const erros = new RespostaQuestaoProgramacao(getAllErros(submissoes);
       this.errosEstudante = erros;
     });
   }

@@ -1,14 +1,16 @@
 import { Observable, forkJoin } from 'rxjs';
 import { ModeloRespostaQuestao } from './modeloRespostaQuestao';
 import { MaterialAprendizagem } from '../materialAprendizagem';
-import Submissao from '../../submissao';
+import Submissao from '../../respostaQuestaoProgramacao';
 import TestCase from './testCase';
 import { Util } from '../../util';
 import { Assunto } from './assunto';
 import { Dificuldade } from './enum/dificuldade';
 import Conceito from './conceito';
 import QuestaoBase from './questaoBase';
+import { Collection } from '../../firestore/document';
 
+@Collection("questaoprogramacao")
 export class QuestaoProgramacao extends QuestaoBase  {
 
 
@@ -45,7 +47,7 @@ export class QuestaoProgramacao extends QuestaoBase  {
 
   static isFinalizada(questao, usuario) {
     return new Observable((observer) => {
-      Submissao.getRecentePorQuestao(questao, usuario).subscribe(
+      RespostaQuestaoProgramacao.getRecentePorQuestao(questao, usuario).subscribe(
         (submissao) => {
           if (submissao != null && submissao['resultadosTestsCases'] != null) {
             let totalTestCase = questao.testsCases.length;
@@ -110,7 +112,7 @@ export class QuestaoProgramacao extends QuestaoBase  {
   static dataToObject(questaoDocument): QuestaoProgramacao {
     const assuntos = [];
   
-    let testsCases = TestCase.construir(questaoDocument.testsCases);
+    let testsCases = TestCase.construir(questaoDocument.test_cases);
     let solucao = ModeloRespostaQuestao.construir(questaoDocument.solucao);
 
     let questao = new QuestaoProgramacao(

@@ -89,6 +89,7 @@ import { SistemaAprendizagemModule } from '../sistema-aprendizagem/sistema-apren
 import { ConsoleTrintadoisbitsControleComponent } from './editor/console-trintadoisbits-controle/console-trintadoisbits-controle.component';
 import { CompartilhadoModule } from '../shared/shared.module';
 import { InterpretadorPythonService } from './editor/interpretador-python.service';
+import { GeralModuleModule } from '../geral-module/geral-module.module';
 
 export const routes: Routes = [
   {
@@ -120,7 +121,7 @@ export const routes: Routes = [
     canActivate: [AuthGuard, PageTrack]
   },
   {
-    path: 'editor/:assuntoId/:questaoId',
+    path: 'editor/:questaoId',
     component: ResponderQuestaoProgramacao,
     canActivate: [AuthGuard, PageTrack]
   },
@@ -187,6 +188,7 @@ export const routes: Routes = [
         CompartilhadoModule,
         SistemaAprendizagemModule,
         ChatbotModule,
+        GeralModuleModule,
         /* CsclModule, */
         RouterModule.forChild(routes),
         CommonModule,

@@ -100,12 +100,13 @@ export class VisualizarParsonComponent implements OnInit, AfterViewChecked {
     this.respostaQuestao.save().subscribe((resposta) => {
       this.respostaQuestao = resposta as RespostaQuestaoParson;
       this.respostaQuestao.questao = this.questao;
+      this.respostaQuestao.prepararSegmentos(this.questao)
       if (this.questao.isRespostaCorreta(this.respostaQuestao)) {
-       /*  this.gamification.aumentarPontuacao(
+        this.gamification.aumentarPontuacao(
           this.login.getUsuarioLogado(),
           this.questao,
           new PontuacaoQuestaoParson()
-        ); */
+        );
         this.messageService.add({
           severity: 'success',
           summary: 'Parabéns',
