@@ -1,10 +1,11 @@
 import { Component, OnInit, Input } from '@angular/core';
 import ComentarioCodigo from 'src/app/model/comentarioCodigo';
-import Query from 'src/app/model/firestore/query';
+import Query from 'src/app/model/database/query';
 import Usuario from 'src/app/model/usuario';
-import Submissao from 'src/app/model/respostaQuestaoProgramacao';
+
 import { ActivatedRoute } from '@angular/router';
 import { LoginService } from 'src/app/login-module/login.service';
+import RespostaQuestaoProgramacao from 'src/app/model/aprendizagem/questoes/respostaQuestaoProgramacao';
 
 declare var dialogEmExibicao: any;
 declare function obterPosicoesBotaoCriarComentario(): any;
@@ -34,7 +35,7 @@ export class ComentariosCodigoComponent implements OnInit {
         throw new Error("É preciso informar uma submissão.");
 
         // Carregar todos os comentários dessa submissão
-        Submissao.get(params["id"]).subscribe(submissao=>{
+        RespostaQuestaoProgramacao.get(params["id"]).subscribe(submissao=>{
           this.submissao = submissao;
           let codigo = submissao["codigo"]
           codigo = codigo.split("\\n")

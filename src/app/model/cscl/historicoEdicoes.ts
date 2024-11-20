@@ -1,4 +1,4 @@
-import { Collection, date, Document } from "../firestore/document";
+import { Collection, date, Document } from "../database/document";
 import Usuario from "../usuario";
 import AtividadeGrupo from "./atividadeGrupo";
 import Edicao from "./edicao";

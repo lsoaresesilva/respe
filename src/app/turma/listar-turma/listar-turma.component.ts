@@ -3,7 +3,7 @@ import Turma from 'src/app/model/turma';
 import { MenuItem, MessageService } from 'primeng/api';
 import { Router } from '@angular/router';
 import { LoginService } from '../../login-module/login.service';
-import Query from 'src/app/model/firestore/query';
+import Query from 'src/app/model/database/query';
 import Usuario from 'src/app/model/usuario';
 
 @Component({

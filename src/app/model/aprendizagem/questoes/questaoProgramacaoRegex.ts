@@ -6,7 +6,7 @@ import { Util } from '../../util';
 import Conceito from './conceito';
 import QuestaoBase from './questaoBase';
 import { Dificuldade } from './enum/dificuldade';
-import { Collection } from '../../firestore/document';
+import { Collection } from '../../database/document';
 
 @Collection("questaoregex")
 export class QuestaoProgramacaoRegex extends QuestaoBase {

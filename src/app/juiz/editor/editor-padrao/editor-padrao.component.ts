@@ -67,7 +67,7 @@ export class EditorPadraoComponent implements OnInit, AfterViewInit {
       
     }
 
-    this.editorCodigo.codigo.next(this.editorCodigo.instanciaMonaco.getValue());
+    //this.editorCodigo.codigo.next(this.editorCodigo.instanciaMonaco.getValue());
 
     if(this.questao != null && this.assunto != null){
       this.submissao = this.prepararSubmissao();
@@ -79,7 +79,7 @@ export class EditorPadraoComponent implements OnInit, AfterViewInit {
     Sk.configure({ output: prepararSaida, read: builtinRead });
     /* (Sk.TurtleGraphics || (Sk.TurtleGraphics = {})).target = 'mycanvas'; */
     var myPromise = Sk.misceval.asyncToPromise(()=>{
-      return Sk.importMainWithBody('<stdin>', false, this.editorCodigo.codigo.value, true);
+      //return Sk.importMainWithBody('<stdin>', false, this.editorCodigo.codigo.value, true);
     });
 
     myPromise.then(
@@ -108,7 +108,7 @@ export class EditorPadraoComponent implements OnInit, AfterViewInit {
    * Constrói uma submissão que será salva no banco de dados.
    */
    prepararSubmissao() {
-    this.editorCodigo.codigo.next(this.editorCodigo.instanciaMonaco.getValue());
+    //this.editorCodigo.codigo.next(this.editorCodigo.instanciaMonaco.getValue());
     const submissao = new RespostaQuestaoProgramacao(
       null,
       this.editorCodigo.instanciaMonaco.getValue(),

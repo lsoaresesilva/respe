@@ -1,6 +1,6 @@
 import { Component, Input, OnChanges, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
-import Query from 'src/app/model/firestore/query';
+import Query from 'src/app/model/database/query';
 import { Assunto } from 'src/app/model/aprendizagem/questoes/assunto';
 import { QuestaoProgramacao } from 'src/app/model/aprendizagem/questoes/questaoProgramacao';
 import { AutoInstrucao } from 'src/app/model/srl/autoInstrucao';
@@ -39,7 +39,7 @@ export class AnaliseSelfInstructionComponent implements OnChanges {
                       status:false
                     };
 
-                    QuestaoProgramacao.isFinalizada(questao, this.estudante).subscribe(percentual=>{
+                    QuestaoProgramacao.isFinalizada(questao).subscribe(percentual=>{
                       autoInstrucao.status = percentual >= 0.75? true:false;
                     })
 

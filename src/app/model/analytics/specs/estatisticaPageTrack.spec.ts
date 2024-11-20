@@ -68,9 +68,9 @@ describe('Testes para a classe de EstatisticaPageTrack', () => {
         }
     })
 
-    let sMissoes:Submissao[] = [];
+    let sMissoes:RespostaQuestaoProgramacao[] = [];
     submissoes["submissoes"].forEach(s=>{
-        sMissoes.push(Submissao.fromJson(s));
+        sMissoes.push(RespostaQuestaoProgramacao.fromJson(s));
     })
 
     let submissoesAgrupadas = {};

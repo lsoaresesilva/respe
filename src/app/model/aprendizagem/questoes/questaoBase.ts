@@ -1,5 +1,5 @@
 import { Observable, forkJoin } from 'rxjs';
-import { Document, ignore } from '../../firestore/document';
+import { Document, ignore } from '../../database/document';
 import { Util } from '../../util';
 import { MaterialAprendizagem } from '../materialAprendizagem';
 import { Assunto } from './assunto';

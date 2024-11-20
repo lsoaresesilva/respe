@@ -1,6 +1,7 @@
 import { Component, Input, OnChanges, OnInit, SimpleChanges } from '@angular/core';
 import { TerminalService } from 'primeng/terminal';
-import ConsoleEditor from 'src/app/model/consoleEditor';
+import Editor from 'src/app/model/editor';
+
 
 @Component({
   selector: 'app-console-padrao',
@@ -11,7 +12,7 @@ import ConsoleEditor from 'src/app/model/consoleEditor';
 export class ConsolePadraoComponent implements OnChanges {
 
   @Input()
-  console:ConsoleEditor;
+  editor:Editor;
 
   saidaOriginal;
 
@@ -26,7 +27,7 @@ export class ConsolePadraoComponent implements OnChanges {
   }
 
   visualizarSaidaOriginal(){
-    this.saidaOriginal = this.console.tracebackOriginal;
+    this.saidaOriginal = this.editor.console.tracebackOriginal;
   }
 
   

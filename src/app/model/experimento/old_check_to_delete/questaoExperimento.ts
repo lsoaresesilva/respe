@@ -1,4 +1,4 @@
-import { Collection, Document } from '../../firestore/document';
+import { Collection, Document } from '../../database/document';
 import Alternativa from '../../aprendizagem/questoes/alternativa';
 import { TipoQuestaoExperimento } from './tipoQuestaoExperimento';
 

@@ -13,7 +13,7 @@ import { Util } from "../util";
 
 function isFinalizada(questao, estudanteId, dataEncerramento){
     return new Observable(observer=>{
-        Submissao.getAll([new Query("questaoId", "==", questao.questao.pk), new Query("estudanteId", "==", estudanteId)]).subscribe(submissoes=>{
+        RespostaQuestaoProgramacao.getAll([new Query("questaoId", "==", questao.questao.pk), new Query("estudanteId", "==", estudanteId)]).subscribe(submissoes=>{
             submissoes = submissoes.map(submissao=>{
                 submissao.data = Util.firestoreDateToDate(submissao.data);
                 return submissao;
@@ -122,7 +122,7 @@ describe('Testes de questão', () => {
 
             //
         })
-        //Submissao.getAll([new Query("questaoId", "==", "d71b2ce8-2a29-4424-8f87-5eae8b37b3d9"), new Query("estudanteId", "==", "uqqsPnUvjguXc5nPAGtV")]).subscribe(submissoes=>{
+        //RespostaQuestaoProgramacao.getAll([new Query("questaoId", "==", "d71b2ce8-2a29-4424-8f87-5eae8b37b3d9"), new Query("estudanteId", "==", "uqqsPnUvjguXc5nPAGtV")]).subscribe(submissoes=>{
 
 
 

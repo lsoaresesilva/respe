@@ -1,4 +1,4 @@
-import { Document, Collection } from '../../firestore/document';
+import { Document, Collection } from '../../database/document';
 import { Util } from '../../util';
 
 export default class TestCase {

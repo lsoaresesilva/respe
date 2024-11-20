@@ -36,7 +36,7 @@ import { CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
 
 import { ToastModule } from 'primeng/toast';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
-import { DocumentModule } from './model/firestore/document.module';
+import { DocumentModule } from './model/database/document.module';
 import {ProgressSpinnerModule} from 'primeng/progressspinner';
 import { HTTP_INTERCEPTORS } from '@angular/common/http';
 import { AuthInterceptorService } from './login-module/auth-interceptor.service';

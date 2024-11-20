@@ -1,6 +1,6 @@
-import { Collection, Document, date } from '../../firestore/document';
+import { Collection, Document, date } from '../../database/document';
 import Usuario from '../../usuario';
-import Query from '../../firestore/query';
+import Query from '../../database/query';
 import { QuestaoProgramacao } from './questaoProgramacao';
 
 @Collection('visualizacaoRespostasQuestoes')

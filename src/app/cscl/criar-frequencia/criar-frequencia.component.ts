@@ -2,7 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { MessageService } from 'primeng/api';
 import Frequencia from 'src/app/model/cscl/frequencia';
-import Query from 'src/app/model/firestore/query';
+import Query from 'src/app/model/database/query';
 import Turma from 'src/app/model/turma';
 
 @Component({

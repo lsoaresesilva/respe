@@ -72,7 +72,7 @@ export class EditorTrintadoisbitsComponent implements OnInit {
 
     if (this.submissao.validar()) {
       
-      const erro = new ParseAlgoritmo(this.submissao.linhasAlgoritmo()).analisar().getPrimeiroErro();
+      const erro = new ParseAlgoritmo(this.submissao.linhasAlgoritmo()).analisar();
       if( erro == null){
         this.onSubmitInicio.emit();
         const tipoExecucao = Editor.getTipoExecucao(this.questao);
@@ -81,7 +81,7 @@ export class EditorTrintadoisbitsComponent implements OnInit {
           json.submissao,
           json.questao
         );
-        this.submissao.processarRespostaServidor(resultado);
+        this.submissao.atualizarResultados(resultado);
         
         if (this.submissao.isFinalizada()) {
 
@@ -94,7 +94,7 @@ export class EditorTrintadoisbitsComponent implements OnInit {
    
          this.onSubmit.emit(this.submissao);
       }else{
-        this.submissao.erro = erro;
+        this.submissao.erros = erro;
         this.onError.emit(this.submissao);
       }
       

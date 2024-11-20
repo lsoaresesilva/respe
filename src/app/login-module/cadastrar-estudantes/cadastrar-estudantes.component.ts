@@ -9,7 +9,7 @@ import { Genero } from 'src/app/model/enums/genero';
 import { FaixaEtaria } from 'src/app/model/enums/faixaEtaria';
 import { Groups } from 'src/app/model/experimento/groups';
 import ConfiguracaoEditor from 'src/app/model/configuracoes/configuracaoEditor';
-import Query from 'src/app/model/firestore/query';
+import Query from 'src/app/model/database/query';
 import { configuracao } from 'src/app/model/experimento/old_check_to_delete/config';
 
 @Component({

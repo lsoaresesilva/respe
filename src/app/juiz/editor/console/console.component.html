@@ -1,22 +1,22 @@
 <div class="saida" style="min-height: 80%" id="consoleProgramacao">
 
-  <div *ngIf="consoleEditor.erro != null">
-    {{ consoleEditor.erro.mensagem }}
+  <div *ngIf="editor.console.erro != null">
+    {{ editor.console.erro.mensagem }}
   </div>
-  <div *ngIf="consoleEditor.submissao != null">
-    <app-console-erro [submissao]="consoleEditor.submissao" *ngIf="consoleEditor.submissao.erro != null; else resultados"></app-console-erro>
+  <div *ngIf="editor.console.submissao != null">
+    <app-console-erro [submissao]="editor.console.submissao" *ngIf="editor.console.submissao.erro != null; else resultados"></app-console-erro>
     <ng-template #resultados>
-      <div *ngFor="let resultado of consoleEditor.submissao.resultadosTestsCases">
+      <div *ngFor="let resultado of editor.console.submissao.resultadosTestsCases">
         <p-panel
-          header="Entrada: {{ consoleEditor.submissao.questao.getTestCaseById(resultado.testCase.id).entradas }}"
+          header="Entrada: {{ editor.console.submissao.questao.getTestCaseById(resultado.testCase.id).entradas }}"
         >
-          <div *ngFor="let saida of resultado.respostaAlgoritmo; let i = index" [innerHtml]="destacarDiferencasSaidas(consoleEditor.submissao.questao.getTestCaseById(resultado.testCase.id), saida, i)"></div>
+          <div *ngFor="let saida of resultado.respostaAlgoritmo; let i = index" [innerHtml]="destacarDiferencasSaidas(editor.console.submissao.questao.getTestCaseById(resultado.testCase.id), saida, i)"></div>
         </p-panel>
       </div>
     </ng-template>
   </div>
 </div>
-<div *ngIf="consoleEditor != null && consoleEditor.tracebackOriginal != null">
+<div *ngIf="editor.console != null && editor.console.tracebackOriginal != null">
   <button pButton label="Visualizar erro original" (click)="visualizarSaidaOriginal()"></button>
   
   <div>

@@ -1,6 +1,7 @@
 import { Component, Input, OnChanges, OnInit } from '@angular/core';
-import Query from 'src/app/model/firestore/query';
-import Submissao from 'src/app/model/respostaQuestaoProgramacao';
+import Query from 'src/app/model/database/query';
+import RespostaQuestaoProgramacao from 'src/app/model/aprendizagem/questoes/respostaQuestaoProgramacao';
+
 
 @Component({
   selector: 'app-revisao-codigo',
@@ -20,10 +21,10 @@ export class RevisaoCodigoComponent implements OnChanges {
 
   ngOnChanges(): void {
 
-    Submissao.getAll(new Query('estudanteId', '==', this.estudante.pk)).subscribe(
+    RespostaQuestaoProgramacao.getAll(new Query('estudanteId', '==', this.estudante.pk)).subscribe(
       (submissoes) => {
         // Agrupar por questões
-        let questoes = new Map<string, Submissao[]>();
+        let questoes = new Map<string, RespostaQuestaoProgramacao[]>();
 
         submissoes.forEach(submissao=>{
 
@@ -41,7 +42,7 @@ export class RevisaoCodigoComponent implements OnChanges {
         let _this = this;
         questoes.forEach(function(value, key){
           // Identificar quando houve a submissão correta
-          let submissoesCorretas = Submissao.filtrarSubmissoesConclusao(value);
+          let submissoesCorretas = RespostaQuestaoProgramacao.filtrarSubmissoesConclusao(value);
           if(submissoesCorretas.length > 0){
             _this.revisoes.push(submissoesCorretas);
           }

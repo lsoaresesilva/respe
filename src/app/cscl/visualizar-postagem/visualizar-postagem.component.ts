@@ -2,7 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import Postagem from 'src/app/model/cscl/postagem';
 import Usuario from 'src/app/model/usuario';
-import Query from 'src/app/model/firestore/query';
+import Query from 'src/app/model/database/query';
 import { LoginService } from 'src/app/login-module/login.service';
 import { MessageService } from 'primeng/api';
 import RespostaPostagem from 'src/app/model/cscl/respostaPostagem';

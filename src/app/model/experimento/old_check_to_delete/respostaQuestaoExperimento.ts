@@ -1,6 +1,6 @@
-import { Document, Collection, date } from '../../firestore/document';
+import { Document, Collection, date } from '../../database/document';
 import Usuario from '../../usuario';
-import Query from '../../firestore/query';
+import Query from '../../database/query';
 import QuestaoExperimento from './questaoExperimento';
 import { Observable } from 'rxjs';
 import { Util } from '../../util';

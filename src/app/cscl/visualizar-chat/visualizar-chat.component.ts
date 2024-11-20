@@ -2,7 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import AtividadeGrupo from 'src/app/model/cscl/atividadeGrupo';
 import MensagemChat from 'src/app/model/cscl/chat/mensagemChat';
-import Query from 'src/app/model/firestore/query';
+import Query from 'src/app/model/database/query';
 import { Util } from 'src/app/model/util';
 
 @Component({

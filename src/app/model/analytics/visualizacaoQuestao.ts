@@ -1,4 +1,4 @@
-import { Collection, date, Document } from '../firestore/document';
+import { Collection, date, Document } from '../database/document';
 
 @Collection('visualizacoesQuestoes')
 export default class VisualizacaoQuestao extends Document {

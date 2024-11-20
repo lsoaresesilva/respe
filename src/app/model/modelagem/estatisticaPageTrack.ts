@@ -1,11 +1,12 @@
 import { Observable, forkJoin } from 'rxjs';
 import { PerfilUsuario } from '../enums/perfilUsuario';
 import { Groups } from '../experimento/groups';
-import Submissao from '../respostaQuestaoProgramacao';
+import Submissao from '../aprendizagem/questoes/respostaQuestaoProgramacao';
 import Usuario from '../usuario';
 import AnalyticsProgramacao from '../analytics/analyticsProgramacao';
 import PageTrackRecord from '../analytics/pageTrack';
 import { Assunto } from '../aprendizagem/questoes/assunto';
+import RespostaQuestaoProgramacao from '../aprendizagem/questoes/respostaQuestaoProgramacao';
 
 export default class EstatisticaPageTrack {
 
@@ -91,7 +92,7 @@ export default class EstatisticaPageTrack {
         Groups.experimentalA,
         ''
       );
-      let submissoesEstudante = s as Submissao[];
+      let submissoesEstudante = s as RespostaQuestaoProgramacao[];
       let progresso = AnalyticsProgramacao.calcularProgressoProgramacao(
         assuntos,
         submissoesEstudante

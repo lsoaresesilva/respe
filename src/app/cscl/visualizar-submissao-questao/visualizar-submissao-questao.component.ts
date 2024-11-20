@@ -2,10 +2,11 @@ import { Component, OnInit } from '@angular/core';
 import { MessageService } from 'primeng/api';
 import { Router, ActivatedRoute } from '@angular/router';
 import { LoginService } from 'src/app/login-module/login.service';
-import Submissao from 'src/app/model/respostaQuestaoProgramacao';
+
 import Usuario from 'src/app/model/usuario';
 import { Util } from 'src/app/model/util';
 import { Assunto } from 'src/app/model/aprendizagem/questoes/assunto';
+import RespostaQuestaoProgramacao from 'src/app/model/aprendizagem/questoes/respostaQuestaoProgramacao';
 
 @Component({
   selector: 'app-visualizar-submissao-questao',
@@ -19,7 +20,7 @@ export class VisualizarSubmissaoQuestaoComponent implements OnInit {
  questao;
 
   constructor(private messageService: MessageService,private router:Router, public login:LoginService,private route: ActivatedRoute) {
-    this.submissao= new Submissao (null,null,null,null, null);
+    this.submissao= new RespostaQuestaoProgramacao (null,null,null,null, null);
     this.usuario = Usuario.fabricar();
    }
 
@@ -27,7 +28,7 @@ export class VisualizarSubmissaoQuestaoComponent implements OnInit {
 
     this.route.params.subscribe(params => {
 
-      Submissao.get(params['submissaoId']).subscribe( resultado => {
+      RespostaQuestaoProgramacao.get(params['submissaoId']).subscribe( resultado => {
 
         this.submissao =resultado;
         if(this.submissao != null){

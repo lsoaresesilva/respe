@@ -1,7 +1,8 @@
 import { Component, OnInit, Input } from '@angular/core';
-import Submissao from 'src/app/model/respostaQuestaoProgramacao';
+
 import { Tutor } from 'src/app/model/tutor';
-import Query from 'src/app/model/firestore/query';
+import Query from 'src/app/model/database/query';
+import RespostaQuestaoProgramacao from 'src/app/model/aprendizagem/questoes/respostaQuestaoProgramacao';
 
 @Component({
   selector: 'app-percentual-error-quotient',
@@ -16,7 +17,7 @@ export class PercentualErrorQuotientComponent implements OnInit {
 
   ngOnInit() {
     if (this.estudante != undefined) {
-      Submissao.getAll(new Query('estudanteId', '==', this.estudante.pk), 'data').subscribe(
+      RespostaQuestaoProgramacao.getAll(new Query('estudanteId', '==', this.estudante.pk), 'data').subscribe(
         (submissoes) => {
           /* let errorQuotient = Tutor.calcularErrorQuotient(submissoes);
         if(errorQuotient != null)

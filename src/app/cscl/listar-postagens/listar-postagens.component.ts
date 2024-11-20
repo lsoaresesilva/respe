@@ -1,6 +1,6 @@
 import { Component, OnInit, Input, OnChanges } from '@angular/core';
 import Postagem from 'src/app/model/cscl/postagem';
-import Query from 'src/app/model/firestore/query';
+import Query from 'src/app/model/database/query';
 import { LoginService } from 'src/app/login-module/login.service';
 import Usuario from 'src/app/model/usuario';
 import { Router } from '@angular/router';

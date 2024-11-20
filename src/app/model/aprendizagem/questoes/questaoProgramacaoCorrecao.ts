@@ -1,12 +1,13 @@
 
 import { forkJoin, Observable } from 'rxjs';
 import RespostaQuestaoCorrecaoAlgoritmo from '../../correcao-algoritmo/correcaoAlgoritmo';
-import Query from '../../firestore/query';
-import Submissao from '../../respostaQuestaoProgramacao';
+import Query from '../../database/query';
+import Submissao from './respostaQuestaoProgramacao';
 import Usuario from '../../usuario';
 import { Util } from '../../util';
 import { Assunto } from './assunto';
 import { QuestaoProgramacao } from './questaoProgramacao';
+import RespostaQuestaoProgramacao from './respostaQuestaoProgramacao';
 
 export default class QuestaoProgramacaoCorrecao{
 
@@ -56,9 +57,9 @@ export default class QuestaoProgramacaoCorrecao{
   getSubmissaoComErro(estudante: Usuario) {
     return new Observable((observer) => {
       if (this.questao != null) {
-        Submissao.getAll(new Query('questaoId', '==', this.questao.pk)).subscribe((submisses) => {
+        RespostaQuestaoProgramacao.getAll(new Query('questaoId', '==', this.questao.pk)).subscribe((submisses) => {
           // TODO: filtrar pelo cache
-          let submissoesComProblema = Submissao.filtrarSubmissoesConclusao(submisses, true);
+          let submissoesComProblema = RespostaQuestaoProgramacao.filtrarSubmissoesConclusao(submisses, true);
 
           // Não pode ser uma submissão do próprio aluno
 
@@ -140,7 +141,7 @@ export default class QuestaoProgramacaoCorrecao{
     return false;
   }
 
-  /* static filtrarSubmissoesCorrecao(submissoes:Submissao[], estudante:Usuario){
+  /* static filtrarSubmissoesCorrecao(submissoes:RespostaQuestaoProgramacao[], estudante:Usuario){
       return new Observable(observer=>{
         CorrecaoAlgoritmo.getAll(new Query("estudanteId", "==", estudante.pk)).subscribe(correcoes=>{
             let intersection = submissoes.filter(x => correcoes.some((y, i, arr)=>{

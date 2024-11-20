@@ -1,7 +1,7 @@
 import Usuario from '../usuario';
 import { Observable, observable } from 'rxjs';
-import { Collection, date, Document } from '../firestore/document';
-import Query from '../firestore/query';
+import { Collection, date, Document } from '../database/document';
+import Query from '../database/query';
 
 @Collection('tempoOnline')
 export default class TempoOnline extends Document {

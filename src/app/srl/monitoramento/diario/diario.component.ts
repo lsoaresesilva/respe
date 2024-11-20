@@ -4,7 +4,7 @@ import { MessageService, SelectItem } from 'primeng/api';
 import { NivelConfianca } from 'src/app/model/nivelConfianca';
 import { ObjetivosExercicios } from 'src/app/model/enums/objetivosExercicios';
 import { Motivacao } from 'src/app/model/enums/motivacao';
-import Query from 'src/app/model/firestore/query';
+import Query from 'src/app/model/database/query';
 import { CategoriaPergunta } from 'src/app/model/diario/categoriaPergunta';
 import PerguntaDiario from 'src/app/model/diario/perguntaDiario';
 import { LoginService } from 'src/app/login-module/login.service';

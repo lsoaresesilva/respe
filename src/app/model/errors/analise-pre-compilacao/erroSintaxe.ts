@@ -1,10 +1,11 @@
 import Erro from '../erro';
-import Submissao from '../../respostaQuestaoProgramacao';
+import Submissao from '../../aprendizagem/questoes/respostaQuestaoProgramacao';
 import ErroPreCompilacao from './erroPrecompilacao';
 import { TipoErro } from './enum/tipoErro';
+import RespostaQuestaoProgramacao from '../../aprendizagem/questoes/respostaQuestaoProgramacao';
 
 export default abstract class ErroSintaxe {
-  static erros(submissao: Submissao): ErroPreCompilacao[] {
+  static erros(submissao: RespostaQuestaoProgramacao): ErroPreCompilacao[] {
     return [];
   }
 

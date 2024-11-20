@@ -3,7 +3,7 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { MenuItem, MessageService } from 'primeng/api';
 import { LoginService } from 'src/app/login-module/login.service';
 import { PerfilUsuario } from 'src/app/model/enums/perfilUsuario';
-import Query from 'src/app/model/firestore/query';
+import Query from 'src/app/model/database/query';
 import { Assunto } from 'src/app/model/aprendizagem/questoes/assunto';
 
 @Component({

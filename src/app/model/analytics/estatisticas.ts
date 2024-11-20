@@ -1,12 +1,15 @@
 import { forkJoin, Observable } from "rxjs";
-import { Assunto } from "../aprendizagem/assunto";
+
 import { PerfilUsuario } from "../enums/perfilUsuario";
 import { Groups } from "../experimento/groups";
-import Grafo from "../modelagem/grafo";
-import Submissao from "../respostaQuestaoProgramacao";
+
+import Submissao from "../aprendizagem/questoes/respostaQuestaoProgramacao";
 import Usuario from "../usuario";
 import AnalyticsProgramacao from "./analyticsProgramacao";
 import PageTrackRecord from "./pageTrack";
+import RespostaQuestaoProgramacao from "../aprendizagem/questoes/respostaQuestaoProgramacao";
+import Grafo from "../grafo/grafo";
+import { Assunto } from "../aprendizagem/questoes/assunto";
 
 export default class Estatisticas{
 
@@ -19,9 +22,9 @@ export default class Estatisticas{
                     let consultaSubmissoes = {};
                     for(let [estudanteId, tracks] of Object.entries(pageTracks)){
                         let markov = new Grafo(tracks).criar();
-                        registros.push(Object.assign({},{estudanteId:estudanteId}, PageTrackRecord.contarVisualizacoesPorPagina(tracks)));
+                        registros.push(Object.assign({},{estudanteId:estudanteId}, PageTrackRecord.contarVisualizacoesPorPagina(tracks as any)));
                         
-                        consultaSubmissoes[estudanteId] = Usuario.getTodasSubmissoes(new Usuario(estudanteId, "", "", PerfilUsuario.estudante, Groups.experimentalA, ""));
+                        consultaSubmissoes[estudanteId] = Usuario.getTodasSubmissoes(new Usuario(estudanteId, "", PerfilUsuario.estudante, Groups.experimentalA, ""));
                     }
     
                     forkJoin(consultaSubmissoes).subscribe(submissoes=>{
@@ -29,8 +32,8 @@ export default class Estatisticas{
                             // Procurar em registro pelo estudante. 
                             
                             // Na sua submissão incluir como um atributo do seu objeto
-                            let usuario = new Usuario(estudanteId, "", "", PerfilUsuario.estudante, Groups.experimentalA, "");
-                            let submissoesEstudante = s as Submissao[];
+                            let usuario = new Usuario(estudanteId, "", PerfilUsuario.estudante, Groups.experimentalA, "");
+                            let submissoesEstudante = s as RespostaQuestaoProgramacao[];
                             let progresso = AnalyticsProgramacao.calcularProgressoProgramacao(assuntos, submissoesEstudante);
                             registros.forEach(registro=>{
                                 if(registro["estudanteId"] == estudanteId){

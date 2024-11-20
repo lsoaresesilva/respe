@@ -123,7 +123,7 @@ export const routes: Routes = [
   },
   {
     path: 'editor/:questaoId',
-    component: ResponderQuestaoProgramacao,
+    component: EditorProgramacaoRespeComponent,
     canActivate: [AuthGuard, PageTrack]
   },
   {

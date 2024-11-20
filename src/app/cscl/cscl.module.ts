@@ -112,7 +112,7 @@ export const routes: Routes = [
   },
 
   {
-    path: 'visualizar-submissao-questao/:submissaoId/:isAtividadeGrupo',
+    path: 'visualizar-submissao-questao/:RespostaQuestaoProgramacaoId/:isAtividadeGrupo',
     component: VisualizarSubmissaoQuestaoComponent,
     canActivate: [AuthGuard]
   },

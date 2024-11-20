@@ -1,6 +1,7 @@
 import { Assunto } from '../aprendizagem/questoes/assunto';
 import ErroCompilacaoFactory from '../errors/analise-compilacao/erroCompilacaoFactory';
-import Submissao from '../respostaQuestaoProgramacao';
+import RespostaQuestaoProgramacao from '../aprendizagem/questoes/respostaQuestaoProgramacao';
+import Submissao from '../aprendizagem/questoes/respostaQuestaoProgramacao';
 import { Util } from '../util';
 import { EventosProgramacao } from './enum/eventosProgramacao';
 
@@ -21,7 +22,7 @@ static gerarSubmissoes(estudantes_permitidos){
 
     if(estudantes_permitidos.includes(s.estudante)){
       //if(ignorar(s["questaoId"])){
-      let submissao = Submissao.fromJson(s);
+      let submissao = RespostaQuestaoProgramacao.fromJson(s);
       submissao['estudanteId'] = submissao.estudante.pk;
       submissoes.push(submissao);
       //}
@@ -32,7 +33,7 @@ static gerarSubmissoes(estudantes_permitidos){
 }
 
   static calcularExecucoes(submissoes) {
-    const submissoesAgrupadas = Submissao.agruparPorQuestao(submissoes);
+    const submissoesAgrupadas = RespostaQuestaoProgramacao.agruparPorQuestao(submissoes);
     let totalQuestoes = 0;
 
     submissoesAgrupadas.forEach((submissoesQuestao, questaoId, map) => {
@@ -44,10 +45,10 @@ static gerarSubmissoes(estudantes_permitidos){
 
   static calcularTotalQuestoesCorretas(submissoes) {
     let totalConclusoes = 0;
-    const submissoesAgrupadas = Submissao.agruparPorQuestao(submissoes);
+    const submissoesAgrupadas = RespostaQuestaoProgramacao.agruparPorQuestao(submissoes);
     // Verificar se para uma questão há submissão correta. Se houver, somar o total de submissoes erradas e desconsiderar as corretas.
     submissoesAgrupadas.forEach((submissoesQuestao, questaoId, map) => {
-      const submissoesConcluidas = Submissao.filtrarSubmissoesConclusao(submissoesQuestao);
+      const submissoesConcluidas = RespostaQuestaoProgramacao.filtrarSubmissoesConclusao(submissoesQuestao);
 
       if (submissoesConcluidas.length > 0) {
         totalConclusoes += 1;
@@ -63,10 +64,10 @@ static gerarSubmissoes(estudantes_permitidos){
     let iteracao = 0;
 
     // Agrupar por questoes
-    const submissoesAgrupadas = Submissao.agruparPorQuestao(submissoes);
+    const submissoesAgrupadas = RespostaQuestaoProgramacao.agruparPorQuestao(submissoes);
     // Verificar se para uma questão há submissão correta. Se houver, somar o total de submissoes erradas e desconsiderar as corretas.
     submissoesAgrupadas.forEach((submissoesQuestao, questaoId, map) => {
-      const submissoesConcluidas = Submissao.filtrarSubmissoesConclusao(submissoesQuestao);
+      const submissoesConcluidas = RespostaQuestaoProgramacao.filtrarSubmissoesConclusao(submissoesQuestao);
       submissoesIncorretas += submissoesQuestao.length - submissoesConcluidas.length;
       if (submissoesConcluidas.length != 0) {
         ++iteracao;
@@ -83,7 +84,7 @@ static gerarSubmissoes(estudantes_permitidos){
     let mediaCodigosComentados = 0;
     let totalQuestoesRespondidas = 0;
 
-    const submissoesAgrupadas = Submissao.agruparPorQuestao(submissoes);
+    const submissoesAgrupadas = RespostaQuestaoProgramacao.agruparPorQuestao(submissoes);
     // Verificar se para uma questão há submissão correta. Se houver, somar o total de submissoes erradas e desconsiderar as corretas.
     submissoesAgrupadas.forEach((submissoesQuestao, questaoId, map) => {
       let questoesIgnoradas = [
@@ -155,7 +156,7 @@ static gerarSubmissoes(estudantes_permitidos){
       return isDiff;
     }
 
-    const submissoesAgrupadas = Submissao.agruparPorQuestao(submissoes);
+    const submissoesAgrupadas = RespostaQuestaoProgramacao.agruparPorQuestao(submissoes);
 
     let todosEstados = [] // Todos os estados, um para cada questão
 
@@ -168,7 +169,7 @@ static gerarSubmissoes(estudantes_permitidos){
       let submissaoRefatorada = null;
       let comentarioAnterior = null;
 
-      Submissao._orderByDate(submissoesQuestao);
+      RespostaQuestaoProgramacao._orderByDate(submissoesQuestao);
 
 
 
@@ -361,7 +362,7 @@ static gerarSubmissoes(estudantes_permitidos){
     let casos = 0;
 
     // Agrupar por questoes
-    const submissoesAgrupadas = Submissao.agruparPorQuestao(submissoes);
+    const submissoesAgrupadas = RespostaQuestaoProgramacao.agruparPorQuestao(submissoes);
 
     // Verificar quando há um erro, após isso contar quantas submissões até a correção.
 
@@ -387,7 +388,7 @@ static gerarSubmissoes(estudantes_permitidos){
         casos += 1;
       }
 
-      /* const submissoesConcluidas = Submissao.filtrarSubmissoesConclusao(submissoesQuestao);
+      /* const submissoesConcluidas = RespostaQuestaoProgramacao.filtrarSubmissoesConclusao(submissoesQuestao);
       submissoesIncorretas += submissoesQuestao.length - submissoesConcluidas.length;
       if (submissoesConcluidas.length != 0) {
         ++iteracao;
@@ -400,7 +401,7 @@ static gerarSubmissoes(estudantes_permitidos){
     return media;
   }
 
-  static calcularMediaErrosSintaxeProgramacao(submissoes: Submissao[]) {
+  static calcularMediaErrosSintaxeProgramacao(submissoes: RespostaQuestaoProgramacao[]) {
     if (Array.isArray(submissoes)) {
       let totalErros = 0;
       submissoes.forEach((submissao) => {
@@ -419,7 +420,7 @@ static gerarSubmissoes(estudantes_permitidos){
    * @param submissoes
    * @returns
    */
-  static calcularTotalErrosLogicos(submissoes: Submissao[]) {
+  static calcularTotalErrosLogicos(submissoes: RespostaQuestaoProgramacao[]) {
     /* if (Array.isArray(submissoes)) {
         let totalErros = 0;
         submissoes.forEach((submissao) => {
@@ -444,10 +445,10 @@ static gerarSubmissoes(estudantes_permitidos){
 
     let totalErros = 0;
 
-    let agrupadasPorQuestao = Submissao.agruparPorQuestao(submissoes);
+    let agrupadasPorQuestao = RespostaQuestaoProgramacao.agruparPorQuestao(submissoes);
 
     agrupadasPorQuestao.forEach(function (agrupadas, questaoId) {
-      let submissaoConcluida = Submissao.filtrarSubmissoesConclusao(agrupadas);
+      let submissaoConcluida = RespostaQuestaoProgramacao.filtrarSubmissoesConclusao(agrupadas);
 
       if (submissaoConcluida.length > 0) {
         if (!submissaoConcluida[0].isFinalizada()) {
@@ -459,13 +460,13 @@ static gerarSubmissoes(estudantes_permitidos){
     return totalErros != 0 ? totalErros / submissoes.length : 0;
   }
 
-  static calcularDesistencias(submissoes: Submissao[]) {
-    let agrupadasPorQuestao = Submissao.agruparPorQuestao(submissoes);
+  static calcularDesistencias(submissoes: RespostaQuestaoProgramacao[]) {
+    let agrupadasPorQuestao = RespostaQuestaoProgramacao.agruparPorQuestao(submissoes);
     let desistencias = 0;
     // Percorrer cada questão e ver quais não tem submissão concluida;
 
     agrupadasPorQuestao.forEach(function (agrupadas, questaoId) {
-      let submissaoConcluida = Submissao.filtrarSubmissoesConclusao(agrupadas);
+      let submissaoConcluida = RespostaQuestaoProgramacao.filtrarSubmissoesConclusao(agrupadas);
 
       if (submissaoConcluida.length == 0) {
         desistencias += 1;
@@ -483,20 +484,20 @@ static gerarSubmissoes(estudantes_permitidos){
    */
   static identificarMelhoriasSubmissaoAposConclusao(submissoes) {
     /* let mapa = new Map<string, number>();
-    let submissoesAgrupada = new Map<string, Map<string, Submissao[]>>();
+    let submissoesAgrupada = new Map<string, Map<string, RespostaQuestaoProgramacao[]>>();
     for (let [estudanteId, s] of Object.entries(submissoes)) {
-        submissoesAgrupada.set(estudanteId, Submissao.agruparPorQuestao(s));
+        submissoesAgrupada.set(estudanteId, RespostaQuestaoProgramacao.agruparPorQuestao(s));
     } */
 
     let media = 0;
     let totalQuestoes = 0;
 
-    let agrupadasPorQuestao = Submissao.agruparPorQuestao(submissoes);
+    let agrupadasPorQuestao = RespostaQuestaoProgramacao.agruparPorQuestao(submissoes);
 
     /* agrupadasPorQuestao.forEach((submissoesEstudantesAgrupadasQuestao, estudanteId)=>{ */
     agrupadasPorQuestao.forEach((submissoesQuestao, questaoId) => {
       totalQuestoes += 1;
-      let submissoesconcluidas = Submissao.filtrarSubmissoesConclusao(submissoesQuestao);
+      let submissoesconcluidas = RespostaQuestaoProgramacao.filtrarSubmissoesConclusao(submissoesQuestao);
       if (submissoesconcluidas.length > 1) {
         let isDiff = false;
         let codigo = '';
@@ -520,8 +521,8 @@ static gerarSubmissoes(estudantes_permitidos){
     return media != 0 ? media / totalQuestoes : 0;
   }
 
-  static calcularProgressoProgramacao(assuntos: Assunto[], submissoes: Submissao[]) {
-    let submissoesUnicas = Submissao.getSubmissoesUnicas(submissoes);
+  static calcularProgressoProgramacao(assuntos: Assunto[], submissoes: RespostaQuestaoProgramacao[]) {
+    let submissoesUnicas = RespostaQuestaoProgramacao.getSubmissoesUnicas(submissoes);
     let progresso = 0;
     assuntos.forEach((assunto) => {
       progresso += this._calcularPercentualConclusaoQuestoesProgramacao(assunto, submissoesUnicas);
@@ -535,7 +536,7 @@ static gerarSubmissoes(estudantes_permitidos){
 
   static _calcularPercentualConclusaoQuestoesProgramacao(
     assunto,
-    submissoes: Submissao[],
+    submissoes: RespostaQuestaoProgramacao[],
     margemAceitavel = 0.75
   ) {
     const totalQuestoes = assunto.questoesProgramacao.length;
@@ -572,13 +573,13 @@ static gerarSubmissoes(estudantes_permitidos){
   }
 
   static calcularMediaQuestoesSemana(submissoes){
-    let agrupadasPorQuestao = Submissao.agruparPorQuestao(submissoes);
+    let agrupadasPorQuestao = RespostaQuestaoProgramacao.agruparPorQuestao(submissoes);
 
     let semanas = []
     let totalConclusoes = 0;
 
     agrupadasPorQuestao.forEach((submissoesQuestao, questaoId) => {
-      let submissoesconcluidas = Submissao.filtrarSubmissoesConclusao(submissoesQuestao);
+      let submissoesconcluidas = RespostaQuestaoProgramacao.filtrarSubmissoesConclusao(submissoesQuestao);
       if (submissoesconcluidas.length > 0) {
         totalConclusoes += 1;
         let data = submissoesconcluidas[0].data;
@@ -599,10 +600,10 @@ static gerarSubmissoes(estudantes_permitidos){
   }
 
   static calculaTentativasQuestoes(submissoes) {
-    return Submissao.agruparPorQuestao(submissoes).size;
+    return RespostaQuestaoProgramacao.agruparPorQuestao(submissoes).size;
   }
 
-  static calcularTempoMedioEntreSubmissoes(submissoes: Submissao[]) {
+  static calcularTempoMedioEntreSubmissoes(submissoes: RespostaQuestaoProgramacao[]) {
     if (Array.isArray(submissoes)) {
       let tempoEmSegundos = 0;
       let submissoesValidasParaContagem = [];

@@ -1,19 +1,28 @@
 
-import { Document, Collection, date, ignore } from './firestore/document';
-import Erro from './errors/erro';
+import { Document, Collection, date, ignore } from '../../database/document';
+import Erro from '../../errors/erro';
 import { Observable, forkJoin } from 'rxjs';
-import Query from './firestore/query';
-import Usuario from './usuario';
-import ResultadoTestCase from './resultadoTestCase';
-import ErroCompilacaoFactory from './errors/analise-compilacao/erroCompilacaoFactory';
-import { ErroCompilacao } from './errors/analise-compilacao/erroCompilacao';
-import { Assunto } from './aprendizagem/questoes/assunto';
+import Query from '../../database/query';
+import Usuario from '../../usuario';
+import ResultadoTestCase from '../../resultadoTestCase';
+import ErroCompilacaoFactory from '../../errors/analise-compilacao/erroCompilacaoFactory';
+import { ErroCompilacao } from '../../errors/analise-compilacao/erroCompilacao';
+import { Assunto } from './assunto';
 import { keyframes } from '@angular/animations';
 import { Cacheable } from 'ts-cacheable';
-import { Util } from './util';
+import { Util } from '../../util';
 import { database } from 'firebase';
-import { QuestaoProgramacao } from './aprendizagem/questoes/questaoProgramacao';
-import RespostaBase from './aprendizagem/questoes/respostaBase';
+import { QuestaoProgramacao } from './questaoProgramacao';
+import RespostaBase from './respostaBase';
+import { ErrosExecucao } from '../../errors/analise-pre-compilacao/parseAlgoritmo';
+import ErroProgramacao from './erroProgramacao';
+
+export enum STATUS_RESPOSTA_QUESTAO_PROGRAMACAO {
+  CONTEM_ERRO = "erro",
+  TESTSCASES_RESPONDIDOS_SUCESSO = "resposta_correta",
+  TESTSCASES_RESPONDIDOS_INSUCESSO = "resposta_incorreta",
+  NAO_RESPONDIDA = "nao_respondida"
+}
 
 @Collection('respostaquestaoprogramacao')
 export default class RespostaQuestaoProgramacao extends Document implements RespostaBase{
@@ -32,38 +41,21 @@ export default class RespostaQuestaoProgramacao extends Document implements Resp
 
   @date()
   data;
-  erro;
+  erro:ErroProgramacao;
+  erros:ErrosExecucao;
   resultadosTestsCases: ResultadoTestCase[];
   @ignore()
   saida;
-
-  /**
-   * Recupera todos os usuários que realizaram submissão
-   * @param questao
-   */
-  /* static getSubmissoesRecentesTodosUsuarios(
-    questao: QuestaoProgramacao,
-    usuarioLogado: Usuario
-  ): Observable<any[]> {
-    return new Observable((observer) => {
-      RespostaQuestaoProgramacao.getAll(new Query('questaoId', '==', questao.pk)).subscribe((resultado) => {
-        // eliminar a submissao do próprio estudante
-        let submissoes = resultado.filter((sub) => {
-          if (sub.estudanteId !== usuarioLogado.pk()) {
-            return true;
-          }
-        });
-
-        submissoes = this.filtrarSubmissoesConclusao(submissoes);
-        submissoes = this.agruparRecentePorEstudante(submissoes);
-        observer.next(submissoes);
-        observer.complete();
-      });
-    });
-  }
- */
+  status:STATUS_RESPOSTA_QUESTAO_PROGRAMACAO = STATUS_RESPOSTA_QUESTAO_PROGRAMACAO.NAO_RESPONDIDA;
+ 
   static toArray(submissoes:RespostaQuestaoProgramacao[]){
 
+  }
+
+  setErros(erros){
+    this.erros = erros;
+    this.invalidarResultadosTestCases();
+    this.status = STATUS_RESPOSTA_QUESTAO_PROGRAMACAO.CONTEM_ERRO;
   }
 
   /*
@@ -89,19 +81,22 @@ export default class RespostaQuestaoProgramacao extends Document implements Resp
     });
   }
 
-  static fromJson(submissaoJson: any) {
+  static dataToObject(submissaoJson: any) {
     let submissao = new RespostaQuestaoProgramacao(
       submissaoJson.id,
       submissaoJson.codigo,
-      Usuario.fromJson({ id: submissaoJson.estudante }),
-      Assunto.fromJson({ id: submissaoJson.assuntoId, nome: '' }),
-      new QuestaoProgramacao(submissaoJson.questaoId, '', '', 1, 1, [], null, '', null, [])
+      submissaoJson.estudante,
+      null,
+      QuestaoProgramacao.dataToObject(submissaoJson.questao)
     );
 
+    submissao.status = submissaoJson.status;
+
     submissao.resultadosTestsCases = [];
-    submissao['questaoId'] = submissaoJson.questaoId;
-    if (Array.isArray(submissaoJson.resultadosTesteCase)) {
-      submissaoJson.resultadosTesteCase.forEach((r) => {
+    
+
+    if (Array.isArray(submissaoJson.resultados)) {
+      submissaoJson.resultados.forEach((r) => {
         let resultado = ResultadoTestCase.fromJson(r);
         submissao.resultadosTestsCases.push(resultado);
       });
@@ -111,8 +106,8 @@ export default class RespostaQuestaoProgramacao extends Document implements Resp
       submissao.data = new Date(submissaoJson.data);
     }
 
-    if (submissaoJson.erro != null) {
-      submissao.erro = {data:submissaoJson.erro.data, id:submissaoJson.erro.id, traceback:submissaoJson.erro.traceback}
+    if (Array.isArray(submissaoJson.erros) && submissaoJson.erros.length > 0) {
+      submissao.erro = new ErroProgramacao(submissaoJson.erros[0].linha, submissaoJson.erros[0].mensagem, submissaoJson.erros[0].categoria)
     }
 
     submissao.data = new Date(submissao.data);
@@ -179,15 +174,18 @@ export default class RespostaQuestaoProgramacao extends Document implements Resp
     return submissoesAgrupadas;
   }
 
-  static agruparRecentePorEstudante(submissoes: RespostaQuestaoProgramacao[]): Map<string, RespostaQuestaoProgramacao> {
-    let submissoesRecentesAgrupadas: Map<string, RespostaQuestaoProgramacao> = new Map();
-    if(Array.isArray(submissoes)){
-      const submissoesAgrupadas = this.agruparPorEstudante(submissoes);
-      submissoesAgrupadas.forEach((submissoes, estudanteId) => {
-        submissoesRecentesAgrupadas.set(estudanteId, this.filtrarRecente(submissoesAgrupadas.get(estudanteId)));
-      });
+  
+
+
+  static filtrarRecente(questao:QuestaoProgramacao | string): Observable<RespostaQuestaoProgramacao> {
+    let questaoId = null;
+    if(questao instanceof QuestaoProgramacao && questao.pk != null){
+      questaoId = questao.pk;
+    }else{
+      questaoId = questao;
     }
-    return submissoesRecentesAgrupadas;
+
+    return RespostaQuestaoProgramacao.getByQuery([new Query("questao_id", "==", questaoId), new Query("recente", "==", true)]);
   }
 
   static agruparPorQuestao(submissoes: RespostaQuestaoProgramacao[]): Map<string, any[]> {
@@ -271,31 +269,7 @@ export default class RespostaQuestaoProgramacao extends Document implements Resp
     });
   }
 
-  //
-  static filtrarDataRange(submissoes:RespostaQuestaoProgramacao[], dataInicio, dataTermino){
-    return submissoes.filter((submissao)=>{
-      let dataSubmissao = new Date(submissao.data).getTime();
-      if(dataSubmissao >= dataInicio.getTime() && dataSubmissao <= dataTermino.getTime()){
-        return true;
-      }else{
-        return false;
-      }
-    });
-  }
 
-  /**
-   * Recupera a submissão mais recente de um estudante para uma questão.
-   */
-  static getRecentePorQuestao(questao: QuestaoProgramacao, estudante: Usuario) {
-    return new Observable((observer) => {
-      this.getPorQuestao(questao, estudante).subscribe((submissoes) => {
-        const submissaoRecente = this.filtrarRecente(submissoes);
-
-        observer.next(submissaoRecente);
-        observer.complete();
-      });
-    });
-  }
 
   /**
    * Recupera as submissões para uma questão.
@@ -361,30 +335,6 @@ export default class RespostaQuestaoProgramacao extends Document implements Resp
     });
   }
 
-  //@Cacheable()
-  static getAll(queries = null, orderBy = null) {
-    return new Observable<any[]>((observer) => {
-      super.getAll(queries, orderBy).subscribe(
-        (submissoes) => {
-          // let erros: any[] = [];
-          submissoes.forEach((submissao) => {
-            // erros.push(ErroCompilacao.getAll(new Query("submissaoId", "==", submissao.pk())));
-            submissao.resultadosTestsCases = ResultadoTestCase.construir(
-              submissao.resultadosTestsCases
-            );
-            submissao['erro'] = ErroCompilacaoFactory.construirPorDocument(submissao['erro']);
-          });
-
-          observer.next(submissoes);
-          observer.complete();
-        },
-        (err) => {
-          observer.error(err);
-        }
-      );
-    });
-  }
-
   /**
    * Extrai todos os erros cometidos pelo estudante em suas submissões.
    * @param submissoes
@@ -411,7 +361,8 @@ export default class RespostaQuestaoProgramacao extends Document implements Resp
       new QuestaoProgramacao(document.questaoId, '', '', 1, 1, [], null, '', null, [])
     );
     submissao.resultadosTestsCases = [];
-    submissao['questaoId'] = document.questaoId;
+    submissao.questao = document.questao;
+    submissao.erro = document.erro;
     if (Array.isArray(document.resultadosTestsCases)) {
       document.resultadosTestsCases.forEach((r) => {
         let resultado = ResultadoTestCase.fromJson(r);
@@ -419,9 +370,7 @@ export default class RespostaQuestaoProgramacao extends Document implements Resp
       });
     }
 
-    if (document.erro != null) {
-      submissao.erro = {data:document.erro.data, id:document.erro.id, traceback:document.erro.traceback}
-    }
+    
 
     return submissao;
   }
@@ -429,20 +378,13 @@ export default class RespostaQuestaoProgramacao extends Document implements Resp
   objectToDocument() {
     const document = super.objectToDocument();
 
-    if (this.estudante != null && this.estudante.pk != null) {
-      document['estudanteId'] = this.estudante.pk;
-    }
 
     if (this.questao != null && this.questao.pk != null) {
-      document['questaoId'] = this.questao.pk;
-    }
-
-    if (this.assunto != null && this.assunto.pk != null) {
-      document['assuntoId'] = this.assunto.pk;
+      document['questao_id'] = this.questao.pk;
     }
 
     document['codigo'] = this.codigo;
-    if (this.erro != null && this.erro instanceof ErroCompilacao) {
+    if (this.erro != null) {
       document['erro'] = this.erro.objectToDocument();
     }
     if (this.resultadosTestsCases != null && this.resultadosTestsCases.length > 0) {
@@ -450,7 +392,7 @@ export default class RespostaQuestaoProgramacao extends Document implements Resp
       this.resultadosTestsCases.forEach((resultadoTestCase) => {
         resultadoTestsCases.push(resultadoTestCase.objectToDocument());
       });
-      document['resultadosTestsCases'] = resultadoTestsCases;
+      document['resultados_test_cases'] = resultadoTestsCases;
     }
     return document;
   }
@@ -489,6 +431,26 @@ export default class RespostaQuestaoProgramacao extends Document implements Resp
     return json;
   }
 
+  getPrimeiroErro():ErroProgramacao{
+    let latestError:ErroProgramacao | null = null;
+    let latestLine = Infinity;
+
+    // Percorre cada tipo de erro
+    for (const [errorType, errorList] of Object.entries(this.erros)) {
+      if (Array.isArray(errorList)) {
+        errorList.forEach(error => {
+          if (error.line < latestLine) {
+            latestLine = error.line;
+            latestError = new ErroProgramacao(error.line, error.error, errorType);
+            
+          }
+        });
+      }
+    }
+
+    return latestError;
+  }
+
   hasErroSintaxe(){
     if(this.erro != null){
       return true;
@@ -519,19 +481,9 @@ export default class RespostaQuestaoProgramacao extends Document implements Resp
     return [];
   }
 
-  processarRespostaServidor(resposta) {
+  atualizarResultados(resposta) {
     this.resultadosTestsCases = ResultadoTestCase.construir(resposta.resultados);
-  }
-
-  /**
-   * Houve um erro de programação ao submeter o algoritmo, realiza os procedimentos adequados a partir disto.
-   * @param resposta
-   */
-  processarErroServidor(resposta) {
-    this.invalidarResultadosTestCases();
-    if (ErroCompilacao.isErro(resposta)) {
-      this.erro = ErroCompilacaoFactory.construir(resposta);
-    }
+    this.status = this.isFinalizada() ? STATUS_RESPOSTA_QUESTAO_PROGRAMACAO.TESTSCASES_RESPONDIDOS_SUCESSO : STATUS_RESPOSTA_QUESTAO_PROGRAMACAO.TESTSCASES_RESPONDIDOS_INSUCESSO;
   }
 
   /**

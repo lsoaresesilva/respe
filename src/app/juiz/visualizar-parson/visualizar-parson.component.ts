@@ -10,7 +10,7 @@ import PontuacaoQuestaoParson from 'src/app/model/gamification/pontuacaoQuestaoP
 import { RespostaQuestaoParson } from 'src/app/model/aprendizagem/questoes/respostaQuestaoParson';
 import { Assunto } from 'src/app/model/aprendizagem/questoes/assunto';
 import QuestaoParsonProblem from 'src/app/model/aprendizagem/questoes/questaoParsonProblem';
-import Query from 'src/app/model/firestore/query';
+import Query from 'src/app/model/database/query';
 import SegmentoRespostaParson from 'src/app/model/aprendizagem/questoes/segmentoRespostaParson';
 import SegmentoParson from 'src/app/model/aprendizagem/questoes/segmentoParson';
 

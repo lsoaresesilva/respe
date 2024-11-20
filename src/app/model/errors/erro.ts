@@ -1,11 +1,12 @@
 import { TipoErro } from './analise-pre-compilacao/enum/tipoErro';
-import { Document, Collection, ignore, date } from '../firestore/document';
-import Submissao from '../respostaQuestaoProgramacao';
+import { Document, Collection, ignore, date } from '../database/document';
+import Submissao from '../aprendizagem/questoes/respostaQuestaoProgramacao';
 import { forkJoin, Observable } from 'rxjs';
-import Query from '../firestore/query';
+import Query from '../database/query';
 import { ErroCompilacao } from './analise-compilacao/erroCompilacao';
 import { CategoriaErro } from './enum/categoriasErro';
 import NameError from './analise-compilacao/nameError';
+import RespostaQuestaoProgramacao from '../aprendizagem/questoes/respostaQuestaoProgramacao';
 
 /* NÃO ESTÁ SENDO UTILIZADA. VERIFICAR PARA APAGAR. */
 
@@ -16,7 +17,7 @@ export default abstract class Erro extends Document {
   @ignore()
   mensagem;
 
-  constructor(id, public traceback, public submissao: Submissao) {
+  constructor(id, public traceback, public submissao: RespostaQuestaoProgramacao) {
     super(id);
   }
 
@@ -31,7 +32,7 @@ export default abstract class Erro extends Document {
 
   static getAllErrosEstudante(usuario) {
     return new Observable((observer) => {
-      Submissao.getAll(new Query('estudanteId', '==', usuario.pk)).subscribe((submissoes) => {
+      RespostaQuestaoProgramacao.getAll(new Query('estudanteId', '==', usuario.pk)).subscribe((submissoes) => {
         let erros = [];
         submissoes.forEach((submissao) => {
           erros.push(Erro.getAll(new Query('submissaoId', '==', submissao.pk())));

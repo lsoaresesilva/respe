@@ -4,7 +4,7 @@ import { forkJoin } from 'rxjs';
 import AtividadeGrupo from 'src/app/model/cscl/atividadeGrupo';
 import Frequencia from 'src/app/model/cscl/frequencia';
 import QuestaoColaborativa from 'src/app/model/cscl/questaoColaborativa';
-import Query from 'src/app/model/firestore/query';
+import Query from 'src/app/model/database/query';
 import { Assunto } from 'src/app/model/aprendizagem/questoes/assunto';
 import Turma from 'src/app/model/turma';
 import Usuario from 'src/app/model/usuario';

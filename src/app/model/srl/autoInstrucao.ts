@@ -1,7 +1,7 @@
 import Usuario from '../usuario';
-import { Document, Collection } from '../firestore/document';
+import { Document, Collection } from '../database/document';
 import { Observable } from 'rxjs';
-import Query from '../firestore/query';
+import Query from '../database/query';
 import { Assuntos } from '../enums/assuntos';
 import { QuestaoProgramacao } from '../aprendizagem/questoes/questaoProgramacao';
 import { Dificuldade } from '../aprendizagem/questoes/enum/dificuldade';

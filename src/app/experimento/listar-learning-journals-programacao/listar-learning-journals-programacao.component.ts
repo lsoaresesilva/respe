@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import Query from 'src/app/model/firestore/query';
+import Query from 'src/app/model/database/query';
 import DiarioProgramacao from 'src/app/model/srl/diarioProgramacao';
 import { TipoDiarioProgramacao } from 'src/app/model/srl/enum/tipoDiarioProgramacao';
 

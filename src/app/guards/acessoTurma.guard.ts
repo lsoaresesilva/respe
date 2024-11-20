@@ -3,7 +3,7 @@ import { CanActivate } from '@angular/router';
 import { ActivatedRouteSnapshot, RouterStateSnapshot, Router, CanLoad, Route } from '@angular/router';
 import { Observable } from 'rxjs';
 import Turma from '../model/turma';
-import Query from '../model/firestore/query';
+import Query from '../model/database/query';
 import { Component } from '@angular/core';
 import { Message } from 'primeng//api';
 import { MessageService } from 'primeng/api';

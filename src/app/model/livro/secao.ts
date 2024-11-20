@@ -1,7 +1,7 @@
-import { Document, Collection, ignore } from '../firestore/document';
+import { Document, Collection, ignore } from '../database/document';
 import { Observable, forkJoin } from 'rxjs';
 import SubSecao from './subsecao';
-import Query from '../firestore/query';
+import Query from '../database/query';
 
 @Collection("secoes")
 export default class Secao extends Document {

@@ -1,6 +1,6 @@
 import { Observable } from 'rxjs';
-import { Collection, date, Document } from '../firestore/document';
-import Query from '../firestore/query';
+import { Collection, date, Document } from '../database/document';
+import Query from '../database/query';
 import Usuario from '../usuario';
 import { TipoDiarioProgramacao } from './enum/tipoDiarioProgramacao';
 

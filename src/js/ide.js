@@ -220,9 +220,9 @@ function carregarIde(
       divEditorProgramacao.appendChild(container);
 
       if (container != undefined) {
-        //if (editorProgramacao == null) {
+        const codigoProgramacao = Array.isArray(codigo.value) ? codigo.value.join('\n') : codigo.value;
         editorProgramacao = monaco.editor.create(container, {
-          value: prepararCodigo(codigo.value).join('\n'),
+          value: codigoProgramacao,
           language: 'python',
           readOnly,
         });

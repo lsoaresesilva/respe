@@ -1,7 +1,7 @@
-import { Document, Collection } from '../firestore/document';
+import { Document, Collection } from '../database/document';
 import { Observable } from 'rxjs';
 import Sequencia from './sequencia';
-import Query from '../firestore/query';
+import Query from '../database/query';
 
 @Collection("subsecoes")
 export default class SubSecao extends Document{

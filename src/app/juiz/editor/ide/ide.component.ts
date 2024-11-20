@@ -3,7 +3,6 @@ import { Group } from 'ng-chat';
 import { DialogService } from 'primeng/dynamicdialog';
 import { MonitorService } from 'src/app/chatbot/monitor.service';
 import { LoginService } from 'src/app/login-module/login.service';
-import ConsoleEditor from 'src/app/model/consoleEditor';
 import RespostaQuestaoCorrecaoAlgoritmo from 'src/app/model/correcao-algoritmo/correcaoAlgoritmo';
 import SubmissaoGrupo from 'src/app/model/cscl/submissaoGrupo';
 import ErroServidor from 'src/app/model/errors/erroServidor';
@@ -41,7 +40,7 @@ export class IdeComponent implements OnChanges{
   modoVisualizacao;
   traceExecucao;
   usuario;
-  consoleEditor: ConsoleEditor;
+
   processandoSubmissao;
   editorCodigo;
 
@@ -57,7 +56,7 @@ export class IdeComponent implements OnChanges{
   ) {
     this.usuario = this.login.getUsuarioLogado();
     this.processandoSubmissao = false;
-    this.consoleEditor = new ConsoleEditor();
+
     this.onEditorError = new EventEmitter();
     this.onEditorSubmit = new EventEmitter();
     this.modoVisualizacao = false;
@@ -82,10 +81,10 @@ export class IdeComponent implements OnChanges{
     //this.submissao = Object.assign({}, submissao);//new RespostaQuestaoProgramacao(null, null, null, null, null)//this.prepararSubmissao(submissao);
     //this.changeDetector.detectChanges();
     this.submissao = submissao;
-    this.consoleEditor.erro = null;
-    this.consoleEditor.submissao = this.submissao;
+    this.editorCodigo.console.erro = null;
+    this.editorCodigo.console.submissao = this.submissao;
     if(this.submissao.erro.traceback != null){
-      this.consoleEditor.tracebackOriginal = this.submissao.erro.traceback;
+      this.editorCodigo.console.tracebackOriginal = this.submissao.erro.traceback;
     }
     
     this.onEditorError.emit(submissao);
@@ -93,15 +92,15 @@ export class IdeComponent implements OnChanges{
 
   submissaoEditor(submissao) {
     this.submissao = submissao;
-    this.consoleEditor.erro = null;
-    this.consoleEditor.tracebackOriginal = null;
-    this.consoleEditor.submissao = this.submissao;
+    this.editorCodigo.console.erro = null;
+    this.editorCodigo.console.tracebackOriginal = null;
+    this.editorCodigo.console.submissao = this.submissao;
     this.onEditorSubmit.emit(submissao);
   }
 
   onServidorError(erroServidor) {
     let erro = ErroServidor.construir(erroServidor);
-    this.consoleEditor.erro = erro;
+    this.editorCodigo.console.erro = erro;
   }
 
   onVisualization(visualizacao) {

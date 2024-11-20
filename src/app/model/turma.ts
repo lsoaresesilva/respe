@@ -1,8 +1,8 @@
-import { Document, Collection } from './firestore/document';
+import { Document, Collection } from './database/document';
 import { Observable, forkJoin } from 'rxjs';
 import Usuario from './usuario';
 import GeradorCodigo from '../util/geradorCodigo';
-import Query from './firestore/query';
+import Query from './database/query';
 import { PerfilUsuario } from './enums/perfilUsuario';
 import AtividadeGrupo from './cscl/atividadeGrupo';
 import { Cacheable } from 'ts-cacheable';

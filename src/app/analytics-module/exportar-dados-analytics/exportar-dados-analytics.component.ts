@@ -25,7 +25,7 @@ export class ExportarDadosAnalyticsComponent implements OnInit {
     this.route.params.subscribe((params) => {
       if (params['turmaId'] != null) {
 
-        /* Submissao.exportToJson().subscribe(resultados=>{
+        /* RespostaQuestaoProgramacao.exportToJson().subscribe(resultados=>{
           this.json = resultados;
         }) */
         /* Turma.getAllEstudantes(params['turmaId']).subscribe(estudantes=>{

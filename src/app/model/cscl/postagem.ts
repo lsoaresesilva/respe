@@ -1,5 +1,5 @@
 import { Observable } from 'rxjs';
-import { Collection, Document, date } from '../firestore/document';
+import { Collection, Document, date } from '../database/document';
 import Turma from '../turma';
 import Usuario from '../usuario';
 import RespostaPostagem from './respostaPostagem';

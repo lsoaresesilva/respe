@@ -1,10 +1,10 @@
 import ErroSintaxe from './erroSintaxe';
 import Erro from '../erro';
-import Submissao from '../../respostaQuestaoProgramacao';
+import Submissao from '../../aprendizagem/questoes/respostaQuestaoProgramacao';
 
 export default class ErroTypeError extends ErroSintaxe{
 
-    static erros(submissao:Submissao):Erro[]{
+    static erros(submissao:RespostaQuestaoProgramacao):Erro[]{
         let erros:Erro[] = [];
         let linhasCodigo = submissao.linhasAlgoritmo();
 

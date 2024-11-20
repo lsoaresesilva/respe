@@ -7,7 +7,7 @@ import {
 import { CategoriaErro } from 'src/app/model/errors/enum/categoriasErro';
 import Experiment from 'src/app/model/experimento/experiment';
 import { Groups } from 'src/app/model/experimento/groups';
-import Query from 'src/app/model/firestore/query';
+import Query from 'src/app/model/database/query';
 import Turma from 'src/app/model/turma';
 import Usuario from 'src/app/model/usuario';
 

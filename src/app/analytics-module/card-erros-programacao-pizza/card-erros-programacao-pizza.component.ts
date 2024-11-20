@@ -8,15 +8,18 @@ import {
 import { CategoriaErro } from 'src/app/model/errors/enum/categoriasErro';
 import FrequenciaErro from 'src/app/model/errors/analise-compilacao/frequenciaErro';
 
+import RespostaQuestaoProgramacao from 'src/app/model/aprendizagem/questoes/respostaQuestaoProgramacao';
+
 @Component({
   selector: 'app-card-erros-programacao-pizza',
   templateUrl: './card-erros-programacao-pizza.component.html',
   styleUrls: ['./card-erros-programacao-pizza.component.css'],
 })
 export class CardErrosProgramacaoPizzaComponent implements OnInit, OnChanges {
-  @Input() erros;
+  @Input() submissao:RespostaQuestaoProgramacao;
   dadosProcessados;
   grafico;
+  erros;
 
   @ViewChild('chart') chart: any;
 
@@ -27,8 +30,10 @@ export class CardErrosProgramacaoPizzaComponent implements OnInit, OnChanges {
     };
   }
 
+
   ngOnChanges(changes: SimpleChanges): void {
-    if (this.erros != null && Array.isArray(this.grafico.datasets) && this.grafico.datasets.length == 0) {
+    if (this.submissao != null && Array.isArray(this.grafico.datasets) && this.grafico.datasets.length == 0) {
+      this.erros = this.submissao.erros;
       const frequenciaPorTipoErro = FrequenciaErro.calcularFrequenciaPorTipoErro(this.erros);
       this.construirGraficoPizza(frequenciaPorTipoErro);
     }

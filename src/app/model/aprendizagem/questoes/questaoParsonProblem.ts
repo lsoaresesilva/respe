@@ -1,7 +1,7 @@
 
 import { Observable } from 'rxjs';
-import { Collection, ignore } from '../../firestore/document';
-import Query from '../../firestore/query';
+import { Collection, ignore } from '../../database/document';
+import Query from '../../database/query';
 import { RespostaQuestaoParson } from './respostaQuestaoParson';
 import { MaterialAprendizagem } from '../materialAprendizagem';
 import { Util } from '../../util';

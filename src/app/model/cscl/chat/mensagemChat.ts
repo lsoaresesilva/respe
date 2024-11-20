@@ -1,9 +1,9 @@
 import grupo from '../grupo';
-import { Collection, date, Document } from '../../firestore/document';
+import { Collection, date, Document } from '../../database/document';
 import Usuario from '../../usuario';
 import { Util } from '../../util';
 import { forkJoin, Observable } from 'rxjs';
-import Query from '../../firestore/query';
+import Query from '../../database/query';
 
 
 import * as firebase from 'firebase';

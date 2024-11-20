@@ -1,6 +1,6 @@
 import { forkJoin, Observable } from 'rxjs';
-import Query from '../firestore/query';
-import Submissao from '../respostaQuestaoProgramacao';
+import Query from '../database/query';
+import Submissao from '../aprendizagem/questoes/respostaQuestaoProgramacao';
 import VisualizacaoQuestao from './visualizacaoQuestao';
 import TempoOnline from './tempoOnline';
 import PageTrackRecord from './pageTrack';
@@ -17,6 +17,7 @@ import RespostasQuestoes from '../aprendizagem/questoes/respostasQuestoes';
 import { MaterialAprendizagem } from '../aprendizagem/materialAprendizagem';
 import { QuestaoProgramacao } from '../aprendizagem/questoes/questaoProgramacao';
 import QuestaoBase from '../aprendizagem/questoes/questaoBase';
+import RespostaQuestaoProgramacao from '../aprendizagem/questoes/respostaQuestaoProgramacao';
 
 export default class Analytics {
   // TODO: Fazer apenas um carregamento de assunto e usar par atudo aqui.
@@ -41,7 +42,7 @@ export default class Analytics {
       if (estudante != null && estudante.pk != null) {
         const consultasGerais = {};
         consultasGerais['assuntos'] = Assunto.getAll();
-        /* consultasGerais['submissoes'] = Submissao.getAll(
+        /* consultasGerais['submissoes'] = RespostaQuestaoProgramacao.getAll(
           new Query('estudanteId', '==', estudante.pk)
         ); */
         consultasGerais['pageTrack'] = PageTrackRecord.getAll([
@@ -85,7 +86,7 @@ export default class Analytics {
       respostas.questoesProgramacao.submissoes
     );
     //analytics.visualizacoesProgresso = this.calculaVisualizacoesProgresso(pageTracks);
-    analytics.errosProgramacao = Submissao.getAllErros(respostas.questoesProgramacao.submissoes);
+    analytics.errosProgramacao = RespostaQuestaoProgramacao.getAllErros(respostas.questoesProgramacao.submissoes);
     analytics.progressoQuestoesProgramacao = this.calcularProgressoQuestoesProgramacao(
       assuntos,
       respostas.questoesProgramacao.submissoes,
@@ -139,7 +140,7 @@ export default class Analytics {
             visualizacoesRespostas: [],
           };
 
-          const errosProgramacao = Submissao.getAllErros(submissoes);
+          const errosProgramacao = RespostaQuestaoProgramacao.getAllErros(submissoes);
           const errosConceituais = this.calcularErrosConceituais(assuntos, respostasTurma);
           const progresoGeral = this.calcularProgressoGeral(assuntos, respostasTurma);
 
@@ -205,16 +206,15 @@ export default class Analytics {
         const questao = questoes[i];
         let resultado;
         if(questao instanceof QuestaoProgramacao){
-          const submissoesAgrupadas = Submissao.agruparPorQuestao(respostas);
-          const submissoesQuestao = submissoesAgrupadas.get(questao.pk);
-          const submissoesQuestaoPorEstudante = Submissao.agruparRecentePorEstudante(submissoesQuestao);
-          submissoesQuestaoPorEstudante.forEach((submissao, estudanteId)=>{
+          
+          RespostaQuestaoProgramacao.filtrarRecente(questao).subscribe(submissao=>{
             resultado = submissao.isFinalizada();
             if (!resultado) {
               atualizarMapeamento(questao);
 
             }
           });
+         
         } else{
           respostas.forEach((resposta) => {
             if (resposta.questao.pk === questao.pk) {
@@ -266,7 +266,7 @@ export default class Analytics {
     if(respostas.questoesProgramacao != null && respostas.questoesProgramacao.submissoes != null){
       percentualConclusao += this.calcularPercentualConclusaoQuestoesProgramacao(
         assunto,
-        Submissao.agruparPorQuestao(respostas.questoesProgramacao.submissoes),
+        RespostaQuestaoProgramacao.agruparPorQuestao(respostas.questoesProgramacao.submissoes),
         respostas.questoesProgramacao.visualizacoesRespostas,
         0.5
       );
@@ -377,7 +377,7 @@ export default class Analytics {
         percentuais.push(
           this.calcularPercentualConclusaoQuestoesProgramacao(
             assunto,
-            Submissao.agruparPorQuestao(submissoes),
+            RespostaQuestaoProgramacao.agruparPorQuestao(submissoes),
             visualizacoes,
             0.7
           )
@@ -411,7 +411,7 @@ export default class Analytics {
 
   static calcularPercentualConclusaoQuestoesProgramacao(
     assunto: Assunto,
-    submissoes: Map<string, Submissao[]>,
+    submissoes: Map<string, RespostaQuestaoProgramacao[]>,
     visualizacoesQuestoesProgramacao: any[],
     margemAceitavel
   ) {
@@ -426,21 +426,23 @@ export default class Analytics {
       assunto.questoesProgramacao.forEach((questao) => {
         if (questao.pk != '4fe6ba63-0d71-49e5-b3b9-a1756872e2ad') {
           // Bloqueia a questão adicionada para prof. do if
-          const subsQuestao = submissoes.get(questao.pk);
-          const subRecente = Submissao.filtrarRecente(subsQuestao);
-          const visualizouResposta = visualizacoesQuestoesProgramacao.findIndex((visualizacao) => {
-            if (visualizacao.questaoId == questao.pk) {
-              return true;
+          
+          RespostaQuestaoProgramacao.filtrarRecente(questao).subscribe(submissao=>{
+            const visualizouResposta = visualizacoesQuestoesProgramacao.findIndex((visualizacao) => {
+              if (visualizacao.questaoId == questao.pk) {
+                return true;
+              }
+  
+              return false;
+            });
+            if (visualizouResposta == -1) {
+              const resultado = questao.isFinalizada(submissao, margemAceitavel);
+              if (resultado) {
+                questoesRespondidas += 1;
+              }
             }
-
-            return false;
-          });
-          if (visualizouResposta == -1) {
-            const resultado = questao.isFinalizada(subRecente, margemAceitavel);
-            if (resultado) {
-              questoesRespondidas += 1;
-            }
-          }
+          })
+          
         }
       });
 
@@ -525,7 +527,7 @@ export default class Analytics {
             ] = RespostaQuestaoFechada.getAtividadesTrabalhadasUltimaSemana(estudante);
             consultasRespostasProgramacaoAtividades[
               estudante.pk
-            ] = Submissao.getExerciciosTrabalhadosUltimaSemana(estudante);
+            ] = RespostaQuestaoProgramacao.getExerciciosTrabalhadosUltimaSemana(estudante);
           });
 
           forkJoin(consultasRespostasFechadasAtividades).subscribe(

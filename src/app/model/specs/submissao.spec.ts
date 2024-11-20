@@ -46,17 +46,17 @@ describe('Testes de Submissão', () => {
       [],
       null, null
     );
-    const submissao = new Submissao(null, 'x = 2\ny = c', estudante, null, questao);
+    const submissao = new RespostaQuestaoProgramacao(null, 'x = 2\ny = c', estudante, null, questao);
     submissao.data = firestore.Timestamp.now();
 
-    const submissaoDois = new Submissao(null, 'x = 2\ny = c', estudante, null, questao);
+    const submissaoDois = new RespostaQuestaoProgramacao(null, 'x = 2\ny = c', estudante, null, questao);
 
     const oitoDiasAtras = new Date();
     oitoDiasAtras.setDate(new Date().getDate() - 8);
     submissaoDois.data = firestore.Timestamp.fromDate(oitoDiasAtras);
 
     const questaoDois = new QuestaoProgramacao('abcde', null, null, null, null, null, [], null, null);
-    const submissaoTres = new Submissao(null, 'x = 2\ny = c', estudante, null, questao);
+    const submissaoTres = new RespostaQuestaoProgramacao(null, 'x = 2\ny = c', estudante, null, questao);
 
     const doisDiasAtras = new Date();
     doisDiasAtras.setDate(new Date().getDate() - 2);
@@ -65,7 +65,7 @@ describe('Testes de Submissão', () => {
     const semanaAtras = new Date();
     semanaAtras.setDate(new Date().getDate() - 7);
 
-    const submissoesFiltradas = Submissao.filtrarSubmissoesPorData(
+    const submissoesFiltradas = RespostaQuestaoProgramacao.filtrarSubmissoesPorData(
       [submissao, submissaoDois, submissaoTres],
       new Date(),
       semanaAtras
@@ -85,11 +85,11 @@ describe('Testes de Submissão', () => {
       [],
       null, null
     );
-    const submissao = new Submissao(null, 'x = 2\ny = c', estudante, null, questao);
+    const submissao = new RespostaQuestaoProgramacao(null, 'x = 2\ny = c', estudante, null, questao);
     submissao['questaoId'] = questao.pk;
     submissao.data = firestore.Timestamp.now();
 
-    const submissaoDois = new Submissao(null, 'x = 2\ny = c', estudante, null, questao);
+    const submissaoDois = new RespostaQuestaoProgramacao(null, 'x = 2\ny = c', estudante, null, questao);
     submissaoDois['questaoId'] = questao.pk;
 
     const oitoDiasAtras = new Date();
@@ -97,7 +97,7 @@ describe('Testes de Submissão', () => {
     submissaoDois.data = firestore.Timestamp.fromDate(oitoDiasAtras);
 
     const questaoDois = new QuestaoProgramacao('abcde', null, null, null, null, null, [], null, null);
-    const submissaoTres = new Submissao(null, 'x = 2\ny = c', estudante, null, questaoDois);
+    const submissaoTres = new RespostaQuestaoProgramacao(null, 'x = 2\ny = c', estudante, null, questaoDois);
     submissaoDois['questaoId'] = questaoDois.id;
 
     const doisDiasAtras = new Date();
@@ -107,13 +107,13 @@ describe('Testes de Submissão', () => {
     const semanaAtras = new Date();
     semanaAtras.setDate(new Date().getDate() - 7);
 
-    const submissoesFiltradas = Submissao.filtrarSubmissoesPorData(
+    const submissoesFiltradas = RespostaQuestaoProgramacao.filtrarSubmissoesPorData(
       [submissao, submissaoDois, submissaoTres],
       new Date(),
       semanaAtras
     );
 
-    const questoes = Submissao.getQuestoesDeSubmissoes(submissoesFiltradas);
+    const questoes = RespostaQuestaoProgramacao.getQuestoesDeSubmissoes(submissoesFiltradas);
 
     expect(questoes.length).toBe(2);
   });
@@ -130,16 +130,16 @@ describe('Testes de Submissão', () => {
       [],
       null, null
     );
-    const submissao = new Submissao(null, 'x = 2\ny = c', estudante, null, questao);
+    const submissao = new RespostaQuestaoProgramacao(null, 'x = 2\ny = c', estudante, null, questao);
 
     submissao.save().subscribe((resultado) => {
       // TODO: Incluir erro
       let erro = new Erro(null, 2, null, TipoErro.variavelNaoDeclarada, resultado);
             erro.save().subscribe(erroCadastrado=>{
-                Submissao.get(resultado.id).subscribe(resultadoSubmissao=>{
+                RespostaQuestaoProgramacao.get(resultado.id).subscribe(resultadoSubmissao=>{
                     let x = resultadoSubmissao["erros"];
                     expect(resultadoSubmissao["erros"].length).toEqual(1);
-                    forkJoin([Submissao.delete(submissao.pk()), Erro.delete(erro.pk())]).subscribe(r=>{
+                    forkJoin([RespostaQuestaoProgramacao.delete(submissao.pk()), Erro.delete(erro.pk())]).subscribe(r=>{
                         done();
                     })
 
@@ -160,14 +160,14 @@ describe('Testes de Submissão', () => {
       [],
       null, null
     );
-    const s1 = new Submissao(null, 'x = 2\ny = c', estudante, null, questao);
-    const s2 = new Submissao(null, 'x = 2\ny = c', estudante, null, questao);
+    const s1 = new RespostaQuestaoProgramacao(null, 'x = 2\ny = c', estudante, null, questao);
+    const s2 = new RespostaQuestaoProgramacao(null, 'x = 2\ny = c', estudante, null, questao);
 
     s1.save().subscribe((resultado) => {
       s2.save().subscribe((res) => {
-        Submissao.getRecentePorQuestao(questao, estudante).subscribe((submissao) => {
+        RespostaQuestaoProgramacao.filtrarRecente(questao, estudante).subscribe((submissao) => {
           expect(submissao['pk']()).toEqual(s2.pk());
-          forkJoin([Submissao.delete(s1.pk()), Submissao.delete(s2.pk())]).subscribe((r) => {
+          forkJoin([RespostaQuestaoProgramacao.delete(s1.pk()), RespostaQuestaoProgramacao.delete(s2.pk())]).subscribe((r) => {
             done();
           });
           done();
@@ -194,29 +194,29 @@ describe('Testes de Submissão', () => {
       [t1, t2],
       null, null
     );
-    const s1 = new Submissao(null, 'x = 2\ny = c', e1, null,  questao);
+    const s1 = new RespostaQuestaoProgramacao(null, 'x = 2\ny = c', e1, null,  questao);
     const rt1s1 = new ResultadoTestCase(null, true, null, t1);
     const rt2s1 = new ResultadoTestCase(null, true, null, t2);
     s1.resultadosTestsCases = [rt1s1, rt2s1];
 
-    const s2 = new Submissao(null, 'x = 2\ny = c', e2, null, questao);
+    const s2 = new RespostaQuestaoProgramacao(null, 'x = 2\ny = c', e2, null, questao);
     const rt1s2 = new ResultadoTestCase(null, true, null, t1);
     const rt2s2 = new ResultadoTestCase(null, true, null, t2);
     s2.resultadosTestsCases = [rt1s2, rt2s2];
 
-    const s3 = new Submissao(null, 'x = 2\ny = c', e3, null, questao);
+    const s3 = new RespostaQuestaoProgramacao(null, 'x = 2\ny = c', e3, null, questao);
     const rt1s3 = new ResultadoTestCase(null, true, null, t1);
     const rt2s3 = new ResultadoTestCase(null, false, null, t2);
     s3.resultadosTestsCases = [rt1s3, rt2s3];
 
     forkJoin([s1.save(), s2.save(), s3.save()]).subscribe((resultado) => {
-      Submissao.getSubmissoesRecentesTodosUsuarios(questao, e1).subscribe((submissoes) => {
+      RespostaQuestaoProgramacao.getSubmissoesRecentesTodosUsuarios(questao, e1).subscribe((submissoes) => {
         expect(submissoes.length).toBe(1);
         expect(submissoes[0].pk()).toBe(s2.pk());
         forkJoin([
-          Submissao.delete(s1.pk()),
-          Submissao.delete(s2.pk()),
-          Submissao.delete(s3.pk()),
+          RespostaQuestaoProgramacao.delete(s1.pk()),
+          RespostaQuestaoProgramacao.delete(s2.pk()),
+          RespostaQuestaoProgramacao.delete(s3.pk()),
         ]).subscribe((r) => {
           done();
         });

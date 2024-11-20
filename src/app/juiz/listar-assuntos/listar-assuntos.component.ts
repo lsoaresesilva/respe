@@ -9,7 +9,7 @@ import Analytics from '../../model/analytics/analytics';
 import ConfiguracaoEditor from '../../model/configuracoes/configuracaoEditor';
 import { Groups } from '../../model/experimento/groups';
 import { Assunto } from '../../model/aprendizagem/questoes/assunto';
-import Query from '../../model/firestore/query';
+import Query from '../../model/database/query';
 import { BreadcrumbService } from 'src/app/geral-module/breadcrumb.service';
 
 @Component({

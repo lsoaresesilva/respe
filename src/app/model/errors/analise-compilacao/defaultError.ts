@@ -1,5 +1,5 @@
 import { ErroCompilacao } from './erroCompilacao';
-import { ignore } from '../../firestore/document';
+import { ignore } from '../../database/document';
 
 export default class DefaultError extends ErroCompilacao{
     

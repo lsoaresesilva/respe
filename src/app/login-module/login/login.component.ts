@@ -4,7 +4,7 @@ import { Router } from '@angular/router';
 import { LoginService } from 'src/app/login-module/login.service';
 // import {Experiment} from 'scientificxpjs/experiment'
 import { MenuItem, MessageService } from 'primeng/api';
-import Query from 'src/app/model/firestore/query';
+import Query from 'src/app/model/database/query';
 import { Groups } from 'src/app/model/experimento/groups';
 import { PerfilUsuario } from 'src/app/model/enums/perfilUsuario';
 

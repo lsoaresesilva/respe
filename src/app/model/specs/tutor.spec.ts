@@ -72,7 +72,7 @@ describe('Testes de TUTOR', () => {
         let algoritmo = "x = 'leonardo'\ny = x\nz = a\nx = 'leonardo'\ny = 2,5\nx == 'leonardo'\nnome do leonardo = 'leo'\nif idade >:\nif idade > 18\ncurrent_time_str = input('What is the current time (in hours 0-23)?'\ndef bla(a_a b c):"
         c.setAlgoritmo(algoritmo);
         let e = new Estudante("12345", null, null);
-        let s = new Submissao(null, c, e, null)
+        let s = new RespostaQuestaoProgramacao(null, c, e, null)
         let t = new Tutor(s);
         t.analisar();
         expect(t.erros.length).toBe(8)
@@ -84,17 +84,17 @@ describe('Testes de TUTOR', () => {
         let algoritmo = "notaUm = 2\nnotaDois = 3\nmedia = (notaUm+notaDois)/2"
         c.setAlgoritmo(algoritmo);
         let e = new Estudante("12345", null, null);
-        let s = new Submissao(null, c, e, null)
+        let s = new RespostaQuestaoProgramacao(null, c, e, null)
         let t = new Tutor(s);
         t.analisar();
         expect(t.hasErrors()).toBeFalsy();
     })
 
     it("Deve calcular um error quotient de 1", ()=>{
-        let s = new Submissao(null, null, null, null);
+        let s = new RespostaQuestaoProgramacao(null, null, null, null);
         let e = new Erro(null, 1, null, null, null);
         s.erros = [e];
-        let s2 = new Submissao(null, null, null, null);
+        let s2 = new RespostaQuestaoProgramacao(null, null, null, null);
         let e2 = new Erro(null, 1, null, null, null);
         s2.erros = [e2];
 
@@ -102,31 +102,31 @@ describe('Testes de TUTOR', () => {
     })
 
     it("Deve calcular um error quotient de 0", ()=>{
-        let s = new Submissao(null, null, null, null);
-        let s2 = new Submissao(null, null, null, null);
+        let s = new RespostaQuestaoProgramacao(null, null, null, null);
+        let s2 = new RespostaQuestaoProgramacao(null, null, null, null);
         expect(Tutor.errorQuotient(s, s2)).toBe(0);
 
-        s = new Submissao(null, null, null, null);
+        s = new RespostaQuestaoProgramacao(null, null, null, null);
         let e = new Erro(null, 1, null, null, null);
         s.erros = [e];
-        s2 = new Submissao(null, null, null, null);
+        s2 = new RespostaQuestaoProgramacao(null, null, null, null);
         expect(Tutor.errorQuotient(s, s2)).toBe(0);
     })
 
     it("Deve retornar undefined quando não existir um par de submissões", ()=>{
-        let s = new Submissao(null, null, null, null);
+        let s = new RespostaQuestaoProgramacao(null, null, null, null);
         expect(Tutor.errorQuotient(s, null)).toBeNull();
     })
 
     it("Deve calcular um error quotient de 0.5", ()=>{
-        let s = new Submissao(null, null, null, null);
+        let s = new RespostaQuestaoProgramacao(null, null, null, null);
         let e = new Erro(null, 1, null, null, null);
         s.erros = [e];
-        let s2 = new Submissao(null, null, null, null);
+        let s2 = new RespostaQuestaoProgramacao(null, null, null, null);
         let e2 = new Erro(null, 1, null, null, null);
         s2.erros = [e2];
-        let s3 = new Submissao(null, null, null, null);
-        let s4 = new Submissao(null, null, null, null);
+        let s3 = new RespostaQuestaoProgramacao(null, null, null, null);
+        let s4 = new RespostaQuestaoProgramacao(null, null, null, null);
         let submissoes = [s, s2, s3, s4]
         expect(Tutor.calcularErrorQuotient(submissoes)).toBe(0.5);
     })

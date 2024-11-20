@@ -1,7 +1,7 @@
 import { Component, OnInit, Input, Output, EventEmitter } from '@angular/core';
 import ComentarioCodigo from 'src/app/model/comentarioCodigo';
 import Usuario from 'src/app/model/usuario';
-import Submissao from 'src/app/model/respostaQuestaoProgramacao';
+
 
 declare var dialogEmExibicao: any;
 
@@ -20,7 +20,7 @@ export class BoxNovoComentarioComponent implements OnInit {
 
   constructor() {
     // TODO: pegar submissao do input
-    //this.comentario = new ComentarioCodigo(null, Usuario.getUsuarioLogado(), new Submissao("Fz0penFp04A3z5xus6qF", null, null, null), null, null);
+    //this.comentario = new ComentarioCodigo(null, Usuario.getUsuarioLogado(), new RespostaQuestaoProgramacao("Fz0penFp04A3z5xus6qF", null, null, null), null, null);
     this.texto = "";
   }
 

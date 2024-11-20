@@ -1,26 +1,26 @@
-<div *ngIf="console != null" style="border: 1px solid black; background-color:black; height:200px; color: aliceblue;">
+<div *ngIf="editor.console != null" style="border: 1px solid black; background-color:black; height:200px; color: aliceblue;">
     <!-- <p-terminal welcomeMessage="Código em execução..." prompt=">>"></p-terminal> -->
-    <div *ngIf="console.submissao == null;else hasSubmissao">
-        <div *ngIf="console.erro != null;else semErro">{{console.erro}}</div>
+    <div *ngIf="editor.console.submissao == null;else hasSubmissao">
+        <div *ngIf="editor.console.erro != null;else semErro">{{editor.console.erro}}</div>
         <ng-template #semErro>
-            <div style="margin-left: 10px;" *ngIf="console.saida != null" [innerText]="console.saida">
+            <div style="margin-left: 10px;" *ngIf="editor.console.saida != null" [innerText]="editor.console.saida">
 
             </div>
         </ng-template>
     </div>
     <ng-template #hasSubmissao>
-        <app-console-erro [submissao]="console.submissao" *ngIf="console.submissao.erro != null; else resultado">
+        <app-console-erro [submissao]="editor.console.submissao" *ngIf="editor.console.submissao.erro != null; else resultado">
         </app-console-erro>
         <ng-template #resultado>
-            <div style="margin-left: 10px;" *ngIf="console.submissao != null && console.submissao.saida != null"
-                [innerText]="console.submissao.saida">
+            <div style="margin-left: 10px;" *ngIf="editor.console.submissao != null && editor.console.submissao.saida != null"
+                [innerText]="editor.console.submissao.saida">
 
             </div>
         </ng-template>
     </ng-template>
 
 </div>
-<div *ngIf="console != null && console.tracebackOriginal != null">
+<div *ngIf="editor.console != null && editor.console.tracebackOriginal != null">
     <button pButton label="Visualizar erro original" (click)="visualizarSaidaOriginal()"></button>
     
     {{saidaOriginal}}

@@ -1,8 +1,9 @@
 import AtividadeGrupo from "./atividadeGrupo";
 import Edicao from "./edicao";
-import { Collection, date, Document } from "../firestore/document";
-import Submissao from "../respostaQuestaoProgramacao";
+import { Collection, date, Document } from "../database/document";
+import Submissao from "../aprendizagem/questoes/respostaQuestaoProgramacao";
 import Grupo from "./grupo";
+import RespostaQuestaoProgramacao from "../aprendizagem/questoes/respostaQuestaoProgramacao";
 
 @Collection('submissoesGrupo')
 export default class SubmissaoGrupo extends Document {
@@ -10,7 +11,7 @@ export default class SubmissaoGrupo extends Document {
   @date()
   data 
 
-  constructor(id, public submissao:Submissao, public grupo:Grupo, public atividadeGrupo:AtividadeGrupo, public isFinal) {
+  constructor(id, public submissao:RespostaQuestaoProgramacao, public grupo:Grupo, public atividadeGrupo:AtividadeGrupo, public isFinal) {
     super(id);
   }
 

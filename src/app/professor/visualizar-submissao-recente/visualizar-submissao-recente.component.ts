@@ -1,7 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { Assunto } from 'src/app/model/aprendizagem/questoes/assunto';
-import Submissao from 'src/app/model/respostaQuestaoProgramacao';
+import RespostaQuestaoProgramacao from 'src/app/model/aprendizagem/questoes/respostaQuestaoProgramacao';
+
 import Usuario from 'src/app/model/usuario';
 
 @Component({
@@ -11,7 +12,7 @@ import Usuario from 'src/app/model/usuario';
 })
 export class VisualizarSubmissaoRecenteComponent implements OnInit {
 
-  submissao:Submissao;
+  submissao:RespostaQuestaoProgramacao;
 
   constructor(private route:ActivatedRoute) { }
 
@@ -20,8 +21,8 @@ export class VisualizarSubmissaoRecenteComponent implements OnInit {
       Assunto.get(params["assuntoId"]).subscribe(assunto=>{
         let questao = assunto.getQuestaoProgramacaoById(params["questaoId"]);
         Usuario.get(params["usuarioId"]).subscribe(estudante=>{
-          Submissao.getRecentePorQuestao(questao, estudante).subscribe(submissao=>{
-            this.submissao = submissao as Submissao;
+          RespostaQuestaoProgramacao.filtrarRecente(questao).subscribe(submissao=>{
+            this.submissao = submissao as RespostaQuestaoProgramacao;
           })
         })
 

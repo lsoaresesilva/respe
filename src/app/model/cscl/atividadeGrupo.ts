@@ -1,6 +1,6 @@
 import { forkJoin, Observable } from 'rxjs';
 import { Assunto } from '../aprendizagem/questoes/assunto';
-import { Collection, date, Document, ignore } from '../firestore/document';
+import { Collection, date, Document, ignore } from '../database/document';
 import Usuario from '../usuario';
 import * as firebase from 'firebase';
 import { Util } from '../util';
@@ -11,7 +11,7 @@ import { environment } from 'src/environments/environment';
 import { Groups } from '../experimento/groups';
 import AutoInstrucaoColetiva from '../srl/autoInstrucaoColetivo';
 import ChatGrupo from './chat/chatGrupo';
-import Query from '../firestore/query';
+import Query from '../database/query';
 import JustificativasAutoInstrucao from '../srl/justificativaInstrucaoColetiva';
 
 @Collection('atividadeGrupo')

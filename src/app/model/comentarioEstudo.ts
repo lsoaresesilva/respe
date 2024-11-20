@@ -1,4 +1,4 @@
-import { Collection, Document, oneToOne } from './firestore/document';
+import { Collection, Document, oneToOne } from './database/document';
 import Usuario from './usuario';
 import { MaterialEstudo } from './materialEstudo';
 

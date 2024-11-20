@@ -61,7 +61,7 @@ export class ContainerEditorProgramacaoComponent implements OnInit, AfterViewIni
         },
         _this,
         _this.carregarEditor,
-        _this.editorCodigo.codigo
+        '',//_this.editorCodigo.codigo
       );
     }, 500);
   }

@@ -1,6 +1,6 @@
-import { Document, Collection, date } from '../firestore/document';
+import { Document, Collection, date } from '../database/document';
 import { Observable } from 'rxjs';
-import Query from '../firestore/query';
+import Query from '../database/query';
 import Usuario from '../usuario';
 import { NivelConfianca } from '../nivelConfianca';
 import { ObjetivosExercicios } from '../enums/objetivosExercicios';

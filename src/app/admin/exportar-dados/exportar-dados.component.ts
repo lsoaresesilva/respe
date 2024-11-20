@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import PageTrackRecord from 'src/app/model/analytics/pageTrack';
-import Query from 'src/app/model/firestore/query';
-import Submissao from 'src/app/model/respostaQuestaoProgramacao';
+import Query from 'src/app/model/database/query';
+
 import Turma from 'src/app/model/turma';
 import { SelectItem } from 'primeng/api';
 //import pageTracks from '../../../../json/pageTracks.json';
@@ -72,10 +72,10 @@ export class ExportarDadosComponent implements OnInit {
         this.json = JSON.stringify(this.json);
 
     }) */
-    /*  Submissao.exportToJson().subscribe(resultados=>{
+    /*  RespostaQuestaoProgramacao.exportToJson().subscribe(resultados=>{
       this.json = resultados;
     }); */
-    /* Submissao.getAll(new Query("estudanteId", "==", "d6Qx0ydf7quJmGirnF35")).subscribe(submissoes=>{
+    /* RespostaQuestaoProgramacao.getAll(new Query("estudanteId", "==", "d6Qx0ydf7quJmGirnF35")).subscribe(submissoes=>{
       this.json = JSON.stringify(submissoes);
     }) */
     //this.gerarDataset();

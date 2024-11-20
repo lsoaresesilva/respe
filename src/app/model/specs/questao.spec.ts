@@ -110,14 +110,14 @@ describe('Testes de questão', () => {
     a.questoesProgramacao = [];
     a.questoesProgramacao.push(q);
 
-    let s = new Submissao(null, 'bla', u, a, q);
+    let s = new RespostaQuestaoProgramacao(null, 'bla', u, a, q);
     s.resultadosTestsCases = [];
     s.resultadosTestsCases.push(new ResultadoTestCase(null, true, 'c', t));
     s.resultadosTestsCases.push(new ResultadoTestCase(null, true, 'a', t1));
     s.save().subscribe((res) => {
       QuestaoProgramacao.isFinalizada(q, u).subscribe((resultado) => {
         expect(resultado).toBeTruthy();
-        Submissao.delete(s.pk()).subscribe((res) => {
+        RespostaQuestaoProgramacao.delete(s.pk()).subscribe((res) => {
           done();
         });
       });

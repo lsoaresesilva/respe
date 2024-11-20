@@ -1,7 +1,8 @@
 import { Component, Input, OnChanges, OnInit } from '@angular/core';
 import { DomSanitizer } from '@angular/platform-browser';
-import ConsoleEditor from 'src/app/model/consoleEditor';
+
 import RespostaQuestaoProgramacao from 'src/app/model/aprendizagem/questoes/respostaQuestaoProgramacao';
+import Editor from 'src/app/model/editor';
 
 import { EscapeHtmlPipe } from 'src/app/pipes/keep-html.pipe';
 
@@ -11,20 +12,15 @@ import { EscapeHtmlPipe } from 'src/app/pipes/keep-html.pipe';
   styleUrls: ['./console-trintadoisbits-controle.component.css'],
   providers: [EscapeHtmlPipe],
 })
-export class ConsoleTrintadoisbitsControleComponent implements OnChanges {
+export class ConsoleTrintadoisbitsControleComponent {
 
   @Input()
   submissao: RespostaQuestaoProgramacao;
 
   @Input()
-  consoleEditor: ConsoleEditor;
+  editor: Editor;
 
   constructor(private sanitizer: DomSanitizer) { }
-
-  ngOnChanges(): void {
-    let x = this.submissao;
-    let y = this.consoleEditor;
-  }
 
   destacarDiferencasSaidas(testCase, saidaReal, pos) {
     let text = '';

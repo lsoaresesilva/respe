@@ -3,10 +3,11 @@ import { LabelCategoriasErros } from 'src/app/model/errors/enum/labelCategoriasE
 
 import { getLabelPorCategoriaNumero } from 'src/app/model/errors/enum/labelCategoriasErro';
 import { EscapeHtmlPipe } from 'src/app/pipes/keep-html.pipe';
-import ConsoleEditor from 'src/app/model/consoleEditor';
+
 
 import { DomSanitizer } from '@angular/platform-browser';
 import RespostaQuestaoProgramacao from 'src/app/model/aprendizagem/questoes/respostaQuestaoProgramacao';
+import Editor from 'src/app/model/editor';
 
 @Component({
   selector: 'app-console',
@@ -19,7 +20,7 @@ export class ConsoleComponent  {
   submissao: RespostaQuestaoProgramacao;
 
   @Input()
-  consoleEditor: ConsoleEditor;
+  editor: Editor;
 
   tracebackOriginal;
 
@@ -66,6 +67,6 @@ export class ConsoleComponent  {
   }
 
   visualizarSaidaOriginal(){
-    this.tracebackOriginal = this.consoleEditor.tracebackOriginal;
+    this.tracebackOriginal = this.editor.console.tracebackOriginal;
   }
 }

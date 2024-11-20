@@ -36,7 +36,7 @@ describe('Testes para identificar erros de sintaxe em repetições', () => {
  xit('Deve identificar condições com sintaxe inválida', () => {
     let algoritmo =
       "if nome == 'leonardo':\nif idade >:\nif idade > 18:\nif idade <=:\nif idade <= 18:\nif idade = \nif idade > 2 and nome == 'leonardo'\nif salario > 950,30\nif idade = 10";
-    let s = new Submissao(null, algoritmo, null, null, null);
+    let s = new RespostaQuestaoProgramacao(null, algoritmo, null, null, null);
     let linhasCodigo = s.linhasAlgoritmo();
 
     expect(ErroSintaxeCondicional.apenasUmaComparacao(linhasCodigo[0])).toBeFalsy();
@@ -52,7 +52,7 @@ describe('Testes para identificar erros de sintaxe em repetições', () => {
   xit('Deve identificar condições (com and e or) que foram comparadas com apenas uma = em ', () => {
     let algoritmo =
       'if x > y and z < a:\nif x > y and z:\nif x > y and a > b and c > d\nif x > y or a > b\nelif x > a:\nif a > b or a <\nif x+y+z > a and x:\nif x+y+z >\nif a+b+z > 3 and x > 2:';
-    let s = new Submissao(null, algoritmo, null, null, null);
+    let s = new RespostaQuestaoProgramacao(null, algoritmo, null, null, null);
     let linhasCodigo = s.linhasAlgoritmo();
     expect(ErroSintaxe.apenasUmaComparacao(linhasCodigo[0])).toBeFalsy();
     expect(ErroSintaxe.apenasUmaComparacao(linhasCodigo[1])).toBeTruthy();
@@ -70,7 +70,7 @@ describe('Testes para identificar erros de sintaxe em repetições', () => {
   it('Deve identificar condições que foram comparadas com apenas uma =', () => {
     let algoritmo =
       "if nome == leonardo\nif idade = 13\nif idade = 2 and nome == 'leonardo'\nidade == 30";
-    let s = new Submissao(null, algoritmo, null, null, null);
+    let s = new RespostaQuestaoProgramacao(null, algoritmo, null, null, null);
     let linhasCodigo = s.linhasAlgoritmo();
 
     expect(
@@ -92,7 +92,7 @@ describe('Testes para identificar erros de sintaxe em repetições', () => {
     submissoesEstudantes['submissoes'].forEach((s) => {
       if (s['erro'] != null && s['erro']['traceback'] != null) {
 
-          let erros = ErroSintaxeRepeticao.erros(new Submissao(null, s["codigo"], null, null, null));
+          let erros = ErroSintaxeRepeticao.erros(new RespostaQuestaoProgramacao(null, s["codigo"], null, null, null));
           if(erros.length != 0){
             erroSyntax.push(erros);
           }
@@ -109,7 +109,7 @@ describe('Testes para identificar erros de sintaxe em repetições', () => {
     submissoesEstudantes['submissoes'].forEach((s) => {
       if (s['erro'] == null) {
         let erros = ErroSintaxeRepeticao.erros(
-          new Submissao(null, s['codigo'], null, null, null)
+          new RespostaQuestaoProgramacao(null, s['codigo'], null, null, null)
         );
         if (erros.length > 0) {
           falsosPositivos.push(s);
@@ -123,7 +123,7 @@ describe('Testes para identificar erros de sintaxe em repetições', () => {
   xit('Deve resolver casos falso positivo ', () => {
     let algoritmo =
       'while x=0:';
-    let s = new Submissao(null, algoritmo, null, null, null);
+    let s = new RespostaQuestaoProgramacao(null, algoritmo, null, null, null);
     let erro = ErroSintaxeRepeticao.erros(s);
     expect(erro.length).toBeGreaterThan(0);
   });
@@ -141,7 +141,7 @@ describe('Testes para identificar erros de sintaxe em repetições', () => {
           if (categoria instanceof SyntaxError) {
 
             let erros = ErroSintaxeRepeticao.erros(
-              new Submissao(null, s['codigo'], null, null, null)
+              new RespostaQuestaoProgramacao(null, s['codigo'], null, null, null)
             );
             if (erros.length == 0) {
                 console.log(s["codigo"])
@@ -166,7 +166,7 @@ describe('Testes para identificar erros de sintaxe em repetições', () => {
       if (s['erro'] != null && s['erro']['traceback'] != null) {
         let categoria = ErroCompilacaoFactory.construir(s['erro']['traceback']);
         if (categoria instanceof SyntaxError) {
-          let erros = ErroSintaxeRepeticao.erros(new Submissao(null, s["codigo"], null, null, null));
+          let erros = ErroSintaxeRepeticao.erros(new RespostaQuestaoProgramacao(null, s["codigo"], null, null, null));
           if(erros.length != 0){
             errosSyntax.push(erros);
           }

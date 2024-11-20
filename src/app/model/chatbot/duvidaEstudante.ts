@@ -1,4 +1,4 @@
-import { Collection, date, Document } from "../firestore/document";
+import { Collection, date, Document } from "../database/document";
 import Usuario from "../usuario";
 
 @Collection("duvidasEstudantes")

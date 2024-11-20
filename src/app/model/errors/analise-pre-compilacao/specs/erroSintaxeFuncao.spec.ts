@@ -32,7 +32,7 @@ describe('Testes de análise de sintaxe para variáveis', () => {
 
   it('Deve identificar a falta de parêntesis em uma função', () => {
     let algoritmo = "texto = input(";
-    let s = new Submissao(null, algoritmo, null, null, null);
+    let s = new RespostaQuestaoProgramacao(null, algoritmo, null, null, null);
     let faltaParentesis = ErroSintaxeFuncao.faltaParentese(algoritmo);
     expect(faltaParentesis).toBeTruthy();
 

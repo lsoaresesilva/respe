@@ -70,7 +70,7 @@ describe('Testes de questão', () => {
 
         let rt = new ResultadoTestCase(null, true, "t", t)
         let rt2 = new ResultadoTestCase(null, true, "t1",t1);
-        let s = new Submissao(null, new Codigo(), u, q);
+        let s = new RespostaQuestaoProgramacao(null, new Codigo(), u, q);
         s.resultadosTestsCases.push(rt);
         s.resultadosTestsCases.push(rt2);
 
@@ -79,7 +79,7 @@ describe('Testes de questão', () => {
 
                 Assunto.calcularPercentualConclusaoQuestoesProgramacao(a, u, 0.6).subscribe(calculo=>{
                     expect(calculo).toBe(1);
-                    forkJoin([Assunto.delete(a.pk()), Usuario.delete(u.pk()), Submissao.delete(s.pk())]).subscribe(res=>{
+                    forkJoin([Assunto.delete(a.pk()), Usuario.delete(u.pk()), RespostaQuestaoProgramacao.delete(s.pk())]).subscribe(res=>{
                         done();
                     })
                 });
@@ -110,7 +110,7 @@ describe('Testes de questão', () => {
 
         let rt = new ResultadoTestCase(null, true, "t", t)
         let rt2 = new ResultadoTestCase(null, true, "t1",t1);
-        let s = new Submissao(null, new Codigo(), u, q);
+        let s = new RespostaQuestaoProgramacao(null, new Codigo(), u, q);
         s.resultadosTestsCases.push(rt);
         s.resultadosTestsCases.push(rt2);
 
@@ -170,7 +170,7 @@ describe('Testes de questão', () => {
 
 
 
-          let submissao = new Submissao(Util.uuidv4(), "", null, assuntos[i], assuntos[i].questoesProgramacao[z]);
+          let submissao = new RespostaQuestaoProgramacao(Util.uuidv4(), "", null, assuntos[i], assuntos[i].questoesProgramacao[z]);
           submissao.resultadosTestsCases = [];
           for(let x = 0; x < assuntos[i].questoesProgramacao[z].testsCases.length; x++){
               let resultado = new ResultadoTestCase(Util.uuidv4(), true, "", assuntos[i].questoesProgramacao[z].testsCases[x]);

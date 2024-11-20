@@ -1,15 +1,15 @@
 import { Observable, forkJoin, observable } from 'rxjs';
 import QuestaoColaborativa from '../../cscl/questaoColaborativa';
 import { Assuntos } from '../../enums/assuntos';
-import { Collection, ignore } from '../../firestore/document';
+import { Collection, ignore } from '../../database/document';
 import { MaterialAprendizagem } from '../materialAprendizagem';
-import Submissao from '../../respostaQuestaoProgramacao';
+import Submissao from './respostaQuestaoProgramacao';
 import Usuario from '../../usuario';
 import { Util } from '../../util';
 import { QuestaoProgramacao } from './questaoProgramacao';
 import QuestaoFechada from './questaoFechada';
-import { Document } from '../../firestore/document';
-import Query from '../../firestore/query';
+import { Document } from '../../database/document';
+import Query from '../../database/query';
 import { RespostaQuestaoFechada } from './respostaQuestaoFechada';
 import QuestaoParsonProblem from './questaoParsonProblem';
 import QuestaoProgramacaoCorrecao from './questaoProgramacaoCorrecao';
@@ -20,6 +20,7 @@ import Texto from '../texto';
 import RespostaQuestaoCorrecaoAlgoritmo from '../../correcao-algoritmo/correcaoAlgoritmo';
 import { RespostaQuestaoParson } from './respostaQuestaoParson';
 import RespostasQuestoes from './respostasQuestoes';
+import RespostaQuestaoProgramacao from './respostaQuestaoProgramacao';
 
 @Collection('assuntos')
 export class Assunto extends Document {
@@ -230,7 +231,7 @@ export class Assunto extends Document {
   /* static consultarRespostasEstudante(estudante: Usuario): Observable<RespostasQuestoes> {
     return new Observable<any>((observer) => {
       const query: any = {};
-      query.submissoes = Submissao.getAll(new Query('estudanteId', '==', estudante.pk));
+      query.submissoes = RespostaQuestaoProgramacao.getAll(new Query('estudanteId', '==', estudante.pk));
       query.respostasQuestoesFechadas = RespostaQuestaoFechada.getAll(
         new Query('estudanteId', '==', estudante.pk)
       );
@@ -255,22 +256,6 @@ export class Assunto extends Document {
       });
     });
   } */
-
-  /**
-   * Recupera as submissões mais recentes do estudante. As submissões são referentes a diferentes questões de programação.
-   * @param assunto
-   * @param usuario
-   */
-  static getTodasSubmissoesProgramacaoPorEstudante(assunto, usuario) {
-    const submissoes = {};
-    assunto.questoesProgramacao.forEach((questao) => {
-      if (questao.testsCases != undefined && questao.testsCases.length > 0) {
-        submissoes[questao.pk] = Submissao.getRecentePorQuestao(questao, usuario);
-      }
-    });
-
-    return submissoes;
-  }
 
   static consultarRespostasQuestoesFechadasPorAssunto(assunto: Assunto, estudante: Usuario) {
     // Recuperar todas as questões de um assunto

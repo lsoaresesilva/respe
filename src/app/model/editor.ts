@@ -1,42 +1,78 @@
 import { BehaviorSubject } from 'rxjs';
 import ErroPreCompilacao from './errors/analise-pre-compilacao/erroPrecompilacao';
 import { QuestaoProgramacao } from './aprendizagem/questoes/questaoProgramacao';
+import ParseAlgoritmo, {  MensagemErroFactory } from './errors/analise-pre-compilacao/parseAlgoritmo';
+import { RespostaQuestaoProgramacaoRegex } from './aprendizagem/questoes/respostaQuestaoProgramacaoRegex';
+import RespostaQuestaoProgramacao, { STATUS_RESPOSTA_QUESTAO_PROGRAMACAO } from './aprendizagem/questoes/respostaQuestaoProgramacao';
+import { InterpretadorPythonService } from '../juiz/editor/interpretador-python.service';
+import ErroProgramacao from './aprendizagem/questoes/erroProgramacao';
+
 declare var monaco: any;
+
+export class ConsoleEditor {
+
+  erro;
+  submissao?: RespostaQuestaoProgramacao;
+  saida;
+  tracebackOriginal;
+
+  resetarErro() {
+    this.erro = null;
+    this.tracebackOriginal = null;
+  }
+}
 
 export default class Editor {
 
   instanciaMonaco;
-
-  private constructor() {
-    //this.editor = editor;
-    this.codigo = new BehaviorSubject("");
-    this.codigo.subscribe((codigo)=>{
-      if(this.instanciaMonaco != null){
-        this.instanciaMonaco.getModel().setValue(codigo);
-      }
-
-    }) // Houve mudança no código
-  }
-
+  console: ConsoleEditor
+  submissao:RespostaQuestaoProgramacao;
   static instance;
-  codigo:BehaviorSubject<string>;
+  /* submissao:BehaviorSubject<RespostaQuestaoProgramacao>; */
   decorations;
   hoverDisposable; // Usado para remover um hover
 
+  constructor(public interpretadorPython: InterpretadorPythonService, public questao: QuestaoProgramacao) {
+    //this.editor = editor;
+    /* this.submissao = new BehaviorSubject(null);
+    this.submissao.subscribe((submissao)=>{
+      this.submissao = new BehaviorSubject(submissao);
+      if(this.instanciaMonaco != null){
+        this.instanciaMonaco.getModel().setValue(submissao.codigo);
+      }
+
+    }) */
+
+    this.console = new ConsoleEditor();
+  }
+
+
+
   static getInstance(): Editor {
     if (this.instance == null) {
-      this.instance = new Editor();
+      //this.instance = new Editor();
     }
 
     return this.instance;
   }
 
-  get codigoAtual(){
-    return this.instanciaMonaco.getValue().split('\n');
+  static construir(interpretadorPython, questao: QuestaoProgramacao) {
+    const editor = new Editor(interpretadorPython, questao);
+    return editor;
   }
 
-  set codigoAtual(codigo){
-    this.codigo.next(codigo.join('\n'))
+  get codigoAtual() {
+    return this.instanciaMonaco.getValue();
+  }
+
+  /*  set submissaoAtual(submissao){
+     submissao = Array.isArray(submissao.codigo) ? submissao.codigo.join('\n') : submissao.codigo;
+     this.submissao.next(submissao)
+   } */
+
+  set codigoAtual(codigo) {
+    codigo = Array.isArray(codigo) ? codigo.join('\n') : codigo;
+    this.instanciaMonaco.getModel().setValue(codigo);
   }
 
   static getTipoExecucao(questao: QuestaoProgramacao) {
@@ -48,12 +84,12 @@ export default class Editor {
   }
 
   /* Constrói um algoritmo a partir das edições feitas por alunos colaborativamente. */
-  static construirAlgoritmo(edicoes){
+  static construirAlgoritmo(edicoes) {
 
   }
 
   destacarLinha(linha, status) {
-    if (linha != NaN && linha != undefined) {
+    if (!Number.isNaN(linha) && linha != undefined) {
       linha = parseInt(linha);
       if (linha > 0 && linha <= this.instanciaMonaco.getModel().getLineCount()) {
         const lineLength = this.instanciaMonaco.getModel().getLineLength(linha);
@@ -68,8 +104,8 @@ export default class Editor {
         ];
 
 
-        if( this.decorations == null){
-          this.decorations = this.instanciaMonaco.deltaDecorations([], [{ range: new monaco.Range(1,1,1,1), options : { } }]);
+        if (this.decorations == null) {
+          this.decorations = this.instanciaMonaco.deltaDecorations([], [{ range: new monaco.Range(1, 1, 1, 1), options: {} }]);
         }
 
         this.decorations = this.instanciaMonaco.deltaDecorations(this.decorations, decorations);
@@ -79,9 +115,9 @@ export default class Editor {
     }
   }
 
-  criarHover(erro:ErroPreCompilacao){
+  criarHover(erro: ErroProgramacao) {
 
-    if(this.hoverDisposable != null){
+    if (this.hoverDisposable != null) {
       this.hoverDisposable.dispose();
     }
 
@@ -103,8 +139,8 @@ export default class Editor {
 
   }
 
-  removerDecorations(){
-    if(this.instanciaMonaco != null){
+  removerDecorations() {
+    if (this.instanciaMonaco != null) {
       this.decorations = this.instanciaMonaco.deltaDecorations(
         this.decorations,
         []
@@ -113,10 +149,46 @@ export default class Editor {
 
   }
 
-  removerDisposableHover(){
-    if(this.hoverDisposable != null)
+  removerDisposableHover() {
+    if (this.hoverDisposable != null)
       this.hoverDisposable.dispose();
   }
+
+  async executar() {
+    
+    const submissao: RespostaQuestaoProgramacao = new RespostaQuestaoProgramacao(null, this.codigoAtual, null, null, this.questao);
+    try{
+      const erros = new ParseAlgoritmo(submissao.linhasAlgoritmo()).analisar();
+      if (!erros.hasErros()) {
+  
+        
+        const resultado = await this.interpretadorPython.runPythonCodeAndCompare(
+          submissao,
+          submissao.questao
+        );
+  
+        
+        submissao.status = resultado.status ? STATUS_RESPOSTA_QUESTAO_PROGRAMACAO.TESTSCASES_RESPONDIDOS_SUCESSO : STATUS_RESPOSTA_QUESTAO_PROGRAMACAO.TESTSCASES_RESPONDIDOS_INSUCESSO;
+
+        submissao.atualizarResultados(resultado);
+  
+      } else {
+        submissao.setErros(erros);
+        submissao.status = STATUS_RESPOSTA_QUESTAO_PROGRAMACAO.CONTEM_ERRO;
+        submissao.erro = submissao.getPrimeiroErro();
+        
+      }
+    }catch(e){
+      submissao.status = STATUS_RESPOSTA_QUESTAO_PROGRAMACAO.CONTEM_ERRO;
+    }
+    
+
+    this.submissao = submissao;
+
+    return submissao;
+
+  }
+
 
   /* destacarLinha(linha, status) {
     if (linha != NaN && linha != undefined) {

@@ -9,7 +9,7 @@ import { LoginService } from 'src/app/login-module/login.service';
 import AtividadeGrupo from 'src/app/model/cscl/atividadeGrupo';
 import DificuldadeAtividadeGrupo from 'src/app/model/cscl/dificuldadeAtividadeGrupo';
 import { Groups } from 'src/app/model/experimento/groups';
-import Query from 'src/app/model/firestore/query';
+import Query from 'src/app/model/database/query';
 import { Assunto } from 'src/app/model/aprendizagem/questoes/assunto';
 import AutoInstrucaoColetiva from 'src/app/model/srl/autoInstrucaoColetivo';
 import JustificativasAutoInstrucao from 'src/app/model/srl/justificativaInstrucaoColetiva';

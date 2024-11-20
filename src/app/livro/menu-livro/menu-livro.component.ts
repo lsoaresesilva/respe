@@ -1,7 +1,7 @@
 import { Component, OnInit, Output, EventEmitter } from '@angular/core';
 import { MenuItem } from 'primeng/api';
 import SubSecao from 'src/app/model/livro/subsecao';
-import Query from 'src/app/model/firestore/query';
+import Query from 'src/app/model/database/query';
 import { Assunto } from 'src/app/model/aprendizagem/questoes/assunto';
 
 @Component({

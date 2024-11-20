@@ -14,7 +14,7 @@ import { delay } from 'rxjs/operators';
 import ChatGrupo from '../model/cscl/chat/chatGrupo';
 import MensagemChat from '../model/cscl/chat/mensagemChat';
 import Grupo from '../model/cscl/grupo';
-import Query from '../model/firestore/query';
+import Query from '../model/database/query';
 import Usuario from '../model/usuario';
 import { Util } from '../model/util';
 

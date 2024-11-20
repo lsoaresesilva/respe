@@ -1,5 +1,6 @@
 import { ErroCompilacao } from '../errors/analise-compilacao/erroCompilacao';
-import Submissao from '../respostaQuestaoProgramacao';
+import RespostaQuestaoProgramacao from '../aprendizagem/questoes/respostaQuestaoProgramacao';
+import Submissao from '../aprendizagem/questoes/respostaQuestaoProgramacao';
 import Mensagem from './mensagem';
 import Observavel from './observavel';
 
@@ -8,14 +9,14 @@ export default class ChatBot {
 
   /* Mantém um registro das submissões do estudante.
   Utilizado para avaliar eventuais problemas que o estudante está passando. */
-  submissoes: Submissao[];
+  submissoes: RespostaQuestaoProgramacao[];
 
   constructor() {
     this.submissoes = [];
     this.iniciarChat();
   }
 
-  addSubmissao(submissao: Submissao) {
+  addSubmissao(submissao: RespostaQuestaoProgramacao) {
     this.submissoes.push(submissao);
     this.analisarNecessidadeAjuda();
   }

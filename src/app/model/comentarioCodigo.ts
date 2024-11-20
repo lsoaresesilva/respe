@@ -1,13 +1,14 @@
-import { Collection, Document, oneToOne } from './firestore/document';
+import { Collection, Document, oneToOne } from './database/document';
 import Usuario from './usuario';
-import Submissao from './respostaQuestaoProgramacao';
+import Submissao from './aprendizagem/questoes/respostaQuestaoProgramacao';
+import RespostaQuestaoProgramacao from './aprendizagem/questoes/respostaQuestaoProgramacao';
 
 @Collection("comentariosCodigos")
 export default class ComentarioCodigo extends Document{
 
 
 
-    constructor(id, public usuario:Usuario, public submissao:Submissao, public texto:string, public linha){
+    constructor(id, public usuario:Usuario, public submissao:RespostaQuestaoProgramacao, public texto:string, public linha){
         super(id);
     }
 

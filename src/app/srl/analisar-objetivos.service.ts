@@ -1,11 +1,12 @@
 import { Injectable } from '@angular/core';
-import Query from '../model/firestore/query';
+import Query from '../model/database/query';
 import Usuario from '../model/usuario';
 import { forkJoin, Observable } from 'rxjs';
-import Submissao from '../model/respostaQuestaoProgramacao';
+import Submissao from '../model/aprendizagem/questoes/respostaQuestaoProgramacao';
 import TempoOnline from '../model/analytics/tempoOnline';
 import { Assunto } from '../model/aprendizagem/questoes/assunto';
 import Diario from '../model/srl/diario';
+import RespostaQuestaoProgramacao from '../model/aprendizagem/questoes/respostaQuestaoProgramacao';
 
 @Injectable({
   providedIn: 'root',
@@ -23,7 +24,7 @@ export class AnalisarObjetivosService {
         // Recuperar o total de exercícios esperados por semana
         forkJoin([
           Diario.getByQuery(new Query('estudanteId', '==', estudante.pk)),
-          Submissao.getExerciciosTrabalhadosUltimaSemana(estudante),
+          RespostaQuestaoProgramacao.getExerciciosTrabalhadosUltimaSemana(estudante),
         ]).subscribe((resultados) => {
           if(resultados[0] != null){
             const numeroExerciciosSemana = resultados[0]['objetivoExercicio'];

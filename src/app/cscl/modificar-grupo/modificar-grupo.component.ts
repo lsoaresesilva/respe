@@ -3,7 +3,7 @@ import { ActivatedRoute } from '@angular/router';
 import { MessageService } from 'primeng/api';
 import AtividadeGrupo from 'src/app/model/cscl/atividadeGrupo';
 import Grupo from 'src/app/model/cscl/grupo';
-import Query from 'src/app/model/firestore/query';
+import Query from 'src/app/model/database/query';
 import Turma from 'src/app/model/turma';
 
 @Component({

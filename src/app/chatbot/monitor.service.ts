@@ -2,7 +2,7 @@ import { Injectable } from '@angular/core';
 import { ErroCompilacao } from 'src/app/model/errors/analise-compilacao/erroCompilacao';
 import FrequenciaErro from '../model/errors/analise-compilacao/frequenciaErro';
 import Erro from '../model/errors/erro';
-import Submissao from '../model/respostaQuestaoProgramacao';
+import Submissao from '../model/aprendizagem/questoes/respostaQuestaoProgramacao';
 import { ChatbotServiceProprio } from './chatbot-proprio.service';
 import MensagemSuporteMonitor from '../model/mensagemSuporteMonitor';
 import { getLabelPorCategoriaNumero } from '../model/errors/enum/labelCategoriasErro';
@@ -19,12 +19,13 @@ import ErroPreCompilacao from '../model/errors/analise-pre-compilacao/erroPrecom
 import { Groups } from '../model/experimento/groups';
 import MensagemChat from '../model/cscl/chat/mensagemChat';
 import Grupo from '../model/cscl/grupo';
-import Query from '../model/firestore/query';
+import Query from '../model/database/query';
 import { Observable } from 'rxjs';
 import { Util } from '../model/util';
 import { ChatbotService } from './chatbot.service';
 import ParseAlgoritmo from '../model/errors/analise-pre-compilacao/parseAlgoritmo';
 import { QuestaoProgramacao } from '../model/aprendizagem/questoes/questaoProgramacao';
+import RespostaQuestaoProgramacao from '../model/aprendizagem/questoes/respostaQuestaoProgramacao';
 
 @Injectable({
   providedIn: 'root',
@@ -60,7 +61,7 @@ export class MonitorService {
             at the final EQ score of the session.
             An EQ score ranges from 0 to 1.0, where 0 is a perfect score
                     */
-  calcularErrorQuotient(submissoes: Submissao[]) {
+  calcularErrorQuotient(submissoes: RespostaQuestaoProgramacao[]) {
     if (submissoes == null) {
       throw new Error('Estudante precisa ser informado para calcular o seu Error Quotient.');
     }
@@ -219,21 +220,24 @@ export class MonitorService {
       mensagens.push(new Mensagem('Há um erro no seu algoritmo...', null));
       mensagens.push(new Mensagem('Possivelmente ' + erro.mensagem, null));
     } */
-    Submissao.getPorQuestao(questao, estudante).subscribe((submissoes) => {
+    RespostaQuestaoProgramacao.getPorQuestao(questao, estudante).subscribe((submissoes) => {
       const errorQuotient = this.calcularErrorQuotient(submissoes);
       // Estabelecemos esse valor de 30% de error quotient arbitrariamente.
       // TODO: modificar o valor a partir dos dados de outros alunos. Identificar o % ideal que pode aumentar com o tempo.
       if (errorQuotient > 0) {
         // Não é para pegar o principalErro, mas sim o mais recente.
-        /* const erros = Submissao.getAllErros(submissoes);
+        /* const erros = RespostaQuestaoProgramacao.getAllErros(submissoes);
         const frequencia = FrequenciaErro.calcularFrequencia(erros);
 
         const principalErro = FrequenciaErro.identificarPrincipalErro(frequencia); */
-        const submissao = Submissao.filtrarRecente(submissoes);
-        if (submissao.erro != null) {
-          let algorimoParser = new ParseAlgoritmo(submissao.linhasAlgoritmo());
-          let mensagemRASA = algorimoParser.getMainError(submissao.erro.traceback);
-          this.chatbotMonitor.sendMessage(mensagemRASA);
+        RespostaQuestaoProgramacao.filtrarRecente(questao).subscribe((submissao) => {
+          if (submissao.erro != null) {
+            /* let algorimoParser = ParseAlgoritmo.analisar(submissao.linhasAlgoritmo());
+            let mensagemRASA = algorimoParser.getMainError(submissao.erro.traceback);
+            this.chatbotMonitor.sendMessage(mensagemRASA); */
+          }
+        });
+        
 
           /* const suporteParaCategoria = this.suporte.get(submissao.erro.categoria);
 
@@ -275,9 +279,8 @@ export class MonitorService {
             }
           } */
         }
-      }
+      });
       //this.chatbot.enviarMensagem(mensagens);
-    });
   }
 
   /* oferecerMaisAjuda() {

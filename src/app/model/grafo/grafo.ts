@@ -1,7 +1,7 @@
 import { Edge, Node } from '@swimlane/ngx-graph';
 import { Observable } from 'rxjs';
 import PageTrackRecord from '../analytics/pageTrack';
-import Query from '../firestore/query';
+import Query from '../database/query';
 import Usuario from '../usuario';
 import { Util } from '../util';
 

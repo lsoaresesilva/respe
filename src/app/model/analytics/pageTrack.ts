@@ -1,6 +1,6 @@
 import { forkJoin, Observable } from 'rxjs';
-import { Collection, date, Document } from '../firestore/document';
-import Query from '../firestore/query';
+import { Collection, date, Document } from '../database/document';
+import Query from '../database/query';
 import Usuario from '../usuario';
 import { Cacheable } from 'ts-cacheable';
 import { PerfilUsuario } from '../enums/perfilUsuario';

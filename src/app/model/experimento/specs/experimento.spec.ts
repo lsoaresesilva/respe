@@ -404,11 +404,11 @@ describe('Testes para process mining', () => {
     let estudantes = AnalyticsUsoSistema.identificarEstudantesPelasTracks(tracks);
     let todasSubmissoes = AnalyticsProgramacao.gerarSubmissoes(estudantes);
 
-    let submissoesAgrupadas = Submissao.agruparPorEstudante(todasSubmissoes);
+    let submissoesAgrupadas = RespostaQuestaoProgramacao.agruparPorEstudante(todasSubmissoes);
 
     Object.keys(submissoesAgrupadas).forEach((estudanteId) => {
       let submissoes = submissoesAgrupadas[estudanteId];
-      Submissao._orderByDate(submissoes);
+      RespostaQuestaoProgramacao._orderByDate(submissoes);
       let tempomedioEntreExecucoes = Math.round(AnalyticsProgramacao.calcularTempoMedioEntreSubmissoes(submissoes));
       let mediaSubmissoesAcerto = Math.round(AnalyticsProgramacao.calcularMediaSubmissoesParaAcerto(submissoes));
       let mediaSubmissoesCorrigirErro =  Math.round(AnalyticsProgramacao.calcularMediaSubmissoesCorrigirErro(submissoes));
@@ -468,7 +468,7 @@ describe('Testes para process mining', () => {
 
     let submissoes = AnalyticsProgramacao.gerarSubmissoes([]);
 
-    let agrupado = Submissao.agruparPorEstudante(submissoes);
+    let agrupado = RespostaQuestaoProgramacao.agruparPorEstudante(submissoes);
 
     let resultadoGrupoExperimental = new Map<string, any>();
     resultadoGrupoExperimental.set('curso2021b', { totalCorretas: 0, totalIncorretas: 0 });
@@ -547,7 +547,7 @@ describe('Testes para process mining', () => {
     let submissoes = [];
 
     submissoesEstudantes['submissoes'].forEach((s) => {
-      let submissao = Submissao.fromJson(s);
+      let submissao = RespostaQuestaoProgramacao.fromJson(s);
 
        if(submissao.data.getDate() == 28 && submissao.data.getMonth() == 6)
 
@@ -588,13 +588,13 @@ describe('Testes para process mining', () => {
 
     submissoesEstudantes['submissoes'].forEach((s) => {
       if (!ignorar(s['questaoId'])) {
-        let submissao = Submissao.fromJson(s);
+        let submissao = RespostaQuestaoProgramacao.fromJson(s);
         submissao['estudanteId'] = submissao.estudante.pk;
         submissoes.push(submissao);
       }
     });
 
-    let agrupado = Submissao.agruparPorEstudante(submissoes);
+    let agrupado = RespostaQuestaoProgramacao.agruparPorEstudante(submissoes);
 
     Object.keys(agrupado).forEach((estudanteId) => {
       if (!ignorarEstudantes(estudanteId)) {

@@ -1,7 +1,7 @@
 
 import { Observable } from "rxjs";
 import PageTrackRecord from "../analytics/pageTrack";
-import Query from "../firestore/query";
+import Query from "../database/query";
 
 export default class CadeiaMarkov{
 

@@ -1,4 +1,4 @@
-import { Collection, Document, date } from './firestore/document';
+import { Collection, Document, date } from './database/document';
 
 
 @Collection("materialDidatico")

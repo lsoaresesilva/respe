@@ -15,11 +15,11 @@
   <div class="p-col-12">
     <strong>Saída do programa</strong>
     <div *ngIf="modoVisualizacao == false; else visualizacao" style="margin-top: 10px">
-      <app-console [submissao]="submissao" [consoleEditor]="consoleEditor" *ngIf="modoExecucao == 1"></app-console>
-      <app-console-trintadoisbits-controle [submissao]="submissao" [consoleEditor]="consoleEditor"
+      <app-console [submissao]="submissao" [consoleEditor]="editorCodigo.console" *ngIf="modoExecucao == 1"></app-console>
+      <app-console-trintadoisbits-controle [submissao]="submissao" [consoleEditor]="editorCodigo.console"
         *ngIf="modoExecucao == 2"></app-console-trintadoisbits-controle>
 
-      <app-console-padrao [console]="consoleEditor" *ngIf="modoExecucao == 0"></app-console-padrao>
+      <app-console-padrao [console]="editorCodigo.console" *ngIf="modoExecucao == 0"></app-console-padrao>
 
     </div>
     <ng-template #visualizacao>

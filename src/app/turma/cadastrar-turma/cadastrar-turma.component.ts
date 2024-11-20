@@ -5,7 +5,7 @@ import { MenuItem} from 'primeng/api';
 import { Router, ActivatedRoute } from '@angular/router';
 import Usuario from 'src/app/model/usuario';
 import { LoginService } from 'src/app/login-module/login.service';
-import Query from 'src/app/model/firestore/query';
+import Query from 'src/app/model/database/query';
 import {MessageService} from 'primeng/api';
 
 @Component({

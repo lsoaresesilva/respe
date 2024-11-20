@@ -1,7 +1,7 @@
 import { ErroCompilacao } from './erroCompilacao';
 
 import NameError from './nameError';
-import SyntaxError from './syntaxError';
+
 import TypeError from './typeError';
 import { CategoriaErro } from '../enum/categoriasErro';
 import IndentationError from './indentationError';
@@ -18,7 +18,7 @@ export default class ErroCompilacaoFactory {
         objeto = new NameError(null, traceback);
         break;
       case CategoriaErro.syntaxError:
-        objeto = new SyntaxError(null, traceback);
+        //objeto = new SyntaxError(null, traceback);
         break;
       case CategoriaErro.typeError:
         objeto = new TypeError(null, traceback);

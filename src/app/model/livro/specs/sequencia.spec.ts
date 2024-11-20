@@ -1,7 +1,7 @@
 import Sequencia from "../sequencia"
 import { AngularFirestore, AngularFirestoreModule } from '@angular/fire/firestore';
 import { TestBed, inject } from '@angular/core/testing';
-import { DocumentModule } from '../../firestore/document.module';
+import { DocumentModule } from '../../database/document.module';
 import { AngularFireModule, FirebaseApp } from '@angular/fire';
 import { FirebaseConfiguracao } from 'src/environments/firebase';
 

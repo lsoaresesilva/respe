@@ -38,7 +38,7 @@ describe('Testes para a class ErroCompilacao', () => {
   xit('Deve obter todos os erros cometidos pelo estudante', () => {
     const submissoes = [];
     for (let i = 0; i < 10; i++) {
-      const s = new Submissao(null, '', null, null, null);
+      const s = new RespostaQuestaoProgramacao(null, '', null, null, null);
       let e;
       if (i % 2 == 0) {
         e = new SyntaxError(null, '');
@@ -64,7 +64,7 @@ describe('Testes para a class ErroCompilacao', () => {
     const mesJaneiro = 1578396378; // epoch time
     const mesFevereiro = 1581074778;
     for (let i = 0; i < 10; i++) {
-      // let s = new Submissao(null, null, null, null);
+      // let s = new RespostaQuestaoProgramacao(null, null, null, null);
       let erro;
       const random = Math.floor(Math.random() * 10);
       if (i % 2 == 0) {

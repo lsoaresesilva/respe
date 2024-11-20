@@ -1,6 +1,6 @@
 import { BehaviorSubject, Observable, Subject } from "rxjs";
 import Grupo from "../cscl/grupo";
-import { Collection, Document, ignore } from "../firestore/document";
+import { Collection, Document, ignore } from "../database/document";
 import Usuario from "../usuario";
 import JustificativasAutoInstrucao from './justificativaInstrucaoColetiva'
 

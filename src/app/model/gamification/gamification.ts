@@ -1,7 +1,7 @@
 import { EMPTY, empty, forkJoin, Observable, of } from 'rxjs';
 import { catchError } from 'rxjs/operators';
-import { Collection, Document, ignore } from '../firestore/document';
-import Query from '../firestore/query';
+import { Collection, Document, ignore } from '../database/document';
+import Query from '../database/query';
 import Turma from '../turma';
 import Usuario from '../usuario';
 import { TipoPontuacao } from './tipoPontuacao';

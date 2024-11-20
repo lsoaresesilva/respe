@@ -1,12 +1,13 @@
-import { Document, Collection } from './firestore/document';
-import Submissao from './respostaQuestaoProgramacao';
+import { Document, Collection } from './database/document';
+import Submissao from './aprendizagem/questoes/respostaQuestaoProgramacao';
 import RespostaPedidoAjuda from './respostaPedidoAjuda';
+import RespostaQuestaoProgramacao from './aprendizagem/questoes/respostaQuestaoProgramacao';
 
 @Collection('pedidosAjuda')
 export default class PedidoAjuda extends Document {
   constructor(
     public id,
-    public submissao: Submissao,
+    public submissao: RespostaQuestaoProgramacao,
     public duvida: String = '',
     public respostas: RespostaPedidoAjuda[]
   ) {

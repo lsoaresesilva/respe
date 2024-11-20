@@ -1,8 +1,8 @@
-import { Collection, Document, date } from './firestore/document';
+import { Collection, Document, date } from './database/document';
 import { Observable, forkJoin } from 'rxjs';
 import TestCase from './aprendizagem/questoes/testCase';
-import Submissao from './respostaQuestaoProgramacao';
-import Query from './firestore/query';
+import Submissao from './aprendizagem/questoes/respostaQuestaoProgramacao';
+import Query from './database/query';
 
 import * as firebase from 'firebase';
 import { Util } from './util';

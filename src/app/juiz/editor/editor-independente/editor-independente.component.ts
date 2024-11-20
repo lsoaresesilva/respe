@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import ConsoleEditor from 'src/app/model/consoleEditor';
+
 import Editor from 'src/app/model/editor';
 import ParseAlgoritmo from 'src/app/model/errors/analise-pre-compilacao/parseAlgoritmo';
 import ErroServidor from 'src/app/model/errors/erroServidor';
@@ -14,16 +14,16 @@ export class EditorIndependenteComponent implements OnInit {
 
   submissao;
   modoExecucao;
-  console:ConsoleEditor
+  editor:Editor
   mudancaPermitida;
   loading:boolean;
 
   constructor() {
     this.modoExecucao = ModoExecucao.execucaoPadrao;
     this.mudancaPermitida = false;
-    this.console = new ConsoleEditor();
+    this.editor = Editor.getInstance();
     this.loading = true;
-    Editor.getInstance().codigo.next("");
+    //Editor.getInstance().codigo.next("");
    }
 
   ngOnInit(): void {
@@ -32,12 +32,12 @@ export class EditorIndependenteComponent implements OnInit {
   erroSubmissao(erro){
     let codigo = Editor.getInstance().instanciaMonaco.getValue().split('\n');
 
-    this.console.tracebackOriginal = erro;
+    this.editor.console.tracebackOriginal = erro;
 
 
-    let erroIdentificado = new ParseAlgoritmo(codigo).analisar().getPrimeiroErro();
+    let erroIdentificado = new ParseAlgoritmo(codigo).analisar();
     if(erroIdentificado != null){
-      this.console.erro = erroIdentificado[0].construirMensagem();
+      this.editor.console.erro = erroIdentificado[0].construirMensagem();
     }
 
     
@@ -49,8 +49,8 @@ export class EditorIndependenteComponent implements OnInit {
 
 
   onSubmit(saida){
-    this.console.resetarErro();
-    this.console.saida = saida;
+    this.editor.console.resetarErro();
+    this.editor.console.saida = saida;
   }
 
 

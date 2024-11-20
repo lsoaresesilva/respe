@@ -1,8 +1,8 @@
 import { Observable, forkJoin } from 'rxjs';
 import Alternativa from './alternativa';
 import { Assunto } from './assunto';
-import { Collection, ignore } from '../../firestore/document';
-import Query from '../../firestore/query';
+import { Collection, ignore } from '../../database/document';
+import Query from '../../database/query';
 import { RespostaQuestaoFechada } from './respostaQuestaoFechada';
 import { Util } from '../../util';
 import { MaterialAprendizagem } from '../materialAprendizagem';

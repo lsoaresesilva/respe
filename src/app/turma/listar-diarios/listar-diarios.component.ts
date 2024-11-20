@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { forkJoin } from 'rxjs';
 import { getLabelNivelMotivacao } from 'src/app/model/enums/motivacao';
-import Query from 'src/app/model/firestore/query';
+import Query from 'src/app/model/database/query';
 import { getLabelNivelConfianca, NivelConfianca } from 'src/app/model/nivelConfianca';
 import Diario from 'src/app/model/srl/diario';
 import Turma from 'src/app/model/turma';

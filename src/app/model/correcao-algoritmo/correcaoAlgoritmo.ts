@@ -1,18 +1,19 @@
 import { Observable } from 'rxjs';
 import { Assunto } from '../aprendizagem/questoes/assunto';
 import { PerfilUsuario } from '../enums/perfilUsuario';
-import { Collection, date, Document } from '../firestore/document';
-import Query from '../firestore/query';
-import Submissao from '../respostaQuestaoProgramacao';
+import { Collection, date, Document } from '../database/document';
+import Query from '../database/query';
+import Submissao from '../aprendizagem/questoes/respostaQuestaoProgramacao';
 import Usuario from '../usuario';
 import QuestaoProgramacaoCorrecao from '../aprendizagem/questoes/questaoProgramacaoCorrecao';
+import RespostaQuestaoProgramacao from '../aprendizagem/questoes/respostaQuestaoProgramacao';
 
 @Collection('correcoesAlgoritmos')
 export default class RespostaQuestaoCorrecaoAlgoritmo extends Document {
   @date()
   data;
 
-  constructor(id, public submissao: Submissao, public estudante, public assunto, public questao) {
+  constructor(id, public submissao: RespostaQuestaoProgramacao, public estudante, public assunto, public questao) {
     super(id);
   }
 
@@ -21,7 +22,7 @@ export default class RespostaQuestaoCorrecaoAlgoritmo extends Document {
     return new Observable(observer=>{
         super.getAll(query, orderBy).subscribe(correcoes=>{
             correcoes.forEach(correcao=>{
-                correcao.submissao = Submissao.documentToObject(correcao.submissao);//new Submissao(correcao.submissao.id, correcao.submissao.codigo, new Usuario(correcao.submissao.estudanteId, "", "", PerfilUsuario.estudante, 0, ""), new Assunto(correcao.submissao.assuntoId, ""), null);
+                correcao.submissao = RespostaQuestaoProgramacao.documentToObject(correcao.submissao);//new RespostaQuestaoProgramacao(correcao.submissao.id, correcao.submissao.codigo, new Usuario(correcao.submissao.estudanteId, "", "", PerfilUsuario.estudante, 0, ""), new Assunto(correcao.submissao.assuntoId, ""), null);
             })
 
             observer.next(correcoes);

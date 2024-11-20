@@ -1,6 +1,6 @@
 import { Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
-import { Collection, Document } from '../../firestore/document';
+import { Collection, Document } from '../../database/document';
 import { Assunto } from './assunto';
 
 @Collection('conceitos')

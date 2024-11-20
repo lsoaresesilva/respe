@@ -1,6 +1,6 @@
 import { Observable } from 'rxjs';
-import { Collection, date, Document } from '../../firestore/document';
-import Query from '../../firestore/query';
+import { Collection, date, Document } from '../../database/document';
+import Query from '../../database/query';
 import QuestaoParsonProblem from './questaoParsonProblem';
 import Usuario from '../../usuario';
 import SegmentoRespostaParson from './segmentoRespostaParson';

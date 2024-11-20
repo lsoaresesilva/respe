@@ -3,7 +3,7 @@ import { Router } from '@angular/router';
 import { Observable } from 'rxjs';
 import { LoginService } from 'src/app/login-module/login.service';
 import ConfiguracaoEditor from 'src/app/model/configuracoes/configuracaoEditor';
-import Query from 'src/app/model/firestore/query';
+import Query from 'src/app/model/database/query';
 import VideoProgramacao from 'src/app/model/aprendizagem/videoProgramacao';
 
 @Component({

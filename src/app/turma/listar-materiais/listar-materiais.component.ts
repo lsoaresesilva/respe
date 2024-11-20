@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { MaterialEnviado } from 'src/app/model/materialEnviado';
-import Query from 'src/app/model/firestore/query';
+import Query from 'src/app/model/database/query';
 import { ActivatedRoute, Router } from '@angular/router';
 import { MessageService } from 'primeng/api';
 import { LoginService } from 'src/app/login-module/login.service';

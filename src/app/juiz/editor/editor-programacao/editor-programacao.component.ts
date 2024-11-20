@@ -41,7 +41,7 @@ import Postagem from 'src/app/model/cscl/postagem';
 import Usuario from 'src/app/model/usuario';
 import { VisualizacaoRespostasQuestoes } from 'src/app/model/aprendizagem/questoes/visualizacaoRespostasQuestoes';
 import RespostaQuestaoProgramacao from 'src/app/model/aprendizagem/questoes/respostaQuestaoProgramacao';
-import { ParseError } from 'src/app/model/parseError';
+
 
 /**
  * Executa um javascript ide.js para acoplar o editor VStudio.
@@ -198,7 +198,7 @@ export class EditorProgramacaoComponent implements AfterViewInit, OnChanges, OnI
       _submissaoClone['estudanteId'] = submissao.estudanteId;
       _submissaoClone['assuntoId'] = submissao.assuntoId;
       _submissaoClone.data = submissao.data;
-      _submissaoClone.erro = submissao.erro;
+      _submissaoClone.erros = submissao.erros;
       _submissaoClone.resultadosTestsCases = submissao.resultadosTestsCases;
       _submissaoClone.saida = submissao.saida;
       return _submissaoClone;
@@ -220,9 +220,9 @@ export class EditorProgramacaoComponent implements AfterViewInit, OnChanges, OnI
         this.questao.algoritmoInicial !== '' &&
         Array.isArray(this.questao.algoritmoInicial)
       ) {
-        this.editorCodigo.codigo.next(this.questao.algoritmoInicial.join('\n'));
+        //this.editorCodigo.codigo.next(this.questao.algoritmoInicial.join('\n'));
       } else {
-        this.editorCodigo.codigo.next('');
+        //this.editorCodigo.codigo.next('');
       }
     }
 
@@ -254,9 +254,9 @@ export class EditorProgramacaoComponent implements AfterViewInit, OnChanges, OnI
       this.questao.algoritmoInicial !== '' &&
       Array.isArray(this.questao.algoritmoInicial)
     ) {
-      this.editorCodigo.codigo.next(this.questao.algoritmoInicial.join('\n'));
+      //this.editorCodigo.codigo.next(this.questao.algoritmoInicial.join('\n'));
     } else {
-      this.editorCodigo.codigo.next('');
+      //this.editorCodigo.codigo.next('');
     }
 
     let _this = this;
@@ -365,7 +365,7 @@ export class EditorProgramacaoComponent implements AfterViewInit, OnChanges, OnI
       this.isSubmissaofinalizada = this._submissao.isFinalizada();
 
       if (this.atividadeGrupo == null) {
-        this.editorCodigo.codigo.next(this._submissao['codigo']);
+        //this.editorCodigo.codigo.next(this._submissao['codigo']);
       }
     }
   }
@@ -444,7 +444,7 @@ export class EditorProgramacaoComponent implements AfterViewInit, OnChanges, OnI
                 'O seu algoritmo possui algum erro e por isso não é possível visualizar sua execução.',
             });
 
-            submissao.processarErroServidor(resposta);
+            submissao.atualizarResultados(resposta);
 
             //this.onError.emit(this._submissao);
           } else {
@@ -514,7 +514,7 @@ export class EditorProgramacaoComponent implements AfterViewInit, OnChanges, OnI
    * Constrói uma submissão que será salva no banco de dados.
    */
   prepararSubmissao() {
-    this.editorCodigo.codigo.next(this.editorCodigo.instanciaMonaco.getValue());
+    //this.editorCodigo.codigo.next(this.editorCodigo.instanciaMonaco.getValue());
     const submissao = new RespostaQuestaoProgramacao(
       null,
       this.editorCodigo.instanciaMonaco.getValue(),
@@ -658,7 +658,7 @@ export class EditorProgramacaoComponent implements AfterViewInit, OnChanges, OnI
   }
 
   erroSubmissao(data) {
-    this.processandoSubmissao = false;
+    /* this.processandoSubmissao = false;
     this.submissao = data.submissao;
     if (data.erro.error != null && data.erro.error.mensagem != null) {
       this.submissao.processarErroServidor(data.erro.error.mensagem);
@@ -666,17 +666,17 @@ export class EditorProgramacaoComponent implements AfterViewInit, OnChanges, OnI
       if (!(data.erro instanceof HttpErrorResponse)) {
         this.submissao.processarErroServidor(data.erro);
       }
-    }
+    } */
 
     if (this.atividadeGrupo == null) {
       
-      let erro = new ParseAlgoritmo(this.submissao.linhasAlgoritmo()).analisar().getPrimeiroErro();
+      /* let erro = new ParseAlgoritmo(this.submissao.linhasAlgoritmo()).analisar().getPrimeiroErro();
       if (erro != null) {
         this.erroAtivo = erro;
-      }  
+      }   */
 
         // TODO: precisa ser melhorado. A mensagem está repetida com a apresentada pelo console.
-        this.monitor.monitorarErrosEstudante(this.questao, this.usuario, erro[0]);
+        //this.monitor.monitorarErrosEstudante(this.questao, this.usuario, erro[0]);
       }
     
 

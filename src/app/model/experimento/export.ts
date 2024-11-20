@@ -1,5 +1,5 @@
 import { Observable, forkJoin } from 'rxjs';
-import Submissao from '../respostaQuestaoProgramacao';
+import Submissao from '../aprendizagem/questoes/respostaQuestaoProgramacao';
 
 //import submissoesEstudantes from '../../../../json/submissoes_29_mai.json';
 import ErroCompilacaoFactory from '../errors/analise-compilacao/erroCompilacaoFactory';
@@ -7,7 +7,8 @@ import NameError from '../errors/analise-compilacao/nameError';
 import ErroSintaxeVariavel from '../errors/analise-pre-compilacao/erroSintaxeVariavel';
 import PageTrackRecord from '../analytics/pageTrack';
 import Usuario from '../usuario';
-import Query from '../firestore/query';
+import Query from '../database/query';
+import RespostaQuestaoProgramacao from '../aprendizagem/questoes/respostaQuestaoProgramacao';
 
 export default class Export {
   static excluidos = [
@@ -451,7 +452,7 @@ export default class Export {
 
   static submissoes() {
     return new Observable((observer) => {
-      Submissao.exportToJsonFiltroData().subscribe((submissoes) => {
+      RespostaQuestaoProgramacao.exportToJsonFiltroData().subscribe((submissoes) => {
         observer.next(submissoes);
         observer.complete();
       });
@@ -592,7 +593,7 @@ export default class Export {
         }
         let categoria = ErroCompilacaoFactory.construir(s['erro']['traceback']);
         if (categoria instanceof NameError || categoria instanceof SyntaxError) {
-          let submissao: Submissao = new Submissao(null, s['codigo'], null, null, null);
+          let submissao: RespostaQuestaoProgramacao = new RespostaQuestaoProgramacao(null, s['codigo'], null, null, null);
           let erros = ErroSintaxeVariavel.erros(submissao.linhasAlgoritmo());
           if (erros.length != 0) {
             errosSyntax.push(erros);

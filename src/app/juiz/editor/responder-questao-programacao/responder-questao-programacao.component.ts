@@ -19,12 +19,6 @@ import PedidoAjuda from 'src/app/model/pedidoAjuda';
 import { Util } from 'src/app/model/util';
 import { LoginService } from '../../../login-module/login.service';
 
-import ErroEditor from 'src/app/model/erroEditor';
-
-import { FormBuilder } from '@angular/forms';
-
-import ConsoleEditor from 'src/app/model/consoleEditor';
-import ErroServidor from 'src/app/model/errors/erroServidor';
 import { ApresentacaoService } from 'src/app/geral-module/apresentacao.service';
 import { Observable } from 'rxjs';
 import Usuario from 'src/app/model/usuario';
@@ -114,7 +108,7 @@ export class ResponderQuestaoProgramacao implements OnInit, AfterViewInit {
         this.submissao = null;
       });
 
-    Editor.getInstance().codigo.next('');
+    //Editor.getInstance().codigo.next('');
   }
 
   async ngAfterViewInit(): Promise<void> {
@@ -142,7 +136,7 @@ export class ResponderQuestaoProgramacao implements OnInit, AfterViewInit {
       _submissaoClone['estudanteId'] = submissao.estudanteId;
       _submissaoClone['assuntoId'] = submissao.assuntoId;
       _submissaoClone.data = submissao.data;
-      _submissaoClone.erro = submissao.erro;
+      _submissaoClone.erros = submissao.erros;
       _submissaoClone.resultadosTestsCases = submissao.resultadosTestsCases;
       _submissaoClone.saida = submissao.saida;
       return _submissaoClone;
@@ -221,24 +215,8 @@ export class ResponderQuestaoProgramacao implements OnInit, AfterViewInit {
           QuestaoProgramacao.get(params['questaoId']).subscribe((questao) => {
             this.questao = questao as QuestaoProgramacao;
             RespostaQuestaoProgramacao.filtrarRecente(this.questao).subscribe((submissao) => { this.submissao = submissao; });
-            if( AutoInstrucao.exibirAutoInstrucao(this.questao)){
-              /* this.apresentarPerguntas(this.questao.assuntos);
-              const usuario = this.login.getUsuarioLogado();
-              AutoInstrucao.getByEstudanteQuestao(
-                usuario.pk,
-                this.questao.pk
-              ).subscribe((autoInstrucao) => {
-                if (autoInstrucao != null) {
-                  this.autoInstrucao = autoInstrucao;
-                }
-              }); */
-            } else{
-              this.router.navigate([
-                'geral/main',
-                { outlets: { principal: ['juiz', 'editor', this.questao.pk] } },
-              ]);
-            }
-            //this.respostaQuestao = new RespostaQuestaoProgramacaoRegex(null, this.usuario, [], false, this.questao);
+            
+
             
           });
         }

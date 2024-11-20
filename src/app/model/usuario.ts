@@ -1,12 +1,13 @@
-import { Document, Collection, date, ignore } from './firestore/document';
+import { Document, Collection, date, ignore } from './database/document';
 import { forkJoin, Observable } from 'rxjs';
-import Query from './firestore/query';
+import Query from './database/query';
 import { PerfilUsuario } from './enums/perfilUsuario';
 
 import { Groups } from './experimento/groups';
 import Turma from './turma';
-import Submissao from './respostaQuestaoProgramacao';
+import Submissao from './aprendizagem/questoes/respostaQuestaoProgramacao';
 import { sha256 } from 'js-sha256';
+import RespostaQuestaoProgramacao from './aprendizagem/questoes/respostaQuestaoProgramacao';
 
 
 export default class Usuario {
@@ -71,7 +72,7 @@ export default class Usuario {
 
 
   static getTodasSubmissoes(estudante:Usuario){
-    return Submissao.getAll(
+    return RespostaQuestaoProgramacao.getAll(
       new Query('estudanteId', '==', estudante.pk), "data"
     );
   }

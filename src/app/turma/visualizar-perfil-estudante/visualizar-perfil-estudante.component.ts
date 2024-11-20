@@ -46,7 +46,7 @@ export class VisualizarPerfilEstudanteComponent implements OnInit {
 
 
       /*
-       Submissao.getAll(new Query('estudanteId', '==', params['id'])).subscribe((resultado) => {
+       RespostaQuestaoProgramacao.getAll(new Query('estudanteId', '==', params['id'])).subscribe((resultado) => {
         this.submissoes = resultado;
         this.buscarQuestoes(resultado);
       });
@@ -97,9 +97,9 @@ export class VisualizarPerfilEstudanteComponent implements OnInit {
 
   porcetagemEstudante(questoes) {
     questoes.forEach((questao) => {
-      QuestaoProgramacao.isFinalizada(questao, this.login.getUsuarioLogado()).subscribe(
+      QuestaoProgramacao.isFinalizada(questao).subscribe(
         (porcentagem) => {
-          //questao.respostaUsuario = porcentagem;
+          questao.respostaUsuario = porcentagem;
         }
       );
     });

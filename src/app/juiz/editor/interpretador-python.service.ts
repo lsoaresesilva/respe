@@ -36,35 +36,24 @@ export class InterpretadorPythonService {
         return response;
       };
   
-      try {
-        // Executa o código Python
-        await Sk.misceval.asyncToPromise(() => Sk.importMainWithBody("<stdin>", false, userCode, true));
+      // Executa o código Python
+      await Sk.misceval.asyncToPromise(() => Sk.importMainWithBody("<stdin>", false, userCode, true));
   
-        // Divide a saída do algoritmo em linhas e remove espaços em branco
-        const outputLines = outputBuffer.trim().split('\n').map(line => line.trim());
-  
-        // Verifica se a saída do algoritmo corresponde à saída esperada (todos os elementos)
-        const isCorrect = 
-          outputLines.length === expectedOutputArray.length && 
-          outputLines.every((line, index) => line === expectedOutputArray[index].trim());
-  
-        // Armazena o resultado da execução
-        resultados.push({
-          entrada: testCase.entradas.join(", "), // Junta todas as entradas para esse caso de teste
-          respostaAlgoritmo: outputLines,
-          status: isCorrect,
-          testCaseId: testCase.id
-        });
-  
-      } catch (error) {
-        console.error("Erro na execução do código Python para entrada:", testCase.entradas, error);
-        resultados.push({
-          entrada: testCase.entradas.join(", "),
-          respostaAlgoritmo: [`Erro: ${error.message}`],
-          status: false,
-          testCaseId: testCase.id
-        });
-      }
+      // Divide a saída do algoritmo em linhas e remove espaços em branco
+      const outputLines = outputBuffer.trim().split('\n').map(line => line.trim());
+
+      // Verifica se a saída do algoritmo corresponde à saída esperada (todos os elementos)
+      const isCorrect = 
+        outputLines.length === expectedOutputArray.length && 
+        outputLines.every((line, index) => line === expectedOutputArray[index].trim());
+
+      // Armazena o resultado da execução
+      resultados.push({
+        entrada: testCase.entradas.join(", "), // Junta todas as entradas para esse caso de teste
+        respostaAlgoritmo: outputLines,
+        status: isCorrect,
+        testCaseId: testCase.id
+      });
     }
   
     const statusGeral = resultados.every(result => result.status);

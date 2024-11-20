@@ -1,11 +1,12 @@
 import Estudante from './errors/analise-pre-compilacao/erroSintaxeFuncao';
 import Erro from './errors/erro';
 import { Observable, forkJoin } from 'rxjs';
-import Submissao from './respostaQuestaoProgramacao';
+import Submissao from './aprendizagem/questoes/respostaQuestaoProgramacao';
 import Usuario from './usuario';
+import RespostaQuestaoProgramacao from './aprendizagem/questoes/respostaQuestaoProgramacao';
 
 export class Tutor {
-  constructor(private submissao: Submissao) {}
+  constructor(private submissao: RespostaQuestaoProgramacao) {}
 
   static mediaTestsCases(estudante: Estudante) {
     return new Observable((observer) => {

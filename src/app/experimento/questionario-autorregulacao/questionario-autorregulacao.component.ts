@@ -1,7 +1,7 @@
 import { Component, OnInit, Input, Output, EventEmitter } from '@angular/core';
 import { LoginService } from 'src/app/login-module/login.service';
 import QuestionarioAutorregulacao from 'src/app/model/experimento/questionarioAutorregulacao';
-import Query from 'src/app/model/firestore/query';
+import Query from 'src/app/model/database/query';
 
 @Component({
   selector: 'app-questionario-autorregulacao',

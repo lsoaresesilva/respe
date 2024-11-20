@@ -1,14 +1,15 @@
 import { Observable, forkJoin } from 'rxjs';
 import { ModeloRespostaQuestao } from './modeloRespostaQuestao';
 import { MaterialAprendizagem } from '../materialAprendizagem';
-import Submissao from '../../respostaQuestaoProgramacao';
+import Submissao from './respostaQuestaoProgramacao';
 import TestCase from './testCase';
 import { Util } from '../../util';
 import { Assunto } from './assunto';
 import { Dificuldade } from './enum/dificuldade';
 import Conceito from './conceito';
 import QuestaoBase from './questaoBase';
-import { Collection } from '../../firestore/document';
+import { Collection } from '../../database/document';
+import RespostaQuestaoProgramacao from './respostaQuestaoProgramacao';
 
 @Collection("questaoprogramacao")
 export class QuestaoProgramacao extends QuestaoBase  {
@@ -31,7 +32,7 @@ export class QuestaoProgramacao extends QuestaoBase  {
 
   assunto: Assunto;
 
-  isRespostaCorreta(submissao: Submissao): boolean {
+  isRespostaCorreta(submissao: RespostaQuestaoProgramacao): boolean {
     let respostaCorreta = true;
     for(let i = 0; i < submissao.resultadosTestsCases.length; i++){
       if (submissao.resultadosTestsCases[i] != null &&
@@ -45,9 +46,9 @@ export class QuestaoProgramacao extends QuestaoBase  {
 
   }
 
-  static isFinalizada(questao, usuario) {
+  static isFinalizada(questao):Observable<number> {
     return new Observable((observer) => {
-      RespostaQuestaoProgramacao.getRecentePorQuestao(questao, usuario).subscribe(
+      RespostaQuestaoProgramacao.filtrarRecente(questao).subscribe(
         (submissao) => {
           if (submissao != null && submissao['resultadosTestsCases'] != null) {
             let totalTestCase = questao.testsCases.length;
@@ -68,7 +69,7 @@ export class QuestaoProgramacao extends QuestaoBase  {
             observer.next(percentual);
             observer.complete();
           } else {
-            observer.next(null);
+            observer.next(0);
             observer.complete();
           }
         },
@@ -87,7 +88,7 @@ export class QuestaoProgramacao extends QuestaoBase  {
 
         questoes.forEach((questao) => {
           questao.percentualResposta = 0;
-          consultas[questao.pk] = QuestaoProgramacao.isFinalizada(questao, estudante);
+          consultas[questao.pk] = QuestaoProgramacao.isFinalizada(questao);
         });
 
         forkJoin(consultas).subscribe((questoesFinalizadas) => {

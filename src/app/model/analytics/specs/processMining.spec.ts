@@ -34,7 +34,7 @@ describe('Testes para process mining', () => {
     });
 
     xit("Deve gerar o JSON para submissoes", (done)=>{
-      Submissao.exportToJson().subscribe(resultados=>{
+      RespostaQuestaoProgramacao.exportToJson().subscribe(resultados=>{
         console.log(resultados);
         done();
       })
@@ -73,7 +73,7 @@ describe('Testes para process mining', () => {
                   sEstudantes.set(s["estudante"], []);
                 }
 
-                let submissao = new Submissao(null, s.codigo, new Usuario(s["estudante"], null, null, null, null, null), null, new QuestaoProgramacao(s.questaoId, null, null, null, null, null, null, null, null));
+                let submissao = new RespostaQuestaoProgramacao(null, s.codigo, new Usuario(s["estudante"], null, null, null, null, null), null, new QuestaoProgramacao(s.questaoId, null, null, null, null, null, null, null, null));
                 submissao.erro = s.erro;
                 let resultadosTestsCases = [];
                 s.resultadosTesteCase.forEach(res=>{
@@ -119,7 +119,7 @@ describe('Testes para process mining', () => {
         })
 
         sEstudantes.forEach((subs, estudanteId)=>{
-          let submissoesAgrupadas = Submissao.agruparPorQuestao(subs);
+          let submissoesAgrupadas = RespostaQuestaoProgramacao.agruparPorQuestao(subs);
 
           submissoesAgrupadas.forEach((subQuest, questaoId)=>{
             let submissoesQuestaoEstudante = [];

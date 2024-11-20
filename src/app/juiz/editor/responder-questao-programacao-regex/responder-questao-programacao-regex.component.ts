@@ -3,7 +3,7 @@ import { ActivatedRoute } from '@angular/router';
 import { LoginService } from 'src/app/login-module/login.service';
 import Editor from 'src/app/model/editor';
 import ErroSintaxeVariavel from 'src/app/model/errors/analise-pre-compilacao/erroSintaxeVariavel';
-import Query from 'src/app/model/firestore/query';
+import Query from 'src/app/model/database/query';
 import { Assunto } from 'src/app/model/aprendizagem/questoes/assunto';
 import { RespostaQuestaoProgramacaoRegex } from 'src/app/model/aprendizagem/questoes/respostaQuestaoProgramacaoRegex';
 import { ChatbotService } from 'src/app/chatbot/chatbot.service';
@@ -42,6 +42,7 @@ export class ResponderQuestaoProgramacaoRegexComponent implements OnInit, AfterV
       this.route.params.subscribe((params) => {
         QuestaoProgramacaoRegex.get(params['questaoId']).subscribe((questao) => {
           this.questao = questao as QuestaoProgramacaoRegex;
+
           this.respostaQuestao = new RespostaQuestaoProgramacaoRegex(null, this.usuario, [], false, this.questao);
           
         });
@@ -62,7 +63,7 @@ export class ResponderQuestaoProgramacaoRegexComponent implements OnInit, AfterV
     const usuario = this.login.getUsuarioLogado();
     this.isEditorPronto = true;
     this.editorCodigo = Editor.getInstance();
-    Editor.getInstance().codigo.next("");
+    //Editor.getInstance().setCodigo.next("");
     RespostaQuestaoProgramacaoRegex.getByQuery([
       new Query('questao_id', '==', this.questao.pk),
     ]).subscribe(
@@ -70,7 +71,7 @@ export class ResponderQuestaoProgramacaoRegexComponent implements OnInit, AfterV
         if (respostaUsuario != null) {
           this.respostaQuestao = respostaUsuario;
           this.resultado = this.respostaQuestao.isRespostaCorreta;
-          Editor.getInstance().codigo.next(this.respostaQuestao.algoritmo.join('\n'));
+          //Editor.getInstance().codigo.next(this.respostaQuestao.algoritmo.join('\n'));
         }
       }
     );

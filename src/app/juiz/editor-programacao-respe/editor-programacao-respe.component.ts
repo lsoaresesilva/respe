@@ -1,14 +1,27 @@
-import { Component, OnInit, SimpleChanges } from '@angular/core';
+import { Component, EventEmitter, OnInit, Output, SimpleChanges } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { QuestaoProgramacao } from 'src/app/model/aprendizagem/questoes/questaoProgramacao';
-import RespostaQuestaoProgramacao from 'src/app/model/aprendizagem/questoes/respostaQuestaoProgramacao';
-import ParseAlgoritmo from 'src/app/model/errors/analise-pre-compilacao/parseAlgoritmo';
+import RespostaQuestaoProgramacao, {STATUS_RESPOSTA_QUESTAO_PROGRAMACAO} from 'src/app/model/aprendizagem/questoes/respostaQuestaoProgramacao';
 import { AutoInstrucao } from 'src/app/model/srl/autoInstrucao';
 import { InterpretadorPythonService } from '../editor/interpretador-python.service';
 import { ConfirmationService, MessageService } from 'primeng/api';
 import { DialogService } from 'primeng/dynamicdialog';
 import { ExibirSolucaoComponent } from 'src/app/srl/monitoramento/exibir-solucao/exibir-solucao.component';
 import Editor from 'src/app/model/editor';
+import { DomSanitizer } from '@angular/platform-browser';
+import { BehaviorSubject } from 'rxjs';
+import { MensagemErroFactory } from 'src/app/model/errors/analise-pre-compilacao/parseAlgoritmo';
+
+
+declare function carregarIde(
+  readOnly,
+  callback,
+  instance,
+  callbackOnEditorLoad,
+  codigo
+): any;
+
+
 
 @Component({
   selector: 'app-editor-programacao-respe',
@@ -22,8 +35,12 @@ export class EditorProgramacaoRespeComponent implements OnInit {
   submissao:RespostaQuestaoProgramacao;
   processandoSubmissao = false;
   isEditorPronto = false;
-  editorCodigo;
+  editorCodigo: Editor;
   displayPedidoAjuda = false;
+
+  @Output()
+  onContainerReady;
+  STATUS_RESPOSTA_QUESTAO_PROGRAMACAO: STATUS_RESPOSTA_QUESTAO_PROGRAMACAO;
 
   constructor(
     private route: ActivatedRoute,private router: Router,
@@ -31,8 +48,10 @@ export class EditorProgramacaoRespeComponent implements OnInit {
     private messageService: MessageService,
     public dialogService: DialogService,
     private confirmationService: ConfirmationService,
+    private sanitizer: DomSanitizer
   ) {
-    this.editorCodigo = Editor.getInstance();
+    
+    this.onContainerReady = new EventEmitter();
    }
 
   ngOnInit(): void {
@@ -41,7 +60,8 @@ export class EditorProgramacaoRespeComponent implements OnInit {
 
         QuestaoProgramacao.get(params['questaoId']).subscribe((questao) => {
           this.questao = questao as QuestaoProgramacao;
-          RespostaQuestaoProgramacao.filtrarRecente(this.questao).subscribe((submissao) => { this.submissao = submissao; });
+          this.editorCodigo = new Editor(this.interpretadorPython, this.questao);
+          
           
 
           
@@ -67,47 +87,30 @@ export class EditorProgramacaoRespeComponent implements OnInit {
     }
   }
 
+  getStatusExecucaoSubmissao(){
+    return STATUS_RESPOSTA_QUESTAO_PROGRAMACAO;
+  }
+
   async executar() {
     
-    this.processandoSubmissao = true;
+    
 
     if (this.submissao.validar()) {
-      
-      const erros = new ParseAlgoritmo(this.submissao.linhasAlgoritmo()).analisar().todosErros;
-      if( erros == null){
-       
-        const json = this.submissao.objectToDocument();
-        const resultado = await this.interpretadorPython.runPythonCodeAndCompare(
-          this.submissao,
-          this.questao
-        );
-        this.submissao.atualizarResultados(resultado);
+      this.processandoSubmissao = true;
+      this.submissao = await this.editorCodigo.executar();
+      this.submissao.save().subscribe((submissao) => {
         
-        if (this.submissao.isFinalizada()) {
-
-          /*  this.gamification.aumentarPontuacao(
-             this.login.getUsuarioLogado(),
-             this.questao,
-             new PontuacaoQuestaoProgramacao()
-           ); */
-         }
-   
-         
-      }else{
-        this.submissao.erros = erros;
-        
-      }
-
-      this.processandoSubmissao = false;
+      });
+    }else {
       
-    } else {
-     
       this.messageService.add({
         severity: 'error',
         summary: 'Erro',
         detail: 'Não é possível executar o código, pois ele está vazio.',
       });
     }
+
+    this.processandoSubmissao = false;
   }
 
   visualizarResposta() {
@@ -170,12 +173,9 @@ export class EditorProgramacaoRespeComponent implements OnInit {
 
   ngAfterViewInit(): void {
 
-    this.editorCodigo = Editor.getInstance();
-
     let _this = this;
 
-    
-
+  
     setTimeout(function () {
       carregarIde(
         false,
@@ -184,14 +184,14 @@ export class EditorProgramacaoRespeComponent implements OnInit {
         },
         _this,
         _this.carregarEditor,
-        _this.editorCodigo.codigo
+        ""
       );
     }, 500);
   }
 
   carregarEditor(instance, editor) {
     instance.editorCodigo.instanciaMonaco = editor;
-    instance.onContainerReady.emit();
+    instance.onEditorCarregado();
 
     instance.editorCodigo.instanciaMonaco.onKeyDown(function (e) {
       let linhaAtual = editor.getPosition().lineNumber;
@@ -202,6 +202,22 @@ export class EditorProgramacaoRespeComponent implements OnInit {
       }
 
     }); 
+  }
+
+  onEditorCarregado(){
+    this.editorCodigo.codigoAtual = this.questao != null && this.questao.algoritmoInicial != null ? this.questao.algoritmoInicial : '';
+    RespostaQuestaoProgramacao.filtrarRecente(this.questao).subscribe(async (submissao) => { 
+      this.submissao = submissao; 
+      this.editorCodigo.codigoAtual = this.submissao != null ? this.submissao.codigo : '';
+      const submissaoExecutada = await this.editorCodigo.executar();
+      this.submissao.resultadosTestsCases = submissaoExecutada.resultadosTestsCases;
+    });
+  }
+
+  getMensagemErro(){
+    const mensagemErro = this.submissao.erro != null ? this.submissao.erro.mensagem : '';//MensagemErroFactory.construir(this.submissao.erro).getMensagemAmigavel();
+    let mensagem = this.sanitizer.bypassSecurityTrustHtml(mensagemErro);
+    return mensagem;
   }
 
   removerDestaquesErro(){
@@ -217,6 +233,45 @@ export class EditorProgramacaoRespeComponent implements OnInit {
     }, 1000);
     
   }
+
+  destacarDiferencasSaidas(testCase, saidaReal, pos) {
+    let text = '';
+    let saidaEsperada = testCase.saida;
+    let oldText = saidaEsperada;
+    if (!Array.isArray(saidaEsperada)) {
+      text += "<span style='font-weight:bold'>Saída real: </span>";
+      saidaReal.split('').forEach(function (val, i) {
+        if (val != oldText.charAt(i)) text += "<span class='highlight'>" + val + '</span>';
+        else text += val;
+      });
+      text +=
+        "<br><span style='font-weight:bold'>Saída esperada: </span><span>" +
+        saidaEsperada +
+        '</span>';
+    } else {
+      text += "<span style='font-weight:bold'>Saída real: </span>";
+
+      saidaReal.split('').forEach(function (val, i) {
+        if (oldText[pos] != null) {
+          if (val != oldText[pos].charAt(i)) {
+            text += "<span class='highlight'>" + val + '</span>';
+          } else {
+            text += val;
+          }
+        } else {
+          text += val;
+        }
+      });
+      let valorSaidaEsperada = saidaEsperada[pos] != null ? saidaEsperada[pos] : '';
+      text +=
+        "<br><span style='font-weight:bold'>Saída esperada: </span><span>" +
+        valorSaidaEsperada +
+        '</span>';
+    }
+
+    return this.sanitizer.bypassSecurityTrustHtml(text);
+  }
+
 
 
 }

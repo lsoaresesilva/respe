@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import Usuario from '../model/usuario';
 import { Observable, of, throwError } from 'rxjs';
-import Query from '../model/firestore/query';
+import Query from '../model/database/query';
 import { sha256 } from 'js-sha256';
 import { MessageService } from 'primeng/api';
 import { AngularFireAuth } from '@angular/fire/auth';

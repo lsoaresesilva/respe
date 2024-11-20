@@ -4,7 +4,7 @@ import { Router } from '@angular/router';
 import { LoginService } from '../../login-module/login.service';
 import QuestaoFechada from '../../model/aprendizagem/questoes/questaoFechada';
 import { RespostaQuestaoFechada } from '../../model/aprendizagem/questoes/respostaQuestaoFechada';
-import Query from 'src/app/model/firestore/query';
+import Query from 'src/app/model/database/query';
 import { Assunto } from 'src/app/model/aprendizagem/questoes/assunto';
 
 @Component({

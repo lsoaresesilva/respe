@@ -1,6 +1,6 @@
-import DocumentNotFoundError, { Collection, Document, date } from '../firestore/document';
+import DocumentNotFoundError, { Collection, Document, date } from '../database/document';
 import { Observable } from 'rxjs';
-import Query from '../firestore/query';
+import Query from '../database/query';
 import Usuario from '../usuario';
 
 @Collection('respostasQuestionarioAutorregulacao')

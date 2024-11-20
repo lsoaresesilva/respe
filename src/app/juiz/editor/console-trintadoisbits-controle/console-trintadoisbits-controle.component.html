@@ -3,7 +3,7 @@
       {{ submissao.erro.traceback }}
     </div>
     <ng-template #exibirConsole>
-      <div *ngIf="consoleEditor.submissao != null">
+      <div *ngIf="editor.console.submissao != null">
 
         <div *ngFor="let resultado of submissao.resultadosTestsCases">
           <p-panel *ngIf="submissao.questao.getTestCaseById(resultado.testCase.id) != null"

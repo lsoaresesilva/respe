@@ -1,6 +1,6 @@
 import { RespostaQuestaoExperimento } from './respostaQuestaoExperimento';
 import Usuario from '../../usuario';
-import Query from '../../firestore/query';
+import Query from '../../database/query';
 import { Observable, forkJoin } from 'rxjs';
 import QuestaoExperimento from './questaoExperimento';
 import { TipoQuestaoExperimento } from './tipoQuestaoExperimento';

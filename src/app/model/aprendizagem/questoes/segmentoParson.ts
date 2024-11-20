@@ -1,4 +1,4 @@
-import { Collection, Document } from "../../firestore/document";
+import { Collection, Document } from "../../database/document";
 import { Util } from "../../util";
 
 

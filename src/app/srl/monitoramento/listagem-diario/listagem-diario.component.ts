@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { Observable } from 'rxjs';
 import { LoginService } from 'src/app/login-module/login.service';
-import Query from 'src/app/model/firestore/query';
+import Query from 'src/app/model/database/query';
 import Diario from 'src/app/model/srl/diario';
 import { Util } from 'src/app/model/util';
 

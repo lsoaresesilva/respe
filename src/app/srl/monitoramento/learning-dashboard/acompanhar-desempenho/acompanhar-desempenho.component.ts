@@ -1,8 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 import { LoginService } from 'src/app/login-module/login.service';
-import Submissao from 'src/app/model/respostaQuestaoProgramacao';
+
 import { Tutor } from 'src/app/model/tutor';
-import Query from 'src/app/model/firestore/query';
+import Query from 'src/app/model/database/query';
 import Erro from 'src/app/model/errors/erro';
 import { ErroCompilacao } from 'src/app/model/errors/analise-compilacao/erroCompilacao';
 import { ChangeDetectorRef } from '@angular/core';

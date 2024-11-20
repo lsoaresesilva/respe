@@ -1,4 +1,4 @@
-import { Document, ignore, Collection } from '../firestore/document';
+import { Document, ignore, Collection } from '../database/document';
 import { Observable, forkJoin } from 'rxjs';
 import { TipoObjeto } from './tipoObjeto';
 import Texto from './texto';

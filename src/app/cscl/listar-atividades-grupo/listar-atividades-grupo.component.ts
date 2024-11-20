@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { LoginService } from 'src/app/login-module/login.service';
 import AtividadeGrupo from 'src/app/model/cscl/atividadeGrupo';
-import Query from 'src/app/model/firestore/query';
+import Query from 'src/app/model/database/query';
 import Turma from 'src/app/model/turma';
 import Usuario from 'src/app/model/usuario';
 import { Util } from 'src/app/model/util';

@@ -31,38 +31,38 @@ describe('Testes de análise de sintaxe para variáveis', () => {
 
   xit('Deve identificar uma variável que não foi declarada', () => {
     let algoritmo = "x = 'leonardo'\ny = x\nz = a";
-    let s = new Submissao(null, algoritmo, null, null, null);
+    let s = new RespostaQuestaoProgramacao(null, algoritmo, null, null, null);
     let variaveisNaoDeclaradas = ErroSintaxeVariavel.variaveisNaoDeclaradas(s);
     expect(variaveisNaoDeclaradas.length).toBe(1);
     expect(variaveisNaoDeclaradas[0].nome).toBe('a');
     expect(variaveisNaoDeclaradas[0].linha).toBe(3);
 
     algoritmo = "x = 'leonardo'\ny = x\nz=a\na=2\ny = 2.5\n"; // PROBLEMA está nesse 2,5. ele está identificando 2 como sendo uma variável que foi utilizada
-    s = new Submissao(null, algoritmo, null, null, null);
+    s = new RespostaQuestaoProgramacao(null, algoritmo, null, null, null);
     variaveisNaoDeclaradas = ErroSintaxeVariavel.variaveisNaoDeclaradas(s);
     expect(variaveisNaoDeclaradas.length).toBe(1);
     expect(variaveisNaoDeclaradas[0].nome).toBe('a');
     expect(variaveisNaoDeclaradas[0].linha).toBe(3);
 
     algoritmo = 'notaUm = 2\nnotaDois = 3\nmedia = (notaUm+notaDois)/2';
-    s = new Submissao(null, algoritmo, null, null, null);
+    s = new RespostaQuestaoProgramacao(null, algoritmo, null, null, null);
     variaveisNaoDeclaradas = ErroSintaxeVariavel.variaveisNaoDeclaradas(s);
     expect(variaveisNaoDeclaradas.length).toBe(0);
 
     algoritmo = 'nota3 = 2\n x = nota3';
-    s = new Submissao(null, algoritmo, null, null, null);
+    s = new RespostaQuestaoProgramacao(null, algoritmo, null, null, null);
     variaveisNaoDeclaradas = ErroSintaxeVariavel.variaveisNaoDeclaradas(s);
     expect(variaveisNaoDeclaradas.length).toBe(0);
 
     algoritmo = "# Iremos te ajudar, a leitura de números do teclado necessita que eles sejam convertidos de String para int.\n# Para isso nós utilizaremos a instrução int():\nnumeroUmString = input()\nnumeroUm = int( numeroUmString )\nnumeroDoisString = input()\nnumeroDois = int(numeroDoisString)\nsoma = numeroUm + numeroDois\nPrint(soma) \n# Agora é com você, continue o procedimento que falta para concluir o algoritmo."
-    s = new Submissao(null, algoritmo, null, null, null);
+    s = new RespostaQuestaoProgramacao(null, algoritmo, null, null, null);
     variaveisNaoDeclaradas = ErroSintaxeVariavel.variaveisNaoDeclaradas(s);
     expect(variaveisNaoDeclaradas.length).toBe(1);
   });
 
   xit('Deve identificar variáveis reais que foram declaradas com ,', () => {
     let algoritmo = "x = 'leonardo'\ny = 2,5";
-    let s = new Submissao(null, algoritmo, null, null, null);
+    let s = new RespostaQuestaoProgramacao(null, algoritmo, null, null, null);
     let linhas = s.codigo.split('\n');
 
     expect(ErroSintaxeVariavel.numeroDecimalComVirgula(linhas[0])).toBeFalsy();
@@ -71,7 +71,7 @@ describe('Testes de análise de sintaxe para variáveis', () => {
 
   xit('Deve identificar variáveis que tem valor atribuído com dois ==', () => {
     let algoritmo = "x == 'leonardo'\ny = 2,5\nif nome == 'leonardo':\nelif idade == 13";
-    let s = new Submissao(null, algoritmo, null, null, null);
+    let s = new RespostaQuestaoProgramacao(null, algoritmo, null, null, null);
 
     let linhas = s.codigo.split('\n');
 
@@ -84,7 +84,7 @@ describe('Testes de análise de sintaxe para variáveis', () => {
   it('Deve identificar variáveis que tenham espaço em seu nome', () => {
     let algoritmo =
       "nome = 'leonardo'\nnome do leonardo = 'leo'\nnome pessoa = 'leonardo' idade = 31";
-    let s = new Submissao(null, algoritmo, null, null, null);
+    let s = new RespostaQuestaoProgramacao(null, algoritmo, null, null, null);
     let linhasCodigo = s.codigo.split('\n');
 
     expect(ErroSintaxeVariavel.nomeVariavelComEspaco(linhasCodigo[0])).toBeFalsy();
@@ -128,24 +128,24 @@ describe('Testes de análise de sintaxe para variáveis', () => {
   xit('Deve identificar variáveis utilizadas em um algoritmo', () => {
 
     let algoritmo = "nome = 'leonardo'\nprint(c)\nsomar(2,a)";
-    let s = new Submissao(null, algoritmo, null, null, null);
+    let s = new RespostaQuestaoProgramacao(null, algoritmo, null, null, null);
     let variaveisUtilizadas = ErroSintaxeVariavel.identificarVariaveisUtilizadas(s);
     expect(variaveisUtilizadas).toEqual([{nome:'c', linha:2},  {nome:'a', linha:3}, {nome:'somar', linha:3}]);
     algoritmo = 'if codigoUm == ABC and codigoDois == DEF:'
-    s = new Submissao(null, algoritmo, null, null, null);
+    s = new RespostaQuestaoProgramacao(null, algoritmo, null, null, null);
     variaveisUtilizadas = ErroSintaxeVariavel.identificarVariaveisUtilizadas(s);
     expect(variaveisUtilizadas).toEqual([{nome:'codigoUm', linha:1},  {nome:'ABC', linha:1}, {nome:'codigoDois', linha:1}, {nome:'DEF', linha:1}]);
     algoritmo = 'if operacao == "soma":'
-    s = new Submissao(null, algoritmo, null, null, null);
+    s = new RespostaQuestaoProgramacao(null, algoritmo, null, null, null);
     variaveisUtilizadas = ErroSintaxeVariavel.identificarVariaveisUtilizadas(s);
     expect(variaveisUtilizadas).toEqual([{nome:'operacao', linha:1}]);
     algoritmo = 'numeroN = int(input())\nif NumeroN % 2 == 0:'
-    s = new Submissao(null, algoritmo, null, null, null);
+    s = new RespostaQuestaoProgramacao(null, algoritmo, null, null, null);
     variaveisUtilizadas = ErroSintaxeVariavel.identificarVariaveisUtilizadas(s);
     expect(variaveisUtilizadas).toEqual([{nome:'NumeroN', linha:2}]);
 
     algoritmo = 'if soma in range(4):'
-    s = new Submissao(null, algoritmo, null, null, null);
+    s = new RespostaQuestaoProgramacao(null, algoritmo, null, null, null);
     variaveisUtilizadas = ErroSintaxeVariavel.identificarVariaveisUtilizadas(s);
     expect(variaveisUtilizadas).toEqual([{nome:'soma', linha:1}]);
 
@@ -153,7 +153,7 @@ describe('Testes de análise de sintaxe para variáveis', () => {
 
   xit("Deve identificar strings que faltam aspas", ()=>{
     let algoritmo = "nome = 'leonardo"
-    let s = new Submissao(null, algoritmo, null, null, null);
+    let s = new RespostaQuestaoProgramacao(null, algoritmo, null, null, null);
     let stringValida = ErroSintaxeVariavel.faltaAspas(s.linhasAlgoritmo()[0]);
     expect(stringValida).toBeFalsy();
   })
@@ -171,7 +171,7 @@ describe('Testes de análise de sintaxe para variáveis', () => {
           let categoria = ErroCompilacaoFactory.construir(s['erro']['traceback']);
           if (categoria instanceof NameError) {
             let erros = ErroSintaxeVariavel.erros(
-              new Submissao(null, s['codigo'], null, null, null)
+              new RespostaQuestaoProgramacao(null, s['codigo'], null, null, null)
             );
             if (erros.length == 0) {
                 console.log(s["codigo"])
@@ -199,7 +199,7 @@ describe('Testes de análise de sintaxe para variáveis', () => {
       if (s['erro'] != null && s['erro']['traceback'] != null) {
         let categoria = ErroCompilacaoFactory.construir(s['erro']['traceback']);
         if (categoria instanceof NameError) {
-          let erros = ErroSintaxeVariavel.erros(new Submissao(null, s["codigo"], null, null, null));
+          let erros = ErroSintaxeVariavel.erros(new RespostaQuestaoProgramacao(null, s["codigo"], null, null, null));
           if(erros.length != 0){
             errosSyntax.push(erros);
           }
