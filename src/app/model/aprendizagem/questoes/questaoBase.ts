@@ -16,6 +16,8 @@ export default abstract class QuestaoBase extends Document implements MaterialAp
   conceitos: conceito[];
   dificuldade: Dificuldade;
 
+  respostaEstudante;
+
   @ignore()
   percentualResposta;
 

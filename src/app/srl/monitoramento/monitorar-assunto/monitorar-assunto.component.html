@@ -1,2 +1,21 @@
 <h3>Seu progresso neste assunto:</h3>
 <p-progressBar id="progresso" [value]="assunto.percentualConclusao"></p-progressBar>
+
+<p-table [value]="progressos">
+    <ng-template pTemplate="header">
+      <tr>
+        <th>Questão</th>
+        <th>% de acertos</th>
+      </tr>
+    </ng-template>
+  
+    <ng-template pTemplate="body" let-tipo let-i="rowIndex">
+      <tr>
+        <td >{{ tipo.nome }}</td>
+        <td>
+          <p-progressBar id="progressoPlanejamento" [value]="tipo.progresso"></p-progressBar>
+        </td>
+      </tr>
+    </ng-template>
+  </p-table>
+  

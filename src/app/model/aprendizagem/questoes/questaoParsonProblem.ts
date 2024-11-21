@@ -35,11 +35,7 @@ export default class QuestaoParsonProblem extends QuestaoBase {
   }
 
   static dataToObject(questao: any): QuestaoParsonProblem {
-
-    
-
-
-    return new QuestaoParsonProblem(
+    const objeto = new QuestaoParsonProblem(
       questao.primary_key,
       questao.enunciado,
       questao.nome_curto,
@@ -52,6 +48,13 @@ export default class QuestaoParsonProblem extends QuestaoBase {
       questao.orientacao,
       Conceito.construir(questao.conceitos)
     )
+     
+
+    if(questao.resposta_estudante != null){
+      objeto.respostaEstudante = RespostaQuestaoParson.dataToObject(questao.resposta_estudante);
+    }
+
+    return objeto;
   }
 
 

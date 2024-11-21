@@ -94,7 +94,6 @@ export class EditorProgramacaoRespeComponent implements OnInit {
   async executar() {
     
     
-
     if (this.submissao.validar()) {
       this.processandoSubmissao = true;
       this.submissao = await this.editorCodigo.executar();
@@ -226,7 +225,7 @@ export class EditorProgramacaoRespeComponent implements OnInit {
   }
 
   destacarErro(){
-    const erro = this.submissao.getPrimeiroErro();
+    const erro = this.submissao.erros.getPrimeiroErro();
     Editor.getInstance().criarHover(erro);
     setTimeout(() => {
       Editor.getInstance().destacarLinha(erro.linha, "linhaErro")

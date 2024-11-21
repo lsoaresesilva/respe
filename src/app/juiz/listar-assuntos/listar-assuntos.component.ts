@@ -20,6 +20,7 @@ import { BreadcrumbService } from 'src/app/geral-module/breadcrumb.service';
 export class ListarAssuntosComponent implements OnInit {
   assuntos;
   usuario;
+  loading: boolean = true; 
 
   constructor(private router: Router, public login: LoginService, private route: ActivatedRoute) {
     this.usuario = this.login.getUsuarioLogado();
@@ -27,18 +28,24 @@ export class ListarAssuntosComponent implements OnInit {
 
   ngOnInit() {
 
-    Assunto.getAll([new Query("lazy", "=", false)]).subscribe((assuntos) => {
-      this.assuntos = assuntos;
-
+    Assunto.getAll([new Query("lazy", "=", true)]).subscribe((assuntos) => {
       if (this.usuario.grupoExperimento != Groups.control) {
-        this.assuntos.forEach((assunto) => {
-          Assunto.consultarRespostasEstudante(this.usuario).subscribe(respostas => {
-            let percentual = Analytics.calcularProgressoNoAssunto(assunto, respostas);
-            assunto['percentual'] = percentual;
-          })
+        // Create an array of promises for calcularProgresso()
+        const progressoPromises = assuntos.map(async (assunto) => {
+          const percentual = await assunto.calcularProgresso();
+          assunto.percentualConclusao = percentual;
+          return assunto;
         });
+  
+        // Wait for all promises to resolve
+        Promise.all(progressoPromises).then((resolvedAssuntos) => {
+          this.assuntos = resolvedAssuntos; // Set the updated assuntos
+          this.loading = false; // Hide the loading spinner
+        });
+      } else {
+        this.assuntos = assuntos; // If not experimental, directly assign
+        this.loading = false; // Hide the loading spinner
       }
-
     });
 
   }

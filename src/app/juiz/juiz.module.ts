@@ -84,7 +84,7 @@ import { DragDropModule } from '@angular/cdk/drag-drop';
 import { ChatbotModule } from '../chatbot/chatbot.module';
 import { MonitorService } from '../chatbot/monitor.service';
 import { BlockUIModule } from 'primeng/blockui';
-import { ResponderQuestaoProgramacaoRegexComponent } from './editor/responder-questao-programacao-regex/responder-questao-programacao-regex.component';
+import { ResponderQuestaoProgramacaoRegexComponent } from './responder-questao-programacao-regex/responder-questao-programacao-regex.component';
 import { SistemaAprendizagemModule } from '../sistema-aprendizagem/sistema-aprendizagem.module';
 import { ConsoleTrintadoisbitsControleComponent } from './editor/console-trintadoisbits-controle/console-trintadoisbits-controle.component';
 import { CompartilhadoModule } from '../shared/shared.module';

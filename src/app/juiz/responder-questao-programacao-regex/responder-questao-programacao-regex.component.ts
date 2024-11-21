@@ -8,9 +8,17 @@ import { Assunto } from 'src/app/model/aprendizagem/questoes/assunto';
 import { RespostaQuestaoProgramacaoRegex } from 'src/app/model/aprendizagem/questoes/respostaQuestaoProgramacaoRegex';
 import { ChatbotService } from 'src/app/chatbot/chatbot.service';
 
-import { ApresentacaoService } from '../../../geral-module/apresentacao.service';
+import { ApresentacaoService } from '../../geral-module/apresentacao.service';
 import { QuestaoProgramacaoRegex } from 'src/app/model/aprendizagem/questoes/questaoProgramacaoRegex';
+import { InterpretadorPythonService } from '../editor/interpretador-python.service';
 
+declare function carregarIde(
+  readOnly,
+  callback,
+  instance,
+  callbackOnEditorLoad,
+  codigo
+): any;
 
 @Component({
   selector: 'app-responder-questao-programacao-regex',
@@ -27,7 +35,11 @@ export class ResponderQuestaoProgramacaoRegexComponent implements OnInit, AfterV
   erroProgramacao;
   usuario;
 
-  constructor(private route: ActivatedRoute, private login: LoginService, private apresentacao: ApresentacaoService, private chatbotService: ChatbotService) {
+  constructor(private route: ActivatedRoute, 
+    private login: LoginService, 
+    private interpretadorPython: InterpretadorPythonService,
+    private apresentacao: ApresentacaoService, 
+    private chatbotService: ChatbotService) {
     this.isEditorPronto = false;
   }
 
@@ -42,7 +54,7 @@ export class ResponderQuestaoProgramacaoRegexComponent implements OnInit, AfterV
       this.route.params.subscribe((params) => {
         QuestaoProgramacaoRegex.get(params['questaoId']).subscribe((questao) => {
           this.questao = questao as QuestaoProgramacaoRegex;
-
+          this.editorCodigo = new Editor(this.interpretadorPython, this.questao);
           this.respostaQuestao = new RespostaQuestaoProgramacaoRegex(null, this.usuario, [], false, this.questao);
           
         });
@@ -59,10 +71,10 @@ export class ResponderQuestaoProgramacaoRegexComponent implements OnInit, AfterV
     }); */
   }
 
-  async onContainerReady(event) {
-    const usuario = this.login.getUsuarioLogado();
+  onEditorCarregado(){
+    
     this.isEditorPronto = true;
-    this.editorCodigo = Editor.getInstance();
+    
     //Editor.getInstance().setCodigo.next("");
     RespostaQuestaoProgramacaoRegex.getByQuery([
       new Query('questao_id', '==', this.questao.pk),
@@ -79,19 +91,52 @@ export class ResponderQuestaoProgramacaoRegexComponent implements OnInit, AfterV
     
   }
 
+  ngAfterViewInit(): void {
+
+    let _this = this;
+
+  
+    setTimeout(function () {
+      carregarIde(
+        false,
+        function () {
+          _this.isEditorPronto = true;
+        },
+        _this,
+        _this.carregarEditor,
+        ""
+      );
+    }, 500);
+  }
+
+  carregarEditor(instance, editor) {
+    instance.editorCodigo.instanciaMonaco = editor;
+    instance.onEditorCarregado();
+
+    instance.editorCodigo.instanciaMonaco.onKeyDown(function (e) {
+      let linhaAtual = editor.getPosition().lineNumber;
+      if(instance.erroAtivo != null){
+        if(instance.erroAtivo.linha == linhaAtual){
+          instance.removerDestaquesErro()
+        }
+      }
+
+    }); 
+  }
+
   executar() {
     if (this.questao != null && this.questao.executar != null) {
-      let codigo = this.editorCodigo.codigoAtual;
+      let codigo = this.editorCodigo.codigoAtual.split('\n');
       if (Array.isArray(codigo)) {
         /* codigo = codigo.map((linha) => {
           return linha.replace('\\"', "'");
         }); */
 
-        let erros = ErroSintaxeVariavel.erros(codigo);
+        let erros = this.editorCodigo.identificarErros(codigo)
 
-        if (erros.length > 0) {
+        if (erros.hasErros()) {
           this.resultado = false;
-          this.erroProgramacao = erros[0].mensagem;
+          this.erroProgramacao = erros.getPrimeiroErro().mensagem;
         } else {
           let resposta = this.questao.executar(codigo);
           this.resultado = resposta.resultado;

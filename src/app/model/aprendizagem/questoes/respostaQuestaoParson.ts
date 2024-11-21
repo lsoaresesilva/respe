@@ -16,8 +16,10 @@ export class RespostaQuestaoParson extends Document {
   ) {
     super(id);
   }
+
   @date()
   data;
+  isRespostaCorreta:boolean;
 
   objectToDocument() {
     const document = super.objectToDocument();
@@ -28,6 +30,8 @@ export class RespostaQuestaoParson extends Document {
         return { segmento_id: segmento.pk, sequencia: segmento.sequencia };
       });
     }
+
+    document['is_resposta_correta'] = this.isRespostaCorreta;
 
     return document;
   }
@@ -43,6 +47,9 @@ export class RespostaQuestaoParson extends Document {
       data.segmentos,
       data.questao
     )
+    
+
+    objeto.isRespostaCorreta = data.is_resposta_correta;
 
 
     return objeto;

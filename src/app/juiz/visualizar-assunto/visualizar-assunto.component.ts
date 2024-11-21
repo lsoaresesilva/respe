@@ -3,6 +3,9 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { MessageService } from 'primeng/api';
 import { Assunto } from 'src/app/model/aprendizagem/questoes/assunto';
 import { LoginService } from '../../login-module/login.service';
+import RespostaQuestaoProgramacao from 'src/app/model/aprendizagem/questoes/respostaQuestaoProgramacao';
+import { RespostaQuestaoFechada } from 'src/app/model/aprendizagem/questoes/respostaQuestaoFechada';
+import Query from 'src/app/model/database/query';
 
 @Component({
   selector: 'app-visualizar-assunto',
@@ -25,6 +28,7 @@ export class VisualizarAssuntoComponent implements OnInit {
       if (params['id'] != null) {
         Assunto.get(params['id'], false).subscribe((resultado) => {
           this.assunto = resultado;
+          
         });
       }
     });

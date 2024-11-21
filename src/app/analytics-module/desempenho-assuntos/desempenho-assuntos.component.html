@@ -10,7 +10,7 @@
     <tr>
       <td style="cursor: pointer" (click)="abrirAssunto(assunto)">{{ assunto.nome }}</td>
       <td>
-        <p-progressBar id="progressoPlanejamento" [value]="assunto.percentual"></p-progressBar>
+        <p-progressBar id="progressoPlanejamento" [value]="assunto.percentualConclusao"></p-progressBar>
       </td>
     </tr>
   </ng-template>

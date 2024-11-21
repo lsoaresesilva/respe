@@ -102,12 +102,13 @@ export class VisualizarQuestaoFechadaComponent implements OnInit {
 
   responder() {
     this.respostaQuestaoFechada.questao = this.questao;
+    this.respostaQuestaoFechada.isRespostaCorreta = this.respostaQuestaoFechada.isCorreta();
     //this.respostaQuestaoFechada.alternativa.id = this.alternativaEscolhida;
     this.respostaQuestaoFechada.save().subscribe((resultado) => {
       this.respostaQuestaoFechada = resultado as RespostaQuestaoFechada;
       this.respostaQuestaoFechada.questao = this.questao;
       this.mostrar = true;
-      if (this.respostaQuestaoFechada.isCorreta()) {
+      if (this.respostaQuestaoFechada.isRespostaCorreta) {
         /* Gamification.aumentarPontuacao(this.login.getUsuarioLogado(), this.questao, new PontuacaoQuestaoFechada()); */
         this.gamification.aumentarPontuacao(
           this.login.getUsuarioLogado(),

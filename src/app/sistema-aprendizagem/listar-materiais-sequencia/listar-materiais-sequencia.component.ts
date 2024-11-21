@@ -54,15 +54,6 @@ export class ListarMateriaisSequenciaComponent implements OnChanges {
     }
   }
 
-  getCorMaterial(material) {
-    if (material.respondida === true) {
-      return 'color: rgb(103, 202, 103); cursor:pointer';
-    } else if (material.respondida === false) {
-      return 'color: rgb(220,20,60); cursor:pointer';
-    }
-
-    return 'color: black; cursor:pointer';
-  }
 
   async abrirMaterial(material) {
     if (material instanceof QuestaoFechada) {

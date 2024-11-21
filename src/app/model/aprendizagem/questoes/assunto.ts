@@ -48,6 +48,13 @@ export class Assunto extends Document {
   questoesCorrecao: QuestaoProgramacaoCorrecao[];
   questoesRegex: QuestaoProgramacaoRegex[];
 
+  progressoQuestoes: {
+    questoesProgramacao:0,
+    questoesFechadas:0,
+    questoesParson:0,
+    questoesRegex:0,
+  }
+
 
   objetivosEducacionais: [];
   isAtivo;
@@ -192,23 +199,31 @@ export class Assunto extends Document {
     });
   }
 
-  /* static isQuestoesProgramacaoFinalizadas(assunto: Assunto, estudante, visualizacoesRespostasQuestoesProgramacao, margemAceitavel = 0.6) {
-    return new Observable((observer) => {
-      let percentual = this.calcularPercentualConclusaoQuestoesProgramacao(
-        assunto,
-        estudante,
-        visualizacoesRespostasQuestoesProgramacao,
-        margemAceitavel
-      );
-      if (percentual >= margemAceitavel) {
-        observer.next(true);
-        observer.complete();
-      } else {
-        observer.next(false);
-        observer.complete();
-      }
-    });
-  } */
+  async calcularProgresso(){
+    try{
+      const consulta = await Assunto.consulta(`${this.pk}/progresso`).toPromise();
+      return consulta.progresso;
+    }catch(e){
+      throw new Error("Falha ao consultar progresso para o assunto.")
+    }
+    
+  }
+
+  async calcularProgressoPorQuestao(){
+    try{
+      const consulta = await Assunto.consulta(`${this.pk}/progresso_por_questao`).toPromise();
+      const progresso = {
+                        questoesFechadas:consulta.questoes_fechadas.percentual_conclusao, 
+                        questoesParson:consulta.questoes_parson.percentual_conclusao, 
+                        questoesProgramacao:consulta.questoes_programacao.percentual_conclusao, 
+                        questoesRegex:consulta.questoes_regex.percentual_conclusao};
+
+      return {progressoQuestoes:progresso, progresso:consulta.progresso};
+    }catch(e){
+      throw new Error("Falha ao consultar progresso para o assunto.")
+    }
+    
+  }
 
   static consultarRespostasEstudante(estudante: Usuario): Observable<RespostasQuestoes> {
     return new Observable<any>((observer) => {
@@ -226,36 +241,6 @@ export class Assunto extends Document {
     });
 
   }
-
-
-  /* static consultarRespostasEstudante(estudante: Usuario): Observable<RespostasQuestoes> {
-    return new Observable<any>((observer) => {
-      const query: any = {};
-      query.submissoes = RespostaQuestaoProgramacao.getAll(new Query('estudanteId', '==', estudante.pk));
-      query.respostasQuestoesFechadas = RespostaQuestaoFechada.getAll(
-        new Query('estudanteId', '==', estudante.pk)
-      );
-      query.respostasQuestoesParson = RespostaQuestaoParson.getAll(
-        new Query('estudanteId', '==', estudante.pk)
-      );
-
-      query.visualizacoesRespostasProgramacao = VisualizacaoRespostasQuestoes.getAll(
-        new Query('estudanteId', '==', estudante.pk)
-      );
-
-      forkJoin(query).subscribe((respostasEstudante:any) => {
-        const respostas: RespostasQuestoes = new RespostasQuestoes();
-        respostas.questoesFechadas = respostasEstudante.respostasQuestoesFechadas;
-        respostas.questoesParson = respostasEstudante.respostasQuestoesParson;
-        respostas.questoesProgramacao = {
-          submissoes:respostasEstudante.submissoes,
-          visualizacoesRespostas:respostasEstudante.visualizacoesRespostasProgramacao
-        };
-        observer.next(respostas);
-        observer.complete();
-      });
-    });
-  } */
 
   static consultarRespostasQuestoesFechadasPorAssunto(assunto: Assunto, estudante: Usuario) {
     // Recuperar todas as questões de um assunto

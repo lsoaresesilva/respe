@@ -282,6 +282,24 @@ export abstract class Document {
     return http.get<any>(apiUrl);
   }
 
+  async apply(atributo:any, comando:Observable<any>){
+    this[atributo] = await comando.toPromise();
+  }
+
+  static consulta(caminho):Observable<any> {
+    
+    const http = this.getHttp();
+    if(this['__name'] == null ) {
+      throw new Error("It is necessary to set @Collection in the class to define its table name.")
+    }
+    const tableName = this['__name'].toLowerCase()
+    const url = this.URL
+    
+
+    const apiUrl = `${url}${tableName}/${caminho}`;
+    return http.get<any>(apiUrl);
+  }
+
   static search(query:Query){
     return new Observable((observer) => {
       const db = this.getAngularFirestore();

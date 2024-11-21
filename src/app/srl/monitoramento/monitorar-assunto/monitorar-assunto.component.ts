@@ -14,15 +14,42 @@ export class MonitorarAssuntoComponent implements OnChanges {
 
   @Input()
   assunto: Assunto;
+  progressos = [
+    {
+      "nome": "Fechadas",
+      "progresso": 0
+    },
+    {
+      "nome": "Blocos",
+      "progresso": 0
+    },
+    {
+      "nome": "Sintaxe",
+      "progresso": 0
+    },
+    {
+      "nome": "Resolução de problemas",
+      "progresso": 0
+    }
+  ]
 
   async ngOnChanges(): Promise<void> {
-    let usuario = this.loginService.getUsuarioLogado();
-    if (usuario != null) {
-      Assunto.consultarRespostasEstudante(usuario).subscribe(respostas=>{
-        let percentual = Analytics.calcularProgressoNoAssunto(this.assunto, respostas);
-        this.assunto.percentualConclusao = percentual;
-      })
-
+    if(this.assunto != null){
+      const progresso = await this.assunto.calcularProgressoPorQuestao();
+      this.assunto.progressoQuestoes = progresso.progressoQuestoes;
+      this.assunto.percentualConclusao = progresso.progresso;
+      this.progressos.forEach(tipo => {
+        if(tipo.nome == "Fechadas"){
+          tipo.progresso = progresso.progressoQuestoes.questoesFechadas;
+        }else if(tipo.nome == "Blocos"){
+          tipo.progresso = progresso.progressoQuestoes.questoesParson;
+        }else if(tipo.nome == "Sintaxe"){
+          tipo.progresso = progresso.progressoQuestoes.questoesRegex;
+        }else if(tipo.nome == "Resolução de problemas"){
+          tipo.progresso = progresso.progressoQuestoes.questoesProgramacao;
+        }
+      });
     }
+    
   }
 }

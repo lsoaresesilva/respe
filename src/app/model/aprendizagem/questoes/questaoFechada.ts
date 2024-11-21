@@ -32,6 +32,7 @@ export default class QuestaoFechada extends QuestaoBase {
   }
   @ignore()
   respondida;
+  respostaEstudante;
 
   /**
    * Constrói objetos a partir do atributo array de uma document
@@ -63,6 +64,10 @@ export default class QuestaoFechada extends QuestaoBase {
       null,
       questaoFechada.sequencia
     )
+
+    if(questaoFechada.resposta_estudante != null){
+      objeto.respostaEstudante = RespostaQuestaoFechada.dataToObject(questaoFechada.resposta_estudante);
+    }
 
 
     return objeto;

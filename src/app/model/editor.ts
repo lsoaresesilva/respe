@@ -154,11 +154,15 @@ export default class Editor {
       this.hoverDisposable.dispose();
   }
 
+  identificarErros(algoritmo) {
+    return new ParseAlgoritmo(algoritmo).analisar();
+  }
+
   async executar() {
     
     const submissao: RespostaQuestaoProgramacao = new RespostaQuestaoProgramacao(null, this.codigoAtual, null, null, this.questao);
     try{
-      const erros = new ParseAlgoritmo(submissao.linhasAlgoritmo()).analisar();
+      const erros = this.identificarErros(submissao.linhasAlgoritmo());
       if (!erros.hasErros()) {
   
         
@@ -169,13 +173,15 @@ export default class Editor {
   
         
         submissao.status = resultado.status ? STATUS_RESPOSTA_QUESTAO_PROGRAMACAO.TESTSCASES_RESPONDIDOS_SUCESSO : STATUS_RESPOSTA_QUESTAO_PROGRAMACAO.TESTSCASES_RESPONDIDOS_INSUCESSO;
-
+        submissao.isRespostaCorreta = resultado.status
+        
         submissao.atualizarResultados(resultado);
   
       } else {
         submissao.setErros(erros);
+        submissao.isRespostaCorreta = false;
         submissao.status = STATUS_RESPOSTA_QUESTAO_PROGRAMACAO.CONTEM_ERRO;
-        submissao.erro = submissao.getPrimeiroErro();
+        submissao.erro = submissao.erros.getPrimeiroErro();
         
       }
     }catch(e){

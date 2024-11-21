@@ -23,8 +23,14 @@
                         *ngIf="resultado != undefined"></button>
                 </div>
                 <div class="p-col-12">
-                    <app-container-editor-programacao [liteMode]="false" (onContainerReady)="onContainerReady($event)" id="editorProgramacao">
-                    </app-container-editor-programacao>
+                    <div class="p-grid">
+                        <div class="p-col-12" id="divEditorProgramacao">
+                          <!-- <div id="container" [ngStyle]="{ height: liteMode === true ? '300px' : '400px' }"
+                            style="margin-top: 10px; border: 1px solid grey; position: relative"></div> -->
+                      
+                          
+                        </div>
+                      </div>
                     <div *ngIf="isEditorPronto == false">Carregando editor..</div>
                 </div>
             </div>

@@ -14,6 +14,26 @@ export class ErrosExecucao{
   hasErros(){
     return !Object.values(this).every(errorArray => errorArray.length === 0);
   }
+
+  getPrimeiroErro():ErroProgramacao{
+    let latestError:ErroProgramacao | null = null;
+    let latestLine = Infinity;
+
+    // Percorre cada tipo de erro
+    for (const [errorType, errorList] of Object.entries(this)) {
+      if (Array.isArray(errorList)) {
+        errorList.forEach(error => {
+          if (error.line < latestLine) {
+            latestLine = error.line;
+            latestError = new ErroProgramacao(error.line, error.error, errorType);
+            
+          }
+        });
+      }
+    }
+
+    return latestError;
+  }
 }
 
 

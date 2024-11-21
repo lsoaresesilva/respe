@@ -47,7 +47,9 @@ export default class RespostaQuestaoProgramacao extends Document implements Resp
   @ignore()
   saida;
   status:STATUS_RESPOSTA_QUESTAO_PROGRAMACAO = STATUS_RESPOSTA_QUESTAO_PROGRAMACAO.NAO_RESPONDIDA;
- 
+  isRespostaCorreta:boolean;
+
+
   static toArray(submissoes:RespostaQuestaoProgramacao[]){
 
   }
@@ -91,7 +93,7 @@ export default class RespostaQuestaoProgramacao extends Document implements Resp
     );
 
     submissao.status = submissaoJson.status;
-
+    submissao.isRespostaCorreta = submissaoJson.is_resposta_correta;
     submissao.resultadosTestsCases = [];
     
 
@@ -394,6 +396,9 @@ export default class RespostaQuestaoProgramacao extends Document implements Resp
       });
       document['resultados_test_cases'] = resultadoTestsCases;
     }
+
+    document['is_resposta_correta'] = this.isRespostaCorreta;
+
     return document;
   }
 
@@ -431,25 +436,7 @@ export default class RespostaQuestaoProgramacao extends Document implements Resp
     return json;
   }
 
-  getPrimeiroErro():ErroProgramacao{
-    let latestError:ErroProgramacao | null = null;
-    let latestLine = Infinity;
-
-    // Percorre cada tipo de erro
-    for (const [errorType, errorList] of Object.entries(this.erros)) {
-      if (Array.isArray(errorList)) {
-        errorList.forEach(error => {
-          if (error.line < latestLine) {
-            latestLine = error.line;
-            latestError = new ErroProgramacao(error.line, error.error, errorType);
-            
-          }
-        });
-      }
-    }
-
-    return latestError;
-  }
+  
 
   hasErroSintaxe(){
     if(this.erro != null){

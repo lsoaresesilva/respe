@@ -96,7 +96,8 @@ export class VisualizarParsonComponent implements OnInit, AfterViewChecked {
     }
   }
 
-  enviar() {
+  responder() {
+    this.respostaQuestao.isRespostaCorreta = this.questao.isRespostaCorreta(this.respostaQuestao);
     this.respostaQuestao.save().subscribe((resposta) => {
       this.respostaQuestao = resposta as RespostaQuestaoParson;
       this.respostaQuestao.questao = this.questao;

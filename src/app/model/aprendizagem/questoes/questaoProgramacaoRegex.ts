@@ -20,16 +20,22 @@ export class QuestaoProgramacaoRegex extends QuestaoBase {
 
   assunto: Assunto;
 
-  static dataToObject(questaoProgramacaoRegex:any){
-    return new QuestaoProgramacaoRegex(
-      questaoProgramacaoRegex.primary_key,
-      questaoProgramacaoRegex.nome_curto,
-      questaoProgramacaoRegex.enunciado,
-      questaoProgramacaoRegex.sequencia,
-      questaoProgramacaoRegex.regex,
-      Conceito.construir(questaoProgramacaoRegex.conceitos),
-      questaoProgramacaoRegex.dificuldade
+  static dataToObject(questao:any){
+    const objeto = new QuestaoProgramacaoRegex(
+      questao.primary_key,
+      questao.nome_curto,
+      questao.enunciado,
+      questao.sequencia,
+      questao.regex,
+      Conceito.construir(questao.conceitos),
+      questao.dificuldade
     );
+
+    if(questao.resposta_estudante != null){
+      objeto.respostaEstudante = RespostaQuestaoProgramacaoRegex.dataToObject(questao.resposta_estudante);
+    }
+
+    return objeto;
   }
 
   static construirMultiplos(questoesProgramacaoRegex: any[]) {

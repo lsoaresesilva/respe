@@ -31,6 +31,7 @@ export class QuestaoProgramacao extends QuestaoBase  {
   }
 
   assunto: Assunto;
+  respostaEstudante:RespostaQuestaoProgramacao;
 
   isRespostaCorreta(submissao: RespostaQuestaoProgramacao): boolean {
     let respostaCorreta = true;
@@ -110,26 +111,30 @@ export class QuestaoProgramacao extends QuestaoBase  {
   }
 
   /** TODO: Verificar se é possível construir, caso contrário disparar um erro. */
-  static dataToObject(questaoDocument): QuestaoProgramacao {
+  static dataToObject(questao): QuestaoProgramacao {
     const assuntos = [];
   
-    let testsCases = TestCase.construir(questaoDocument.test_cases);
-    let solucao = ModeloRespostaQuestao.construir(questaoDocument.solucao);
+    let testsCases = TestCase.construir(questao.test_cases);
+    let solucao = ModeloRespostaQuestao.construir(questao.solucao);
 
-    let questao = new QuestaoProgramacao(
-      questaoDocument.primary_key,
-      questaoDocument.nome_curto,
-      questaoDocument.enunciado,
-      questaoDocument.dificuldade,
-      questaoDocument.sequencia,
+    let objeto = new QuestaoProgramacao(
+      questao.primary_key,
+      questao.nome_curto,
+      questao.enunciado,
+      questao.dificuldade,
+      questao.sequencia,
       assuntos,
       testsCases,
-      questaoDocument.algoritmo_inicial,
+      questao.algoritmo_inicial,
       solucao,
-      questaoDocument.conceitos
+      questao.conceitos
     );
 
-    return questao;
+    if(questao.resposta_estudante != null){
+      objeto.respostaEstudante = RespostaQuestaoProgramacao.dataToObject(questao.resposta_estudante);
+    }
+
+    return objeto;
   }
 
   /**

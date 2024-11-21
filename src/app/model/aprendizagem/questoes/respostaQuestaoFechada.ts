@@ -12,7 +12,7 @@ export class RespostaQuestaoFechada extends Document {
   estudante: Usuario;
   alternativa: Alternativa;
   questao: QuestaoFechada;
-
+  isRespostaCorreta:boolean;
 
   constructor(public id, estudante, alternativa, questao) {
     super(id);
@@ -74,11 +74,13 @@ export class RespostaQuestaoFechada extends Document {
     document['estudante_id'] = this.estudante.pk;
     document['questao'] = this.questao.pk;
     document['alternativa'] = this.alternativa.pk;
+    document['is_resposta_correta'] = this.isRespostaCorreta;
     return document;
   }
 
   static dataToObject(data) {
-  const respQuestaoFechada:RespostaQuestaoFechada = new RespostaQuestaoFechada(data.primary_key, data.estudante, data.alternativa, QuestaoFechada.dataToObject(data.questao));
+    const respQuestaoFechada:RespostaQuestaoFechada = new RespostaQuestaoFechada(data.primary_key, data.estudante, data.alternativa, QuestaoFechada.dataToObject(data.questao));
+    respQuestaoFechada.isRespostaCorreta = data.is_resposta_correta;
     return respQuestaoFechada;
   }
   
